@@ -1,0 +1,62 @@
+{
+    "#comment": "Specification for a form/subform, based on field schema",
+    "settings": {
+        "#comment": "form overrides, eg. validation"
+    },
+    "elements": [
+        {
+            "#comment": "types: section|field",
+            "type": "section",
+            "enabled": "boolean - initial state",
+            "elements": [
+                {
+                    "name": "optional unique name",
+                    "type": "static",
+                    "value": "string or language key",
+                    "visible": "boolean - initial state"
+                },
+                {
+                    "name": "optional unique name",
+                    "type": "html",
+                    "value": "string or language key",
+                    "visible": "boolean - initial state"
+                },
+                {
+                    "#comment": "layout, validation, and labels default from the schema",
+                    "type": "field",
+                    "memberOf": "[groupname]",
+                    "object": "some-dashed-identifier",
+                    "enabled": "boolean - initial state",
+                    "labels": {
+                        "#comment": "overrides for the labels from the schema if required. String or language key"
+                    },
+                    "tabindex": "integer",
+                    "triggers": [
+                        {
+                            "event": "onValid,onInvalid",
+                            "actions": [
+                                {
+                                    "change": "enabled|visible|value",
+                                    "value": "enable|disable|{value}",
+                                    "target": ["field1", "group1", "group2"]
+                                }
+                            ]
+                        },
+                        {
+                            "value": "some value",
+                            "actions": ["group enable/disable"]
+                        }
+                    ],
+                    "visible": "boolean - initial state"
+                }
+            ],
+            "visible": "boolean - initial state"
+        },
+        {
+            "type": "field",
+            "memberOf": "groupname",
+            "name": "data-object-name"
+
+        }
+    ]
+}

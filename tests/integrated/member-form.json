@@ -1,0 +1,118 @@
+{
+    "name": "registrationForm",
+    "useSegment": "members",
+    "elements": [
+        {
+            "type": "field",
+            "object": "membershipType",
+            "triggers": [
+                {
+                    "value": ["IND", "STU"],
+                    "actions": [
+                        {
+                            "change": ["enable", "visible"],
+                            "target": ["family", "business"],
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "value": "FAM",
+                    "actions": [
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "family",
+                            "value": true
+                        },
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "business",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "value": ["BUS", "FEL"],
+                    "actions": [
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "family",
+                            "value": false
+                        },
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "business",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "value": ["PAT", "SPO"],
+                    "actions": [
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "family",
+                            "value": false
+                        },
+                        {
+                            "change": ["enable", "visible"],
+                            "target": "business",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "value": null,
+                    "event": "onchange",
+                    "actions": [
+                        {
+                            "change": "script",
+                            "value": "form.membershipFee.validation.minValue=this.sidecar.fee.minValue;"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "elements": [
+                {
+                    "type": "field",
+                    "object": "primaryFirstName"
+                },
+                {
+                    "type": "field",
+                    "object": "primaryLastName"
+                }
+            ]
+        },
+        {
+            "type": "field",
+            "object": "primaryPublicName"
+        },
+        {
+            "type": "section",
+            "memberOf": "family",
+            "elements": [
+                {
+                    "type": "field",
+                    "object": "secondaryFirstName"
+                },
+                {
+                    "type": "field",
+                    "object": "secondaryLastName"
+                }
+            ]
+        },
+        {
+            "type": "field",
+            "object": "secondaryPublicName",
+            "memberOf": "family"
+        },
+        {
+            "type": "field",
+            "object": "businessName",
+            "memberOf": "business"
+        }
+    ]
+}

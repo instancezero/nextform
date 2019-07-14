@@ -1,0 +1,43 @@
+{
+    "roles": [
+        {
+            "name": "administrator",
+            "permissions": {
+                "event.read": true,
+                "event.write": true,
+                "event\/id.write": false
+            }
+        },
+        {
+            "name": "organizer",
+            "permissions": {
+                "event.read": true,
+                "event\/profit.read": false,
+                "event\/profit.write": false,
+                "event\/id.write": false,
+                "event\/name.write": true
+            }
+        },
+        {
+            "name": "guest",
+            "permissions": {
+                "event\/name.read": true,
+                "users.read": false
+            }
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "roles": ["administrator"]
+        },
+        {
+            "id": 2,
+            "roles": ["organizer"]
+        },
+        {
+            "id": 3,
+            "roles": ["guest"]
+        }
+    ]
+}

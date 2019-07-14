@@ -1,0 +1,17 @@
+{
+    "roles": [
+        {
+            "name": "somerolename",
+            "permissions": {
+                "segment.read": true,
+                "segment-object-name.write": true
+            }
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "roles": ["role1", "role2"]
+        }
+    ]
+}

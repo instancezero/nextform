@@ -1,0 +1,74 @@
+{
+    "#comment": "schema for integrated field/form handling. sub-segments replaceable",
+    "default": {
+        "#comment": "repository for default values",
+        "labels": {
+            "before": "Default overrides, null to default disable",
+            "help": "",
+            "error": "",
+            "placeholder": "",
+            "after": ""
+        }
+    },
+    "segments": [
+        {"#comment": "Each segment represents a namespaced subsystem."},
+        {
+            "name": "segment name",
+            "objects": [
+                {
+                    "name": "ident-ident-ident...",
+                    "description": "documentation on what this field is for",
+                    "labels": {
+                        "before": "string or language key. default is {name}-{before}, null to disable",
+                        "help": "",
+                        "error": "",
+                        "placeholder": "",
+                        "after": ""
+                    },
+                    "population": {
+                        "#comment": "fixed:use list;static: query at formgen;local:JS expr;remote:ajax",
+                        "default": "some-optional-value",
+                        "source": "fixed|static|local|remote",
+                        "query": "data source|empty|javascript code",
+                        "parameters": ["param1", "param2"],
+                        "list": [
+                            {
+                                "enabled": "boolean",
+                                "value": "a value",
+                                "labels": "label or language key",
+                                "sidecar": {
+                                    "#comment": "optional object of arbitrary values associated with this list element",
+                                    "anythingLegal": true
+                                }
+                            }
+                        ]
+                    },
+                    "presentation": {
+                        "#comment": "type, size, etc.",
+                        "cols": "column count (in relative or layout units)",
+                        "confirm": "boolean",
+                        "spellcheck": "boolean",
+                        "type": "text|radio|select|check|hidden|(html5 type)"
+                    },
+                    "store": {
+                        "type": "string|int|decimal,float|date|file",
+                        "size": "max size in database: int | number[, decimals] | "
+                    },
+                    "validation": {
+                        "async": "boolean",
+                        "format": "number|date|email|list|lookup|string|url",
+                        "maxLength": "length",
+                        "minLength": "length",
+                        "maxValue": "value",
+                        "minValue": "value",
+                        "pattern": "regex",
+                        "required": "boolean",
+                        "step": "integer",
+                        "useLocale": "boolean. If true, pattern is a language lookup id"
+                    }
+                },
+                {}
+            ]
+        }
+    ]
+}

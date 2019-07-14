@@ -1,0 +1,116 @@
+Abivia\NextForm\Data\Segment Object
+(
+    [name:protected] => ObjectOne
+    [objects:protected] => Array
+        (
+            [id] => Abivia\NextForm\Data\Property Object
+                (
+                    [description:protected] => The first object
+                    [labels:protected] =>
+                    [name:protected] => id
+                    [population:protected] =>
+                    [presentation:protected] => Abivia\NextForm\Data\Presentation Object
+                        (
+                            [cols:protected] => 1
+                            [confirm:protected] =>
+                            [type:protected] => text
+                            [configureErrors:Abivia\NextForm\Data\Presentation:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Presentation:private] => Array
+                                (
+                                    [strict] =>
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Data\Property Object
+ *RECURSION*
+                                )
+
+                        )
+
+                    [store:protected] => Abivia\NextForm\Data\Store Object
+                        (
+                            [size:protected] => 10
+                            [type:protected] => int
+                            [configureErrors:Abivia\NextForm\Data\Store:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Store:private] => Array
+                                (
+                                    [strict] =>
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Data\Property Object
+ *RECURSION*
+                                )
+
+                        )
+
+                    [validation:protected] =>
+                    [configureErrors:Abivia\NextForm\Data\Property:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Data\Property:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Data\Segment Object
+ *RECURSION*
+                        )
+
+                )
+
+            [id2] => Abivia\NextForm\Data\Property Object
+                (
+                    [description:protected] =>
+                    [labels:protected] =>
+                    [name:protected] => id2
+                    [population:protected] =>
+                    [presentation:protected] => Abivia\NextForm\Data\Presentation Object
+                        (
+                            [cols:protected] => 1
+                            [confirm:protected] =>
+                            [type:protected] => text
+                            [configureErrors:Abivia\NextForm\Data\Presentation:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Presentation:private] => Array
+                                (
+                                    [strict] =>
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Data\Property Object
+ *RECURSION*
+                                )
+
+                        )
+
+                    [store:protected] =>
+                    [validation:protected] =>
+                    [configureErrors:Abivia\NextForm\Data\Property:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Data\Property:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Data\Segment Object
+ *RECURSION*
+                        )
+
+                )
+
+        )
+
+    [configureErrors:Abivia\NextForm\Data\Segment:private] => Array
+        (
+        )
+
+    [configureOptions:Abivia\NextForm\Data\Segment:private] => Array
+        (
+            [strict] =>
+        )
+
+)

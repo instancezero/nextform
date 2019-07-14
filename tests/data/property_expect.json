@@ -1,0 +1,12 @@
+{
+    "description": "system managed object identifier",
+    "name": "id",
+    "presentation": {
+        "cols": "1",
+        "type": "text"
+    },
+    "store": {
+        "size": "10",
+        "type": "int"
+    }
+}

@@ -1,0 +1,395 @@
+{
+    "default": {
+        "labels": {
+            "error": "Invalid value"
+        }
+    },
+    "segments": [
+        {
+            "name": "members",
+            "primary": "id",
+            "objects": [
+                {
+                    "name": "id",
+                    "description": "Primary key",
+                    "labels": {
+                        "before": "Member ID"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "int",
+                        "size": 11
+                    }
+                },
+                {
+                    "name": "membershipType",
+                    "description": "Which kind of member this application is for",
+                    "labels": {
+                        "before": "Membership Type:",
+                        "error": "Please select from one of the available options."
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            {
+                                "value": "IND",
+                                "label": "Individual $30",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 30
+                                    }
+                                }
+                            },
+                            {
+                                "value": "FAM",
+                                "label": "Family $50",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 50
+                                    }
+                                }
+                            },
+                            {
+                                "value": "STU",
+                                "label": "Student $15",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 15
+                                    }
+                                }
+                            },
+                            {
+                                "value": "FEL",
+                                "label": "Fellow Association $40",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 40
+                                    }
+                                }
+                            },
+                            {
+                                "value": "BUS",
+                                "label": "Business $75",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 75
+                                    }
+                                }
+                            },
+                            {
+                                "value": "PAT",
+                                "label": "Patron $100-$299",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 100,
+                                        "minValue": 100,
+                                        "maxValue": 299
+                                    }
+                                }
+                            },
+                            {
+                                "value": "SPO",
+                                "label": "Sponsor $300+",
+                                "sidecar": {
+                                    "fee": {
+                                        "default": 300,
+                                        "minValue": 300,
+                                        "maxValue": 99999
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "radio"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 3
+                    }
+                },
+                {
+                    "name": "primaryFirstName",
+                    "description": "First name of the primary member",
+                    "labels": {
+                        "before": "Legal First Name",
+                        "help": "If you use a public pseudonym, enter it below."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "primaryLastName",
+                    "description": "Last name of the primary member",
+                    "labels": {
+                        "before": "Legal Last Name",
+                        "help": "If you use a public pseudonym, enter it below."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "primaryPublicName",
+                    "description": "Pseudonym \/ pen name \/ persona presented to public",
+                    "labels": {
+                        "before": "Artist Name",
+                        "help": "Leave blank of your artist name is the same as your legal name."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 127
+                    }
+                },
+                {
+                    "name": "primaryEmail",
+                    "description": "Email address of the primary member",
+                    "labels": {
+                        "before": "Email"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "confirm": true,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "primaryPhone",
+                    "description": "Phone number for the primary member",
+                    "labels": {
+                        "before": "Tel"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "tel"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 31
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "secondaryFirstName",
+                    "description": "First name of the second member",
+                    "labels": {
+                        "before": "Legal First Name",
+                        "help": "If you use a public pseudonym, enter it below."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "secondaryLastName",
+                    "description": "Last name of the second member",
+                    "labels": {
+                        "before": "Legal Last Name",
+                        "help": "If you use a public pseudonym, enter it below."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "secondaryPublicName",
+                    "description": "Psuedonym \/ pen name \/ persona presented to public",
+                    "labels": {
+                        "before": "Artist Name",
+                        "help": "Leave blank of your artist name is the same as your legal name."
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 127
+                    }
+                },
+                {
+                    "name": "SecondaryEmail",
+                    "description": "Email address of the secondary member",
+                    "labels": {
+                        "before": "Email"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "confirm": true,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "secondaryPhone",
+                    "description": "Phone number for the secondary member",
+                    "labels": {
+                        "before": "Tel"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "tel"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 31
+                    },
+                    "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "businessName",
+                    "description": "Name for business memberships",
+                    "labels": {
+                        "before": "Business Name"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 127
+                    }
+                },
+                {
+                    "name": "address1",
+                    "labels": {
+                        "before": "Street Address"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 127
+                    },
+                    "validation": {
+                        "required": "true"
+                    }
+                },
+                {
+                    "name": "address2",
+                    "labels": {
+                        "before": "Street Address Line 2"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 127
+                    }
+                },
+                {
+                    "name": "city",
+                    "labels": {
+                        "before": "City"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": "true"
+                    }
+                },
+                {
+                    "name": "province",
+                    "labels": {
+                        "before": "Province"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    },
+                    "validation": {
+                        "required": "true"
+                    }
+                },
+                {
+                    "name": "membershipFee",
+                    "description": "Fee for annual membership",
+                    "labels": {
+                        "before": "Annual fee"
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "decimal",
+                        "size": "10,2"
+                    },
+                    "validation": {
+                        "format": "number"
+                    }
+                }
+            ]
+        }
+    ]
+}

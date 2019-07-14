@@ -1,0 +1,1 @@
+{"name":"id","description":"system managed object identifier","presentation":{"cols":"1","type":"text"},"store":{"type":"int","size":"10"}}

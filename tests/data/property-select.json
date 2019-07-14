@@ -1,0 +1,37 @@
+{
+    "name": "id",
+    "description": "system managed object identifier",
+    "store": {
+        "type": "int",
+        "size": "10"
+    },
+    "presentation": {
+        "cols": "1",
+        "type": "select",
+        "lookup": {
+            "source": "objectid",
+            "keys": ["objid.1", "objid.2"]
+        },
+        "options": [
+            {
+                "name": "id",
+                "label": "Theropods",
+                "enabled": true,
+                "value": [
+                    {
+                        "label": "Tyrannosaurus",
+                        "enabled": true,
+                        "selected": false,
+                        "value": 5
+                    }
+                ]
+            },
+            {
+                "label": "Unknown",
+                "enabled": true,
+                "selected": false,
+                "value": 0
+            }
+        ]
+    }
+}

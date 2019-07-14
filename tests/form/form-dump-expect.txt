@@ -1,0 +1,565 @@
+Abivia\NextForm\Form\Form Object
+(
+    [elements:protected] => Array
+        (
+            [0] => Abivia\NextForm\Form\Element\StaticElement Object
+                (
+                    [value:protected] => Some plain text where <, &, etc. gets escaped.
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [group:protected] =>
+                    [name:protected] => intro
+                    [type:protected] => static
+                    [visible:protected] => 1
+                    [configureErrors:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
+                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+            [1] => Abivia\NextForm\Form\Element\HtmlElement Object
+                (
+                    [value:protected] => <p>This is an initially invisible html element.</p>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [group:protected] => success
+                    [name:protected] => completeHeader
+                    [type:protected] => html
+                    [visible:protected] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\HtmlElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\HtmlElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
+                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+                (
+                    [dataProperty:protected] =>
+                    [labels:protected] => stdClass Object
+                        (
+                            [tooltip] => overidden!
+                        )
+
+                    [object:protected] => user/name
+                    [triggers:protected] => Array
+                        (
+                            [0] => Abivia\NextForm\Form\Trigger\Trigger Object
+                                (
+                                    [actions:protected] => Array
+                                        (
+                                            [0] => Abivia\NextForm\Form\Trigger\Action Object
+                                                (
+                                                    [change:protected] => Array
+                                                        (
+                                                            [0] => visible
+                                                        )
+
+                                                    [target:protected] => Array
+                                                        (
+                                                            [0] => completeHeader
+                                                        )
+
+                                                    [value:protected] => enable
+                                                    [configureErrors:Abivia\NextForm\Form\Trigger\Action:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Trigger\Action:private] => Array
+                                                        (
+                                                            [strict] => 1
+                                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                            [newlog] =>
+                                                            [parent] => Abivia\NextForm\Form\Trigger\Trigger Object
+ *RECURSION*
+                                                        )
+
+                                                )
+
+                                        )
+
+                                    [event:protected] => onvalid
+                                    [type:protected] => event
+                                    [value:protected] =>
+                                    [configureErrors:Abivia\NextForm\Form\Trigger\Trigger:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Trigger\Trigger:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\FieldElement Object
+ *RECURSION*
+                                        )
+
+                                )
+
+                        )
+
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [group:protected] => groupname
+                    [name:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
+                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+            [3] => Abivia\NextForm\Form\Element\CellElement Object
+                (
+                    [elements:protected] => Array
+                        (
+                            [0] => Abivia\NextForm\Form\Element\FieldElement Object
+                                (
+                                    [dataProperty:protected] =>
+                                    [labels:protected] =>
+                                    [object:protected] => user/areaCode
+                                    [triggers:protected] => Array
+                                        (
+                                        )
+
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [name:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
+                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                        )
+
+                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                )
+
+                            [1] => Abivia\NextForm\Form\Element\FieldElement Object
+                                (
+                                    [dataProperty:protected] =>
+                                    [labels:protected] =>
+                                    [object:protected] => user/phoneNumber
+                                    [triggers:protected] => Array
+                                        (
+                                        )
+
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [name:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
+                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                        )
+
+                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                )
+
+                            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+                                (
+                                    [dataProperty:protected] =>
+                                    [labels:protected] =>
+                                    [object:protected] => user/phoneExtension
+                                    [triggers:protected] => Array
+                                        (
+                                        )
+
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [name:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
+                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                        )
+
+                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                )
+
+                        )
+
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [group:protected] =>
+                    [name:protected] =>
+                    [type:protected] => cell
+                    [visible:protected] => 1
+                    [configureErrors:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
+                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+            [4] => Abivia\NextForm\Form\Element\SectionElement Object
+                (
+                    [labels:protected] =>
+                    [object:protected] =>
+                    [triggers:protected] =>
+                    [elements:protected] => Array
+                        (
+                            [0] => Abivia\NextForm\Form\Element\CellElement Object
+                                (
+                                    [elements:protected] => Array
+                                        (
+                                            [0] => Abivia\NextForm\Form\Element\FieldElement Object
+                                                (
+                                                    [dataProperty:protected] =>
+                                                    [labels:protected] =>
+                                                    [object:protected] => user2/areaCode
+                                                    [triggers:protected] => Array
+                                                        (
+                                                        )
+
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [name:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
+                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                            [strict] => 1
+                                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                            [newlog] =>
+                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                                        )
+
+                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                )
+
+                                            [1] => Abivia\NextForm\Form\Element\FieldElement Object
+                                                (
+                                                    [dataProperty:protected] =>
+                                                    [labels:protected] =>
+                                                    [object:protected] => user2/phoneNumber
+                                                    [triggers:protected] => Array
+                                                        (
+                                                        )
+
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [name:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
+                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                            [strict] => 1
+                                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                            [newlog] =>
+                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                                        )
+
+                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                )
+
+                                            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+                                                (
+                                                    [dataProperty:protected] =>
+                                                    [labels:protected] =>
+                                                    [object:protected] => user2/phoneExtension
+                                                    [triggers:protected] => Array
+                                                        (
+                                                        )
+
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [name:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
+                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                        (
+                                                            [strict] => 1
+                                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                                            [newlog] =>
+                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+ *RECURSION*
+                                                        )
+
+                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                        (
+                                                        )
+
+                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                )
+
+                                        )
+
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [name:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
+                                    [configureErrors:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\SectionElement Object
+ *RECURSION*
+                                        )
+
+                                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
+                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                )
+
+                            [1] => Abivia\NextForm\Form\Element\StaticElement Object
+                                (
+                                    [value:protected] => This text is part of a section.
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [name:protected] =>
+                                    [type:protected] => static
+                                    [visible:protected] => 1
+                                    [configureErrors:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                                        (
+                                            [strict] => 1
+                                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                            [newlog] =>
+                                            [parent] => Abivia\NextForm\Form\Element\SectionElement Object
+ *RECURSION*
+                                        )
+
+                                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
+                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                        (
+                                        )
+
+                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                )
+
+                        )
+
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [group:protected] =>
+                    [name:protected] =>
+                    [type:protected] => section
+                    [visible:protected] => 1
+                    [configureErrors:Abivia\NextForm\Form\Element\SectionElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\SectionElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
+                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+        )
+
+    [name:protected] =>
+    [useSegment:protected] => user
+    [configureErrors:Abivia\NextForm\Form\Form:private] => Array
+        (
+        )
+
+    [configureOptions:Abivia\NextForm\Form\Form:private] => Array
+        (
+            [strict] => 1
+            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+        )
+
+)

@@ -1,0 +1,204 @@
+Abivia\NextForm\Access\BasicAccess Object
+(
+    [currentUser:protected] =>
+    [roles:protected] => Array
+        (
+            [administrator] => Abivia\NextForm\Access\Role Object
+                (
+                    [name:protected] => administrator
+                    [permissions:protected] => Abivia\NextForm\Access\Permissions Object
+                        (
+                            [rules:protected] => Array
+                                (
+                                    [event] => Array
+                                        (
+                                            [read] => 1
+                                            [write] => 1
+                                        )
+
+                                    [event/id] => Array
+                                        (
+                                            [write] =>
+                                        )
+
+                                )
+
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+            [organizer] => Abivia\NextForm\Access\Role Object
+                (
+                    [name:protected] => organizer
+                    [permissions:protected] => Abivia\NextForm\Access\Permissions Object
+                        (
+                            [rules:protected] => Array
+                                (
+                                    [event] => Array
+                                        (
+                                            [read] => 1
+                                        )
+
+                                    [event/profit] => Array
+                                        (
+                                            [read] =>
+                                            [write] =>
+                                        )
+
+                                    [event/id] => Array
+                                        (
+                                            [write] =>
+                                        )
+
+                                    [event/name] => Array
+                                        (
+                                            [write] => 1
+                                        )
+
+                                )
+
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+            [guest] => Abivia\NextForm\Access\Role Object
+                (
+                    [name:protected] => guest
+                    [permissions:protected] => Abivia\NextForm\Access\Permissions Object
+                        (
+                            [rules:protected] => Array
+                                (
+                                    [event/name] => Array
+                                        (
+                                            [read] => 1
+                                        )
+
+                                    [users] => Array
+                                        (
+                                            [read] =>
+                                        )
+
+                                )
+
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\Role:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+        )
+
+    [users:protected] => Array
+        (
+            [1] => Abivia\NextForm\Access\User Object
+                (
+                    [id:protected] => 1
+                    [roles:protected] => Array
+                        (
+                            [0] => administrator
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\User:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\User:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+            [2] => Abivia\NextForm\Access\User Object
+                (
+                    [id:protected] => 2
+                    [roles:protected] => Array
+                        (
+                            [0] => organizer
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\User:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\User:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+            [3] => Abivia\NextForm\Access\User Object
+                (
+                    [id:protected] => 3
+                    [roles:protected] => Array
+                        (
+                            [0] => guest
+                        )
+
+                    [configureErrors:Abivia\NextForm\Access\User:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Access\User:private] => Array
+                        (
+                            [strict] =>
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Access\BasicAccess Object
+ *RECURSION*
+                        )
+
+                )
+
+        )
+
+    [configureErrors:Abivia\NextForm\Access\BasicAccess:private] => Array
+        (
+        )
+
+    [configureOptions:Abivia\NextForm\Access\BasicAccess:private] => Array
+        (
+            [strict] =>
+        )
+
+)
