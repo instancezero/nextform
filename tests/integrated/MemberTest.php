@@ -2,7 +2,18 @@
 include_once __DIR__ . '/../JsonComparison.php';
 
 use \Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Element\Element;
 use \Abivia\NextForm\Form\Form;
+use Abivia\NextForm\Render\Block;
+
+class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
+
+    public function render(Element $element) {
+        $result = new Block;
+        $result -> body = $element -> getName() . "\n";
+        return $result;
+    }
+}
 
 class MemberTest extends \PHPUnit\Framework\TestCase {
     use JsonComparison;
@@ -61,12 +72,31 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * Integration test for form generation
      * @coversNothing
      */
-    public function testGenerate() {
+    public function testGenerateUnpopulated() {
         $obj = new \Abivia\NextForm;
         $form  = Form::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
         $obj -> setForm($form);
+        $obj -> generate();
+        $this -> assertTrue(true);
+    }
+
+    /**
+     * Integration test for form generation
+     * @coversNothing
+     */
+    public function testGeneratePopulated() {
+        $obj = new \Abivia\NextForm;
+        $form  = Form::fromFile(__DIR__ . '/member-form.json');
+        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
+        $form -> linkSchema($schema);
+        $render = new FlatRenderer;
+        $obj -> setForm($form);
+        $data = [
+            'id' => 0,
+        ];
+        $form -> populate($data, 'members');
         $obj -> generate();
         $this -> assertTrue(true);
     }

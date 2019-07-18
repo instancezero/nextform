@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Form\Element;
+namespace Abivia\NextForm\Element;
 
 use \Abivia\NextForm;
 
@@ -30,7 +30,7 @@ abstract class Element implements \JsonSerializable {
     protected $visible = true;
 
     static public function classFromType($obj) {
-        $result = 'Abivia\NextForm\Form\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
+        $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
         if (!class_exists($result)) {
             throw new \InvalidArgumentException($obj -> type . ' is not a valid element type.');
         }

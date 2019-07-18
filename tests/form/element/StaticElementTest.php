@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Form\Element\StaticElement;
+use \Abivia\NextForm\Element\StaticElement;
 
 class FormStaticElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormStaticElementInstantiation() {
         $obj = new StaticElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\StaticElement', $obj);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $obj);
 	}
 
     /**

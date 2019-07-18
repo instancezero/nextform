@@ -1,6 +1,6 @@
 <?php
 
-use \Abivia\NextForm\Form\Element\Element;
+use \Abivia\NextForm\Element\Element;
 
 class ConcreteElement extends Element {
 

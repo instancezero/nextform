@@ -2,7 +2,7 @@ Abivia\NextForm\Form\Form Object
 (
     [elements:protected] => Array
         (
-            [0] => Abivia\NextForm\Form\Element\StaticElement Object
+            [0] => Abivia\NextForm\Element\StaticElement Object
                 (
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
                     [enabled:protected] => 1
@@ -12,11 +12,11 @@ Abivia\NextForm\Form\Form Object
                     [name:protected] => intro
                     [type:protected] => static
                     [visible:protected] => 1
-                    [configureErrors:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
                         (
                             [strict] => 1
                             [_form] => Abivia\NextForm\Form\Form Object
@@ -26,19 +26,19 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
                         )
 
-                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
-                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\SimpleElement:private] =>
+                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                 )
 
-            [1] => Abivia\NextForm\Form\Element\HtmlElement Object
+            [1] => Abivia\NextForm\Element\HtmlElement Object
                 (
                     [value:protected] => <p>This is an initially invisible html element.</p>
                     [enabled:protected] => 1
@@ -48,11 +48,11 @@ Abivia\NextForm\Form\Form Object
                     [name:protected] => completeHeader
                     [type:protected] => html
                     [visible:protected] =>
-                    [configureErrors:Abivia\NextForm\Form\Element\HtmlElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\HtmlElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\HtmlElement:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\HtmlElement:private] => Array
                         (
                             [strict] => 1
                             [_form] => Abivia\NextForm\Form\Form Object
@@ -62,19 +62,19 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
                         )
 
-                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
-                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\SimpleElement:private] =>
+                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                 )
 
-            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+            [2] => Abivia\NextForm\Element\FieldElement Object
                 (
                     [dataProperty:protected] =>
                     [labels:protected] => stdClass Object
@@ -133,7 +133,7 @@ Abivia\NextForm\Form\Form Object
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\FieldElement Object
+                                            [parent] => Abivia\NextForm\Element\FieldElement Object
  *RECURSION*
                                         )
 
@@ -141,6 +141,7 @@ Abivia\NextForm\Form\Form Object
 
                         )
 
+                    [value:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -148,11 +149,11 @@ Abivia\NextForm\Form\Form Object
                     [name:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
-                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                             [strict] => 1
                             [_form] => Abivia\NextForm\Form\Form Object
@@ -162,18 +163,18 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
                         )
 
-                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                 )
 
-            [3] => Abivia\NextForm\Form\Element\CellElement Object
+            [3] => Abivia\NextForm\Element\CellElement Object
                 (
                     [elements:protected] => Array
                         (
-                            [0] => Abivia\NextForm\Form\Element\FieldElement Object
+                            [0] => Abivia\NextForm\Element\FieldElement Object
                                 (
                                     [dataProperty:protected] =>
                                     [labels:protected] =>
@@ -182,6 +183,7 @@ Abivia\NextForm\Form\Form Object
                                         (
                                         )
 
+                                    [value:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -189,28 +191,28 @@ Abivia\NextForm\Form\Form Object
                                     [name:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
-                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                             [strict] => 1
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                         )
 
-                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                 )
 
-                            [1] => Abivia\NextForm\Form\Element\FieldElement Object
+                            [1] => Abivia\NextForm\Element\FieldElement Object
                                 (
                                     [dataProperty:protected] =>
                                     [labels:protected] =>
@@ -219,6 +221,7 @@ Abivia\NextForm\Form\Form Object
                                         (
                                         )
 
+                                    [value:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -226,28 +229,28 @@ Abivia\NextForm\Form\Form Object
                                     [name:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
-                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                             [strict] => 1
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                         )
 
-                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                 )
 
-                            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+                            [2] => Abivia\NextForm\Element\FieldElement Object
                                 (
                                     [dataProperty:protected] =>
                                     [labels:protected] =>
@@ -256,6 +259,7 @@ Abivia\NextForm\Form\Form Object
                                         (
                                         )
 
+                                    [value:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -263,25 +267,25 @@ Abivia\NextForm\Form\Form Object
                                     [name:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
-                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                             [strict] => 1
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                         )
 
-                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                 )
 
                         )
@@ -293,11 +297,11 @@ Abivia\NextForm\Form\Form Object
                     [name:protected] =>
                     [type:protected] => cell
                     [visible:protected] => 1
-                    [configureErrors:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\CellElement:private] => Array
                         (
                             [strict] => 1
                             [_form] => Abivia\NextForm\Form\Form Object
@@ -307,30 +311,30 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
                         )
 
-                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\ContainerElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
-                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\ContainerElement:private] =>
+                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                 )
 
-            [4] => Abivia\NextForm\Form\Element\SectionElement Object
+            [4] => Abivia\NextForm\Element\SectionElement Object
                 (
                     [labels:protected] =>
                     [object:protected] =>
                     [triggers:protected] =>
                     [elements:protected] => Array
                         (
-                            [0] => Abivia\NextForm\Form\Element\CellElement Object
+                            [0] => Abivia\NextForm\Element\CellElement Object
                                 (
                                     [elements:protected] => Array
                                         (
-                                            [0] => Abivia\NextForm\Form\Element\FieldElement Object
+                                            [0] => Abivia\NextForm\Element\FieldElement Object
                                                 (
                                                     [dataProperty:protected] =>
                                                     [labels:protected] =>
@@ -339,6 +343,7 @@ Abivia\NextForm\Form\Form Object
                                                         (
                                                         )
 
+                                                    [value:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -346,28 +351,28 @@ Abivia\NextForm\Form\Form Object
                                                     [name:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
-                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                             [strict] => 1
                                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                                             [newlog] =>
-                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                                         )
 
-                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                                 )
 
-                                            [1] => Abivia\NextForm\Form\Element\FieldElement Object
+                                            [1] => Abivia\NextForm\Element\FieldElement Object
                                                 (
                                                     [dataProperty:protected] =>
                                                     [labels:protected] =>
@@ -376,6 +381,7 @@ Abivia\NextForm\Form\Form Object
                                                         (
                                                         )
 
+                                                    [value:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -383,28 +389,28 @@ Abivia\NextForm\Form\Form Object
                                                     [name:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
-                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                             [strict] => 1
                                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                                             [newlog] =>
-                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                                         )
 
-                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                                 )
 
-                                            [2] => Abivia\NextForm\Form\Element\FieldElement Object
+                                            [2] => Abivia\NextForm\Element\FieldElement Object
                                                 (
                                                     [dataProperty:protected] =>
                                                     [labels:protected] =>
@@ -413,6 +419,7 @@ Abivia\NextForm\Form\Form Object
                                                         (
                                                         )
 
+                                                    [value:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm\Form\Form Object
  *RECURSION*
@@ -420,25 +427,25 @@ Abivia\NextForm\Form\Form Object
                                                     [name:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
-                                                    [configureErrors:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\FieldElement:private] => Array
+                                                    [configureOptions:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                             [strict] => 1
                                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                                             [newlog] =>
-                                                            [parent] => Abivia\NextForm\Form\Element\CellElement Object
+                                                            [parent] => Abivia\NextForm\Element\CellElement Object
  *RECURSION*
                                                         )
 
-                                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                                         (
                                                         )
 
-                                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                                 )
 
                                         )
@@ -450,33 +457,33 @@ Abivia\NextForm\Form\Form Object
                                     [name:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
-                                    [configureErrors:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\CellElement:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                             [strict] => 1
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\SectionElement Object
+                                            [parent] => Abivia\NextForm\Element\SectionElement Object
  *RECURSION*
                                         )
 
-                                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\ContainerElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
-                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\ContainerElement:private] =>
+                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                 )
 
-                            [1] => Abivia\NextForm\Form\Element\StaticElement Object
+                            [1] => Abivia\NextForm\Element\StaticElement Object
                                 (
                                     [value:protected] => This text is part of a section.
                                     [enabled:protected] => 1
@@ -486,30 +493,30 @@ Abivia\NextForm\Form\Form Object
                                     [name:protected] =>
                                     [type:protected] => static
                                     [visible:protected] => 1
-                                    [configureErrors:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\StaticElement:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
                                         (
                                             [strict] => 1
                                             [_form] => Abivia\NextForm\Form\Form Object
  *RECURSION*
                                             [newlog] =>
-                                            [parent] => Abivia\NextForm\Form\Element\SectionElement Object
+                                            [parent] => Abivia\NextForm\Element\SectionElement Object
  *RECURSION*
                                         )
 
-                                    [configureErrors:Abivia\NextForm\Form\Element\SimpleElement:private] => Array
+                                    [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\SimpleElement:private] =>
-                                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                                    [configureOptions:Abivia\NextForm\Element\SimpleElement:private] =>
+                                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                                         (
                                         )
 
-                                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                                 )
 
                         )
@@ -521,11 +528,11 @@ Abivia\NextForm\Form\Form Object
                     [name:protected] =>
                     [type:protected] => section
                     [visible:protected] => 1
-                    [configureErrors:Abivia\NextForm\Form\Element\SectionElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\SectionElement:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\SectionElement:private] => Array
                         (
                             [strict] => 1
                             [_form] => Abivia\NextForm\Form\Form Object
@@ -535,21 +542,23 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
                         )
 
-                    [configureErrors:Abivia\NextForm\Form\Element\ContainerElement:private] => Array
+                    [configureErrors:Abivia\NextForm\Element\ContainerElement:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
-                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                    [configureOptions:Abivia\NextForm\Element\ContainerElement:private] =>
+                    [configureErrors:Abivia\NextForm\Element\Element:private] => Array
                         (
                         )
 
-                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                    [configureOptions:Abivia\NextForm\Element\Element:private] =>
                 )
 
         )
 
     [name:protected] =>
+    [objectMap:protected] =>
+    [schemaIsLinked:protected] =>
     [useSegment:protected] => user
     [configureErrors:Abivia\NextForm\Form\Form:private] => Array
         (

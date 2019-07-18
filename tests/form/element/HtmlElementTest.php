@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Form\Element\HtmlElement;
+use \Abivia\NextForm\Element\HtmlElement;
 
 class FormHtmlElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormHtmlElementInstantiation() {
         $obj = new HtmlElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\HtmlElement', $obj);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $obj);
 	}
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Contracts;
 
-use \Abivia\NextForm\Form\Element;
+use Abivia\NextForm\Element\Element;
 
 
 /**

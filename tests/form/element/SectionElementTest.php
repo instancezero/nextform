@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Form\Element\SectionElement;
+use \Abivia\NextForm\Element\SectionElement;
 
 class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormSectionElementInstantiation() {
         $obj = new SectionElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\SectionElement', $obj);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\SectionElement', $obj);
 	}
 
     /**
@@ -60,10 +60,10 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
 		$this -> assertEquals('section', $obj -> getType());
         $elements = $obj -> getElements();
 		$this -> assertEquals(4, count($elements));
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\FieldElement', $elements[0]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\HtmlElement', $elements[1]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\StaticElement', $elements[2]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Element\CellElement', $elements[3]);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
+		$this -> assertInstanceOf('\Abivia\NextForm\Element\CellElement', $elements[3]);
     }
 
     /**

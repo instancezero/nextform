@@ -43,6 +43,7 @@ class Segment implements \JsonSerializable {
 
     protected function configureComplete() {
         // Make sure the objects listed in primary exist.
+        return true;
     }
 
     protected function configureValidate($property, &$value) {

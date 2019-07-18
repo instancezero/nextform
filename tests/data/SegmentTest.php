@@ -12,16 +12,23 @@ class DataSegmentTest extends \PHPUnit\Framework\TestCase {
         return $reflectorProperty -> getValue($instance);
     }
 
-	public function testDataSchemaInstantiation() {
+	public function testDataSegmentInstantiation() {
         $obj = new Segment();
 		$this -> assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj);
 	}
 
-    public function testDataSchemaLoad() {
+    public function testDataSegmentLoad() {
         $obj = new Segment();
         $config = json_decode(file_get_contents(dirname(__FILE__) . '/data-segment.json'));
         $this -> assertTrue(false != $config, 'JSON error!');
-        $this -> assertTrue($obj -> configure($config));
+        $populate = $obj -> configure($config, true);
+        if ($populate) {
+            $errors = '';
+        } else {
+            $errors = $obj -> configureGetErrors();
+            $errors = 'Segment load:' . "\n" . implode("\n", $errors) . "\n";
+        }
+        $this -> assertTrue($populate, $errors);
         $dump = print_r($obj, true);
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(dirname(__FILE__) . '/segment-dump_actual.txt', $dump);

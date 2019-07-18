@@ -4,7 +4,7 @@ namespace Abivia\NextForm\Form;
 
 use Abivia\NextForm;
 
-use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Element\Element;
 /**
  *
  */
@@ -115,16 +115,19 @@ class Form implements \JsonSerializable {
 
     /**
      * Populate form elements.
-     * @param array $data Values indexed by schema/object ID.
-     * @return $this
+     * @param array $data Values indexed by schema object ID.
+     * @param string $segment Optional segment prefix.
      * @throws LogicException
+     * @return $this
      */
-
-    public function populate($data) {
+    public function populate($data, $segment = '') {
         if (!$this -> schemaIsLinked) {
             throw new LogicException('Form not linked to schema.');
         }
         foreach ($data as $field => $value) {
+            if ($segment !== '') {
+                $field = $segment . NextForm::SEGMENT_DELIM . $field;
+            }
             if (!isset($this -> objectMap[$field])) {
                 continue;
             }
@@ -136,34 +139,17 @@ class Form implements \JsonSerializable {
     }
 
     /**
-     * Populate form elements for a data segment
-     * @param string $segment The name of the segment
-     * @param array $data Values indexed by schema object ID.
-     * @throws LogicException
+     * Add an element in the form to the object map.
+     * @param Element $element
+     * @return $this
      */
-    public function populateSegment($segment, $data) {
-        if (!$this -> schemaIsLinked) {
-            throw new LogicException('Form not linked to schema.');
-        }
-        foreach ($data as $field => $value) {
-            $field = $segment . NextForm::SEGMENT_DELIM . $field;
-            if (!isset($this -> objectMap[$field])) {
-                continue;
-            }
-            foreach ($this -> objectMap[$field] as $element) {
-                $element -> setValue($value);
-            }
-        }
-        return $this;
-    }
-
     public function registerObject($element) {
         $object = $element -> getObject();
         if (!isset($this -> objectMap[$object])) {
             $this -> objectMap[$object] = [];
         }
         $this -> objectMap[$object][] = $element;
-
+        return $this;
     }
 
 }

@@ -32,7 +32,7 @@ class NextForm {
         }
     }
 
-    public function generate() {
+    public function generate($route) {
         // OKAY, HERE'S WHAT NEEDS TO HAPPEN:
         // fields in the form get connected to data definitions in the store
         // put stuff into $this -> form, $this -> schema

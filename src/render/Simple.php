@@ -1,8 +1,8 @@
 <?php
 namespace Abivia\NextForm;
 
-use \Abivia\NextForm\Contracts\Renderer;
-use \Abivia\NextForm\Form\Element;
+use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Element\Element;
 
 /**
  * A skeletal renderer that generates a very basic form.

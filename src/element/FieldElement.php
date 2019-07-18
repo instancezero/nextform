@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Form\Element;
+namespace Abivia\NextForm\Element;
 
 use Abivia\NextForm;
 use Abivia\NextForm\Form\Trigger\Trigger;

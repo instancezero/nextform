@@ -165,6 +165,7 @@ Abivia\NextForm\Data\Schema Object
 
                         )
 
+                    [primary:protected] =>
                     [configureErrors:Abivia\NextForm\Data\Segment:private] => Array
                         (
                         )
