@@ -30,4 +30,14 @@ class Block {
      */
     public $post;
 
+    public function merge(Block $block) {
+        foreach ($block as $prop => $value) {
+            if ($prop == 'post') {
+                $this -> $prop = $value . $this -> $prop;
+            } else {
+                $this -> $prop .= $value;
+            }
+        }
+    }
+
 }

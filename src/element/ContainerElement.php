@@ -2,6 +2,8 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\NextForm\Render\Block;
+
 /**
  *
  */
@@ -46,6 +48,15 @@ abstract class ContainerElement Extends Element {
 
     protected function configurePropertyMap($property) {
         return parent::configurePropertyMap($property);
+    }
+
+    public function generate($renderer, $access, $translate) {
+        $readOnly = false; // $access -> hasAccess(...)
+        $containerData = $renderer -> render($this, $translate, $readOnly);
+        foreach ($this -> elements as $element) {
+            $containerData -> merge($element -> generate($renderer, $access, $translate));
+        }
+        return $containerData;
     }
 
     public function getElements() {

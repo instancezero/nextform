@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Element;
 
 /**
- *
+ * A simple element is any element with a value that is part of the form specification.
  */
 abstract class SimpleElement Extends Element {
     use \Abivia\Configurable\Configurable;
@@ -15,12 +15,8 @@ abstract class SimpleElement Extends Element {
     public function __construct() {
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
-            self::$jsonEncodeMethod['value'] = '';
+            self::$jsonEncodeMethod['value'] = [];
         }
-    }
-
-    public function getValue() {
-        return $this -> value;
     }
 
     protected function configureClassMap($property, $value) {
@@ -42,6 +38,10 @@ abstract class SimpleElement Extends Element {
 
     protected function configurePropertyMap($property) {
         return parent::configurePropertyMap($property);
+    }
+
+    public function getValue() {
+        return $this -> value;
     }
 
     public function setValue($value) {

@@ -13,7 +13,7 @@ class StaticElement Extends SimpleElement {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
-            self::$jsonEncodeMethod['value'] = '';
+            self::$jsonEncodeMethod['value'] = [];
         }
         $this -> type = 'static';
     }

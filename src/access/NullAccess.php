@@ -18,4 +18,9 @@ class NullAccess implements AccessContract {
     public function hasAccess($segment, $objectName, $operation) : bool {
         return true;
     }
+
+    public function setUser($user) {
+
+    }
+
 }

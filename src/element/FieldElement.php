@@ -8,7 +8,7 @@ use Abivia\NextForm\Form\Trigger\Trigger;
 /**
  *
  */
-class FieldElement Extends Element {
+class FieldElement extends Element {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\JsonEncoder;
 
@@ -26,10 +26,8 @@ class FieldElement Extends Element {
     protected $labels;
     protected $object;
     protected $triggers = [];
-    protected $value;
 
     public function __construct() {
-        $wtf = new NextForm;
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = array_merge(parent::$parentJsonEncodeMethod, self::$jsonLocalMethod);
         }
@@ -64,6 +62,12 @@ class FieldElement Extends Element {
         return parent::configurePropertyMap($property);
     }
 
+    /**
+     * Make sure the object property has a scope.
+     * @param string $property
+     * @param mixed $value
+     * @return boolean
+     */
     protected function configureValidate($property, &$value) {
         if ($property == 'object') {
             if ($value === '') {
@@ -105,10 +109,6 @@ class FieldElement Extends Element {
             }
         }
         return $value;
-    }
-
-    public function setValue($value) {
-        $this -> value = $value;
     }
 
 }

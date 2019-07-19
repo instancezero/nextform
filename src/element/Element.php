@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Element;
 
-use \Abivia\NextForm;
+use Abivia\NextForm\Render\Block;
 
 /**
  *
@@ -14,7 +14,7 @@ abstract class Element implements \JsonSerializable {
     protected $enabled = true;
     /**
      * The form this element belongs to
-     * @var \Abivia\NextForm\Form\Form
+     * @var \Abivia\NextForm
      */
     protected $form;
     protected $group;
@@ -52,6 +52,12 @@ abstract class Element implements \JsonSerializable {
             $property = 'group';
         }
         return $property;
+    }
+
+    public function generate($renderer, $access, $translate) {
+        $readOnly = false; // $access -> hasAccess(...)
+        $pageData = $renderer -> render($this, $translate, $readOnly);
+        return $pageData;
     }
 
     public function getEnabled() {

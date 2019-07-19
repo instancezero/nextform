@@ -3,17 +3,46 @@ include_once __DIR__ . '/../JsonComparison.php';
 
 use \Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\Element;
-use \Abivia\NextForm\Form\Form;
+use Abivia\NextForm\Element\FieldElement;
+use \Abivia\NextForm;
 use Abivia\NextForm\Render\Block;
+use Illuminate\Contracts\Translation\Translator as Translator;
 
 class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
-    public function render(Element $element) {
+    public function render(Element $element, Translator $translate, $readOnly) {
         $result = new Block;
-        $result -> body = $element -> getName() . "\n";
+        $result -> body = $element -> getName();
+        if ($element instanceof FieldElement) {
+            $result -> body .= ' object = ' . $element -> getObject();
+        }
+        if ($element instanceof ContainerElement) {
+            $result -> post = 'Close ' . $result -> body;
+        }
+        $result -> body .= "\n";
         return $result;
     }
 }
+
+class NullTranslate implements Translator {
+
+    public function trans($key, array $replace = [], $locale = null) {
+        return $key;
+    }
+
+    public function transChoice($key, $number, array $replace = [], $locale = null) {
+        return $key;
+    }
+
+    public function getLocale() {
+        return 'no-CA';
+    }
+
+    public function setLocale($locale) {
+    }
+
+}
+
 
 class MemberTest extends \PHPUnit\Framework\TestCase {
     use JsonComparison;
@@ -48,7 +77,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testFormLoad() {
-        $obj = new Form();
+        $obj = new NextForm();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
         $this -> assertTrue(false != $config, 'Error JSON decoding form.');
@@ -73,12 +102,14 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGenerateUnpopulated() {
-        $obj = new \Abivia\NextForm;
-        $form  = Form::fromFile(__DIR__ . '/member-form.json');
+        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
-        $obj -> setForm($form);
-        $obj -> generate();
+        $render = new FlatRenderer();
+        $form -> setRenderer($render);
+        $form -> setTranslator(new NullTranslate());
+        $page = $form -> generate('myform.php');
+        print_r($page);
         $this -> assertTrue(true);
     }
 
@@ -87,17 +118,17 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGeneratePopulated() {
-        $obj = new \Abivia\NextForm;
-        $form  = Form::fromFile(__DIR__ . '/member-form.json');
+        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
-        $render = new FlatRenderer;
-        $obj -> setForm($form);
         $data = [
             'id' => 0,
         ];
         $form -> populate($data, 'members');
-        $obj -> generate();
+        $render = new FlatRenderer;
+        $form -> setRenderer($render);
+        $form -> setTranslator(new NullTranslate());
+        $form -> generate('myform.php');
         $this -> assertTrue(true);
     }
 
