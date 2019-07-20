@@ -1,27 +1,50 @@
 <?php
 include_once __DIR__ . '/../JsonComparison.php';
 
-use \Abivia\NextForm\Data\Schema;
+use Abivia\NextForm;
+use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\FieldElement;
-use \Abivia\NextForm;
-use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Renderer\Simple;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
-    public function render(Element $element, Translator $translate, $readOnly) {
+    public function __construct($options = []) {
+
+    }
+
+    public function render(Element $element, Translator $translate, $options = []) {
         $result = new Block;
-        $result -> body = $element -> getName();
+        $type = $element -> getType();
+        $result -> body = $type;
+        $name = $element -> getName();
+        if ($name) {
+            $result -> body .= ' (' . $name . ')';
+        }
         if ($element instanceof FieldElement) {
             $result -> body .= ' object = ' . $element -> getObject();
         }
-        if ($element instanceof ContainerElement) {
-            $result -> post = 'Close ' . $result -> body;
-        }
         $result -> body .= "\n";
+        if ($element instanceof ContainerElement) {
+            $result -> post = 'Close ' . $type . "\n";
+        }
         return $result;
     }
+
+    public function setOptions($options = []) {
+
+    }
+
+    public function start($options = []) {
+        $result = new Block;
+        $result -> body = "Form\n";
+        $result -> post = "End form\n";
+        return $result;
+    }
+
 }
 
 class NullTranslate implements Translator {
@@ -129,6 +152,19 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
         $form -> generate('myform.php');
+        $this -> assertTrue(true);
+    }
+
+    public function testSimpleRenderUnpopulated() {
+        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
+        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
+        $form -> linkSchema($schema);
+        $render = new Simple();
+        $form -> setRenderer($render);
+        $form -> setTranslator(new NullTranslate());
+        $page = $form -> generate('myform.php');
+        $html = '<html><body>' . $page -> body . '</body></html>';
+        file_put_contents(__DIR__ . '/simple-unpopulated.html', $html);
         $this -> assertTrue(true);
     }
 

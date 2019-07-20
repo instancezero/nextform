@@ -55,8 +55,9 @@ abstract class Element implements \JsonSerializable {
     }
 
     public function generate($renderer, $access, $translate) {
-        $readOnly = false; // $access -> hasAccess(...)
-        $pageData = $renderer -> render($this, $translate, $readOnly);
+        //$readOnly = false; // $access -> hasAccess(...)
+        $options = ['access' => ['read', 'view', 'write']];
+        $pageData = $renderer -> render($this, $translate, $options);
         return $pageData;
     }
 

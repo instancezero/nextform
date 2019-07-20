@@ -24,6 +24,10 @@ class FieldElement extends Element {
         'triggers' => ['drop:empty', 'drop:null'],
     ];
     protected $labels;
+    /**
+     * The name of an associated schema object
+     * @var string
+     */
     protected $object;
     protected $triggers = [];
 
@@ -81,6 +85,23 @@ class FieldElement extends Element {
             return true;
         }
         return parent::configureValidate($property, $value);
+    }
+
+    /**
+     * Get the connected schema object, if any
+     * @return \Abivia\NextForm\Data\Property
+     */
+    public function getDataProperty() {
+        return $this -> dataProperty;
+    }
+
+    public function getLabels() {
+        if ($this -> dataProperty) {
+            $labels = $this -> dataProperty -> getLabels() -> merge($this -> labels);
+        } else {
+            $labels = $this -> labels;
+        }
+        return $labels;
     }
 
     public function getObject() {

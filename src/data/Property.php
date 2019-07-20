@@ -19,6 +19,10 @@ class Property implements \JsonSerializable {
         'store' => ['drop:null'],
         'validation' => ['drop:null'],
     ];
+    /**
+     * Text associated with an element
+     * @var \Abivia\NextForm\Data\Labels
+     */
     protected $labels;
     protected $name;
     protected $population;
@@ -43,6 +47,14 @@ class Property implements \JsonSerializable {
             return (object) $classMap[$property];
         }
         return false;
+    }
+
+    /**
+     * Get the schema-defined labels
+     * @return \Abivia\NextForm\Data\Labels
+     */
+    public function getLabels() {
+        return $this -> labels;
     }
 
     public function getName() {

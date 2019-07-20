@@ -51,11 +51,13 @@ abstract class ContainerElement Extends Element {
     }
 
     public function generate($renderer, $access, $translate) {
-        $readOnly = false; // $access -> hasAccess(...)
-        $containerData = $renderer -> render($this, $translate, $readOnly);
+        $options = false; // $access -> hasAccess(...)
+        $options = ['access' => ['read', 'view', 'write']];
+        $containerData = $renderer -> render($this, $translate, $options);
         foreach ($this -> elements as $element) {
             $containerData -> merge($element -> generate($renderer, $access, $translate));
         }
+        $containerData -> close();
         return $containerData;
     }
 

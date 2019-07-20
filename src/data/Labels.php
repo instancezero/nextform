@@ -24,4 +24,19 @@ class Labels implements \JsonSerializable{
     ];
     public $placeholder = null;
 
+    /**
+     * Merge another label set into this one and return a new merged object.
+     * @param \Abivia\NextForm\Data\Labels $merge
+     * @return \Abivia\NextForm\Data\Labels
+     */
+    public function &merge(Labels $merge) {
+        $newLabels = clone $this;
+        foreach (self::$jsonEncodeMethod as $prop) {
+            if ($merge -> $prop !== null) {
+                $newLabels -> $prop = $merge -> $prop;
+            }
+        }
+        return $newLabels;
+    }
+
 }

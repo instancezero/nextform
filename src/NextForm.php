@@ -80,12 +80,11 @@ class NextForm implements \JsonSerializable {
         // the store and a data provider need to be connected in some way
         // if there's existing data, the store needs to be populated with it
         // elements in the form get rendered, after being filtered/transformed to meet access rules
-        $pageData = new Block();
-        // $pageData -> merge(render -> close($route));
+        $pageData = $this -> renderer -> start(['route' => $route]);
         foreach ($this -> elements as $element) {
             $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));
         }
-        // $pageData -> merge(render -> close($route));
+        $pageData -> close();
         return $pageData;
     }
 

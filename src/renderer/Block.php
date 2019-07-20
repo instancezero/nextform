@@ -1,6 +1,6 @@
 <?php
 
-Namespace Abivia\NextForm\Render;
+Namespace Abivia\NextForm\Renderer;
 
 /**
  *
