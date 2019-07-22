@@ -61,6 +61,13 @@ class Property implements \JsonSerializable {
         return $this -> name;
     }
 
+    public function getPresentation() : \Abivia\NextForm\Data\Presentation {
+        if ($this -> presentation === null) {
+            // exception
+        }
+        return $this -> presentation;
+    }
+
     public function setName($name) {
         $this -> name = $name;
         return $this;

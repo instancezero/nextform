@@ -126,6 +126,9 @@
         {
             "type": "section",
             "memberOf": "family",
+            "labels": {
+                "heading": "Second Member"
+            },
             "elements": [
                 {
                     "type": "field",

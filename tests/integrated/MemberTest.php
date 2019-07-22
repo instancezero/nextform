@@ -1,5 +1,6 @@
 <?php
-include_once __DIR__ . '/../JsonComparison.php';
+include_once __DIR__ . '/../test-tools/JsonComparison.php';
+include_once __DIR__ . '/../test-tools/NullTranslate.php';
 
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Schema;
@@ -16,7 +17,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
-    public function render(Element $element, Translator $translate, $options = []) {
+    public function render(Element $element, $options = []) {
         $result = new Block;
         $type = $element -> getType();
         $result -> body = $type;
@@ -46,26 +47,6 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
     }
 
 }
-
-class NullTranslate implements Translator {
-
-    public function trans($key, array $replace = [], $locale = null) {
-        return $key;
-    }
-
-    public function transChoice($key, $number, array $replace = [], $locale = null) {
-        return $key;
-    }
-
-    public function getLocale() {
-        return 'no-CA';
-    }
-
-    public function setLocale($locale) {
-    }
-
-}
-
 
 class MemberTest extends \PHPUnit\Framework\TestCase {
     use JsonComparison;
@@ -131,7 +112,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new FlatRenderer();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
-        $page = $form -> generate('myform.php');
+        $page = $form -> generate(['action' => 'myform.php']);
         print_r($page);
         $this -> assertTrue(true);
     }
@@ -151,7 +132,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new FlatRenderer;
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
-        $form -> generate('myform.php');
+        $form -> generate(['action' => 'myform.php']);
         $this -> assertTrue(true);
     }
 
@@ -162,8 +143,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new Simple();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
-        $page = $form -> generate('myform.php');
-        $html = '<html><body>' . $page -> body . '</body></html>';
+        $page = $form -> generate(['action' => 'myform.php']);
+        $html = "<html>\n<body>\n" . $page -> body . "</body>\n</html>\n";
         file_put_contents(__DIR__ . '/simple-unpopulated.html', $html);
         $this -> assertTrue(true);
     }

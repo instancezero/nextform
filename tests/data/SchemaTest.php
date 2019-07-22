@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../Inspection.php';
+include_once __DIR__ . '/../test-tools/Inspection.php';
 
 use \Abivia\NextForm\Data\Schema;
 

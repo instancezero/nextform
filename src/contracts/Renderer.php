@@ -12,7 +12,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 interface Renderer {
     public function __construct($options = []);
 
-    public function render(Element $element, Translator $translate, $options = []);
+    public function render(Element $element, $options = []);
 
     public function setOptions($options = []);
 

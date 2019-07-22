@@ -16,7 +16,7 @@ class CellElement Extends ContainerElement {
     public function __construct() {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
+            self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
         }
         $this -> type = 'cell';
     }
@@ -39,6 +39,7 @@ class CellElement Extends ContainerElement {
     protected function configureInitialize() {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
+            $this -> form -> registerElement($this);
         }
     }
 

@@ -31,7 +31,7 @@ trait JsonEncoder {
             $value = $this -> $prop;
             $scalarize = false;
             $asArray = false;
-            $drop = false;
+            $keep = true;
             $toProp = $prop;
             foreach ($encoding as $option) {
                 if ($option == 'array') {
@@ -39,37 +39,13 @@ trait JsonEncoder {
                 } elseif ($option == 'scalarize') {
                     $scalarize = true;
                 } elseif (($cut = strpos($option, ':')) !== false) {
-                    $cmd = substr($option, 0, $cut);
-                    $arg = substr($option, $cut + 1);
-                    if ($cmd == 'drop') {
-                        switch ($arg) {
-                            case 'blank':
-                                $drop = $this -> $prop === '';
-                                break;
-                            case 'empty':
-                                $drop = is_array($this -> $prop) && empty($this -> $prop);
-                                break;
-                            case 'false':
-                                $drop = $this -> $prop === false;
-                                break;
-                            case 'null':
-                                $drop = $this -> $prop === null;
-                                break;
-                            case 'true':
-                                $drop = $this -> $prop === true;
-                                break;
-                        }
-                        if ($drop) {
-                            break;
-                        }
-                    } elseif ($cmd == 'map') {
-                        $toProp = $arg;
-                    } elseif ($cmd == 'method') {
-                        $value = $this -> $arg($value);
+                    $keep = $this -> jsonSerializeCommand($option, $cut, $toProp, $value);
+                    if (!$keep) {
+                        break;
                     }
                 }
             }
-            if ($drop) {
+            if (!$keep) {
                 continue;
             }
             if ($asArray) {
@@ -82,6 +58,49 @@ trait JsonEncoder {
             }
         }
         return $result;
+    }
+
+    /**
+     * Process command style options
+     * @param string $option The full option
+     * @param int $cut Where the command-option break is located
+     * @param string $prop The name of the property
+     * @param mixed $value The value of the property
+     * @return boolean Returns true if the value is part of the serialization.
+     */
+    protected function jsonSerializeCommand($option, $cut, &$prop, &$value) {
+        $cmd = substr($option, 0, $cut);
+        $arg = substr($option, $cut + 1);
+        $drop = false;
+        if ($cmd == 'drop') {
+            switch ($arg) {
+                case 'blank':
+                    $drop = $value === '';
+                    break;
+                case 'empty':
+                    if (is_array($value)) {
+                        $drop = empty($value);
+                    }
+                    break;
+                case 'false':
+                    $drop = $value === false;
+                    break;
+                case 'null':
+                    $drop = $value === null;
+                    break;
+                case 'true':
+                    $drop = $value === true;
+                    break;
+            }
+            if ($drop) {
+                return false;
+            }
+        } elseif ($cmd == 'map') {
+            $prop = $arg;
+        } elseif ($cmd == 'method') {
+            $value = $this -> $arg($value);
+        }
+        return true;
     }
 
 }

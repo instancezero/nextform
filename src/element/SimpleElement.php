@@ -14,7 +14,7 @@ abstract class SimpleElement Extends Element {
 
     public function __construct() {
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
+            self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
             self::$jsonEncodeMethod['value'] = [];
         }
     }
@@ -29,6 +29,7 @@ abstract class SimpleElement Extends Element {
     protected function configureInitialize() {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
+            $this -> form -> registerElement($this);
         }
     }
 

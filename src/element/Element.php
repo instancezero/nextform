@@ -2,7 +2,9 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\NextForm;
 use Abivia\NextForm\Render\Block;
+use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  *
@@ -11,6 +13,11 @@ abstract class Element implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\JsonEncoder;
 
+    /**
+     * System-assigned element ID
+     * @var string
+     */
+    protected $autoId;
     protected $enabled = true;
     /**
      * The form this element belongs to
@@ -18,16 +25,26 @@ abstract class Element implements \JsonSerializable {
      */
     protected $form;
     protected $group;
+    /**
+     * User-specified element id, overrides auto ID
+     * @var string
+     */
+    protected $id = '';
     protected $name = '';
-    static protected $parentJsonEncodeMethod = [
+    static protected $jsonEncodeMethod = [
         'type' => [],
-        'name' => ['drop:blank', 'drop:null'],
+        'name' => ['drop:blank'],
+        'id' => ['drop:blank'],
         'group' => ['drop:null', 'map:memberOf'],
         'enabled' => ['drop:true'],
         'visible' => ['drop:true']
     ];
     protected $type;
     protected $visible = true;
+
+    public function __construct() {
+
+    }
 
     static public function classFromType($obj) {
         $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
@@ -40,6 +57,7 @@ abstract class Element implements \JsonSerializable {
     protected function configureInitialize() {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
+            $this -> form -> registerElement($this);
         }
     }
 
@@ -54,10 +72,11 @@ abstract class Element implements \JsonSerializable {
         return $property;
     }
 
-    public function generate($renderer, $access, $translate) {
+    public function generate($renderer, $access, Translator $translate) {
+        $this -> translate($translate);
         //$readOnly = false; // $access -> hasAccess(...)
-        $options = ['access' => ['read', 'view', 'write']];
-        $pageData = $renderer -> render($this, $translate, $options);
+        $options = ['access' => 'write'];
+        $pageData = $renderer -> render($this, $options);
         return $pageData;
     }
 
@@ -67,6 +86,16 @@ abstract class Element implements \JsonSerializable {
 
     public function getGroup() {
         return $this -> group;
+    }
+
+    public function getId() {
+        if ($this -> id != '') {
+            return $this -> id;
+        }
+        if ($this -> autoId == '') {
+            $this -> autoId = NextForm::htmlIdentifier($this -> type, true);
+        }
+        return $this -> autoId;
     }
 
     public function getName() {
@@ -107,6 +136,10 @@ abstract class Element implements \JsonSerializable {
     public function setVisible($visible) {
         $this -> visible = $visible;
         return $this;
+    }
+
+    public function translate(Translator $translate) {
+
     }
 
 }

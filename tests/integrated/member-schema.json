@@ -13,7 +13,7 @@
                     "name": "id",
                     "description": "Primary key",
                     "labels": {
-                        "before": "Member ID"
+                        "heading": "Member ID"
                     },
                     "presentation": {
                         "cols": 1,
@@ -28,7 +28,7 @@
                     "name": "membershipType",
                     "description": "Which kind of member this application is for",
                     "labels": {
-                        "before": "Membership Type:",
+                        "heading": "Membership Type",
                         "error": "Please select from one of the available options."
                     },
                     "population": {
@@ -116,7 +116,7 @@
                     "name": "primaryFirstName",
                     "description": "First name of the primary member",
                     "labels": {
-                        "before": "Legal First Name",
+                        "heading": "Legal First Name",
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
@@ -135,7 +135,7 @@
                     "name": "primaryLastName",
                     "description": "Last name of the primary member",
                     "labels": {
-                        "before": "Legal Last Name",
+                        "heading": "Legal Last Name",
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
@@ -154,7 +154,7 @@
                     "name": "primaryPublicName",
                     "description": "Pseudonym \/ pen name \/ persona presented to public",
                     "labels": {
-                        "before": "Artist Name",
+                        "heading": "Artist Name",
                         "help": "Leave blank of your artist name is the same as your legal name."
                     },
                     "presentation": {
@@ -170,7 +170,7 @@
                     "name": "primaryEmail",
                     "description": "Email address of the primary member",
                     "labels": {
-                        "before": "Email"
+                        "heading": "Email"
                     },
                     "presentation": {
                         "cols": 1,
@@ -189,7 +189,7 @@
                     "name": "primaryPhone",
                     "description": "Phone number for the primary member",
                     "labels": {
-                        "before": "Tel"
+                        "heading": "Tel"
                     },
                     "presentation": {
                         "cols": 1,
@@ -207,7 +207,7 @@
                     "name": "secondaryFirstName",
                     "description": "First name of the second member",
                     "labels": {
-                        "before": "Legal First Name",
+                        "heading": "Legal First Name",
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
@@ -226,7 +226,7 @@
                     "name": "secondaryLastName",
                     "description": "Last name of the second member",
                     "labels": {
-                        "before": "Legal Last Name",
+                        "heading": "Legal Last Name",
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
@@ -245,7 +245,7 @@
                     "name": "secondaryPublicName",
                     "description": "Psuedonym \/ pen name \/ persona presented to public",
                     "labels": {
-                        "before": "Artist Name",
+                        "heading": "Artist Name",
                         "help": "Leave blank of your artist name is the same as your legal name."
                     },
                     "presentation": {
@@ -261,7 +261,7 @@
                     "name": "SecondaryEmail",
                     "description": "Email address of the secondary member",
                     "labels": {
-                        "before": "Email"
+                        "heading": "Email"
                     },
                     "presentation": {
                         "cols": 1,
@@ -277,7 +277,7 @@
                     "name": "secondaryPhone",
                     "description": "Phone number for the secondary member",
                     "labels": {
-                        "before": "Tel"
+                        "heading": "Tel"
                     },
                     "presentation": {
                         "cols": 1,
@@ -295,7 +295,7 @@
                     "name": "businessName",
                     "description": "Name for business memberships",
                     "labels": {
-                        "before": "Business Name"
+                        "heading": "Business Name"
                     },
                     "presentation": {
                         "cols": 1,
@@ -309,7 +309,7 @@
                 {
                     "name": "address1",
                     "labels": {
-                        "before": "Street Address"
+                        "heading": "Street Address"
                     },
                     "presentation": {
                         "cols": 1,
@@ -326,7 +326,7 @@
                 {
                     "name": "address2",
                     "labels": {
-                        "before": "Street Address Line 2"
+                        "heading": "Street Address Line 2"
                     },
                     "presentation": {
                         "cols": 1,
@@ -340,7 +340,7 @@
                 {
                     "name": "city",
                     "labels": {
-                        "before": "City"
+                        "heading": "City"
                     },
                     "presentation": {
                         "cols": 1,
@@ -357,7 +357,7 @@
                 {
                     "name": "province",
                     "labels": {
-                        "before": "Province"
+                        "heading": "Province"
                     },
                     "presentation": {
                         "cols": 1,
@@ -375,7 +375,7 @@
                     "name": "membershipFee",
                     "description": "Fee for annual membership",
                     "labels": {
-                        "before": "Annual fee"
+                        "heading": "Annual fee"
                     },
                     "presentation": {
                         "cols": 1,

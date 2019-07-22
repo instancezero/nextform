@@ -62,8 +62,8 @@
                     ]
                 },
                 {
-                    "value": null,
                     "event": "onchange",
+                    "value": null,
                     "actions": [
                         {
                             "change": "script",
@@ -92,6 +92,9 @@
         },
         {
             "type": "section",
+            "labels" : {
+                "heading": "Second Member"
+            },
             "memberOf": "family",
             "elements": [
                 {

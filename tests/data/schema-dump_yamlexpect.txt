@@ -4,6 +4,7 @@ Abivia\NextForm\Data\Schema Object
         (
             [after] =>
             [before] =>
+            [confirm] =>
             [error] =>
             [heading] =>
             [help] =>
@@ -33,6 +34,7 @@ Abivia\NextForm\Data\Schema Object
                                         (
                                             [after] => Units
                                             [before] =>
+                                            [confirm] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>

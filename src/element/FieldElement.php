@@ -5,10 +5,12 @@ namespace Abivia\NextForm\Element;
 use Abivia\NextForm;
 use Abivia\NextForm\Form\Trigger\Trigger;
 
+use Illuminate\Contracts\Translation\Translator as Translator;
+
 /**
  *
  */
-class FieldElement extends Element {
+class FieldElement extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\JsonEncoder;
 
@@ -19,11 +21,10 @@ class FieldElement extends Element {
     protected $dataProperty;
     static protected $jsonEncodeMethod = [];
     static protected $jsonLocalMethod = [
-        'labels' => ['drop:null'],
         'object' => ['method:removeScope'],
         'triggers' => ['drop:empty', 'drop:null'],
     ];
-    protected $labels;
+
     /**
      * The name of an associated schema object
      * @var string
@@ -32,8 +33,9 @@ class FieldElement extends Element {
     protected $triggers = [];
 
     public function __construct() {
+        parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = array_merge(parent::$parentJsonEncodeMethod, self::$jsonLocalMethod);
+            self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
         }
         $this -> type = 'field';
     }
@@ -55,6 +57,7 @@ class FieldElement extends Element {
     protected function configureInitialize() {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
+            $this -> form -> registerElement($this);
         }
     }
 
@@ -91,15 +94,29 @@ class FieldElement extends Element {
      * Get the connected schema object, if any
      * @return \Abivia\NextForm\Data\Property
      */
-    public function getDataProperty() {
+    public function getDataProperty() : \Abivia\NextForm\Data\Property {
+        if ($this -> dataProperty === null) {
+            throw new RuntimeException(
+                'Attempt to get missing schema information, object ' . $this -> getObject()
+            );
+        }
         return $this -> dataProperty;
     }
 
-    public function getLabels() {
+    public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
+        if ($translated) {
+            return $this -> labelsTranslated === null ? new Labels : $this -> labelsTranslated;
+        }
         if ($this -> dataProperty) {
-            $labels = $this -> dataProperty -> getLabels() -> merge($this -> labels);
-        } else {
+            if ($this -> labels) {
+                $labels = $this -> dataProperty -> getLabels() -> merge($this -> labels);
+            } else {
+                $labels = $this -> dataProperty -> getLabels();
+            }
+        } elseif ($this -> labels) {
             $labels = $this -> labels;
+        } else {
+            $labels = new Labels;
         }
         return $labels;
     }
@@ -130,6 +147,11 @@ class FieldElement extends Element {
             }
         }
         return $value;
+    }
+
+    public function translate(Translator $translate) {
+        $labels = $this -> getLabels();
+        $this -> labelsTranslated = $labels -> translate($translate);
     }
 
 }

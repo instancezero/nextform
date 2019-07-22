@@ -7,7 +7,7 @@ use Abivia\NextForm\Render\Block;
 /**
  *
  */
-abstract class ContainerElement Extends Element {
+abstract class ContainerElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\JsonEncoder;
 
@@ -16,8 +16,9 @@ abstract class ContainerElement Extends Element {
 
     public function __construct() {
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
-            self::$jsonEncodeMethod['elements'] = '';
+            self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
+            self::$jsonEncodeMethod['labels'] = ['drop:null'];
+            self::$jsonEncodeMethod['elements'] = [];
         }
     }
 
@@ -39,6 +40,7 @@ abstract class ContainerElement Extends Element {
     protected function configureInitialize() {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
+            $this -> form -> registerElement($this);
         }
     }
 
@@ -52,7 +54,7 @@ abstract class ContainerElement Extends Element {
 
     public function generate($renderer, $access, $translate) {
         $options = false; // $access -> hasAccess(...)
-        $options = ['access' => ['read', 'view', 'write']];
+        $options = ['access' => 'write'];
         $containerData = $renderer -> render($this, $translate, $options);
         foreach ($this -> elements as $element) {
             $containerData -> merge($element -> generate($renderer, $access, $translate));

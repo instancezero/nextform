@@ -4,8 +4,10 @@ namespace Abivia;
 
 use Abivia\NextForm\Contracts\Access as Access;
 use Abivia\NextForm\Contracts\Renderer as Renderer;
+use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\Element;
-use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Element\FieldElement;
+
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -18,13 +20,29 @@ class NextForm implements \JsonSerializable {
     public const SEGMENT_DELIM = '/';
 
     protected $access;
+    /**
+     * The list of all elements in the form
+     * @var array
+     */
+    protected $allElements = [];
     protected $elements;
+    /**
+     * Counter used to assign HTML identifiers
+     * @var int
+     */
+    static protected $htmlId = 0;
     static protected $jsonEncodeMethod = [
         'name' => [],
         'useSegment' => ['drop:blank'],
         'elements' => [],
     ];
+    protected $id;
     protected $name;
+    /**
+     * Maps form names to form elements/
+     * @var array
+     */
+    protected $nameMap;
     /**
      * Maps schema objects to form elements/
      * @var array
@@ -38,6 +56,35 @@ class NextForm implements \JsonSerializable {
 
     public function __construct() {
           $this -> access = new \Abivia\NextForm\Access\BasicAccess;
+    }
+
+    protected function assignNames() {
+        $this -> nameMap = [];
+        $containerCount = 0;
+        foreach ($this -> allElements as $element) {
+            if ($element instanceof FieldElement) {
+                $baseName = str_replace('/', '_', $element -> getObject());
+                $name = $baseName;
+                $confirmName = $baseName . '_confirm';
+                $append = 0;
+                while (isset($this -> nameMap[$name]) || isset($this -> nameMap[$confirmName])) {
+                    $name = $baseName . '_' . ++$append;
+                    $confirmName = $baseName . '_confirm_' . $append;
+                }
+                $this -> nameMap[$name] = $element;
+                $element -> setFormName($name);
+            } elseif ($element instanceof ContainerElement) {
+                $baseName = 'container_';
+                $name = $baseName;
+                while (isset($this -> nameMap[$name])) {
+                    $name = $baseName . ++$containerCount;
+                }
+                $this -> nameMap[$name] = $element;
+                $element -> setFormName($name);
+            }
+        }
+        $this -> schemaIsLinked = true;
+        return $this;
     }
 
     protected function configureInitialize() {
@@ -65,7 +112,7 @@ class NextForm implements \JsonSerializable {
     static public function fromFile($formFile) {
         $form = new NextForm;
         if (!$form -> configure(json_decode(file_get_contents($formFile)), true)) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 'Failed to load ' . $formFile . "\n"
                 . implode("\n", $schema -> configureErrors)
             );
@@ -73,14 +120,12 @@ class NextForm implements \JsonSerializable {
         return $form;
     }
 
-    public function generate($route) {
-        // OKAY, HERE'S WHAT NEEDS TO HAPPEN:
-        // fields in the form get connected to data definitions in the store
-        // put stuff into $this -> form, $this -> schema
-        // the store and a data provider need to be connected in some way
-        // if there's existing data, the store needs to be populated with it
-        // elements in the form get rendered, after being filtered/transformed to meet access rules
-        $pageData = $this -> renderer -> start(['route' => $route]);
+    public function generate($options) {
+        $this -> options($options);
+        $options['id'] = $this -> id;
+        $options['name'] = $this -> name;
+        $this -> assignNames();
+        $pageData = $this -> renderer -> start($options);
         foreach ($this -> elements as $element) {
             $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));
         }
@@ -99,6 +144,10 @@ class NextForm implements \JsonSerializable {
             $data[$objectName] = $list[0] -> getValue();
         }
         return $data;
+    }
+
+    public function getId() {
+        return $this -> id;
     }
 
     public function getName() {
@@ -128,6 +177,24 @@ class NextForm implements \JsonSerializable {
     }
 
     /**
+     * Turn a string into a valid HTML identifier, or make one up
+     * @param string $name
+     * @return string
+     */
+    static public function htmlIdentifier($name = '', $appendId = false) {
+        if ($name == '') {
+            $name = 'nf-' . ++self::$htmlId;
+        } else {
+            if ($appendId) {
+                $name .= '-' . ++self::$htmlId;
+            }
+            $name = preg_replace('/[^a-z0-9\-]/i', '-', $name);
+            $name = preg_replace('/^[^a-z0-9\-]/i', 'nf-\1', $name);
+        }
+        return $name;
+    }
+
+    /**
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema
      * @return $this
@@ -139,6 +206,19 @@ class NextForm implements \JsonSerializable {
         }
         $this -> schemaIsLinked = true;
         return $this;
+    }
+
+    protected function options($options) {
+        if (isset($options['name'])) {
+            $this -> name = $options['name'];
+        }
+        if (isset($options['id'])) {
+            $this -> id = $options['id'];
+        } elseif ($this -> name != '') {
+            $this -> id = self::htmlIdentifier($this -> name);
+        } else {
+            $this -> id = 'form' . ++self::$htmlId;
+        }
     }
 
     /**
@@ -166,20 +246,16 @@ class NextForm implements \JsonSerializable {
         return $this;
     }
 
-    public function setAccess(Access $access) {
-        $this -> access = $access;
-    }
-
-    public function setRenderer(Renderer $renderer) {
-        $this -> renderer = $renderer;
-    }
-
-    public function setTranslator(Translator $translate) {
-        $this -> translate = $translate;
-    }
-
-    public function setUser($user) {
-        $this -> access -> setUser($user);
+    /**
+     * Add a form element to the list of all elements.
+     * @param Element $element
+     * @return $this
+     */
+    public function registerElement($element) {
+        if (!in_array($element, $this -> allElements)) {
+            $this -> allElements[] = $element;
+        }
+        return $this;
     }
 
     /**
@@ -194,6 +270,22 @@ class NextForm implements \JsonSerializable {
         }
         $this -> objectMap[$object][] = $element;
         return $this;
+    }
+
+    public function setAccess(Access $access) {
+        $this -> access = $access;
+    }
+
+    public function setRenderer(Renderer $renderer) {
+        $this -> renderer = $renderer;
+    }
+
+    public function setTranslator(Translator $translate) {
+        $this -> translate = $translate;
+    }
+
+    public function setUser($user) {
+        $this -> access -> setUser($user);
     }
 
 }

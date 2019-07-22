@@ -1,0 +1,9 @@
+Element                 (enabled, form, group, name, type, visible)
+    NamedElement      (labels, labelsTranslated)
+        ContainerElement    (elements)
+            CellElement
+            SectionElement
+        FieldElement        (dataProperty, object, triggers)
+    SimpleElement       (value)
+        HtmlElement
+        StaticElement
