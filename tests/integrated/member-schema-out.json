@@ -29,7 +29,7 @@
                     "description": "Which kind of member this application is for",
                     "labels": {
                         "error": "Please select from one of the available options.",
-                        "heading": "Membership Type:"
+                        "heading": "Membership Type"
                     },
                     "population": {
                         "source": "fixed",

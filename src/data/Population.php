@@ -5,9 +5,16 @@ namespace Abivia\NextForm\Data;
 /**
  * Describes how a data object is displayed on a form.
  */
-class Population {
+class Population implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
+    use \Abivia\NextForm\JsonEncoder;
 
+    static protected $jsonEncodeMethod = [
+        'source' => [],
+        'parameters' => ['drop:empty','drop:null'],
+        'query' => ['drop:blank','drop:null'],
+        'list' => [],
+    ];
     static protected $knownSources = [
         'fixed', 'local', 'remote', 'static',
     ];
@@ -28,6 +35,9 @@ class Population {
     }
 
     public function getList() {
+        if ($this -> list === null) {
+            return [];
+        }
         return $this -> list;
     }
 

@@ -2,8 +2,8 @@
 
 namespace Abivia\NextForm\Contracts;
 
+use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Element\Element;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 
 /**
@@ -11,6 +11,10 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 interface Renderer {
     public function __construct($options = []);
+
+    public function popContext(Block $block, $options = []);
+
+    public function pushContext($options = []);
 
     public function render(Element $element, $options = []);
 

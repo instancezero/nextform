@@ -30,6 +30,8 @@ abstract class ContainerElement Extends NamedElement {
             $result = new \stdClass;
             $result -> key = [$this, 'addElement'];
             $result -> className = [Element::class, 'classFromType'];
+        } else {
+            $result = parent::configureClassMap($property, $value);
         }
         return $result;
     }
@@ -53,12 +55,15 @@ abstract class ContainerElement Extends NamedElement {
     }
 
     public function generate($renderer, $access, $translate) {
+        $this -> translate($translate);
         $options = false; // $access -> hasAccess(...)
         $options = ['access' => 'write'];
         $containerData = $renderer -> render($this, $translate, $options);
+        $renderer -> pushContext($options);
         foreach ($this -> elements as $element) {
             $containerData -> merge($element -> generate($renderer, $access, $translate));
         }
+        $renderer -> popContext($containerData, $options);
         $containerData -> close();
         return $containerData;
     }

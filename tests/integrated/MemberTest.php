@@ -17,6 +17,14 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
+    public function popContext(Block $block, $options = []) {
+        return $block -> close();
+    }
+
+    public function pushContext($options = []) {
+
+    }
+
     public function render(Element $element, $options = []) {
         $result = new Block;
         $type = $element -> getType();

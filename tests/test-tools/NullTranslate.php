@@ -10,7 +10,7 @@ class NullTranslate implements Translator {
     public function trans($key, array $replace = [], $locale = null) {
         $replace = $replace;
         $locale = $locale;
-        return $key . ' (trans)';
+        return $key . ' (tslt)';
     }
 
     public function transChoice($key, $number, array $replace = [], $locale = null) {

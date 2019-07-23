@@ -14,6 +14,14 @@ class Bootstrap4 implements Renderer {
         $this -> setOptions($options);
     }
 
+    public function popContext(Block $block, $options = []) {
+        return $block -> close();
+    }
+
+    public function pushContext($options = []) {
+
+    }
+
     public function render(Element $element, $options = []) {
 
     }

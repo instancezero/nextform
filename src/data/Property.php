@@ -39,6 +39,7 @@ class Property implements \JsonSerializable {
      */
     protected function configureClassMap($property, $value) {
         static $classMap = [
+            'population' => ['className' => '\Abivia\NextForm\Data\Population'],
             'presentation' => ['className' => '\Abivia\NextForm\Data\Presentation'],
             'store' => ['className' => '\Abivia\NextForm\Data\Store'],
             'labels' => ['className' => '\Abivia\NextForm\Data\Labels'],
@@ -63,9 +64,19 @@ class Property implements \JsonSerializable {
 
     public function getPresentation() : \Abivia\NextForm\Data\Presentation {
         if ($this -> presentation === null) {
-            // exception
+            return new \Abivia\NextForm\Data\Presentation;
         }
         return $this -> presentation;
+    }
+
+    public function getPopulation() : \Abivia\NextForm\Data\Population {
+        if ($this -> population === null) {
+            return new \Abivia\NextForm\Data\Population;
+        }
+        if (!$this -> population instanceof \Abivia\NextForm\Data\Population) {
+            $woo = 100;
+        }
+        return $this -> population;
     }
 
     public function setName($name) {

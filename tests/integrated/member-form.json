@@ -75,6 +75,9 @@
         },
         {
             "type": "section",
+            "labels" : {
+                "heading": "Primary Member"
+            },
             "elements": [
                 {
                     "type": "field",
@@ -83,12 +86,12 @@
                 {
                     "type": "field",
                     "object": "primaryLastName"
+                },
+                {
+                    "type": "field",
+                    "object": "primaryPublicName"
                 }
             ]
-        },
-        {
-            "type": "field",
-            "object": "primaryPublicName"
         },
         {
             "type": "section",
@@ -104,13 +107,13 @@
                 {
                     "type": "field",
                     "object": "secondaryLastName"
+                },
+                {
+                    "type": "field",
+                    "object": "secondaryPublicName",
+                    "memberOf": "family"
                 }
             ]
-        },
-        {
-            "type": "field",
-            "object": "secondaryPublicName",
-            "memberOf": "family"
         },
         {
             "type": "field",

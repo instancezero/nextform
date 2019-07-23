@@ -45,7 +45,16 @@ abstract class NamedElement Extends Element {
     }
 
     protected function configureClassMap($property, $value) {
-        return parent::configureClassMap($property, $value);
+        static $classMap = [
+            'labels' => ['className' => Labels::class],
+        ];
+        $result = false;
+        if (isset($classMap[$property])) {
+            $result = (object) $classMap[$property];
+        } else {
+            $result = parent::configureClassMap($property, $value);
+        }
+        return $result;
     }
 
     /**

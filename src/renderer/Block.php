@@ -45,6 +45,7 @@ class Block {
     public function close() {
         $this -> body .= $this -> post;
         $this -> post = '';
+        return $this;
     }
 
     public function merge(Block $block) {
