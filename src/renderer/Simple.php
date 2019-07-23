@@ -115,8 +115,8 @@ class Simple implements Renderer {
             if (isset($radio -> sidecar)) {
                 $attrs['data-sidecar'] = 'data-sidecar="' . htmlspecialchars(json_encode($radio -> sidecar)) . '"';
             }
-            $block -> body .= '<div><input ' . implode(' ', $attrs) . '/>'
-                . '<label for="' . $id . '">' . $radio -> label . '</label>'
+            $block -> body .= "<div>\n  <input " . implode(' ', $attrs) . "/>\n"
+                . '  <label for="' . $id . '">' . $radio -> label . "</label>\n"
                 . "</div>\n";
         }
         return $block;

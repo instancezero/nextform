@@ -152,8 +152,13 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
         $page = $form -> generate(['action' => 'myform.php']);
-        $html = "<html>\n<body>\n" . $page -> body . "</body>\n</html>\n";
-        file_put_contents(__DIR__ . '/simple-unpopulated.html', $html);
+
+        $html = "<!doctype html>\n<html lang=\"en\">\n"
+            . "  <head>\n    <meta charset=\"utf-8\">\n"
+            . "    <title>" . __FUNCTION__ . "</title>\n"
+            . "  </head>\n"
+            . "<body>\n" . $page -> body . "</body>\n</html>\n";
+        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $html);
         $this -> assertTrue(true);
     }
 
