@@ -7,7 +7,7 @@ namespace Abivia\NextForm\Element;
  */
 class StaticElement Extends SimpleElement {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     public function __construct() {
         parent::__construct();

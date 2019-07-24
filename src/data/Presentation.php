@@ -7,7 +7,7 @@ namespace Abivia\NextForm\Data;
  */
 class Presentation implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $cols = 1;
     protected $confirm = false;

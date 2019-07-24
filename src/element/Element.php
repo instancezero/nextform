@@ -11,7 +11,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 abstract class Element implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     /**
      * System-assigned element ID
@@ -52,6 +52,10 @@ abstract class Element implements \JsonSerializable {
             throw new \InvalidArgumentException($obj -> type . ' is not a valid element type.');
         }
         return $result;
+    }
+
+    protected function configureComplete() {
+        return true;
     }
 
     protected function configureInitialize() {

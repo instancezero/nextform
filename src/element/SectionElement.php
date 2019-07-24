@@ -7,7 +7,7 @@ namespace Abivia\NextForm\Element;
  */
 class SectionElement Extends ContainerElement {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $labels;
     protected $object;

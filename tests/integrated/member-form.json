@@ -75,7 +75,7 @@
         },
         {
             "type": "section",
-            "labels" : {
+            "labels": {
                 "heading": "Primary Member"
             },
             "elements": [

@@ -9,7 +9,7 @@ use Abivia\NextForm\Render\Block;
  */
 abstract class ContainerElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $elements = [];
     static protected $jsonEncodeMethod = [];

@@ -1,13 +1,13 @@
 <?php
 
-namespace Abivia\NextForm\Form\Trigger;
+namespace Abivia\NextForm\Trigger;
 
 /**
  *
  */
 class Trigger implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     /**
      * @var Action A List of actions to take when this trigger fires.
@@ -43,7 +43,7 @@ class Trigger implements \JsonSerializable {
      */
     protected function configureClassMap($property, $value) {
         static $classMap = [
-            'actions' => ['className' => '\Abivia\NextForm\Form\Trigger\Action', 'key' => ''],
+            'actions' => ['className' => '\Abivia\NextForm\Trigger\Action', 'key' => ''],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];

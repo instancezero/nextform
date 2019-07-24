@@ -106,8 +106,7 @@ class Simple implements Renderer {
         $attrs = [];
         $attrs['name'] = 'name="' . $element -> getFormName() . '"';
         $attrs['type'] = 'type="radio"';
-        $population = $data -> getPopulation();
-        $list = $population -> getList();
+        $list = $element -> getList();
         foreach ($list as $optId => $radio) {
             $id = $baseId . '-opt' . $optId;
             $attrs['id'] = 'id="' . $id . '"';

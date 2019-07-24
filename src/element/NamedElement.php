@@ -11,7 +11,8 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 abstract class NamedElement Extends Element {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonLabelFolder;
 
     static protected $jsonEncodeMethod = [];
     /**
@@ -39,7 +40,7 @@ abstract class NamedElement Extends Element {
         parent::__construct();
         if (!self::$staticInit) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
-            self::$jsonEncodeMethod['labels'] = ['drop:null'];
+            self::$jsonEncodeMethod['labels'] = ['method:jsonLabelFold', 'drop:null'];
             self::$staticInit = true;
         }
     }
@@ -55,6 +56,15 @@ abstract class NamedElement Extends Element {
             $result = parent::configureClassMap($property, $value);
         }
         return $result;
+    }
+
+    protected function configureComplete() {
+        if ($this -> labels === null) {
+            $this -> labels  = new Labels;
+        }
+        // Default translation is no translation.
+        $this -> labelsTranslated = clone $this -> labels;
+        return parent::configureComplete();
     }
 
     /**

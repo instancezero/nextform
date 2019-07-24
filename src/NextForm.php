@@ -15,7 +15,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 class NextForm implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     public const SEGMENT_DELIM = '/';
 
@@ -106,7 +106,7 @@ class NextForm implements \JsonSerializable {
     /**
      * Generate a form object from a file
      * @param string $formFile
-     * @return \Abivia\NextForm\Form\Form
+     * @return \Abivia\NextForm
      * @throws RuntimeException
      */
     static public function fromFile($formFile) {

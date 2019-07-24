@@ -1,8 +1,9 @@
 <?php
-include_once __DIR__ . '/test-tools/JsonComparison.php';
+include_once __DIR__ . '/../test-tools/JsonComparison.php';
 
 class JsonEncoderMain implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
+    
     static $jsonEncodeMethod = [
         'protArr' => 'array',   // left as string to test string-to-array
         'protObj' => [],
@@ -24,7 +25,7 @@ class JsonEncoderMain implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropBlank implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'blank' => ['drop:blank'],
         'boring' => [],
@@ -35,7 +36,7 @@ class JsonEncoderCommandDropBlank implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropEmpty implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'array1' => ['drop:empty'],
         'array2' => ['drop:empty'],
@@ -48,7 +49,7 @@ class JsonEncoderCommandDropEmpty implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropFalse implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'boring' => [],
         'untrue' => ['drop:false'],
@@ -59,7 +60,7 @@ class JsonEncoderCommandDropFalse implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropNull implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'boring' => [],
         'novalue' => ['drop:null'],
@@ -70,7 +71,7 @@ class JsonEncoderCommandDropNull implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropTrue implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'boring' => [],
         'istrue' => ['drop:true'],
@@ -81,7 +82,7 @@ class JsonEncoderCommandDropTrue implements \JsonSerializable {
 }
 
 class JsonEncoderCommandMap implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'boring' => ['map:exciting'],
     ];
@@ -90,7 +91,7 @@ class JsonEncoderCommandMap implements \JsonSerializable {
 }
 
 class JsonEncoderCommandMethod implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'boring' => ['method:changeIt'],
     ];
@@ -103,7 +104,7 @@ class JsonEncoderCommandMethod implements \JsonSerializable {
 }
 
 class JsonEncoderCommandScalar implements \JsonSerializable {
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
     static $jsonEncodeMethod = [
         'arrayToScalar1' => ['scalarize'],
         'arrayToScalar2' => ['scalarize'],

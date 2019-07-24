@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Form\Trigger\Action;
+use \Abivia\NextForm\Trigger\Action;
 
 class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerActionInstantiation() {
         $obj = new Action();
-		$this -> assertInstanceOf('\Abivia\NextForm\Form\Trigger\Action', $obj);
+		$this -> assertInstanceOf('\Abivia\NextForm\Trigger\Action', $obj);
 	}
 
 	public function testFormTriggerActionConfiguration() {

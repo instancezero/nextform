@@ -1,6 +1,4 @@
 To Do List
-- Alignment in text fields
-- radio/checkbox translations
-- Look at defaulting labels to blank; is there any use for a null label?
+- Alignment in text fields, radio, checkboxes.
 - Implement render context push/pull
 - default value for radio

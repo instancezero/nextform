@@ -9,7 +9,7 @@ use Abivia\NextForm;
  */
 class CellElement Extends ContainerElement {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [];
 

@@ -1,5 +1,5 @@
 <?php
-namespace Abivia\NextForm;
+namespace Abivia\NextForm\Traits;
 
 /**
  * Assist with JSON encoding protected properties

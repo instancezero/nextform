@@ -6,11 +6,18 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Text labels associated with a data object.
+ *
+ * Values default to null to allow inheritance form another level; an explicit blank
+ * overwrites inheritance.
  */
 class Labels implements \JsonSerializable{
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * Text to display after the body of an item
+     * @var string
+     */
     public $after = null;
     public $before = null;
     public $confirm = null;
@@ -18,6 +25,7 @@ class Labels implements \JsonSerializable{
     public $heading = null;
     public $help = null;
     static protected $jsonEncodeMethod = [
+        'translate' => ['drop:true'],
         'after' => ['drop:null'],
         'before' => ['drop:null'],
         'confirm' => ['drop:null'],
@@ -27,6 +35,27 @@ class Labels implements \JsonSerializable{
         'placeholder' => ['drop:null'],
     ];
     public $placeholder = null;
+    /**
+     * A list of the properties that contain text.
+     * @var array
+     */
+    static private $textProperties = [
+        'after', 'before', 'confirm', 'error', 'heading', 'help', 'placeholder'
+    ];
+    public $translate = true;
+
+    /**
+     * Check for a non-null text property.
+     * @return bool
+     */
+    public function isEmpty() {
+        foreach (self::$textProperties as $prop) {
+            if ($this -> $prop !== null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Merge another label set into this one and return a new merged object.
@@ -35,21 +64,30 @@ class Labels implements \JsonSerializable{
      */
     public function &merge(Labels $merge) {
         $newLabels = clone $this;
-        foreach (self::$jsonEncodeMethod as $prop) {
+        foreach (self::$textProperties as $prop) {
             if ($merge -> $prop !== null) {
                 $newLabels -> $prop = $merge -> $prop;
             }
         }
+        $newLabels -> translate = $newLabels -> translate || $merge -> translate;
         return $newLabels;
     }
 
+    /**
+     * Create a translated version of the labels.
+     * @param Translator $translate
+     * @return \Abivia\NextForm\Data\Labels
+     */
     public function translate(Translator $translate) {
         $newLabels = clone $this;
-        foreach (array_keys(self::$jsonEncodeMethod) as $prop) {
-            if ($this -> $prop !== null) {
-                $newLabels -> $prop = $translate -> trans($this -> $prop);
+        if ($newLabels -> translate) {
+            foreach (self::$textProperties as $prop) {
+                if ($newLabels -> $prop !== null) {
+                    $newLabels -> $prop = $translate -> trans($newLabels -> $prop);
+                }
             }
         }
+        $newLabels -> translate = false;
         return $newLabels;
     }
 

@@ -7,12 +7,13 @@ namespace Abivia\NextForm\Data;
  */
 class Population implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [
         'source' => [],
         'parameters' => ['drop:empty','drop:null'],
         'query' => ['drop:blank','drop:null'],
+        'translate' => ['drop:true'],
         'list' => [],
     ];
     static protected $knownSources = [
@@ -22,6 +23,7 @@ class Population implements \JsonSerializable {
     protected $parameters;
     protected $query;
     protected $source;
+    protected $translate = true;
 
     protected function configureValidate($property, &$value) {
         switch ($property) {
@@ -47,6 +49,10 @@ class Population implements \JsonSerializable {
 
     public function getSource() {
         return $this -> source;
+    }
+
+    public function getTranslate() {
+        return $this -> translate;
     }
 
     public function setSource($source) {

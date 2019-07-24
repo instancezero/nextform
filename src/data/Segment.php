@@ -9,7 +9,7 @@ namespace Abivia\NextForm\Data;
  */
 class Segment implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [
         'name' => [],

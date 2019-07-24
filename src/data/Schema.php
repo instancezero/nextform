@@ -9,7 +9,7 @@ use Abivia\NextForm;
  */
 class Schema implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $defaultRepo;
     static protected $jsonEncodeMethod = [

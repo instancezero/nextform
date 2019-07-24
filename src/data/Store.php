@@ -7,7 +7,7 @@ namespace Abivia\NextForm\Data;
  */
 class Store implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [
         'type' => [],

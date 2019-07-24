@@ -1,13 +1,13 @@
 <?php
 
-namespace Abivia\NextForm\Form\Trigger;
+namespace Abivia\NextForm\Trigger;
 
 /**
  *
  */
 class Action implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $change = [];
     static protected $changeValidation = [

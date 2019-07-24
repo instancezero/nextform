@@ -155,7 +155,7 @@
                     "description": "Pseudonym \/ pen name \/ persona presented to public",
                     "labels": {
                         "heading": "Artist Name",
-                        "help": "Leave blank of your artist name is the same as your legal name."
+                        "help": "Leave blank if your artist name is the same as your legal name."
                     },
                     "presentation": {
                         "cols": 1,
@@ -243,10 +243,10 @@
                 },
                 {
                     "name": "secondaryPublicName",
-                    "description": "Psuedonym \/ pen name \/ persona presented to public",
+                    "description": "Pseudonym \/ pen name \/ persona presented to public",
                     "labels": {
                         "heading": "Artist Name",
-                        "help": "Leave blank of your artist name is the same as your legal name."
+                        "help": "Leave blank if your artist name is the same as your legal name."
                     },
                     "presentation": {
                         "cols": 1,

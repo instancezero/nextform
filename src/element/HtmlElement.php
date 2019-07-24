@@ -7,7 +7,7 @@ namespace Abivia\NextForm\Element;
  */
 class HtmlElement Extends SimpleElement {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [];
 

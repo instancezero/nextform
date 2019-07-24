@@ -1,19 +1,21 @@
 <?php
 
 namespace Abivia\NextForm\Data;
+use \Abivia\NextForm\Data\Labels;
 
 /**
  * A Property describes a data object in the schema; objects are contained in Segments.
  */
 class Property implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Traits\JsonLabelFolder;
 
     protected $description;
     static protected $jsonEncodeMethod = [
         'name' => [],
         'description' => ['drop:null'],
-        'labels' => ['drop:null'],
+        'labels' => ['method:jsonLabelFold', 'drop:null'],
         'population' => ['drop:null'],
         'presentation' => ['drop:null'],
         'store' => ['drop:null'],
@@ -72,9 +74,6 @@ class Property implements \JsonSerializable {
     public function getPopulation() : \Abivia\NextForm\Data\Population {
         if ($this -> population === null) {
             return new \Abivia\NextForm\Data\Population;
-        }
-        if (!$this -> population instanceof \Abivia\NextForm\Data\Population) {
-            $woo = 100;
         }
         return $this -> population;
     }
