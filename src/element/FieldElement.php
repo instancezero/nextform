@@ -37,9 +37,16 @@ class FieldElement extends NamedElement {
      */
     protected $dataProperty;
 
+    /**
+     * Default value to use
+     * @var string
+     */
+    protected $default;
+
     static protected $jsonEncodeMethod = [];
     static protected $jsonLocalMethod = [
         'object' => ['method:removeScope'],
+        'default' => ['drop:null'],
         'triggers' => ['drop:empty', 'drop:null'],
     ];
 
@@ -148,6 +155,14 @@ class FieldElement extends NamedElement {
     }
 
     /**
+     * Get the default value for this field
+     * @return string
+     */
+    public function getDefault() {
+        return $this -> default;
+    }
+
+    /**
      * Get native or translated scope-resolved labels for this element.
      * @param bool $translated
      * @return \Abivia\NextForm\Data\Labels
@@ -176,6 +191,10 @@ class FieldElement extends NamedElement {
 
     public function getObject() {
         return $this -> object;
+    }
+
+    public function getValue() {
+        return $this -> value;
     }
 
     /**

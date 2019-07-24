@@ -107,10 +107,19 @@ class Simple implements Renderer {
         $attrs['name'] = 'name="' . $element -> getFormName() . '"';
         $attrs['type'] = 'type="radio"';
         $list = $element -> getList();
+        $select = $element -> getValue();
+        if ($select === null) {
+            $select = $element -> getDefault();
+        }
         foreach ($list as $optId => $radio) {
             $id = $baseId . '-opt' . $optId;
             $attrs['id'] = 'id="' . $id . '"';
             $attrs['value'] = 'value="' . htmlentities($radio -> value) . '"';
+            if ($radio -> value === $select) {
+                $attrs['checked'] = 'checked';
+            } else {
+                unset($attrs['checked']);
+            }
             if (isset($radio -> sidecar)) {
                 $attrs['data-sidecar'] = 'data-sidecar="' . htmlspecialchars(json_encode($radio -> sidecar)) . '"';
             }

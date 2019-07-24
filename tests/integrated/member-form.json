@@ -5,6 +5,7 @@
         {
             "type": "field",
             "object": "membershipType",
+            "default": "IND",
             "triggers": [
                 {
                     "value": ["IND", "STU"],
