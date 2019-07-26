@@ -114,12 +114,21 @@
             },
             "elements": [
                 {
-                    "type": "field",
-                    "object": "primaryFirstName"
+                    "type": "cell",
+                    "elements": [
+                        {
+                            "type": "field",
+                            "object": "primaryFirstName"
+                        },
+                        {
+                            "type": "field",
+                            "object": "primaryLastName"
+                        }
+                    ]
                 },
                 {
                     "type": "field",
-                    "object": "primaryLastName"
+                    "object": "primaryEmail"
                 },
                 {
                     "type": "field",
@@ -135,12 +144,17 @@
             },
             "elements": [
                 {
-                    "type": "field",
-                    "object": "secondaryFirstName"
-                },
-                {
-                    "type": "field",
-                    "object": "secondaryLastName"
+                    "type": "cell",
+                    "elements": [
+                        {
+                            "type": "field",
+                            "object": "secondaryFirstName"
+                        },
+                        {
+                            "type": "field",
+                            "object": "secondaryLastName"
+                        }
+                    ]
                 },
                 {
                     "type": "field",

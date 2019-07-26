@@ -10,7 +10,10 @@ use Abivia\NextForm\Element\FieldElement;
  * A skeletal renderer that generates a very basic form.
  */
 class Simple implements Renderer {
-    protected $inCell = false;
+
+    protected $context = [
+        ['inCell' => false]
+    ];
     static $renderMethodCache = [];
 
     public function __construct($options = []) {
@@ -27,11 +30,14 @@ class Simple implements Renderer {
     }
 
     public function popContext(Block $block, $options = []) {
+        if (count($this -> context) > 1) {
+            array_shift($this -> context);
+        }
         return $block -> close();
     }
 
     public function pushContext($options = []) {
-
+        array_unshift($this -> context, $this -> context[0]);
     }
 
     public function render(Element $element, $options = []) {
@@ -92,7 +98,7 @@ class Simple implements Renderer {
             if ($labels -> after !== null) {
                 $block -> body .= $labels -> after;
             }
-            $block -> body .= "<br/>\n";
+            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         } elseif ($options['access'] == 'read') {
             // No write/view permissions, the field is hidden
             $attrs[] = 'type="hidden"';
@@ -147,6 +153,11 @@ class Simple implements Renderer {
 
     public function renderCellElement(Element $element, $options = []) {
         $labels = $element -> getLabels();
+        $block = new Block();
+        $block -> body = '<div>' . "\n";
+        $block -> post = '</div>' . "\n";
+        $this -> context[0]['inCell'] = true;
+        return $block;
     }
 
     public function setOptions($options = []) {

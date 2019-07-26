@@ -58,13 +58,13 @@ abstract class ContainerElement Extends NamedElement {
         $this -> translate($translate);
         $options = false; // $access -> hasAccess(...)
         $options = ['access' => 'write'];
-        $containerData = $renderer -> render($this, $translate, $options);
         $renderer -> pushContext($options);
+        $containerData = $renderer -> render($this, $translate, $options);
         foreach ($this -> elements as $element) {
             $containerData -> merge($element -> generate($renderer, $access, $translate));
         }
-        $renderer -> popContext($containerData, $options);
         $containerData -> close();
+        $renderer -> popContext($containerData, $options);
         return $containerData;
     }
 

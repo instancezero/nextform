@@ -175,7 +175,7 @@
                     "presentation": {
                         "cols": 1,
                         "confirm": true,
-                        "type": "text"
+                        "type": "email"
                     },
                     "store": {
                         "type": "string",
