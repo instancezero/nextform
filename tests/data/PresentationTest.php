@@ -2,6 +2,9 @@
 
 use \Abivia\NextForm\Data\Presentation;
 
+/**
+ * @covers \Abivia\NextForm\Data\Presentation
+ */
 class DataPresentationTest extends \PHPUnit\Framework\TestCase {
 
 	public function testDataPresentationInstantiation() {

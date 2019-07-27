@@ -2,6 +2,9 @@
 
 use Abivia\NextForm\Access\Role;
 
+/**
+ * @covers \Abivia\NextForm\Access\Role
+ */
 class RoleTest extends \PHPUnit\Framework\TestCase {
 
 	public function testRoleInstantiation() {

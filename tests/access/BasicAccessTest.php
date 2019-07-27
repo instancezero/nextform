@@ -2,6 +2,9 @@
 
 use Abivia\NextForm\Access\BasicAccess;
 
+/**
+ * @ covers \Abivia\NextForm\Access\BasicAccess
+ */
 class BasicAccessTest extends \PHPUnit\Framework\TestCase {
 
 	public function testBasicAccessInstantiation() {
@@ -41,7 +44,8 @@ class BasicAccessTest extends \PHPUnit\Framework\TestCase {
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new BasicAccess();
         $this -> assertTrue($obj -> configure($config));
-        $obj -> setUser(1);
+        // Setuser should return the object if successful.
+        $this -> assertTrue($obj === $obj -> setUser(1));
         $obj -> setUser(null);
         $obj -> setUser(2);
         $this -> expectException('LogicException');

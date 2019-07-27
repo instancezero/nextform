@@ -2,6 +2,9 @@
 
 use Abivia\NextForm\Access\User;
 
+/**
+ * @covers Abivia\NextForm\Access\User
+ */
 class UserTest extends \PHPUnit\Framework\TestCase {
 
 	public function testUserInstantiation() {

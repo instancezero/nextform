@@ -13,12 +13,18 @@ class DataPopulationTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testDataPopulationConfiguration() {
-        $config = json_decode('{"source": "static","query": "test","parameters": ["objid"],"list": []}');
+        $config = json_decode(
+            '{"source": "static",'
+            . '"query": "test",'
+            . '"translate": false,'
+            . '"parameters": ["objid"],"list": []}'
+        );
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
         $this -> assertTrue($obj -> configure($config));
 		$this -> assertEquals('static', $obj -> getSource());
 		$this -> assertEquals('test', $obj -> getQuery());
+		$this -> assertFalse($obj -> getTranslate());
     }
 
     public function testDataPopulationTypeValidation() {
@@ -108,6 +114,11 @@ jsonend;
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
         $this -> assertTrue($obj -> configure($config, true));
+    }
+
+    public function testPopulationEmptyList() {
+        $obj = new Population();
+        $this -> assertEquals([], $obj -> getList());
     }
 
 }

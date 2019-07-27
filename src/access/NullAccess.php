@@ -19,8 +19,13 @@ class NullAccess implements AccessContract {
         return true;
     }
 
+    /**
+     * Provide a set user method.
+     * @param mixed $user
+     * @return $this
+     */
     public function setUser($user) {
-
+        return $this;
     }
 
 }

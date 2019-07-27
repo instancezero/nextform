@@ -7,7 +7,8 @@ use Abivia\NextForm\Element\Element;
 
 
 /**
- *
+ * Interface for a page renderer.
+ * @codeCoverageIgnore
  */
 interface Renderer {
     public function __construct($options = []);

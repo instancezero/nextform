@@ -91,7 +91,7 @@ class Simple implements Renderer {
             if ($type == 'radio') {
                 $block = $this -> renderFieldRadio($block, $element, $data, $options);
             } elseif ($type == 'select') {
-                $block = $this -> renderSelect($block, $element, $presentation, $options);
+                $block = $this -> renderFieldSelect($block, $element, $data, $options);
             } else {
                 $block -> body .= '<input ' . implode(' ', $attrs) . "/>";
             }
@@ -136,7 +136,35 @@ class Simple implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelect($block, $element, $presentation, $options = []) {
+    protected function renderFieldSelect($block, $element, Property $data, $options = []) {
+        //
+        // Note: this is just a copy of Radio, needs rework
+        //
+        $baseId = $element -> getId();
+        $attrs = [];
+        $attrs['name'] = 'name="' . $element -> getFormName() . '"';
+        $attrs['type'] = 'type="radio"';
+        $list = $element -> getList();
+        $select = $element -> getValue();
+        if ($select === null) {
+            $select = $element -> getDefault();
+        }
+        foreach ($list as $optId => $radio) {
+            $id = $baseId . '-opt' . $optId;
+            $attrs['id'] = 'id="' . $id . '"';
+            $attrs['value'] = 'value="' . htmlentities($radio -> value) . '"';
+            if ($radio -> value === $select) {
+                $attrs['checked'] = 'checked';
+            } else {
+                unset($attrs['checked']);
+            }
+            if (isset($radio -> sidecar)) {
+                $attrs['data-sidecar'] = 'data-sidecar="' . htmlspecialchars(json_encode($radio -> sidecar)) . '"';
+            }
+            $block -> body .= "<div>\n  <input " . implode(' ', $attrs) . "/>\n"
+                . '  <label for="' . $id . '">' . $radio -> label . "</label>\n"
+                . "</div>\n";
+        }
         return $block;
     }
 

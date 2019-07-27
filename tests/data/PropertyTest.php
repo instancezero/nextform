@@ -2,6 +2,9 @@
 
 use \Abivia\NextForm\Data\Property;
 
+/**
+ * @covers \Abivia\NextForm\Data\Property
+ */
 class DataPropertyTest extends \PHPUnit\Framework\TestCase {
 
 	public function testDataPropertyInstantiation() {

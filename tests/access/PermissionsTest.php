@@ -2,6 +2,9 @@
 
 use Abivia\NextForm\Access\Permissions;
 
+/**
+ * @covers \Abivia\NextForm\Access\Permissions
+ */
 class PermissionsTest extends \PHPUnit\Framework\TestCase {
 
 	public function testPermissionsInstantiation() {
