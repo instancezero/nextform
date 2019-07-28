@@ -39,4 +39,22 @@ class DataSchemaTest extends \PHPUnit\Framework\TestCase {
         $this -> assertStringEqualsFile(__DIR__ . '/schema-dump_yamlexpect.txt', $dump);
     }
 
+    public function testDataSchemaFromFile() {
+        $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
+		$this -> assertInstanceOf('\Abivia\NextForm\Data\Schema', $obj);
+        $this -> expectException('\RuntimeException');
+        $obj = Schema::fromFile(__DIR__ . '/data-schema-bad.json');
+    }
+
+    public function testDataSchemaGetProperty() {
+        $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
+        $this -> assertNull($obj-> getProperty('foo/bar'));
+        $this -> assertInstanceOf(
+            '\Abivia\NextForm\Data\Property', $obj-> getProperty('ObjectOne/id')
+        );
+        $this -> assertInstanceOf(
+            '\Abivia\NextForm\Data\Property', $obj-> getProperty('ObjectOne', 'id2')
+        );
+    }
+
 }

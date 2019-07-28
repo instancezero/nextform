@@ -39,6 +39,7 @@ class Action implements \JsonSerializable {
                         $element = 'enable';
                     }
                 }
+                $value = array_unique($value);
                 break;
             case 'target':
                 if (!is_array($value)) {
@@ -69,9 +70,6 @@ class Action implements \JsonSerializable {
             throw new \UnexpectedValueException(
                 'Valid values for change are: ' . implode('|', self::$changeValidation)
             );
-        }
-        if ($value == 'enabled') {
-            $value = 'enable';
         }
         $this -> change = $value;
         return $this;

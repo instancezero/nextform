@@ -39,6 +39,16 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the access methods for name
      */
+	public function testFormConcreteElementId() {
+        $obj = new ConcreteElement();
+        $this -> assertIsString($obj -> getId());
+		$this -> assertTrue($obj === $obj -> setId('ID'));
+        $this -> assertEquals('ID', $obj -> getId());
+    }
+
+    /**
+     * Test the access methods for name
+     */
 	public function testFormConcreteElementName() {
         $obj = new ConcreteElement();
         $this -> assertEquals('', $obj -> getName());

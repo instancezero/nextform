@@ -82,34 +82,26 @@ jsonend;
 
     public function testOptionsPopulationNestedTooDeep() {
         $json = <<<'jsonend'
-[
-    {
-        "name": "id",
-        "label": "Theropods",
-        "enabled": true,
-        "value": [
-            {
-                "label": "Tyrannosaurus",
-                "enabled": true,
-                "selected": false,
-                "value": [
-                    {
-                        "label": "Error",
-                        "enabled": true,
-                        "selected": false,
-                        "value": -1
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "label": "Unknown",
-        "enabled": true,
-        "selected": false,
-        "value": 0
-    }
-]
+{
+    "name": "id",
+    "label": "Theropods",
+    "enabled": true,
+    "value": [
+        {
+            "label": "Tyrannosaurus",
+            "enabled": true,
+            "selected": false,
+            "value": [
+                {
+                    "label": "Error",
+                    "enabled": true,
+                    "selected": false,
+                    "value": -1
+                }
+            ]
+        }
+    ]
+}
 jsonend;
         $config = json_decode($json);
         $this -> assertTrue(false != $config, 'JSON error!');

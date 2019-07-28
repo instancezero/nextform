@@ -1,7 +1,8 @@
 <?php
 
 namespace Abivia\NextForm\Data;
-use \Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Element\Element;
 
 /**
  * A Property describes a data object in the schema; objects are contained in Segments.
@@ -26,6 +27,11 @@ class Property implements \JsonSerializable {
      * @var \Abivia\NextForm\Data\Labels
      */
     protected $labels;
+    /**
+     * A list of form elements that use this property
+     * @var array
+     */
+    protected $linkedElements = [];
     protected $name;
     protected $population;
     protected $presentation;
@@ -52,6 +58,13 @@ class Property implements \JsonSerializable {
         return false;
     }
 
+    protected function configureComplete() {
+        if ($this -> labels === null) {
+            $this -> labels = new Labels();
+        }
+        return true;
+    }
+
     /**
      * Get the schema-defined labels
      * @return \Abivia\NextForm\Data\Labels
@@ -64,6 +77,13 @@ class Property implements \JsonSerializable {
         return $this -> name;
     }
 
+    public function getPopulation() : \Abivia\NextForm\Data\Population {
+        if ($this -> population === null) {
+            return new \Abivia\NextForm\Data\Population;
+        }
+        return $this -> population;
+    }
+
     public function getPresentation() : \Abivia\NextForm\Data\Presentation {
         if ($this -> presentation === null) {
             return new \Abivia\NextForm\Data\Presentation;
@@ -71,11 +91,15 @@ class Property implements \JsonSerializable {
         return $this -> presentation;
     }
 
-    public function getPopulation() : \Abivia\NextForm\Data\Population {
-        if ($this -> population === null) {
-            return new \Abivia\NextForm\Data\Population;
+    public function getStore() {
+        return $this -> store;
+    }
+
+    public function linkElement(Element $element) {
+        if (!in_array($element, $this -> linkedElements)) {
+            $this -> linkedElements[] = $element;
         }
-        return $this -> population;
+        return $this;
     }
 
     public function setName($name) {

@@ -2,6 +2,9 @@
 
 use \Abivia\NextForm\Data\Segment;
 
+/**
+ * @covers \Abivia\NextForm\Data\Segment
+ */
 class DataSegmentTest extends \PHPUnit\Framework\TestCase {
 
     protected function getProperty($instance, $property) {
@@ -29,6 +32,11 @@ class DataSegmentTest extends \PHPUnit\Framework\TestCase {
             $errors = 'Segment load:' . "\n" . implode("\n", $errors) . "\n";
         }
         $this -> assertTrue($populate, $errors);
+        $this -> assertEquals('ObjectOne', $obj -> getName());
+        $this -> assertInstanceOf(
+            '\Abivia\NextForm\Data\Property', $obj-> getProperty('id')
+        );
+        $this -> assertNull($obj-> getProperty('some-nonexistent-property'));
         $dump = print_r($obj, true);
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(dirname(__FILE__) . '/segment-dump_actual.txt', $dump);

@@ -6,7 +6,27 @@ Abivia\NextForm\Data\Segment Object
             [id] => Abivia\NextForm\Data\Property Object
                 (
                     [description:protected] => The first object
-                    [labels:protected] =>
+                    [labels:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] =>
+                            [placeholder] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                        )
+
+                    [linkedElements:protected] => Array
+                        (
+                        )
+
                     [name:protected] => id
                     [population:protected] =>
                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object
@@ -64,7 +84,27 @@ Abivia\NextForm\Data\Segment Object
             [id2] => Abivia\NextForm\Data\Property Object
                 (
                     [description:protected] =>
-                    [labels:protected] =>
+                    [labels:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] =>
+                            [placeholder] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                        )
+
+                    [linkedElements:protected] => Array
+                        (
+                        )
+
                     [name:protected] => id2
                     [population:protected] =>
                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object
@@ -121,7 +161,11 @@ Abivia\NextForm\Data\Segment Object
 
         )
 
-    [primary:protected] =>
+    [primary:protected] => Array
+        (
+            [0] => id
+        )
+
     [configureErrors:Abivia\NextForm\Data\Segment:private] => Array
         (
         )

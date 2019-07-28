@@ -2,6 +2,9 @@
 
 use \Abivia\NextForm\Trigger\Action;
 
+/**
+ * @covers \Abivia\NextForm\Trigger\Action
+ */
 class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerActionInstantiation() {
@@ -92,6 +95,12 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
         $return = $obj -> setValue(6);
         $this -> assertTrue($obj === $return);
         $this -> assertEquals(6, $obj -> getValue());
+    }
+
+	public function testFormTriggerActionEnableMap() {
+        $obj = new Action();
+        $obj -> setChange('enabled');
+		$this -> assertEquals(['enable'], $obj -> getChange());
     }
 
 }

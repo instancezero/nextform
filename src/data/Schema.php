@@ -44,8 +44,13 @@ class Schema implements \JsonSerializable {
 
     static public function fromFile($schemaFile) {
         $schema = new Schema;
+        if (!file_exists($schemaFile)) {
+            throw new \RuntimeException(
+                'Failed to load ' . $schemaFile . ", file does not exist\n"
+            );
+        }
         if (!$schema -> configure(json_decode(file_get_contents($schemaFile)), true)) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 'Failed to load ' . $schemaFile . "\n"
                 . implode("\n", $schema -> configureErrors)
             );

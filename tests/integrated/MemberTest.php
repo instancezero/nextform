@@ -9,7 +9,6 @@ use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Simple;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 

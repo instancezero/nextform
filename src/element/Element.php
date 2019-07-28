@@ -117,6 +117,7 @@ abstract class Element implements \JsonSerializable {
     /**
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema
+     * @codeCoverageIgnore
      */
     public function linkSchema($schema) {
         // Non-data elements do nothing.
@@ -132,6 +133,11 @@ abstract class Element implements \JsonSerializable {
         return $this;
     }
 
+    public function setId($id) {
+        $this -> id = $id;
+        return $this;
+    }
+
     public function setName($name) {
         $this -> name = $name;
         return $this;
@@ -142,6 +148,11 @@ abstract class Element implements \JsonSerializable {
         return $this;
     }
 
+    /**
+     * Translate -- this method probably should be abstract...
+     * @param Translator $translate
+     * @codeCoverageIgnore
+     */
     public function translate(Translator $translate) {
 
     }

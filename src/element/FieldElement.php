@@ -16,11 +16,6 @@ class FieldElement extends NamedElement {
     use \Abivia\NextForm\Traits\JsonEncoder;
 
     /**
-     * A copy of the labels from the data property with translation applied.
-     * @var \Abivia\NextForm\Data\Labels
-     */
-    protected $dataLabels;
-    /**
      * A list of possible values for radio/drop-down types.
      * @var array
      */
@@ -51,12 +46,6 @@ class FieldElement extends NamedElement {
     ];
 
     /**
-     * Labels after translation.
-     * @var \Abivia\NextForm\Data\Labels
-     */
-    protected $labelsTranslated;
-
-    /**
      * The name of an associated schema object
      * @var string
      */
@@ -80,7 +69,6 @@ class FieldElement extends NamedElement {
             self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
         }
         $this -> type = 'field';
-        $this -> dataLabels = new Labels;
     }
 
     protected function configureClassMap($property, $value) {
@@ -99,6 +87,7 @@ class FieldElement extends NamedElement {
      * @return boolean
      */
     protected function configureComplete() {
+        // The NamedElement class initializes the labelsMerged property
         return parent::configureComplete();
     }
 
@@ -147,7 +136,7 @@ class FieldElement extends NamedElement {
      */
     public function getDataProperty() : \Abivia\NextForm\Data\Property {
         if ($this -> dataProperty === null) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 'Attempt to get missing schema information, object ' . $this -> getObject()
             );
         }
@@ -168,20 +157,16 @@ class FieldElement extends NamedElement {
      * @return \Abivia\NextForm\Data\Labels
      */
     public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
-        if ($translated) {
-            // Merge our copy from the data property with the local translation
-            $labels = $this -> dataLabels -> merge($this -> labelsTranslated);
-        } elseif ($this -> dataProperty !== null) {
-            // Merge the untranslated data labels with ours
-            $labels = $this -> dataProperty -> getLabels() -> merge($this -> labels);
+        if ($translated && $this -> hasTranslation) {
+            return $this -> labelsTranslated;
         } else {
-            $labels = $this -> labels;
+            $labels = $this -> labelsMerged;
         }
         return $labels;
     }
 
     public function getList($translated = false) {
-        if ($translated) {
+        if ($translated && $this -> hasTranslation) {
             $list = $this -> dataListTranslated;
         } else {
             $list = $this -> dataList;
@@ -204,8 +189,14 @@ class FieldElement extends NamedElement {
     public function linkSchema($schema) {
         $this -> dataProperty = $schema -> getProperty($this -> object);
         if ($this -> dataProperty) {
-            $this -> form -> registerObject($this);
-            $this -> dataLabels = $this -> dataProperty -> getLabels();
+            // Give the data property the ability to signal us.
+            $this -> dataProperty -> linkElement($this);
+            if ($this -> form) {
+                $this -> form -> registerObject($this);
+            }
+            // Merge a copy of the data labels so we can use them with translation
+            $this -> labelsMerged = $this -> dataProperty -> getLabels() -> merge($this -> labels);
+            // Make a copy of the data list so we can translate labels
             $this -> dataList = $this -> dataProperty -> getPopulation() -> getList();
             $this -> dataListTranslated = $this -> dataList;
         }
@@ -225,10 +216,6 @@ class FieldElement extends NamedElement {
     }
 
     public function translate(Translator $translate) {
-        // Translate the labels from the data schema
-        $this -> dataLabels = $this -> dataProperty -> getLabels() -> translate($translate);
-        // Translate the labels from the form
-        $this -> labelsTranslated = $this -> labels -> translate($translate);
         // Translate the data list, if any
         if ($this -> dataProperty) {
             $this -> dataListTranslated = $this -> dataList;
@@ -238,6 +225,7 @@ class FieldElement extends NamedElement {
                 }
             }
         }
+        parent::translate($translate);
     }
 
 }

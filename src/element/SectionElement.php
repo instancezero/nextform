@@ -36,6 +36,10 @@ class SectionElement Extends ContainerElement {
         return parent::configureClassMap($property, $value);
     }
 
+    protected function configureComplete() {
+        return parent::configureComplete();
+    }
+
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */

@@ -16,7 +16,7 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "section",
-                "object": "some.object.name"
+                "elements": []
             }'
         );
         $obj = new SectionElement();
@@ -33,7 +33,6 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "section",
-                "object": "some.object.name",
                 "elements": [
                     {
                         "type": "field",
@@ -73,7 +72,6 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "section",
-                "object": "some.object.name",
                 "elements": [
                     {
                         "type": "section",

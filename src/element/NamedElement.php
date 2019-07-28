@@ -21,12 +21,22 @@ abstract class NamedElement Extends Element {
      */
     protected $formName;
     /**
-     * Text labels for this element
+     * Set when an explicit translation has been performed
+     * @var bool
+     */
+    protected $hasTranslation = false;
+    /**
+     * Text labels for this element as defined in the form
      * @var \Abivia\NextForm\Data\Labels
      */
     protected $labels;
     /**
-     * Post-translation text labels for this element
+     * Text labels for this element after merging with any data source
+     * @var \Abivia\NextForm\Data\Labels
+     */
+    protected $labelsMerged;
+    /**
+     * Post-merge, post-translation text labels for this element
      * @var \Abivia\NextForm\Data\Labels
      */
     protected $labelsTranslated;
@@ -62,8 +72,8 @@ abstract class NamedElement Extends Element {
         if ($this -> labels === null) {
             $this -> labels  = new Labels;
         }
-        // Default translation is no translation.
-        $this -> labelsTranslated = clone $this -> labels;
+        // Default merge is nothing to merge with.
+        $this -> labelsMerged = clone $this -> labels;
         return parent::configureComplete();
     }
 
@@ -86,27 +96,36 @@ abstract class NamedElement Extends Element {
     }
 
     public function getFormName() {
+        if ($this -> formName === null) {
+            if ($this -> name != '') {
+                $this -> formName = $this -> name;
+            } elseif ($this -> autoId != '') {
+                $this -> formName = $this -> autoId;
+            }
+        }
         return $this -> formName;
     }
 
     public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
-        if ($translated) {
-            return $this -> labelsTranslated === null ? new Labels : $this -> labelsTranslated;
+        if ($translated && $this -> hasTranslation) {
+            return $this -> labelsTranslated;
         }
-        return $this -> labels === null ? new Labels : $this -> labels;
+        return $this -> labels;
     }
 
     public function translate(Translator $translate) {
-        if ($this -> labels === null) {
-            $this -> labelsTranslated = null;
-        } else {
-            $this -> labelsTranslated = $this -> labels -> translate($translate);
-        }
+        $this -> labelsTranslated = $this -> labelsMerged -> translate($translate);
+        $this -> hasTranslation = true;
     }
 
     public function setFormName($name) {
         $this -> formName = $name;
         return $this;
+    }
+
+    public function setLabel($labelName, $text) {
+        $this -> labels -> set($labelName, $text);
+        $this -> labelsMerged -> set($labelName, $text);
     }
 
 }

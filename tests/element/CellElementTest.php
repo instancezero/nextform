@@ -1,7 +1,11 @@
 <?php
 
 use \Abivia\NextForm\Element\CellElement;
+use \Abivia\NextForm;
 
+/**
+ * @covers \Abivia\NextForm\Element\CellElement
+ */
 class FormCellElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormCellElementInstantiation() {
@@ -16,7 +20,7 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "cell",
-                "object": "some.object.name"
+                "elements": []
             }'
         );
         $this -> assertTrue(false != $config, 'JSON error!');
@@ -34,7 +38,6 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "cell",
-                "object": "some.object.name",
                 "elements": [
                     {
                         "type": "field",
@@ -69,7 +72,6 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
         $config = json_decode('
             {
                 "type": "cell",
-                "object": "some.object.name",
                 "elements": [
                     {
                         "type": "cell",
@@ -85,13 +87,12 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Check that a cell can't contain a cell
+     * Check that a cell can't contain a section
      */
 	public function testFormCellElementNestedSection() {
         $config = json_decode('
             {
                 "type": "cell",
-                "object": "some.object.name",
                 "elements": [
                     {
                         "type": "section",

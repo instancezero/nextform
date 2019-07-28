@@ -43,6 +43,10 @@ class CellElement Extends ContainerElement {
         }
     }
 
+    protected function configureComplete() {
+        return parent::configureComplete();
+    }
+
     protected function configurePropertyIgnore($property) {
         return parent::configurePropertyIgnore($property);
     }
@@ -52,7 +56,8 @@ class CellElement Extends ContainerElement {
     }
 
     public function findSegment() {
-        return $this -> configureOptions['parent'] -> getSegment();
+        return isset($this -> configureOptions['parent'])
+            ? $this -> configureOptions['parent'] -> getSegment() : null;
     }
 
 }

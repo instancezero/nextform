@@ -1,0 +1,20 @@
+{
+    "segments": [
+        {
+            "name": "test",
+            "objects": [
+                {
+                    "name": "text",
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                }
+            ]
+        }
+    ]
+}

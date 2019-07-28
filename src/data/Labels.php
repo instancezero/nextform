@@ -73,6 +73,14 @@ class Labels implements \JsonSerializable{
         return $newLabels;
     }
 
+    public function set($labelName, $text) {
+        if (in_array($labelName, self::$textProperties)) {
+            $this -> $labelName = $text;
+        } else {
+            throw new RuntimeException($labelName . ' isn\'t a valid label property.');
+        }
+    }
+
     /**
      * Create a translated version of the labels.
      * @param Translator $translate

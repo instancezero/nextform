@@ -1,12 +1,16 @@
 {
-    "description": "system managed object identifier",
     "name": "id",
+    "description": "system managed object identifier",
+    "population": {
+        "source": "fixed",
+        "list": null
+    },
     "presentation": {
         "cols": "1",
         "type": "text"
     },
     "store": {
-        "size": "10",
-        "type": "int"
+        "type": "int",
+        "size": "10"
     }
 }

@@ -55,6 +55,10 @@ Abivia\NextForm\Data\Schema Object
 
                                         )
 
+                                    [linkedElements:protected] => Array
+                                        (
+                                        )
+
                                     [name:protected] => id
                                     [population:protected] =>
                                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object
@@ -112,7 +116,27 @@ Abivia\NextForm\Data\Schema Object
                             [id2] => Abivia\NextForm\Data\Property Object
                                 (
                                     [description:protected] =>
-                                    [labels:protected] =>
+                                    [labels:protected] => Abivia\NextForm\Data\Labels Object
+                                        (
+                                            [after] =>
+                                            [before] =>
+                                            [confirm] =>
+                                            [error] =>
+                                            [heading] =>
+                                            [help] =>
+                                            [placeholder] =>
+                                            [translate] => 1
+                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                (
+                                                )
+
+                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                        )
+
+                                    [linkedElements:protected] => Array
+                                        (
+                                        )
+
                                     [name:protected] => id2
                                     [population:protected] =>
                                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object

@@ -87,6 +87,13 @@ class NextForm implements \JsonSerializable {
         return $this;
     }
 
+    /**
+     * Reset the static context
+     */
+    static public function boot() {
+        self::$htmlId = 0;
+    }
+
     protected function configureInitialize() {
         // Pass an instance of the form down in Configurable's options so we can
         // access the form directly from deep within the data structures.

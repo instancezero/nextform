@@ -43,6 +43,9 @@ class Simple implements Renderer {
     public function render(Element $element, $options = []) {
         $method = $this -> getRenderMethod($element);
         if (method_exists($this, $method)) {
+            if (!isset($options['access'])) {
+                $options['access'] = 'write';
+            }
             $result = $this -> $method($element, $options);
         } else {
             $result = new Block();
@@ -86,17 +89,17 @@ class Simple implements Renderer {
             }
             $attrs['type'] = 'type="' . $type . '"';
             if ($labels -> before !== null) {
-                $block -> body .= $labels -> before;
+                $block -> body .= '<span>'. $labels -> before . '</span>';
             }
             if ($type == 'radio') {
-                $block = $this -> renderFieldRadio($block, $element, $data, $options);
+                $block = $this -> renderFieldRadio($block, $element, $options);
             } elseif ($type == 'select') {
-                $block = $this -> renderFieldSelect($block, $element, $data, $options);
+                $block = $this -> renderFieldSelect($block, $element, $options);
             } else {
                 $block -> body .= '<input ' . implode(' ', $attrs) . "/>";
             }
             if ($labels -> after !== null) {
-                $block -> body .= $labels -> after;
+                $block -> body .= '<span>'. $labels -> after . '</span>';
             }
             $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         } elseif ($options['access'] == 'read') {
@@ -107,7 +110,7 @@ class Simple implements Renderer {
         return $block;
     }
 
-    protected function renderFieldRadio($block, $element, Property $data, $options = []) {
+    protected function renderFieldRadio($block, $element, $options = []) {
         $baseId = $element -> getId();
         $attrs = [];
         $attrs['name'] = 'name="' . $element -> getFormName() . '"';
@@ -136,7 +139,7 @@ class Simple implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelect($block, $element, Property $data, $options = []) {
+    protected function renderFieldSelect($block, $element, $options = []) {
         //
         // Note: this is just a copy of Radio, needs rework
         //
@@ -193,10 +196,20 @@ class Simple implements Renderer {
     }
 
     public function start($options = []) {
-        $attr = ['method' => 'method="post"'];
-        $attr['action'] = 'action="' . $options['action'] . '"';
-        $attr['id'] = 'id="' . $options['id'] . '"';
-        $attr['name'] = 'name="' . $options['name'] . '"';
+        if (isset($options['method'])) {
+            $attr = ['method' => 'method="' . htmlspecialchars($options['method']) . '"'];
+        } else {
+            $attr = ['method' => 'method="post"'];
+        }
+        if (isset($options['action'])) {
+            $attr['action'] = 'action="' . htmlspecialchars($options['action']) . '"';
+        }
+        if (isset($options['id'])) {
+            $attr['id'] = 'id="' . htmlspecialchars($options['id']) . '"';
+        }
+        if (isset($options['name'])) {
+            $attr['name'] = 'name="' . htmlspecialchars($options['name']) . '"';
+        }
         $pageData = new Block();
         $pageData -> body = '<form ' . implode(' ', $attr) . '>' . "\n";
         $pageData -> post = '</form>' . "\n";

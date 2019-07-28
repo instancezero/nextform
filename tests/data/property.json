@@ -5,6 +5,9 @@
         "type": "int",
         "size": "10"
     },
+    "population": {
+        "source": "fixed"
+    },
     "presentation": {
         "cols": "1",
         "type": "text"
