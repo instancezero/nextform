@@ -13,6 +13,26 @@
                         "type": "string",
                         "size": 63
                     }
+                },
+                {
+                    "name": "textWithList",
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            "textlist 1",
+                            "textlist 2",
+                            "textlist 3",
+                            "textlist 4"
+                        ]
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
                 }
             ]
         }

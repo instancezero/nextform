@@ -11,7 +11,7 @@ class Action implements \JsonSerializable {
 
     protected $change = [];
     static protected $changeValidation = [
-        'enable', 'enabled', 'script', 'value', 'visible'
+        'enable', 'enabled', 'readonly', 'script', 'value', 'visible'
     ];
     static protected $jsonEncodeMethod = [
         'change' => ['scalarize'],

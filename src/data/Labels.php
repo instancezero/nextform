@@ -91,7 +91,7 @@ class Labels implements \JsonSerializable{
         if ($newLabels -> translate) {
             foreach (self::$textProperties as $prop) {
                 if ($newLabels -> $prop !== null) {
-                    $newLabels -> $prop = $translate -> trans($newLabels -> $prop);
+                    $newLabels -> $prop = $translate -> trans($this -> $prop);
                 }
             }
         }

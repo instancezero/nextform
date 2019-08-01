@@ -83,9 +83,18 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
+        $ret = $element -> setValue('the value');
+        $this -> assertTrue($element === $ret);
+        $data = $obj -> render($element);
+        $expect = '<input id="field-1" name="field-1"'
+            . ' value="the value"'
+            . ' type="text"/>';
+        $tail = "<br/>\n";
+        $this -> assertEquals($expect . $tail, $data -> body);
         $element -> setLabel('placeholder', 'Something with & in it');
         $data = $obj -> render($element);
         $expect = '<input id="field-1" name="field-1"'
+            . ' value="the value"'
             . ' placeholder="Something with &amp; in it"'
             . ' type="text"/>';
         $tail = "<br/>\n";

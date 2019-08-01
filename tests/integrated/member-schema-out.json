@@ -35,52 +35,51 @@
                         "source": "fixed",
                         "list": [
                             {
-                                "value": "IND",
                                 "label": "Individual $30",
                                 "sidecar": {
                                     "fee": {
                                         "default": 30
                                     }
-                                }
+                                },
+                                "value": "IND"
                             },
                             {
-                                "value": "FAM",
                                 "label": "Family $50",
                                 "sidecar": {
                                     "fee": {
                                         "default": 50
                                     }
-                                }
+                                },
+                                "value": "FAM"
                             },
                             {
-                                "value": "STU",
                                 "label": "Student $15",
                                 "sidecar": {
                                     "fee": {
                                         "default": 15
                                     }
-                                }
+                                },
+                                "value": "STU"
                             },
                             {
-                                "value": "FEL",
                                 "label": "Fellow Association $40",
                                 "sidecar": {
                                     "fee": {
                                         "default": 40
                                     }
-                                }
+                                },
+                                "value": "FEL"
                             },
                             {
-                                "value": "BUS",
                                 "label": "Business $75",
                                 "sidecar": {
                                     "fee": {
                                         "default": 75
                                     }
-                                }
+                                },
+                                "value": "BUS"
                             },
                             {
-                                "value": "PAT",
                                 "label": "Patron $100-$299",
                                 "sidecar": {
                                     "fee": {
@@ -88,10 +87,10 @@
                                         "minValue": 100,
                                         "maxValue": 299
                                     }
-                                }
+                                },
+                                "value": "PAT"
                             },
                             {
-                                "value": "SPO",
                                 "label": "Sponsor $300+",
                                 "sidecar": {
                                     "fee": {
@@ -99,7 +98,8 @@
                                         "minValue": 300,
                                         "maxValue": 99999
                                     }
-                                }
+                                },
+                                "value": "SPO"
                             }
                         ]
                     },

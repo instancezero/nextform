@@ -47,6 +47,7 @@
                             "actions": ["group enable/disable"]
                         }
                     ],
+                    "readonly": "boolean - initial state",
                     "visible": "boolean - initial state"
                 }
             ],

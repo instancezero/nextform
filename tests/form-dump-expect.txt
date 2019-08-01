@@ -24,6 +24,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] => intro
+                    [readonly:protected] =>
                     [type:protected] => static
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -62,6 +63,7 @@ Abivia\NextForm Object
                     [group:protected] => success
                     [id:protected] =>
                     [name:protected] => completeHeader
+                    [readonly:protected] =>
                     [type:protected] => html
                     [visible:protected] =>
                     [configureErrors:Abivia\NextForm\Element\HtmlElement:private] => Array
@@ -176,6 +178,7 @@ Abivia\NextForm Object
                     [group:protected] => groupname
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -264,6 +267,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -348,6 +352,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -432,6 +437,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -506,6 +512,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => cell
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -595,6 +602,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -669,6 +677,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -745,6 +754,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -811,6 +821,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -914,6 +925,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -986,6 +998,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1064,6 +1077,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1130,6 +1144,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -1233,6 +1248,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1305,6 +1321,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1381,6 +1398,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1449,6 +1467,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -1579,6 +1598,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1663,6 +1683,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1747,6 +1768,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -1821,6 +1843,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -1864,6 +1887,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => static
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -1921,6 +1945,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => section
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -2014,6 +2039,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2098,6 +2124,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2182,6 +2209,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2256,6 +2284,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => cell
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -2303,6 +2332,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => static
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -2352,6 +2382,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => section
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -2460,6 +2491,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2534,6 +2566,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2610,6 +2643,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2676,6 +2710,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -2723,6 +2758,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => static
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -2772,6 +2808,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -2894,6 +2931,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -2966,6 +3004,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3044,6 +3083,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3110,6 +3150,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -3157,6 +3198,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => static
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -3206,6 +3248,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -3328,6 +3371,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3400,6 +3444,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3476,6 +3521,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3544,6 +3590,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -3591,6 +3638,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => static
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -3640,6 +3688,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -3716,6 +3765,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => static
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -3811,6 +3861,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => field
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3895,6 +3946,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => field
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -3979,6 +4031,7 @@ Abivia\NextForm Object
                                                                     [group:protected] =>
                                                                     [id:protected] =>
                                                                     [name:protected] =>
+                                                                    [readonly:protected] =>
                                                                     [type:protected] => field
                                                                     [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4053,6 +4106,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => cell
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -4109,6 +4163,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => section
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
@@ -4170,6 +4225,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] => intro
+                    [readonly:protected] =>
                     [type:protected] => static
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -4208,6 +4264,7 @@ Abivia\NextForm Object
                     [group:protected] => success
                     [id:protected] =>
                     [name:protected] => completeHeader
+                    [readonly:protected] =>
                     [type:protected] => html
                     [visible:protected] =>
                     [configureErrors:Abivia\NextForm\Element\HtmlElement:private] => Array
@@ -4322,6 +4379,7 @@ Abivia\NextForm Object
                     [group:protected] => groupname
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => field
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4410,6 +4468,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4494,6 +4553,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4578,6 +4638,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => field
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4652,6 +4713,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => cell
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -4768,6 +4830,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4852,6 +4915,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -4936,6 +5000,7 @@ Abivia\NextForm Object
                                                     [group:protected] =>
                                                     [id:protected] =>
                                                     [name:protected] =>
+                                                    [readonly:protected] =>
                                                     [type:protected] => field
                                                     [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
@@ -5010,6 +5075,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => cell
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
@@ -5053,6 +5119,7 @@ Abivia\NextForm Object
                                     [group:protected] =>
                                     [id:protected] =>
                                     [name:protected] =>
+                                    [readonly:protected] =>
                                     [type:protected] => static
                                     [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\StaticElement:private] => Array
@@ -5110,6 +5177,7 @@ Abivia\NextForm Object
                     [group:protected] =>
                     [id:protected] =>
                     [name:protected] =>
+                    [readonly:protected] =>
                     [type:protected] => section
                     [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array

@@ -30,15 +30,17 @@ abstract class Element implements \JsonSerializable {
      * @var string
      */
     protected $id = '';
-    protected $name = '';
     static protected $jsonEncodeMethod = [
         'type' => [],
         'name' => ['drop:blank'],
         'id' => ['drop:blank'],
         'group' => ['drop:null', 'map:memberOf'],
         'enabled' => ['drop:true'],
+        'readonly' => ['drop:false', 'drop:null'],
         'visible' => ['drop:true']
     ];
+    protected $name = '';
+    protected $readonly;
     protected $type;
     protected $visible = true;
 
@@ -106,6 +108,10 @@ abstract class Element implements \JsonSerializable {
         return $this -> name;
     }
 
+    public function getReadonly() {
+        return $this -> readonly;
+    }
+
     public function getType() {
         return $this -> type;
     }
@@ -140,6 +146,11 @@ abstract class Element implements \JsonSerializable {
 
     public function setName($name) {
         $this -> name = $name;
+        return $this;
+    }
+
+    public function setReadonly($readonly) {
+        $this -> readonly = $readonly;
         return $this;
     }
 

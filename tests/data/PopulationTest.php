@@ -60,6 +60,35 @@ jsonend;
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
         $this -> assertTrue($obj -> configure($config));
+        $list = $obj -> getList();
+        $this -> assertTrue(isset($list[0]));
+        $this -> assertTrue(isset($list[1]));
+        $this -> assertEquals(2, count($list));
+		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[1]);
+    }
+
+    /**
+     * A population with a simplified fixed lookup list
+     */
+    public function testPopulationFixedSimple() {
+        $json = <<<'jsonend'
+{
+    "source": "fixed",
+    "list": [
+        "langkey1",
+        "langkey2"
+    ]
+}
+jsonend;
+        $config = json_decode($json);
+        $this -> assertTrue(false != $config, 'JSON error!');
+        $obj = new Population();
+        $this -> assertTrue($obj -> configure($config));
+        $list = $obj -> getList();
+        $this -> assertEquals(2, count($list));
+        $this -> assertTrue(isset($list[0]));
+        $this -> assertTrue(isset($list[1]));
+		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[0]);
     }
 
     /**
@@ -90,7 +119,9 @@ jsonend;
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
         $this -> assertTrue($obj -> configure($config, true));
-        $this -> assertEquals($config -> list, $obj -> getList());
+        $list = $obj -> getList();
+        $this -> assertEquals(2, count($list));
+        $this -> assertEquals(1, count($list[1] -> getList()));
     }
 
     /**
@@ -105,7 +136,7 @@ jsonend;
     "list": [
         {
             "value": "a value",
-            "labels": "label or language key"
+            "label": "label or language key"
         }
     ]
 }

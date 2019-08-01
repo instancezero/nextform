@@ -25,6 +25,37 @@ class Population implements \JsonSerializable {
     protected $source;
     protected $translate = true;
 
+    /**
+     * Map a property to a class.
+     * @param string $property The current class property name.
+     * @param mixed $value The value to be stored in the property, made available for inspection.
+     * @return mixed An object containing a class name and key, or false
+     * @codeCoverageIgnore
+     */
+    protected function configureClassMap($property, $value) {
+        static $classMap = [
+            'list' => ['className' => '\Abivia\NextForm\Data\Population\Option'], //'key' => '', 'keyIsMethod' => true],
+        ];
+        if (isset($classMap[$property])) {
+            return (object) $classMap[$property];
+        }
+        return false;
+    }
+
+    protected function configureInitialize(&$config, &$options) {
+        // if the list is an array of strings, convert it
+        if (isset($config -> list) && is_array($config -> list)) {
+            foreach ($config -> list as &$value) {
+                if (is_string($value)) {
+                    // Convert to a useful class
+                    $obj = new \Stdclass;
+                    $obj -> label = $value;
+                    $value = $obj;
+                }
+            }
+        }
+    }
+
     protected function configureValidate($property, &$value) {
         switch ($property) {
             case 'source':

@@ -30,7 +30,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Check that an option with a label and a value.
+     * Check an option with a label and a value.
      */
     public function testOptionPopulationSimpleValued() {
         $json = '{"label": "Something", "value": 5}';

@@ -5,7 +5,6 @@ namespace Abivia\NextForm\Element;
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Trigger\Trigger;
-
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -215,13 +214,18 @@ class FieldElement extends NamedElement {
         return $value;
     }
 
+    public function setValue($value) {
+        $this -> value = $value;
+        return $this;
+    }
+
     public function translate(Translator $translate) {
         // Translate the data list, if any
         if ($this -> dataProperty) {
             $this -> dataListTranslated = $this -> dataList;
             if ($this -> dataProperty -> getPopulation() -> getTranslate()) {
                 foreach ($this -> dataListTranslated as $option) {
-                    $option -> label = $translate -> trans($option -> label);
+                    $option -> translate($translate);
                 }
             }
         }

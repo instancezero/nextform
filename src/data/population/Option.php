@@ -2,16 +2,27 @@
 
 namespace Abivia\NextForm\Data\Population;
 
+use Illuminate\Contracts\Translation\Translator as Translator;
+
 /**
  * Describes a value or list of values in a user selectable form object.
  */
-class Option {
+class Option implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
+    use \Abivia\NextForm\Traits\JsonEncoder;
 
     protected $enabled = true;
+    static protected $jsonEncodeMethod = [
+        'enabled' => ['drop:true'],
+        'label' => [],
+        'name' => ['drop:blank','drop:null'],
+        'sidecar' => ['drop:null'],
+        'value' => ['drop:null'],
+    ];
     protected $label;
     protected $name;
     protected $selected = false;
+    protected $sidecar;
     protected $value;
 
     protected function configureClassMap($property, $value) {
@@ -25,7 +36,7 @@ class Option {
     protected function configureComplete(): bool {
         if (is_array($this -> value)) {
             foreach($this -> value as $option) {
-                if (is_array($option -> getValue())) {
+                if (is_array($option -> getList())) {
                     throw new \OutOfBoundsException('Options can\'t be nested more than two levels deep.');
                 }
             }
@@ -47,6 +58,13 @@ class Option {
         return $this -> label;
     }
 
+    public function getList() {
+        if (!is_array($this -> value)) {
+            return null;
+        }
+        return $this -> value;
+    }
+
     public function getName() {
         return $this -> name;
     }
@@ -56,7 +74,14 @@ class Option {
     }
 
     public function getValue() {
+        if (is_array($this -> value)) {
+            return null;
+        }
         return $this -> value;
+    }
+
+    public function translate(Translator $translate) {
+        $this -> label = $translate -> trans($this -> label);
     }
 
 }
