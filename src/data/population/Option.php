@@ -80,6 +80,26 @@ class Option implements \JsonSerializable {
         return $this -> value;
     }
 
+    public function isEmpty() : bool {
+        if ($this -> enabled === false) {
+            return false;
+        }
+        if ($this -> label !== null && $this -> label !== '') {
+            return false;
+        }
+        if ($this -> name !== null && $this -> name !== '') {
+            return false;
+        }
+        if ($this -> sidecar !== null) {
+            return false;
+        }
+        if ($this -> value !== null) {
+            return false;
+        }
+        return true;
+    }
+
+
     public function translate(Translator $translate) {
         $this -> label = $translate -> trans($this -> label);
     }

@@ -58,7 +58,7 @@ class Schema implements \JsonSerializable {
         return $schema;
     }
 
-    public function getProperty($segName, $name = '') {
+    public function getProperty($segName, $name = '') : ?Property {
         if (strpos($segName, NextForm::SEGMENT_DELIM) !== false) {
             list($segName, $name) = explode(NextForm::SEGMENT_DELIM, $segName);
         }

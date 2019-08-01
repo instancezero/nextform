@@ -10,7 +10,6 @@ use Abivia\NextForm\Render\Block;
 abstract class ContainerElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\JsonLabelFolder;
 
     protected $elements = [];
     static protected $jsonEncodeMethod = [];
@@ -18,7 +17,7 @@ abstract class ContainerElement Extends NamedElement {
     public function __construct() {
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
-            self::$jsonEncodeMethod['labels'] = ['method:jsonLabelFold', 'drop:null'];
+            self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
             self::$jsonEncodeMethod['elements'] = [];
         }
     }

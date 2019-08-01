@@ -12,7 +12,6 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 abstract class NamedElement Extends Element {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\JsonLabelFolder;
 
     static protected $jsonEncodeMethod = [];
     /**
@@ -50,7 +49,7 @@ abstract class NamedElement Extends Element {
         parent::__construct();
         if (!self::$staticInit) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
-            self::$jsonEncodeMethod['labels'] = ['method:jsonLabelFold', 'drop:null'];
+            self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
             self::$staticInit = true;
         }
     }

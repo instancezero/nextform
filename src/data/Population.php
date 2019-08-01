@@ -86,6 +86,25 @@ class Population implements \JsonSerializable {
         return $this -> translate;
     }
 
+    public function isEmpty() : bool {
+        if (!empty($this -> list)) {
+            return false;
+        }
+        if (!empty($this -> parameters)) {
+            return false;
+        }
+        if ($this -> query !== null && $this -> query !== '') {
+            return false;
+        }
+        if ($this -> source !== null && $this -> source !== '') {
+            return false;
+        }
+        if ($this -> translate != true) {
+            return false;
+        }
+        return true;
+    }
+
     public function setSource($source) {
         if (!$this -> configureValidate('source', $source)) {
             throw new \LogicException('Invalid value for source: ' . $source);

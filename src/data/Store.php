@@ -10,8 +10,8 @@ class Store implements \JsonSerializable {
     use \Abivia\NextForm\Traits\JsonEncoder;
 
     static protected $jsonEncodeMethod = [
-        'type' => [],
-        'size' => [],
+        'type' => ['drop:null'],
+        'size' => ['drop:null'],
     ];
     static protected $knownTypes = ['blob', 'date', 'decimal', 'float', 'int', 'string', 'text'];
     protected $size;
@@ -38,6 +38,16 @@ class Store implements \JsonSerializable {
 
     public function getType() {
         return $this -> type;
+    }
+
+    public function isEmpty() : bool {
+        if ($this -> size !== null) {
+            return false;
+        }
+        if ($this -> type !== null && $this -> type !== '') {
+            return false;
+        }
+        return true;
     }
 
 }

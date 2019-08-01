@@ -1,7 +1,9 @@
 <?php
 
 use Abivia\NextForm;
+use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Simple;
 use Abivia\NextForm\Element\FieldElement;
 
@@ -16,6 +18,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testFormRendererSimpleStart() {
+        NextForm::boot();
         $obj = new Simple();
         $data = $obj -> start();
         $this -> assertEquals("<form method=\"post\">\n", $data -> body);
@@ -40,36 +43,28 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormRendererSimpleFieldText() {
         NextForm::boot();
+        $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $obj = new Simple();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
-        // No access assumes write access
+        // No access specification assumes write access
         $data = $obj -> render($element);
-        $this -> assertEquals(
-            '<input id="field-1" name="field-1" type="text"/><br/>' . "\n",
-            $data -> body
-        );
+        $expect -> body = '<input id="field-1" name="field-1" type="text"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
         // Same result with explicit write access
         $data = $obj -> render($element, ['access' => 'write']);
-        $this -> assertEquals(
-            '<input id="field-1" name="field-1" type="text"/><br/>' . "\n",
-            $data -> body
-        );
+        $this -> assertEquals($expect, $data);
         // Test view access
         $data = $obj -> render($element, ['access' => 'view']);
-        $this -> assertEquals(
-            '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n",
-            $data -> body
-        );
+        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
         // Test read (less than view) access
         $data = $obj -> render($element, ['access' => 'read']);
-        $this -> assertEquals(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n",
-            $data -> body
-        );
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
     }
 
     /**
@@ -77,6 +72,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererSimpleFieldTextLabels() {
         NextForm::boot();
+        $expect = new Block;
+        $tail = "<br/>\n";
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $obj = new Simple();
@@ -85,41 +82,131 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element -> linkSchema($schema);
         $ret = $element -> setValue('the value');
         $this -> assertTrue($element === $ret);
+        //
+        // Make sure the value shows up
+        //
         $data = $obj -> render($element);
-        $expect = '<input id="field-1" name="field-1"'
-            . ' value="the value"'
-            . ' type="text"/>';
-        $tail = "<br/>\n";
-        $this -> assertEquals($expect . $tail, $data -> body);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' value="the value"' . ' type="text"/>' . $tail;
+        $this -> assertEquals($expect, $data);
+        //
+        // Add a placeholder
+        //
         $element -> setLabel('placeholder', 'Something with & in it');
         $data = $obj -> render($element);
-        $expect = '<input id="field-1" name="field-1"'
+        $expect -> body = '<input id="field-1" name="field-1"'
             . ' value="the value"'
             . ' placeholder="Something with &amp; in it"'
-            . ' type="text"/>';
-        $tail = "<br/>\n";
-        $this -> assertEquals($expect . $tail, $data -> body);
+            . ' type="text"/>' . $tail;
+        $this -> assertEquals($expect, $data);
         //
         // Some text before
         //
         $element -> setLabel('before', 'prefix');
-        $expect = '<span>prefix</span>' . $expect;
+        $expect -> body = '<span>prefix</span>' . $expect -> body;
         $data = $obj -> render($element);
-        $this -> assertEquals($expect . $tail, $data -> body);
+        $this -> assertEquals($expect, $data);
         //
         // Some text after
         //
         $element -> setLabel('after', 'suffix');
-        $expect .= '<span>suffix</span>';
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = substr($expect -> body, 0, -strlen($tail))
+            . '<span>suffix</span>' . $tail;
         $data = $obj -> render($element);
-        $this -> assertEquals($expect . $tail, $data -> body);
+        $this -> assertEquals($expect, $data);
         //
         // Add a heading
         //
         $element -> setLabel('heading', 'Stuff');
         $data = $obj -> render($element);
-        $expect = '<label for="field-1">Stuff</label>' . "\n" . $expect;
-        $this -> assertEquals($expect . $tail, $data -> body);
+        $expect -> body = '<label for="field-1">Stuff</label>' . "\n" . $expect -> body;
+        $this -> assertEquals($expect, $data);
+    }
+
+	public function testFormRendererSimpleFieldTextDataList() {
+        NextForm::boot();
+        $expect = new Block;
+        $tail = "<br/>\n";
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        // Reusable values
+        $dataList = "<datalist id=\"field-1-list\">\n"
+            . "  <option value=\"textlist 1\"/>\n"
+            . "  <option value=\"textlist 2\"/>\n"
+            . "  <option value=\"textlist 3\"/>\n"
+            . "  <option value=\"textlist 4\"/>\n"
+            . "</datalist>\n";
+        // No access assumes write access
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' list="field-1-list"/>' . $tail;
+        $expect -> post = "<datalist id=\"field-1-list\">\n"
+            . "  <option value=\"textlist 1\"/>\n"
+            . "  <option value=\"textlist 2\"/>\n"
+            . "  <option value=\"textlist 3\"/>\n"
+            . "  <option value=\"textlist 4\"/>\n"
+            . "</datalist>\n";
+        $this -> assertEquals($expect, $data);
+        // Test view access: No list is required
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/>' . $tail;
+        $expect -> post = null;
+        $this -> assertEquals($expect, $data);
+        // Test read (less than view) access
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+	public function testFormRendererSimpleFieldRadio() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change textWithList to a radio
+        //
+        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        // No access specification assumes write access
+        $data = $obj -> render($element);
+        $expect -> body = '<div>
+  <input name="field-1" type="radio" id="field-1-opt0" value="textlist 1"/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input name="field-1" type="radio" id="field-1-opt1" value="textlist 2"/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input name="field-1" type="radio" id="field-1-opt2" value="textlist 3"/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input name="field-1" type="radio" id="field-1-opt3" value="textlist 4"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        // Same result with explicit write access
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        // Test view access
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        // Test read (less than view) access
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
     }
 
 }

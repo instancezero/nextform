@@ -80,6 +80,8 @@ trait JsonEncoder {
                 case 'empty':
                     if (is_array($value)) {
                         $drop = empty($value);
+                    } elseif (is_object($value) && method_exists($value, 'isEmpty')) {
+                        $drop = $value -> isEmpty();
                     }
                     break;
                 case 'false':

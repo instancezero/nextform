@@ -55,4 +55,17 @@ class Presentation implements \JsonSerializable {
         return $this -> type;
     }
 
+    public function setType($value) {
+        if (!$this -> configureValidate('type', $value)) {
+            if (is_scalar($value)) {
+                $msg = '"' . $value . '" is not a valid presentation type.';
+            } else {
+                $msg = 'non-scalar value passed to setType()';
+            }
+            throw new RuntimeException($msg);
+        }
+        $this -> type = $value;
+        return $this;
+    }
+
 }

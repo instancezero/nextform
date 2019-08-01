@@ -10,17 +10,16 @@ use Abivia\NextForm\Element\Element;
 class Property implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\JsonLabelFolder;
 
     protected $description;
     static protected $jsonEncodeMethod = [
         'name' => [],
         'description' => ['drop:null'],
-        'labels' => ['method:jsonLabelFold', 'drop:null'],
-        'population' => ['drop:null'],
-        'presentation' => ['drop:null'],
-        'store' => ['drop:null'],
-        'validation' => ['drop:null'],
+        'labels' => ['drop:empty', 'drop:null'],
+        'population' => ['drop:empty', 'drop:null'],
+        'presentation' => ['drop:empty', 'drop:null'],
+        'store' => ['drop:empty', 'drop:null'],
+        'validation' => ['drop:empty', 'drop:null'],
     ];
     /**
      * Text associated with an element
@@ -86,7 +85,7 @@ class Property implements \JsonSerializable {
 
     public function getPresentation() : \Abivia\NextForm\Data\Presentation {
         if ($this -> presentation === null) {
-            return new \Abivia\NextForm\Data\Presentation;
+            $this -> presentation = new \Abivia\NextForm\Data\Presentation;
         }
         return $this -> presentation;
     }

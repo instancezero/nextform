@@ -21,7 +21,7 @@ class Simple implements Renderer {
             'name' => true, 'value' => true,
             // Globals
             'accesskey' => true, 'class' => true, 'contenteditable' => true,
-            'dir' => true, ' draggable' => true, 'dropzone' => true,
+            'dir' => true, 'draggable' => true, 'dropzone' => true,
             'hidden' => true, 'id' => true, 'lang' => true,
             'spellcheck' => true, 'style' => true, 'tabindex' => true, 'title' => true,
             'translate' => true,
@@ -84,11 +84,14 @@ class Simple implements Renderer {
             // Merge all attributes into the common defaults
             $common = self::$inputAttributes['*'];
             unset(self::$inputAttributes['*']);
-            foreach (array_keys(self::$inputAttributes) as $attrName) {
-                if (!isset($common[$attrName])) {
-                    $common[$attrName] = false;
+            foreach (self::$inputAttributes as $attrs) {
+                foreach (array_keys($attrs) as $attrName) {
+                    if (!isset($common[$attrName])) {
+                        $common[$attrName] = false;
+                    }
                 }
             }
+            ksort($common);
             // Overwrite the defaults for each input type
             foreach (self::$inputAttributes as &$attrs) {
                 $attrs = array_merge($common, $attrs);
@@ -161,7 +164,7 @@ class Simple implements Renderer {
         if (($value = $element -> getValue()) !== null) {
             $attrs['value'] = $value;
         }
-        if ($options['access'] != 'read') {
+        if ($options['access'] !== 'read') {
             //
             // We can see or change the data
             //
@@ -172,18 +175,20 @@ class Simple implements Renderer {
             if ($labels -> before !== null) {
                 $block -> body .= '<span>'. $labels -> before . '</span>';
             }
-            if ($type == 'radio') {
+            if ($type === 'radio') {
                 $block = $this -> renderFieldRadio($block, $element, $options);
-            } elseif ($type == 'select') {
+            } elseif ($type === 'select') {
                 $block = $this -> renderFieldSelect($block, $element, $options);
             } else {
-                $list = self::$inputAttributes[$type]['list'] ? $element -> getList(true) : [];
+                // Check for a data list, if there is write access.
+                $list = $options['access'] === 'write' && self::$inputAttributes[$type]['list']
+                    ? $element -> getList(true) : [];
                 if (!empty($list)) {
-                    $attr['list'] = $attr['id'] . '-list';
-                    $block -> post = '<datalist id="' . $attr['list'] . "\">\n";
+                    $attrs['list'] = $attrs['id'] . '-list';
+                    $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
                     foreach ($list as $option) {
                         $block -> post .= '  <option value="'
-                            . htmlspecialchars($option -> value) . "\"/>\n";
+                            . htmlspecialchars($option -> getValue()) . "\"/>\n";
                     }
                     $block -> post .= "</datalist>\n";
                 }

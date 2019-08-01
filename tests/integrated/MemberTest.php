@@ -88,6 +88,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testFormLoad() {
+        NextForm::boot();
         $obj = new NextForm();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
@@ -113,6 +114,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGenerateUnpopulated() {
+        NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
@@ -129,6 +131,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGeneratePopulated() {
+        NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
@@ -144,6 +147,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testSimpleRenderUnpopulated() {
+        NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
