@@ -12,6 +12,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 abstract class NamedElement Extends Element {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Element\Labels;
 
     static protected $jsonEncodeMethod = [];
     /**
@@ -19,26 +20,6 @@ abstract class NamedElement Extends Element {
      * @var string
      */
     protected $formName;
-    /**
-     * Set when an explicit translation has been performed
-     * @var bool
-     */
-    protected $hasTranslation = false;
-    /**
-     * Text labels for this element as defined in the form
-     * @var \Abivia\NextForm\Data\Labels
-     */
-    protected $labels;
-    /**
-     * Text labels for this element after merging with any data source
-     * @var \Abivia\NextForm\Data\Labels
-     */
-    protected $labelsMerged;
-    /**
-     * Post-merge, post-translation text labels for this element
-     * @var \Abivia\NextForm\Data\Labels
-     */
-    protected $labelsTranslated;
     /**
      * Flag indicating if the static context has been initialized.
      * @var bool
@@ -105,26 +86,9 @@ abstract class NamedElement Extends Element {
         return $this -> formName;
     }
 
-    public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
-        if ($translated && $this -> hasTranslation) {
-            return $this -> labelsTranslated;
-        }
-        return $this -> labels;
-    }
-
-    public function translate(Translator $translate) {
-        $this -> labelsTranslated = $this -> labelsMerged -> translate($translate);
-        $this -> hasTranslation = true;
-    }
-
     public function setFormName($name) {
         $this -> formName = $name;
         return $this;
-    }
-
-    public function setLabel($labelName, $text) {
-        $this -> labels -> set($labelName, $text);
-        $this -> labelsMerged -> set($labelName, $text);
     }
 
 }

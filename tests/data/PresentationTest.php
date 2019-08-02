@@ -37,4 +37,16 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
         $this -> assertFalse($obj -> configure($config, true));
     }
 
+    public function testDataPresentationSetType() {
+        $config = json_decode('{"cols": "1","type": "text"}');
+        $this -> assertTrue(false != $config, 'JSON error!');
+        $obj = new Presentation();
+        $this -> assertTrue($obj -> configure($config, true));
+        $this -> assertEquals('text', $obj -> getType());
+        $this -> assertInstanceOf('\Abivia\NextForm\Data\Presentation', $obj -> setType('textarea'));
+        $this -> assertEquals('textarea', $obj -> getType());
+        $this -> expectException('\RuntimeException');
+        $obj -> setType('fringle-daffle');
+    }
+
 }

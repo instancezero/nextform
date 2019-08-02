@@ -28,7 +28,7 @@ access control rules.
     "labels": {
         "after": "Seconds",
         "before": "Delay time:",
-        "placeholder": "0"
+        "inner": "0"
     },
     "presentation": {
         "cols": "1",

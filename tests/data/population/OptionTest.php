@@ -7,7 +7,7 @@ use \Abivia\NextForm\Data\Population\Option;
  */
 class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
 
-	public function testDataPopulationOptionInstantiation() {
+	public function testPopulationOptionInstantiation() {
         $obj = new Option();
 		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj);
 	}
@@ -15,7 +15,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check that a minimalist option has the right default values.
      */
-    public function testOptionPopulationSimpleDefault() {
+    public function testPopulationOptionSimpleDefault() {
         $json = '{"label": "Something"}';
         $config = json_decode($json);
         $this -> assertTrue(false != $config, 'JSON error!');
@@ -32,7 +32,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check an option with a label and a value.
      */
-    public function testOptionPopulationSimpleValued() {
+    public function testPopulationOptionSimpleValued() {
         $json = '{"label": "Something", "value": 5}';
         $config = json_decode($json);
         $this -> assertTrue(false != $config, 'JSON error!');
@@ -49,7 +49,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check that an option with a label and a value.
      */
-    public function testOptionPopulationSimpleNoLabel() {
+    public function testPopulationOptionSimpleNoLabel() {
         $json = '{"value": 5}';
         $config = json_decode($json);
         $this -> assertTrue(false != $config, 'JSON error!');
@@ -58,7 +58,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
         $obj -> configure($config);
     }
 
-    public function testOptionsPopulationNested() {
+    public function testPopulationOptionNested() {
         $json = <<<'jsonend'
 {
     "name": "id",
@@ -80,7 +80,7 @@ jsonend;
         $this -> assertTrue($obj -> configure($config));
     }
 
-    public function testOptionsPopulationNestedTooDeep() {
+    public function testPopulationOptionNestedTooDeep() {
         $json = <<<'jsonend'
 {
     "name": "id",
@@ -108,6 +108,22 @@ jsonend;
         $obj = new Option();
         $this -> expectException('OutOfBoundsException');
         $obj -> configure($config);
+    }
+
+    /**
+     * Check that a minimalist option has the right default values.
+     */
+    public function testPopulationOptionSidecar() {
+        $json = '{"label": "Something","sidecar":{"prop":"foo"}}';
+        $config = json_decode($json);
+        $this -> assertTrue(false != $config, 'JSON error!');
+        $obj = new Option();
+        $this -> assertTrue($obj -> configure($config));
+        $sidecar = $obj -> getSidecar();
+        $this -> assertInstanceOf('\Stdclass', $sidecar);
+        $this -> assertEquals('foo', $sidecar -> prop);
+        $this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj -> setSidecar('fred'));
+        $this -> assertEquals('fred', $obj -> getSidecar());
     }
 
 }

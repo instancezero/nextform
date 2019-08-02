@@ -159,6 +159,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] => groupname
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => stdClass Object
                         (
@@ -171,16 +181,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] => groupname
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -224,6 +224,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -233,7 +243,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -250,7 +260,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -260,16 +270,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -309,6 +309,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -318,7 +328,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -335,7 +345,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -345,16 +355,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -394,6 +394,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -403,7 +413,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -420,7 +430,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -430,16 +440,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -469,6 +469,16 @@ Abivia\NextForm Object
                         )
 
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => cell
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -478,7 +488,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -495,7 +505,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -505,16 +515,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => cell
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                         (
                         )
@@ -559,6 +559,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -568,7 +578,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -585,7 +595,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -595,16 +605,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -634,6 +634,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -643,7 +653,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -660,7 +670,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -670,16 +680,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -711,6 +711,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -720,7 +730,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -737,7 +747,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -747,16 +757,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -778,6 +778,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -787,7 +797,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -804,7 +814,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -814,16 +824,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -882,6 +882,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -891,7 +901,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -908,7 +918,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -918,16 +928,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -955,6 +955,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -964,7 +974,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -981,7 +991,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -991,16 +1001,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1034,6 +1034,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1043,7 +1053,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1060,7 +1070,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1070,16 +1080,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1101,6 +1101,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -1110,7 +1120,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1127,7 +1137,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1137,16 +1147,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -1205,6 +1205,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -1214,7 +1224,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -1231,7 +1241,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -1241,16 +1251,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -1278,6 +1278,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1287,7 +1297,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1304,7 +1314,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1314,16 +1324,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1355,6 +1355,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1364,7 +1374,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1381,7 +1391,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1391,16 +1401,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1424,6 +1424,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -1433,7 +1443,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1450,7 +1460,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1460,16 +1470,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -1525,7 +1525,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -1555,6 +1555,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1564,7 +1574,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1581,7 +1591,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1591,16 +1601,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1640,6 +1640,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1649,7 +1659,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1666,7 +1676,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1676,16 +1686,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1725,6 +1725,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -1734,7 +1744,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1751,7 +1761,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -1761,16 +1771,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -1800,6 +1800,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -1809,7 +1819,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1826,7 +1836,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -1836,16 +1846,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -1919,25 +1919,6 @@ Abivia\NextForm Object
                         )
 
                     [formName:protected] =>
-                    [hasTranslation:protected] =>
-                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                        (
-                            [after] =>
-                            [before] =>
-                            [confirm] =>
-                            [error] =>
-                            [heading] =>
-                            [help] =>
-                            [placeholder] =>
-                            [translate] => 1
-                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                (
-                                )
-
-                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                        )
-
-                    [labelsTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
@@ -1948,6 +1929,25 @@ Abivia\NextForm Object
                     [readonly:protected] =>
                     [type:protected] => section
                     [visible:protected] => 1
+                    [hasTranslation:protected] =>
+                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] =>
+                            [inner] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                        )
+
+                    [labelsTranslated:protected] =>
                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                         (
                         )
@@ -1996,6 +1996,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -2005,7 +2015,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2022,7 +2032,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2032,16 +2042,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -2081,6 +2081,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -2090,7 +2100,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2107,7 +2117,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2117,16 +2127,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -2166,6 +2166,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -2175,7 +2185,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2192,7 +2202,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2202,16 +2212,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -2241,6 +2241,16 @@ Abivia\NextForm Object
                         )
 
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => cell
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -2250,7 +2260,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2267,7 +2277,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2277,16 +2287,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => cell
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                         (
                         )
@@ -2307,7 +2307,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2356,25 +2356,6 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
-                                    [hasTranslation:protected] =>
-                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                                        (
-                                            [after] =>
-                                            [before] =>
-                                            [confirm] =>
-                                            [error] =>
-                                            [heading] =>
-                                            [help] =>
-                                            [placeholder] =>
-                                            [translate] => 1
-                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                                (
-                                                )
-
-                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                                        )
-
-                                    [labelsTranslated:protected] =>
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
@@ -2385,6 +2366,25 @@ Abivia\NextForm Object
                                     [readonly:protected] =>
                                     [type:protected] => section
                                     [visible:protected] => 1
+                                    [hasTranslation:protected] =>
+                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                                        (
+                                            [after] =>
+                                            [before] =>
+                                            [confirm] =>
+                                            [error] =>
+                                            [heading] =>
+                                            [help] =>
+                                            [inner] =>
+                                            [translate] => 1
+                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                (
+                                                )
+
+                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                        )
+
+                                    [labelsTranslated:protected] =>
                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                                         (
                                         )
@@ -2448,6 +2448,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -2457,7 +2467,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2474,7 +2484,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2484,16 +2494,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -2523,6 +2523,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -2532,7 +2542,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2549,7 +2559,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2559,16 +2569,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -2600,6 +2600,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -2609,7 +2619,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2626,7 +2636,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2636,16 +2646,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -2667,6 +2667,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -2676,7 +2686,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2693,7 +2703,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -2703,16 +2713,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -2733,7 +2733,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2782,25 +2782,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [formName:protected] =>
-                                                    [hasTranslation:protected] =>
-                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                                                        (
-                                                            [after] =>
-                                                            [before] =>
-                                                            [confirm] =>
-                                                            [error] =>
-                                                            [heading] =>
-                                                            [help] =>
-                                                            [placeholder] =>
-                                                            [translate] => 1
-                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                                                (
-                                                                )
-
-                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                                                        )
-
-                                                    [labelsTranslated:protected] =>
                                                     [autoId:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
@@ -2811,6 +2792,25 @@ Abivia\NextForm Object
                                                     [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
+                                                    [hasTranslation:protected] =>
+                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                                                        (
+                                                            [after] =>
+                                                            [before] =>
+                                                            [confirm] =>
+                                                            [error] =>
+                                                            [heading] =>
+                                                            [help] =>
+                                                            [inner] =>
+                                                            [translate] => 1
+                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                                (
+                                                                )
+
+                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                                        )
+
+                                                    [labelsTranslated:protected] =>
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                                                         (
                                                         )
@@ -2888,6 +2888,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -2897,7 +2907,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2914,7 +2924,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -2924,16 +2934,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -2961,6 +2961,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -2970,7 +2980,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2987,7 +2997,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -2997,16 +3007,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -3040,6 +3040,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -3049,7 +3059,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3066,7 +3076,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3076,16 +3086,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -3107,6 +3107,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -3116,7 +3126,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -3133,7 +3143,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -3143,16 +3153,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -3173,7 +3173,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3222,25 +3222,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [formName:protected] =>
-                                                    [hasTranslation:protected] =>
-                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                                                        (
-                                                            [after] =>
-                                                            [before] =>
-                                                            [confirm] =>
-                                                            [error] =>
-                                                            [heading] =>
-                                                            [help] =>
-                                                            [placeholder] =>
-                                                            [translate] => 1
-                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                                                (
-                                                                )
-
-                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                                                        )
-
-                                                    [labelsTranslated:protected] =>
                                                     [autoId:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
@@ -3251,6 +3232,25 @@ Abivia\NextForm Object
                                                     [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
+                                                    [hasTranslation:protected] =>
+                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                                                        (
+                                                            [after] =>
+                                                            [before] =>
+                                                            [confirm] =>
+                                                            [error] =>
+                                                            [heading] =>
+                                                            [help] =>
+                                                            [inner] =>
+                                                            [translate] => 1
+                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                                (
+                                                                )
+
+                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                                        )
+
+                                                    [labelsTranslated:protected] =>
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                                                         (
                                                         )
@@ -3328,6 +3328,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -3337,7 +3347,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -3354,7 +3364,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -3364,16 +3374,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -3401,6 +3401,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -3410,7 +3420,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3427,7 +3437,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3437,16 +3447,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -3478,6 +3478,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -3487,7 +3497,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3504,7 +3514,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3514,16 +3524,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -3547,6 +3547,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -3556,7 +3566,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -3573,7 +3583,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -3583,16 +3593,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -3613,7 +3613,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -3662,25 +3662,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [formName:protected] =>
-                                                    [hasTranslation:protected] =>
-                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                                                        (
-                                                            [after] =>
-                                                            [before] =>
-                                                            [confirm] =>
-                                                            [error] =>
-                                                            [heading] =>
-                                                            [help] =>
-                                                            [placeholder] =>
-                                                            [translate] => 1
-                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                                                (
-                                                                )
-
-                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                                                        )
-
-                                                    [labelsTranslated:protected] =>
                                                     [autoId:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
@@ -3691,6 +3672,25 @@ Abivia\NextForm Object
                                                     [readonly:protected] =>
                                                     [type:protected] => section
                                                     [visible:protected] => 1
+                                                    [hasTranslation:protected] =>
+                                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                                                        (
+                                                            [after] =>
+                                                            [before] =>
+                                                            [confirm] =>
+                                                            [error] =>
+                                                            [heading] =>
+                                                            [help] =>
+                                                            [inner] =>
+                                                            [translate] => 1
+                                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                                (
+                                                                )
+
+                                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                                        )
+
+                                                    [labelsTranslated:protected] =>
                                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                                                         (
                                                         )
@@ -3788,7 +3788,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -3818,6 +3818,16 @@ Abivia\NextForm Object
 
                                                                     [value:protected] =>
                                                                     [formName:protected] =>
+                                                                    [autoId:protected] =>
+                                                                    [enabled:protected] => 1
+                                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                                    [group:protected] =>
+                                                                    [id:protected] =>
+                                                                    [name:protected] =>
+                                                                    [readonly:protected] =>
+                                                                    [type:protected] => field
+                                                                    [visible:protected] => 1
                                                                     [hasTranslation:protected] =>
                                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                                         (
@@ -3827,7 +3837,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -3844,7 +3854,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -3854,16 +3864,6 @@ Abivia\NextForm Object
                                                                         )
 
                                                                     [labelsTranslated:protected] =>
-                                                                    [autoId:protected] =>
-                                                                    [enabled:protected] => 1
-                                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                                    [group:protected] =>
-                                                                    [id:protected] =>
-                                                                    [name:protected] =>
-                                                                    [readonly:protected] =>
-                                                                    [type:protected] => field
-                                                                    [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                                         (
                                                                         )
@@ -3903,6 +3903,16 @@ Abivia\NextForm Object
 
                                                                     [value:protected] =>
                                                                     [formName:protected] =>
+                                                                    [autoId:protected] =>
+                                                                    [enabled:protected] => 1
+                                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                                    [group:protected] =>
+                                                                    [id:protected] =>
+                                                                    [name:protected] =>
+                                                                    [readonly:protected] =>
+                                                                    [type:protected] => field
+                                                                    [visible:protected] => 1
                                                                     [hasTranslation:protected] =>
                                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                                         (
@@ -3912,7 +3922,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -3929,7 +3939,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -3939,16 +3949,6 @@ Abivia\NextForm Object
                                                                         )
 
                                                                     [labelsTranslated:protected] =>
-                                                                    [autoId:protected] =>
-                                                                    [enabled:protected] => 1
-                                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                                    [group:protected] =>
-                                                                    [id:protected] =>
-                                                                    [name:protected] =>
-                                                                    [readonly:protected] =>
-                                                                    [type:protected] => field
-                                                                    [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                                         (
                                                                         )
@@ -3988,6 +3988,16 @@ Abivia\NextForm Object
 
                                                                     [value:protected] =>
                                                                     [formName:protected] =>
+                                                                    [autoId:protected] =>
+                                                                    [enabled:protected] => 1
+                                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                                    [group:protected] =>
+                                                                    [id:protected] =>
+                                                                    [name:protected] =>
+                                                                    [readonly:protected] =>
+                                                                    [type:protected] => field
+                                                                    [visible:protected] => 1
                                                                     [hasTranslation:protected] =>
                                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                                         (
@@ -3997,7 +4007,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -4014,7 +4024,7 @@ Abivia\NextForm Object
                                                                             [error] =>
                                                                             [heading] =>
                                                                             [help] =>
-                                                                            [placeholder] =>
+                                                                            [inner] =>
                                                                             [translate] => 1
                                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                                 (
@@ -4024,16 +4034,6 @@ Abivia\NextForm Object
                                                                         )
 
                                                                     [labelsTranslated:protected] =>
-                                                                    [autoId:protected] =>
-                                                                    [enabled:protected] => 1
-                                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                                    [group:protected] =>
-                                                                    [id:protected] =>
-                                                                    [name:protected] =>
-                                                                    [readonly:protected] =>
-                                                                    [type:protected] => field
-                                                                    [visible:protected] => 1
                                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                                         (
                                                                         )
@@ -4063,6 +4063,16 @@ Abivia\NextForm Object
                                                         )
 
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => cell
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -4072,7 +4082,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4089,7 +4099,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4099,16 +4109,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => cell
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                                         (
                                                         )
@@ -4137,25 +4137,6 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
-                                    [hasTranslation:protected] =>
-                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                                        (
-                                            [after] =>
-                                            [before] =>
-                                            [confirm] =>
-                                            [error] =>
-                                            [heading] =>
-                                            [help] =>
-                                            [placeholder] =>
-                                            [translate] => 1
-                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                                (
-                                                )
-
-                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                                        )
-
-                                    [labelsTranslated:protected] =>
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
@@ -4166,6 +4147,25 @@ Abivia\NextForm Object
                                     [readonly:protected] =>
                                     [type:protected] => section
                                     [visible:protected] => 1
+                                    [hasTranslation:protected] =>
+                                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                                        (
+                                            [after] =>
+                                            [before] =>
+                                            [confirm] =>
+                                            [error] =>
+                                            [heading] =>
+                                            [help] =>
+                                            [inner] =>
+                                            [translate] => 1
+                                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                                (
+                                                )
+
+                                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                                        )
+
+                                    [labelsTranslated:protected] =>
                                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                                         (
                                         )
@@ -4360,6 +4360,16 @@ Abivia\NextForm Object
 
                     [value:protected] =>
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] => groupname
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => field
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => stdClass Object
                         (
@@ -4372,16 +4382,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] => groupname
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => field
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                         (
                         )
@@ -4425,6 +4425,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -4434,7 +4444,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4451,7 +4461,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4461,16 +4471,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -4510,6 +4510,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -4519,7 +4529,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4536,7 +4546,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4546,16 +4556,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -4595,6 +4595,16 @@ Abivia\NextForm Object
 
                                     [value:protected] =>
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => field
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -4604,7 +4614,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4621,7 +4631,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -4631,16 +4641,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => field
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                         (
                                         )
@@ -4670,6 +4670,16 @@ Abivia\NextForm Object
                         )
 
                     [formName:protected] =>
+                    [autoId:protected] =>
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                    [group:protected] =>
+                    [id:protected] =>
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => cell
+                    [visible:protected] => 1
                     [hasTranslation:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
@@ -4679,7 +4689,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -4696,7 +4706,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -4706,16 +4716,6 @@ Abivia\NextForm Object
                         )
 
                     [labelsTranslated:protected] =>
-                    [autoId:protected] =>
-                    [enabled:protected] => 1
-                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                    [group:protected] =>
-                    [id:protected] =>
-                    [name:protected] =>
-                    [readonly:protected] =>
-                    [type:protected] => cell
-                    [visible:protected] => 1
                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                         (
                         )
@@ -4757,7 +4757,7 @@ Abivia\NextForm Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -4787,6 +4787,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -4796,7 +4806,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4813,7 +4823,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4823,16 +4833,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -4872,6 +4872,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -4881,7 +4891,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4898,7 +4908,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4908,16 +4918,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -4957,6 +4957,16 @@ Abivia\NextForm Object
 
                                                     [value:protected] =>
                                                     [formName:protected] =>
+                                                    [autoId:protected] =>
+                                                    [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                                    [group:protected] =>
+                                                    [id:protected] =>
+                                                    [name:protected] =>
+                                                    [readonly:protected] =>
+                                                    [type:protected] => field
+                                                    [visible:protected] => 1
                                                     [hasTranslation:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
@@ -4966,7 +4976,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4983,7 +4993,7 @@ Abivia\NextForm Object
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
-                                                            [placeholder] =>
+                                                            [inner] =>
                                                             [translate] => 1
                                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                                 (
@@ -4993,16 +5003,6 @@ Abivia\NextForm Object
                                                         )
 
                                                     [labelsTranslated:protected] =>
-                                                    [autoId:protected] =>
-                                                    [enabled:protected] => 1
-                                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                                    [group:protected] =>
-                                                    [id:protected] =>
-                                                    [name:protected] =>
-                                                    [readonly:protected] =>
-                                                    [type:protected] => field
-                                                    [visible:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Element\FieldElement:private] => Array
                                                         (
                                                         )
@@ -5032,6 +5032,16 @@ Abivia\NextForm Object
                                         )
 
                                     [formName:protected] =>
+                                    [autoId:protected] =>
+                                    [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm Object
+ *RECURSION*
+                                    [group:protected] =>
+                                    [id:protected] =>
+                                    [name:protected] =>
+                                    [readonly:protected] =>
+                                    [type:protected] => cell
+                                    [visible:protected] => 1
                                     [hasTranslation:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
@@ -5041,7 +5051,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -5058,7 +5068,7 @@ Abivia\NextForm Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -5068,16 +5078,6 @@ Abivia\NextForm Object
                                         )
 
                                     [labelsTranslated:protected] =>
-                                    [autoId:protected] =>
-                                    [enabled:protected] => 1
-                                    [form:protected] => Abivia\NextForm Object
- *RECURSION*
-                                    [group:protected] =>
-                                    [id:protected] =>
-                                    [name:protected] =>
-                                    [readonly:protected] =>
-                                    [type:protected] => cell
-                                    [visible:protected] => 1
                                     [configureErrors:Abivia\NextForm\Element\CellElement:private] => Array
                                         (
                                         )
@@ -5151,25 +5151,6 @@ Abivia\NextForm Object
                         )
 
                     [formName:protected] =>
-                    [hasTranslation:protected] =>
-                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
-                        (
-                            [after] =>
-                            [before] =>
-                            [confirm] =>
-                            [error] =>
-                            [heading] =>
-                            [help] =>
-                            [placeholder] =>
-                            [translate] => 1
-                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
-                                (
-                                )
-
-                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
-                        )
-
-                    [labelsTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
@@ -5180,6 +5161,25 @@ Abivia\NextForm Object
                     [readonly:protected] =>
                     [type:protected] => section
                     [visible:protected] => 1
+                    [hasTranslation:protected] =>
+                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] =>
+                            [inner] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] =>
+                        )
+
+                    [labelsTranslated:protected] =>
                     [configureErrors:Abivia\NextForm\Element\SectionElement:private] => Array
                         (
                         )

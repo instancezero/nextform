@@ -22,7 +22,10 @@
                             "textlist 1",
                             "textlist 2",
                             "textlist 3",
-                            "textlist 4"
+                            {
+                                "label": "textlist 4",
+                                "sidecar": [1,2,3,4]
+                            }
                         ]
                     },
                     "presentation": {

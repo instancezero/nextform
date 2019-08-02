@@ -90,9 +90,9 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
             . ' value="the value"' . ' type="text"/>' . $tail;
         $this -> assertEquals($expect, $data);
         //
-        // Add a placeholder
+        // Add a inner
         //
-        $element -> setLabel('placeholder', 'Something with & in it');
+        $element -> setLabel('inner', 'Something with & in it');
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1"'
             . ' value="the value"'
@@ -134,13 +134,6 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
-        // Reusable values
-        $dataList = "<datalist id=\"field-1-list\">\n"
-            . "  <option value=\"textlist 1\"/>\n"
-            . "  <option value=\"textlist 2\"/>\n"
-            . "  <option value=\"textlist 3\"/>\n"
-            . "  <option value=\"textlist 4\"/>\n"
-            . "</datalist>\n";
         // No access assumes write access
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="text"'
@@ -149,7 +142,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
             . "  <option value=\"textlist 1\"/>\n"
             . "  <option value=\"textlist 2\"/>\n"
             . "  <option value=\"textlist 3\"/>\n"
-            . "  <option value=\"textlist 4\"/>\n"
+            . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
             . "</datalist>\n";
         $this -> assertEquals($expect, $data);
         // Test view access: No list is required
@@ -163,6 +156,31 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($expect, $data);
     }
 
+    /**
+     * Check a simple button
+     */
+	public function testFormRendererSimpleFieldButton() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a button
+        //
+        $schema -> getProperty('test/text') -> getPresentation() -> setType('button');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        $element -> setValue('Ok Bob');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="button"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test code generation for a radio element
+     */
 	public function testFormRendererSimpleFieldRadio() {
         NextForm::boot();
         $expect = new Block;
@@ -191,21 +209,34 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
   <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input name="field-1" type="radio" id="field-1-opt3" value="textlist 4"/>
+  <input name="field-1" type="radio" id="field-1-opt3" value="textlist 4" data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>' . "\n";
         $this -> assertEquals($expect, $data);
+        //
         // Same result with explicit write access
+        //
         $data = $obj -> render($element, ['access' => 'write']);
         $this -> assertEquals($expect, $data);
-        // Test view access
-        $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n";
+        //
+        // Set a value to trigger the checked option
+        //
+        $element -> setValue('textlist 3');
+        $expect -> body = str_replace('list 3"', 'list 3" checked', $expect -> body);
+        $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" readonly name="field-1" value="textlist 3" type="text"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
         // Test read (less than view) access
+        //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" value="textlist 3" type="hidden"/>' . "\n";
         $this -> assertEquals($expect, $data);
     }
 

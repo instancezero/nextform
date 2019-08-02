@@ -21,13 +21,13 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this -> assertTrue($obj -> error === null);
 		$this -> assertTrue($obj -> heading === null);
 		$this -> assertTrue($obj -> help === null);
-		$this -> assertTrue($obj -> placeholder === null);
+		$this -> assertTrue($obj -> inner === null);
 	}
 
 	public function testDataLabelsConfiguration() {
         $config = json_decode(
             '{"after": "after","before": "before","error": "error",'
-            . '"heading": "heading","help": "help","placeholder": "placeholder"}'
+            . '"heading": "heading","help": "help","inner": "placeholder"}'
         );
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Labels();
@@ -37,7 +37,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this -> assertEquals('error', $obj -> error);
 		$this -> assertEquals('heading', $obj -> heading);
 		$this -> assertEquals('help', $obj -> help);
-		$this -> assertEquals('placeholder', $obj -> placeholder);
+		$this -> assertEquals('placeholder', $obj -> inner);
 	}
 
 	public function testDataLabelsEmpty() {
@@ -105,7 +105,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $obj -> error = 'error';
         $obj -> heading = 'heading';
         $obj -> help = 'help';
-        $obj -> placeholder = 'placeholder';
+        $obj -> inner = 'placeholder';
         $obj -> translate = false;
         $trans = new NullTranslate;
         $translated = $obj -> translate($trans);
@@ -115,7 +115,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals('error', $translated -> error);
         $this -> assertEquals('heading', $translated -> heading);
         $this -> assertEquals('help', $translated -> help);
-        $this -> assertEquals('placeholder', $translated -> placeholder);
+        $this -> assertEquals('placeholder', $translated -> inner);
         $obj -> translate = true;
         $translated = $obj -> translate($trans);
         $this -> assertEquals('after (tslt)', $translated -> after);
@@ -124,7 +124,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals('error (tslt)', $translated -> error);
         $this -> assertEquals('heading (tslt)', $translated -> heading);
         $this -> assertEquals('help (tslt)', $translated -> help);
-        $this -> assertEquals('placeholder (tslt)', $translated -> placeholder);
+        $this -> assertEquals('placeholder (tslt)', $translated -> inner);
         // No double-translations
         $translated = $translated -> translate($trans);
         $this -> assertEquals('after (tslt)', $translated -> after);
@@ -133,7 +133,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals('error (tslt)', $translated -> error);
         $this -> assertEquals('heading (tslt)', $translated -> heading);
         $this -> assertEquals('help (tslt)', $translated -> help);
-        $this -> assertEquals('placeholder (tslt)', $translated -> placeholder);
+        $this -> assertEquals('placeholder (tslt)', $translated -> inner);
     }
 
 }

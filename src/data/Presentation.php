@@ -62,7 +62,7 @@ class Presentation implements \JsonSerializable {
             } else {
                 $msg = 'non-scalar value passed to setType()';
             }
-            throw new RuntimeException($msg);
+            throw new \RuntimeException($msg);
         }
         $this -> type = $value;
         return $this;

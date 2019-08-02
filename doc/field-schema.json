@@ -6,7 +6,7 @@
             "before": "Default overrides, null to default disable",
             "help": "",
             "error": "",
-            "placeholder": "",
+            "inner": "",
             "after": ""
         }
     },
@@ -22,7 +22,7 @@
                         "before": "string or language key. default is {name}-{before}, null to disable",
                         "help": "",
                         "error": "",
-                        "placeholder": "",
+                        "inner": "",
                         "after": ""
                     },
                     "population": {

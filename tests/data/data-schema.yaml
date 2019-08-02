@@ -1,7 +1,7 @@
 ---
 default:
   labels:
-    placeholder: ~
+    inner: ~
     after: ~
 segments:
 - name: ObjectOne

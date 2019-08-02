@@ -73,6 +73,10 @@ class Option implements \JsonSerializable {
         return $this -> selected;
     }
 
+    public function getSidecar() {
+        return $this -> sidecar;
+    }
+
     public function getValue() {
         if (is_array($this -> value)) {
             return null;
@@ -99,6 +103,35 @@ class Option implements \JsonSerializable {
         return true;
     }
 
+    public function setEnabled($enabled) {
+        $this -> enabled = $enabled;
+        return $this;
+    }
+
+    public function setLabel($label) {
+        $this -> label = $label;
+        return $this;
+    }
+
+    public function setName($name) {
+        $this -> name = $name;
+        return $this;
+    }
+
+    public function setSelected($selected) {
+        $this -> selected = $selected;
+        return $this;
+    }
+
+    public function setSidecar($data) {
+        $this -> sidecar = $data;
+        return $this;
+    }
+
+    public function setValue($value) {
+        $this -> value = $value;
+        return $this;
+    }
 
     public function translate(Translator $translate) {
         $this -> label = $translate -> trans($this -> label);

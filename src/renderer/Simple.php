@@ -4,6 +4,7 @@ namespace Abivia\NextForm\Renderer;
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\FieldElement;
 
 /**
@@ -28,8 +29,9 @@ class Simple implements Renderer {
         ],
         'button' => [],
         'checkbox' => ['checked' => true, 'required' => true, ],
+        'color' => [],
         'date' => ['max' => true, 'min' => true, 'pattern' => true, 'step' => true, ],
-        'datetime' => ['required' => true, 'step' => true, ],
+        //'datetime' => ['required' => true, 'step' => true, ],
         'datetime-local' => ['required' => true, 'step' => true, ],
         'email' => [
             'list' => true, 'multiple' => true, 'pattern' => true,
@@ -99,6 +101,38 @@ class Simple implements Renderer {
         }
     }
 
+    /**
+     * Render a data list, if there is one.
+     * @param string $attrs Parent attributes. Passed by reference.
+     * @param type $element The element we're rendering.
+     * @param type $type The element type
+     * @param type $options Options, specifically access rights.
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    protected function dataList(&$attrs, $element, $type, $options) {
+        $block = new Block;
+        // Check for a data list, if there is write access.
+        $list = $options['access'] === 'write' && self::$inputAttributes[$type]['list']
+            ? $element -> getList(true) : [];
+        if (!empty($list)) {
+            $attrs['list'] = $attrs['id'] . '-list';
+            $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
+            foreach ($list as $option) {
+                $block -> post .= '  <option value="'
+                    . htmlspecialchars($option -> getValue()) . '"';
+                    $sidecar = $option -> getSidecar();
+                    if ($sidecar !== null) {
+                        $block -> post .=  $this -> writeAttribute(
+                            'data-sidecar', json_encode($sidecar)
+                        );
+                    }
+                $block -> post .= "/>\n";
+            }
+            $block -> post .= "</datalist>\n";
+        }
+        return $block;
+    }
+
     protected function getRenderMethod(Element $element) {
         $classPath = get_class($element);
         if (!isset(self::$renderMethodCache[$classPath])) {
@@ -133,7 +167,45 @@ class Simple implements Renderer {
         return $result;
     }
 
+    protected function renderButtonElement(ButtonElement $element, $options = []) {
+        $attrs = [];
+        $block = new Block();
+        $labels = $element -> getLabels(true);
+        if ($labels -> heading) {
+            $block -> body = '<label for="' . $element -> getId() . '">'
+                . $labels -> heading . '</label>' . "\n";
+        }
+        $attrs['id'] = $element -> getId();
+        if ($options['access'] == 'view') {
+            $attrs['=disabled'] = 'disabled';
+        }
+        $attrs['name'] = $element -> getFormName();
+        $attrs['value'] = $labels -> inner;
+        if ($options['access'] === 'read') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            $attrs['type'] = 'hidden';
+            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>\n";
+        } else {
+            //
+            // We can see or change the data
+            //
+            $attrs['type'] = $element -> getButtonType();
+            if ($labels -> before !== null) {
+                $block -> body .= '<span>' . $labels -> before . '</span>';
+            }
+            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>";
+            if ($labels -> after !== null) {
+                $block -> body .= '<span>'. $labels -> after . '</span>';
+            }
+            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+        }
+        return $block;
+    }
+
     protected function renderFieldElement(FieldElement $element, $options = []) {
+        $attrs = [];
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
@@ -144,14 +216,13 @@ class Simple implements Renderer {
                 . $labels -> heading . '</label>' . "\n";
         }
         /*
-            'button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local',
+            'checkbox', 'color', 'date', 'datetime', 'datetime-local',
             'email', 'file', 'hidden', 'image', 'month', 'number',
-            'password', 'radio', 'range', 'reset', 'search',
-            'submit', 'tel', 'text', 'textarea', 'time', 'url', 'week',
+            'password', 'range', 'reset', 'search',
+            'submit', 'tel', 'textarea', 'time', 'url', 'week',
             // Our non w3c types...
             'select',
         */
-        $attrs = [];
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
@@ -164,12 +235,18 @@ class Simple implements Renderer {
         if (($value = $element -> getValue()) !== null) {
             $attrs['value'] = $value;
         }
-        if ($options['access'] !== 'read') {
+        if ($options['access'] === 'read') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            $attrs['type'] = 'hidden';
+            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>\n";
+        } else {
             //
             // We can see or change the data
             //
-            if ($labels -> placeholder !== null) {
-                $attrs['placeholder'] = $labels -> placeholder;
+            if ($labels -> inner !== null) {
+                $attrs['placeholder'] = $labels -> inner;
             }
             $attrs['type'] = $type;
             if ($labels -> before !== null) {
@@ -180,30 +257,14 @@ class Simple implements Renderer {
             } elseif ($type === 'select') {
                 $block = $this -> renderFieldSelect($block, $element, $options);
             } else {
-                // Check for a data list, if there is write access.
-                $list = $options['access'] === 'write' && self::$inputAttributes[$type]['list']
-                    ? $element -> getList(true) : [];
-                if (!empty($list)) {
-                    $attrs['list'] = $attrs['id'] . '-list';
-                    $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
-                    foreach ($list as $option) {
-                        $block -> post .= '  <option value="'
-                            . htmlspecialchars($option -> getValue()) . "\"/>\n";
-                    }
-                    $block -> post .= "</datalist>\n";
-                }
+                // Render the data list if there is one
+                $block -> merge($this -> dataList($attrs, $element, $type, $options));
                 $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>";
             }
             if ($labels -> after !== null) {
                 $block -> body .= '<span>'. $labels -> after . '</span>';
             }
             $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-        } elseif ($options['access'] == 'read') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $attrs['type'] = 'hidden';
-            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>\n";
         }
         return $block;
     }
@@ -228,8 +289,9 @@ class Simple implements Renderer {
             } else {
                 unset($attrs['=checked']);
             }
-            if (isset($radio -> sidecar)) {
-                $attrs['data-sidecar'] = json_encode($radio -> sidecar);
+            $sidecar = $radio -> getSidecar();
+            if ($sidecar !== null) {
+                $attrs['data-sidecar'] = json_encode($sidecar);
             }
             $block -> body .= "<div>\n  <input" . $this -> writeAttributes($attrs) . "/>\n"
                 . '  <label for="' . $id . '">' . $radio -> getLabel() . "</label>\n"
@@ -312,6 +374,35 @@ class Simple implements Renderer {
     }
 
     /**
+     * Encode an attribute into escaped HTML
+     * @param string $attrName The attribute name.
+     * @param string $value The attribute value.
+     * @return string
+     */
+    protected function writeAttribute($attrName, $value) {
+        switch ($attrName[0]) {
+            case '!': {
+                // Attrribute that does not need to be escaped
+                $html = ' ' . substr($attrName, 1) . '="' . $value . '"';
+            }
+            break;
+
+            case '=': {
+                // Stand-alone attribute with no value
+                $html = ' ' . substr($attrName, 1);
+            }
+            break;
+
+            default: {
+                $html = ' ' . $attrName . '="' . htmlspecialchars($value) . '"';
+            }
+            break;
+
+        }
+        return $html;
+    }
+
+    /**
      * Encode attributes into escaped HTML
      * @param array $attrs
      * @return string
@@ -319,25 +410,7 @@ class Simple implements Renderer {
     protected function writeAttributes($attrs) {
         $html = '';
         foreach ($attrs as $attrName => $value) {
-            switch ($attrName[0]) {
-                case '!': {
-                    // Attrribute that does not need to be escaped
-                    $html .= ' ' . substr($attrName, 1) . '="' . $value . '"';
-                }
-                break;
-
-                case '=': {
-                    // Stand-alone attribute with no value
-                    $html .= ' ' . substr($attrName, 1);
-                }
-                break;
-
-                default: {
-                    $html .= ' ' . $attrName . '="' . htmlspecialchars($value) . '"';
-                }
-                break;
-
-            }
+            $html .= $this -> writeAttribute($attrName, $value);
         }
         return $html;
     }

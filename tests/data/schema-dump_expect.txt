@@ -8,7 +8,7 @@ Abivia\NextForm\Data\Schema Object
             [error] =>
             [heading] =>
             [help] =>
-            [placeholder] =>
+            [inner] =>
             [translate] => 1
             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                 (
@@ -39,7 +39,7 @@ Abivia\NextForm\Data\Schema Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -124,7 +124,7 @@ Abivia\NextForm\Data\Schema Object
                                             [error] =>
                                             [heading] =>
                                             [help] =>
-                                            [placeholder] =>
+                                            [inner] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (

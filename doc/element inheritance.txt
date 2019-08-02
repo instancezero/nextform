@@ -1,9 +1,13 @@
 Element                 (enabled, form, group, name, type, visible)
-    NamedElement      (labels, labelsTranslated)
+    NamedElement      (formName)
+        ButtonElement       (reset,submit)
         ContainerElement    (elements)
             CellElement
             SectionElement
         FieldElement        (dataProperty, object, triggers)
-    SimpleElement       (value)
+    SimpleElement           (value)
         HtmlElement
         StaticElement
+        
+traits
+    Labels              (hasTranslation, labels, labelsTranslated)

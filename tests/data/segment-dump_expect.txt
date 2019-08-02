@@ -14,7 +14,7 @@ Abivia\NextForm\Data\Segment Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
@@ -92,7 +92,7 @@ Abivia\NextForm\Data\Segment Object
                             [error] =>
                             [heading] =>
                             [help] =>
-                            [placeholder] =>
+                            [inner] =>
                             [translate] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (

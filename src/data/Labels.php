@@ -24,6 +24,7 @@ class Labels implements \JsonSerializable{
     public $error = null;
     public $heading = null;
     public $help = null;
+    public $inner = null;
     static protected $jsonEncodeMethod = [
         'translate' => ['drop:true'],
         'after' => ['drop:null'],
@@ -32,15 +33,14 @@ class Labels implements \JsonSerializable{
         'error' => ['drop:null'],
         'heading' => ['drop:null'],
         'help' => ['drop:null'],
-        'placeholder' => ['drop:null'],
+        'inner' => ['drop:null'],
     ];
-    public $placeholder = null;
     /**
      * A list of the properties that contain text.
      * @var array
      */
     static private $textProperties = [
-        'after', 'before', 'confirm', 'error', 'heading', 'help', 'placeholder'
+        'after', 'before', 'confirm', 'error', 'heading', 'help', 'inner'
     ];
     public $translate = true;
 

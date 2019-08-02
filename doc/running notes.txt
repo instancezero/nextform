@@ -2,4 +2,4 @@ To Do List
 - Flesh out unit tests for Renderer\Simple
 - Alignment in text fields, radio, checkboxes.
 - Implement render context push/pull
-- Add list to test Renderer\Simple to see if we generate a <datalist> correctly.
+- Don't fold repetitive code for labels into functions just yet... we may want to add classes, etc.

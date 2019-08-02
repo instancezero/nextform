@@ -134,6 +134,13 @@
             "type": "field",
             "object": "businessName",
             "memberOf": "business"
+        },
+        {
+            "type": "button",
+            "submit": true,
+            "labels": {
+                "inner": "Join"
+            }
         }
     ]
 }
