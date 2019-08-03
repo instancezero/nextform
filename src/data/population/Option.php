@@ -13,11 +13,11 @@ class Option implements \JsonSerializable {
 
     protected $enabled = true;
     static protected $jsonEncodeMethod = [
-        'enabled' => ['drop:true'],
         'label' => [],
+        'value' => ['drop:null'],
+        'enabled' => ['drop:true'],
         'name' => ['drop:blank','drop:null'],
         'sidecar' => ['drop:null'],
-        'value' => ['drop:null'],
     ];
     protected $label;
     protected $name;

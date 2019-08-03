@@ -50,6 +50,7 @@ class Property implements \JsonSerializable {
             'presentation' => ['className' => '\Abivia\NextForm\Data\Presentation'],
             'store' => ['className' => '\Abivia\NextForm\Data\Store'],
             'labels' => ['className' => '\Abivia\NextForm\Data\Labels'],
+            'validation' => ['className' => '\Abivia\NextForm\Data\Validation'],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];
@@ -88,6 +89,13 @@ class Property implements \JsonSerializable {
             $this -> presentation = new \Abivia\NextForm\Data\Presentation;
         }
         return $this -> presentation;
+    }
+
+    public function getValidation() : \Abivia\NextForm\Data\Validation {
+        if ($this -> validation === null) {
+            $this -> validation = new \Abivia\NextForm\Data\Validation;
+        }
+        return $this -> validation;
     }
 
     public function getStore() {

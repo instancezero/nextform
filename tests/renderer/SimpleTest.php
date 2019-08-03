@@ -50,18 +50,26 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
+        //
         // No access specification assumes write access
+        //
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="text"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
+        //
         // Same result with explicit write access
+        //
         $data = $obj -> render($element, ['access' => 'write']);
         $this -> assertEquals($expect, $data);
+        //
         // Test view access
+        //
         $data = $obj -> render($element, ['access' => 'view']);
         $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
+        //
         // Test read (less than view) access
+        //
         $data = $obj -> render($element, ['access' => 'read']);
         $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -115,6 +123,58 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
             . '<span>suffix</span>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
+        //
+        // Add a heading
+        //
+        $element -> setLabel('heading', 'Stuff');
+        $data = $obj -> render($element);
+        $expect -> body = '<label for="field-1">Stuff</label>' . "\n" . $expect -> body;
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test various validation options
+     */
+	public function testFormRendererSimpleFieldTextValidation() {
+        NextForm::boot();
+        $expect = new Block;
+        $tail = "<br/>\n";
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        $validation = $element -> getDataProperty() -> getValidation();
+        //
+        // Make the field required
+        //
+        $validation -> set('required', true);
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' type="text"'
+            . ' required/>' . $tail;
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a maximum length
+        //
+        $validation -> set('maxLength', 10);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' type="text"'
+            . ' maxlength="10" required/>' . $tail;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Make it match a postal code
+        //
+        $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' type="text"'
+            . ' maxlength="10" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . $tail;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        return;
         //
         // Add a heading
         //

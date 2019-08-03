@@ -35,8 +35,8 @@
                         "source": "fixed",
                         "list": [
                             {
-                                "value": "IND",
                                 "label": "Individual $30",
+                                "value": "IND",
                                 "sidecar": {
                                     "fee": {
                                         "default": 30
@@ -44,8 +44,8 @@
                                 }
                             },
                             {
-                                "value": "FAM",
                                 "label": "Family $50",
+                                "value": "FAM",
                                 "sidecar": {
                                     "fee": {
                                         "default": 50
@@ -53,8 +53,8 @@
                                 }
                             },
                             {
-                                "value": "STU",
                                 "label": "Student $15",
+                                "value": "STU",
                                 "sidecar": {
                                     "fee": {
                                         "default": 15
@@ -62,8 +62,8 @@
                                 }
                             },
                             {
-                                "value": "FEL",
                                 "label": "Fellow Association $40",
+                                "value": "FEL",
                                 "sidecar": {
                                     "fee": {
                                         "default": 40
@@ -71,8 +71,8 @@
                                 }
                             },
                             {
-                                "value": "BUS",
                                 "label": "Business $75",
+                                "value": "BUS",
                                 "sidecar": {
                                     "fee": {
                                         "default": 75
@@ -80,8 +80,8 @@
                                 }
                             },
                             {
-                                "value": "PAT",
                                 "label": "Patron $100-$299",
+                                "value": "PAT",
                                 "sidecar": {
                                     "fee": {
                                         "default": 100,
@@ -91,8 +91,8 @@
                                 }
                             },
                             {
-                                "value": "SPO",
                                 "label": "Sponsor $300+",
+                                "value": "SPO",
                                 "sidecar": {
                                     "fee": {
                                         "default": 300,
@@ -320,7 +320,7 @@
                         "size": 127
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -351,7 +351,7 @@
                         "size": 63
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -368,7 +368,7 @@
                         "size": 63
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -379,14 +379,11 @@
                     },
                     "presentation": {
                         "cols": 1,
-                        "type": "text"
+                        "type": "number"
                     },
                     "store": {
                         "type": "decimal",
                         "size": "10,2"
-                    },
-                    "validation": {
-                        "format": "number"
                     }
                 }
             ]

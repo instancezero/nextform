@@ -41,8 +41,9 @@ class Simple implements Renderer {
             'accept' => true, 'multiple' => true, 'required' => true, 'value' => false
         ],
         'image' => [
-            'formaction' => true, 'formenctype' => true, 'formmethod' => true,
-            'formtarget' => true, 'height' => true, 'src' => true, 'width' => true,
+            'alt' => true, 'formaction' => true, 'formenctype' => true,
+            'formmethod' => true, 'formtarget' => true, 'height' => true,
+            'src' => true, 'width' => true,
         ],
         'month' => ['required' => true, 'step' => true, ],
         'number' => [
@@ -68,7 +69,7 @@ class Simple implements Renderer {
             'required' => true, 'size' => true,
         ],
         'text' => [
-            'list' => true, 'pattern' => true, 'placeholder' => true,
+            'list' => true, 'maxlength' => true ,'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
         'time' => ['step' => true, ],
@@ -79,6 +80,18 @@ class Simple implements Renderer {
         'week' => ['required' => true, 'step' => true, ],
     ];
     static $renderMethodCache = [];
+    /**
+     * Map validation-related attributes to properties in a Data\Validation object.
+     * @var array
+     */
+    static $validationMap = [
+        'maxlength' => ['maxLength', null],
+        'max' => ['maxValue', null],
+        'min' => ['minValue', null],
+        'pattern' => ['-pattern', ''],
+        '=required' => ['required', false],
+        'step' => ['step', null],
+    ];
 
     public function __construct($options = []) {
         // Build a non-sparse input attribute matrix
@@ -97,6 +110,24 @@ class Simple implements Renderer {
             // Overwrite the defaults for each input type
             foreach (self::$inputAttributes as &$attrs) {
                 $attrs = array_merge($common, $attrs);
+            }
+        }
+    }
+
+    /**
+     * Add validation elements to an attributes list
+     * @param array $attrs The attribute list
+     * @param string $type The input type we're generating
+     * @param \Abivia\NextForm\Data\Validation $validation
+     */
+    protected function addValidation(&$attrs, $type, $validation) {
+        foreach (self::$validationMap as $attrName => $specs) {
+            list($lookup) = $this -> parseAttribute($attrName);
+            if (self::$inputAttributes[$type][$lookup]) {
+                $setting = $validation -> get($specs[0]);
+                if ($setting !== $specs[1]) {
+                    $attrs[$attrName] = $setting;
+                }
             }
         }
     }
@@ -140,6 +171,21 @@ class Simple implements Renderer {
             self::$renderMethodCache[$classPath] = 'render' . array_pop($classParts);
         }
         return self::$renderMethodCache[$classPath];
+    }
+
+    /**
+     * Extract a processing command (! no escape; = no value) from an attribute, if any
+     * @param string $attrName The attribute command and name
+     * @return array Attribute name in the first element, command (or '') in the second.
+     */
+    protected function parseAttribute($attrName) {
+        if (strpos('!=', $attrName[0]) !== false) {
+            $cmd = $attrName[0];
+            $attrName = substr($attrName, 1);
+        } else {
+            $cmd = '';
+        }
+        return [$attrName, $cmd];
     }
 
     public function popContext(Block $block, $options = []) {
@@ -259,6 +305,9 @@ class Simple implements Renderer {
             } else {
                 // Render the data list if there is one
                 $block -> merge($this -> dataList($attrs, $element, $type, $options));
+                // Add in any validation
+                $this -> addValidation($attrs, $type, $data -> getValidation());
+                // Generate the input element
                 $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>";
             }
             if ($labels -> after !== null) {
@@ -375,21 +424,22 @@ class Simple implements Renderer {
 
     /**
      * Encode an attribute into escaped HTML
-     * @param string $attrName The attribute name.
+     * @param string $atrName The attribute name with optional processing command.
      * @param string $value The attribute value.
      * @return string
      */
     protected function writeAttribute($attrName, $value) {
-        switch ($attrName[0]) {
+        list($attrName, $cmd) = $this -> parseAttribute($attrName);
+        switch ($cmd) {
             case '!': {
                 // Attrribute that does not need to be escaped
-                $html = ' ' . substr($attrName, 1) . '="' . $value . '"';
+                $html = ' ' . $attrName . '="' . $value . '"';
             }
             break;
 
             case '=': {
                 // Stand-alone attribute with no value
-                $html = ' ' . substr($attrName, 1);
+                $html = ' ' . $attrName;
             }
             break;
 

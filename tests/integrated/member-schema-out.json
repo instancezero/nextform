@@ -36,70 +36,70 @@
                         "list": [
                             {
                                 "label": "Individual $30",
+                                "value": "IND",
                                 "sidecar": {
                                     "fee": {
                                         "default": 30
                                     }
-                                },
-                                "value": "IND"
+                                }
                             },
                             {
                                 "label": "Family $50",
+                                "value": "FAM",
                                 "sidecar": {
                                     "fee": {
                                         "default": 50
                                     }
-                                },
-                                "value": "FAM"
+                                }
                             },
                             {
                                 "label": "Student $15",
+                                "value": "STU",
                                 "sidecar": {
                                     "fee": {
                                         "default": 15
                                     }
-                                },
-                                "value": "STU"
+                                }
                             },
                             {
                                 "label": "Fellow Association $40",
+                                "value": "FEL",
                                 "sidecar": {
                                     "fee": {
                                         "default": 40
                                     }
-                                },
-                                "value": "FEL"
+                                }
                             },
                             {
                                 "label": "Business $75",
+                                "value": "BUS",
                                 "sidecar": {
                                     "fee": {
                                         "default": 75
                                     }
-                                },
-                                "value": "BUS"
+                                }
                             },
                             {
                                 "label": "Patron $100-$299",
+                                "value": "PAT",
                                 "sidecar": {
                                     "fee": {
                                         "default": 100,
                                         "minValue": 100,
                                         "maxValue": 299
                                     }
-                                },
-                                "value": "PAT"
+                                }
                             },
                             {
                                 "label": "Sponsor $300+",
+                                "value": "SPO",
                                 "sidecar": {
                                     "fee": {
                                         "default": 300,
                                         "minValue": 300,
                                         "maxValue": 99999
                                     }
-                                },
-                                "value": "SPO"
+                                }
                             }
                         ]
                     },
@@ -320,7 +320,7 @@
                         "size": 127
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -351,7 +351,7 @@
                         "size": 63
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -368,7 +368,7 @@
                         "size": 63
                     },
                     "validation": {
-                        "required": "true"
+                        "required": true
                     }
                 },
                 {
@@ -379,14 +379,11 @@
                     },
                     "presentation": {
                         "cols": 1,
-                        "type": "text"
+                        "type": "number"
                     },
                     "store": {
                         "type": "decimal",
                         "size": "10,2"
-                    },
-                    "validation": {
-                        "format": "number"
                     }
                 }
             ]

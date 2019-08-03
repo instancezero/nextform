@@ -10,25 +10,25 @@ class Block {
      * Executable code associated with an Element.
      * @var string
      */
-    public $code;
+    public $code = '';
 
     /**
      * Page header data associated with an Element.
      * @var string
      */
-    public $head;
+    public $head = '';
 
     /**
      * Markup associated with an Element.
      * @var string
      */
-    public $body;
+    public $body = '';
 
     /**
      * Markup that follows any nested elements.
      * @var string
      */
-    public $post;
+    public $post = '';
 
     /**
      * List of script files to link

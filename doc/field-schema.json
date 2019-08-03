@@ -56,7 +56,6 @@
                     },
                     "validation": {
                         "async": "boolean",
-                        "format": "number|date|email|list|lookup|string|url",
                         "maxLength": "length",
                         "minLength": "length",
                         "maxValue": "value",
@@ -64,7 +63,7 @@
                         "pattern": "regex",
                         "required": "boolean",
                         "step": "integer",
-                        "useLocale": "boolean. If true, pattern is a language lookup id"
+                        "translatePattern": "boolean. If true, pattern is a language lookup id"
                     }
                 },
                 {}

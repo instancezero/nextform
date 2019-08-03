@@ -93,6 +93,9 @@ trait JsonEncoder {
                 case 'true':
                     $drop = $value === true;
                     break;
+                case 'zero':
+                    $drop = $value === 0;
+                    break;
             }
             if ($drop) {
                 return false;
