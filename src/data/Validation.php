@@ -46,7 +46,7 @@ class Validation implements \JsonSerializable {
                 $this -> configureLogError($property . ' must be a boolean.');
                 return false;
             }
-        } elseif (in_array($property, ['maxLength', 'maxValue', 'minLength', 'minValue', 'step'])) {
+        } elseif (in_array($property, ['maxLength', 'minLength'])) {
             if (!is_numeric($value)) {
                 $this -> configureLogError($property . ' must be numeric.');
                 return false;
@@ -58,6 +58,16 @@ class Validation implements \JsonSerializable {
             }
             if ($property === 'minLength' && $value < 0) {
                 $this -> configureLogError($property . ' must be a non-negative integer.');
+                return false;
+            }
+        } elseif (in_array($property, ['maxValue', 'minValue', 'step'])) {
+            if (!is_numeric($value)) {
+                $this -> configureLogError($property . ' must be numeric.');
+                return false;
+            }
+            $value = (float) $value;
+            if ($property === 'step' && $value <= 0) {
+                $this -> configureLogError($property . ' must be a positive number.');
                 return false;
             }
         } elseif (in_array($property, ['pattern'])) {
@@ -121,6 +131,13 @@ class Validation implements \JsonSerializable {
         return true;
     }
 
+    /**
+     * Set a property, validating while doing so
+     * @param string $property The property name.
+     * @param mixed $value The property value.
+     * @return $this
+     * @throws \RuntimeException If the property has an invalid value.
+     */
     public function set($property, $value) {
         $this -> configureErrors = [];
         if (!$this -> configureValidate($property, $value)) {

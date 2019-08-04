@@ -3,21 +3,22 @@
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Element\ButtonElement;
+use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Simple;
-use Abivia\NextForm\Element\FieldElement;
 
 /**
  * @covers \Abivia\NextForm\Renderer\Simple
  */
 class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
 
-	public function testFormRendererSimpleInstantiation() {
+	public function testFormRendererSimple_Instantiation() {
         $obj = new Simple();
 		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\Simple', $obj);
 	}
 
-	public function testFormRendererSimpleStart() {
+	public function testFormRendererSimple_Start() {
         NextForm::boot();
         $obj = new Simple();
         $data = $obj -> start();
@@ -34,14 +35,117 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
+     * Check a a button
+     */
+	public function testFormRendererSimple_Button() {
+        NextForm::boot();
+        $expect = new Block;
+        $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
+        $obj = new Simple();
+        $element = new ButtonElement();
+        $element -> configure($config);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="button-1" name="button-1"'
+            . ' value="I am Button!" type="button"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Make it a reset
+        //
+        $element -> set('function', 'reset');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="button-1" name="button-1"'
+            . ' value="I am Button!" type="reset"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Make it a submit
+        //
+        $element -> set('function', 'submit');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="button-1" name="button-1"'
+            . ' value="I am Button!" type="submit"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Set it back to button
+        //
+        $element -> set('function', 'button');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="button-1" name="button-1"'
+            . ' value="I am Button!" type="button"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="button-1" disabled name="button-1" value="I am Button!" type="button"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="button-1" name="button-1" value="I am Button!" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test a field with label options
+     */
+	public function testFormRendererSimple_ButtonLabels() {
+        NextForm::boot();
+        $expect = new Block;
+        $tail = "<br/>\n";
+        $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
+        $obj = new Simple();
+        $element = new ButtonElement();
+        $element -> configure($config);
+        //
+        // Make sure the value shows up
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="button-1" name="button-1"'
+            . ' value="I am Button!"' . ' type="button"/>' . $tail;
+        $this -> assertEquals($expect, $data);
+        //
+        // Some text before
+        //
+        $element -> setLabel('before', 'prefix');
+        $expect -> body = '<span>prefix</span>' . $expect -> body;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Some text after
+        //
+        $element -> setLabel('after', 'suffix');
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = substr($expect -> body, 0, -strlen($tail))
+            . '<span>suffix</span>' . $tail;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Add a heading
+        //
+        $element -> setLabel('heading', 'Stuff');
+        $data = $obj -> render($element);
+        $expect -> body = '<label for="button-1">Stuff</label>' . "\n" . $expect -> body;
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
      * @doesNotPerformAssertions
      */
-	public function testFormRendererSimpleSetOptions() {
+	public function testFormRendererSimple_SetOptions() {
         $obj = new Simple();
         $obj -> setOptions();
     }
 
-	public function testFormRendererSimpleFieldText() {
+	public function testFormRendererSimple_FieldText() {
         NextForm::boot();
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -76,9 +180,9 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test various label options
+     * Test a text field with label options
      */
-	public function testFormRendererSimpleFieldTextLabels() {
+	public function testFormRendererSimple_FieldTextLabels() {
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
@@ -135,7 +239,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test various validation options
      */
-	public function testFormRendererSimpleFieldTextValidation() {
+	public function testFormRendererSimple_FieldTextValidation() {
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
@@ -174,17 +278,9 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
             . ' maxlength="10" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
-        return;
-        //
-        // Add a heading
-        //
-        $element -> setLabel('heading', 'Stuff');
-        $data = $obj -> render($element);
-        $expect -> body = '<label for="field-1">Stuff</label>' . "\n" . $expect -> body;
-        $this -> assertEquals($expect, $data);
     }
 
-	public function testFormRendererSimpleFieldTextDataList() {
+	public function testFormRendererSimple_FieldTextDataList() {
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
@@ -217,16 +313,17 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Check a simple button
+     * Check a field as the button types
      */
-	public function testFormRendererSimpleFieldButton() {
+	public function testFormRendererSimple_FieldButton() {
         NextForm::boot();
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         //
         // Modify the schema to change test/text to a button
         //
-        $schema -> getProperty('test/text') -> getPresentation() -> setType('button');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('button');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $obj = new Simple();
         $element = new FieldElement();
@@ -236,12 +333,166 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="button"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
+        $presentation -> setType('reset');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="reset"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $presentation -> setType('submit');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="submit"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+   }
+
+   /**
+    * Check field as a hidden element
+    */
+	public function testFormRendererSimple_FieldHidden() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('hidden');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with read access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test a hidden field with label options
+     */
+	public function testFormRendererSimple_FieldHiddenLabels() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('hidden');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        $ret = $element -> setValue('the value');
+        $this -> assertTrue($element === $ret);
+        //
+        // Make sure the value shows up
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' value="the value"' . ' type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Add a inner
+        //
+        $element -> setLabel('inner', 'Something with & in it');
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Some text before
+        //
+        $element -> setLabel('before', 'prefix');
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Some text after
+        //
+        $element -> setLabel('after', 'suffix');
+        // Strip the tail off, add label, re-add tail
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Add a heading
+        //
+        $element -> setLabel('heading', 'Stuff');
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Check a field as a number
+     */
+	public function testFormRendererSimple_FieldNumber() {
+        NextForm::boot();
+        $tail = "<br/>\n";
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a number
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('number');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        $element -> setValue('200');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" value="200" type="number"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Make the field required
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('required', true);
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' value="200" type="number"'
+            . ' required/>' . $tail;
+        $this -> assertEquals($expect, $data);
+        //
+        // Set minimum/maximum values
+        //
+        $validation -> set('minValue', -1000);
+        $validation -> set('maxValue', 999.45);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' value="200" type="number"'
+            . ' max="999.45" min="-1000" required/>' . $tail;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Add a step
+        //
+        $validation -> set('step', 1.23);
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' value="200" type="number"'
+            . ' max="999.45" min="-1000" required step="1.23"/>' . $tail;
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Settng a pattern should have no effect!
+        //
+        $validation -> set('pattern', '/[+\-]?[0-9]+/');
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
     }
 
     /**
      * Test code generation for a radio element
      */
-	public function testFormRendererSimpleFieldRadio() {
+	public function testFormRendererSimple_FieldRadio() {
         NextForm::boot();
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');

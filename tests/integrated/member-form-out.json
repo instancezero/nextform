@@ -173,7 +173,7 @@
             "labels": {
                 "inner": "Join"
             },
-            "submit": true
+            "function": "submit"
         }
     ]
 }

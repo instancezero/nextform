@@ -137,7 +137,7 @@
         },
         {
             "type": "button",
-            "submit": true,
+            "function": "submit",
             "labels": {
                 "inner": "Join"
             }

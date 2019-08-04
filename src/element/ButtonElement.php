@@ -9,13 +9,12 @@ class ButtonElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    protected $function = 'button';
     static protected $jsonEncodeMethod = [];
     static protected $jsonLocalMethod = [
-        'reset' => ['drop:false'],
-        'submit' => ['drop:false'],
+        'function' => ['drop:false'],
     ];
-    protected $reset = false;
-    protected $submit = false;
+    static protected $validFunctions = ['button', 'reset', 'submit'];
 
     public function __construct() {
         parent::__construct();
@@ -51,14 +50,34 @@ class ButtonElement Extends NamedElement {
         return parent::configurePropertyMap($property);
     }
 
-    public function getButtonType() {
-        $type = 'button';
-        if ($this -> submit) {
-            $type = 'submit';
-        } elseif ($this -> reset) {
-            $type = 'reset';
+    protected function configureValidate($property, &$value) {
+        if ($property === 'function' && !in_array($value, self::$validFunctions)) {
+            $this -> configureLogError(
+                $property . ' must be one of ' . implode(',', self::$validFunctions) . '.'
+            );
+            return false;
         }
-        return $type;
+        return true;
+    }
+
+    public function getFunction() {
+        return $this -> function;
+    }
+
+    /**
+     * Set a property, validating while doing so
+     * @param string $property The property name.
+     * @param mixed $value The property value.
+     * @return $this
+     * @throws \RuntimeException If the property has an invalid value.
+     */
+    public function set($property, $value) {
+        $this -> configureErrors = [];
+        if (!$this -> configureValidate($property, $value)) {
+            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        }
+        $this -> $property = $value;
+        return $this;
     }
 
 }

@@ -19,11 +19,11 @@ class Simple implements Renderer {
         '*' => [
             'autocomplete' => true, 'autofocus' => true,
             'dirname' => true, 'disabled' => true, 'form' => true,
-            'name' => true, 'value' => true,
+            'name' => true, 'readonly' => true, 'type' => true, 'value' => true,
             // Globals
             'accesskey' => true, 'class' => true, 'contenteditable' => true,
             'dir' => true, 'draggable' => true, 'dropzone' => true,
-            'hidden' => true, 'id' => true, 'lang' => true,
+            'id' => true, 'lang' => true,
             'spellcheck' => true, 'style' => true, 'tabindex' => true, 'title' => true,
             'translate' => true,
         ],
@@ -40,6 +40,9 @@ class Simple implements Renderer {
         'file' => [
             'accept' => true, 'multiple' => true, 'required' => true, 'value' => false
         ],
+        'hidden' => [
+            'placeholder' => false, 'readonly' => false,
+        ],
         'image' => [
             'alt' => true, 'formaction' => true, 'formenctype' => true,
             'formmethod' => true, 'formtarget' => true, 'height' => true,
@@ -53,7 +56,7 @@ class Simple implements Renderer {
         'password' => [
             'pattern' => true, 'placeholder' => true, 'required' => true, 'size' => true,
         ],
-        'radio' => ['required' => true, ],
+        'radio' => ['checked' => true, 'required' => true, ],
         'range' => ['step' => true, ],
         'reset' => [],
         'search' => [
@@ -149,15 +152,12 @@ class Simple implements Renderer {
             $attrs['list'] = $attrs['id'] . '-list';
             $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
             foreach ($list as $option) {
-                $block -> post .= '  <option value="'
-                    . htmlspecialchars($option -> getValue()) . '"';
-                    $sidecar = $option -> getSidecar();
-                    if ($sidecar !== null) {
-                        $block -> post .=  $this -> writeAttribute(
-                            'data-sidecar', json_encode($sidecar)
-                        );
-                    }
-                $block -> post .= "/>\n";
+                $optAttrs = ['value' => $option -> getValue()];
+                $sidecar = $option -> getSidecar();
+                if ($sidecar !== null) {
+                    $optAttrs['!data-sidecar'] = json_encode($sidecar);
+                }
+                $block -> post .= '  ' . $this -> writeElement('option', $optAttrs) . "\n";
             }
             $block -> post .= "</datalist>\n";
         }
@@ -232,16 +232,16 @@ class Simple implements Renderer {
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
             $attrs['type'] = 'hidden';
-            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>\n";
+            $block -> body .= $this -> writeElement('input', $attrs) . "\n";
         } else {
             //
             // We can see or change the data
             //
-            $attrs['type'] = $element -> getButtonType();
+            $attrs['type'] = $element -> getFunction();
             if ($labels -> before !== null) {
                 $block -> body .= '<span>' . $labels -> before . '</span>';
             }
-            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>";
+            $block -> body .= $this -> writeElement('input', $attrs);
             if ($labels -> after !== null) {
                 $block -> body .= '<span>'. $labels -> after . '</span>';
             }
@@ -256,16 +256,11 @@ class Simple implements Renderer {
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $labels = $element -> getLabels(true);
-        if ($labels -> heading) {
-            $block -> body = '<label for="' . $element -> getId() . '">'
-                . $labels -> heading . '</label>' . "\n";
-        }
         /*
             'checkbox', 'color', 'date', 'datetime', 'datetime-local',
-            'email', 'file', 'hidden', 'image', 'month', 'number',
-            'password', 'range', 'reset', 'search',
-            'submit', 'tel', 'textarea', 'time', 'url', 'week',
+            'email', 'file', 'hidden', 'image', 'month',
+            'password', 'range', 'search',
+            'tel', 'textarea', 'time', 'url', 'week',
             // Our non w3c types...
             'select',
         */
@@ -281,13 +276,18 @@ class Simple implements Renderer {
         if (($value = $element -> getValue()) !== null) {
             $attrs['value'] = $value;
         }
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'read' || $type === 'hidden') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
             $attrs['type'] = 'hidden';
-            $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>\n";
+            $block -> body .= $this -> writeElement('input', $attrs) . "\n";
         } else {
+            $labels = $element -> getLabels(true);
+            if ($labels -> heading) {
+                $block -> body = '<label for="' . $element -> getId() . '">'
+                    . $labels -> heading . '</label>' . "\n";
+            }
             //
             // We can see or change the data
             //
@@ -308,7 +308,7 @@ class Simple implements Renderer {
                 // Add in any validation
                 $this -> addValidation($attrs, $type, $data -> getValidation());
                 // Generate the input element
-                $block -> body .= '<input' . $this -> writeAttributes($attrs) . "/>";
+                $block -> body .= $this -> writeElement('input', $attrs);
             }
             if ($labels -> after !== null) {
                 $block -> body .= '<span>'. $labels -> after . '</span>';
@@ -340,9 +340,9 @@ class Simple implements Renderer {
             }
             $sidecar = $radio -> getSidecar();
             if ($sidecar !== null) {
-                $attrs['data-sidecar'] = json_encode($sidecar);
+                $attrs['!data-sidecar'] = json_encode($sidecar);
             }
-            $block -> body .= "<div>\n  <input" . $this -> writeAttributes($attrs) . "/>\n"
+            $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
                 . '  <label for="' . $id . '">' . $radio -> getLabel() . "</label>\n"
                 . "</div>\n";
         }
@@ -372,9 +372,9 @@ class Simple implements Renderer {
                 unset($attrs['=checked']);
             }
             if (isset($radio -> sidecar)) {
-                $attrs['data-sidecar'] = json_encode($radio -> sidecar);
+                $attrs['!data-sidecar'] = json_encode($radio -> sidecar);
             }
-            $block -> body .= "<div>\n  <input" . $this -> writeAttributes($attrs) . "/>\n"
+            $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
                 . '  <label for="' . $id . '">' . $radio -> label . "</label>\n"
                 . "</div>\n";
         }
@@ -417,7 +417,7 @@ class Simple implements Renderer {
             $attrs['name'] = $options['name'];
         }
         $pageData = new Block();
-        $pageData -> body = '<form' . $this -> writeAttributes($attrs) . '>' . "\n";
+        $pageData -> body = $this -> writeElement('form', $attrs) . "\n";
         $pageData -> post = '</form>' . "\n";
         return $pageData;
     }
@@ -428,8 +428,7 @@ class Simple implements Renderer {
      * @param string $value The attribute value.
      * @return string
      */
-    protected function writeAttribute($attrName, $value) {
-        list($attrName, $cmd) = $this -> parseAttribute($attrName);
+    protected function writeAttribute($attrName, $cmd, $value) {
         switch ($cmd) {
             case '!': {
                 // Attrribute that does not need to be escaped
@@ -453,15 +452,31 @@ class Simple implements Renderer {
     }
 
     /**
-     * Encode attributes into escaped HTML
+     * Write an element and attributes into escaped HTML
      * @param array $attrs
      * @return string
      */
-    protected function writeAttributes($attrs) {
-        $html = '';
-        foreach ($attrs as $attrName => $value) {
-            $html .= $this -> writeAttribute($attrName, $value);
+    protected function writeElement($element, $attrs) {
+        $html = '<' . $element;
+        if ($element === 'input') {
+            $type = $attrs['type'];
+        } else {
+            $type = true;
         }
+        foreach ($attrs as $attrName => $value) {
+            // For input elements, only write the allowed attributes
+            list($lookup, $cmd) = $this -> parseAttribute($attrName);
+            if (
+                $type === true
+                || (isset(self::$inputAttributes[$type][$lookup])
+                    && self::$inputAttributes[$type][$lookup]
+                )
+                || substr($lookup, 0, 5) === 'data-'
+            ) {
+                $html .= $this -> writeAttribute($lookup, $cmd, $value);
+            }
+        }
+        $html .= in_array($element, ['input', 'option']) ? '/>' : '>';
         return $html;
     }
 
