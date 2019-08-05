@@ -15,6 +15,7 @@ class Population implements \JsonSerializable {
         'query' => ['drop:blank','drop:null'],
         'translate' => ['drop:true'],
         'list' => [],
+        'sidecar' => ['drop:null'],
     ];
     static protected $knownSources = [
         'fixed', 'local', 'remote', 'static',
@@ -22,6 +23,11 @@ class Population implements \JsonSerializable {
     protected $list;
     protected $parameters;
     protected $query;
+    /**
+     * Arbitrary data associated with this field.
+     * @var mixed
+     */
+    public $sidecar;
     protected $source;
     protected $translate = true;
 
@@ -94,6 +100,9 @@ class Population implements \JsonSerializable {
             return false;
         }
         if ($this -> query !== null && $this -> query !== '') {
+            return false;
+        }
+        if ($this -> sidecar !== null) {
             return false;
         }
         if ($this -> source !== null && $this -> source !== '') {

@@ -41,7 +41,11 @@
                                     "anythingLegal": true
                                 }
                             }
-                        ]
+                        ],
+                        "sidecar": {
+                            "#comment": "optional object of arbitrary values associated with this object",
+                            "anythingLegal": true
+                        }
                     },
                     "presentation": {
                         "#comment": "type, size, etc.",

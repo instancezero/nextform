@@ -22,7 +22,11 @@ class Option implements \JsonSerializable {
     protected $label;
     protected $name;
     protected $selected = false;
-    protected $sidecar;
+    /**
+     * Arbitrary data associated with this field.
+     * @var mixed
+     */
+    public $sidecar;
     protected $value;
 
     protected function configureClassMap($property, $value) {
@@ -71,10 +75,6 @@ class Option implements \JsonSerializable {
 
     public function getSelected() {
         return $this -> selected;
-    }
-
-    public function getSidecar() {
-        return $this -> sidecar;
     }
 
     public function getValue() {

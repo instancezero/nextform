@@ -15,6 +15,7 @@ class Simple implements Renderer {
     protected $context = [
         ['inCell' => false]
     ];
+    static $highlightAttribute = ['id', 'name', 'type', 'class', 'style', 'value'];
     static $inputAttributes = [
         '*' => [
             'autocomplete' => true, 'autofocus' => true,
@@ -82,7 +83,16 @@ class Simple implements Renderer {
         ],
         'week' => ['required' => true, 'step' => true, ],
     ];
+    /**
+     * Maps element types to render methods.
+     * @var array
+     */
     static $renderMethodCache = [];
+    /**
+     * Quick lookup for self-closing elements
+     * @var array
+     */
+    static $selfClose = ['input' => true, 'option' => true];
     /**
      * Map validation-related attributes to properties in a Data\Validation object.
      * @var array
@@ -153,7 +163,7 @@ class Simple implements Renderer {
             $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
             foreach ($list as $option) {
                 $optAttrs = ['value' => $option -> getValue()];
-                $sidecar = $option -> getSidecar();
+                $sidecar = $option -> sidecar;
                 if ($sidecar !== null) {
                     $optAttrs['!data-sidecar'] = json_encode($sidecar);
                 }
@@ -219,7 +229,7 @@ class Simple implements Renderer {
         $labels = $element -> getLabels(true);
         if ($labels -> heading) {
             $block -> body = '<label for="' . $element -> getId() . '">'
-                . $labels -> heading . '</label>' . "\n";
+                . htmlspecialchars($labels -> heading) . '</label>' . "\n";
         }
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
@@ -239,11 +249,11 @@ class Simple implements Renderer {
             //
             $attrs['type'] = $element -> getFunction();
             if ($labels -> before !== null) {
-                $block -> body .= '<span>' . $labels -> before . '</span>';
+                $block -> body .= '<span>' . htmlspecialchars($labels -> before) . '</span>';
             }
             $block -> body .= $this -> writeElement('input', $attrs);
             if ($labels -> after !== null) {
-                $block -> body .= '<span>'. $labels -> after . '</span>';
+                $block -> body .= '<span>'. htmlspecialchars($labels -> after) . '</span>';
             }
             $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
@@ -267,10 +277,6 @@ class Simple implements Renderer {
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
-            if ($type == 'radio') {
-                // Render a read-only radio as text
-                $type = 'text';
-            }
         }
         $attrs['name'] = $element -> getFormName();
         if (($value = $element -> getValue()) !== null) {
@@ -286,7 +292,7 @@ class Simple implements Renderer {
             $labels = $element -> getLabels(true);
             if ($labels -> heading) {
                 $block -> body = '<label for="' . $element -> getId() . '">'
-                    . $labels -> heading . '</label>' . "\n";
+                    . htmlspecialchars($labels -> heading) . '</label>' . "\n";
             }
             //
             // We can see or change the data
@@ -296,13 +302,17 @@ class Simple implements Renderer {
             }
             $attrs['type'] = $type;
             if ($labels -> before !== null) {
-                $block -> body .= '<span>'. $labels -> before . '</span>';
+                $block -> body .= '<span>'. htmlspecialchars($labels -> before) . '</span>';
             }
             if ($type === 'radio') {
                 $block = $this -> renderFieldRadio($block, $element, $options);
             } elseif ($type === 'select') {
                 $block = $this -> renderFieldSelect($block, $element, $options);
             } else {
+                $sidecar = $data -> getPopulation() -> sidecar;
+                if ($sidecar !== null) {
+                    $attrs['!data-sidecar'] = json_encode($sidecar);
+                }
                 // Render the data list if there is one
                 $block -> merge($this -> dataList($attrs, $element, $type, $options));
                 // Add in any validation
@@ -311,40 +321,59 @@ class Simple implements Renderer {
                 $block -> body .= $this -> writeElement('input', $attrs);
             }
             if ($labels -> after !== null) {
-                $block -> body .= '<span>'. $labels -> after . '</span>';
+                $block -> body .= '<span>'. htmlspecialchars($labels -> after) . '</span>';
             }
             $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
 
-    protected function renderFieldRadio($block, $element, $options = []) {
+    protected function renderFieldRadio(Block $block, FieldElement $element, $options = []) {
         $baseId = $element -> getId();
         $attrs = [];
+        if ($options['access'] == 'view') {
+            $attrs['=readonly'] = 'readonly';
+        }
         $attrs['name'] = $element -> getFormName();
         $attrs['type'] = 'radio';
         $list = $element -> getList(true);
-        $select = $element -> getValue();
-        if ($select === null) {
-            $select = $element -> getDefault();
-        }
-        foreach ($list as $optId => $radio) {
-            $id = $baseId . '-opt' . $optId;
-            $attrs['id'] = $id;
-            $value = $radio -> getValue();
-            $attrs['value'] = htmlspecialchars($value);
-            if ($value === $select) {
-                $attrs['=checked'] = 'checked';
-            } else {
-                unset($attrs['=checked']);
+        if (empty($list)) {
+            $attrs['id'] = $baseId;
+            if (($value = $element -> getValue()) !== null) {
+                $attrs['value'] = $value;
             }
-            $sidecar = $radio -> getSidecar();
+            $sidecar = $element -> getDataProperty() -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
                 $attrs['!data-sidecar'] = json_encode($sidecar);
             }
-            $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
-                . '  <label for="' . $id . '">' . $radio -> getLabel() . "</label>\n"
-                . "</div>\n";
+            $block -> body .= $this -> writeElement('input', $attrs) . "\n"
+                . '<label for="' . $baseId . '">'
+                . htmlspecialchars($element -> getLabels(true) -> inner)
+                . '</label>';
+        } else {
+            $select = $element -> getValue();
+            if ($select === null) {
+                $select = $element -> getDefault();
+            }
+            foreach ($list as $optId => $radio) {
+                $id = $baseId . '-opt' . $optId;
+                $attrs['id'] = $id;
+                $value = $radio -> getValue();
+                $attrs['value'] = htmlspecialchars($value);
+                if ($value === $select) {
+                    $attrs['=checked'] = 'checked';
+                } else {
+                    unset($attrs['=checked']);
+                }
+                $sidecar = $radio -> sidecar;
+                if ($sidecar !== null) {
+                    $attrs['!data-sidecar'] = json_encode($sidecar);
+                }
+                $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
+                    . '  <label for="' . $id . '">'
+                    . htmlspecialchars($radio -> getLabel()) . "</label>\n"
+                    . "</div>\n";
+            }
         }
         return $block;
     }
@@ -458,25 +487,33 @@ class Simple implements Renderer {
      */
     protected function writeElement($element, $attrs) {
         $html = '<' . $element;
+        $parts = [];
         if ($element === 'input') {
-            $type = $attrs['type'];
+            $mask = self::$inputAttributes[$attrs['type']];
+            foreach ($attrs as $attrName => $value) {
+                // For input elements, only write the allowed attributes
+                list($lookup, $cmd) = $this -> parseAttribute($attrName);
+                if (
+                    (isset($mask[$lookup]) && $mask[$lookup])
+                    || substr($lookup, 0, 5) === 'data-'
+                ) {
+                    $parts[$lookup] = $this -> writeAttribute($lookup, $cmd, $value);
+                }
+            }
         } else {
-            $type = true;
-        }
-        foreach ($attrs as $attrName => $value) {
-            // For input elements, only write the allowed attributes
-            list($lookup, $cmd) = $this -> parseAttribute($attrName);
-            if (
-                $type === true
-                || (isset(self::$inputAttributes[$type][$lookup])
-                    && self::$inputAttributes[$type][$lookup]
-                )
-                || substr($lookup, 0, 5) === 'data-'
-            ) {
-                $html .= $this -> writeAttribute($lookup, $cmd, $value);
+            foreach ($attrs as $attrName => $value) {
+                list($lookup, $cmd) = $this -> parseAttribute($attrName);
+                $parts[$lookup] = $this -> writeAttribute($lookup, $cmd, $value);
             }
         }
-        $html .= in_array($element, ['input', 'option']) ? '/>' : '>';
+        foreach (self::$highlightAttribute as $attrName) {
+            if (isset($parts[$attrName])) {
+                $html .= $parts[$attrName];
+                unset($parts[$attrName]);
+            }
+        }
+        $html .= implode('', $parts);
+        $html .= isset(self::$selfClose[$element]) ? '/>' : '>';
         return $html;
     }
 

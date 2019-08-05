@@ -29,9 +29,9 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $data = $obj -> start(['action' => 'https://localhost/some file.php']);
         $this -> assertEquals("<form method=\"post\" action=\"https://localhost/some file.php\">\n", $data -> body);
         $data = $obj -> start(['name' => 'bad<name']);
-        $this -> assertEquals("<form method=\"post\" name=\"bad&lt;name\">\n", $data -> body);
+        $this -> assertEquals("<form name=\"bad&lt;name\" method=\"post\">\n", $data -> body);
         $data = $obj -> start(['id' => 'bad<name']);
-        $this -> assertEquals("<form method=\"post\" id=\"bad&lt;name\">\n", $data -> body);
+        $this -> assertEquals("<form id=\"bad&lt;name\" method=\"post\">\n", $data -> body);
     }
 
     /**
@@ -48,8 +48,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $obj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1"'
-            . ' value="I am Button!" type="button"/><br/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="I am Button!"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Same result with explicit write access
@@ -61,36 +61,36 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> set('function', 'reset');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1"'
-            . ' value="I am Button!" type="reset"/><br/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="reset"'
+            . ' value="I am Button!"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Make it a submit
         //
         $element -> set('function', 'submit');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1"'
-            . ' value="I am Button!" type="submit"/><br/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="submit"'
+            . ' value="I am Button!"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Set it back to button
         //
         $element -> set('function', 'button');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1"'
-            . ' value="I am Button!" type="button"/><br/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="I am Button!"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test view access
         //
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="button-1" disabled name="button-1" value="I am Button!" type="button"/><br/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="button" value="I am Button!" disabled/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="button-1" name="button-1" value="I am Button!" type="hidden"/>' . "\n";
+        $expect -> body = '<input id="button-1" name="button-1" type="hidden" value="I am Button!"/>' . "\n";
         $this -> assertEquals($expect, $data);
     }
 
@@ -109,8 +109,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Make sure the value shows up
         //
         $data = $obj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1"'
-            . ' value="I am Button!"' . ' type="button"/>' . $tail;
+        $expect -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="I am Button!"/>' . $tail;
         $this -> assertEquals($expect, $data);
         //
         // Some text before
@@ -169,7 +169,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test read (less than view) access
@@ -198,18 +198,18 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Make sure the value shows up
         //
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' value="the value"' . ' type="text"/>' . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="the value"/>' . $tail;
         $this -> assertEquals($expect, $data);
         //
         // Add a inner
         //
         $element -> setLabel('inner', 'Something with & in it');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1"'
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
             . ' value="the value"'
             . ' placeholder="Something with &amp; in it"'
-            . ' type="text"/>' . $tail;
+            . '/>' . $tail;
         $this -> assertEquals($expect, $data);
         //
         // Some text before
@@ -263,8 +263,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Set a maximum length
         //
         $validation -> set('maxLength', 10);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' type="text"'
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
             . ' maxlength="10" required/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -273,8 +272,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
         // Strip the tail off, add label, re-add tail
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' type="text"'
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
             . ' maxlength="10" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -303,7 +301,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($expect, $data);
         // Test view access: No list is required
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" readonly name="field-1" type="text"/>' . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/>' . $tail;
         $expect -> post = null;
         $this -> assertEquals($expect, $data);
         // Test read (less than view) access
@@ -331,15 +329,15 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element -> linkSchema($schema);
         $element -> setValue('Ok Bob');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="button"/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $presentation -> setType('reset');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="reset"/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $presentation -> setType('submit');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" value="Ok Bob" type="submit"/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
    }
 
@@ -400,8 +398,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Make sure the value shows up
         //
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' value="the value"' . ' type="hidden"/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"'
+            . ' value="the value"/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Add a inner
@@ -450,7 +448,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $element -> linkSchema($schema);
         $element -> setValue('200');
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" value="200" type="number"/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="number" value="200"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Make the field required
@@ -458,8 +456,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('required', true);
         $data = $obj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' value="200" type="number"'
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
             . ' required/>' . $tail;
         $this -> assertEquals($expect, $data);
         //
@@ -467,8 +465,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('minValue', -1000);
         $validation -> set('maxValue', 999.45);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' value="200" type="number"'
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
             . ' max="999.45" min="-1000" required/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -476,8 +474,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Add a step
         //
         $validation -> set('step', 1.23);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' value="200" type="number"'
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
             . ' max="999.45" min="-1000" required step="1.23"/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -497,6 +495,62 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         //
+        // Modify the schema to change test/text to a radio
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // Give the element a label
+        //
+        $element -> setLabel('inner', '<Stand-alone> radio');
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="radio"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value
+        //
+        $element -> setValue(3);
+        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test code generation for a radio element with a list
+     */
+	public function testFormRendererSimple_FieldRadioList() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
         // Modify the schema to change textWithList to a radio
         //
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('radio');
@@ -508,19 +562,19 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         $data = $obj -> render($element);
         $expect -> body = '<div>
-  <input name="field-1" type="radio" id="field-1-opt0" value="textlist 1"/>
+  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
   <label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input name="field-1" type="radio" id="field-1-opt1" value="textlist 2"/>
+  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
   <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input name="field-1" type="radio" id="field-1-opt2" value="textlist 3"/>
+  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>
   <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input name="field-1" type="radio" id="field-1-opt3" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>' . "\n";
@@ -541,13 +595,29 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" readonly name="field-1" value="textlist 3" type="text"/><br/>' . "\n";
+        $expect -> body = '<div>
+  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" value="textlist 3" type="hidden"/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
         $this -> assertEquals($expect, $data);
     }
 

@@ -119,11 +119,11 @@ jsonend;
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
         $this -> assertTrue($obj -> configure($config));
-        $sidecar = $obj -> getSidecar();
+        $sidecar = $obj -> sidecar;
         $this -> assertInstanceOf('\Stdclass', $sidecar);
         $this -> assertEquals('foo', $sidecar -> prop);
         $this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj -> setSidecar('fred'));
-        $this -> assertEquals('fred', $obj -> getSidecar());
+        $this -> assertEquals('fred', $obj -> sidecar);
     }
 
 }

@@ -154,7 +154,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new Simple();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
-        $page = $form -> generate(['action' => 'myform.php']);
+        $page = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
 
         $html = "<!doctype html>\n<html lang=\"en\">\n"
             . "  <head>\n    <meta charset=\"utf-8\">\n"
