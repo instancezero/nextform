@@ -341,6 +341,349 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($expect, $data);
    }
 
+    /**
+     * Test code generation for a checkbox element
+     */
+	public function testFormRendererSimple_FieldCheckbox() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a checkbox
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('checkbox');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // Give the element a label
+        //
+        $element -> setLabel('inner', '<Stand-alone> checkbox');
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value
+        //
+        $element -> setValue(3);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox" value="3" readonly/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="3"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Test code generation for a checkbox element with a list
+     */
+	public function testFormRendererSimple_FieldCheckboxList() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change textWithList to a checkbox
+        //
+        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        // No access specification assumes write access
+        $data = $obj -> render($element);
+        $expect -> body = '<div>
+  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value to trigger the checked option
+        //
+        $element -> setValue('textlist 3');
+        $expect -> body = str_replace('list 3"', 'list 3" checked', $expect -> body);
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a second value to trigger the checked option
+        //
+        $element -> setValue(['textlist 1', 'textlist 3']);
+        $expect -> body = str_replace('list 1"', 'list 1" checked', $expect -> body);
+        $data = $obj -> render($element);
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<div>
+  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
+            . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+   /**
+    * Check field as a color element
+    */
+	public function testFormRendererSimple_FieldColor() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('color');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="color"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value
+        //
+        $element -> setValue('#F0F0F0');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="color" value="#F0F0F0"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Now with view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="color" value="#F0F0F0" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Convert to hidden for read access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+   /**
+    * Check field as a date element
+    */
+	public function testFormRendererSimple_FieldDate() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('date');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="date"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value
+        //
+        $element -> setValue('2010-10-10');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Now test validation
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '1957-10-08');
+        $validation -> set('maxValue', 'Nov 6th 2099');
+        $data = $obj -> render($element, ['access' => 'write']);
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+            . ' min="1957-10-08" max="2099-11-06"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Now with view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+            . ' min="1957-10-08" max="2099-11-06" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Convert to hidden for read access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+   /**
+    * Check field as a datetime-local element
+    */
+	public function testFormRendererSimple_FieldDatetimeLocal() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('datetime-local');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Set a value
+        //
+        $element -> setValue('2010-10-10');
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Now test validation
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '1957-10-08');
+        $validation -> set('maxValue', '2:15 pm Nov 6th 2099');
+        $data = $obj -> render($element, ['access' => 'write']);
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+            . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Now with view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+            . ' min="1957-10-08T00:00" max="2099-11-06T14:15" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Convert to hidden for read access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+	public function testFormRendererSimple_FieldEmail() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('email');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="email"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Now test validation
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $data = $obj -> render($element, ['access' => 'write']);
+        $expect -> body = '<input id="field-1" name="field-1" type="email" multiple/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="email" readonly multiple/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
    /**
     * Check field as a hidden element
     */
@@ -467,7 +810,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('maxValue', 999.45);
         $expect -> body = '<input id="field-1" name="field-1" type="number"'
             . ' value="200"'
-            . ' max="999.45" min="-1000" required/>' . $tail;
+            . ' min="-1000" max="999.45" required/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
         //
@@ -476,7 +819,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('step', 1.23);
         $expect -> body = '<input id="field-1" name="field-1" type="number"'
             . ' value="200"'
-            . ' max="999.45" min="-1000" required step="1.23"/>' . $tail;
+            . ' min="-1000" max="999.45" required step="1.23"/>' . $tail;
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
         //
@@ -513,7 +856,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="radio"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Same result with explicit write access
@@ -525,7 +869,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue(3);
         $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            . '<br/>' . "\n";
         $data = $obj -> render($element);
         $this -> assertEquals($expect, $data);
         //
@@ -533,7 +878,8 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element, ['access' => 'view']);
         $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label><br/>' . "\n";
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test read (less than view) access
@@ -617,7 +963,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
+        $expect -> body = '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
         $this -> assertEquals($expect, $data);
     }
 

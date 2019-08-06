@@ -15,7 +15,9 @@ class Simple implements Renderer {
     protected $context = [
         ['inCell' => false]
     ];
-    static $highlightAttribute = ['id', 'name', 'type', 'class', 'style', 'value'];
+    static $highlightAttribute = [
+        'id', 'name', 'type', 'class', 'style', 'value', 'min', 'max'
+    ];
     static $inputAttributes = [
         '*' => [
             'autocomplete' => true, 'autofocus' => true,
@@ -32,8 +34,7 @@ class Simple implements Renderer {
         'checkbox' => ['checked' => true, 'required' => true, ],
         'color' => [],
         'date' => ['max' => true, 'min' => true, 'pattern' => true, 'step' => true, ],
-        //'datetime' => ['required' => true, 'step' => true, ],
-        'datetime-local' => ['required' => true, 'step' => true, ],
+        'datetime-local' => ['max' => true, 'min' => true, 'required' => true, 'step' => true, ],
         'email' => [
             'list' => true, 'multiple' => true, 'pattern' => true,
             'placeholder' => true, 'required' => true, 'size' => true,
@@ -49,7 +50,7 @@ class Simple implements Renderer {
             'formmethod' => true, 'formtarget' => true, 'height' => true,
             'src' => true, 'width' => true,
         ],
-        'month' => ['required' => true, 'step' => true, ],
+        'month' => ['max' => true, 'min' => true, 'required' => true, 'step' => true, ],
         'number' => [
             'list' => true, 'max' => true, 'maxlength' => true, 'min' => true,
             'required' => true, 'step' => true,
@@ -76,12 +77,19 @@ class Simple implements Renderer {
             'list' => true, 'maxlength' => true ,'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
-        'time' => ['step' => true, ],
+        'time' => ['max' => true, 'min' => true, 'step' => true, ],
         'url' => [
             'list' => true, 'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
-        'week' => ['required' => true, 'step' => true, ],
+        'week' => ['max' => true, 'min' => true, 'required' => true, 'step' => true, ],
+    ];
+    static $inputDateTime = [
+        'date' => 'Y-m-d',
+        'datetime-local' => 'Y-m-d\TH:i',
+        'month' => 'Y-m',
+        'time' => 'H:i',
+        'week' => 'Y-\WW',
     ];
     /**
      * Maps element types to render methods.
@@ -101,6 +109,7 @@ class Simple implements Renderer {
         'maxlength' => ['maxLength', null],
         'max' => ['maxValue', null],
         'min' => ['minValue', null],
+        '=multiple' => ['multiple', false],
         'pattern' => ['-pattern', ''],
         '=required' => ['required', false],
         'step' => ['step', null],
@@ -138,7 +147,15 @@ class Simple implements Renderer {
             list($lookup) = $this -> parseAttribute($attrName);
             if (self::$inputAttributes[$type][$lookup]) {
                 $setting = $validation -> get($specs[0]);
-                if ($setting !== $specs[1]) {
+                if ($setting === $specs[1]) {
+                    continue;
+                }
+                if (
+                    ($lookup == 'min' || $lookup == 'max')
+                    && isset(self::$inputDateTime[$type])
+                ){
+                    $attrs[$attrName] = date(self::$inputDateTime[$type], strtotime($setting));
+                } else {
                     $attrs[$attrName] = $setting;
                 }
             }
@@ -167,7 +184,7 @@ class Simple implements Renderer {
                 if ($sidecar !== null) {
                     $optAttrs['!data-sidecar'] = json_encode($sidecar);
                 }
-                $block -> post .= '  ' . $this -> writeElement('option', $optAttrs) . "\n";
+                $block -> post .= '  ' . $this -> writeTag('option', $optAttrs) . "\n";
             }
             $block -> post .= "</datalist>\n";
         }
@@ -227,129 +244,162 @@ class Simple implements Renderer {
         $attrs = [];
         $block = new Block();
         $labels = $element -> getLabels(true);
-        if ($labels -> heading) {
-            $block -> body = '<label for="' . $element -> getId() . '">'
-                . htmlspecialchars($labels -> heading) . '</label>' . "\n";
-        }
+        $block -> body .= $this -> writeLabel(
+                $labels -> heading, 'label', ['!for' => $element -> getId()]
+            );
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
             $attrs['=disabled'] = 'disabled';
         }
         $attrs['name'] = $element -> getFormName();
-        $attrs['value'] = $labels -> inner;
+        if ($labels -> inner !== null) {
+            $attrs['value'] = $labels -> inner;
+        }
         if ($options['access'] === 'read') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
             $attrs['type'] = 'hidden';
-            $block -> body .= $this -> writeElement('input', $attrs) . "\n";
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
         } else {
             //
             // We can see or change the data
             //
             $attrs['type'] = $element -> getFunction();
-            if ($labels -> before !== null) {
-                $block -> body .= '<span>' . htmlspecialchars($labels -> before) . '</span>';
-            }
-            $block -> body .= $this -> writeElement('input', $attrs);
-            if ($labels -> after !== null) {
-                $block -> body .= '<span>'. htmlspecialchars($labels -> after) . '</span>';
-            }
-            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            $block -> body .= $this -> writeLabel($labels -> before, 'span')
+                . $this -> writeTag('input', $attrs)
+                . $this -> writeLabel($labels -> after, 'span')
+                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
 
     protected function renderFieldElement(FieldElement $element, $options = []) {
-        $attrs = [];
-        $data = $element -> getDataProperty();
-        $presentation = $data -> getPresentation();
-        $type = $presentation -> getType();
-        $block = new Block();
         /*
-            'checkbox', 'color', 'date', 'datetime', 'datetime-local',
-            'email', 'file', 'hidden', 'image', 'month',
+            'file', 'hidden', 'image', 'month',
             'password', 'range', 'search',
             'tel', 'textarea', 'time', 'url', 'week',
             // Our non w3c types...
             'select',
         */
+        $type = $element -> getDataProperty() -> getPresentation() -> getType();
+        switch ($type) {
+            case 'checkbox':
+            case 'radio':
+                $block = $this -> renderFieldCheckbox($element, $options);
+                break;
+            case 'select':
+                $block = $this -> renderFieldSelect($element, $options);
+                break;
+            default:
+                $block = $this -> renderFieldCommon($element, $options);
+                break;
+        }
+        return $block;
+    }
+
+    protected function renderFieldCommon(FieldElement $element, $options = []) {
+        $attrs = [];
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $type = $presentation -> getType();
+        $block = new Block();
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
         }
         $attrs['name'] = $element -> getFormName();
-        if (($value = $element -> getValue()) !== null) {
-            $attrs['value'] = $value;
-        }
+        $value = $element -> getValue();
         if ($options['access'] === 'read' || $type === 'hidden') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
             $attrs['type'] = 'hidden';
-            $block -> body .= $this -> writeElement('input', $attrs) . "\n";
-        } else {
-            $labels = $element -> getLabels(true);
-            if ($labels -> heading) {
-                $block -> body = '<label for="' . $element -> getId() . '">'
-                    . htmlspecialchars($labels -> heading) . '</label>' . "\n";
+            if (is_array($value)) {
+                foreach ($value as $key => $entry) {
+                    $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
+                    $attrs['value'] = $entry;
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                }
+            } else {
+                if ($value !== null) {
+                    $attrs['value'] = $value;
+                }
+                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             }
+        } else {
             //
             // We can see or change the data
             //
+            if ($value !== null) {
+                $attrs['value'] = $value;
+            }
+            $labels = $element -> getLabels(true);
+            $block -> body .= $this -> writeLabel(
+                    $labels -> heading, 'label', ['!for' => $element -> getId()]
+                );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
             }
             $attrs['type'] = $type;
-            if ($labels -> before !== null) {
-                $block -> body .= '<span>'. htmlspecialchars($labels -> before) . '</span>';
+            $block -> body .= $this -> writeLabel($labels -> before, 'span');
+            $sidecar = $data -> getPopulation() -> sidecar;
+            if ($sidecar !== null) {
+                $attrs['!data-sidecar'] = json_encode($sidecar);
             }
-            if ($type === 'radio') {
-                $block = $this -> renderFieldRadio($block, $element, $options);
-            } elseif ($type === 'select') {
-                $block = $this -> renderFieldSelect($block, $element, $options);
-            } else {
-                $sidecar = $data -> getPopulation() -> sidecar;
-                if ($sidecar !== null) {
-                    $attrs['!data-sidecar'] = json_encode($sidecar);
-                }
-                // Render the data list if there is one
-                $block -> merge($this -> dataList($attrs, $element, $type, $options));
-                // Add in any validation
-                $this -> addValidation($attrs, $type, $data -> getValidation());
-                // Generate the input element
-                $block -> body .= $this -> writeElement('input', $attrs);
-            }
-            if ($labels -> after !== null) {
-                $block -> body .= '<span>'. htmlspecialchars($labels -> after) . '</span>';
-            }
-            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            // Render the data list if there is one
+            $block -> merge($this -> dataList($attrs, $element, $type, $options));
+            // Add in any validation
+            $this -> addValidation($attrs, $type, $data -> getValidation());
+            // Generate the input element
+            $block -> body .= $this -> writeTag('input', $attrs)
+                . $this -> writeLabel($labels -> after, 'span')
+                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
+                . "\n";
         }
         return $block;
     }
 
-    protected function renderFieldRadio(Block $block, FieldElement $element, $options = []) {
-        $baseId = $element -> getId();
+    protected function renderFieldCheckbox(FieldElement $element, $options = []) {
         $attrs = [];
+        $block = new Block();
+        $baseId = $element -> getId();
+        $labels = $element -> getLabels(true);
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $type = $presentation -> getType();
+        $attrs['type'] = $type;
+        $visible = true;
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
+        } elseif ($options['access'] === 'read') {
+            $attrs['type'] = 'hidden';
+            $visible = false;
         }
-        $attrs['name'] = $element -> getFormName();
-        $attrs['type'] = 'radio';
+        if ($visible) {
+            $block -> body .= $this -> writeLabel($labels -> before, 'div');
+        }
+        $attrs['name'] = $element -> getFormName() . ($type == 'checkbox' ? '[]' : '');
         $list = $element -> getList(true);
         if (empty($list)) {
             $attrs['id'] = $baseId;
             if (($value = $element -> getValue()) !== null) {
                 $attrs['value'] = $value;
             }
-            $sidecar = $element -> getDataProperty() -> getPopulation() -> sidecar;
+            $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
                 $attrs['!data-sidecar'] = json_encode($sidecar);
             }
-            $block -> body .= $this -> writeElement('input', $attrs) . "\n"
-                . '<label for="' . $baseId . '">'
-                . htmlspecialchars($element -> getLabels(true) -> inner)
-                . '</label>';
+            if ($visible) {
+                $block -> body .= $this -> writeLabel($labels -> before, 'span');
+            }
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            if ($visible) {
+                $block -> body .= $this -> writeLabel(
+                        $element -> getLabels(true) -> inner, 'label', ['for' => $baseId]
+                    )
+                    . $this -> writeLabel($labels -> after, 'span');
+            }
         } else {
             $select = $element -> getValue();
             if ($select === null) {
@@ -360,63 +410,54 @@ class Simple implements Renderer {
                 $attrs['id'] = $id;
                 $value = $radio -> getValue();
                 $attrs['value'] = htmlspecialchars($value);
-                if ($value === $select) {
-                    $attrs['=checked'] = 'checked';
+                if ($type == 'checkbox' && is_array($select) && in_array($value, $select)) {
+                    $attrs['=checked'] = true;
+                    $checked = true;
+                } elseif ($value === $select) {
+                    $attrs['=checked'] = true;
+                    $checked = true;
                 } else {
                     unset($attrs['=checked']);
+                    $checked = false;
                 }
                 $sidecar = $radio -> sidecar;
                 if ($sidecar !== null) {
                     $attrs['!data-sidecar'] = json_encode($sidecar);
                 }
-                $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
-                    . '  <label for="' . $id . '">'
-                    . htmlspecialchars($radio -> getLabel()) . "</label>\n"
-                    . "</div>\n";
+                if ($visible) {
+                    if ($checked) {
+                        $attrs['=checked'] = true;
+                    } else {
+                        unset($attrs['=checked']);
+                    }
+                    $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
+                        . '  ' . $this -> writeLabel($radio -> getLabel(), 'label', ['for' => $id])
+                        . "</div>\n";
+                } elseif ($checked) {
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                }
             }
+        }
+        if ($visible) {
+            $this -> writeLabel($labels -> after, 'div');
+            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
 
-    protected function renderFieldSelect($block, $element, $options = []) {
+    protected function renderFieldSelect($element, $options = []) {
         //
-        // Note: this is just a copy of Radio, needs rework
+        // Note: this needs rework
         //
-        $baseId = $element -> getId();
-        $attrs = [];
-        $attrs['name'] = $element -> getFormName();
-        $attrs['type'] = 'radio';
-        $list = $element -> getList();
-        $select = $element -> getValue();
-        if ($select === null) {
-            $select = $element -> getDefault();
-        }
-        foreach ($list as $optId => $radio) {
-            $id = $baseId . '-opt' . $optId;
-            $attrs['id'] = $id;
-            $attrs['value'] = htmlspecialchars($radio -> value);
-            if ($radio -> value === $select) {
-                $attrs['=checked'] = 'checked';
-            } else {
-                unset($attrs['=checked']);
-            }
-            if (isset($radio -> sidecar)) {
-                $attrs['!data-sidecar'] = json_encode($radio -> sidecar);
-            }
-            $block -> body .= "<div>\n  " . $this -> writeElement('input', $attrs) . "\n"
-                . '  <label for="' . $id . '">' . $radio -> label . "</label>\n"
-                . "</div>\n";
-        }
+        $block = new Block();
         return $block;
     }
 
     protected function renderSectionElement(Element $element, $options = []) {
         $labels = $element -> getLabels(true);
         $block = new Block();
-        $block -> body = '<fieldset>' . "\n";
-        if ($labels -> heading !== null) {
-            $block -> body .= '<legend>' . $labels -> heading . '</legend>' . "\n";
-        }
+        $block -> body = '<fieldset>' . "\n"
+            . $this -> writeLabel($labels -> heading, 'legend');
         $block -> post = '</fieldset>' . "\n";
         return $block;
     }
@@ -446,7 +487,7 @@ class Simple implements Renderer {
             $attrs['name'] = $options['name'];
         }
         $pageData = new Block();
-        $pageData -> body = $this -> writeElement('form', $attrs) . "\n";
+        $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
         $pageData -> post = '</form>' . "\n";
         return $pageData;
     }
@@ -480,15 +521,23 @@ class Simple implements Renderer {
         return $html;
     }
 
+    protected function writeLabel($text, $tag, $attrs = []) {
+        $html = $text === null ? '' : $this -> writeTag($tag, $attrs)
+            . htmlspecialchars($text)
+            . '</' . $tag . '>' . ($tag === 'span' ? '' : "\n")
+        ;
+        return $html;
+    }
+
     /**
      * Write an element and attributes into escaped HTML
      * @param array $attrs
      * @return string
      */
-    protected function writeElement($element, $attrs) {
-        $html = '<' . $element;
+    protected function writeTag($tag, $attrs) {
+        $html = '<' . $tag;
         $parts = [];
-        if ($element === 'input') {
+        if ($tag === 'input') {
             $mask = self::$inputAttributes[$attrs['type']];
             foreach ($attrs as $attrName => $value) {
                 // For input elements, only write the allowed attributes
@@ -513,7 +562,7 @@ class Simple implements Renderer {
             }
         }
         $html .= implode('', $parts);
-        $html .= isset(self::$selfClose[$element]) ? '/>' : '>';
+        $html .= isset(self::$selfClose[$tag]) ? '/>' : '>';
         return $html;
     }
 

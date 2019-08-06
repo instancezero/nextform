@@ -16,6 +16,7 @@ class Validation implements \JsonSerializable {
         'maxValue' => ['drop:null'],
         'minLength' => ['drop:null'],
         'minValue' => ['drop:null'],
+        'multiple' => ['drop:false'],
         'pattern' => ['drop:null','drop:blank'],
         'required' => ['drop:false'],
         'step' => ['drop:null','drop:zero'],
@@ -25,6 +26,7 @@ class Validation implements \JsonSerializable {
     protected $maxValue;
     protected $minLength;
     protected $minValue;
+    protected $multiple = false;
     protected $pattern = '';
     protected $required = false;
     protected $step;
@@ -41,7 +43,7 @@ class Validation implements \JsonSerializable {
     }
 
     protected function configureValidate($property, &$value) {
-        if (in_array($property, ['async', 'required', 'translatePattern'])) {
+        if (in_array($property, ['async', 'multiple', 'required', 'translatePattern'])) {
             if (!is_bool($value)) {
                 $this -> configureLogError($property . ' must be a boolean.');
                 return false;
@@ -61,11 +63,13 @@ class Validation implements \JsonSerializable {
                 return false;
             }
         } elseif (in_array($property, ['maxValue', 'minValue', 'step'])) {
-            if (!is_numeric($value)) {
-                $this -> configureLogError($property . ' must be numeric.');
+            if (!is_numeric($value) && strtotime($value) === false) {
+                $this -> configureLogError($property . ' must be numeric or date.');
                 return false;
             }
-            $value = (float) $value;
+            if (is_numeric($value)) {
+                $value = (float) $value;
+            }
             if ($property === 'step' && $value <= 0) {
                 $this -> configureLogError($property . ' must be a positive number.');
                 return false;
@@ -94,7 +98,7 @@ class Validation implements \JsonSerializable {
         if ($property == '-pattern') {
             return $this -> pattern !== '' ? substr($this -> pattern, 1, -1) : '';
         }
-        if (!property_exists($this, $property)) {
+        if (!isset(self::$jsonEncodeMethod[$property])) {
             throw new \RuntimeException($property . ' is not a recognized property.');
         }
         return $this -> $property;
@@ -114,6 +118,9 @@ class Validation implements \JsonSerializable {
             return false;
         }
         if ($this -> minValue !== null) {
+            return false;
+        }
+        if ($this -> multiple) {
             return false;
         }
         if ($this -> pattern != '') {

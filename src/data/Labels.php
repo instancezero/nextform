@@ -45,6 +45,19 @@ class Labels implements \JsonSerializable{
     public $translate = true;
 
     /**
+     * Get a label by name
+     * @param string $labelName
+     * @return string
+     * @throws \RuntimeException
+     */
+    public function get($labelName) {
+        if (!in_array($labelName, self::$textProperties)) {
+            throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
+        }
+        return $this -> $labelName;
+    }
+
+    /**
      * Check for a non-null text property.
      * @return bool
      */
@@ -73,12 +86,20 @@ class Labels implements \JsonSerializable{
         return $newLabels;
     }
 
+    /**
+     * Set a label by name
+     * @param string $labelName
+     * @param string $text
+     * @return $this
+     * @throws \RuntimeException
+     */
     public function set($labelName, $text) {
         if (in_array($labelName, self::$textProperties)) {
             $this -> $labelName = $text;
         } else {
-            throw new RuntimeException($labelName . ' isn\'t a valid label property.');
+            throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
+        return $this;
     }
 
     /**
