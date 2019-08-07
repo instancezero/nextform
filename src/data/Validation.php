@@ -9,9 +9,13 @@ class Validation implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    protected $accept = [];
     protected $async = false;
+    protected $capture;
     static protected $jsonEncodeMethod = [
+        'accept' => ['drop:empty'],
         'async' => ['drop:false'],
+        'capture' => ['drop:null','drop:blank'],
         'maxLength' => ['drop:null'],
         'maxValue' => ['drop:null'],
         'minLength' => ['drop:null'],
@@ -84,6 +88,19 @@ class Validation implements \JsonSerializable {
                 $this -> configureLogError($property . ' must be a valid regular expression.');
                 return false;
             }
+        } elseif ($property === 'accept') {
+            if (is_string($value)) {
+                $value = explode(',', $value);
+            }
+            if (!is_array($value)) {
+                $this -> configureLogError($property . ' must be an array or comma-delimited list.');
+                return false;
+            }
+        } elseif ($property === 'capture') {
+            if ($value !== null && !in_array($value, ['environment', 'user'])) {
+                $this -> configureLogError($property . ' must be null, "user", or "environment".');
+                return false;
+            }
         }
         return true;
     }
@@ -105,6 +122,9 @@ class Validation implements \JsonSerializable {
     }
 
     public function isEmpty() {
+        if (!empty($this -> accept)) {
+            return false;
+        }
         if ($this -> async) {
             return false;
         }

@@ -578,7 +578,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element, ['access' => 'view']);
         $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
-            . ' min="1957-10-08" max="2099-11-06" readonly/><br/>' . "\n";
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Convert to hidden for read access
@@ -635,7 +635,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element, ['access' => 'view']);
         $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
-            . ' min="1957-10-08T00:00" max="2099-11-06T14:15" readonly/><br/>' . "\n";
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Convert to hidden for read access
@@ -674,13 +674,62 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="email" readonly multiple/><br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="email" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         //
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
         $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+    }
+
+	public function testFormRendererSimple_FieldFile() {
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('file');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<input id="field-1" name="field-1" type="file"/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Now test validation
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('accept', '*.png,*.jpg');
+        $validation -> set('multiple', true);
+        $data = $obj -> render($element, ['access' => 'write']);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="file" accept="*.png,*.jpg" multiple/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test view with a value
+        //
+        $element -> setValue(['file1.png', 'file2.jpg']);
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="file1.png,file2.jpg" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="file1.png"/>' . "\n"
+            . '<input id="field-1" name="field-1[]" type="hidden" value="file2.jpg"/>' . "\n";
         $this -> assertEquals($expect, $data);
     }
 
