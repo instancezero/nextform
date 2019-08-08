@@ -4,3 +4,4 @@ To Do List
 - Implement render context push/pull
 - Don't fold repetitive code for labels into functions just yet... we may want to add classes, etc.
 - Adding validation. Text rules have a test, still need number, etc.
+- presentation/confirm is not implemented

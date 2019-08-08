@@ -57,13 +57,15 @@ class Simple implements Renderer {
             'required' => true, 'step' => true,
         ],
         'password' => [
+            'maxlength' => true, 'minlength' => true,
             'pattern' => true, 'placeholder' => true, 'required' => true, 'size' => true,
         ],
         'radio' => ['checked' => true, 'required' => true, ],
-        'range' => ['step' => true, ],
+        'range' => ['max' => true, 'min' => true, 'step' => true, ],
         'reset' => [],
         'search' => [
-            'list' => true, 'pattern' => true, 'placeholder' => true,
+            'list' => true, 'maxlength' => true, 'minlength' => true,
+            'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
         'submit' => [
@@ -71,11 +73,13 @@ class Simple implements Renderer {
             'formtarget' => true,
         ],
         'tel' => [
-            'list' => true, 'pattern' => true, 'placeholder' => true,
+            'list' => true, 'maxlength' => true, 'minlength' => true,
+            'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
         'text' => [
-            'list' => true, 'maxlength' => true ,'pattern' => true, 'placeholder' => true,
+            'list' => true, 'maxlength' => true, 'minlength' => true,
+            'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
         'time' => ['max' => true, 'min' => true, 'step' => true, ],
@@ -109,6 +113,7 @@ class Simple implements Renderer {
     static $validationMap = [
         'accept' => ['accept', []],
         'maxlength' => ['maxLength', null],
+        'minlength' => ['minLength', null],
         'max' => ['maxValue', null],
         'min' => ['minValue', null],
         '=multiple' => ['multiple', false],
@@ -280,9 +285,7 @@ class Simple implements Renderer {
 
     protected function renderFieldElement(FieldElement $element, $options = []) {
         /*
-            'file', 'hidden', 'image', 'month',
-            'password', 'range', 'search',
-            'tel', 'textarea', 'time', 'url', 'week',
+            'image', 'textarea'
             // Our non w3c types...
             'select',
         */
@@ -347,6 +350,9 @@ class Simple implements Renderer {
                 );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
+            }
+            if ($type === 'range' && $options['access'] === 'view') {
+                $type = 'text';
             }
             $attrs['type'] = $type;
             $block -> body .= $this -> writeLabel($labels -> before, 'span');
@@ -515,6 +521,74 @@ class Simple implements Renderer {
                 // View Access
                 $attrs['type'] = 'text';
                 $attrs['=readonly'] = 'readonly';
+            }
+            // Generate the input element
+            $block -> body .= $this -> writeTag('input', $attrs)
+                . $this -> writeLabel($labels -> after, 'span')
+                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
+                . "\n";
+        }
+        return $block;
+    }
+
+    protected function renderFieldImage(FieldElement $element, $options = []) {
+        $attrs = [];
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $type = $presentation -> getType();
+        $block = new Block();
+        return; /// UNIMPLEMENTED
+        $attrs['id'] = $element -> getId();
+        if ($options['access'] == 'view') {
+            $attrs['=readonly'] = 'readonly';
+        }
+        $attrs['name'] = $element -> getFormName();
+        $value = $element -> getValue();
+        if ($options['access'] === 'read' || $type === 'hidden') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            $attrs['type'] = 'hidden';
+            if (is_array($value)) {
+                foreach ($value as $key => $entry) {
+                    $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
+                    $attrs['value'] = $entry;
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                }
+            } else {
+                if ($value !== null) {
+                    $attrs['value'] = $value;
+                }
+                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            }
+        } else {
+            //
+            // We can see or change the data
+            //
+            if ($value !== null) {
+                $attrs['value'] = $value;
+            }
+            $labels = $element -> getLabels(true);
+            $block -> body .= $this -> writeLabel(
+                    $labels -> heading, 'label', ['!for' => $element -> getId()]
+                );
+            if ($labels -> inner !== null) {
+                $attrs['placeholder'] = $labels -> inner;
+            }
+            if ($type === 'range' && $options['access'] === 'view') {
+                $type = 'text';
+            }
+            $attrs['type'] = $type;
+            $block -> body .= $this -> writeLabel($labels -> before, 'span');
+            $sidecar = $data -> getPopulation() -> sidecar;
+            if ($sidecar !== null) {
+                $attrs['!data-sidecar'] = json_encode($sidecar);
+            }
+            // Render the data list if there is one
+            $block -> merge($this -> dataList($attrs, $element, $type, $options));
+            if ($options['access'] === 'write') {
+                // Write access: Add in any validation
+                $this -> addValidation($attrs, $type, $data -> getValidation());
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
