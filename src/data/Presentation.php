@@ -55,6 +55,11 @@ class Presentation implements \JsonSerializable {
         return $this -> type;
     }
 
+    public function setConfirm($confirm) {
+        $this -> confirm = $confirm;
+        return $this;
+    }
+
     public function setType($value) {
         if (!$this -> configureValidate('type', $value)) {
             if (is_scalar($value)) {

@@ -68,6 +68,10 @@ class Simple implements Renderer {
             'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
+        // Select isn't an input type but it shares attributes
+        'select' => [
+            'multiple' => true, 'readonly' => false, 'required' => true, 'value' => false
+        ],
         'submit' => [
             'formaction' => true, 'formenctype' => true, 'formmethod' => true,
             'formtarget' => true,
@@ -82,12 +86,20 @@ class Simple implements Renderer {
             'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
+        // Textarea isn't an input type but it shares attributes
+        'textarea' => [
+            'cols' => true, 'list' => true, 'maxlength' => true, 'minlength' => true,
+            'placeholder' => true, 'required' => true, 'rows' => true,
+        ],
         'time' => ['max' => true, 'min' => true, 'step' => true, ],
         'url' => [
             'list' => true, 'pattern' => true, 'placeholder' => true,
             'required' => true, 'size' => true,
         ],
         'week' => ['max' => true, 'min' => true, 'required' => true, 'step' => true, ],
+    ];
+    static $inputConfirmable = [
+        'email', 'number', 'password', 'tel', 'text',
     ];
     static $inputDateTime = [
         'date' => 'Y-m-d',
@@ -191,7 +203,7 @@ class Simple implements Renderer {
                 $optAttrs = ['value' => $option -> getValue()];
                 $sidecar = $option -> sidecar;
                 if ($sidecar !== null) {
-                    $optAttrs['!data-sidecar'] = json_encode($sidecar);
+                    $optAttrs['*data-sidecar'] = $sidecar;
                 }
                 $block -> post .= '  ' . $this -> writeTag('option', $optAttrs) . "\n";
             }
@@ -210,12 +222,12 @@ class Simple implements Renderer {
     }
 
     /**
-     * Extract a processing command (! no escape; = no value) from an attribute, if any
+     * Extract a processing command (! no escape; = no value; * JSON encode) from an attribute, if any
      * @param string $attrName The attribute command and name
      * @return array Attribute name in the first element, command (or '') in the second.
      */
     protected function parseAttribute($attrName) {
-        if (strpos('!=', $attrName[0]) !== false) {
+        if (strpos('!=*', $attrName[0]) !== false) {
             $cmd = $attrName[0];
             $attrName = substr($attrName, 1);
         } else {
@@ -289,36 +301,55 @@ class Simple implements Renderer {
             // Our non w3c types...
             'select',
         */
-        $type = $element -> getDataProperty() -> getPresentation() -> getType();
-        switch ($type) {
-            case 'checkbox':
-            case 'radio':
-                $block = $this -> renderFieldCheckbox($element, $options);
-                break;
-            case 'file':
-                $block = $this -> renderFieldFile($element, $options);
-                break;
-            case 'select':
-                $block = $this -> renderFieldSelect($element, $options);
-                break;
-            default:
-                $block = $this -> renderFieldCommon($element, $options);
-                break;
+        $result = new Block;
+        $presentation = $element -> getDataProperty() -> getPresentation();
+        $type = $presentation -> getType();
+        $options['confirm'] = false;
+        $repeater = true;
+        while ($repeater) {
+            switch ($type) {
+                case 'checkbox':
+                case 'radio':
+                    $block = $this -> renderFieldCheckbox($element, $options);
+                    break;
+                case 'file':
+                    $block = $this -> renderFieldFile($element, $options);
+                    break;
+                case 'select':
+                    $block = $this -> renderFieldSelect($element, $options);
+                    break;
+                default:
+                    $block = $this -> renderFieldCommon($element, $options);
+                    break;
+            }
+            // Check to see if we need to generate a confirm field, and
+            // haven't already done so...
+            if (
+                in_array($type, self::$inputConfirmable)
+                && $presentation -> getConfirm()
+                && $options['access'] === 'write' && !$options['confirm']
+            ) {
+                $options['confirm'] = true;
+            } else {
+                $repeater = false;
+            }
+            $result -> merge($block);
         }
-        return $block;
+        return $result;
     }
 
     protected function renderFieldCommon(FieldElement $element, $options = []) {
         $attrs = [];
+        $confirm = $options['confirm'];
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $attrs['id'] = $element -> getId();
+        $attrs['id'] = $element -> getId() . ($confirm ? '-confirm' : '');
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
         }
-        $attrs['name'] = $element -> getFormName();
+        $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirm' : '');
         $value = $element -> getValue();
         if ($options['access'] === 'read' || $type === 'hidden') {
             //
@@ -346,8 +377,9 @@ class Simple implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                    $labels -> heading, 'label', ['!for' => $element -> getId()]
-                );
+                $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
+                'label', ['!for' => $attrs['id']]
+            );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
             }
@@ -358,7 +390,7 @@ class Simple implements Renderer {
             $block -> body .= $this -> writeLabel($labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
-                $attrs['!data-sidecar'] = json_encode($sidecar);
+                $attrs['*data-sidecar'] = $sidecar;
             }
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
@@ -403,7 +435,7 @@ class Simple implements Renderer {
             }
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
-                $attrs['!data-sidecar'] = json_encode($sidecar);
+                $attrs['*data-sidecar'] = $sidecar;
             }
             if ($visible) {
                 $block -> body .= $this -> writeLabel($labels -> before, 'span');
@@ -437,7 +469,7 @@ class Simple implements Renderer {
                 }
                 $sidecar = $radio -> sidecar;
                 if ($sidecar !== null) {
-                    $attrs['!data-sidecar'] = json_encode($sidecar);
+                    $attrs['*data-sidecar'] = $sidecar;
                 }
                 if ($visible) {
                     if ($checked) {
@@ -507,7 +539,7 @@ class Simple implements Renderer {
             $block -> body .= $this -> writeLabel($labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
-                $attrs['!data-sidecar'] = json_encode($sidecar);
+                $attrs['*data-sidecar'] = $sidecar;
             }
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
@@ -582,7 +614,7 @@ class Simple implements Renderer {
             $block -> body .= $this -> writeLabel($labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
-                $attrs['!data-sidecar'] = json_encode($sidecar);
+                $attrs['*data-sidecar'] = $sidecar;
             }
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
@@ -599,12 +631,191 @@ class Simple implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelect($element, $options = []) {
+    protected function renderFieldSelect(FieldElement $element, $options = []) {
         //
         // Note: this needs rework
         //
+        $attrs = [];
         $block = new Block();
+        $baseId = $element -> getId();
+        $labels = $element -> getLabels(true);
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $multiple = $data -> getValidation() -> get('multiple');
+
+        $attrs['name'] = $element -> getFormName() . $multiple ? '[]' : '';
+        $value = $element -> getValue();
+        //
+        // Read-only: generate one or more hidden input elements
+        //
+        if ($options['access'] === 'read') {
+            $attrs['type'] = 'hidden';
+            if ($value !== null) {
+                if ($multiple) {
+                    if (!is_array($value)) {
+                        $value = [$value];
+                    }
+                    // Generate a list of input elements
+                    foreach ($value as $optId => $item) {
+                        $id = $baseId . '-opt' . $optId;
+                        $attrs['id'] = $id;
+                        $attrs['value'] = $item;
+                        $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                    }
+                } else {
+                    $attrs['id'] = $baseId;
+                    $attrs['value'] = $value;
+                    // Generate the input element
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                }
+            }
+        } else {
+            // This element is visible
+            $block -> body .= $this -> writeLabel($labels -> before, 'div');
+            if ($options['access'] == 'view') {
+                $list = $element -> getFlatList(true);
+                // render as hidden with text
+                $attrs['type'] = 'hidden';
+                if ($multiple) {
+                    // step through each possible value, output matches
+                    if (!is_array($value)) {
+                        $value = [$value];
+                    }
+                    foreach ($list as $optId => $option) {
+                        if (($slot = array_search($option -> getValue(), $value))) {
+                            $id = $baseId . '-opt' . $optId;
+                            $attrs['id'] = $id;
+                            $attrs['value'] = $value[$slot];
+                            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                            $block -> body .= $this -> writeTag('span', [], $option -> getLabel())
+                                . "<br/>\n";
+                        }
+                    }
+                } else {
+                    $attrs['id'] = $baseId;
+                    $attrs['value'] = $value;
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                    foreach ($list as $option) {
+                        if ($value == $option -> getValue()) {
+                            $block -> body .= $this -> writeTag('span')
+                                . $option -> getLabel() . '</span>'
+                                . "\n";
+                        }
+                    }
+                }
+            } else {
+                // Generate an actual select!
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+                $attrs['id'] = $baseId;
+                $this -> addValidation($attrs, 'select', $data -> getValidation());
+                $block -> body .= $this -> writeTag('select', $attrs) . "\n";
+                $block -> merge(
+                    $this -> renderFieldSelectOptions($element -> getList(true), $value)
+                );
+                $block -> body .= '</select>' . "\n";
+            }
+            $this -> writeLabel($labels -> after, 'div');
+            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+        }
         return $block;
+//----------------------------------- cut here -----------------------------------------//
+        // NB: after addValidation:
+                if (isset($attrs['=multiple'])) {
+                    $attrs['name'] .= '[]';
+                }
+        if (empty($list)) {
+            $attrs['id'] = $baseId;
+            if (($value = $element -> getValue()) !== null) {
+                $attrs['value'] = $value;
+            }
+            $sidecar = $data -> getPopulation() -> sidecar;
+            if ($sidecar !== null) {
+                $attrs['*data-sidecar'] = $sidecar;
+            }
+            if ($visible) {
+                $block -> body .= $this -> writeLabel($labels -> before, 'span');
+            }
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            if ($visible) {
+                $block -> body .= $this -> writeLabel(
+                        $element -> getLabels(true) -> inner, 'label', ['for' => $baseId]
+                    )
+                    . $this -> writeLabel($labels -> after, 'span');
+            }
+        } else {
+            $select = $element -> getValue();
+            if ($select === null) {
+                $select = $element -> getDefault();
+            }
+            foreach ($list as $optId => $radio) {
+                $id = $baseId . '-opt' . $optId;
+                $attrs['id'] = $id;
+                $value = $radio -> getValue();
+                $attrs['value'] = htmlspecialchars($value);
+                if ($type == 'checkbox' && is_array($select) && in_array($value, $select)) {
+                    $attrs['=checked'] = true;
+                    $checked = true;
+                } elseif ($value === $select) {
+                    $attrs['=checked'] = true;
+                    $checked = true;
+                } else {
+                    unset($attrs['=checked']);
+                    $checked = false;
+                }
+                $sidecar = $radio -> sidecar;
+                if ($sidecar !== null) {
+                    $attrs['*data-sidecar'] = $sidecar;
+                }
+                if ($visible) {
+                    if ($checked) {
+                        $attrs['=checked'] = true;
+                    } else {
+                        unset($attrs['=checked']);
+                    }
+                    $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
+                        . '  ' . $this -> writeLabel($radio -> getLabel(), 'label', ['for' => $id])
+                        . "</div>\n";
+                } elseif ($checked) {
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                }
+            }
+        }
+        if ($visible) {
+        }
+        return $block;
+    }
+
+    protected function renderFieldSelectOption($option, $value) {
+        $block = new Block;
+        $attrs = [];
+        $attrs['value'] = $option -> getValue();
+        if (($sidecar = $option -> getSidecar()) !== null) {
+            $attrs['*data-sidecar'] = $sidecar;
+        }
+        if (in_array($attrs['value'], $value)) {
+            $attrs['=selected'] = true;
+        }
+        $block -> body .= $this -> writeTag('option', $attrs, $option -> getLabel()) . "\n";
+        return $block;
+    }
+
+    protected function renderFieldSelectOptions($list, $value) {
+        $block = new Block;
+        foreach ($list as $option) {
+            if (is_array($option)) {
+                $attrs = ['label' => $option -> getLabel()];
+                if (($sidecar = $option -> getSidecar()) !== null) {
+                    $attrs['*data-sidecar'] = $sidecar;
+                }
+                $block -> body .= $this -> writeTag('optgroup', $attrs) . "\n";
+                $block -> merge($this -> renderFieldSelectOptions($option, $value));
+                $block -> body .= '</optgroup>' . "\n";
+            } else {
+                $block -> merge($this -> renderFieldSelectOption($option, $value));
+            }
+        }
     }
 
     protected function renderSectionElement(Element $element, $options = []) {
@@ -660,6 +871,12 @@ class Simple implements Renderer {
             }
             break;
 
+            case '*': {
+                // JSON-endoced attribute
+                $html = ' ' . $attrName . '="' . json_encode($value) . '"';
+            }
+            break;
+
             case '=': {
                 // Stand-alone attribute with no value
                 $html = ' ' . $attrName;
@@ -688,7 +905,7 @@ class Simple implements Renderer {
      * @param array $attrs
      * @return string
      */
-    protected function writeTag($tag, $attrs) {
+    protected function writeTag($tag, $attrs = [], $text = null) {
         $html = '<' . $tag;
         $parts = [];
         if ($tag === 'input') {
@@ -716,7 +933,13 @@ class Simple implements Renderer {
             }
         }
         $html .= implode('', $parts);
-        $html .= isset(self::$selfClose[$tag]) ? '/>' : '>';
+        if (isset(self::$selfClose[$tag])) {
+            $html .= '/>';
+        } elseif ($text !== null) {
+            $html .= '>' . htmlentities($text) . '</' . $tag . '>';
+        } else {
+            $html .= '>';
+        }
         return $html;
     }
 

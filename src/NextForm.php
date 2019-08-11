@@ -69,7 +69,7 @@ class NextForm implements \JsonSerializable {
                 $append = 0;
                 while (isset($this -> nameMap[$name]) || isset($this -> nameMap[$confirmName])) {
                     $name = $baseName . '_' . ++$append;
-                    $confirmName = $baseName . '_confirm_' . $append;
+                    $confirmName = $name . '_' . $append . '_confirm';
                 }
                 $this -> nameMap[$name] = $element;
                 $element -> setFormName($name);

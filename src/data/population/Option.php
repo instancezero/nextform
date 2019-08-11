@@ -54,6 +54,20 @@ class Option implements \JsonSerializable {
         return true;
     }
 
+    protected function configureInitialize(&$config, &$options) {
+        // if the value is an array convert any strings to a class
+        if (isset($config -> value) && is_array($config -> value)) {
+            foreach ($config -> value as &$value) {
+                if (is_string($value)) {
+                    // Convert to a useful class
+                    $obj = new \Stdclass;
+                    $obj -> label = $value;
+                    $value = $obj;
+                }
+            }
+        }
+    }
+
     public function getEnabled() {
         return $this -> enabled;
     }
@@ -75,6 +89,10 @@ class Option implements \JsonSerializable {
 
     public function getSelected() {
         return $this -> selected;
+    }
+
+    public function getSidecar() {
+        return $this -> sidecar;
     }
 
     public function getValue() {

@@ -151,6 +151,32 @@ class FieldElement extends NamedElement {
     }
 
     /**
+     * Get an array of Population/Option objects associated with the field with no hierarchy
+     * @param bool $translated Returns the translated texts, if available
+     * @return array
+     */
+    public function getFlatList($translated = false) {
+        if ($translated && $this -> hasTranslation) {
+            $source = $this -> dataListTranslated;
+        } else {
+            $source = $this -> dataList;
+        }
+        // Lists can only nest one level deep, so this is straightforward.
+        $list = [];
+        foreach ($source as $option) {
+            $value = $option -> getValue();
+            if (is_array($value)) {
+                foreach ($value as $item) {
+                    $list[] = $item;
+                }
+            } else {
+                $list[] = $value;
+            }
+        }
+        return $list;
+    }
+
+    /**
      * Get native or translated scope-resolved labels for this element.
      * @param bool $translated
      * @return \Abivia\NextForm\Data\Labels
@@ -164,6 +190,11 @@ class FieldElement extends NamedElement {
         return $labels;
     }
 
+    /**
+     * Get an array of Population/Option objects associated with the field
+     * @param bool $translated Returns the translated texts, if available
+     * @return array
+     */
     public function getList($translated = false) {
         if ($translated && $this -> hasTranslation) {
             $list = $this -> dataListTranslated;

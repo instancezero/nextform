@@ -36,6 +36,47 @@
                         "type": "string",
                         "size": 63
                     }
+                },
+                {
+                    "name": "textWithNestedList",
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            "General",
+                            {
+                                "label": "Subgroup One",
+                                "value": [
+                                    "Sub One Item One",
+                                    "Sub One Item Two"
+                                ],
+                                "sidecar": "subgroup 1 sidecar"
+                            },
+                            {
+                                "label": "Subgroup Two",
+                                "value": [
+                                    {
+                                        "label": "Sub Two Item One",
+                                        "value": "S2I1",
+                                        "sidecar": "s2i1 side"
+                                    },
+                                    {
+                                        "label": "Sub Two Item Two",
+                                        "value": "S2I2",
+                                        "sidecar": "s2i2 side"
+                                    }
+                                ],
+                                "sidecar": "subgroup 1 sidecar"
+                            }
+                        ]
+                    },
+                    "presentation": {
+                        "cols": 1,
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
                 }
             ]
         }

@@ -782,17 +782,32 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
+        // Turn confirmation on and set some test labels
+        //
+        $presentation -> setConfirm(true);
+        $element -> setLabel('heading', 'Yer email');
+        $element -> setLabel('confirm', 'Confirm yer email');
+        $data = $obj -> render($element, ['access' => 'write']);
+        $expect -> body = '<label for="field-1">Yer email</label>' . "\n"
+            . '<input id="field-1" name="field-1" type="email" multiple/><br/>' . "\n"
+            . '<label for="field-1-confirm">Confirm yer email</label>' . "\n"
+            . '<input id="field-1-confirm" name="field-1-confirm" type="email" multiple/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
         // Test view access
         //
+        $element -> setValue('snafu@fub.ar');
         $data = $obj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="email" readonly/><br/>' . "\n";
+        $expect -> body = '<label for="field-1">Yer email</label>' . "\n"
+            . '<input id="field-1" name="field-1" type="email" value="snafu@fub.ar" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }

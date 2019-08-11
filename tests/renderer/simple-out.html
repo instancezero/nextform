@@ -176,8 +176,13 @@
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldEmail</h3>
 <input id="field-1" name="field-1" type="email"/><br/>
 <input id="field-1" name="field-1" type="email" multiple/><br/>
-<input id="field-1" name="field-1" type="email" readonly/><br/>
-<input id="field-1" name="field-1" type="hidden"/>
+<label for="field-1">Yer email</label>
+<input id="field-1" name="field-1" type="email" multiple/><br/>
+<label for="field-1-confirm">Confirm yer email</label>
+<input id="field-1-confirm" name="field-1-confirm" type="email" multiple/><br/>
+<label for="field-1">Yer email</label>
+<input id="field-1" name="field-1" type="email" value="snafu@fub.ar" readonly/><br/>
+<input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldFile</h3>
 <input id="field-1" name="field-1" type="file"/><br/>
 <input id="field-1" name="field-1[]" type="file" accept="*.png,*.jpg" multiple/><br/>
