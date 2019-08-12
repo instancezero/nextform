@@ -9,10 +9,9 @@ class Presentation implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
-    protected $cols = 1;
     protected $confirm = false;
     static protected $jsonEncodeMethod = [
-        'cols' => [],
+        'span' => [],
         'confirm' => ['drop:false'],
         'type' => [],
     ];
@@ -24,8 +23,7 @@ class Presentation implements \JsonSerializable {
         // Our non w3c types...
         'select',
     ];
-    /*
-        */
+    protected $span = 1;
     protected $type;
 
     protected function configureValidate($property, &$value) {
@@ -43,12 +41,12 @@ class Presentation implements \JsonSerializable {
         return $result;
     }
 
-    public function getCols() {
-        return $this -> cols;
-    }
-
     public function getConfirm() {
         return $this -> confirm;
+    }
+
+    public function getSpan() {
+        return $this -> span;
     }
 
     public function getType() {

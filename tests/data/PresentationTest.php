@@ -13,11 +13,11 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testDataPresentationConfiguration() {
-        $config = json_decode('{"cols": "1","type": "text"}');
+        $config = json_decode('{"span": "1","type": "text"}');
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Presentation();
         $this -> assertTrue($obj -> configure($config, true));
-		$this -> assertEquals(1, $obj -> getCols());
+		$this -> assertEquals(1, $obj -> getSpan());
 		$this -> assertFalse($obj -> getConfirm());
 		$this -> assertEquals('text', $obj -> getType());
     }
@@ -26,7 +26,7 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
         $knownTypes = [
             'checkbox', 'file', 'hidden', 'radio', 'select', 'text', 'textarea', //'textauto',
         ];
-        $config = json_decode('{"cols": "1","type": "text"}');
+        $config = json_decode('{"span": "1","type": "text"}');
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Presentation();
         foreach ($knownTypes as $type) {
@@ -38,7 +38,7 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testDataPresentationSetType() {
-        $config = json_decode('{"cols": "1","type": "text"}');
+        $config = json_decode('{"span": "1","type": "text"}');
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new Presentation();
         $this -> assertTrue($obj -> configure($config, true));

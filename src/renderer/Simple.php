@@ -70,7 +70,8 @@ class Simple implements Renderer {
         ],
         // Select isn't an input type but it shares attributes
         'select' => [
-            'multiple' => true, 'readonly' => false, 'required' => true, 'value' => false
+            'multiple' => true, 'readonly' => false, 'required' => true, 'rows' => true,
+            'value' => false
         ],
         'submit' => [
             'formaction' => true, 'formenctype' => true, 'formmethod' => true,

@@ -49,7 +49,7 @@
                     },
                     "presentation": {
                         "#comment": "type, size, etc.",
-                        "cols": "column count (in relative or layout units)",
+                        "span": "column count (in relative or layout units)",
                         "confirm": "boolean",
                         "spellcheck": "boolean",
                         "type": "text|radio|select|check|hidden|(html5 type)"

@@ -6,7 +6,7 @@
         "size": "10"
     },
     "presentation": {
-        "cols": "1",
+        "span": "1",
         "type": "select",
         "lookup": {
             "source": "objectid",
