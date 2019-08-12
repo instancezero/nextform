@@ -20,6 +20,7 @@
 <span>prefix</span><input id="button-1" name="button-1" type="button" value="I am Button!"/><span>suffix</span><br/>
 <label for="button-1">Stuff</label>
 <span>prefix</span><input id="button-1" name="button-1" type="button" value="I am Button!"/><span>suffix</span><br/>
+<h3>FormRendererSimpleTest::testFormRendererSimple_Cell</h3>
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldText</h3>
 <input id="field-1" name="field-1" type="text"/><br/>
 <input id="field-1" name="field-1" type="text"/><br/>
@@ -360,6 +361,13 @@
 <br/>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
+<select id="field-1" name="field-1[]" size="6" multiple>
+  <option value="textlist 1">textlist 1</option>
+  <option value="textlist 2" selected>textlist 2</option>
+  <option value="textlist 3">textlist 3</option>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
+</select>
+<br/>
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldSelectNested</h3>
 <select id="field-1" name="field-1">
   <option value="General">General</option>
@@ -428,6 +436,11 @@
 <input id="field-1" name="field-1" type="tel"/><br/>
 <input id="field-1" name="field-1" type="tel" readonly/><br/>
 <input id="field-1" name="field-1" type="hidden"/>
+<h3>FormRendererSimpleTest::testFormRendererSimple_FieldTextarea</h3>
+<textarea id="field-1" name="field-1"></textarea><br/>
+<textarea id="field-1" name="field-1"></textarea><br/>
+<textarea id="field-1" name="field-1" readonly></textarea><br/>
+<input id="field-1" name="field-1" type="hidden"/>
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldTime</h3>
 <input id="field-1" name="field-1" type="time"/><br/>
 <input id="field-1" name="field-1" type="time" value="20:10"/><br/>
@@ -447,4 +460,7 @@
 <input id="field-1" name="field-1" type="week" value="2010-W37" min="1957-W30" max="2099-W42"/><br/>
 <input id="field-1" name="field-1" type="week" value="2010-W37" readonly/><br/>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
-</form></body></html>
+<h3>FormRendererSimpleTest::testFormRendererSimple_Html</h3>
+<p>This is some escaped html &amp;</p><p>This is some escaped html &amp;</p><p>This is some escaped html &amp;</p><p>This is some escaped html &amp;</p><h3>FormRendererSimpleTest::testFormRendererSimple_Section</h3>
+<h3>FormRendererSimpleTest::testFormRendererSimple_Static</h3>
+This is unescaped text with &lt;stuff&gt;!This is unescaped text with &lt;stuff&gt;!This is unescaped text with &lt;stuff&gt;!This is unescaped text with &lt;stuff&gt;!</form></body></html>

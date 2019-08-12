@@ -3,11 +3,12 @@
 namespace Abivia\NextForm\Element;
 
 use Illuminate\Contracts\Translation\Translator as Translator;
+use Abivia\NextForm\Data\Labels;
 
 /**
  * Elements with a label attribute
  */
-trait Labels {
+trait HasLabels {
 
     /**
      * Set when an explicit translation has been performed
@@ -30,7 +31,7 @@ trait Labels {
      */
     protected $labelsTranslated;
 
-    public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
+    public function getLabels($translated = false) : ?\Abivia\NextForm\Data\Labels {
         if ($translated && $this -> hasTranslation) {
             return $this -> labelsTranslated;
         }
@@ -43,6 +44,12 @@ trait Labels {
     }
 
     public function setLabel($labelName, $text) {
+        if ($this -> labels === null) {
+            $this -> labels = new Labels;
+        }
+        if ($this -> labelsMerged === null) {
+            $this -> labelsMerged = clone $this -> labels;
+        }
         $this -> labels -> set($labelName, $text);
         $this -> labelsMerged -> set($labelName, $text);
     }

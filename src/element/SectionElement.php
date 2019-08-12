@@ -9,7 +9,6 @@ class SectionElement Extends ContainerElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
-    protected $labels;
     protected $object;
     protected $triggers;
 

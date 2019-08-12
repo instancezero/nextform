@@ -9,11 +9,14 @@ class Presentation implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    protected $cols;
     protected $confirm = false;
     static protected $jsonEncodeMethod = [
         'span' => [],
         'confirm' => ['drop:false'],
         'type' => [],
+        'cols' => ['drop:null'],
+        'rows' => ['drop:null'],
     ];
     static protected $knownTypes = [
         'button', 'checkbox', 'color', 'date', 'datetime-local',
@@ -23,26 +26,49 @@ class Presentation implements \JsonSerializable {
         // Our non w3c types...
         'select',
     ];
+    protected $rows;
     protected $span = 1;
     protected $type;
 
     protected function configureValidate($property, &$value) {
         switch ($property) {
+            case 'cols':
+            case 'rows':
+            case 'span':
+                if (!is_numeric($value)) {
+                    $this -> configureLogError($property . ' must be numeric.');
+                    return false;
+                }
+                $value = (int) $value;
+                break;
+            case 'confirm':
+                if (!is_bool($value)) {
+                    $this -> configureLogError($property . ' must be boolean.');
+                    return false;
+                }
+                break;
             case 'type':
-                if (!($result = in_array($value, self::$knownTypes))) {
+                if (!(in_array($value, self::$knownTypes))) {
                     $this -> configureLogError(
                         'Invalid value "'. $value . '" for property "' . $property . '".'
                     );
+                    return false;
                 }
                 break;
-            default:
-                $result = true;
         }
-        return $result;
+        return true;
+    }
+
+    public function getCols() {
+        return $this -> cols;
     }
 
     public function getConfirm() {
         return $this -> confirm;
+    }
+
+    public function getRows() {
+        return $this -> rows;
     }
 
     public function getSpan() {
@@ -53,8 +79,39 @@ class Presentation implements \JsonSerializable {
         return $this -> type;
     }
 
+    public function setCols($cols) {
+        $this -> configureErrors = [];
+        if (!$this -> configureValidate('cols', $cols)) {
+            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        }
+        $this -> cols = $cols;
+        return $this;
+    }
+
     public function setConfirm($confirm) {
+        $this -> configureErrors = [];
+        if (!$this -> configureValidate('confirm', $confirm)) {
+            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        }
         $this -> confirm = $confirm;
+        return $this;
+    }
+
+    public function setRows($rows) {
+        $this -> configureErrors = [];
+        if (!$this -> configureValidate('rows', $rows)) {
+            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        }
+        $this -> rows = $rows;
+        return $this;
+    }
+
+    public function setSpan($span) {
+        $this -> configureErrors = [];
+        if (!$this -> configureValidate('span', $span)) {
+            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        }
+        $this -> span = $span;
         return $this;
     }
 

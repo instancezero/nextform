@@ -4,7 +4,11 @@ use Abivia\NextForm;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\ButtonElement;
+use Abivia\NextForm\Element\CellElement;
 use Abivia\NextForm\Element\FieldElement;
+use Abivia\NextForm\Element\HtmlElement;
+use Abivia\NextForm\Element\SectionElement;
+use Abivia\NextForm\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Simple;
 
@@ -177,6 +181,20 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = '<label for="button-1">Stuff</label>' . "\n" . $expect -> body;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
+    }
+
+	public function testFormRendererSimple_Cell() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $obj = new Simple();
+        $this -> assertFalse($obj -> queryContext('inCell'));
+        $element = new CellElement();
+        $data = $obj -> render($element);
+        $expect -> body = '<div>' . "\n";
+        $expect -> post = '</div>' . "\n";
+        $this -> assertTrue($obj -> queryContext('inCell'));
+        $this -> assertEquals($expect, $data);
     }
 
     /**
@@ -1504,7 +1522,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
-        // Set multiple an give it two values
+        // Set multiple and give it two values
         //
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('multiple', true);
@@ -1536,6 +1554,20 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $data = $obj -> render($element, ['access' => 'read']);
         $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Set the presentation to one row
+        //
+        $presentation -> setRows(6);
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
+            . '  <option value="textlist 1">textlist 1</option>' . "\n"
+            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '  <option value="textlist 3">textlist 3</option>' . "\n"
+            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
@@ -1683,7 +1715,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         //
-        // Modify the schema to change test/text to a search
+        // Modify the schema to change test/text to a tel
         //
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('tel');
@@ -1710,6 +1742,50 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element, ['access' => 'view']);
         $expect -> body = '<input id="field-1" name="field-1" type="tel" readonly/><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+	public function testFormRendererSimple_FieldTextarea() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a textarea
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('textarea');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<textarea id="field-1" name="field-1"></textarea><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<textarea id="field-1" name="field-1" readonly></textarea><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1890,6 +1966,113 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $obj -> render($element, ['access' => 'read']);
         $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+    /**
+     * Check a html element
+     */
+	public function testFormRendererSimple_Html() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
+        $obj = new Simple();
+        $element = new HtmlElement();
+        $element -> configure($config);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<p>This is some escaped html &amp;</p>';
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+	public function testFormRendererSimple_Section() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $obj = new Simple();
+        $element = new SectionElement();
+        $data = $obj -> render($element);
+        $expect -> body = '<fieldset>' . "\n";
+        $expect -> post = '</fieldset>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Now add a label
+        //
+        $element -> setLabel('heading', 'This is legendary');
+        $data = $obj -> render($element);
+        $expect -> body = '<fieldset>' . "\n"
+            . '<legend>This is legendary</legend>' . "\n";
+        $expect -> post = '</fieldset>' . "\n";
+        $this -> assertEquals($expect, $data);
+        //
+        // Same for view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $this -> assertEquals($expect, $data);
+        //
+        // Same for read access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $this -> assertEquals($expect, $data);
+    }
+
+    /**
+     * Check a static element
+     */
+	public function testFormRendererSimple_Static() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
+        $obj = new Simple();
+        $element = new StaticElement();
+        $element -> configure($config);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = 'This is unescaped text with &lt;stuff&gt;!';
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }

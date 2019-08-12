@@ -12,7 +12,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 abstract class NamedElement Extends Element {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Element\Labels;
+    use \Abivia\NextForm\Element\HasLabels;
 
     static protected $jsonEncodeMethod = [];
     /**

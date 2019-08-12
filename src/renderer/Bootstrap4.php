@@ -8,18 +8,10 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 /**
  * Renderer for Bootstrap4
  */
-class Bootstrap4 implements Renderer {
+class Bootstrap4 extends Html implements Renderer {
 
     public function __construct($options = []) {
         $this -> setOptions($options);
-    }
-
-    public function popContext(Block $block, $options = []) {
-        return $block -> close();
-    }
-
-    public function pushContext($options = []) {
-
     }
 
     public function render(Element $element, $options = []) {
