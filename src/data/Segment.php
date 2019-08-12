@@ -2,6 +2,8 @@
 
 namespace Abivia\NextForm\Data;
 
+use \Abivia\NextForm\Data\Property;
+
 /**
  *  Describes a collection of Properties that come from the same source, for example
  *  columns are the properties that come from a database table. The table represents
@@ -57,7 +59,7 @@ class Segment implements \JsonSerializable {
         return $this -> name;
     }
 
-    public function getProperty($propName) {
+    public function getProperty($propName) : ?Property {
         return isset($this -> objects[$propName]) ? $this -> objects[$propName] : null;
     }
 

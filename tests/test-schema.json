@@ -64,8 +64,7 @@
                                         "value": "S2I2",
                                         "sidecar": "s2i2 side"
                                     }
-                                ],
-                                "sidecar": "subgroup 1 sidecar"
+                                ]
                             }
                         ]
                     },

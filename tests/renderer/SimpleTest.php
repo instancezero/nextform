@@ -1422,6 +1422,259 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
+     * Check a field as a simple select
+     */
+	public function testFormRendererSimple_FieldSelect() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a select
+        //
+        $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
+        $presentation -> setType('select');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
+            . '  <option value="textlist 1">textlist 1</option>' . "\n"
+            . '  <option value="textlist 2">textlist 2</option>' . "\n"
+            . '  <option value="textlist 3">textlist 3</option>' . "\n"
+            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Now let's give it a value...
+        //
+        $element -> setValue('textlist 2');
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
+            . '  <option value="textlist 1">textlist 1</option>' . "\n"
+            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '  <option value="textlist 3">textlist 3</option>' . "\n"
+            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+            . '<span>textlist 2</span>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Set multiple an give it two values
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $element -> setValue(['textlist 2', 'textlist 4']);
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
+            . '  <option value="textlist 1">textlist 1</option>' . "\n"
+            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '  <option value="textlist 3">textlist 3</option>' . "\n"
+            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<span>textlist 2</span><br/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n"
+            . '<span>textlist 4</span><br/>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+    /**
+     * Check a field as a nested select
+     */
+	public function testFormRendererSimple_FieldSelectNested() {
+        $this -> logMethod(__METHOD__);
+        NextForm::boot();
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a select
+        //
+        $presentation = $schema -> getProperty('test/textWithNestedList') -> getPresentation();
+        $presentation -> setType('select');
+        $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
+        $obj = new Simple();
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> linkSchema($schema);
+        //
+        // No access specification assumes write access
+        //
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
+            . '  <option value="General">General</option>' . "\n"
+            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '<optgroup label="Subgroup Two">' . "\n"
+            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Same result with explicit write access
+        //
+        $data = $obj -> render($element, ['access' => 'write']);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Now let's give it a value...
+        //
+        $element -> setValue('S2I1');
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
+            . '  <option value="General">General</option>' . "\n"
+            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '<optgroup label="Subgroup Two">' . "\n"
+            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+            . '<span>Sub Two Item One</span>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Set multiple an give it two values
+        //
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $element -> setValue(['S2I1', 'Sub One Item One']);
+        $data = $obj -> render($element);
+        $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
+            . '  <option value="General">General</option>' . "\n"
+            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+            . '  <option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
+            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '<optgroup label="Subgroup Two">' . "\n"
+            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '</optgroup>' . "\n"
+            . '</select>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test view access
+        //
+        $data = $obj -> render($element, ['access' => 'view']);
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
+            . '<span>Sub One Item One</span><br/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
+            . '<span>Sub Two Item One</span><br/>' . "\n"
+            . '<br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Test read (less than view) access
+        //
+        $data = $obj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+    /**
      * Check a field as a tel
      */
 	public function testFormRendererSimple_FieldTel() {

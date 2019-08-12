@@ -121,6 +121,10 @@ class Option implements \JsonSerializable {
         return true;
     }
 
+    public function isNested() {
+        return is_array($this -> value);
+    }
+
     public function setEnabled($enabled) {
         $this -> enabled = $enabled;
         return $this;

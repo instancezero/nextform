@@ -317,6 +317,112 @@
 <input id="field-1" name="field-1" type="search"/><br/>
 <input id="field-1" name="field-1" type="search" readonly/><br/>
 <input id="field-1" name="field-1" type="hidden"/>
+<h3>FormRendererSimpleTest::testFormRendererSimple_FieldSelect</h3>
+<select id="field-1" name="field-1">
+  <option value="textlist 1">textlist 1</option>
+  <option value="textlist 2">textlist 2</option>
+  <option value="textlist 3">textlist 3</option>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+<br/>
+<select id="field-1" name="field-1">
+  <option value="textlist 1">textlist 1</option>
+  <option value="textlist 2">textlist 2</option>
+  <option value="textlist 3">textlist 3</option>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value=""/>
+<br/>
+<input id="field-1" name="field-1" type="hidden"/>
+<select id="field-1" name="field-1">
+  <option value="textlist 1">textlist 1</option>
+  <option value="textlist 2" selected>textlist 2</option>
+  <option value="textlist 3">textlist 3</option>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
+<span>textlist 2</span>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
+<select id="field-1" name="field-1[]" multiple>
+  <option value="textlist 1">textlist 1</option>
+  <option value="textlist 2" selected>textlist 2</option>
+  <option value="textlist 3">textlist 3</option>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
+</select>
+<br/>
+<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
+<span>textlist 2</span><br/>
+<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
+<span>textlist 4</span><br/>
+<br/>
+<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
+<h3>FormRendererSimpleTest::testFormRendererSimple_FieldSelectNested</h3>
+<select id="field-1" name="field-1">
+  <option value="General">General</option>
+<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+  <option value="Sub One Item One">Sub One Item One</option>
+  <option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+<br/>
+<select id="field-1" name="field-1">
+  <option value="General">General</option>
+<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+  <option value="Sub One Item One">Sub One Item One</option>
+  <option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value=""/>
+<br/>
+<input id="field-1" name="field-1" type="hidden"/>
+<select id="field-1" name="field-1">
+  <option value="General">General</option>
+<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+  <option value="Sub One Item One">Sub One Item One</option>
+  <option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>
+  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value="S2I1"/>
+<span>Sub Two Item One</span>
+<br/>
+<input id="field-1" name="field-1" type="hidden" value="S2I1"/>
+<select id="field-1" name="field-1[]" multiple>
+  <option value="General">General</option>
+<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+  <option value="Sub One Item One" selected>Sub One Item One</option>
+  <option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>
+  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+<br/>
+<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>
+<span>Sub One Item One</span><br/>
+<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>
+<span>Sub Two Item One</span><br/>
+<br/>
+<input id="field-1-opt0" name="field-1[]" type="hidden" value="S2I1"/>
+<input id="field-1-opt1" name="field-1[]" type="hidden" value="Sub One Item One"/>
 <h3>FormRendererSimpleTest::testFormRendererSimple_FieldTel</h3>
 <input id="field-1" name="field-1" type="tel"/><br/>
 <input id="field-1" name="field-1" type="tel"/><br/>

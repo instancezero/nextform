@@ -164,13 +164,12 @@ class FieldElement extends NamedElement {
         // Lists can only nest one level deep, so this is straightforward.
         $list = [];
         foreach ($source as $option) {
-            $value = $option -> getValue();
-            if (is_array($value)) {
-                foreach ($value as $item) {
+            if ($option -> isNested()) {
+                foreach ($option -> getList() as $item) {
                     $list[] = $item;
                 }
             } else {
-                $list[] = $value;
+                $list[] = $option;
             }
         }
         return $list;
