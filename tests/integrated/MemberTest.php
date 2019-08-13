@@ -8,7 +8,7 @@ use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Simple;
+use Abivia\NextForm\Renderer\SimpleHtml;
 
 class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
@@ -146,12 +146,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $this -> assertTrue(true);
     }
 
-    public function testSimpleRenderUnpopulated() {
+    public function testSimpleHtmlRenderUnpopulated() {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $form -> linkSchema($schema);
-        $render = new Simple();
+        $render = new SimpleHtml();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
         $page = $form -> generate(['action' => 'http://localhost/nextform/post.php']);

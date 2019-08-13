@@ -13,7 +13,7 @@ use Abivia\NextForm\Element\StaticElement;
 /**
  * A skeletal renderer that generates a very basic form.
  */
-class Simple extends Html implements Renderer {
+class SimpleHtml extends Html implements Renderer {
 
     /**
      * Maps element types to render methods.
@@ -23,9 +23,7 @@ class Simple extends Html implements Renderer {
 
     public function __construct($options = []) {
         parent::__construct($options);
-        $this -> context = [
-            ['inCell' => false]
-        ];
+        $this -> initialize();
     }
 
     /**
@@ -64,6 +62,13 @@ class Simple extends Html implements Renderer {
             self::$renderMethodCache[$classPath] = 'render' . array_pop($classParts);
         }
         return self::$renderMethodCache[$classPath];
+    }
+
+    protected function initialize() {
+        // Reset the context
+        $this -> context = [
+            ['inCell' => false]
+        ];
     }
 
     public function render(Element $element, $options = []) {
@@ -673,23 +678,6 @@ class Simple extends Html implements Renderer {
 
     public function setOptions($options = []) {
 
-    }
-
-    public function start($options = []) {
-        $attrs = ['method' => isset($options['method']) ? $options['method'] : 'post'];
-        if (isset($options['action'])) {
-            $attrs['action'] = $options['action'];
-        }
-        if (isset($options['id'])) {
-            $attrs['id'] = $options['id'];
-        }
-        if (isset($options['name'])) {
-            $attrs['name'] = $options['name'];
-        }
-        $pageData = new Block();
-        $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
-        $pageData -> post = '</form>' . "\n";
-        return $pageData;
     }
 
 }

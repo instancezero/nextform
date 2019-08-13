@@ -9,7 +9,7 @@ use Abivia\NextForm\Element\Element;
  */
 abstract class Html implements Renderer {
 
-    protected $context = [];
+    protected $context = [[]];
     /**
      * HTML attributes that we give preference to when generating
      * @var array
@@ -194,6 +194,11 @@ abstract class Html implements Renderer {
         }
     }
 
+    protected function initialize() {
+        // Reset the context
+        $this -> context = [[]];
+    }
+
     /**
      * Extract a processing command (! no escape; = no value; * JSON encode) from an attribute, if any
      * @param string $attrName The attribute command and name
@@ -234,7 +239,23 @@ abstract class Html implements Renderer {
 
     }
 
-    abstract public function start($options = []);
+    public function start($options = []) {
+        $this -> initialize();
+        $attrs = ['method' => isset($options['method']) ? $options['method'] : 'post'];
+        if (isset($options['action'])) {
+            $attrs['action'] = $options['action'];
+        }
+        if (isset($options['id'])) {
+            $attrs['id'] = $options['id'];
+        }
+        if (isset($options['name'])) {
+            $attrs['name'] = $options['name'];
+        }
+        $pageData = new Block();
+        $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
+        $pageData -> post = '</form>' . "\n";
+        return $pageData;
+    }
 
     /**
      * Encode an attribute into escaped HTML

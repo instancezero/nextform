@@ -10,12 +10,12 @@ use Abivia\NextForm\Element\HtmlElement;
 use Abivia\NextForm\Element\SectionElement;
 use Abivia\NextForm\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Simple;
+use Abivia\NextForm\Renderer\SimpleHtml;
 
 /**
- * @covers \Abivia\NextForm\Renderer\Simple
+ * @covers \Abivia\NextForm\Renderer\SimpleHtml
  */
-class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
+class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
     static protected $allHtml;
 
@@ -24,7 +24,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>FormRendererSimpleTest</title>
+    <title>FormRendererSimpleHtmlTest</title>
   </head>
 <body>
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
@@ -46,14 +46,14 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         self::$allHtml .= $closing -> body;
     }
 
-	public function testFormRendererSimple_Instantiation() {
-        $obj = new Simple();
-		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\Simple', $obj);
+	public function testFormRendererSimpleHtml_Instantiation() {
+        $obj = new SimpleHtml();
+		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\SimpleHtml', $obj);
 	}
 
-	public function testFormRendererSimple_Start() {
+	public function testFormRendererSimpleHtml_Start() {
         NextForm::boot();
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $data = $obj -> start();
         $this -> assertEquals("<form method=\"post\">\n", $data -> body);
         $this -> assertEquals("</form>\n", $data -> post);
@@ -70,12 +70,12 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a a button
      */
-	public function testFormRendererSimple_Button() {
+	public function testFormRendererSimpleHtml_Button() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new ButtonElement();
         $element -> configure($config);
         //
@@ -138,13 +138,13 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a field with label options
      */
-	public function testFormRendererSimple_ButtonLabels() {
+	public function testFormRendererSimpleHtml_ButtonLabels() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
         $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new ButtonElement();
         $element -> configure($config);
         //
@@ -183,11 +183,11 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_Cell() {
+	public function testFormRendererSimpleHtml_Cell() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $this -> assertFalse($obj -> queryContext('inCell'));
         $element = new CellElement();
         $data = $obj -> render($element);
@@ -200,18 +200,18 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * @doesNotPerformAssertions
      */
-	public function testFormRendererSimple_SetOptions() {
-        $obj = new Simple();
+	public function testFormRendererSimpleHtml_SetOptions() {
+        $obj = new SimpleHtml();
         $obj -> setOptions();
     }
 
-	public function testFormRendererSimple_FieldText() {
+	public function testFormRendererSimpleHtml_FieldText() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -247,14 +247,14 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a text field with label options
      */
-	public function testFormRendererSimple_FieldTextLabels() {
+	public function testFormRendererSimpleHtml_FieldTextLabels() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -310,14 +310,14 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test various validation options
      */
-	public function testFormRendererSimple_FieldTextValidation() {
+	public function testFormRendererSimpleHtml_FieldTextValidation() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -363,14 +363,14 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_FieldTextDataList() {
+	public function testFormRendererSimpleHtml_FieldTextDataList() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $tail = "<br/>\n";
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -402,7 +402,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as the button types
      */
-	public function testFormRendererSimple_FieldButton() {
+	public function testFormRendererSimpleHtml_FieldButton() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -413,7 +413,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('button');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -437,7 +437,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element
      */
-	public function testFormRendererSimple_FieldCheckbox() {
+	public function testFormRendererSimpleHtml_FieldCheckbox() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -448,7 +448,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('checkbox');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -502,7 +502,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element with a list
      */
-	public function testFormRendererSimple_FieldCheckboxList() {
+	public function testFormRendererSimpleHtml_FieldCheckboxList() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -512,7 +512,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -595,7 +595,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a color element
     */
-	public function testFormRendererSimple_FieldColor() {
+	public function testFormRendererSimpleHtml_FieldColor() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -603,7 +603,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('color');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -647,7 +647,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a date element
     */
-	public function testFormRendererSimple_FieldDate() {
+	public function testFormRendererSimpleHtml_FieldDate() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -655,7 +655,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('date');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -710,7 +710,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a datetime-local element
     */
-	public function testFormRendererSimple_FieldDatetimeLocal() {
+	public function testFormRendererSimpleHtml_FieldDatetimeLocal() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -718,7 +718,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('datetime-local');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -771,7 +771,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_FieldEmail() {
+	public function testFormRendererSimpleHtml_FieldEmail() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -779,7 +779,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('email');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -830,7 +830,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_FieldFile() {
+	public function testFormRendererSimpleHtml_FieldFile() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -838,7 +838,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('file');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -888,7 +888,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a hidden element
     */
-	public function testFormRendererSimple_FieldHidden() {
+	public function testFormRendererSimpleHtml_FieldHidden() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -896,7 +896,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('hidden');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -930,7 +930,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a hidden field with label options
      */
-	public function testFormRendererSimple_FieldHiddenLabels() {
+	public function testFormRendererSimpleHtml_FieldHiddenLabels() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -938,7 +938,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('hidden');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -986,7 +986,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a month element
     */
-	public function testFormRendererSimple_FieldMonth() {
+	public function testFormRendererSimpleHtml_FieldMonth() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -994,7 +994,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('month');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1049,7 +1049,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a number
      */
-	public function testFormRendererSimple_FieldNumber() {
+	public function testFormRendererSimpleHtml_FieldNumber() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $tail = "<br/>\n";
@@ -1061,7 +1061,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('number');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1119,7 +1119,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_FieldPassword() {
+	public function testFormRendererSimpleHtml_FieldPassword() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1130,7 +1130,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('password');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1174,7 +1174,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element
      */
-	public function testFormRendererSimple_FieldRadio() {
+	public function testFormRendererSimpleHtml_FieldRadio() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1185,7 +1185,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('radio');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1239,7 +1239,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list
      */
-	public function testFormRendererSimple_FieldRadioList() {
+	public function testFormRendererSimpleHtml_FieldRadioList() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1249,7 +1249,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         //
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('radio');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1323,7 +1323,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a range
      */
-	public function testFormRendererSimple_FieldRange() {
+	public function testFormRendererSimpleHtml_FieldRange() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $tail = "<br/>\n";
@@ -1335,7 +1335,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('range');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1395,7 +1395,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a search
      */
-	public function testFormRendererSimple_FieldSearch() {
+	public function testFormRendererSimpleHtml_FieldSearch() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1406,7 +1406,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('search');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1442,7 +1442,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a simple select
      */
-	public function testFormRendererSimple_FieldSelect() {
+	public function testFormRendererSimpleHtml_FieldSelect() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1453,7 +1453,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
         $presentation -> setType('select');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1575,7 +1575,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a nested select
      */
-	public function testFormRendererSimple_FieldSelectNested() {
+	public function testFormRendererSimpleHtml_FieldSelectNested() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1586,7 +1586,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/textWithNestedList') -> getPresentation();
         $presentation -> setType('select');
         $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1709,7 +1709,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a tel
      */
-	public function testFormRendererSimple_FieldTel() {
+	public function testFormRendererSimpleHtml_FieldTel() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1720,7 +1720,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('tel');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1753,7 +1753,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_FieldTextarea() {
+	public function testFormRendererSimpleHtml_FieldTextarea() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1764,7 +1764,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('textarea');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1800,7 +1800,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a time element
     */
-	public function testFormRendererSimple_FieldTime() {
+	public function testFormRendererSimpleHtml_FieldTime() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1808,7 +1808,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('time');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1863,7 +1863,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a url
      */
-	public function testFormRendererSimple_FieldUrl() {
+	public function testFormRendererSimpleHtml_FieldUrl() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1874,7 +1874,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('url');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1910,7 +1910,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a week element
     */
-	public function testFormRendererSimple_FieldWeek() {
+	public function testFormRendererSimpleHtml_FieldWeek() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
@@ -1918,7 +1918,7 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $presentation = $schema -> getProperty('test/text') -> getPresentation();
         $presentation -> setType('week');
         $config = json_decode('{"type": "field","object": "test/text"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
         $element -> linkSchema($schema);
@@ -1973,12 +1973,12 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a html element
      */
-	public function testFormRendererSimple_Html() {
+	public function testFormRendererSimpleHtml_Html() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new HtmlElement();
         $element -> configure($config);
         //
@@ -2008,11 +2008,11 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimple_Section() {
+	public function testFormRendererSimpleHtml_Section() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new SectionElement();
         $data = $obj -> render($element);
         $expect -> body = '<fieldset>' . "\n";
@@ -2042,12 +2042,12 @@ class FormRendererSimpleTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a static element
      */
-	public function testFormRendererSimple_Static() {
+	public function testFormRendererSimpleHtml_Static() {
         $this -> logMethod(__METHOD__);
         NextForm::boot();
         $expect = new Block;
         $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
-        $obj = new Simple();
+        $obj = new SimpleHtml();
         $element = new StaticElement();
         $element -> configure($config);
         //
