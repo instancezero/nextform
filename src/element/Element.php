@@ -48,6 +48,15 @@ abstract class Element implements \JsonSerializable {
 
     }
 
+    /**
+     * Connect data elements in a schema
+     * @param \Abivia\NextForm\Data\Schema $schema
+     * @codeCoverageIgnore
+     */
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+        // Non-data elements do nothing. This just simplifies walking the tree
+    }
+
     static public function classFromType($obj) {
         $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
         if (!class_exists($result)) {
@@ -118,15 +127,6 @@ abstract class Element implements \JsonSerializable {
 
     public function getVisible() {
         return $this -> visible;
-    }
-
-    /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
-     * @codeCoverageIgnore
-     */
-    public function linkSchema($schema) {
-        // Non-data elements do nothing.
     }
 
     public function setEnabled($enabled) {

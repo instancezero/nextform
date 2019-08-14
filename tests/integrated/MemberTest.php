@@ -117,7 +117,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> linkSchema($schema);
+        $form -> bindSchema($schema);
         $render = new FlatRenderer();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
@@ -134,7 +134,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> linkSchema($schema);
+        $form -> bindSchema($schema);
         $data = [
             'id' => 0,
         ];
@@ -150,7 +150,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> linkSchema($schema);
+        $form -> bindSchema($schema);
         $render = new SimpleHtml();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());

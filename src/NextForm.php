@@ -206,10 +206,10 @@ class NextForm implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Schema $schema
      * @return $this
      */
-    public function linkSchema($schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
         $this -> objectMap = [];
         foreach ($this -> elements as $element) {
-            $element -> linkSchema($schema);
+            $element -> bindSchema($schema);
         }
         $this -> schemaIsLinked = true;
         return $this;

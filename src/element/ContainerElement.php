@@ -80,9 +80,9 @@ abstract class ContainerElement Extends NamedElement {
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema
      */
-    public function linkSchema($schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
         foreach ($this -> elements as $element) {
-            $element -> linkSchema($schema);
+            $element -> bindSchema($schema);
         }
     }
 

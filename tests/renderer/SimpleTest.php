@@ -214,7 +214,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -257,7 +257,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $ret = $element -> setValue('the value');
         $this -> assertTrue($element === $ret);
         //
@@ -320,7 +320,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $validation = $element -> getDataProperty() -> getValidation();
         //
         // Make the field required
@@ -373,7 +373,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         // No access assumes write access
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="text"'
@@ -416,7 +416,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $element -> setValue('Ok Bob');
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>' . "\n";
@@ -451,7 +451,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // Give the element a label
         //
@@ -515,7 +515,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         // No access specification assumes write access
         $data = $obj -> render($element);
         $expect -> body = '<div>
@@ -606,7 +606,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -658,7 +658,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -721,7 +721,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -782,7 +782,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -841,7 +841,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -879,8 +879,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="file1.png"/>' . "\n"
-            . '<input id="field-1" name="field-1[]" type="hidden" value="file2.jpg"/>' . "\n";
+        $expect -> body = '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
@@ -899,7 +899,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -941,7 +941,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $ret = $element -> setValue('the value');
         $this -> assertTrue($element === $ret);
         //
@@ -997,7 +997,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1064,7 +1064,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $element -> setValue('200');
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="number" value="200"/><br/>' . "\n";
@@ -1133,7 +1133,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1188,7 +1188,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // Give the element a label
         //
@@ -1252,7 +1252,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         // No access specification assumes write access
         $data = $obj -> render($element);
         $expect -> body = '<div>
@@ -1338,7 +1338,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         $element -> setValue('200');
         $data = $obj -> render($element);
         $expect -> body = '<input id="field-1" name="field-1" type="range" value="200"/><br/>' . "\n";
@@ -1409,7 +1409,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1456,7 +1456,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1552,8 +1552,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n";
+        $expect -> body = '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1589,7 +1589,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1700,8 +1700,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test read (less than view) access
         //
         $data = $obj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n";
+        $expect -> body = '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
@@ -1723,7 +1723,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1767,7 +1767,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1811,7 +1811,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1877,7 +1877,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //
@@ -1921,7 +1921,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $obj = new SimpleHtml();
         $element = new FieldElement();
         $element -> configure($config);
-        $element -> linkSchema($schema);
+        $element -> bindSchema($schema);
         //
         // No access specification assumes write access
         //

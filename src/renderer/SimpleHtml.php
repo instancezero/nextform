@@ -55,6 +55,30 @@ class SimpleHtml extends Html implements Renderer {
         return $block;
     }
 
+    protected function elementHidden($element, $value) {
+        $block = new Block;
+        $baseId = $element -> getId();
+        $attrs = ['type' => 'hidden'];
+        if (is_array($value)) {
+            $optId = 0;
+            foreach ($value as $key => $entry) {
+                $attrs['id'] = $baseId . '-opt' . $optId;
+                ++$optId;
+                $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
+                $attrs['value'] = $entry;
+                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            }
+        } else {
+            $attrs['id'] = $baseId;
+            $attrs['name'] = $element -> getFormName();
+            if ($value !== null) {
+                $attrs['value'] = $value;
+            }
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+        }
+        return $block;
+    }
+
     protected function getRenderMethod(Element $element) {
         $classPath = get_class($element);
         if (!isset(self::$renderMethodCache[$classPath])) {
@@ -188,18 +212,8 @@ class SimpleHtml extends Html implements Renderer {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $attrs['type'] = 'hidden';
-            if (is_array($value)) {
-                foreach ($value as $key => $entry) {
-                    $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
-                    $attrs['value'] = $entry;
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
-            } else {
-                if ($value !== null) {
-                    $attrs['value'] = $value;
-                }
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            if (!$confirm) {
+                $block -> merge($this -> elementHidden($element, $value));
             }
         } else {
             //
@@ -341,19 +355,7 @@ class SimpleHtml extends Html implements Renderer {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $attrs['type'] = 'hidden';
-            if (is_array($value)) {
-                $attrs['name'] .= '[]';
-                foreach ($value as $item) {
-                    $attrs['value'] = $item;
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
-            } else {
-                if ($value !== null) {
-                    $attrs['value'] = $value;
-                }
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-            }
+            $block -> merge($this -> elementHidden($element, $value));
         } else {
             //
             // We can see or change the data
@@ -413,19 +415,7 @@ class SimpleHtml extends Html implements Renderer {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $attrs['type'] = 'hidden';
-            if (is_array($value)) {
-                foreach ($value as $key => $entry) {
-                    $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
-                    $attrs['value'] = $entry;
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
-            } else {
-                if ($value !== null) {
-                    $attrs['value'] = $value;
-                }
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-            }
+            $block -> merge($this -> elementHidden($element, $value));
         } else {
             //
             // We can see or change the data
@@ -474,30 +464,11 @@ class SimpleHtml extends Html implements Renderer {
 
         $attrs['name'] = $element -> getFormName() . ($multiple ? '[]' : '');
         $value = $element -> getValue();
-        //
-        // Read-only: generate one or more hidden input elements
-        //
         if ($options['access'] === 'read') {
-            $attrs['type'] = 'hidden';
-            if ($multiple) {
-                if (!is_array($value)) {
-                    $value = [$value];
-                }
-                // Generate a list of input elements
-                foreach ($value as $optId => $item) {
-                    $id = $baseId . '-opt' . $optId;
-                    $attrs['id'] = $id;
-                    $attrs['value'] = $item;
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
-            } else {
-                $attrs['id'] = $baseId;
-                if ($value !== null) {
-                    $attrs['value'] = $value;
-                }
-                // Generate the input element
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-            }
+            //
+            // Read-only: generate one or more hidden input elements
+            //
+            $block -> merge($this -> elementHidden($element, $value));
         } else {
             // This element is visible
             $block -> body .= $this -> writeLabel($labels -> before, 'div');
@@ -609,11 +580,7 @@ class SimpleHtml extends Html implements Renderer {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $attrs['type'] = 'hidden';
-            if ($value !== null) {
-                $attrs['value'] = $value;
-            }
-            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            $block -> merge($this -> elementHidden($element, $value));
         } else {
             //
             // We can see or change the data
