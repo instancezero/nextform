@@ -12,7 +12,6 @@ class Presentation implements \JsonSerializable {
     protected $cols;
     protected $confirm = false;
     static protected $jsonEncodeMethod = [
-        'span' => [],
         'confirm' => ['drop:false'],
         'type' => [],
         'cols' => ['drop:null'],
@@ -27,14 +26,12 @@ class Presentation implements \JsonSerializable {
         'select',
     ];
     protected $rows;
-    protected $span = 1;
     protected $type;
 
     protected function configureValidate($property, &$value) {
         switch ($property) {
             case 'cols':
             case 'rows':
-            case 'span':
                 if (!is_numeric($value)) {
                     $this -> configureLogError($property . ' must be numeric.');
                     return false;
@@ -71,10 +68,6 @@ class Presentation implements \JsonSerializable {
         return $this -> rows;
     }
 
-    public function getSpan() {
-        return $this -> span;
-    }
-
     public function getType() {
         return $this -> type;
     }
@@ -103,15 +96,6 @@ class Presentation implements \JsonSerializable {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));
         }
         $this -> rows = $rows;
-        return $this;
-    }
-
-    public function setSpan($span) {
-        $this -> configureErrors = [];
-        if (!$this -> configureValidate('span', $span)) {
-            throw new \RuntimeException(implode("\n", $this -> configureErrors));
-        }
-        $this -> span = $span;
         return $this;
     }
 

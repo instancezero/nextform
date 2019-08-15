@@ -9,7 +9,20 @@ use Abivia\NextForm\Element\Element;
  */
 abstract class Html implements Renderer {
 
+    /**
+     * What we just to join elements of some attributes
+     * @var array
+     */
+    static protected $attrJoin = ['class' => ' ', 'style' => '; '];
+
     protected $context = [[]];
+
+    /**
+     * Custom classes and styles to apply to various form elements
+     * @var array
+     */
+    protected $custom = [];
+
     /**
      * HTML attributes that we give preference to when generating
      * @var array
@@ -126,6 +139,18 @@ abstract class Html implements Renderer {
      */
     static $selfClose = ['input' => 1, 'option' => 2];
     /**
+     * Keyword matching for the show settings; regex:method
+     * @var array
+     */
+    static $showValidate = [
+        'layout' => [
+            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
+        ],
+        'size' => [
+            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+        ],
+    ];
+    /**
      * Map validation-related attributes to properties in a Data\Validation object.
      * @var array
      */
@@ -140,6 +165,8 @@ abstract class Html implements Renderer {
         '=required' => ['required', false],
         'step' => ['step', null],
     ];
+
+    protected $visual = [];
 
     /**
      * This constructor must be called once before the static inputAttributes map works.
@@ -164,6 +191,7 @@ abstract class Html implements Renderer {
                 $attrs = array_merge($common, $attrs);
             }
         }
+        $this -> visual = \Abivia\NextForm::$visualDefaults;
     }
 
     /**
@@ -197,6 +225,18 @@ abstract class Html implements Renderer {
     protected function initialize() {
         // Reset the context
         $this -> context = [[]];
+    }
+
+    protected function mergeVisual($attrs, $custom) {
+        foreach ($custom as $attr => $list) {
+            if (isset($attrs[$attr])) {
+                $list[] = $attrs[$attr];
+            }
+            if (!empty($list)) {
+                $attrs[$attr] = implode(self::$attrJoin[$attr], $list);
+            }
+        }
+        return $attrs;
     }
 
     /**
@@ -234,8 +274,42 @@ abstract class Html implements Renderer {
 
     abstract public function render(Element $element, $options = []);
 
-
     public function setOptions($options = []) {
+
+    }
+
+    public function setVisual($settings) {
+        $this -> visual = [];
+        foreach ($settings as $key => $value) {
+            $this -> visual[$key] = $this -> showValidate($key, $value);
+        }
+    }
+
+    public function show($key, $value) {
+        $this -> visual[$key] = $this -> showValidate($key, $value);
+    }
+
+    protected function showValidate($key, $value) {
+        if (!is_array($value)) {
+            $value = explode(':', $value);
+        }
+        switch ($key) {
+            case 'layout':
+            case 'size':
+                // Keyword selection. Match the minimal unique subset for each option.
+                foreach (self::$showValidate[$key] as $choice => $match) {
+                    $matchParts = explode(':', $match);
+                    if (preg_match($matchParts[0], $value[0])) {
+                        $method = 'showDo' . ucfirst($key);
+                        if (method_exists($this, $method)) {
+                            $this -> $method($choice, $value);
+                        }
+                        return $choice;
+                    }
+                }
+                throw new \RuntimeError($value . ' is not a valid setting for ' . $key);
+                //break;
+        }
 
     }
 
@@ -292,9 +366,21 @@ abstract class Html implements Renderer {
         return $html;
     }
 
-    protected function writeLabel($text, $tag, $attrs = []) {
-        $html = $text === null ? '' : $this -> writeTag($tag, $attrs)
-            . htmlspecialchars($text)
+    protected function writeLabel($type, $text, $tag, $attrs = []) {
+        if ($text !== null) {
+            $text = htmlspecialchars($text);
+        } else {
+            if ($this -> visual['layout'] === 'horizontal' && $type === 'heading') {
+                $text = '&nbsp;';
+            } else {
+                return '';
+            }
+        }
+        if (isset($this -> custom[$type])) {
+            $attrs = $this -> mergeVisual($attrs, $this -> custom[$type]);
+        }
+        $html = $this -> writeTag($tag, $attrs)
+            . $text
             . '</' . $tag . '>' . ($tag === 'span' ? '' : "\n")
         ;
         return $html;

@@ -10,7 +10,7 @@
                 "size": "10"
             },
             "presentation": {
-                "span": "1",
+                "cols": "1",
                 "type": "text"
             }
         },
@@ -21,7 +21,7 @@
                 "size": "10"
             },
             "presentation": {
-                "span": "1",
+                "cols": "1",
                 "type": "text"
             }
         }

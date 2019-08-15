@@ -21,6 +21,8 @@ interface Renderer {
 
     public function setOptions($options = []);
 
+    public function setVisual($settings);
+
     public function start($options = []);
 
 }

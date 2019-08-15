@@ -6,7 +6,7 @@
         "list": null
     },
     "presentation": {
-        "span": 1,
+        "cols": 1,
         "type": "text"
     },
     "store": {

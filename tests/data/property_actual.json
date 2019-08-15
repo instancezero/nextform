@@ -6,8 +6,8 @@
         "list": null
     },
     "presentation": {
-        "span": 1,
-        "type": "text"
+        "type": "text",
+        "cols": 1
     },
     "store": {
         "type": "int",

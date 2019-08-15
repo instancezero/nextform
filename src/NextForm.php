@@ -34,6 +34,7 @@ class NextForm implements \JsonSerializable {
     static protected $jsonEncodeMethod = [
         'name' => [],
         'useSegment' => ['drop:blank'],
+        'visual' => ['method:jsonCollapseVisual','drop:empty'],
         'elements' => [],
     ];
     protected $id;
@@ -52,10 +53,24 @@ class NextForm implements \JsonSerializable {
     protected $schemaIsLinked;
     protected $translate;
     protected $useSegment = '';
+    /**
+     * Settings that affect how the form is displayed, set individually with show()
+     * @var array
+     */
+    protected $visual = [];
+    /**
+     * Settings that affect how the form is displayed, set individually with show()
+     * @var array
+     */
+    static public $visualDefaults = [
+        'layout' => 'vertical',
+        'size' => 'regular'
+    ];
 
 
     public function __construct() {
           $this -> access = new \Abivia\NextForm\Access\BasicAccess;
+          $this -> visual = self::$visualDefaults;
     }
 
     protected function assignNames() {
@@ -132,6 +147,7 @@ class NextForm implements \JsonSerializable {
         $options['id'] = $this -> id;
         $options['name'] = $this -> name;
         $this -> assignNames();
+        $this -> renderer -> setVisual($this -> visual);
         $pageData = $this -> renderer -> start($options);
         foreach ($this -> elements as $element) {
             $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));
@@ -215,6 +231,22 @@ class NextForm implements \JsonSerializable {
         return $this;
     }
 
+    /**
+     * Remove default values from the visual settings before writing to JSON.
+     * @param array $visual
+     */
+    protected function jsonCollapseVisual($visual) {
+        foreach ($visual as $setting => $value) {
+            if (
+                isset(self::$visualDefaults[$setting])
+                && self::$visualDefaults[$setting] === $value
+            ) {
+                unset($visual[$setting]);
+            }
+        }
+        return $visual;
+    }
+
     protected function options($options) {
         if (isset($options['name'])) {
             $this -> name = $options['name'];
@@ -293,6 +325,14 @@ class NextForm implements \JsonSerializable {
 
     public function setUser($user) {
         $this -> access -> setUser($user);
+    }
+
+    public function show($key, $value) {
+        $this -> visual[$key] = $value;
+    }
+
+    public function setVisual($settings) {
+        $this -> visual = $settings;
     }
 
 }

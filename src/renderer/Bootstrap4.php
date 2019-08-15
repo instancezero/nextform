@@ -52,6 +52,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
+                'heading',
                 $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
                 'label', ['!for' => $attrs['id']]
             );
@@ -65,7 +66,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
                 $attr['aria-describedby'] = $attr['id'] . '-help';
             }
             $attrs['type'] = $type;
-            $block -> body .= $this -> writeLabel($labels -> before, 'span');
+            $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
                 $attrs['*data-sidecar'] = $sidecar;
@@ -78,7 +79,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
-                . $this -> writeLabel($labels -> after, 'span')
+                . $this -> writeLabel('after', $labels -> after, 'span')
                 . "\n";
             if ($helpLabel !== null) {
                 $helpAttrs = ['id' => $attrs['aria-describedby']];

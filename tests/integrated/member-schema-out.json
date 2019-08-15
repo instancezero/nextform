@@ -16,8 +16,8 @@
                         "heading": "Member ID"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "int",
@@ -104,8 +104,8 @@
                         ]
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "radio"
+                        "type": "radio",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -120,8 +120,8 @@
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -139,8 +139,8 @@
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -158,8 +158,8 @@
                         "help": "Leave blank if your artist name is the same as your legal name."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -173,9 +173,9 @@
                         "heading": "Email"
                     },
                     "presentation": {
-                        "span": 1,
                         "confirm": true,
-                        "type": "email"
+                        "type": "email",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -192,8 +192,8 @@
                         "heading": "Tel"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "tel"
+                        "type": "tel",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -211,8 +211,8 @@
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -230,8 +230,8 @@
                         "help": "If you use a public pseudonym, enter it below."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -249,8 +249,8 @@
                         "help": "Leave blank if your artist name is the same as your legal name."
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -264,9 +264,9 @@
                         "heading": "Email"
                     },
                     "presentation": {
-                        "span": 1,
                         "confirm": true,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -280,8 +280,8 @@
                         "heading": "Tel"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "tel"
+                        "type": "tel",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -298,8 +298,8 @@
                         "heading": "Business Name"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -312,8 +312,8 @@
                         "heading": "Street Address"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -329,8 +329,8 @@
                         "heading": "Street Address Line 2"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -343,8 +343,8 @@
                         "heading": "City"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -360,8 +360,8 @@
                         "heading": "Province"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "text"
+                        "type": "text",
+                        "cols": 1
                     },
                     "store": {
                         "type": "string",
@@ -378,8 +378,8 @@
                         "heading": "Annual fee"
                     },
                     "presentation": {
-                        "span": 1,
-                        "type": "number"
+                        "type": "number",
+                        "cols": 1
                     },
                     "store": {
                         "type": "decimal",

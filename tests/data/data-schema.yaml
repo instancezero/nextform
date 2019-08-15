@@ -14,13 +14,13 @@ segments:
     labels:
       after: Units
     presentation:
-      span: "1"
+      cols: "1"
       type: text
   - name: id2
     store:
       type: int
       size: "10"
     presentation:
-      span: "1"
+      cols: "1"
       type: text
 ...

@@ -46,6 +46,10 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
+    public function setVisual($settings) {
+
+    }
+
     public function start($options = []) {
         $result = new Block;
         $result -> body = "Form\n";

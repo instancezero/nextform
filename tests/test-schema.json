@@ -6,7 +6,6 @@
                 {
                     "name": "text",
                     "presentation": {
-                        "span": 1,
                         "type": "text"
                     },
                     "store": {
@@ -29,7 +28,6 @@
                         ]
                     },
                     "presentation": {
-                        "span": 1,
                         "type": "text"
                     },
                     "store": {
@@ -69,7 +67,6 @@
                         ]
                     },
                     "presentation": {
-                        "span": 1,
                         "type": "text"
                     },
                     "store": {

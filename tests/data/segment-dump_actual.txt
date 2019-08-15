@@ -31,10 +31,9 @@ Abivia\NextForm\Data\Segment Object
                     [population:protected] =>
                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object
                         (
-                            [cols:protected] =>
+                            [cols:protected] => 1
                             [confirm:protected] =>
                             [rows:protected] =>
-                            [span:protected] => 1
                             [type:protected] => text
                             [configureErrors:Abivia\NextForm\Data\Presentation:private] => Array
                                 (
@@ -111,10 +110,9 @@ Abivia\NextForm\Data\Segment Object
                     [population:protected] =>
                     [presentation:protected] => Abivia\NextForm\Data\Presentation Object
                         (
-                            [cols:protected] =>
+                            [cols:protected] => 1
                             [confirm:protected] =>
                             [rows:protected] =>
-                            [span:protected] => 1
                             [type:protected] => text
                             [configureErrors:Abivia\NextForm\Data\Presentation:private] => Array
                                 (

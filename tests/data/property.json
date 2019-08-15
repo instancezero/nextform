@@ -9,7 +9,7 @@
         "source": "fixed"
     },
     "presentation": {
-        "span": "1",
+        "cols": "1",
         "type": "text"
     }
 }

@@ -5221,6 +5221,12 @@ Abivia\NextForm Object
     [schemaIsLinked:protected] =>
     [translate:protected] =>
     [useSegment:protected] => user
+    [visual:protected] => Array
+        (
+            [layout] => vertical
+            [size] => regular
+        )
+
     [configureErrors:Abivia\NextForm:private] => Array
         (
         )
