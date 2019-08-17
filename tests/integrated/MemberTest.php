@@ -126,7 +126,6 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
         $page = $form -> generate(['action' => 'myform.php']);
-        print_r($page);
         $this -> assertTrue(true);
     }
 

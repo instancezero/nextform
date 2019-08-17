@@ -12,12 +12,14 @@ use Abivia\NextForm\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
+include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
+
 /**
  * @covers \Abivia\NextForm\Renderer\SimpleHtml
  */
 class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
+    use HtmlTestLogger;
 
-    static protected $allHtml;
     protected $testObj;
 
     protected function setUp() : void {
@@ -40,16 +42,6 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     public static function tearDownAfterClass() : void {
         self::$allHtml .= '</form></body></html>';
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
-    }
-
-    protected function logMethod($method) {
-        self::$allHtml .= '<h3>' . __CLASS__  . '::' . $method . "</h3>\n";
-    }
-
-    protected function logResult($block) {
-        $closing = clone $block;
-        $closing -> close();
-        self::$allHtml .= $closing -> body;
     }
 
 	public function testFormRendererSimpleHtml_Instantiation() {
@@ -1244,6 +1236,59 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
+     * Test code generation for single radio element with labels
+     */
+	public function testFormRendererSimpleHtml_FieldRadioLabels() {
+        $this -> logMethod(__METHOD__);
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a radio
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        //
+        // Give the element some labels and a value
+        //
+        $element -> setLabel('before', 'No need to fear');
+        $element -> setLabel('heading', 'Very Important Choice');
+        $element -> setLabel('inner', '<Stand-alone> radio');
+        $element -> setLabel('after', 'See? No problem!');
+        $element -> setValue(3);
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<span>No need to fear</span>'
+            . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            . '<span>See? No problem!</span><br/>' . "\n"
+            ;
+        $data = $this -> testObj -> render($element);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'full access');
+        //
+        // Test view access
+        //
+        $data = $this -> testObj -> render($element, ['access' => 'view']);
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<span>No need to fear</span>'
+            . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            . '<span>See? No problem!</span><br/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'view only');
+        //
+        // Test read (less than view) access
+        //
+        $data = $this -> testObj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'read(hidden) only');
+    }
+
+    /**
      * Test code generation for a radio element with a list
      */
 	public function testFormRendererSimpleHtml_FieldRadioList() {
@@ -1323,6 +1368,90 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
+    }
+
+    /**
+     * Test code generation for a radio element with a list and labels
+     */
+	public function testFormRendererSimpleHtml_FieldRadioListLabels() {
+        $this -> logMethod(__METHOD__);
+        $expect = new Block;
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a radio
+        //
+        $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
+        $presentation -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        //
+        // Give the element some labels and a value
+        //
+        $element -> setLabel('before', 'No need to fear');
+        $element -> setLabel('heading', 'Very Important Choice');
+        $element -> setLabel('inner', '<Stand-alone> radio');
+        $element -> setLabel('after', 'See? No problem!');
+        $element -> setValue('textlist 3');
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<div>No need to fear</div>' . "\n"
+            . '<div>
+  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>' . "\n"
+            . '<div>See? No problem!</div>' . "\n"
+            . '<br/>' . "\n"
+            ;
+        $data = $this -> testObj -> render($element);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'full access');
+        //
+        // Test view access
+        //
+        $data = $this -> testObj -> render($element, ['access' => 'view']);
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<div>No need to fear</div>' . "\n"
+            . '<div>
+  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
+  <label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
+  <label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+  <label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+  <label for="field-1-opt3">textlist 4</label>
+</div>' . "\n"
+            . '<div>See? No problem!</div>' . "\n"
+            . '<br/>' . "\n"
+            ;
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'view only');
+        //
+        // Test read (less than view) access
+        //
+        $data = $this -> testObj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data, 'read(hidden) only');
     }
 
     /**

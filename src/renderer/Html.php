@@ -440,13 +440,19 @@ abstract class Html implements Renderer {
     }
 
     protected function writeWrapper(Block $block, $tag, $purpose, $options = []) {
+        $hasPost = true;
         if (isset($this -> custom[$purpose])) {
             $attrs = $this -> mergeVisual($this -> custom[$purpose]);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-            $block -> post = '</' . $tag . ">\n" . $block -> post;
         } elseif (isset($options['force']) && $options['force']) {
             $block -> body .= '<' . $tag . ">\n";
-            $block -> post = '</' . $tag . ">\n" . $block -> post;
+        } else {
+            $hasPost = false;
+        }
+        if ($hasPost) {
+            $block -> post = '</' . $tag . ">\n"
+                . (isset($options['append']) ? $options['append'] : '')
+                . $block -> post;
         }
         return $block;
     }
