@@ -13,22 +13,24 @@ abstract class Html implements Renderer {
      * What we just to join elements of some attributes
      * @var array
      */
-    static protected $attrJoin = ['class' => ' ', 'style' => '; '];
+    static protected $attrJoin = ['class' => [' '], 'style' => ['; ', ":"]];
 
-    protected $context = [[]];
+    protected $context = [];
+    protected $contextStack = [];
 
     /**
      * Custom classes and styles to apply to various form elements
      * @var array
      */
     protected $custom = [];
+    protected $customStack = [];
 
     /**
      * HTML attributes that we give preference to when generating
      * @var array
      */
     static $highlightAttribute = [
-        'id', 'name', 'type', 'class', 'style', 'value', 'min', 'max'
+        'id', 'name', 'type', 'for', 'class', 'style', 'value', 'min', 'max'
     ];
     /**
      * Attribute masks for <input> elements. This array has to be initialized by a constructor.
@@ -224,16 +226,23 @@ abstract class Html implements Renderer {
 
     protected function initialize() {
         // Reset the context
-        $this -> context = [[]];
+        $this -> context = [];
     }
 
-    protected function mergeVisual($attrs, $custom) {
+    protected function mergeVisual($custom, $attrs = []) {
         foreach ($custom as $attr => $list) {
+            $glue = self::$attrJoin[$attr];
+            if (isset($glue[1])) {
+                // Merge keys from the list into the values
+                foreach ($list as $term => &$value) {
+                    $value = $term . $glue[1] . $value;
+                }
+            }
             if (isset($attrs[$attr])) {
                 $list[] = $attrs[$attr];
             }
             if (!empty($list)) {
-                $attrs[$attr] = implode(self::$attrJoin[$attr], $list);
+                $attrs[$attr] = implode($glue[0], $list);
             }
         }
         return $attrs;
@@ -255,21 +264,22 @@ abstract class Html implements Renderer {
     }
 
     public function popContext(Block $block, $options = []) {
-        if (count($this -> context) > 1) {
-            array_shift($this -> context);
+        if (count($this -> contextStack) > 1) {
+            $this -> context = array_pop($this -> contextStack);
+            $this -> custom = array_pop($this -> customStack);
         }
-        return $block -> close();
     }
 
     public function pushContext($options = []) {
-        array_unshift($this -> context, $this -> context[0]);
+        array_push($this -> contextStack, $this -> context);
+        array_push($this -> customStack, $this -> custom);
     }
 
     public function queryContext($selector) {
-        if (!isset($this -> context[0][$selector])) {
+        if (!isset($this -> context[$selector])) {
             throw new RuntimeException($selector . ' is not valid in current context.');
         }
-        return $this -> context[0][$selector];
+        return $this -> context[$selector];
     }
 
     abstract public function render(Element $element, $options = []);
@@ -366,18 +376,18 @@ abstract class Html implements Renderer {
         return $html;
     }
 
-    protected function writeLabel($type, $text, $tag, $attrs = []) {
+    protected function writeLabel($purpose, $text, $tag, $attrs = []) {
         if ($text !== null) {
             $text = htmlspecialchars($text);
         } else {
-            if ($this -> visual['layout'] === 'horizontal' && $type === 'heading') {
+            if ($this -> visual['layout'] === 'horizontal' && $purpose === 'heading') {
                 $text = '&nbsp;';
             } else {
                 return '';
             }
         }
-        if (isset($this -> custom[$type])) {
-            $attrs = $this -> mergeVisual($attrs, $this -> custom[$type]);
+        if (isset($this -> custom[$purpose])) {
+            $attrs = $this -> mergeVisual($this -> custom[$purpose], $attrs);
         }
         $html = $this -> writeTag($tag, $attrs)
             . $text
@@ -427,6 +437,18 @@ abstract class Html implements Renderer {
             $html .= '>';
         }
         return $html;
+    }
+
+    protected function writeWrapper(Block $block, $tag, $purpose, $options = []) {
+        if (isset($this -> custom[$purpose])) {
+            $attrs = $this -> mergeVisual($this -> custom[$purpose]);
+            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
+            $block -> post = '</' . $tag . ">\n" . $block -> post;
+        } elseif (isset($options['force']) && $options['force']) {
+            $block -> body .= '<' . $tag . ">\n";
+            $block -> post = '</' . $tag . ">\n" . $block -> post;
+        }
+        return $block;
     }
 
 }

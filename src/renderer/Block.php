@@ -25,6 +25,12 @@ class Block {
     public $body = '';
 
     /**
+     * On close completed event handler (pair with onCloseInit if needed).
+     * @var callable
+     */
+    public $onCloseDone;
+
+    /**
      * Markup that follows any nested elements.
      * @var string
      */
@@ -45,12 +51,19 @@ class Block {
     public function close() {
         $this -> body .= $this -> post;
         $this -> post = '';
+        if (is_callable($this -> onCloseDone)) {
+            call_user_func($this -> onCloseDone, $this);
+        }
         return $this;
     }
 
     public function merge(Block $block) {
         foreach ($block as $prop => $value) {
             switch ($prop) {
+                case 'onCloseDone':
+                    // Handlers are dropped;
+                    break;
+
                 case 'post':
                     // Post code prefixes the existing data
                     $this -> $prop = $value . $this -> $prop;

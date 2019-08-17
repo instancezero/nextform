@@ -91,13 +91,10 @@ class SimpleHtml extends Html implements Renderer {
     protected function initialize() {
         // Reset the context
         $this -> context = [
-            ['inCell' => false]
+            'inCell' => false
         ];
         // Initialize custom settings
-        $this -> custom = [
-            'heading' => ['class' => [], 'style' => []],
-            'inputs' => ['class' => [], 'style' => []],
-        ];
+        $this -> custom = [];
     }
 
     public function render(Element $element, $options = []) {
@@ -117,15 +114,12 @@ class SimpleHtml extends Html implements Renderer {
     protected function renderButtonElement(ButtonElement $element, $options = []) {
         $attrs = [];
         $block = new Block();
-        $labels = $element -> getLabels(true);
-        $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
-            );
         $attrs['id'] = $element -> getId();
         if ($options['access'] == 'view') {
             $attrs['=disabled'] = 'disabled';
         }
         $attrs['name'] = $element -> getFormName();
+        $labels = $element -> getLabels(true);
         if ($labels -> inner !== null) {
             $attrs['value'] = $labels -> inner;
         }
@@ -139,20 +133,27 @@ class SimpleHtml extends Html implements Renderer {
             //
             // We can see or change the data
             //
+            $block -> body .= $this -> writeLabel(
+                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
+                );
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $attrs['type'] = $element -> getFunction();
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
                 . $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span')
-                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+                . $this -> writeLabel('after', $labels -> after, 'span');
+            $block -> close();
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block -> body = '<div>' . "\n";
-        $block -> post = '</div>' . "\n";
-        $this -> context[0]['inCell'] = true;
+        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['force' => true]);
+        $block -> onCloseDone = [$this, 'popContext'];
+        $this -> pushContext();
+        $this -> context['inCell'] = true;
+        $this -> showDoLayout('inline');
         return $block;
     }
 
@@ -207,11 +208,11 @@ class SimpleHtml extends Html implements Renderer {
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $attrs['id'] = $element -> getId() . ($confirm ? '-confirm' : '');
+        $attrs['id'] = $element -> getId() . ($confirm ? '-confirmation' : '');
         if ($options['access'] == 'view') {
             $attrs['=readonly'] = 'readonly';
         }
-        $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirm' : '');
+        $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirmation' : '');
         $value = $element -> getValue();
         if ($options['access'] === 'read' || $type === 'hidden') {
             //
@@ -240,6 +241,7 @@ class SimpleHtml extends Html implements Renderer {
                 $type = 'text';
             }
             $attrs['type'] = $type;
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
@@ -253,9 +255,9 @@ class SimpleHtml extends Html implements Renderer {
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span')
-                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
-                . "\n";
+                . $this -> writeLabel('after', $labels -> after, 'span');
+            $block -> close();
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
@@ -277,7 +279,8 @@ class SimpleHtml extends Html implements Renderer {
             $visible = false;
         }
         if ($visible) {
-            $block -> body .= $this -> writeLabel('before', $labels -> before, 'div');
+            $block -> body .= $this -> writeLabel('heading', $labels -> heading, 'div');
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
         }
         $attrs['name'] = $element -> getFormName() . ($type == 'checkbox' ? '[]' : '');
         $list = $element -> getList(true);
@@ -342,7 +345,8 @@ class SimpleHtml extends Html implements Renderer {
         }
         if ($visible) {
             $this -> writeLabel('after', $labels -> after, 'div');
-            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            $block -> close();
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
@@ -379,6 +383,7 @@ class SimpleHtml extends Html implements Renderer {
                 $attrs['placeholder'] = $labels -> inner;
             }
             $attrs['type'] = $type;
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
@@ -399,9 +404,9 @@ class SimpleHtml extends Html implements Renderer {
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span')
-                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
-                . "\n";
+                . $this -> writeLabel('after', $labels -> after, 'span');
+            $block -> close();
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         return $block;
     }
@@ -456,7 +461,7 @@ class SimpleHtml extends Html implements Renderer {
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
                 . $this -> writeLabel('after', $labels -> after, 'span')
-                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
+                . ($this -> context['inCell'] ? '&nbsp;' : '<br/>')
                 . "\n";
         }
         return $block;
@@ -534,7 +539,7 @@ class SimpleHtml extends Html implements Renderer {
                 $block -> body .= '</select>' . "\n";
             }
             $this -> writeLabel('after', $labels -> after, 'div');
-            $block -> body .= ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'div');
         }
         return $block;
@@ -622,7 +627,7 @@ class SimpleHtml extends Html implements Renderer {
             // Generate the textarea element
             $block -> body .= $this -> writeTag('textarea', $attrs, $value)
                 . $this -> writeLabel('after', $labels -> after, 'div')
-                . ($this -> context[0]['inCell'] ? '&nbsp;' : '<br/>')
+                . ($this -> context['inCell'] ? '&nbsp;' : '<br/>')
                 . "\n";
         }
         return $block;
@@ -639,7 +644,7 @@ class SimpleHtml extends Html implements Renderer {
         $labels = $element -> getLabels(true);
         $block -> body = '<fieldset>' . "\n";
         if ($labels !== null) {
-            $block -> body .= $this -> writeLabel('heading', $labels -> heading, 'legend');
+            $block -> body .= $this -> writeLabel('', $labels -> heading, 'legend');
         }
         $block -> post = '</fieldset>' . "\n";
         return $block;
@@ -660,7 +665,10 @@ class SimpleHtml extends Html implements Renderer {
      * @param string $choice Primary option selection
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($choice, $value) {
+    protected function showDoLayout($choice, $value = []) {
+        if ($choice === 'vertical') {
+            unset($this -> custom['input-wrapper']);
+        }
         if ($choice !== 'horizontal') {
             return;
         }
@@ -673,13 +681,12 @@ class SimpleHtml extends Html implements Renderer {
         // h:.c1:.c2    - Class for headers / input elements
         switch (count($value)) {
             case 1:
+                // No specification, use our default
                 $this -> custom['heading'] = [
-                    'class' => [],
-                    'style' => ['width:25%'],
+                    'style' => ['display' => 'inline-block', 'width' => '25%'],
                 ];
-                $this -> custom['inputs'] = [
-                    'class' => [],
-                    'style' => ['width:75%'],
+                $this -> custom['input-wrapper'] = [
+                    'style' => ['display' => 'inline-block', 'width' => '75%'],
                 ];
                 break;
             case 2:
@@ -687,16 +694,14 @@ class SimpleHtml extends Html implements Renderer {
                     // Single class specification
                     $this -> custom['heading'] = [
                         'class' => [substr($value[1], 1)],
-                        'style' => [],
                     ];
-                    $this -> custom['inputs'] = ['class' => [], 'style' => []];
+                    unset($this -> custom['input-wrapper']);
                 } else {
                     // Single CSS units
                     $this -> custom['heading'] = [
-                        'class' => [],
-                        'style' => [$value[1]],
+                        'style' => ['display' => 'inline-block', 'width' => $value[1]],
                     ];
-                    $this -> custom['inputs'] = ['class' => [], 'style' => []];
+                    unset($this -> custom['input-wrapper']);
                 }
                 break;
             default:
@@ -704,13 +709,11 @@ class SimpleHtml extends Html implements Renderer {
                     // Dual class specification
                     $this -> custom['heading'] = [
                         'class' => [substr($value[1], 1)],
-                        'style' => [],
                     ];
-                    $this -> custom['inputs'] = [
+                    $this -> custom['input-wrapper'] = [
                         'class' => [substr($value[2], 1)],
-                        'style' => [],
                     ];
-                } elseif (preg_match('^[+\-]?[0-9](\.[0-9]*)?$', $value[1])) {
+                } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $value[1])) {
                     // ratio
                     $part1 = (float) $value[1];
                     $part2 = (float) $value[2];
@@ -721,22 +724,24 @@ class SimpleHtml extends Html implements Renderer {
                     }
                     $sum = $part1 + $part2;
                     $this -> custom['heading'] = [
-                        'class' => [],
-                        'style' => ['width:' . round(100.0 * $part1 / $sum, 3) . '%'],
+                        'style' => [
+                            'display' => 'inline-block',
+                            'width' => round(100.0 * $part1 / $sum, 3) . '%'
+                        ],
                     ];
-                    $this -> custom['inputs'] = [
-                        'class' => [],
-                        'style' => ['width:' . round(100.0 * $part2 / $sum, 3) . '%']
+                    $this -> custom['input-wrapper'] = [
+                        'style' => [
+                            'display' => 'inline-block',
+                            'width' => round(100.0 * $part2 / $sum, 3) . '%'
+                        ],
                     ];
                 } else {
                     // Dual CSS units
                     $this -> custom['heading'] = [
-                        'class' => [],
-                        'style' => [$value[1]],
+                        'style' => ['display' => 'inline-block', 'width' => $value[1]],
                     ];
-                    $this -> custom['inputs'] = [
-                        'class' => [],
-                        'style' => [$value[2]],
+                    $this -> custom['input-wrapper'] = [
+                        'style' => ['display' => 'inline-block', 'width' => $value[2]],
                     ];
                 }
                 break;
