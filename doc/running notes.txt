@@ -1,6 +1,3 @@
 To Do List
-- Flesh out unit tests for Renderer\Simple
 - Alignment in text fields, radio, checkboxes.
-- Implement render context push/pull
-- Don't fold repetitive code for labels into functions just yet... we may want to add classes, etc.
-- select fields need tests with labels, both vertical and horizontal
+- New tests for BS4 features, eg "button purpose" should be run by all render tests

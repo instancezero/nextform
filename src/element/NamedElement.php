@@ -75,6 +75,10 @@ abstract class NamedElement Extends Element {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
     public function getFormName() {
         if ($this -> formName === null) {
             if ($this -> name != '') {

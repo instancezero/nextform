@@ -46,7 +46,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
-    public function setVisual($settings) {
+    public function setShow($settings) {
 
     }
 

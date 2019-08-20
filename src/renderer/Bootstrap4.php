@@ -16,9 +16,55 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 class Bootstrap4 extends SimpleHtml implements Renderer {
 
+    static protected $defaultVisual = [
+        '*' => [
+            'size' => 'regular',
+        ],
+        'button' => [
+            'fill' => 'solid',
+            'purpose' => 'primary',
+        ],
+    ];
+
     public function __construct($options = []) {
         parent::__construct($options);
         $this -> setOptions($options);
+    }
+
+    protected function renderButtonElement(ButtonElement $element, $options = []) {
+        $attrs = [];
+        $block = new Block();
+        $attrs['id'] = $element -> getId();
+        if ($options['access'] == 'view') {
+            $attrs['=disabled'] = 'disabled';
+        }
+        $attrs['name'] = $element -> getFormName();
+        $labels = $element -> getLabels(true);
+        if ($labels -> inner !== null) {
+            $attrs['value'] = $labels -> inner;
+        }
+        if ($options['access'] === 'read') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            $attrs['type'] = 'hidden';
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+        } else {
+            //
+            // We can see or change the data
+            //
+            $block -> body .= $this -> writeLabel(
+                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
+                );
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $attrs['type'] = $element -> getFunction();
+            $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+                . $this -> writeTag('input', $attrs)
+                . $this -> writeLabel('after', $labels -> after, 'span');
+            $block -> close();
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+        }
+        return $block;
     }
 
     protected function renderFieldCommon(FieldElement $element, $options = []) {
@@ -66,6 +112,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
                 $attr['aria-describedby'] = $attr['id'] . '-help';
             }
             $attrs['type'] = $type;
+            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
@@ -93,7 +140,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
 
     public function start($options = []) {
         $pageData = parent::start($options);
-        $pageData -> head[] = '<link rel="stylesheet"'
+        $pageData -> head .= '<link rel="stylesheet"'
             . ' href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"'
             . ' integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"'
             . ' crossorigin="anonymous">';
@@ -105,7 +152,10 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             . ' src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"'
             . ' integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"'
             . ' crossorigin="anonymous"></script>';
-        $pageData -> scripts[] = '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>';
+        $pageData -> scripts[] = '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"'
+            . ' integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"'
+            . ' crossorigin="anonymous"></script>';
+        return $pageData;
     }
 
 }

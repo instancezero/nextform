@@ -1,6 +1,7 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
+use Abivia\NextForm;
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Element\Element;
 
@@ -141,18 +142,6 @@ abstract class Html implements Renderer {
      */
     static $selfClose = ['input' => 1, 'option' => 2];
     /**
-     * Keyword matching for the show settings; regex:method
-     * @var array
-     */
-    static $showValidate = [
-        'layout' => [
-            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
-        ],
-        'size' => [
-            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
-        ],
-    ];
-    /**
      * Map validation-related attributes to properties in a Data\Validation object.
      * @var array
      */
@@ -167,8 +156,6 @@ abstract class Html implements Renderer {
         '=required' => ['required', false],
         'step' => ['step', null],
     ];
-
-    protected $visual = [];
 
     /**
      * This constructor must be called once before the static inputAttributes map works.
@@ -193,7 +180,6 @@ abstract class Html implements Renderer {
                 $attrs = array_merge($common, $attrs);
             }
         }
-        $this -> visual = \Abivia\NextForm::$visualDefaults;
     }
 
     /**
@@ -229,7 +215,7 @@ abstract class Html implements Renderer {
         $this -> context = [];
     }
 
-    protected function mergeVisual($custom, $attrs = []) {
+    protected function mergeCustom($custom, $attrs = []) {
         foreach ($custom as $attr => $list) {
             $glue = self::$attrJoin[$attr];
             if (isset($glue[1])) {
@@ -288,39 +274,50 @@ abstract class Html implements Renderer {
 
     }
 
-    public function setVisual($settings) {
-        $this -> visual = [];
+    /**
+     * Convert a set of visual settings into rendering parameters.
+     * @param array $settings
+     */
+    public function setShow($settings) {
+        if (is_string($settings)) {
+            $settings = NextForm::tokenizeShow($settings);
+        }
         foreach ($settings as $key => $value) {
-            $this -> visual[$key] = $this -> showValidate($key, $value);
+            $this -> show($key, $value);
         }
     }
 
-    public function show($key, $value) {
-        $this -> visual[$key] = $this -> showValidate($key, $value);
-    }
-
-    protected function showValidate($key, $value) {
-        if (!is_array($value)) {
-            $value = explode(':', $value);
-        }
+    /**
+     * Process a show property, setting internal data structures as required.
+     * @param string $key The name of the setting
+     * @param array $args A list of arguments
+     * @throws \RuntimeError
+     */
+    protected function show($key, $args) {
+        $valid = false;
         switch ($key) {
             case 'layout':
             case 'size':
                 // Keyword selection. Match the minimal unique subset for each option.
-                foreach (self::$showValidate[$key] as $choice => $match) {
+                foreach (NextForm::$showValidate[$key] as $choice => $match) {
                     $matchParts = explode(':', $match);
-                    if (preg_match($matchParts[0], $value[0])) {
+                    if (preg_match($matchParts[0], $args[0])) {
                         $method = 'showDo' . ucfirst($key);
                         if (method_exists($this, $method)) {
-                            $this -> $method($choice, $value);
+                            $this -> $method($choice, $args);
                         }
-                        return $choice;
+                        $valid = true;
+                        break;
                     }
                 }
-                throw new \RuntimeError($value . ' is not a valid setting for ' . $key);
-                //break;
+                break;
+            default:
+                $valid = isset(NextForm::$showRules[$key]);
+                break;
         }
-
+        if (!$valid) {
+            throw new \RuntimeException($args[0] . ' is not a valid setting for ' . $key);
+        }
     }
 
     public function start($options = []) {
@@ -380,14 +377,14 @@ abstract class Html implements Renderer {
         if ($text !== null) {
             $text = htmlspecialchars($text);
         } else {
-            if ($this -> visual['layout'] === 'horizontal' && $purpose === 'heading') {
+            if ($this -> custom['layout'] === 'horizontal' && $purpose === 'heading') {
                 $text = '&nbsp;';
             } else {
                 return '';
             }
         }
         if (isset($this -> custom[$purpose])) {
-            $attrs = $this -> mergeVisual($this -> custom[$purpose], $attrs);
+            $attrs = $this -> mergeCustom($this -> custom[$purpose], $attrs);
         }
         $html = $this -> writeTag($tag, $attrs)
             . $text
@@ -442,7 +439,7 @@ abstract class Html implements Renderer {
     protected function writeWrapper(Block $block, $tag, $purpose, $options = []) {
         $hasPost = true;
         if (isset($this -> custom[$purpose])) {
-            $attrs = $this -> mergeVisual($this -> custom[$purpose]);
+            $attrs = $this -> mergeCustom($this -> custom[$purpose]);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
         } elseif (isset($options['force']) && $options['force']) {
             $block -> body .= '<' . $tag . ">\n";

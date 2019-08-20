@@ -7,17 +7,37 @@
 <body>
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
 <h3>FormRendererSimpleHtmlHorizontalTest::FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_Button</h3>
-<h4>(assertion)</h4>
+<h4>button default access</h4>
 <label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="button-1" name="button-1" type="button" value="I am Button!"/></div>
 <br/>
-<h4>(assertion)</h4>
+<h4>button write access</h4>
+<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<input id="button-1" name="button-1" type="button" value="I am Button!"/></div>
+<br/>
+<h4>reset button default access</h4>
+<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<input id="button-1" name="button-1" type="reset" value="I am Button!"/></div>
+<br/>
+<h4>submit button default access</h4>
+<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<input id="button-1" name="button-1" type="submit" value="I am Button!"/></div>
+<br/>
+<h4>button default access #2</h4>
+<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<input id="button-1" name="button-1" type="button" value="I am Button!"/></div>
+<br/>
+<h4>button view access</h4>
 <label for="button-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="button-1" name="button-1" type="button" value="I am Button!" disabled/></div>
 <br/>
-<h4>(assertion)</h4>
+<h4>button read access</h4>
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
 <h3>FormRendererSimpleHtmlHorizontalTest::FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_ButtonLabels</h3>
 <h4>(assertion)</h4>

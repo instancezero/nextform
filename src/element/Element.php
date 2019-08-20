@@ -3,7 +3,6 @@
 namespace Abivia\NextForm\Element;
 
 use Abivia\NextForm;
-use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -37,10 +36,12 @@ abstract class Element implements \JsonSerializable {
         'group' => ['drop:null', 'map:memberOf'],
         'enabled' => ['drop:true'],
         'readonly' => ['drop:false', 'drop:null'],
-        'visible' => ['drop:true']
+        'visible' => ['drop:true'],
+        'show' => ['drop:null','method:showToString','drop:blank'],
     ];
     protected $name = '';
     protected $readonly;
+    protected $show = [];
     protected $type;
     protected $visible = true;
 
@@ -85,6 +86,13 @@ abstract class Element implements \JsonSerializable {
             $property = 'group';
         }
         return $property;
+    }
+
+    protected function configureValidate($property, &$value) {
+        if ($property === 'show') {
+            $value = NextForm::tokenizeShow($value);
+        }
+        return true;
     }
 
     public function generate($renderer, $access, Translator $translate) {
@@ -154,9 +162,27 @@ abstract class Element implements \JsonSerializable {
         return $this;
     }
 
+    public function setShow($show) {
+        if (is_string($show)) {
+            $this -> show = NextForm::tokenizeShow($visible);
+        } else {
+            $this -> show = $show;
+        }
+        return $this;
+    }
+
     public function setVisible($visible) {
         $this -> visible = $visible;
         return $this;
+    }
+
+    /**
+     * Convert the show property to a string.
+     * @param array $show
+     * @return string
+     */
+    protected function showToString($show) {
+        return NextForm::jsonCollapseShow($show);
     }
 
     /**

@@ -57,6 +57,10 @@ class SectionElement Extends ContainerElement {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
     protected function findSegment() {
         return $this -> configureOptions['parent'] -> findSegment();
     }

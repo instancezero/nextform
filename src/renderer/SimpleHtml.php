@@ -94,7 +94,9 @@ class SimpleHtml extends Html implements Renderer {
             'inCell' => false
         ];
         // Initialize custom settings
-        $this -> custom = [];
+        $this -> custom = [
+            'layout' => 'vertical',
+        ];
     }
 
     public function render(Element $element, $options = []) {
@@ -673,6 +675,7 @@ class SimpleHtml extends Html implements Renderer {
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
     protected function showDoLayout($choice, $value = []) {
+        $this -> custom['layout'] = $choice;
         if ($choice === 'vertical') {
             unset($this -> custom['input-wrapper']);
         }

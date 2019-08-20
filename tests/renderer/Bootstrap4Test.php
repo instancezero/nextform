@@ -1,7 +1,7 @@
 <?php
 
 use Abivia\NextForm;
-use Abivia\NextForm\Data\Property;
+//use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\CellElement;
@@ -10,39 +10,22 @@ use Abivia\NextForm\Element\HtmlElement;
 use Abivia\NextForm\Element\SectionElement;
 use Abivia\NextForm\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\SimpleHtml;
+use Abivia\NextForm\Renderer\Bootstrap4;
 
 include_once __DIR__ . '/RendererCaseGenerator.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
 
 /**
- * @covers \Abivia\NextForm\Renderer\SimpleHtml
+ * @covers \Abivia\NextForm\Renderer\Bootstrap4
  */
-class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
+class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     use HtmlTestLogger;
 
-    protected $emptyLabel;
     protected $testObj;
-
-    protected function column1($text, $tag = 'label'){
-        $text = '<' . $tag
-            . ($tag == 'label' ? ' for="field-1"' : '')
-            . ' style="display:inline-block; vertical-align:top; width:20%">'
-            . ($text === '' ? '&nbsp;' : $text) . '</' . $tag . '>' . "\n";
-        return $text;
-    }
-
-    protected function column2($text){
-        $text = '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
-            . $text . '</div>' . "\n";
-        return $text;
-    }
 
     protected function setUp() : void {
         NextForm::boot();
-        $this -> testObj = new SimpleHtml();
-        $this -> testObj -> setShow('layout:h:20%:40%');
-        $this -> emptyLabel = $this -> column1('&nbsp;');
+        $this -> testObj = new Bootstrap4();
     }
 
     public static function setUpBeforeClass() : void {
@@ -62,11 +45,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
     }
 
-	public function testFormRendererSimpleHtml_Instantiation() {
-		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\SimpleHtml', $this -> testObj);
+	public function testFormRendererBootstrap4_Instantiation() {
+		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\Bootstrap4', $this -> testObj);
 	}
 
-	public function testFormRendererSimpleHtml_Start() {
+	public function testFormRendererBootstrap4_Start() {
         $data = $this -> testObj -> start();
         $this -> assertEquals("<form method=\"post\">\n", $data -> body);
         $this -> assertEquals("</form>\n", $data -> post);
@@ -83,55 +66,38 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a button
      */
-	public function testFormRendererSimpleHtml_Button() {
+	public function testFormRendererBootstrap4_Button() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Button();
         $expect = [];
 
         // Default access
         $expect['bda'] = new Block;
-        $expect['bda'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button" value="I am Button!"/>'
-            )
-            . '<br/>' . "\n";
+        $expect['bda'] -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
 
         // Write access same as default
         $expect['bwa'] = $expect['bda'];
 
         // Reset button default access
         $expect['rbda'] = new Block;
-        $expect['rbda'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="reset" value="I am Button!"/>'
-            )
-            . '<br/>' . "\n";
+        $expect['rbda'] -> body = '<input id="button-1" name="button-1" type="reset"'
+            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
 
         // Submit button default access
         $expect['sbda'] = new Block;
-        $expect['sbda'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="submit" value="I am Button!"/>'
-            )
-            . '<br/>' . "\n";
+        $expect['sbda'] -> body = '<input id="button-1" name="button-1" type="submit"'
+            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
 
         // Return to button, same as "bda" case
         $expect['bda2'] = $expect['bda'];
 
         // View access
         $expect['bva'] = new Block;
-        $expect['bva'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' value="I am Button!" disabled/>'
-            )
-            . '<br/>' . "\n";
+        $expect['bva'] -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="I am Button!" disabled/><br/>' . "\n";
 
-        // Read access
+        // Readaccess
         $expect['bra'] = new Block;
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
@@ -153,7 +119,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a field with label options
      */
-	public function testFormRendererSimpleHtml_ButtonLabels() {
+	public function testFormRendererBootstrap4_ButtonLabels() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $tail = "<br/>\n";
@@ -164,25 +130,15 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Make sure the value shows up
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button" value="I am Button!"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="I am Button!"/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Some text before
         //
         $element -> setLabel('before', 'prefix');
-        $expect -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="button-1" name="button-1" type="button" value="I am Button!"/>'
-            )
-            . $tail;
+        $expect -> body = '<span>prefix</span>' . $expect -> body;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -190,14 +146,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Some text after
         //
         $element -> setLabel('after', 'suffix');
-        $expect -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="button-1" name="button-1" type="button" value="I am Button!"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = substr($expect -> body, 0, -strlen($tail))
+            . '<span>suffix</span>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -206,25 +157,18 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setLabel('heading', 'Stuff');
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . 'Stuff</label>' . "\n"
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="button-1" name="button-1" type="button" value="I am Button!"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
+        $expect -> body = '<label for="button-1">Stuff</label>' . "\n" . $expect -> body;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_Cell() {
+	public function testFormRendererBootstrap4_Cell() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $this -> assertFalse($this -> testObj -> queryContext('inCell'));
         $element = new CellElement();
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n";
+        $expect -> body = '<div>' . "\n";
         $expect -> post = '</div>' . "\n";
         $expect -> onCloseDone = [$this -> testObj, 'popContext'];
         $this -> assertTrue($this -> testObj -> queryContext('inCell'));
@@ -234,12 +178,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * @doesNotPerformAssertions
      */
-	public function testFormRendererSimpleHtml_SetOptions() {
+	public function testFormRendererBootstrap4_SetOptions() {
 
         $this -> testObj -> setOptions();
     }
 
-	public function testFormRendererSimpleHtml_FieldText() {
+	public function testFormRendererBootstrap4_FieldText() {
         $this -> logMethod(__METHOD__);
 
         $expect = new Block;
@@ -252,9 +196,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="text"/>')
-            .'<br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="text"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -267,9 +209,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="text" readonly/>')
-            . '<br/>' . "\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -284,7 +224,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a text field with label options
      */
-	public function testFormRendererSimpleHtml_FieldTextLabels() {
+	public function testFormRendererBootstrap4_FieldTextLabels() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $tail = "<br/>\n";
@@ -299,37 +239,26 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Make sure the value shows up
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" value="the value"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="the value"/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
-        // Add an inner
+        // Add a inner
         //
         $element -> setLabel('inner', 'Something with & in it');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="the value"'
+            . ' placeholder="Something with &amp; in it"'
+            . '/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Some text before
         //
         $element -> setLabel('before', 'prefix');
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-            )
-            . $tail;
+        $expect -> body = '<span>prefix</span>' . $expect -> body;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -337,14 +266,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Some text after
         //
         $element -> setLabel('after', 'suffix');
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = substr($expect -> body, 0, -strlen($tail))
+            . '<span>suffix</span>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -353,14 +277,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setLabel('heading', 'Stuff');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> column1('Stuff')
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
+        $expect -> body = '<label for="field-1">Stuff</label>' . "\n" . $expect -> body;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
@@ -368,7 +285,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test various validation options
      */
-	public function testFormRendererSimpleHtml_FieldTextValidation() {
+	public function testFormRendererBootstrap4_FieldTextValidation() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $tail = "<br/>\n";
@@ -383,22 +300,17 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('required', true);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1"'
+            . ' type="text"'
+            . ' required/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Set a maximum length
         //
         $validation -> set('maxLength', 10);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" maxlength="10" required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' maxlength="10" required/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -406,12 +318,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set a minimum length
         //
         $validation -> set('minLength', 3);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' maxlength="10" minlength="3" required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' maxlength="10" minlength="3" required/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -420,18 +328,15 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
         // Strip the tail off, add label, re-add tail
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3"'
-                . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' maxlength="10" minlength="3"'
+            . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_FieldTextDataList() {
+	public function testFormRendererBootstrap4_FieldTextDataList() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $tail = "<br/>\n";
@@ -442,26 +347,19 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         // No access assumes write access
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" list="field-1-list"/>'
-                . "<datalist id=\"field-1-list\">\n"
-                . "  <option value=\"textlist 1\"/>\n"
-                . "  <option value=\"textlist 2\"/>\n"
-                . "  <option value=\"textlist 3\"/>\n"
-                . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
-                . "</datalist>\n"
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' list="field-1-list"/>'
+            . "<datalist id=\"field-1-list\">\n"
+            . "  <option value=\"textlist 1\"/>\n"
+            . "  <option value=\"textlist 2\"/>\n"
+            . "  <option value=\"textlist 3\"/>\n"
+            . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
+            . "</datalist>\n" . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         // Test view access: No list is required
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" readonly/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/>' . $tail;
         $expect -> post = null;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -475,7 +373,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as the button types
      */
-	public function testFormRendererSimpleHtml_FieldButton() {
+	public function testFormRendererBootstrap4_FieldButton() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -490,29 +388,17 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         $element -> setValue('Ok Bob');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="button" value="Ok Bob"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         $presentation -> setType('reset');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         $presentation -> setType('submit');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
    }
@@ -520,7 +406,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element
      */
-	public function testFormRendererSimpleHtml_FieldCheckbox() {
+	public function testFormRendererBootstrap4_FieldCheckbox() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -541,12 +427,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -559,12 +442,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         //
         $element -> setValue(3);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -572,12 +452,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Give it a heading
         //
         $element -> setLabel('heading', 'Check this out');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            )
-            . "<br/>\n";
+        $expect -> body = '<div>Check this out</div>' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<br/>' . "\n";
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -585,13 +463,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Some after text
         //
         $element -> setLabel('after', '(afterthought)');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<div>Check this out</div>' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<span>(afterthought)</span>'
+            . '<br/>' . "\n";
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -599,14 +475,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // And a before label
         //
         $element -> setLabel('before', 'freaky');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<span>freaky</span>'
-                . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<div>Check this out</div>' . "\n"
+            . '<span>freaky</span>'
+            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<span>(afterthought)</span>'
+            . '<br/>' . "\n";
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -614,14 +488,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<span>freaky</span>'
-                . '<input id="field-1" name="field-1[]" type="checkbox" value="3" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<div>Check this out</div>' . "\n"
+            . '<span>freaky</span>'
+            . '<input id="field-1" name="field-1[]" type="checkbox" value="3" readonly/>' . "\n"
+            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . '<span>(afterthought)</span>'
+            . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -636,7 +508,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element with a list
      */
-	public function testFormRendererSimpleHtml_FieldCheckboxList() {
+	public function testFormRendererBootstrap4_FieldCheckboxList() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -650,8 +522,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         // No access specification assumes write access
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2('<div>
+        $expect -> body = '<div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
   <label for="field-1-opt0">textlist 1</label>
 </div>
@@ -666,8 +537,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 <div>
   <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
-</div>' . "\n")
-            . "<br/>\n";
+</div>
+<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -696,8 +567,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2('<div>
+        $expect -> body = '<div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
   <label for="field-1-opt0">textlist 1</label>
 </div>
@@ -712,8 +582,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 <div>
   <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
-</div>' . "\n")
-            . "<br/>\n";
+</div>
+<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -729,7 +599,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a color element
     */
-	public function testFormRendererSimpleHtml_FieldColor() {
+	public function testFormRendererBootstrap4_FieldColor() {
         $this -> logMethod(__METHOD__);
 
         $expect = new Block;
@@ -745,9 +615,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="color"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="color"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -755,11 +623,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('#F0F0F0');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="color" value="#F0F0F0"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="color" value="#F0F0F0"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -772,11 +636,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="color" value="#F0F0F0" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="color" value="#F0F0F0" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -791,7 +651,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a date element
     */
-	public function testFormRendererSimpleHtml_FieldDate() {
+	public function testFormRendererBootstrap4_FieldDate() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -805,9 +665,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="date"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="date"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -815,11 +673,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('2010-10-10');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -834,24 +688,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('minValue', '1957-10-08');
         $validation -> set('maxValue', 'Nov 6th 2099');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
-                . ' min="1957-10-08" max="2099-11-06"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+            . ' min="1957-10-08" max="2099-11-06"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
-                . ' readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -866,7 +712,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a datetime-local element
     */
-	public function testFormRendererSimpleHtml_FieldDatetimeLocal() {
+	public function testFormRendererBootstrap4_FieldDatetimeLocal() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -880,11 +726,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="datetime-local"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -892,11 +734,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('2010-10-10');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -912,24 +750,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('minValue', '1957-10-08');
         $validation -> set('maxValue', '2:15 pm Nov 6th 2099');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
-                . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+            . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
-                . ' readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -941,7 +771,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_FieldEmail() {
+	public function testFormRendererBootstrap4_FieldEmail() {
         $this -> logMethod(__METHOD__);
 
         $expect = new Block;
@@ -957,11 +787,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="email"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="email"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -970,11 +796,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('multiple', true);
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="email" multiple/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="email" multiple/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -984,16 +806,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setLabel('heading', 'Yer email');
         $element -> setLabel('confirm', 'Confirm yer email');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> column1('Yer email')
-            . $this -> column2('<input id="field-1" name="field-1" type="email" multiple/>'
-            )
-            . "<br/>\n"
-            . '<label for="field-1-confirmation" style="display:inline-block; vertical-align:top; width:20%">Confirm yer email</label>' . "\n"
-            . $this -> column2(
-                '<input id="field-1-confirmation" name="field-1-confirmation"'
-                . ' type="email" multiple/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<label for="field-1">Yer email</label>' . "\n"
+            . '<input id="field-1" name="field-1" type="email" multiple/><br/>' . "\n"
+            . '<label for="field-1-confirmation">Confirm yer email</label>' . "\n"
+            . '<input id="field-1-confirmation" name="field-1-confirmation" type="email" multiple/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1001,11 +817,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('snafu@fub.ar');
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> column1('Yer email')
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="email" value="snafu@fub.ar" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<label for="field-1">Yer email</label>' . "\n"
+            . '<input id="field-1" name="field-1" type="email" value="snafu@fub.ar" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1017,7 +830,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_FieldFile() {
+	public function testFormRendererBootstrap4_FieldFile() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1031,11 +844,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="file"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="file"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1045,23 +854,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('accept', '*.png,*.jpg');
         $validation -> set('multiple', true);
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="file"'
-                . ' accept="*.png,*.jpg" multiple/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1[]" type="file" accept="*.png,*.jpg" multiple/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1069,12 +869,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue(['file1.png', 'file2.jpg']);
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' value="file1.png,file2.jpg" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="file1.png,file2.jpg" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1090,7 +886,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a hidden element
     */
-	public function testFormRendererSimpleHtml_FieldHidden() {
+	public function testFormRendererBootstrap4_FieldHidden() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1130,7 +926,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a hidden field with label options
      */
-	public function testFormRendererSimpleHtml_FieldHiddenLabels() {
+	public function testFormRendererBootstrap4_FieldHiddenLabels() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1184,7 +980,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a month element
     */
-	public function testFormRendererSimpleHtml_FieldMonth() {
+	public function testFormRendererBootstrap4_FieldMonth() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1198,9 +994,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="month"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="month"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1208,11 +1002,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('2010-10');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="month" value="2010-10"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1227,24 +1017,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('minValue', '1957-10');
         $validation -> set('maxValue', 'Nov 2099');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="month" value="2010-10"'
-                . ' min="1957-10" max="2099-11"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"'
+            . ' min="1957-10" max="2099-11"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="month" value="2010-10"'
-                . ' readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"'
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1259,7 +1041,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a number
      */
-	public function testFormRendererSimpleHtml_FieldNumber() {
+	public function testFormRendererBootstrap4_FieldNumber() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $expect = new Block;
@@ -1275,11 +1057,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         $element -> setValue('200');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="number" value="200"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="number" value="200"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1288,12 +1066,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('required', true);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="number" value="200"'
-                . ' required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
+            . ' required/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1301,12 +1076,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('minValue', -1000);
         $validation -> set('maxValue', 999.45);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="number"'
-                . ' value="200" min="-1000" max="999.45" required/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
+            . ' min="-1000" max="999.45" required/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1314,12 +1086,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Add a step
         //
         $validation -> set('step', 1.23);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="number"'
-                . ' value="200" min="-1000" max="999.45" required step="1.23"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200"'
+            . ' min="-1000" max="999.45" required step="1.23"/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1333,18 +1102,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         // Test view access
         //
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="number"'
-                . ' value="200" readonly/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="number"'
+            . ' value="200" readonly/>' . $tail;
         $data = $this -> testObj -> render($element, ['access' => 'view']);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_FieldPassword() {
+	public function testFormRendererBootstrap4_FieldPassword() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1361,9 +1126,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="password"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="password"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1376,11 +1139,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="password" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="password" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1388,11 +1147,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('secret');
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="password" value="secret" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="password" value="secret" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1407,8 +1162,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element
      */
-	public function testFormRendererSimpleHtml_FieldRadio() {
-        $col1 = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n";
+	public function testFormRendererBootstrap4_FieldRadio() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1429,11 +1183,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
-            . '<input id="field-1" name="field-1" type="radio"/>' . "\n"
+        $expect -> body = '<input id="field-1" name="field-1" type="radio"/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '</div>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1447,11 +1198,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         //
         $element -> setValue(3);
-        $expect -> body = $col1
-            . '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
-            . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
+        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '</div>' . "\n"
             . '<br/>' . "\n";
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -1460,11 +1208,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
-            . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
+        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '</div>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1480,7 +1225,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for single radio element with labels
      */
-	public function testFormRendererSimpleHtml_FieldRadioLabels() {
+	public function testFormRendererBootstrap4_FieldRadioLabels() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1501,12 +1246,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setLabel('inner', '<Stand-alone> radio');
         $element -> setLabel('after', 'See? No problem!');
         $element -> setValue(3);
-        $expect -> body = $this -> column1('Very Important Choice', 'div')
-            . $this -> column2('<span>No need to fear</span>'
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<span>No need to fear</span>'
             . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<span>See? No problem!</span>')
-            . '<br/>' . "\n"
+            . '<span>See? No problem!</span><br/>' . "\n"
             ;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
@@ -1515,12 +1259,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> column1('Very Important Choice', 'div')
-            . $this -> column2('<span>No need to fear</span>'
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<span>No need to fear</span>'
             . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<span>See? No problem!</span>')
-            . '<br/>' . "\n";
+            . '<span>See? No problem!</span><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data, 'view only');
         //
@@ -1535,7 +1278,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list
      */
-	public function testFormRendererSimpleHtml_FieldRadioList() {
+	public function testFormRendererBootstrap4_FieldRadioList() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1549,9 +1292,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         // No access specification assumes write access
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
-<div style="display:inline-block; vertical-align:top; width:40%">
-<div>
+        $expect -> body = '<div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
   <label for="field-1-opt0">textlist 1</label>
 </div>
@@ -1566,7 +1307,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 <div>
   <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
-</div>
 </div>
 <br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1589,9 +1329,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
-<div style="display:inline-block; vertical-align:top; width:40%">
-<div>
+        $expect -> body = '<div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
   <label for="field-1-opt0">textlist 1</label>
 </div>
@@ -1606,7 +1344,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 <div>
   <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
-</div>
 </div>
 <br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1623,7 +1360,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list and labels
      */
-	public function testFormRendererSimpleHtml_FieldRadioListLabels() {
+	public function testFormRendererBootstrap4_FieldRadioListLabels() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1644,8 +1381,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setLabel('inner', '<Stand-alone> radio');
         $element -> setLabel('after', 'See? No problem!');
         $element -> setValue('textlist 3');
-        $expect -> body = $this -> column1('Very Important Choice', 'div')
-            . $this -> column2('<div>No need to fear</div>' . "\n"
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<div>No need to fear</div>' . "\n"
             . '<div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
   <label for="field-1-opt0">textlist 1</label>
@@ -1662,7 +1399,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
   <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
 </div>' . "\n"
-            . '<div>See? No problem!</div>' . "\n")
+            . '<div>See? No problem!</div>' . "\n"
             . '<br/>' . "\n"
             ;
         $data = $this -> testObj -> render($element);
@@ -1672,8 +1409,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> column1('Very Important Choice', 'div')
-            . $this -> column2('<div>No need to fear</div>' . "\n"
+        $expect -> body = '<div>Very Important Choice</div>' . "\n"
+            . '<div>No need to fear</div>' . "\n"
             . '<div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
   <label for="field-1-opt0">textlist 1</label>
@@ -1690,7 +1427,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
   <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
   <label for="field-1-opt3">textlist 4</label>
 </div>' . "\n"
-            . '<div>See? No problem!</div>' . "\n")
+            . '<div>See? No problem!</div>' . "\n"
             . '<br/>' . "\n"
             ;
         $this -> assertEquals($expect, $data);
@@ -1707,7 +1444,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a range
      */
-	public function testFormRendererSimpleHtml_FieldRange() {
+	public function testFormRendererBootstrap4_FieldRange() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $expect = new Block;
@@ -1723,9 +1460,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> bindSchema($schema);
         $element -> setValue('200');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="range" value="200"/>')
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="range" value="200"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1734,9 +1469,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('required', true);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="range" value="200"/>')
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="range"'
+            . ' value="200"/>' . $tail;
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1744,11 +1478,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $validation -> set('minValue', -1000);
         $validation -> set('maxValue', 999.45);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="range"'
-                . ' value="200" min="-1000" max="999.45"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="range"'
+            . ' value="200"'
+            . ' min="-1000" max="999.45"/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1756,11 +1488,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Add a step
         //
         $validation -> set('step', 20);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="range"'
-                . ' value="200" min="-1000" max="999.45" step="20"/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="range"'
+            . ' value="200"'
+            . ' min="-1000" max="999.45" step="20"/>' . $tail;
         $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1774,11 +1504,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         // Test view access
         //
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" value="200" readonly/>'
-            )
-            . $tail;
+        $expect -> body = '<input id="field-1" name="field-1" type="text"'
+            . ' value="200" readonly/>' . $tail;
         $data = $this -> testObj -> render($element, ['access' => 'view']);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1787,7 +1514,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a search
      */
-	public function testFormRendererSimpleHtml_FieldSearch() {
+	public function testFormRendererBootstrap4_FieldSearch() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1804,9 +1531,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="search"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="search"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1819,9 +1544,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="search" readonly/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="search" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -1836,8 +1559,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a simple select
      */
-	public function testFormRendererSimpleHtml_FieldSelect() {
-        $col1 = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n";
+	public function testFormRendererBootstrap4_FieldSelect() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1854,13 +1576,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1">' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
             . '  <option value="textlist 1">textlist 1</option>' . "\n"
             . '  <option value="textlist 2">textlist 2</option>' . "\n"
             . '  <option value="textlist 3">textlist 3</option>' . "\n"
             . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
-            . '</select>'. "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1874,8 +1595,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n")
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1891,13 +1611,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('textlist 2');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1">' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
             . '  <option value="textlist 1">textlist 1</option>' . "\n"
             . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
             . '  <option value="textlist 3">textlist 3</option>' . "\n"
             . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1905,9 +1624,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
-            . '<span>textlist 2</span>' . "\n")
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+            . '<span>textlist 2</span>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1925,13 +1643,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('multiple', true);
         $element -> setValue(['textlist 2', 'textlist 4']);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1[]" multiple>' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
             . '  <option value="textlist 1">textlist 1</option>' . "\n"
             . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
             . '  <option value="textlist 3">textlist 3</option>' . "\n"
             . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1939,11 +1656,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
             . '<span>textlist 2</span><br/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n"
-            . '<span>textlist 4</span>'.'<br/>' . "\n")
+            . '<span>textlist 4</span><br/>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1960,13 +1676,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $presentation -> setRows(6);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
             . '  <option value="textlist 1">textlist 1</option>' . "\n"
             . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
             . '  <option value="textlist 3">textlist 3</option>' . "\n"
             . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -1975,8 +1690,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a nested select
      */
-	public function testFormRendererSimpleHtml_FieldSelectNested() {
-        $col1 = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n";
+	public function testFormRendererBootstrap4_FieldSelectNested() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1993,8 +1707,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1">' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
             . '  <option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
             . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -2004,7 +1717,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
             . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2018,8 +1731,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n")
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2035,8 +1747,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('S2I1');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1">' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
             . '  <option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
             . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -2046,7 +1757,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
             . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2054,9 +1765,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
-            . '<span>Sub Two Item One</span>' . "\n")
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+            . '<span>Sub Two Item One</span>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2074,8 +1784,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('multiple', true);
         $element -> setValue(['S2I1', 'Sub One Item One']);
         $data = $this -> testObj -> render($element);
-        $expect -> body = $col1
-            . $this -> column2('<select id="field-1" name="field-1[]" multiple>' . "\n"
+        $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
             . '  <option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
             . '  <option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
@@ -2085,7 +1794,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
             . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
-            . '</select>' . "\n")
+            . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2093,11 +1802,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $col1
-            . $this -> column2('<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
+        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
             . '<span>Sub One Item One</span><br/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
-            . '<span>Sub Two Item One</span><br/>' . "\n")
+            . '<span>Sub Two Item One</span><br/>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
@@ -2114,7 +1822,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a tel
      */
-	public function testFormRendererSimpleHtml_FieldTel() {
+	public function testFormRendererBootstrap4_FieldTel() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -2131,9 +1839,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="tel"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="tel"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2146,9 +1852,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="tel" readonly/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="tel" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2160,7 +1864,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_FieldTextarea() {
+	public function testFormRendererBootstrap4_FieldTextarea() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -2177,8 +1881,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . '<textarea id="field-1" name="field-1"></textarea><br/>' . "\n";
+        $expect -> body = '<textarea id="field-1" name="field-1"></textarea><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2191,8 +1894,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . '<textarea id="field-1" name="field-1" readonly></textarea><br/>' . "\n";
+        $expect -> body = '<textarea id="field-1" name="field-1" readonly></textarea><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2207,7 +1909,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a time element
     */
-	public function testFormRendererSimpleHtml_FieldTime() {
+	public function testFormRendererBootstrap4_FieldTime() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -2221,9 +1923,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="time"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="time"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2231,9 +1931,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('20:10');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="time" value="20:10"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2248,23 +1946,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('minValue', '19:57');
         $validation -> set('maxValue', '20:19');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="time" value="20:10"'
-                . ' min="19:57" max="20:19"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"'
+            . ' min="19:57" max="20:19"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="time" value="20:10" readonly/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"'
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2279,7 +1970,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a url
      */
-	public function testFormRendererSimpleHtml_FieldUrl() {
+	public function testFormRendererBootstrap4_FieldUrl() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -2296,9 +1987,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="url"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="url"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2311,9 +2000,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="url" readonly/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="url" readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2328,7 +2015,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a week element
     */
-	public function testFormRendererSimpleHtml_FieldWeek() {
+	public function testFormRendererBootstrap4_FieldWeek() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -2342,9 +2029,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="week"/>')
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="week"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2352,11 +2037,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $element -> setValue('2010-W37');
         $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="week" value="2010-W37"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2371,23 +2052,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $validation -> set('minValue', '1957-W30');
         $validation -> set('maxValue', '2099-W42');
         $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="week" value="2010-W37"'
-                . ' min="1957-W30" max="2099-W42"/>'
-            )
-            . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+            . ' min="1957-W30" max="2099-W42"/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
         // Now with view access
         //
         $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="week" value="2010-W37"'
-                . ' readonly/>'
-            ) . "<br/>\n";
+        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+            . ' readonly/><br/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2402,7 +2076,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a html element
      */
-	public function testFormRendererSimpleHtml_Html() {
+	public function testFormRendererBootstrap4_Html() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
@@ -2412,9 +2086,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2('<p>This is some escaped html &amp;</p>')
-            . "<br/>\n";
+        $expect -> body = '<p>This is some escaped html &amp;</p>';
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //
@@ -2437,7 +2109,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> logResult($data);
     }
 
-	public function testFormRendererSimpleHtml_Section() {
+	public function testFormRendererBootstrap4_Section() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $element = new SectionElement();
@@ -2473,7 +2145,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a static element
      */
-	public function testFormRendererSimpleHtml_Static() {
+	public function testFormRendererBootstrap4_Static() {
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
@@ -2483,9 +2155,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         //
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2('This is unescaped text with &lt;stuff&gt;!')
-            . "<br/>\n";
+        $expect -> body = 'This is unescaped text with &lt;stuff&gt;!';
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
         //

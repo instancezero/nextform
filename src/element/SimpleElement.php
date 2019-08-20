@@ -41,6 +41,10 @@ abstract class SimpleElement Extends Element {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
     public function getValue() {
         return $this -> value;
     }

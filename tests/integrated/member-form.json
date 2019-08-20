@@ -140,7 +140,8 @@
             "function": "submit",
             "labels": {
                 "inner": "Join"
-            }
+            },
+            "show": "purpose:primary"
         }
     ]
 }

@@ -58,6 +58,10 @@ abstract class ContainerElement Extends NamedElement {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
     public function generate($renderer, $access, $translate) {
         $this -> translate($translate);
         $options = false; // $access -> hasAccess(...)

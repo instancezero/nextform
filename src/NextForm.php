@@ -34,7 +34,7 @@ class NextForm implements \JsonSerializable {
     static protected $jsonEncodeMethod = [
         'name' => [],
         'useSegment' => ['drop:blank'],
-        'visual' => ['method:jsonCollapseVisual','drop:empty'],
+        'show' => ['method:jsonCollapseShow','drop:blank'],
         'elements' => [],
     ];
     protected $id;
@@ -57,20 +57,36 @@ class NextForm implements \JsonSerializable {
      * Settings that affect how the form is displayed, set individually with show()
      * @var array
      */
-    protected $visual = [];
+    protected $show = [];
     /**
-     * Settings that affect how the form is displayed, set individually with show()
+     * Default values for the show settings
      * @var array
      */
-    static public $visualDefaults = [
-        'layout' => 'vertical',
-        'size' => 'regular'
+    static public $showRules = [
+        'fill' => ['solid'],
+        'layout' => ['vertical'],
+        'size' => ['regular'],
+    ];
+    /**
+     * Keyword matching for the show settings; regex:method
+     * @var array
+     */
+    static $showValidate = [
+        'layout' => [
+            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
+        ],
+        'size' => [
+            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+        ],
     ];
 
 
     public function __construct() {
-          $this -> access = new \Abivia\NextForm\Access\BasicAccess;
-          $this -> visual = self::$visualDefaults;
+        $this -> access = new \Abivia\NextForm\Access\BasicAccess;
+        $this -> show = [];
+        foreach (self::$showRules as $setting => $info) {
+            $this -> show[$setting] = [$info[0]];
+        }
     }
 
     protected function assignNames() {
@@ -97,6 +113,20 @@ class NextForm implements \JsonSerializable {
                 $this -> nameMap[$name] = $element;
                 $element -> setFormName($name);
             }
+        }
+        $this -> schemaIsLinked = true;
+        return $this;
+    }
+
+    /**
+     * Connect data elements in a schema
+     * @param \Abivia\NextForm\Data\Schema $schema
+     * @return $this
+     */
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+        $this -> objectMap = [];
+        foreach ($this -> elements as $element) {
+            $element -> bindSchema($schema);
         }
         $this -> schemaIsLinked = true;
         return $this;
@@ -147,7 +177,7 @@ class NextForm implements \JsonSerializable {
         $options['id'] = $this -> id;
         $options['name'] = $this -> name;
         $this -> assignNames();
-        $this -> renderer -> setVisual($this -> visual);
+        $this -> renderer -> setShow($this -> show);
         $pageData = $this -> renderer -> start($options);
         foreach ($this -> elements as $element) {
             $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));
@@ -218,33 +248,24 @@ class NextForm implements \JsonSerializable {
     }
 
     /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
-     * @return $this
+     * Remove default values from the show settings and convert to string.
+     * @param array $show
+     * @return string
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
-        $this -> objectMap = [];
-        foreach ($this -> elements as $element) {
-            $element -> bindSchema($schema);
-        }
-        $this -> schemaIsLinked = true;
-        return $this;
-    }
-
-    /**
-     * Remove default values from the visual settings before writing to JSON.
-     * @param array $visual
-     */
-    protected function jsonCollapseVisual($visual) {
-        foreach ($visual as $setting => $value) {
+    static public function jsonCollapseShow($show) {
+        foreach ($show as $setting => $info) {
+            $info = implode(':', $info);
             if (
-                isset(self::$visualDefaults[$setting])
-                && self::$visualDefaults[$setting] === $value
+                isset(self::$showRules[$setting])
+                && self::$showRules[$setting][0] === $info
             ) {
-                unset($visual[$setting]);
+                unset($show[$setting]);
+            } else {
+                $show[$setting] = $setting . ':' . $info;
             }
         }
-        return $visual;
+        $rules = implode('|', $show);
+        return $rules;
     }
 
     protected function options($options) {
@@ -319,6 +340,11 @@ class NextForm implements \JsonSerializable {
         $this -> renderer = $renderer;
     }
 
+    public function setShow($settings) {
+        // Show settings are just saved and passed to the renderer
+        $this -> show = $settings;
+    }
+
     public function setTranslator(Translator $translate) {
         $this -> translate = $translate;
     }
@@ -328,11 +354,30 @@ class NextForm implements \JsonSerializable {
     }
 
     public function show($key, $value) {
-        $this -> visual[$key] = $value;
+        // Visual settings are just saved and passed to the renderer
+        $this -> show[$key] = $value;
     }
 
-    public function setVisual($settings) {
-        $this -> visual = $settings;
+    /**
+     * Break a "show" string down into a settings array, adding defaults if possible.
+     * @param string $text String of the form setting1:arg1:arg2...|setting2:arg1:arg2...
+     * @return array A list of argument arrays indexed by setting.
+     */
+    static public function tokenizeShow($text) {
+        $exprs = explode('|', $text);
+        $settings = [];
+        foreach ($exprs as $clause) {
+            $parts = explode(':', $clause);
+            $setting = array_shift($parts);
+            if (empty($parts)) {
+                // Check for a default
+                if (isset(self::$showRules[$setting])) {
+                    $parts = [self::$showRules[$setting][0]];
+                }
+            }
+            $settings[$setting] = $parts;
+        }
+        return $settings;
     }
 
 }

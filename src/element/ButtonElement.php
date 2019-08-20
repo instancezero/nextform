@@ -57,7 +57,7 @@ class ButtonElement Extends NamedElement {
             );
             return false;
         }
-        return true;
+        return parent::configureValidate($property, $value);
     }
 
     public function getFunction() {

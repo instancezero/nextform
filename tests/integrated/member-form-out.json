@@ -170,6 +170,7 @@
         },
         {
             "type": "button",
+            "show": "purpose:primary",
             "labels": {
                 "inner": "Join"
             },

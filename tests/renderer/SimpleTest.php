@@ -1,7 +1,7 @@
 <?php
 
 use Abivia\NextForm;
-use Abivia\NextForm\Data\Property;
+//use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\CellElement;
@@ -12,6 +12,7 @@ use Abivia\NextForm\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
+include_once __DIR__ . '/RendererCaseGenerator.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
 
 /**
@@ -63,70 +64,56 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Check a a button
+     * Check a button
      */
 	public function testFormRendererSimpleHtml_Button() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
+        $cases = RendererCaseGenerator::html_Button();
+        $expect = [];
 
-        $element = new ButtonElement();
-        $element -> configure($config);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="button"'
+        // Default access
+        $expect['bda'] = new Block;
+        $expect['bda'] -> body = '<input id="button-1" name="button-1" type="button"'
             . ' value="I am Button!"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Make it a reset
-        //
-        $element -> set('function', 'reset');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="reset"'
+
+        // Write access same as default
+        $expect['bwa'] = $expect['bda'];
+
+        // Reset button default access
+        $expect['rbda'] = new Block;
+        $expect['rbda'] -> body = '<input id="button-1" name="button-1" type="reset"'
             . ' value="I am Button!"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Make it a submit
-        //
-        $element -> set('function', 'submit');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="submit"'
+
+        // Submit button default access
+        $expect['sbda'] = new Block;
+        $expect['sbda'] -> body = '<input id="button-1" name="button-1" type="submit"'
             . ' value="I am Button!"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set it back to button
-        //
-        $element -> set('function', 'button');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' value="I am Button!"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="button-1" name="button-1" type="button" value="I am Button!" disabled/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="button-1" name="button-1" type="hidden" value="I am Button!"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+
+        // Return to button, same as "bda" case
+        $expect['bda2'] = $expect['bda'];
+
+        // View access
+        $expect['bva'] = new Block;
+        $expect['bva'] -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="I am Button!" disabled/><br/>' . "\n";
+
+        // Readaccess
+        $expect['bra'] = new Block;
+        $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
+            . ' value="I am Button!"/>' . "\n";
+
+        $missingExpect = [];
+        foreach ($cases as $key => $info) {
+            if (!isset($expect[$key])) {
+                $missingExpect[] = $key;
+                continue;
+            }
+            NextForm::boot();
+            $data = $this -> testObj -> render($info[0], $info[1]);
+            $this -> assertEquals($expect[$key], $data, $info[2]);
+            $this -> logResult($data, $info[2]);
+        }
+        $this -> assertEquals([], $missingExpect, 'Missing cases');
     }
 
     /**

@@ -55,6 +55,10 @@ class CellElement Extends ContainerElement {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
     public function findSegment() {
         return isset($this -> configureOptions['parent'])
             ? $this -> configureOptions['parent'] -> getSegment() : null;

@@ -40,4 +40,8 @@ class StaticElement Extends SimpleElement {
         return parent::configurePropertyMap($property);
     }
 
+    protected function configureValidate($property, &$value) {
+        return parent::configureValidate($property, $value);
+    }
+
 }
