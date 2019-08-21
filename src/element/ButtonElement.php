@@ -51,11 +51,14 @@ class ButtonElement Extends NamedElement {
     }
 
     protected function configureValidate($property, &$value) {
-        if ($property === 'function' && !in_array($value, self::$validFunctions)) {
-            $this -> configureLogError(
-                $property . ' must be one of ' . implode(',', self::$validFunctions) . '.'
-            );
-            return false;
+        if ($property === 'function') {
+            if (!in_array($value, self::$validFunctions)) {
+                $this -> configureLogError(
+                    $property . ' must be one of ' . implode(',', self::$validFunctions) . '.'
+                );
+                return false;
+            }
+            return true;
         }
         return parent::configureValidate($property, $value);
     }

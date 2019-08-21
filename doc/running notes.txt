@@ -1,3 +1,4 @@
 To Do List
 - Alignment in text fields, radio, checkboxes.
 - New tests for BS4 features, eg "button purpose" should be run by all render tests
+- add tests for disabled, visible settings in the Element

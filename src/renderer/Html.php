@@ -142,6 +142,38 @@ abstract class Html implements Renderer {
      */
     static $selfClose = ['input' => 1, 'option' => 2];
     /**
+     * Initial settings for the show attributes
+     * @var array
+     */
+    static protected $showDefault = [
+        'size:regular',
+        'fill:solid',
+        'purpose:primary',
+    ];
+    /**
+     * Default values for the show settings
+     * @var array
+     */
+    static public $showRules = [
+        'fill' => ['solid'],
+        'layout' => ['vertical'],
+        'purpose' => ['primary'],
+        'size' => ['regular'],
+    ];
+    /**
+     * Keyword matching for the show settings; regex:method
+     * @var array
+     */
+    static $showValidate = [
+        'layout' => [
+            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
+        ],
+        'size' => [
+            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+        ],
+    ];
+
+    /**
      * Map validation-related attributes to properties in a Data\Validation object.
      * @var array
      */
@@ -215,6 +247,12 @@ abstract class Html implements Renderer {
         $this -> context = [];
     }
 
+    /**
+     * Merge HTML element attributes into attributes from the custom settings.
+     * @param type $custom
+     * @param type $attrs
+     * @return type
+     */
     protected function mergeCustom($custom, $attrs = []) {
         foreach ($custom as $attr => $list) {
             $glue = self::$attrJoin[$attr];
@@ -234,6 +272,21 @@ abstract class Html implements Renderer {
         return $attrs;
     }
 
+    protected function mergeShow($scope, $selector) {
+        if (isset($this -> custom[$scope])) {
+            $descend = $this -> custom[$scope];
+            foreach ($selector as $key) {
+                if (!isset($descend[$key])) {
+                    return null;
+                }
+                $descend = $descend[$key];
+            }
+        } elseif ($scope !== 'form') {
+            $descend = $this -> mergeShow('form', $selector);
+        }
+        return $descend;
+    }
+
     /**
      * Extract a processing command (! no escape; = no value; * JSON encode) from an attribute, if any
      * @param string $attrName The attribute command and name
@@ -249,14 +302,14 @@ abstract class Html implements Renderer {
         return [$attrName, $cmd];
     }
 
-    public function popContext(Block $block, $options = []) {
-        if (count($this -> contextStack) > 1) {
+    public function popContext() {
+        if (count($this -> contextStack)) {
             $this -> context = array_pop($this -> contextStack);
             $this -> custom = array_pop($this -> customStack);
         }
     }
 
-    public function pushContext($options = []) {
+    public function pushContext() {
         array_push($this -> contextStack, $this -> context);
         array_push($this -> customStack, $this -> custom);
     }
@@ -278,12 +331,14 @@ abstract class Html implements Renderer {
      * Convert a set of visual settings into rendering parameters.
      * @param array $settings
      */
-    public function setShow($settings) {
+    public function setShow($settings, $defaultScope = 'form') {
         if (is_string($settings)) {
-            $settings = NextForm::tokenizeShow($settings);
+            $settings = NextForm::tokenizeShow($settings, $defaultScope);
         }
-        foreach ($settings as $key => $value) {
-            $this -> show($key, $value);
+        foreach ($settings as $scope => $list) {
+            foreach ($list as $key => $value) {
+                $this -> show($scope, $key, $value);
+            }
         }
     }
 
@@ -293,30 +348,41 @@ abstract class Html implements Renderer {
      * @param array $args A list of arguments
      * @throws \RuntimeError
      */
-    protected function show($key, $args) {
+    protected function show($scope, $key, $args) {
         $valid = false;
         switch ($key) {
             case 'layout':
             case 'size':
                 // Keyword selection. Match the minimal unique subset for each option.
-                foreach (NextForm::$showValidate[$key] as $choice => $match) {
+                foreach (self::$showValidate[$key] as $choice => $match) {
                     $matchParts = explode(':', $match);
                     if (preg_match($matchParts[0], $args[0])) {
                         $method = 'showDo' . ucfirst($key);
                         if (method_exists($this, $method)) {
-                            $this -> $method($choice, $args);
+                            $this -> $method($scope, $choice, $args);
                         }
                         $valid = true;
                         break;
                     }
                 }
+                if (!$valid) {
+                    throw new \RuntimeException(
+                        'Invalid show setting: ' . $args[0] . ' is not valid for ' . $key
+                    );
+                }
                 break;
             default:
-                $valid = isset(NextForm::$showRules[$key]);
+                if (!isset(self::$showRules[$key])) {
+                    throw new \RuntimeException(
+                        'Invalid show: ' . $key . ' is not recognized.'
+                    );
+                }
+                $method = 'showDo' . ucfirst($key);
+                if (method_exists($this, $method)) {
+                    $this -> $method($scope, $args[0], $args);
+                }
+                $valid = true;
                 break;
-        }
-        if (!$valid) {
-            throw new \RuntimeException($args[0] . ' is not a valid setting for ' . $key);
         }
     }
 
@@ -377,14 +443,14 @@ abstract class Html implements Renderer {
         if ($text !== null) {
             $text = htmlspecialchars($text);
         } else {
-            if ($this -> custom['layout'] === 'horizontal' && $purpose === 'heading') {
+            if ($this -> custom['form']['layout'] === 'horizontal' && $purpose === 'heading') {
                 $text = '&nbsp;';
             } else {
                 return '';
             }
         }
-        if (isset($this -> custom[$purpose])) {
-            $attrs = $this -> mergeCustom($this -> custom[$purpose], $attrs);
+        if (isset($this -> custom['form'][$purpose])) {
+            $attrs = $this -> mergeCustom($this -> custom['form'][$purpose], $attrs);
         }
         $html = $this -> writeTag($tag, $attrs)
             . $text
@@ -438,8 +504,8 @@ abstract class Html implements Renderer {
 
     protected function writeWrapper(Block $block, $tag, $purpose, $options = []) {
         $hasPost = true;
-        if (isset($this -> custom[$purpose])) {
-            $attrs = $this -> mergeCustom($this -> custom[$purpose]);
+        if (isset($this -> custom['form'][$purpose])) {
+            $attrs = $this -> mergeCustom($this -> custom['form'][$purpose]);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
         } elseif (isset($options['force']) && $options['force']) {
             $block -> body .= '<' . $tag . ">\n";

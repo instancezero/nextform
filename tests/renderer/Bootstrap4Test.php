@@ -74,7 +74,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Default access
         $expect['bda'] = new Block;
         $expect['bda'] -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
+            . ' class="btn btn-success" value="I am Button!"/><br/>' . "\n";
 
         // Write access same as default
         $expect['bwa'] = $expect['bda'];
@@ -89,8 +89,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['sbda'] -> body = '<input id="button-1" name="button-1" type="submit"'
             . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
 
-        // Return to button, same as "bda" case
-        $expect['bda2'] = $expect['bda'];
+        // Return to button, same as "bda" case but primary
+        $expect['bda2'] = new Block;
+        $expect['bda2'] -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
 
         // View access
         $expect['bva'] = new Block;

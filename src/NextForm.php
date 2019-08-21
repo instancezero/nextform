@@ -58,35 +58,10 @@ class NextForm implements \JsonSerializable {
      * @var array
      */
     protected $show = [];
-    /**
-     * Default values for the show settings
-     * @var array
-     */
-    static public $showRules = [
-        'fill' => ['solid'],
-        'layout' => ['vertical'],
-        'size' => ['regular'],
-    ];
-    /**
-     * Keyword matching for the show settings; regex:method
-     * @var array
-     */
-    static $showValidate = [
-        'layout' => [
-            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
-        ],
-        'size' => [
-            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
-        ],
-    ];
-
 
     public function __construct() {
         $this -> access = new \Abivia\NextForm\Access\BasicAccess;
         $this -> show = [];
-        foreach (self::$showRules as $setting => $info) {
-            $this -> show[$setting] = [$info[0]];
-        }
     }
 
     protected function assignNames() {
@@ -248,20 +223,16 @@ class NextForm implements \JsonSerializable {
     }
 
     /**
-     * Remove default values from the show settings and convert to string.
+     * Convert show settings to string.
      * @param array $show
      * @return string
      */
-    static public function jsonCollapseShow($show) {
-        foreach ($show as $setting => $info) {
-            $info = implode(':', $info);
-            if (
-                isset(self::$showRules[$setting])
-                && self::$showRules[$setting][0] === $info
-            ) {
-                unset($show[$setting]);
-            } else {
-                $show[$setting] = $setting . ':' . $info;
+    static public function jsonCollapseShow($show, $defaultScope = 'form') {
+        foreach ($show as $scope => $settings) {
+            foreach ($settings as $setting => $info) {
+                $info = implode(':', $info);
+                $show[$setting] = ($scope == $defaultScope ? '' : $scope . '.')
+                    . $setting . ':' . $info;
             }
         }
         $rules = implode('|', $show);
@@ -360,22 +331,32 @@ class NextForm implements \JsonSerializable {
 
     /**
      * Break a "show" string down into a settings array, adding defaults if possible.
-     * @param string $text String of the form setting1:arg1:arg2...|setting2:arg1:arg2...
+     * @param string $text String of the form scope1.setting1:p1:p2...|scope2.setting2:p1:p2...
      * @return array A list of argument arrays indexed by setting.
      */
-    static public function tokenizeShow($text) {
+    static public function tokenizeShow($text, $defaultScope = 'form') {
         $exprs = explode('|', $text);
         $settings = [];
         foreach ($exprs as $clause) {
             $parts = explode(':', $clause);
-            $setting = array_shift($parts);
+            $first = explode('.', array_shift($parts));
+            if (count($first) == 1) {
+                $scope = $defaultScope;
+                $setting = $first[0];
+            } else {
+                $scope = array_shift($first);
+                $setting = implode('.', $first);
+            }
+            if (!isset($settings[$scope])) {
+                $settings[$scope] = [];
+            }
             if (empty($parts)) {
                 // Check for a default
                 if (isset(self::$showRules[$setting])) {
                     $parts = [self::$showRules[$setting][0]];
                 }
             }
-            $settings[$setting] = $parts;
+            $settings[$scope][$setting] = $parts;
         }
         return $settings;
     }

@@ -143,6 +143,7 @@ class FieldElement extends NamedElement {
                 $value = $this -> form -> getSegment()
                     . NextForm::SEGMENT_DELIM . $value;
             }
+            return true;
         } elseif (in_array($property, array_keys(self::$jsonLocalMethod))) {
             return true;
         }

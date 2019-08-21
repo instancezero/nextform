@@ -22,17 +22,19 @@ class RendererCaseGenerator {
             '{"type":"button","labels":{"inner":"I am Button!"}}'
         );
 
-        $e1 = new ButtonElement();
-        $e1 -> configure($config);
+        $eBase = new ButtonElement();
+        $eBase -> configure($config);
+        $e1 = clone $eBase;
+        $e1 -> setShow('purpose:success');
         $cases['bda'] = [$e1, [], 'button default access'];
         $cases['bwa'] = [$e1, ['access' => 'write'], 'button write access'];
         // Make it a reset
-        $e2 = clone $e1;
+        $e2 = clone $eBase;
         $e2 -> set('function', 'reset');
         $cases['rbda'] = [$e2, [], 'reset button default access'];
 
         // Make it a submit
-        $e3 = clone $e1;
+        $e3 = clone $eBase;
         $e3 -> set('function', 'submit');
         $cases['sbda'] = [$e3, [], 'submit button default access'];
 
@@ -42,10 +44,10 @@ class RendererCaseGenerator {
         $cases['bda2'] = [$e4, [], 'button default access #2'];
 
         // Test view access
-        $cases['bva'] = [$e1, ['access' => 'view'], 'button view access'];
+        $cases['bva'] = [$eBase, ['access' => 'view'], 'button view access'];
 
         // Test read (less than view) access
-        $cases['bra'] = [$e1, ['access' => 'read'], 'button read access'];
+        $cases['bra'] = [$eBase, ['access' => 'read'], 'button read access'];
         return $cases;
     }
 

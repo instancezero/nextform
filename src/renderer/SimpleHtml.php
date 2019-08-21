@@ -94,9 +94,7 @@ class SimpleHtml extends Html implements Renderer {
             'inCell' => false
         ];
         // Initialize custom settings
-        $this -> custom = [
-            'layout' => 'vertical',
-        ];
+        $this -> setShow('layout:vertical');
     }
 
     public function render(Element $element, $options = []) {
@@ -155,7 +153,7 @@ class SimpleHtml extends Html implements Renderer {
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
-        $this -> showDoLayout('inline');
+        $this -> showDoLayout('form', 'inline');
         return $block;
     }
 
@@ -671,13 +669,18 @@ class SimpleHtml extends Html implements Renderer {
 
     /**
      * Process layout options, called from showValidate()
+     * @param string $scope Names the settings scope/element this applies to.
      * @param string $choice Primary option selection
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($choice, $value = []) {
-        $this -> custom['layout'] = $choice;
+    protected function showDoLayout($scope, $choice, $value = []) {
+        if (!isset($this -> custom[$scope]['layout'])) {
+            return;
+        }
+        $apply = &$this -> custom[$scope];
+        $apply['layout'] = $choice;
         if ($choice === 'vertical') {
-            unset($this -> custom['input-wrapper']);
+            unset($apply['input-wrapper']);
         }
         if ($choice !== 'horizontal') {
             return;
@@ -686,19 +689,19 @@ class SimpleHtml extends Html implements Renderer {
         // h            - We get to decide
         // h:nxx        - First column width in CSS units
         // h:nxx/mxx    - CSS units for headers / input elements
-        // h:n:m        - ratio of headers to inputs
+        // h:n:m:t      - ratio of headers to inputs over space t. If no t, t=n+m
         // h:.c1        - Class for headers
         // h:.c1:.c2    - Class for headers / input elements
         switch (count($value)) {
             case 1:
                 // No specification, use our default
-                $this -> custom['heading'] = [
+                $apply['heading'] = [
                     'style' => [
                         'display' => 'inline-block', 'vertical-align' => 'top',
                         'width' => '25%'
                     ],
                 ];
-                $this -> custom['input-wrapper'] = [
+                $apply['input-wrapper'] = [
                     'style' => [
                         'display' => 'inline-block', 'vertical-align' => 'top',
                         'width' => '75%'
@@ -708,28 +711,28 @@ class SimpleHtml extends Html implements Renderer {
             case 2:
                 if ($value[1][0] == '.') {
                     // Single class specification
-                    $this -> custom['heading'] = [
+                    $apply['heading'] = [
                         'class' => [substr($value[1], 1)],
                     ];
-                    unset($this -> custom['input-wrapper']);
+                    unset($apply['input-wrapper']);
                 } else {
                     // Single CSS units
-                    $this -> custom['heading'] = [
+                    $apply['heading'] = [
                         'style' => [
                             'display' => 'inline-block', 'vertical-align' => 'top',
                             'width' => $value[1]
                         ],
                     ];
-                    unset($this -> custom['input-wrapper']);
+                    unset($apply['input-wrapper']);
                 }
                 break;
             default:
                 if ($value[1][0] == '.') {
                     // Dual class specification
-                    $this -> custom['heading'] = [
+                    $apply['heading'] = [
                         'class' => [substr($value[1], 1)],
                     ];
-                    $this -> custom['input-wrapper'] = [
+                    $apply['input-wrapper'] = [
                         'class' => [substr($value[2], 1)],
                     ];
                 } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $value[1])) {
@@ -741,15 +744,15 @@ class SimpleHtml extends Html implements Renderer {
                             'Invalid ratio: ' . $value[1] . ':' . $value[2]
                         );
                     }
-                    $sum = $part1 + $part2;
-                    $this -> custom['heading'] = [
+                    $sum = isset($value[3]) ? $value[3] : ($part1 + $part2);
+                    $apply['heading'] = [
                         'style' => [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
                             'width' => round(100.0 * $part1 / $sum, 3) . '%'
                         ],
                     ];
-                    $this -> custom['input-wrapper'] = [
+                    $apply['input-wrapper'] = [
                         'style' => [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
@@ -758,13 +761,13 @@ class SimpleHtml extends Html implements Renderer {
                     ];
                 } else {
                     // Dual CSS units
-                    $this -> custom['heading'] = [
+                    $apply['heading'] = [
                         'style' => [
                             'display' => 'inline-block', 'vertical-align' => 'top',
                             'width' => $value[1]
                         ],
                     ];
-                    $this -> custom['input-wrapper'] = [
+                    $apply['input-wrapper'] = [
                         'style' => [
                             'display' => 'inline-block', 'vertical-align' => 'top',
                             'width' => $value[2]

@@ -16,22 +16,22 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 class Bootstrap4 extends SimpleHtml implements Renderer {
 
-    static protected $defaultVisual = [
-        '*' => [
-            'size' => 'regular',
-        ],
-        'button' => [
-            'fill' => 'solid',
-            'purpose' => 'primary',
-        ],
-    ];
-
     public function __construct($options = []) {
         parent::__construct($options);
         $this -> setOptions($options);
     }
 
+    protected function initialize() {
+        parent::initialize();
+        $this -> setShow('purpose:primary');
+    }
+
     protected function renderButtonElement(ButtonElement $element, $options = []) {
+        $show = $element -> getShow();
+        if ($show) {
+            $this -> pushContext();
+            $this -> setShow($show, 'button');
+        }
         $attrs = [];
         $block = new Block();
         $attrs['id'] = $element -> getId();
@@ -53,6 +53,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             //
             // We can see or change the data
             //
+            $attrs['class'] = $this -> mergeShow('button', ['button-class']);
             $block -> body .= $this -> writeLabel(
                     'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
                 );
@@ -63,6 +64,9 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
                 . $this -> writeLabel('after', $labels -> after, 'span');
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+        }
+        if ($show) {
+            $this -> popContext();
         }
         return $block;
     }
@@ -136,6 +140,93 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $block -> body .= "</div>\n";
         }
         return $block;
+    }
+
+    /**
+     * Process layout options, called from showValidate()
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $value Array of colon-delimited settings including the initial keyword.
+     */
+    protected function showDoLayout($scope, $choice, $value = []) {
+        $apply = &$this -> custom[$scope];
+        $apply['layout'] = $choice;
+        if ($choice === 'vertical') {
+            unset($apply['input-wrapper']);
+        }
+        if ($choice !== 'horizontal') {
+            return;
+        }
+        // possible values for arguments:
+        // h            - We get to decide
+        // h:nxx        - Ignored, we decide
+        // h:nxx/mxx    - Ignored, we decide
+        // h:n:m:t      - ratio of headers to inputs over space t. If no t, t=n+m
+        // h:.c1        - Ignored, we decide
+        // h:.c1:.c2    - Class for headers / input elements
+        $default = true;
+        if (count($value) >= 3) {
+            if ($value[1][0] == '.') {
+                // Dual class specification
+                $apply['heading'] = [
+                    'class' => [substr($value[1], 1)],
+                ];
+                $apply['input-wrapper'] = [
+                    'class' => [substr($value[2], 1)],
+                ];
+            } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $value[1])) {
+                // ratio
+                $part1 = (float) $value[1];
+                $part2 = (float) $value[2];
+                if (!$part1 || !$part2) {
+                    throw new \RuntimeException(
+                        'Invalid ratio: ' . $value[1] . ':' . $value[2]
+                    );
+                }
+                $sum = isset($value[3]) ? $value[3] : ($part1 + $part2);
+                $factor = 12.0 / $sum;
+                $total = round($factor * ($part1 * $part2));
+                // Ensure columns are nonzero
+                $col1 = (int) round($factor * $part1) ?: 1;
+                $col2 = (int) ($total - $col1 > 0 ? $total - $col1 : 1);
+                $apply['heading'] = [
+                    'class' => ['col-sm-' . $col1],
+                ];
+                $apply['input-wrapper'] = [
+                    'class' => ['col-sm-' . $col2],
+                ];
+            }
+        }
+        if ($default) {
+            $apply['heading'] = [
+                'class' => ['col-sm-2'],
+            ];
+            $apply['input-wrapper'] = [
+                'class' => ['col-sm-10'],
+            ];
+        }
+    }
+
+    /**
+     * Process purpose options, called from showValidate()
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $value Array of colon-delimited settings including the initial keyword.
+     */
+    protected function showDoPurpose($scope, $choice, $value = []) {
+        if (
+            strpos(
+                'primary|secondary|success|danger|warning|info|light|dark|link|',
+                $choice . '|'
+            ) === false
+        ) {
+            throw new RuntimeException($choice . ' is an invalid value for purpose.');
+        }
+        if (!isset($this -> custom[$scope])) {
+            $this -> custom[$scope] = [];
+        }
+        $this -> custom[$scope]['purpose'] = $choice;
+        $this -> custom[$scope]['button-class'] = 'btn btn-' . $choice;
     }
 
     public function start($options = []) {
