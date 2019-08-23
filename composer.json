@@ -5,7 +5,8 @@
     "require": {
         "php": ">=7.1",
         "abivia/configurable": "master",
-        "illuminate/translation": "5.8.*"
+        "illuminate/translation": "5.8.*",
+        "myclabs/deep-copy": "1.9.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.1@dev"

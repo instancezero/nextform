@@ -54,20 +54,50 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             // We can see or change the data
             //
             $attrs['class'] = $this -> mergeShow('button', ['button-class']);
+            // Horizontal layouts need a wrapper
+            $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
+            $labelAttrs = ['!for' => $element -> getId()];
             $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
+                    'heading', $labels -> heading, 'label', $labelAttrs, ['break' => true]
                 );
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper');
             $attrs['type'] = $element -> getFunction();
-            $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+            if ($labels -> help !== null) {
+                $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
+            }
+            $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
                 . $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span');
+                . $this -> writeLabel('after', $labels -> after, 'span', [])
+                . "\n";
+            if ($labels -> help !== null) {
+                $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
+                $input -> body .= $this -> writeLabel(
+                    'help', $labels -> help, 'small',
+                    [
+                        'id' => $attrs['aria-describedby'],
+                        'class' => 'form-text text-muted',
+                    ],
+                    ['break' => true]
+                );
+            }
+            $input -> close();
+            $block -> merge($input);
+            //$block -> body .= "\n";
             $block -> close();
-            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
         if ($show) {
             $this -> popContext();
         }
+        return $block;
+    }
+
+    protected function renderCellElement(CellElement $element, $options = []) {
+        $block = new Block();
+        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', ['force' => true]);
+        $block -> onCloseDone = [$this, 'popContext'];
+        $this -> pushContext();
+        $this -> context['inCell'] = true;
+        $this -> showDoLayout('form', 'inline');
         return $block;
     }
 
@@ -151,6 +181,8 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
     protected function showDoLayout($scope, $choice, $value = []) {
         $apply = &$this -> custom[$scope];
         $apply['layout'] = $choice;
+        $apply['group-wrapper'] = ['class' => ['form-group']];
+        $apply['cell-wrapper'] = ['class' => ['form-row']];
         if ($choice === 'vertical') {
             unset($apply['input-wrapper']);
         }
@@ -165,11 +197,12 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         // h:.c1        - Ignored, we decide
         // h:.c1:.c2    - Class for headers / input elements
         $default = true;
+        $apply['group-wrapper']['class'][] = 'row';
         if (count($value) >= 3) {
             if ($value[1][0] == '.') {
                 // Dual class specification
                 $apply['heading'] = [
-                    'class' => [substr($value[1], 1)],
+                    'class' => [substr($value[1], 1), 'col-form-label'],
                 ];
                 $apply['input-wrapper'] = [
                     'class' => [substr($value[2], 1)],
@@ -190,7 +223,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
                 $col1 = (int) round($factor * $part1) ?: 1;
                 $col2 = (int) ($total - $col1 > 0 ? $total - $col1 : 1);
                 $apply['heading'] = [
-                    'class' => ['col-sm-' . $col1],
+                    'class' => ['col-sm-' . $col1, 'col-form-label'],
                 ];
                 $apply['input-wrapper'] = [
                     'class' => ['col-sm-' . $col2],
@@ -199,7 +232,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         if ($default) {
             $apply['heading'] = [
-                'class' => ['col-sm-2'],
+                'class' => ['col-sm-2', 'col-form-label'],
             ];
             $apply['input-wrapper'] = [
                 'class' => ['col-sm-10'],

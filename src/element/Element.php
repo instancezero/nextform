@@ -3,6 +3,10 @@
 namespace Abivia\NextForm\Element;
 
 use Abivia\NextForm;
+use DeepCopy\DeepCopy;
+use DeepCopy\Filter\KeepFilter;
+use DeepCopy\Filter\SetNullFilter;
+use DeepCopy\Matcher\PropertyNameMatcher;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -90,6 +94,29 @@ abstract class Element implements \JsonSerializable {
 
     protected function configureValidate($property, &$value) {
         return true;
+    }
+
+    /**
+     * Make a copy of this element, cloning/preserving selected properties
+     * @return \Abivia\NextForm\Element\Element
+     */
+    public function copy() {
+        static $cloner = null;
+
+        if ($cloner === null) {
+            $cloner = new DeepCopy;
+            // Don't copy the form ID
+            $cloner -> addFilter(
+                new SetNullFilter(),
+                new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'autoId')
+            );
+            // Don't clone the linked data
+            $cloner -> addFilter(
+                new KeepFilter(),
+                new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'dataProperty')
+            );
+        }
+        return $cloner -> copy($this);
     }
 
     public function generate($renderer, $access, Translator $translate) {

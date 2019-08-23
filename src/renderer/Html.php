@@ -11,7 +11,7 @@ use Abivia\NextForm\Element\Element;
 abstract class Html implements Renderer {
 
     /**
-     * What we just to join elements of some attributes
+     * What we need to join elements of some attributes
      * @var array
      */
     static protected $attrJoin = ['class' => [' '], 'style' => ['; ', ":"]];
@@ -248,25 +248,47 @@ abstract class Html implements Renderer {
     }
 
     /**
-     * Merge HTML element attributes into attributes from the custom settings.
-     * @param type $custom
-     * @param type $attrs
-     * @return type
+     * Merge HTML element attributes into attributes from the custom settings using rules in attrJoin.
+     * @param array $custom Arrays of custom settings indexed by attribute
+     * @param type $attrs Application settings indexed by attribute or a string
+     * @return array Merged attributes
      */
     protected function mergeCustom($custom, $attrs = []) {
         foreach ($custom as $attr => $list) {
             $glue = self::$attrJoin[$attr];
             if (isset($glue[1])) {
-                // Merge keys from the list into the values
-                foreach ($list as $term => &$value) {
-                    $value = $term . $glue[1] . $value;
+                // Start by merging arrays
+                $merged = [];
+                if (isset($attrs[$attr])) {
+                    $append = is_string($attrs[$attr]);
+                    if (!$append) {
+                        $list = array_merge($list, $attrs[$attr]);
+                    }
+                } else {
+                    $append = false;
                 }
+                // Both lists should be associative, merge keys into the values
+                foreach ($list as $term => &$value) {
+                    $merged[] = $term . $glue[1] . $value;
+                }
+                if ($append) {
+                    $merged[] = $attrs[$attr];
+                }
+            } else {
+                // Start by merging arrays
+                if (isset($attrs[$attr])) {
+                    if (is_string($attrs[$attr])) {
+                        $list[] = $attrs[$attr];
+                    } else {
+                        $list = array_merge($list, $attrs[$attr]);
+                    }
+                }
+                // Reverse, de-dup, reverse
+                $merged = array_reverse(array_merge(array_reverse($list)));
             }
-            if (isset($attrs[$attr])) {
-                $list[] = $attrs[$attr];
-            }
+            // Finally, implode to a string
             if (!empty($list)) {
-                $attrs[$attr] = implode($glue[0], $list);
+                $attrs[$attr] = implode($glue[0], $merged);
             }
         }
         return $attrs;
@@ -439,7 +461,7 @@ abstract class Html implements Renderer {
         return $html;
     }
 
-    protected function writeLabel($purpose, $text, $tag, $attrs = []) {
+    protected function writeLabel($purpose, $text, $tag, $attrs = [], $options = []) {
         if ($text !== null) {
             $text = htmlspecialchars($text);
         } else {
@@ -454,7 +476,7 @@ abstract class Html implements Renderer {
         }
         $html = $this -> writeTag($tag, $attrs)
             . $text
-            . '</' . $tag . '>' . ($tag === 'span' ? '' : "\n")
+            . '</' . $tag . '>' . (($options['break'] ?? false) ? "\n" : '')
         ;
         return $html;
     }
@@ -474,6 +496,7 @@ abstract class Html implements Renderer {
                 list($lookup, $cmd) = $this -> parseAttribute($attrName);
                 if (
                     (isset($mask[$lookup]) && $mask[$lookup])
+                    || substr($lookup, 0, 5) === 'aria-'
                     || substr($lookup, 0, 5) === 'data-'
                 ) {
                     $parts[$lookup] = $this -> writeAttribute($lookup, $cmd, $value);
@@ -502,10 +525,19 @@ abstract class Html implements Renderer {
         return $html;
     }
 
+    /**
+     * Conditionally write a wrapper element
+     * @param \Abivia\NextForm\Renderer\Block $block
+     * @param string $tag Name of the element to write (div, span, etc.)
+     * @param string $purpose Name of the purpose of this tag
+     * @param array $options Name(type,default): force(bool,false), scope(string,'form')
+     * @return \Abivia\NextForm\Renderer\Block
+     */
     protected function writeWrapper(Block $block, $tag, $purpose, $options = []) {
         $hasPost = true;
-        if (isset($this -> custom['form'][$purpose])) {
-            $attrs = $this -> mergeCustom($this -> custom['form'][$purpose]);
+        $scope = $options['scope'] ?? 'form';
+        if (isset($this -> custom[$scope][$purpose])) {
+            $attrs = $this -> mergeCustom($this -> custom[$scope][$purpose]);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
         } elseif (isset($options['force']) && $options['force']) {
             $block -> body .= '<' . $tag . ">\n";

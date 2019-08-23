@@ -13,6 +13,7 @@ use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
 include_once __DIR__ . '/RendererCaseGenerator.php';
+include_once __DIR__ . '/RendererCaseRunner.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
 
 /**
@@ -20,6 +21,7 @@ include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
  */
 class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     use HtmlTestLogger;
+    use RendererCaseRunner;
 
     protected $testObj;
 
@@ -102,18 +104,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
-        $missingExpect = [];
-        foreach ($cases as $key => $info) {
-            if (!isset($expect[$key])) {
-                $missingExpect[] = $key;
-                continue;
-            }
-            NextForm::boot();
-            $data = $this -> testObj -> render($info[0], $info[1]);
-            $this -> assertEquals($expect[$key], $data, $info[2]);
-            $this -> logResult($data, $info[2]);
-        }
-        $this -> assertEquals([], $missingExpect, 'Missing cases');
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -121,45 +112,44 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererSimpleHtml_ButtonLabels() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
-        $element = new ButtonElement();
-        $element -> configure($config);
-        //
-        // Make sure the value shows up
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' value="I am Button!"/>' . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text before
-        //
-        $element -> setLabel('before', 'prefix');
-        $expect -> body = '<span>prefix</span>' . $expect -> body;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text after
-        //
-        $element -> setLabel('after', 'suffix');
-        // Strip the tail off, add label, re-add tail
-        $expect -> body = substr($expect -> body, 0, -strlen($tail))
-            . '<span>suffix</span>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add a heading
-        //
-        $element -> setLabel('heading', 'Stuff');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<label for="button-1">Stuff</label>' . "\n" . $expect -> body;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $cases = RendererCaseGenerator::html_ButtonLabels();
+        $expect = [];
+
+        // no labels
+        $expect['0'] = new Block;
+        $expect['0'] -> body = '<input id="button-1" name="button-1" type="button"/>'
+            . '<br/>' . "\n";
+
+        // before
+        $expect['b'] = new Block;
+        $expect['b'] -> body = '<span>prefix</span>'
+            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n";
+
+        // After
+        $expect['a'] = new Block;
+        $expect['a'] -> body = '<input id="button-1" name="button-1" type="button"/>'
+            . '<span>suffix</span><br/>' . "\n";
+
+        // Heading
+        $expect['h'] = new Block;
+        $expect['h'] -> body = '<label for="button-1">Header</label>' . "\n"
+            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n";
+
+        // Help
+        $expect['H'] = $expect['0'];
+
+        // Inner
+        $expect['i'] = new Block;
+        $expect['i'] -> body = '<input id="button-1" name="button-1" type="button"'
+            . ' value="inner"/><br/>' . "\n";
+
+        // All
+        $expect['bahHi'] = new Block;
+        $expect['bahHi'] -> body = '<label for="button-1">Header</label>' . "\n"
+            . '<span>prefix</span><input id="button-1" name="button-1" type="button"'
+            . ' value="inner"/><span>suffix</span><br/>' . "\n";
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererSimpleHtml_Cell() {

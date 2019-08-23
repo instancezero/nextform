@@ -48,7 +48,7 @@ class Population implements \JsonSerializable {
         return false;
     }
 
-    protected function configureInitialize(&$config, &$options) {
+    protected function configureInitialize(&$config) {
         // if the list is an array of strings, convert it
         if (isset($config -> list) && is_array($config -> list)) {
             foreach ($config -> list as &$value) {

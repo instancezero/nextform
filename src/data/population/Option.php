@@ -54,7 +54,7 @@ class Option implements \JsonSerializable {
         return true;
     }
 
-    protected function configureInitialize(&$config, &$options) {
+    protected function configureInitialize(&$config) {
         // if the value is an array convert any strings to a class
         if (isset($config -> value) && is_array($config -> value)) {
             foreach ($config -> value as &$value) {

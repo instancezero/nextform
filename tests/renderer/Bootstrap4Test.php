@@ -13,6 +13,7 @@ use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Bootstrap4;
 
 include_once __DIR__ . '/RendererCaseGenerator.php';
+include_once __DIR__ . '/RendererCaseRunner.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
 
 /**
@@ -20,8 +21,16 @@ include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
  */
 class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     use HtmlTestLogger;
+    use RendererCaseRunner;
 
     protected $testObj;
+
+    protected function formGroup($body) {
+        $text = '<div class="form-group">' . "\n"
+            . $body
+            . '</div>' . "\n";
+        return $text;
+    }
 
     protected function setUp() : void {
         NextForm::boot();
@@ -34,6 +43,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
   <head>
     <meta charset="utf-8">
     <title>' . __CLASS__  . '</title>
+    {{head}}
   </head>
 <body>
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
@@ -41,7 +51,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     }
 
     public static function tearDownAfterClass() : void {
-        self::$allHtml .= '</form></body></html>';
+        $obj = new Bootstrap4();
+        $data = $obj -> start();
+        self::$allHtml = str_replace('{{head}}', $data -> head, self::$allHtml);
+        self::$allHtml .= '</form></body>' . implode("\n", $data -> scripts) . '</html>';
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
     }
 
@@ -73,49 +86,48 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
         // Default access
         $expect['bda'] = new Block;
-        $expect['bda'] -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' class="btn btn-success" value="I am Button!"/><br/>' . "\n";
+        $expect['bda'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-success" value="I am Button!"/>' . "\n"
+        );
 
         // Write access same as default
         $expect['bwa'] = $expect['bda'];
 
         // Reset button default access
         $expect['rbda'] = new Block;
-        $expect['rbda'] -> body = '<input id="button-1" name="button-1" type="reset"'
-            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
+        $expect['rbda'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="reset"'
+            . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
+        );
 
         // Submit button default access
         $expect['sbda'] = new Block;
-        $expect['sbda'] -> body = '<input id="button-1" name="button-1" type="submit"'
-            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
+        $expect['sbda'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="submit"'
+            . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
+        );
 
         // Return to button, same as "bda" case but primary
         $expect['bda2'] = new Block;
-        $expect['bda2'] -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' class="btn btn-primary" value="I am Button!"/><br/>' . "\n";
+        $expect['bda2'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
+        );
 
         // View access
         $expect['bva'] = new Block;
-        $expect['bva'] -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' class="btn btn-primary" value="I am Button!" disabled/><br/>' . "\n";
+        $expect['bva'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+        );
 
         // Readaccess
         $expect['bra'] = new Block;
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
-        $missingExpect = [];
-        foreach ($cases as $key => $info) {
-            if (!isset($expect[$key])) {
-                $missingExpect[] = $key;
-                continue;
-            }
-            NextForm::boot();
-            $data = $this -> testObj -> render($info[0], $info[1]);
-            $this -> assertEquals($expect[$key], $data, $info[2]);
-            $this -> logResult($data, $info[2]);
-        }
-        $this -> assertEquals([], $missingExpect, 'Missing cases');
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -123,45 +135,68 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_ButtonLabels() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $config = json_decode('{"type":"button","labels":{"inner":"I am Button!"}}');
-        $element = new ButtonElement();
-        $element -> configure($config);
-        //
-        // Make sure the value shows up
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' value="I am Button!"/>' . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text before
-        //
-        $element -> setLabel('before', 'prefix');
-        $expect -> body = '<span>prefix</span>' . $expect -> body;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text after
-        //
-        $element -> setLabel('after', 'suffix');
-        // Strip the tail off, add label, re-add tail
-        $expect -> body = substr($expect -> body, 0, -strlen($tail))
-            . '<span>suffix</span>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add a heading
-        //
-        $element -> setLabel('heading', 'Stuff');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<label for="button-1">Stuff</label>' . "\n" . $expect -> body;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $cases = RendererCaseGenerator::html_ButtonLabels();
+        $expect = [];
+
+        // no labels
+        $expect['0'] = new Block;
+        $expect['0'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary"/>'
+            . "\n"
+        );
+
+        // before
+        $expect['b'] = new Block;
+        $expect['b'] -> body = $this -> formGroup(
+            '<span>prefix</span>'
+            . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+        );
+
+        // After
+        $expect['a'] = new Block;
+        $expect['a'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>'
+            . '<span>suffix</span>' . "\n"
+        );
+
+        // Heading
+        $expect['h'] = new Block;
+        $expect['h'] -> body = $this -> formGroup(
+            '<label for="button-1">Header</label>' . "\n"
+            . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+        );
+
+        // Help
+        $expect['H'] = new Block;
+        $expect['H'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" aria-describedby="button-1-formhelp"/>'
+            . "\n"
+            . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
+        );
+
+        // Inner
+        $expect['i'] = new Block;
+        $expect['i'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="inner"/>' . "\n"
+        );
+
+        // All
+        $expect['bahHi'] = new Block;
+        $expect['bahHi'] -> body = $this -> formGroup(
+            '<label for="button-1">Header</label>' . "\n"
+            . '<span>prefix</span><input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/>'
+            . '<span>suffix</span>'
+            . "\n"
+            . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererBootstrap4_Cell() {
@@ -170,7 +205,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> assertFalse($this -> testObj -> queryContext('inCell'));
         $element = new CellElement();
         $data = $this -> testObj -> render($element);
-        $expect -> body = '<div>' . "\n";
+        $expect -> body = '<div class="form-row">' . "\n";
         $expect -> post = '</div>' . "\n";
         $expect -> onCloseDone = [$this -> testObj, 'popContext'];
         $this -> assertTrue($this -> testObj -> queryContext('inCell'));

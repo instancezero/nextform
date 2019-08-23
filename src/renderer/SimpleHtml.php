@@ -134,7 +134,8 @@ class SimpleHtml extends Html implements Renderer {
             // We can see or change the data
             //
             $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
+                    'heading', $labels -> heading, 'label',
+                    ['!for' => $element -> getId()], ['break' => true]
                 );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $attrs['type'] = $element -> getFunction();
@@ -230,10 +231,10 @@ class SimpleHtml extends Html implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                'heading',
-                $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-                'label', ['!for' => $attrs['id']]
-            );
+                    'heading',
+                    $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
+                    'label', ['!for' => $attrs['id']], ['break' => true]
+                );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
             }
@@ -281,10 +282,14 @@ class SimpleHtml extends Html implements Renderer {
         $attrs['name'] = $element -> getFormName() . ($type == 'checkbox' ? '[]' : '');
         $list = $element -> getList(true);
         if ($visible) {
-            $block -> body .= $this -> writeLabel('heading', $labels -> heading, 'div');
+            $block -> body .= $this -> writeLabel(
+                'heading', $labels -> heading, 'div', [], ['break' => true]
+            );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $bracketTag = empty($list) ? 'span' : 'div';
-            $block -> body .= $this -> writeLabel('before', $labels -> before, $bracketTag);
+            $block -> body .= $this -> writeLabel(
+                'before', $labels -> before, $bracketTag, [], ['break' => !empty($list)]
+            );
         }
         if (empty($list)) {
             $attrs['id'] = $baseId;
@@ -298,10 +303,9 @@ class SimpleHtml extends Html implements Renderer {
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             if ($visible) {
                 $block -> body .= $this -> writeLabel(
-                        'inner', $element -> getLabels(true) -> inner,
-                        'label', ['for' => $baseId]
-                    )
-                    ;
+                    'inner', $element -> getLabels(true) -> inner,
+                    'label', ['for' => $baseId], ['break' => true]
+                );
             }
         } else {
             $select = $element -> getValue();
@@ -335,7 +339,10 @@ class SimpleHtml extends Html implements Renderer {
                     }
                     $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
                         . '  '
-                        . $this -> writeLabel('', $radio -> getLabel(), 'label', ['for' => $id])
+                        . $this -> writeLabel(
+                            '', $radio -> getLabel(), 'label',
+                            ['for' => $id], ['break' => true]
+                        )
                         . "</div>\n";
                 } elseif ($checked) {
                     $block -> body .= $this -> writeTag('input', $attrs) . "\n";
@@ -343,7 +350,10 @@ class SimpleHtml extends Html implements Renderer {
             }
         }
         if ($visible) {
-            $block -> body .= $this -> writeLabel('after', $labels -> after, $bracketTag);
+            $block -> body .= $this -> writeLabel(
+                'after', $labels -> after, $bracketTag,
+                [], ['break' => !empty($list)]
+            );
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
@@ -376,8 +386,9 @@ class SimpleHtml extends Html implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
-                );
+                'heading', $labels -> heading, 'label',
+                ['!for' => $element -> getId()], ['break' => true]
+            );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
             }
@@ -437,8 +448,9 @@ class SimpleHtml extends Html implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label', ['!for' => $element -> getId()]
-                );
+                'heading', $labels -> heading, 'label',
+                ['!for' => $element -> getId()], ['break' => true]
+            );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
             }
@@ -483,9 +495,13 @@ class SimpleHtml extends Html implements Renderer {
             $block -> merge($this -> elementHidden($element, $value));
         } else {
             // This element is visible
-            $block -> body .= $this -> writeLabel('heading', $labels -> heading, 'div');
+            $block -> body .= $this -> writeLabel(
+                'heading', $labels -> heading, 'div', [], ['break' => true]
+            );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
-            $block -> body .= $this -> writeLabel('before', $labels -> before, 'div');
+            $block -> body .= $this -> writeLabel(
+                'before', $labels -> before, 'div', [], ['break' => true]
+            );
             if ($options['access'] == 'view') {
                 $list = $element -> getFlatList(true);
                 // render as hidden with text
@@ -539,7 +555,7 @@ class SimpleHtml extends Html implements Renderer {
                 );
                 $block -> body .= '</select>' . "\n";
             }
-            $this -> writeLabel('after', $labels -> after, 'div');
+            $this -> writeLabel('after', $labels -> after, 'div', [], ['break' => true]);
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
@@ -601,8 +617,8 @@ class SimpleHtml extends Html implements Renderer {
             //
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading,
-                'label', ['!for' => $attrs['id']]
+                'heading', $labels -> heading, 'label',
+                ['!for' => $attrs['id']], ['break' => true]
             );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
@@ -613,7 +629,9 @@ class SimpleHtml extends Html implements Renderer {
             if (($aval = $presentation -> getRows()) !== null) {
                 $attrs['rows'] = $aval;
             }
-            $block -> body .= $this -> writeLabel('before', $labels -> before, 'div');
+            $block -> body .= $this -> writeLabel(
+                'before', $labels -> before, 'div', [], ['break' => true]
+            );
             $sidecar = $data -> getPopulation() -> sidecar;
             if ($sidecar !== null) {
                 $attrs['*data-sidecar'] = $sidecar;
@@ -627,7 +645,9 @@ class SimpleHtml extends Html implements Renderer {
             }
             // Generate the textarea element
             $block -> body .= $this -> writeTag('textarea', $attrs, $value)
-                . $this -> writeLabel('after', $labels -> after, 'div')
+                . $this -> writeLabel(
+                    'after', $labels -> after, 'div', [], ['break' => true]
+                )
                 . ($this -> context['inCell'] ? '&nbsp;' : '<br/>')
                 . "\n";
         }
@@ -636,7 +656,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderHtmlElement(HtmlElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div');
+        $block -> body .= $this -> writeLabel('heading', null, 'div', [], ['break' => true]);
         $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['append' => "<br/>\n"]);
         $block -> body .= $element -> getValue();
         $block -> close();
@@ -648,7 +668,9 @@ class SimpleHtml extends Html implements Renderer {
         $labels = $element -> getLabels(true);
         $block -> body = '<fieldset>' . "\n";
         if ($labels !== null) {
-            $block -> body .= $this -> writeLabel('', $labels -> heading, 'legend');
+            $block -> body .= $this -> writeLabel(
+                '', $labels -> heading, 'legend', [], ['break' => true]
+            );
         }
         $block -> post = '</fieldset>' . "\n";
         return $block;
@@ -656,7 +678,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderStaticElement(StaticElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div');
+        $block -> body .= $this -> writeLabel('heading', null, 'div', [], ['break' => true]);
         $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['append' => "<br/>\n"]);
         $block -> body .= htmlspecialchars($element -> getValue());
         $block -> close();
@@ -674,8 +696,8 @@ class SimpleHtml extends Html implements Renderer {
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
     protected function showDoLayout($scope, $choice, $value = []) {
-        if (!isset($this -> custom[$scope]['layout'])) {
-            return;
+        if (!isset($this -> custom[$scope])) {
+            $this -> custom[$scope] = [];
         }
         $apply = &$this -> custom[$scope];
         $apply['layout'] = $choice;
