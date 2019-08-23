@@ -125,7 +125,8 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             //
             // We can see or change the data
             //
-            $block -> body .= '<div class="form-group">' . "\n";
+            $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
+            //$block -> body .= '<div class="form-group">' . "\n";
             $attrs['class'] = 'form-control';
             if ($value !== null) {
                 $attrs['value'] = $value;
@@ -134,7 +135,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $block -> body .= $this -> writeLabel(
                 'heading',
                 $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-                'label', ['!for' => $attrs['id']]
+                'label', ['!for' => $attrs['id']], ['break' => true]
             );
             if ($labels -> inner !== null) {
                 $attrs['placeholder'] = $labels -> inner;
@@ -167,7 +168,8 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
                 $helpAttrs['class'] = 'form-text text-muted';
                 $block -> body .= $this -> writeTag('small', $helpAttrs, $helpLabel) . "\n";
             }
-            $block -> body .= "</div>\n";
+            $block -> close();
+            //$block -> body .= "</div>\n";
         }
         return $block;
     }

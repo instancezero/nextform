@@ -173,8 +173,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // no labels
-        $expect['0'] = new Block;
-        $expect['0'] -> body = $this -> formGroup(
+        $expect['label-none'] = new Block;
+        $expect['label-none'] -> body = $this -> formGroup(
             $this -> column1('', 'label', 'button-1')
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button"'
@@ -184,8 +184,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // before
-        $expect['b'] = new Block;
-        $expect['b'] -> body = $this -> formGroup(
+        $expect['label-before'] = new Block;
+        $expect['label-before'] -> body = $this -> formGroup(
             $this -> column1('', 'label', 'button-1')
             . $this -> column2(
                 '<span>prefix</span>'
@@ -194,8 +194,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // After
-        $expect['a'] = new Block;
-        $expect['a'] -> body = $this -> formGroup(
+        $expect['label-after'] = new Block;
+        $expect['label-after'] -> body = $this -> formGroup(
             $this -> column1('', 'label', 'button-1')
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>'
@@ -204,8 +204,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Heading
-        $expect['h'] = new Block;
-        $expect['h'] -> body = $this -> formGroup(
+        $expect['label-head'] = new Block;
+        $expect['label-head'] -> body = $this -> formGroup(
             $this -> column1('Header', 'label', 'button-1')
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
@@ -213,8 +213,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Help
-        $expect['H'] = new Block;
-        $expect['H'] -> body = $this -> formGroup(
+        $expect['label-help'] = new Block;
+        $expect['label-help'] -> body = $this -> formGroup(
             $this -> column1('', 'label', 'button-1')
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button"'
@@ -226,8 +226,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Inner
-        $expect['i'] = new Block;
-        $expect['i'] -> body = $this -> formGroup(
+        $expect['label-inner'] = new Block;
+        $expect['label-inner'] -> body = $this -> formGroup(
             $this -> column1('', 'label', 'button-1')
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button"'
@@ -237,8 +237,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // All
-        $expect['bahHi'] = new Block;
-        $expect['bahHi'] -> body = $this -> formGroup(
+        $expect['label-all'] = new Block;
+        $expect['label-all'] -> body = $this -> formGroup(
             $this -> column1('Header', 'label', 'button-1')
             . $this -> column2(
                 '<span>prefix</span><input id="button-1" name="button-1" type="button"'
@@ -276,40 +276,37 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormRendererBootstrap4_FieldText() {
         $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldText();
+        $expect = [];
 
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
         // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="text"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['default'] = new Block;
+        $expect['default'] -> body = $this -> formGroup(
+            $this -> column1('', 'label')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" class="form-control"/>'
+                . "\n"
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['default'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = new Block;
+        $expect['view'] -> body = $this -> formGroup(
+            $this -> column1('', 'label')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" class="form-control" readonly/>'
+                . "\n"
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = new Block;
+        $expect['read'] -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+
+        $this -> runCases($cases, $expect);
     }
 
     /**

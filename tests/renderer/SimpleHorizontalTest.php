@@ -151,8 +151,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // no labels
-        $expect['0'] = new Block;
-        $expect['0'] -> body =
+        $expect['label-none'] = new Block;
+        $expect['label-none'] -> body =
             '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . '&nbsp;</label>' . "\n"
             . $this -> column2(
@@ -161,8 +161,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // before
-        $expect['b'] = new Block;
-        $expect['b'] -> body =
+        $expect['label-before'] = new Block;
+        $expect['label-before'] -> body =
             '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . '&nbsp;</label>' . "\n"
             . $this -> column2(
@@ -172,8 +172,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // After
-        $expect['a'] = new Block;
-        $expect['a'] -> body =
+        $expect['label-after'] = new Block;
+        $expect['label-after'] -> body =
             '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . '&nbsp;</label>' . "\n"
             . $this -> column2(
@@ -183,8 +183,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // Heading
-        $expect['h'] = new Block;
-        $expect['h'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+        $expect['label-head'] = new Block;
+        $expect['label-head'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . 'Header</label>' . "\n"
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button"/>'
@@ -192,11 +192,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // Help
-        $expect['H'] = $expect['0'];
+        $expect['label-help'] = $expect['label-none'];
 
         // Inner
-        $expect['i'] = new Block;
-        $expect['i'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+        $expect['label-inner'] = new Block;
+        $expect['label-inner'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . '&nbsp;</label>' . "\n"
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button" value="inner"/>'
@@ -204,8 +204,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // All
-        $expect['bahHi'] = new Block;
-        $expect['bahHi'] -> body =
+        $expect['label-all'] = new Block;
+        $expect['label-all'] -> body =
             '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . 'Header</label>' . "\n"
             . $this -> column2(
@@ -237,239 +237,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 	public function testFormRendererSimpleHtml_SetOptions() {
 
         $this -> testObj -> setOptions();
-    }
-
-	public function testFormRendererSimpleHtml_FieldText() {
-        $this -> logMethod(__METHOD__);
-
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="text"/>')
-            .'<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2('<input id="field-1" name="field-1" type="text" readonly/>')
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-    }
-
-    /**
-     * Test a text field with label options
-     */
-	public function testFormRendererSimpleHtml_FieldTextLabels() {
-        $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $ret = $element -> setValue('the value');
-        $this -> assertTrue($element === $ret);
-        //
-        // Make sure the value shows up
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" value="the value"/>'
-            )
-            . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add an inner
-        //
-        $element -> setLabel('inner', 'Something with & in it');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-            )
-            . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text before
-        //
-        $element -> setLabel('before', 'prefix');
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-            )
-            . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text after
-        //
-        $element -> setLabel('after', 'suffix');
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add a heading
-        //
-        $element -> setLabel('heading', 'Stuff');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> column1('Stuff')
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
-                . ' value="the value" placeholder="Something with &amp; in it"/>'
-                . '<span>suffix</span>'
-            )
-            . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-    }
-
-    /**
-     * Test various validation options
-     */
-	public function testFormRendererSimpleHtml_FieldTextValidation() {
-        $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $validation = $element -> getDataProperty() -> getValidation();
-        //
-        // Make the field required
-        //
-        $validation -> set('required', true);
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" required/>'
-            )
-            . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a maximum length
-        //
-        $validation -> set('maxLength', 10);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" maxlength="10" required/>'
-            )
-            . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a minimum length
-        //
-        $validation -> set('minLength', 3);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' maxlength="10" minlength="3" required/>'
-            )
-            . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Make it match a postal code
-        //
-        $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
-        // Strip the tail off, add label, re-add tail
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3"'
-                . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>'
-            )
-            . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-    }
-
-	public function testFormRendererSimpleHtml_FieldTextDataList() {
-        $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        // No access assumes write access
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" list="field-1-list"/>'
-                . "<datalist id=\"field-1-list\">\n"
-                . "  <option value=\"textlist 1\"/>\n"
-                . "  <option value=\"textlist 2\"/>\n"
-                . "  <option value=\"textlist 3\"/>\n"
-                . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
-                . "</datalist>\n"
-            )
-            . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        // Test view access: No list is required
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = $this -> emptyLabel
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="text" readonly/>'
-            )
-            . $tail;
-        $expect -> post = null;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        // Test read (less than view) access
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
     }
 
     /**
@@ -2156,6 +1923,214 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $this -> testObj -> render($element, ['access' => 'read']);
         $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+	public function testFormRendererSimpleHtml_FieldText() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldText();
+        $expect = [];
+
+        // No access specification assumes write access
+        $expect['default'] = new Block;
+        $expect['default'] -> body = $this -> emptyLabel
+            . $this -> column2('<input id="field-1" name="field-1" type="text"/>')
+            .'<br/>' . "\n";
+
+        // Same result with explicit write access
+        $expect['write'] = $expect['default'];
+
+        // Test view access
+        $expect['view'] = new Block;
+        $expect['view'] -> body = $this -> emptyLabel
+            . $this -> column2('<input id="field-1" name="field-1" type="text" readonly/>')
+            . '<br/>' . "\n";
+
+        // Test read (less than view) access
+        $expect['read'] = new Block;
+        $expect['read'] -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+
+        $this -> runCases($cases, $expect);
+    }
+
+	public function testFormRendererSimpleHtml_FieldTextDataList() {
+        $this -> logMethod(__METHOD__);
+        $expect = new Block;
+        $tail = "<br/>\n";
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        // No access assumes write access
+        $data = $this -> testObj -> render($element);
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" list="field-1-list"/>'
+                . "<datalist id=\"field-1-list\">\n"
+                . "  <option value=\"textlist 1\"/>\n"
+                . "  <option value=\"textlist 2\"/>\n"
+                . "  <option value=\"textlist 3\"/>\n"
+                . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
+            )
+            . $tail;
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        // Test view access: No list is required
+        $data = $this -> testObj -> render($element, ['access' => 'view']);
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" readonly/>'
+            )
+            . $tail;
+        $expect -> post = null;
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        // Test read (less than view) access
+        $data = $this -> testObj -> render($element, ['access' => 'read']);
+        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+    }
+
+    /**
+     * Test a text field with label options
+     */
+	public function testFormRendererSimpleHtml_FieldTextLabels() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldTextLabels();
+        $expect = [];
+        $tail = "<br/>\n";
+
+        // no labels
+        $expect['label-none'] = new Block;
+        $expect['label-none'] -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value"/>'
+            )
+            . $tail;
+
+        // before
+        $expect['label-before'] = new Block;
+        $expect['label-before'] -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<span>prefix</span>'
+                . '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value"/>'
+            )
+            . $tail;
+
+        // After
+        $expect['label-after'] = new Block;
+        $expect['label-after'] -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value"/>'
+                . '<span>suffix</span>'
+            )
+            . $tail;
+
+        // Heading
+        $expect['label-head'] = new Block;
+        $expect['label-head'] -> body = $this -> column1('Header')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value"/>'
+            )
+            . $tail;
+
+        // Help
+        $expect['label-help'] = $expect['label-none'];
+
+        // Inner
+        $expect['label-inner'] = new Block;
+        $expect['label-inner'] -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value"'
+                . ' placeholder="inner"/>'
+            )
+            . $tail;
+
+        // All
+        $expect['label-all'] = new Block;
+        $expect['label-all'] -> body = $this -> column1('Header')
+            . $this -> column2(
+                '<span>prefix</span>'
+                . '<input id="field-1" name="field-1" type="text"'
+                . ' value="the value" placeholder="inner"/>'
+                . '<span>suffix</span>'
+            )
+            . $tail;
+
+        $this -> runCases($cases, $expect);
+    }
+
+    /**
+     * Test various validation options
+     */
+	public function testFormRendererSimpleHtml_FieldTextValidation() {
+        $this -> logMethod(__METHOD__);
+        $expect = new Block;
+        $tail = "<br/>\n";
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        $validation = $element -> getDataProperty() -> getValidation();
+        //
+        // Make the field required
+        //
+        $validation -> set('required', true);
+        $data = $this -> testObj -> render($element);
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" required/>'
+            )
+            . $tail;
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Set a maximum length
+        //
+        $validation -> set('maxLength', 10);
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" maxlength="10" required/>'
+            )
+            . $tail;
+        $data = $this -> testObj -> render($element);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Set a minimum length
+        //
+        $validation -> set('minLength', 3);
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' maxlength="10" minlength="3" required/>'
+            )
+            . $tail;
+        $data = $this -> testObj -> render($element);
+        $this -> assertEquals($expect, $data);
+        $this -> logResult($data);
+        //
+        // Make it match a postal code
+        //
+        $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
+        // Strip the tail off, add label, re-add tail
+        $expect -> body = $this -> emptyLabel
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3"'
+                . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>'
+            )
+            . $tail;
+        $data = $this -> testObj -> render($element);
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
     }

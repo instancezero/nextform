@@ -39,49 +39,6 @@
 <label for="button-1">Header</label>
 <span>prefix</span><input id="button-1" name="button-1" type="button" value="inner"/><span>suffix</span><br/>
 <h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Cell</h3>
-<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldText</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text"/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text"/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" readonly/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextLabels</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" value="the value"/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" value="the value" placeholder="Something with &amp; in it"/><br/>
-<h4>(assertion)</h4>
-<span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="Something with &amp; in it"/><br/>
-<h4>(assertion)</h4>
-<span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="Something with &amp; in it"/><span>suffix</span><br/>
-<h4>(assertion)</h4>
-<label for="field-1">Stuff</label>
-<span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="Something with &amp; in it"/><span>suffix</span><br/>
-<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextValidation</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" required/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" maxlength="10" required/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" required/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/><br/>
-<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextDataList</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" list="field-1-list"/><datalist id="field-1-list">
-  <option value="textlist 1"/>
-  <option value="textlist 2"/>
-  <option value="textlist 3"/>
-  <option value="textlist 4" data-sidecar="[1,2,3,4]"/>
-</datalist>
-<br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="text" readonly/><br/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
 <h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldButton</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>
@@ -656,6 +613,54 @@
 <input id="field-1" name="field-1" type="tel" readonly/><br/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldText</h3>
+<h4>default access</h4>
+<input id="field-1" name="field-1" type="text"/><br/>
+<h4>explicit write access</h4>
+<input id="field-1" name="field-1" type="text"/><br/>
+<h4>explicit view access</h4>
+<input id="field-1" name="field-1" type="text" readonly/><br/>
+<h4>explicit read access</h4>
+<input id="field-1" name="field-1" type="hidden"/>
+<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextDataList</h3>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" list="field-1-list"/><datalist id="field-1-list">
+  <option value="textlist 1"/>
+  <option value="textlist 2"/>
+  <option value="textlist 3"/>
+  <option value="textlist 4" data-sidecar="[1,2,3,4]"/>
+</datalist>
+<br/>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" readonly/><br/>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="hidden"/>
+<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextLabels</h3>
+<h4>Text none</h4>
+<input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<h4>Text inner</h4>
+<input id="field-1" name="field-1" type="text" value="the value" placeholder="inner"/><br/>
+<h4>Text before</h4>
+<span>prefix</span><input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<h4>Text after</h4>
+<input id="field-1" name="field-1" type="text" value="the value"/><span>suffix</span><br/>
+<h4>Text heading</h4>
+<label for="field-1">Header</label>
+<input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<h4>Text help</h4>
+<input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<h4>Text all labels</h4>
+<label for="field-1">Header</label>
+<span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="inner"/><span>suffix</span><br/>
+<h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextValidation</h3>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" required/><br/>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" maxlength="10" required/><br/>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" required/><br/>
+<h4>(assertion)</h4>
+<input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/><br/>
 <h3>FormRendererSimpleHtmlTest::FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextarea</h3>
 <h4>(assertion)</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>

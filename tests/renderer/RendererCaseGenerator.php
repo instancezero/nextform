@@ -1,7 +1,7 @@
 <?php
 
+use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Element\HtmlElement;
 use Abivia\NextForm\Element\SectionElement;
@@ -25,31 +25,31 @@ class RendererCaseGenerator {
         $cases = [];
 
         // No changes
-        $cases[$prefix . '0'] = [$eBase, [], $namePrefix . 'none'];
+        $cases[$prefix . 'label-none'] = [$eBase, [], $namePrefix . 'none'];
 
         $e1 = $eBase -> copy();
         $e1 -> setLabel('inner', 'inner');
-        $cases[$prefix . 'i'] = [$e1, [], $namePrefix . 'inner'];
+        $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'inner'];
 
         // A before label
         $e2 = $eBase -> copy();
         $e2 -> setLabel('before', 'prefix');
-        $cases[$prefix . 'b'] = [$e2, [], $namePrefix . 'before'];
+        $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'before'];
 
         // Some text after
         $e3 = $eBase -> copy();
         $e3 -> setLabel('after', 'suffix');
-        $cases[$prefix . 'a'] = [$e3, [], $namePrefix . 'after'];
+        $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'after'];
 
         // A heading
         $e4 = $eBase -> copy();
         $e4 -> setLabel('heading', 'Header');
-        $cases[$prefix . 'h'] = [$e4, [], $namePrefix . 'heading'];
+        $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'heading'];
 
         // Help
         $e5 = $eBase -> copy();
         $e5 -> setLabel('help', 'Helpful');
-        $cases[$prefix . 'H'] = [$e5, [], $namePrefix . 'help'];
+        $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'help'];
 
         // All the labels
         $e6 = $eBase -> copy();
@@ -58,7 +58,7 @@ class RendererCaseGenerator {
         $e6 -> setLabel('help', 'Helpful');
         $e6 -> setLabel('before', 'prefix');
         $e6 -> setLabel('after', 'suffix');
-        $cases[$prefix . 'bahHi'] = [$e6, [], $namePrefix . 'all labels'];
+        $cases[$prefix . 'label-all'] = [$e6, [], $namePrefix . 'all labels'];
 
         return $cases;
     }
@@ -111,6 +111,38 @@ class RendererCaseGenerator {
         $eBase = new ButtonElement();
         $eBase -> configure($config);
         $cases = self::addLabels($eBase, '', 'Button ');
+        return $cases;
+    }
+
+    static public function html_FieldText() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        $cases['default'] = [$element, [], 'default access'];
+        $cases['write'] = [$element, ['access' => 'write'], 'explicit write access'];
+        $cases['view'] = [$element, ['access' => 'view'], 'explicit view access'];
+        $cases['read'] = [$element, ['access' => 'read'], 'explicit read access'];
+
+        return $cases;
+    }
+
+    /**
+     * Iterate through labels on a button
+     * @return array
+     */
+	static public function html_FieldTextLabels() {
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        $element -> setValue('the value');
+        $cases = self::addLabels($element, '', 'Text ');
+
         return $cases;
     }
 
