@@ -28,25 +28,26 @@ class SimpleHtml extends Html implements Renderer {
 
     /**
      * Render a data list, if there is one.
-     * @param string $attrs Parent attributes. Passed by reference.
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent attributes. Passed by reference.
      * @param type $element The element we're rendering.
      * @param type $type The element type
      * @param type $options Options, specifically access rights.
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function dataList(&$attrs, $element, $type, $options) {
+    protected function dataList(Attributes $attrs, $element, $type, $options) {
         $block = new Block;
         // Check for a data list, if there is write access.
-        $list = $options['access'] === 'write' && self::$inputAttributes[$type]['list']
+        $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
             ? $element -> getList(true) : [];
         if (!empty($list)) {
-            $attrs['list'] = $attrs['id'] . '-list';
-            $block -> post = '<datalist id="' . $attrs['list'] . "\">\n";
+            $attrs -> set('list', $attrs -> get('id') . '-list');
+            $block -> post = '<datalist id="' . $attrs -> get('list') . "\">\n";
+            $optAttrs = new Attributes();
             foreach ($list as $option) {
-                $optAttrs = ['value' => $option -> getValue()];
+                $optAttrs -> set('value', $option -> getValue());
                 $sidecar = $option -> sidecar;
                 if ($sidecar !== null) {
-                    $optAttrs['*data-sidecar'] = $sidecar;
+                    $optAttrs -> set('*data-sidecar', $sidecar);
                 }
                 $block -> post .= '  ' . $this -> writeTag('option', $optAttrs) . "\n";
             }
@@ -58,22 +59,21 @@ class SimpleHtml extends Html implements Renderer {
     protected function elementHidden($element, $value) {
         $block = new Block;
         $baseId = $element -> getId();
-        $attrs = ['type' => 'hidden'];
+        $attrs = new Attributes;
+        $attrs -> set('type', 'hidden');
         if (is_array($value)) {
             $optId = 0;
             foreach ($value as $key => $entry) {
-                $attrs['id'] = $baseId . '-opt' . $optId;
+                $attrs -> set('id', $baseId . '-opt' . $optId);
                 ++$optId;
-                $attrs['name'] = $element -> getFormName() . '[' . htmlspecialchars($key) . ']';
-                $attrs['value'] = $entry;
+                $attrs -> set('name', $element -> getFormName() . '[' . htmlspecialchars($key) . ']');
+                $attrs -> set('value', $entry);
                 $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             }
         } else {
-            $attrs['id'] = $baseId;
-            $attrs['name'] = $element -> getFormName();
-            if ($value !== null) {
-                $attrs['value'] = $value;
-            }
+            $attrs -> set('id', $baseId);
+            $attrs -> set('name', $element -> getFormName());
+            $attrs -> setIfNotNull('value', $value);
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
         }
         return $block;
@@ -112,22 +112,21 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderButtonElement(ButtonElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $block = new Block();
-        $attrs['id'] = $element -> getId();
+        $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view') {
-            $attrs['=disabled'] = 'disabled';
+            $attrs -> setFlag('disabled');
         }
-        $attrs['name'] = $element -> getFormName();
+        $attrs -> set('name', $element -> getFormName());
         $labels = $element -> getLabels(true);
-        if ($labels -> inner !== null) {
-            $attrs['value'] = $labels -> inner;
-        }
+        $attrs -> setIfNotNull('value', $labels -> inner);
+
         if ($options['access'] === 'read') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $attrs['type'] = 'hidden';
+            $attrs -> set('type', 'hidden');
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
         } else {
             //
@@ -138,7 +137,7 @@ class SimpleHtml extends Html implements Renderer {
                     ['!for' => $element -> getId()], ['break' => true]
                 );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
-            $attrs['type'] = $element -> getFunction();
+            $attrs -> set('type', $element -> getFunction());
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
                 . $this -> writeTag('input', $attrs)
                 . $this -> writeLabel('after', $labels -> after, 'span');
@@ -150,7 +149,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', [], ['force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -203,17 +202,17 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldCommon(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $confirm = $options['confirm'];
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $attrs['id'] = $element -> getId() . ($confirm ? '-confirmation' : '');
+        $attrs -> set('id', $element -> getId() . ($confirm ? '-confirmation' : ''));
         if ($options['access'] == 'view') {
-            $attrs['=readonly'] = 'readonly';
+            $attrs -> setFlag('readonly');
         }
-        $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirmation' : '');
+        $attrs -> set('name', $element -> getFormName() . ($confirm ? '-confirmation' : ''));
         $value = $element -> getValue();
         if ($options['access'] === 'read' || $type === 'hidden') {
             //
@@ -227,32 +226,30 @@ class SimpleHtml extends Html implements Renderer {
             // We can see or change the data
             //
             if ($value !== null) {
-                $attrs['value'] = $value;
+                $attrs -> set('value', $value);
             }
             $labels = $element -> getLabels(true);
+            $labelAttrs = new Attributes;
+            $labelAttrs -> set('!for', $attrs -> get('id'));
             $block -> body .= $this -> writeLabel(
                     'heading',
                     $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-                    'label', ['!for' => $attrs['id']], ['break' => true]
+                    'label', $labelAttrs, ['break' => true]
                 );
-            if ($labels -> inner !== null) {
-                $attrs['placeholder'] = $labels -> inner;
-            }
+            $attrs -> setIfNotNull('placeholder', $labels -> inner);
             if ($type === 'range' && $options['access'] === 'view') {
                 $type = 'text';
             }
-            $attrs['type'] = $type;
+            $attrs -> set('type', $type);
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
+            $attrs -> setIfNotNull('*data-sidecar', $sidecar);
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
             if ($options['access'] === 'write') {
                 // Write access: Add in any validation
-                $this -> addValidation($attrs, $type, $data -> getValidation());
+                $attrs -> addValidation($type, $data -> getValidation());
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
@@ -264,47 +261,45 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldCheckbox(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $block = new Block();
         $baseId = $element -> getId();
         $labels = $element -> getLabels(true);
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
-        $attrs['type'] = $type;
+        $attrs -> set('type', $type);
         $visible = true;
         if ($options['access'] == 'view') {
-            $attrs['=readonly'] = 'readonly';
+            $attrs -> setFlag('readonly');
         } elseif ($options['access'] === 'read') {
-            $attrs['type'] = 'hidden';
+            $attrs -> set('type', 'hidden');
             $visible = false;
         }
-        $attrs['name'] = $element -> getFormName() . ($type == 'checkbox' ? '[]' : '');
+        $attrs -> set('name', $element -> getFormName() . ($type == 'checkbox' ? '[]' : ''));
         $list = $element -> getList(true);
         if ($visible) {
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'div', [], ['break' => true]
+                'heading', $labels -> heading, 'div', null, ['break' => true]
             );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $bracketTag = empty($list) ? 'span' : 'div';
             $block -> body .= $this -> writeLabel(
-                'before', $labels -> before, $bracketTag, [], ['break' => !empty($list)]
+                'before', $labels -> before, $bracketTag, null, ['break' => !empty($list)]
             );
         }
         if (empty($list)) {
-            $attrs['id'] = $baseId;
-            if (($value = $element -> getValue()) !== null) {
-                $attrs['value'] = $value;
-            }
+            $attrs -> set('id', $baseId);
+            $attrs -> setIfNotNull('value', $element -> getValue());
             $sidecar = $data -> getPopulation() -> sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
+            $attrs -> setIfNotNull('*data-sidecar', $sidecar);
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             if ($visible) {
+                $labelAttrs = new Attributes;
+                $labelAttrs -> set('!for', $baseId);
                 $block -> body .= $this -> writeLabel(
                     'inner', $element -> getLabels(true) -> inner,
-                    'label', ['for' => $baseId], ['break' => true]
+                    'label', $labelAttrs, ['break' => true]
                 );
             }
         } else {
@@ -314,28 +309,25 @@ class SimpleHtml extends Html implements Renderer {
             }
             foreach ($list as $optId => $radio) {
                 $id = $baseId . '-opt' . $optId;
-                $attrs['id'] = $id;
+                $attrs -> set('id', $id);
                 $value = $radio -> getValue();
-                $attrs['value'] = htmlspecialchars($value);
+                $attrs -> set('value', $value);
                 if ($type == 'checkbox' && is_array($select) && in_array($value, $select)) {
-                    $attrs['=checked'] = true;
+                    $attrs -> setFlag('checked');
                     $checked = true;
                 } elseif ($value === $select) {
-                    $attrs['=checked'] = true;
+                    $attrs -> setFlag('checked');
                     $checked = true;
                 } else {
-                    unset($attrs['=checked']);
+                    $attrs -> clearFlag('checked');
                     $checked = false;
                 }
-                $sidecar = $radio -> sidecar;
-                if ($sidecar !== null) {
-                    $attrs['*data-sidecar'] = $sidecar;
-                }
+                $attrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
                 if ($visible) {
                     if ($checked) {
-                        $attrs['=checked'] = true;
+                        $attrs -> setFlag('checked');
                     } else {
-                        unset($attrs['=checked']);
+                        $attrs -> clearFlag('checked');
                     }
                     $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
                         . '  '
@@ -361,16 +353,16 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldFile(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $attrs['id'] = $element -> getId();
+        $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view') {
             $type = 'text';
         }
-        $attrs['name'] = $element -> getFormName();
+        $attrs -> set('name', $element -> getFormName());
         $value = $element -> getValue();
         if ($options['access'] === 'read') {
             //
@@ -381,36 +373,31 @@ class SimpleHtml extends Html implements Renderer {
             //
             // We can see or change the data
             //
-            if ($value !== null) {
-                $attrs['value'] = is_array($value) ? implode(',', $value) : $value;
-            }
+            $attrs -> setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
             $labels = $element -> getLabels(true);
+            $labelAttrs = new Attributes;
+            $labelAttrs -> set('!for', $element -> getId());
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'label',
-                ['!for' => $element -> getId()], ['break' => true]
+                $labelAttrs, ['break' => true]
             );
-            if ($labels -> inner !== null) {
-                $attrs['placeholder'] = $labels -> inner;
-            }
-            $attrs['type'] = $type;
+            $attrs -> setIfNotNull('placeholder', $labels -> inner);
+            $attrs -> set('type', $type);
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
-            $sidecar = $data -> getPopulation() -> sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
+            $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
             if ($options['access'] === 'write') {
                 // Write access: Add in any validation
-                $this -> addValidation($attrs, $type, $data -> getValidation());
-                if ($type === 'file' && isset($attrs['=multiple'])) {
-                    $attrs['name'] .= '[]';
+                $attrs -> addValidation($type, $data -> getValidation());
+                if ($type === 'file' && $attrs -> has('=multiple')) {
+                    $attrs -> set('name', $element -> getFormName() . '[]');
                 }
             } else {
                 // View Access
-                $attrs['type'] = 'text';
-                $attrs['=readonly'] = 'readonly';
+                $attrs -> set('type', 'text');
+                $attrs -> setFlag('readonly');
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
@@ -422,7 +409,7 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldImage(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
@@ -451,9 +438,7 @@ class SimpleHtml extends Html implements Renderer {
                 'heading', $labels -> heading, 'label',
                 ['!for' => $element -> getId()], ['break' => true]
             );
-            if ($labels -> inner !== null) {
-                $attrs['placeholder'] = $labels -> inner;
-            }
+            $labels -> insertInnerTo($attrs, 'placeholder');
             if ($type === 'range' && $options['access'] === 'view') {
                 $type = 'text';
             }
@@ -479,14 +464,14 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldSelect(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $block = new Block();
         $baseId = $element -> getId();
         $labels = $element -> getLabels(true);
         $data = $element -> getDataProperty();
         $multiple = $data -> getValidation() -> get('multiple');
 
-        $attrs['name'] = $element -> getFormName() . ($multiple ? '[]' : '');
+        $attrs -> set('name', $element -> getFormName() . ($multiple ? '[]' : ''));
         $value = $element -> getValue();
         if ($options['access'] === 'read') {
             //
@@ -496,16 +481,16 @@ class SimpleHtml extends Html implements Renderer {
         } else {
             // This element is visible
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'div', [], ['break' => true]
+                'heading', $labels -> heading, 'div', null, ['break' => true]
             );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $block -> body .= $this -> writeLabel(
-                'before', $labels -> before, 'div', [], ['break' => true]
+                'before', $labels -> before, 'div', null, ['break' => true]
             );
             if ($options['access'] == 'view') {
                 $list = $element -> getFlatList(true);
                 // render as hidden with text
-                $attrs['type'] = 'hidden';
+                $attrs -> set('type', 'hidden');
                 if ($multiple) {
                     // step through each possible value, output matches
                     if (!is_array($value)) {
@@ -516,8 +501,8 @@ class SimpleHtml extends Html implements Renderer {
                         $slot = array_search($option -> getValue(), $value);
                         if ($slot !== false) {
                             $id = $baseId . '-opt' . $optId;
-                            $attrs['id'] = $id;
-                            $attrs['value'] = $value[$slot];
+                            $attrs -> set('id', $id);
+                            $attrs -> set('value', $value[$slot]);
                             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
                             $block -> body .= $this -> writeTag('span', [], $option -> getLabel())
                                 . "<br/>\n";
@@ -525,8 +510,8 @@ class SimpleHtml extends Html implements Renderer {
                         }
                     }
                 } else {
-                    $attrs['id'] = $baseId;
-                    $attrs['value'] = $value;
+                    $attrs -> set('id', $baseId);
+                    $attrs -> set('value', $value);
                     $block -> body .= $this -> writeTag('input', $attrs) . "\n";
                     foreach ($list as $option) {
                         if ($value == $option -> getValue()) {
@@ -544,18 +529,18 @@ class SimpleHtml extends Html implements Renderer {
                 if (!is_array($value)) {
                     $value = [$value];
                 }
-                $attrs['id'] = $baseId;
+                $attrs -> set('id', $baseId);
                 if (($rows = $data -> getPresentation() -> getRows()) !== null) {
-                    $attrs['size'] = $rows;
+                    $attrs -> set('size', $rows);
                 }
-                $this -> addValidation($attrs, 'select', $data -> getValidation());
+                $attrs -> addValidation('select', $data -> getValidation());
                 $block -> body .= $this -> writeTag('select', $attrs) . "\n";
                 $block -> merge(
                     $this -> renderFieldSelectOptions($element -> getList(true), $value)
                 );
                 $block -> body .= '</select>' . "\n";
             }
-            $this -> writeLabel('after', $labels -> after, 'div', [], ['break' => true]);
+            $this -> writeLabel('after', $labels -> after, 'div', null, ['break' => true]);
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
@@ -564,13 +549,11 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderFieldSelectOption($option, $value) {
         $block = new Block;
-        $attrs = [];
-        $attrs['value'] = $option -> getValue();
-        if (($sidecar = $option -> getSidecar()) !== null) {
-            $attrs['*data-sidecar'] = $sidecar;
-        }
-        if (in_array($attrs['value'], $value)) {
-            $attrs['=selected'] = true;
+        $attrs = new Attributes;
+        $attrs -> set('value', $option -> getValue());
+        $attrs -> setIfNotNull('*data-sidecar', $option -> getSidecar());
+        if (in_array($attrs -> get('value'), $value)) {
+            $attrs -> setFlag('selected');
         }
         $block -> body .= '  ' . $this -> writeTag('option', $attrs, $option -> getLabel()) . "\n";
         return $block;
@@ -580,10 +563,9 @@ class SimpleHtml extends Html implements Renderer {
         $block = new Block;
         foreach ($list as $option) {
             if ($option -> isNested()) {
-                $attrs = ['label' => $option -> getLabel()];
-                if (($sidecar = $option -> getSidecar()) !== null) {
-                    $attrs['*data-sidecar'] = $sidecar;
-                }
+                $attrs = new Attributes;
+                $attrs -> set('label', $option -> getLabel());
+                $attrs -> setIfNotNull('*data-sidecar', $option -> getSidecar());
                 $block -> body .= $this -> writeTag('optgroup', $attrs) . "\n";
                 $block -> merge($this -> renderFieldSelectOptions($option -> getList(), $value));
                 $block -> body .= '</optgroup>' . "\n";
@@ -595,16 +577,16 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     protected function renderFieldTextarea(FieldElement $element, $options = []) {
-        $attrs = [];
+        $attrs = new Attributes;
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         $block = new Block();
-        $attrs['id'] = $element -> getId();
+        $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view') {
-            $attrs['=readonly'] = 'readonly';
+            $attrs -> setFlag('readonly');
         }
-        $attrs['name'] = $element -> getFormName();
+        $attrs -> set('name', $element -> getFormName());
         $value = $element -> getValue();
         if ($options['access'] === 'read' || $type === 'hidden') {
             //
@@ -616,29 +598,22 @@ class SimpleHtml extends Html implements Renderer {
             // We can see or change the data
             //
             $labels = $element -> getLabels(true);
+            $labelAttrs = new Attributes;
+            $labelAttrs  -> set('!for', $attrs -> get('id'));
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'label',
-                ['!for' => $attrs['id']], ['break' => true]
+                $labelAttrs, ['break' => true]
             );
-            if ($labels -> inner !== null) {
-                $attrs['placeholder'] = $labels -> inner;
-            }
-            if (($aval = $presentation -> getCols()) !== null) {
-                $attrs['cols'] = $aval;
-            }
-            if (($aval = $presentation -> getRows()) !== null) {
-                $attrs['rows'] = $aval;
-            }
+            $attrs -> setIfNotNull('placeholder', $labels -> inner);
+            $attrs -> setIfNotNull('cols', $presentation -> getCols());
+            $attrs -> setIfNotNull('rows', $presentation -> getRows());
             $block -> body .= $this -> writeLabel(
-                'before', $labels -> before, 'div', [], ['break' => true]
+                'before', $labels -> before, 'div', null, ['break' => true]
             );
-            $sidecar = $data -> getPopulation() -> sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
+            $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
             if ($options['access'] === 'write') {
                 // Write access: Add in any validation
-                $this -> addValidation($attrs, $type, $data -> getValidation());
+                $attrs -> addValidation($type, $data -> getValidation());
             }
             if ($value === null) {
                 $value = '';
@@ -646,7 +621,7 @@ class SimpleHtml extends Html implements Renderer {
             // Generate the textarea element
             $block -> body .= $this -> writeTag('textarea', $attrs, $value)
                 . $this -> writeLabel(
-                    'after', $labels -> after, 'div', [], ['break' => true]
+                    'after', $labels -> after, 'div', null, ['break' => true]
                 )
                 . ($this -> context['inCell'] ? '&nbsp;' : '<br/>')
                 . "\n";
@@ -656,8 +631,8 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderHtmlElement(HtmlElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div', [], ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['append' => "<br/>\n"]);
+        $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['append' => "<br/>\n"]);
         $block -> body .= $element -> getValue();
         $block -> close();
         return $block;
@@ -669,7 +644,7 @@ class SimpleHtml extends Html implements Renderer {
         $block -> body = '<fieldset>' . "\n";
         if ($labels !== null) {
             $block -> body .= $this -> writeLabel(
-                '', $labels -> heading, 'legend', [], ['break' => true]
+                '', $labels -> heading, 'legend', null, ['break' => true]
             );
         }
         $block -> post = '</fieldset>' . "\n";
@@ -678,8 +653,8 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderStaticElement(StaticElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div', [], ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', ['append' => "<br/>\n"]);
+        $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['append' => "<br/>\n"]);
         $block -> body .= htmlspecialchars($element -> getValue());
         $block -> close();
         return $block;

@@ -27,6 +27,14 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
     }
 
     protected function renderButtonElement(ButtonElement $element, $options = []) {
+        $labels = $element -> getLabels(true);
+        if ($options['access'] === 'read') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            $block = $this -> elementHidden($element, $labels -> inner);
+            return $block;
+        }
         $show = $element -> getShow();
         if ($show) {
             $this -> pushContext();
@@ -39,52 +47,36 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $attrs['=disabled'] = 'disabled';
         }
         $attrs['name'] = $element -> getFormName();
-        $labels = $element -> getLabels(true);
-        if ($labels -> inner !== null) {
-            $attrs['value'] = $labels -> inner;
+        $labels -> insertInnerTo($attrs, 'value');
+        $attrs['class'] = $this -> mergeShow('button', ['button-class']);
+        // Horizontal layouts need a wrapper
+        $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
+        $labelAttrs = ['!for' => $element -> getId()];
+        $block -> body .= $this -> writeLabel(
+                'heading', $labels -> heading, 'label', $labelAttrs, ['break' => true]
+            );
+        $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper');
+        $attrs['type'] = $element -> getFunction();
+        if ($labels -> has('help')) {
+            $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
         }
-        if ($options['access'] === 'read') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $attrs['type'] = 'hidden';
-            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-        } else {
-            //
-            // We can see or change the data
-            //
-            $attrs['class'] = $this -> mergeShow('button', ['button-class']);
-            // Horizontal layouts need a wrapper
-            $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
-            $labelAttrs = ['!for' => $element -> getId()];
-            $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label', $labelAttrs, ['break' => true]
-                );
-            $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper');
-            $attrs['type'] = $element -> getFunction();
-            if ($labels -> help !== null) {
-                $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
-            }
-            $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
-                . $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span', [])
-                . "\n";
-            if ($labels -> help !== null) {
-                $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
-                $input -> body .= $this -> writeLabel(
-                    'help', $labels -> help, 'small',
-                    [
-                        'id' => $attrs['aria-describedby'],
-                        'class' => 'form-text text-muted',
-                    ],
-                    ['break' => true]
-                );
-            }
-            $input -> close();
-            $block -> merge($input);
-            //$block -> body .= "\n";
-            $block -> close();
+        $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+            . $this -> writeTag('input', $attrs)
+            . $this -> writeLabel('after', $labels -> after, 'span', [])
+            . "\n";
+        if ($labels -> has('help')) {
+            $input -> body .= $this -> writeLabel(
+                'help', $labels -> help, 'small',
+                [
+                    'id' => $attrs['aria-describedby'],
+                    'class' => 'form-text text-muted',
+                ],
+                ['break' => true]
+            );
         }
+        $input -> close();
+        $block -> merge($input);
+        $block -> close();
         if ($show) {
             $this -> popContext();
         }
@@ -93,7 +85,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', [], ['force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -102,11 +94,25 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
     }
 
     protected function renderFieldCommon(FieldElement $element, $options = []) {
-        $attrs = [];
         $confirm = $options['confirm'];
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
+        if ($options['access'] === 'read' || $type === 'hidden') {
+            //
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            //
+            if ($confirm) {
+                $block = new Block();
+            } else {
+                $block = $this -> elementHidden($element, $element -> getValue());
+            }
+            return $block;
+        }
+        //
+        // We can see or change the data
+        //
+        $attrs = [];
         $block = new Block();
         $attrs['id'] = $element -> getId() . ($confirm ? '-confirm' : '');
         if ($options['access'] == 'view') {
@@ -114,63 +120,69 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirm' : '');
         $value = $element -> getValue();
-        if ($options['access'] === 'read' || $type === 'hidden') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            if (!$confirm) {
-                $block -> merge($this -> elementHidden($element, $value));
-            }
-        } else {
-            //
-            // We can see or change the data
-            //
-            $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
-            //$block -> body .= '<div class="form-group">' . "\n";
-            $attrs['class'] = 'form-control';
-            if ($value !== null) {
-                $attrs['value'] = $value;
-            }
-            $labels = $element -> getLabels(true);
-            $block -> body .= $this -> writeLabel(
-                'heading',
-                $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-                'label', ['!for' => $attrs['id']], ['break' => true]
-            );
-            if ($labels -> inner !== null) {
-                $attrs['placeholder'] = $labels -> inner;
-            }
-            if ($type === 'range' && $options['access'] === 'view') {
-                $type = 'text';
-            }
-            if (($helpLabel = $labels -> help) !== null) {
-                $attr['aria-describedby'] = $attr['id'] . '-help';
-            }
-            $attrs['type'] = $type;
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
-            $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
-            $sidecar = $data -> getPopulation() -> sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
-            // Render the data list if there is one
-            $block -> merge($this -> dataList($attrs, $element, $type, $options));
-            if ($options['access'] === 'write') {
-                // Write access: Add in any validation
-                $this -> addValidation($attrs, $type, $data -> getValidation());
-            }
-            // Generate the input element
-            $block -> body .= $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span')
-                . "\n";
-            if ($helpLabel !== null) {
-                $helpAttrs = ['id' => $attrs['aria-describedby']];
-                $helpAttrs['class'] = 'form-text text-muted';
-                $block -> body .= $this -> writeTag('small', $helpAttrs, $helpLabel) . "\n";
-            }
-            $block -> close();
-            //$block -> body .= "</div>\n";
+        $block = $this -> writeWrapper($block, 'div', 'group-wrapper', []);
+
+        $attrs['class'] = 'form-control';
+        if ($value !== null) {
+            $attrs['value'] = $value;
         }
+        $labels = $element -> getLabels(true);
+        $block -> body .= $this -> writeLabel(
+            'heading',
+            $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
+            'label', ['!for' => $attrs['id']], ['break' => true]
+        );
+        $labels -> insertInnerTo($attrs, 'placeholder');
+        if ($type === 'range' && $options['access'] === 'view') {
+            $type = 'text';
+        }
+        if ($labels -> has('help')) {
+            $attrs['aria-describedby'] = $attrs['id'] . '-help';
+        }
+        $attrs['type'] = $type;
+        $labelAttrs = [];
+        $wrapperAttrs = [];
+        $hasGroup = ($labels -> has('before') || $labels -> has('after'));
+        if ($hasGroup) {
+            $labelAttrs['class'] = 'input-group-text';
+            $wrapperAttrs['class'] = 'input-group';
+        }
+        $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper', $wrapperAttrs);
+        $input -> body .= $this -> writeLabel(
+            'before', $labels -> before, 'span',
+            $labelAttrs, ['div' => 'input-group-prepend']
+        );
+        $sidecar = $data -> getPopulation() -> sidecar;
+        if ($sidecar !== null) {
+            $attrs['*data-sidecar'] = $sidecar;
+        }
+        // Render the data list if there is one
+        $input -> merge($this -> dataList($attrs, $element, $type, $options));
+        if ($options['access'] === 'write') {
+            // Write access: Add in any validation
+            $this -> addValidation($attrs, $type, $data -> getValidation());
+        }
+        // Generate the input element
+        $input -> body .= $this -> writeTag('input', $attrs)
+            . ($hasGroup ? "\n" : '')
+            . $this -> writeLabel(
+                'after', $labels -> after, 'span', $labelAttrs,
+                ['div' => 'input-group-append']
+            )
+            . ($hasGroup ? '' : "\n")
+            ;
+        if ($labels -> has('help')) {
+            if ($hasGroup) {
+                $input -> body .= '<span class="w-100"></span>' . "\n";
+            }
+            $helpAttrs = ['id' => $attrs['aria-describedby']];
+            $helpAttrs['class'] = 'form-text text-muted';
+            $input -> body .= $this -> writeTag('small', $helpAttrs, $labels -> help) . "\n";
+        }
+        $input -> close();
+        $block -> merge($input);
+        $block -> close();
+
         return $block;
     }
 

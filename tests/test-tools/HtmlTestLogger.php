@@ -7,7 +7,7 @@ trait HtmlTestLogger {
     static protected $allHtml;
 
     protected function logMethod($method) {
-        self::$allHtml .= '<h3>' . __CLASS__  . '::' . $method . "</h3>\n";
+        self::$allHtml .= '<h3>' . $method . "</h3>\n";
     }
 
     protected function logResult($block, $message = null) {

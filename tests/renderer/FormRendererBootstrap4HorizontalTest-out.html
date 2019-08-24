@@ -2,12 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FormRendererBootstrap4HorizontalTest</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
 <body>
+<div class="container">
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Button</h3>
+<h3>FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Button</h3>
 <h4>button default access</h4>
 <div class="form-group row">
 <label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
@@ -52,148 +54,6 @@
 </div>
 <h4>button read access</h4>
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_ButtonLabels</h3>
-<h4>Button none</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
-</div>
-</div>
-<h4>Button inner</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="button-1" name="button-1" type="button" class="btn btn-primary" value="inner"/>
-</div>
-</div>
-<h4>Button before</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<span>prefix</span><input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
-</div>
-</div>
-<h4>Button after</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="button-1" name="button-1" type="button" class="btn btn-primary"/><span>suffix</span>
-</div>
-</div>
-<h4>Button heading</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">Header</label>
-<div class="col-sm-10">
-<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
-</div>
-</div>
-<h4>Button help</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="button-1" name="button-1" type="button" class="btn btn-primary" aria-describedby="button-1-formhelp"/>
-<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>
-</div>
-</div>
-<h4>Button all labels</h4>
-<div class="form-group row">
-<label for="button-1" class="col-sm-2 col-form-label">Header</label>
-<div class="col-sm-10">
-<span>prefix</span><input id="button-1" name="button-1" type="button" class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/><span>suffix</span>
-<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>
-</div>
-</div>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Cell</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldText</h3>
-<h4>default access</h4>
-<div class="form-group row">
-<label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="field-1" name="field-1" type="text" class="form-control"/>
-</div>
-</div>
-<h4>explicit write access</h4>
-<div class="form-group row">
-<label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="field-1" name="field-1" type="text" class="form-control"/>
-</div>
-</div>
-<h4>explicit view access</h4>
-<div class="form-group row">
-<label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10">
-<input id="field-1" name="field-1" type="text" class="form-control" readonly/>
-</div>
-</div>
-<h4>explicit read access</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTextLabels</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTextValidation</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTextDataList</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldButton</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldCheckbox</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldCheckboxList</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldColor</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldDate</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldDatetimeLocal</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldEmail</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldFile</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldHidden</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden"/>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldHiddenLabels</h3>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden" value="the value"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden" value="the value"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden" value="the value"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden" value="the value"/>
-<h4>(assertion)</h4>
-<input id="field-1" name="field-1" type="hidden" value="the value"/>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldMonth</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldNumber</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldPassword</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldRadio</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldRadioLabels</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldRadioList</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldRadioListLabels</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldRange</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldSearch</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldSelect</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldSelectNested</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTel</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTextarea</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldTime</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldUrl</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_FieldWeek</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Html</h3>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Section</h3>
-<h4>(assertion)</h4>
-<fieldset>
-</fieldset>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<h3>FormRendererBootstrap4HorizontalTest::FormRendererBootstrap4HorizontalTest::testFormRendererBootstrap4_Static</h3>
-</form></body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+</div></form></body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></html>
