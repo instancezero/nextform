@@ -22,7 +22,6 @@ class SimpleHtml extends Html implements Renderer {
     static $renderMethodCache = [];
 
     public function __construct($options = []) {
-        parent::__construct($options);
         $this -> initialize();
     }
 
@@ -134,7 +133,7 @@ class SimpleHtml extends Html implements Renderer {
             //
             $block -> body .= $this -> writeLabel(
                     'heading', $labels -> heading, 'label',
-                    ['!for' => $element -> getId()], ['break' => true]
+                    new Attributes('!for', $element -> getId()), ['break' => true]
                 );
             $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
             $attrs -> set('type', $element -> getFunction());
@@ -149,7 +148,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', [], ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -333,7 +332,7 @@ class SimpleHtml extends Html implements Renderer {
                         . '  '
                         . $this -> writeLabel(
                             '', $radio -> getLabel(), 'label',
-                            ['for' => $id], ['break' => true]
+                            new Attributes('for',  $id), ['break' => true]
                         )
                         . "</div>\n";
                 } elseif ($checked) {

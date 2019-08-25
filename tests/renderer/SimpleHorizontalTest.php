@@ -244,44 +244,31 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererSimpleHtml_FieldButton() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a button
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('button');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $element -> setValue('Ok Bob');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
+        $cases = RendererCaseGenerator::html_FieldButton();
+        // Value reset submit
+        $expect = [];
+        $expect['value'] = new Block;
+        $expect['value'] -> body = $this -> emptyLabel
             . $this -> column2(
                 '<input id="field-1" name="field-1" type="button" value="Ok Bob"/>'
             )
             . "<br/>\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        $presentation -> setType('reset');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
+
+        $expect['reset'] = new Block;
+        $expect['reset'] -> body = $this -> emptyLabel
             . $this -> column2(
                 '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/>'
             )
             . "<br/>\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        $presentation -> setType('submit');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = $this -> emptyLabel
+
+        $expect['submit'] = new Block;
+        $expect['submit'] -> body = $this -> emptyLabel
             . $this -> column2(
                 '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/>'
             )
             . "<br/>\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+
+        $this -> runCases($cases, $expect);
    }
 
     /**
@@ -289,39 +276,109 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererSimpleHtml_FieldCheckbox() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a checkbox
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('checkbox');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // Give the element a label
-        //
-        $element -> setLabel('inner', '<Stand-alone> checkbox');
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
+        $cases = RendererCaseGenerator::html_FieldCheckbox();
+        $expect = [];
+
+        $expect['basic'] = new Block;
+        $expect['basic'] -> body = $this -> column1('', 'div')
             . $this -> column2(
                 '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
                 . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . "<br/>\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['write']  = $expect['basic'];
+
+        // Set a value
+        $expect['value'] = new Block;
+        $expect['value'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Test view access
+        $expect['view'] = new Block;
+        $expect['view'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" readonly/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Test read (less than view) access
+        $expect['read'] = new Block;
+        $expect['read'] -> body = '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n";
+
+        // no labels
+        $expect['label-none'] = new Block;
+        $expect['label-none'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // before
+        $expect['label-before'] = new Block;
+        $expect['label-before'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<span>prefix</span>'
+                . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // After
+        $expect['label-after'] = new Block;
+        $expect['label-after'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<span>suffix</span>'
+            )
+            . '<br/>' . "\n";
+
+        // Heading
+        $expect['label-head'] = new Block;
+        $expect['label-head'] -> body = $this -> column1('Header', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Help
+        $expect['label-help'] = $expect['label-none'];
+
+        // Inner
+        $expect['label-inner'] = new Block;
+        $expect['label-inner'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">inner</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // All
+        $expect['label-all'] = new Block;
+        $expect['label-all'] -> body = $this -> column1('Header', 'div')
+            . $this -> column2(
+                '<span>prefix</span><input id="field-1" name="field-1[]" type="checkbox"'
+                . ' value="3"/>' . "\n"
+                . '<label for="field-1">inner</label>' . "\n"
+                . '<span>suffix</span>'
+            )
+            . '<br/>' . "\n";
+
+        $this -> runCases($cases, $expect);
+    //---------------------------------
+        return;
         //
         // Set a value
         //

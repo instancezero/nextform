@@ -64,48 +64,6 @@ class Labels implements \JsonSerializable{
         return $this -> $labelName !== null;
     }
 
-    public function insertAfterTo(&$target, $key) {
-        if ($this -> after !== null) {
-            $target[$key] = $this -> after;
-        }
-    }
-
-    public function insertBeforeTo(&$target, $key) {
-        if ($this -> before !== null) {
-            $target[$key] = $this -> before;
-        }
-    }
-
-    public function insertConfirmTo(&$target, $key) {
-        if ($this -> confirm !== null) {
-            $target[$key] = $this -> confirm;
-        }
-    }
-
-    public function insertErrorTo(&$target, $key) {
-        if ($this -> error !== null) {
-            $target[$key] = $this -> error;
-        }
-    }
-
-    public function insertHeadingTo(&$target, $key) {
-        if ($this -> heading !== null) {
-            $target[$key] = $this -> heading;
-        }
-    }
-
-    public function insertHelpTo(&$target, $key) {
-        if ($this -> help !== null) {
-            $target[$key] = $this -> help;
-        }
-    }
-
-    public function insertInnerTo(&$target, $key) {
-        if ($this -> inner !== null) {
-            $target[$key] = $this -> inner;
-        }
-    }
-
     /**
      * Check to see if there are any non-null text labels.
      * @return bool

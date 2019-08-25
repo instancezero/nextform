@@ -25,31 +25,31 @@ class RendererCaseGenerator {
         $cases = [];
 
         // No changes
-        $cases[$prefix . 'label-none'] = [$eBase, [], $namePrefix . 'none'];
+        $cases[$prefix . 'label-none'] = [$eBase, [], $namePrefix . 'label none'];
 
         $e1 = $eBase -> copy();
         $e1 -> setLabel('inner', 'inner');
-        $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'inner'];
+        $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'label inner'];
 
         // A before label
         $e2 = $eBase -> copy();
         $e2 -> setLabel('before', 'prefix');
-        $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'before'];
+        $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'label before'];
 
         // Some text after
         $e3 = $eBase -> copy();
         $e3 -> setLabel('after', 'suffix');
-        $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'after'];
+        $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'label after'];
 
         // A heading
         $e4 = $eBase -> copy();
         $e4 -> setLabel('heading', 'Header');
-        $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'heading'];
+        $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'label heading'];
 
         // Help
         $e5 = $eBase -> copy();
         $e5 -> setLabel('help', 'Helpful');
-        $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'help'];
+        $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'label help'];
 
         // All the labels
         $e6 = $eBase -> copy();
@@ -111,6 +111,83 @@ class RendererCaseGenerator {
         $eBase = new ButtonElement();
         $eBase -> configure($config);
         $cases = self::addLabels($eBase, '', 'Button ');
+        return $cases;
+    }
+
+    static public function html_FieldButton() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a button
+        //
+        $schema -> getProperty('test/text') -> getPresentation() -> setType('button');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $e1 = new FieldElement();
+        $e1 -> configure($config);
+        $e1 -> bindSchema($schema);
+        $e1 -> setValue('Ok Bob');
+
+        $cases['value'] = [$e1, [], 'with value'];
+
+        $s2 = $schema -> copy();
+        $e2 = new FieldElement();
+        $e2 -> configure($config);
+        $e2 -> bindSchema($s2);
+        $e2 -> setValue('Ok Bob');
+        $s2 -> getProperty('test/text') -> getPresentation() -> setType('reset');
+        $cases['reset'] = [$e2];
+
+        $s3 = $schema -> copy();
+        $e3 = new FieldElement();
+        $e3 -> configure($config);
+        $e3 -> bindSchema($s3);
+        $e3 -> setValue('Ok Bob');
+        $s3 -> getProperty('test/text') -> getPresentation() -> setType('submit');
+        $cases['submit'] = [$e3];
+
+        return $cases;
+    }
+
+    static public function html_FieldCheckbox() {
+        $cases = [];
+        $expect = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a checkbox
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('checkbox');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        //
+        // Give the element a label
+        //
+        $element -> setLabel('inner', '<Stand-alone> checkbox');
+
+        // No access specification assumes write access
+        $cases['basic'] = [$element];
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write'], 'write access'];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view'], 'view access'];
+
+        // Test read access
+        $cases['read'] = [$element, ['access' => 'read'], 'read acceess'];
+
+        //
+        // Set a value
+        //
+        $e2 = $element -> copy();
+        $e2 -> setValue(3);
+        $cases['value'] = [$e2];
+
+        // Test headings
+        $cases = array_merge($cases, self::addLabels($e2));
+
         return $cases;
     }
 

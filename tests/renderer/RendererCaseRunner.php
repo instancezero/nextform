@@ -15,6 +15,12 @@ trait RendererCaseRunner {
     protected function runCases($cases, $expect, $skip = []) {
         $missingExpect = [];
         foreach ($cases as $key => $info) {
+            if (!isset($info[1])) {
+                $info[1] = [];
+            }
+            if (!isset($info[2])) {
+                $info[2] = $key;
+            }
             if (in_array($key, $skip)) {
                 continue;
             }

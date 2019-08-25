@@ -3,6 +3,7 @@
 namespace Abivia\NextForm\Data;
 
 use Abivia\NextForm;
+use function DeepCopy\deep_copy;
 
 /**
  * Describes the schema of a data set.
@@ -40,6 +41,10 @@ class Schema implements \JsonSerializable {
             $property = 'defaultRepo';
         }
         return $property;
+    }
+
+    public function copy() : Schema {
+        return deep_copy($this);
     }
 
     static public function fromFile($schemaFile) {

@@ -6,7 +6,7 @@ Namespace Abivia\NextForm\Renderer;
  *
  */
 class Attributes {
-    protected $attrs;
+    protected $attrs = [];
 
     /**
      * HTML attributes that we give preference to when generating
@@ -132,8 +132,10 @@ class Attributes {
 
     /**
      * This constructor must be called once before the static inputAttributes map works.
+     * @param string $name Optional name of an initial value.
+     * @param string $value Optional initial value.
      */
-    public function __construct() {
+    public function __construct($name = null, $value = null) {
         // Build a non-sparse input attribute matrix
         if (isset(self::$inputAttributes['*'])) {
             // Merge all attributes into the common defaults
@@ -152,6 +154,9 @@ class Attributes {
                 $attrs = array_merge($common, $attrs);
             }
         }
+        if ($name !== null) {
+            $this -> attrs[$name] = $value;
+        }
     }
 
     /**
@@ -159,7 +164,7 @@ class Attributes {
      * @param string $type The input type we're generating
      * @param \Abivia\NextForm\Data\Validation $validation
      */
-    protected function addValidation($type, $validation) {
+    public function addValidation($type, $validation) {
         foreach (self::$validationMap as $attrName => $specs) {
             list($lookup) = $this -> parseName($attrName);
             if (self::$inputAttributes[$type][$lookup]) {
@@ -184,6 +189,10 @@ class Attributes {
     public function clearFlag($name) : self {
         unset($this -> attrs['=' . $name]);
         return $this;
+    }
+
+    public function empty() {
+        return empty($this -> attrs);
     }
 
     public function get($name) {
@@ -247,7 +256,17 @@ class Attributes {
 
     public function setIfNotNull($name, $value) : self {
         if ($value !== null) {
-            $this -> attr[$name] = $value;
+            $this -> attrs[$name] = $value;
+        }
+        return $this;
+    }
+
+    public function setIfSet($name, $source, $key = null) : self {
+        if ($key === null) {
+            $key = $name;
+        }
+        if (isset($source[$key])) {
+            $this -> attrs[$name] = $source[$key];
         }
         return $this;
     }
@@ -299,7 +318,7 @@ class Attributes {
         $parts = [];
         foreach ($this -> attrs as $attrName => $value) {
             // For input elements, only write the allowed attributes
-            list($lookup, $cmd) = $this -> parseAttribute($attrName);
+            list($lookup, $cmd) = $this -> parseName($attrName);
             if ($mask === null || $this -> include($lookup, $mask)) {
                 $parts[$lookup] = $this -> toHtml($lookup, $cmd, $value);
             }

@@ -40,38 +40,37 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $this -> pushContext();
             $this -> setShow($show, 'button');
         }
-        $attrs = [];
+        $attrs = new Attributes;
         $block = new Block();
-        $attrs['id'] = $element -> getId();
+        $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view') {
-            $attrs['=disabled'] = 'disabled';
+            $attrs -> setFlag('disabled');
         }
-        $attrs['name'] = $element -> getFormName();
-        $labels -> insertInnerTo($attrs, 'value');
-        $attrs['class'] = $this -> mergeShow('button', ['button-class']);
+        $attrs -> set('name', $element -> getFormName());
+        $attrs -> setIfNotNull('value', $labels -> inner);
+        $attrs -> set('class', $this -> mergeShow('button', ['button-class']));
         // Horizontal layouts need a wrapper
         $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
-        $labelAttrs = ['!for' => $element -> getId()];
         $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label', $labelAttrs, ['break' => true]
+                'heading', $labels -> heading, 'label',
+                new Attributes('!for', $element -> getId()), ['break' => true]
             );
         $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper');
-        $attrs['type'] = $element -> getFunction();
+        $attrs -> set('type', $element -> getFunction());
         if ($labels -> has('help')) {
-            $attrs['aria-describedby'] = $attrs['id'] . '-formhelp';
+            $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
         }
         $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
             . $this -> writeTag('input', $attrs)
             . $this -> writeLabel('after', $labels -> after, 'span', [])
             . "\n";
         if ($labels -> has('help')) {
+            $helpAttrs = new Attributes;
+            $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
+            $helpAttrs -> set('class', 'form-text text-muted');
             $input -> body .= $this -> writeLabel(
                 'help', $labels -> help, 'small',
-                [
-                    'id' => $attrs['aria-describedby'],
-                    'class' => 'form-text text-muted',
-                ],
-                ['break' => true]
+                $helpAttrs, ['break' => true]
             );
         }
         $input -> close();
@@ -85,7 +84,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', [], ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', null, ['force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -112,55 +111,51 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         //
         // We can see or change the data
         //
-        $attrs = [];
+        $attrs = new Attributes;
         $block = new Block();
-        $attrs['id'] = $element -> getId() . ($confirm ? '-confirm' : '');
+        $attrs -> set('id', $element -> getId() . ($confirm ? '-confirm' : ''));
         if ($options['access'] == 'view') {
-            $attrs['=readonly'] = 'readonly';
+            $attrs -> setFlag('readonly');
         }
-        $attrs['name'] = $element -> getFormName() . ($confirm ? '-confirm' : '');
+        $attrs -> set('name', $element -> getFormName() . ($confirm ? '-confirm' : ''));
         $value = $element -> getValue();
-        $block = $this -> writeWrapper($block, 'div', 'group-wrapper', []);
+        $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
 
-        $attrs['class'] = 'form-control';
-        if ($value !== null) {
-            $attrs['value'] = $value;
-        }
+        $attrs -> set('class', 'form-control');
+        $attrs -> setIfNotNull('value', $value);
         $labels = $element -> getLabels(true);
         $block -> body .= $this -> writeLabel(
             'heading',
             $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-            'label', ['!for' => $attrs['id']], ['break' => true]
+            'label', new Attributes('!for', $attrs -> get('id')), ['break' => true]
         );
-        $labels -> insertInnerTo($attrs, 'placeholder');
+        $attrs -> setIfNotNull('placeholder', $labels -> inner);
         if ($type === 'range' && $options['access'] === 'view') {
             $type = 'text';
         }
         if ($labels -> has('help')) {
-            $attrs['aria-describedby'] = $attrs['id'] . '-help';
+            $attrs -> set('aria-describedby', $attrs -> get('id') . '-help');
         }
-        $attrs['type'] = $type;
-        $labelAttrs = [];
-        $wrapperAttrs = [];
+        $attrs -> set('type', $type);
+        $labelAttrs = new Attributes;
+        $wrapperAttrs = new Attributes;
         $hasGroup = ($labels -> has('before') || $labels -> has('after'));
         if ($hasGroup) {
-            $labelAttrs['class'] = 'input-group-text';
-            $wrapperAttrs['class'] = 'input-group';
+            $labelAttrs -> set('class', 'input-group-text');
+            $wrapperAttrs -> set('class', 'input-group');
         }
+        // Generate an input group if
         $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper', $wrapperAttrs);
         $input -> body .= $this -> writeLabel(
             'before', $labels -> before, 'span',
             $labelAttrs, ['div' => 'input-group-prepend']
         );
-        $sidecar = $data -> getPopulation() -> sidecar;
-        if ($sidecar !== null) {
-            $attrs['*data-sidecar'] = $sidecar;
-        }
+        $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
         // Render the data list if there is one
         $input -> merge($this -> dataList($attrs, $element, $type, $options));
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
-            $this -> addValidation($attrs, $type, $data -> getValidation());
+            $attrs -> addValidation( $type, $data -> getValidation());
         }
         // Generate the input element
         $input -> body .= $this -> writeTag('input', $attrs)
@@ -175,8 +170,9 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             if ($hasGroup) {
                 $input -> body .= '<span class="w-100"></span>' . "\n";
             }
-            $helpAttrs = ['id' => $attrs['aria-describedby']];
-            $helpAttrs['class'] = 'form-text text-muted';
+            $helpAttrs = new Attributes;
+            $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
+            $helpAttrs -> set('class', 'form-text text-muted');
             $input -> body .= $this -> writeTag('small', $helpAttrs, $labels -> help) . "\n";
         }
         $input -> close();

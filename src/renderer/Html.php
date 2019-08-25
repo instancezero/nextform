@@ -77,20 +77,31 @@ abstract class Html implements Renderer {
 
     /**
      * Merge HTML element attributes into attributes from the custom settings using rules in attrJoin.
-     * @param array $custom Arrays of custom settings indexed by attribute
-     * @param type $attrs Application settings indexed by attribute or a string
-     * @return array Merged attributes
+     * @param array $custom Arrays of custom settings indexed by attribute.
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs Application settings.
+     * @return \Abivia\NextForm\Renderer\Attributes Merged attributes.
      */
-    protected function mergeCustom($custom, $attrs = []) {
-        foreach ($custom as $attr => $list) {
-            $glue = self::$attrJoin[$attr];
+
+    /**
+     *
+     * @param type $custom
+     * @param type $attrs
+     * @return
+     */
+    protected function mergeCustom($custom, $attrs = null) : Attributes {
+        if ($attrs === null) {
+            $attrs = new Attributes;
+        }
+        foreach ($custom as $name => $list) {
+            $glue = self::$attrJoin[$name];
             if (isset($glue[1])) {
                 // Start by merging arrays
                 $merged = [];
-                if (isset($attrs[$attr])) {
-                    $append = is_string($attrs[$attr]);
+                if ($attrs -> has($name)) {
+                    $attrValue = $attrs -> get($name);
+                    $append = is_string($attrValue);
                     if (!$append) {
-                        $list = array_merge($list, $attrs[$attr]);
+                        $list = array_merge($list, $attrValue);
                     }
                 } else {
                     $append = false;
@@ -100,15 +111,16 @@ abstract class Html implements Renderer {
                     $merged[] = $term . $glue[1] . $value;
                 }
                 if ($append) {
-                    $merged[] = $attrs[$attr];
+                    $merged[] = $attrValue;
                 }
             } else {
                 // Start by merging arrays
-                if (isset($attrs[$attr])) {
-                    if (is_string($attrs[$attr])) {
-                        $list[] = $attrs[$attr];
+                if ($attrs -> has($name)) {
+                    $attrValue = $attrs -> get($name);
+                    if (is_string($attrValue)) {
+                        $list[] = $attrValue;
                     } else {
-                        $list = array_merge($list, $attrs[$attr]);
+                        $list = array_merge($list, $attrValue);
                     }
                 }
                 // Reverse, de-dup, reverse
@@ -116,7 +128,7 @@ abstract class Html implements Renderer {
             }
             // Finally, implode to a string
             if (!empty($list)) {
-                $attrs[$attr] = implode($glue[0], $merged);
+                $attrs -> set($name, implode($glue[0], $merged));
             }
         }
         return $attrs;
@@ -223,16 +235,12 @@ abstract class Html implements Renderer {
 
     public function start($options = []) {
         $this -> initialize();
-        $attrs = ['method' => isset($options['method']) ? $options['method'] : 'post'];
-        if (isset($options['action'])) {
-            $attrs['action'] = $options['action'];
-        }
-        if (isset($options['id'])) {
-            $attrs['id'] = $options['id'];
-        }
-        if (isset($options['name'])) {
-            $attrs['name'] = $options['name'];
-        }
+        $attrs = new Attributes;
+        $attrs -> set('method', isset($options['method']) ? $options['method'] : 'post');
+        $attrs -> setIfSet('action', $options);
+        $attrs -> setIfSet('id', $options);
+        $attrs -> setIfSet('name', $options);
+
         $pageData = new Block();
         $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
         $pageData -> post = '</form>' . "\n";
@@ -280,7 +288,7 @@ abstract class Html implements Renderer {
      * @return string
      */
     protected function writeTag($tag, $attrs = null, $text = null) {
-        $html = '<' . $tag . $attrs -> write();
+        $html = '<' . $tag . ($attrs ? $attrs -> write($tag) : '');
         if (isset(self::$selfClose[$tag]) && $text === null) {
             $html .= '/>';
         } elseif ($text !== null) {
@@ -306,7 +314,7 @@ abstract class Html implements Renderer {
         if (isset($this -> custom[$scope][$purpose])) {
             $attrs = $this -> mergeCustom($this -> custom[$scope][$purpose], $attrs);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-        } elseif ($attrs !== null) {
+        } elseif ($attrs !== null && !$attrs -> empty()) {
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
         } elseif (isset($options['force']) && $options['force']) {
             $block -> body .= '<' . $tag . ">\n";
