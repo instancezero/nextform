@@ -6,6 +6,12 @@ Namespace Abivia\NextForm\Renderer;
  *
  */
 class Attributes {
+    /**
+     * What we need to join elements of some attributes (default is space delimited)
+     * @var array
+     */
+    static protected $attrJoin = ['style' => ['; ', ":"]];
+
     protected $attrs = [];
 
     /**
@@ -186,17 +192,85 @@ class Attributes {
         }
     }
 
+    public function append($name, $value) : self {
+        if (!isset($attrs[$name])) {
+            $attrs[$name] = [];
+        } elseif(!is_array($attrs[$name])) {
+            $attrs[$name] = [$attrs[$name]];
+        }
+        $this -> attrs[$name][] = $value;
+        return $this;
+    }
+
     public function clearFlag($name) : self {
         unset($this -> attrs['=' . $name]);
         return $this;
+    }
+
+    /**
+     * Combine attributes into this set and return a copy.
+     * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
+     * @return \Abivia\NextForm\Renderer\Attributes New object with merged attributes.
+     */
+    public function combine($source = null) : Attributes {
+        $result = clone $this;
+        if ($source === null) {
+            return $result;
+        }
+        $merge = $source -> getAll();
+        foreach ($merge as $name => $list) {
+            if (isset($this -> attrs[$name])) {
+                if (is_array($this -> attrs[$name]) || is_array($list)) {
+                    // Make sure both components are arrays
+                    if (is_array($this -> attrs[$name])) {
+                        $dest = $this -> attrs[$name];
+                    } else {
+                        $dest = [$this -> attrs[$name]];
+                    }
+                    if (!is_array($list)) {
+                        $list = [$list];
+                    }
+                    $dest = array_merge($dest, $list);
+                } else {
+                    $dest .= ' ' . $list;
+                }
+                $result -> set($name, $dest);
+            } else {
+                $result -> set($name, $list);
+            }
+        }
+        return $result;
     }
 
     public function empty() {
         return empty($this -> attrs);
     }
 
+    protected function flatten($attrName, $value) {
+        if (!is_array($value)) {
+            return $value;
+        }
+        $result = '';
+        if (isset(self::$attrJoin[$attrName])) {
+            $glue = self::$attrJoin[$attrName];
+            if (isset($glue[1])) {
+                foreach ($value as $key => &$entry) {
+                    $entry = $key . $glue[1] . $entry;
+                }
+            }
+            $result = implode($glue[0], $value);
+        } else {
+            $result = implode(' ', $value);
+        }
+        return $result;
+    }
+
     public function get($name) {
         return $this -> attrs[$name];
+    }
+
+    public function getAll() {
+        return $this -> attrs;
     }
 
     protected function include($lookup, $mask) {
@@ -282,7 +356,7 @@ class Attributes {
         switch ($cmd) {
             case '!': {
                 // Attrribute that does not need to be escaped
-                $html = ' ' . $name . '="' . $value . '"';
+                $html = ' ' . $name . '="' . $this -> flatten($name, $value) . '"';
             }
             break;
 
@@ -299,7 +373,9 @@ class Attributes {
             break;
 
             default: {
-                $html = ' ' . $name . '="' . htmlspecialchars($value) . '"';
+                $html = ' ' . $name . '="'
+                    . htmlspecialchars($this -> flatten($name, $value))
+                    . '"';
             }
             break;
 

@@ -43,7 +43,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     protected function setUp() : void {
         NextForm::boot();
         $this -> testObj = new SimpleHtml();
-        $this -> testObj -> setShow('layout:h:20%:40%');
+        $this -> testObj -> setShow('layout:hor:20%:40%');
         $this -> emptyLabel = $this -> column1('&nbsp;');
     }
 
@@ -377,84 +377,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n";
 
         $this -> runCases($cases, $expect);
-    //---------------------------------
-        return;
-        //
-        // Set a value
-        //
-        $element -> setValue(3);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            )
-            . "<br/>\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Give it a heading
-        //
-        $element -> setLabel('heading', 'Check this out');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            )
-            . "<br/>\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some after text
-        //
-        $element -> setLabel('after', '(afterthought)');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // And a before label
-        //
-        $element -> setLabel('before', 'freaky');
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<span>freaky</span>'
-                . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">Check this out</div>' . "\n"
-            . $this -> column2(
-                '<span>freaky</span>'
-                . '<input id="field-1" name="field-1[]" type="checkbox" value="3" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>(afterthought)</span>'
-            )
-            . "<br/>\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
     }
 
     /**

@@ -38,35 +38,45 @@ abstract class Html implements Renderer {
      * @var array
      */
     static $selfClose = ['input' => 1, 'option' => 2];
+
     /**
-     * Initial settings for the show attributes
-     * @var array
-     */
-    static protected $showDefault = [
-        'size:regular',
-        'fill:solid',
-        'purpose:primary',
-    ];
-    /**
-     * Default values for the show settings
+     * Default values and validation rules for show settings
      * @var array
      */
     static public $showRules = [
-        'fill' => ['solid'],
-        'layout' => ['vertical'],
-        'purpose' => ['primary'],
-        'size' => ['regular'],
-    ];
-    /**
-     * Keyword matching for the show settings; regex:method
-     * @var array
-     */
-    static $showValidate = [
+        'appearance' => [
+            'default' => 'default',
+            'validate' => [
+                'form' => '|button|button-group|default|no-label',
+            ],
+        ],
+        'fill' => [
+            'default' => 'solid',
+            'validate' => [
+                'form' => '|none|solid',
+            ],
+        ],
         'layout' => [
-            'horizontal' => '/h/', 'vertical' => '/v/', 'inline' => '/i/'
+            'default' => 'vertical',
+            'validate' => [
+                'form' => [
+                    'horizontal' => '/hor/i', 'vertical' => '/ver/i', 'inline' => '/in/i'
+                ],
+            ],
+        ],
+        'purpose' => [
+            'default' => 'primary',
+            'validate' => [
+                'form' => '|dark|danger|info|light|link|primary|secondary|success|warning',
+            ],
         ],
         'size' => [
-            'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+            'default' => 'regular',
+            'validate' => [
+                'form' => [
+                    'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+                ]
+            ],
         ],
     ];
 
@@ -80,13 +90,6 @@ abstract class Html implements Renderer {
      * @param array $custom Arrays of custom settings indexed by attribute.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Application settings.
      * @return \Abivia\NextForm\Renderer\Attributes Merged attributes.
-     */
-
-    /**
-     *
-     * @param type $custom
-     * @param type $attrs
-     * @return
      */
     protected function mergeCustom($custom, $attrs = null) : Attributes {
         if ($attrs === null) {
@@ -132,21 +135,6 @@ abstract class Html implements Renderer {
             }
         }
         return $attrs;
-    }
-
-    protected function mergeShow($scope, $selector) {
-        if (isset($this -> custom[$scope])) {
-            $descend = $this -> custom[$scope];
-            foreach ($selector as $key) {
-                if (!isset($descend[$key])) {
-                    return null;
-                }
-                $descend = $descend[$key];
-            }
-        } elseif ($scope !== 'form') {
-            $descend = $this -> mergeShow('form', $selector);
-        }
-        return $descend;
     }
 
     public function popContext() {
@@ -196,41 +184,88 @@ abstract class Html implements Renderer {
      * @throws \RuntimeError
      */
     protected function show($scope, $key, $args) {
-        $valid = false;
-        switch ($key) {
-            case 'layout':
-            case 'size':
+        if (!isset(self::$showRules[$key])) {
+            throw new \RuntimeException(
+                'Invalid show: ' . $key . ' is not recognized.'
+            );
+        }
+        if (empty($args) && isset(self::$showRules[$key]['default'])) {
+            $args[0] = self::$showRules[$key]['default'];
+        }
+        if (isset(self::$showRules[$key]['validate'][$scope])) {
+            $rules = self::$showRules[$key]['validate'][$scope];
+        } elseif (isset(self::$showRules[$key]['validate']['form'])) {
+            $rules = self::$showRules[$key]['validate']['form'];
+        } else {
+            $rules = null;
+        }
+        if ($rules) {
+            $valid = false;
+            if (is_array($rules)) {
                 // Keyword selection. Match the minimal unique subset for each option.
-                foreach (self::$showValidate[$key] as $choice => $match) {
+                foreach ($rules as $choice => $match) {
                     $matchParts = explode(':', $match);
                     if (preg_match($matchParts[0], $args[0])) {
-                        $method = 'showDo' . ucfirst($key);
-                        if (method_exists($this, $method)) {
-                            $this -> $method($scope, $choice, $args);
-                        }
                         $valid = true;
                         break;
                     }
                 }
-                if (!$valid) {
-                    throw new \RuntimeException(
-                        'Invalid show setting: ' . $args[0] . ' is not valid for ' . $key
-                    );
-                }
-                break;
-            default:
-                if (!isset(self::$showRules[$key])) {
-                    throw new \RuntimeException(
-                        'Invalid show: ' . $key . ' is not recognized.'
-                    );
-                }
+            } else {
+                // Plain string match
+                $choice = $args[0];
+                $valid = strpos($rules, '|' . $choice) !== false;
+            }
+            if ($valid) {
                 $method = 'showDo' . ucfirst($key);
                 if (method_exists($this, $method)) {
-                    $this -> $method($scope, $args[0], $args);
+                    $this -> $method($scope, $choice, $args);
                 }
-                $valid = true;
-                break;
+            } else {
+                throw new \RuntimeException(
+                    'Invalid show setting: ' . $args[0] . ' is not valid for ' . $key
+                );
+            }
+        } else {
+            $method = 'showDo' . ucfirst($key);
+            if (method_exists($this, $method)) {
+                $this -> $method($scope, $args[0], $args);
+            }
         }
+    }
+
+    /**
+     * Look for a matching show setting
+     * @param string $scope The scope to be searched for a value.
+     * @param array $selector a List of indexes into the value we want
+     * @return mixed
+     */
+    protected function showFind($scope, $selector) {
+        $descend = null;
+        if (isset($this -> custom[$scope])) {
+            $descend = $this -> custom[$scope];
+            foreach ($selector as $key) {
+                if (!isset($descend[$key])) {
+                    return null;
+                }
+                $descend = $descend[$key];
+            }
+        }
+        return $descend;
+    }
+
+    /**
+     * Look for a show setting, falling back to the form if required.
+     * @param string $scope The scope to be searched for a value.
+     * @param array $selector a List of indexes into the value we want
+     * @return mixed
+     */
+    protected function showFindAll($scope, $selector) {
+        $descend = $this -> showFind($scope, $selector);
+        if ($descend === null && $scope != 'form') {
+            // Look for something specified at the form level
+            $descend = $this -> showFind('form', $selector);
+        }
+        return $descend;
     }
 
     public function start($options = []) {
@@ -267,7 +302,7 @@ abstract class Html implements Renderer {
             }
         }
         if (isset($this -> custom['form'][$purpose])) {
-            $attrs = $this -> mergeCustom($this -> custom['form'][$purpose], $attrs);
+            $attrs = $this -> custom['form'][$purpose] -> combine($attrs);
         }
         $breakTag = $options['break'] ?? false;
         $html = $this -> writeTag($tag, $attrs)
@@ -312,7 +347,7 @@ abstract class Html implements Renderer {
         $hasPost = true;
         $scope = $options['scope'] ?? 'form';
         if (isset($this -> custom[$scope][$purpose])) {
-            $attrs = $this -> mergeCustom($this -> custom[$scope][$purpose], $attrs);
+            $attrs = $this -> custom[$scope][$purpose] -> combine($attrs);
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
         } elseif ($attrs !== null && !$attrs -> empty()) {
             $block -> body .= $this -> writeTag($tag, $attrs) . "\n";

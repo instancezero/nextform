@@ -350,12 +350,6 @@ class NextForm implements \JsonSerializable {
             if (!isset($settings[$scope])) {
                 $settings[$scope] = [];
             }
-            if (empty($parts)) {
-                // Check for a default
-                if (isset(self::$showRules[$setting])) {
-                    $parts = [self::$showRules[$setting][0]];
-                }
-            }
             $settings[$scope][$setting] = $parts;
         }
         return $settings;

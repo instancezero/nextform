@@ -228,12 +228,10 @@ class SimpleHtml extends Html implements Renderer {
                 $attrs -> set('value', $value);
             }
             $labels = $element -> getLabels(true);
-            $labelAttrs = new Attributes;
-            $labelAttrs -> set('!for', $attrs -> get('id'));
             $block -> body .= $this -> writeLabel(
                     'heading',
                     $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
-                    'label', $labelAttrs, ['break' => true]
+                    'label', new Attributes('!for', $attrs -> get('id')), ['break' => true]
                 );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
             if ($type === 'range' && $options['access'] === 'view') {
@@ -259,6 +257,12 @@ class SimpleHtml extends Html implements Renderer {
         return $block;
     }
 
+    /**
+     * Render Field elements for checkbox and radio types.
+     * @param FieldElement $element
+     * @param array $options
+     * @return Block
+     */
     protected function renderFieldCheckbox(FieldElement $element, $options = []) {
         $attrs = new Attributes;
         $block = new Block();
@@ -294,11 +298,9 @@ class SimpleHtml extends Html implements Renderer {
             $attrs -> setIfNotNull('*data-sidecar', $sidecar);
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             if ($visible) {
-                $labelAttrs = new Attributes;
-                $labelAttrs -> set('!for', $baseId);
                 $block -> body .= $this -> writeLabel(
                     'inner', $element -> getLabels(true) -> inner,
-                    'label', $labelAttrs, ['break' => true]
+                    'label', new Attributes('!for', $baseId), ['break' => true]
                 );
             }
         } else {
@@ -332,7 +334,7 @@ class SimpleHtml extends Html implements Renderer {
                         . '  '
                         . $this -> writeLabel(
                             '', $radio -> getLabel(), 'label',
-                            new Attributes('for',  $id), ['break' => true]
+                            new Attributes('!for',  $id), ['break' => true]
                         )
                         . "</div>\n";
                 } elseif ($checked) {
@@ -374,11 +376,9 @@ class SimpleHtml extends Html implements Renderer {
             //
             $attrs -> setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
             $labels = $element -> getLabels(true);
-            $labelAttrs = new Attributes;
-            $labelAttrs -> set('!for', $element -> getId());
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'label',
-                $labelAttrs, ['break' => true]
+                new Attributes('!for', $element -> getId()), ['break' => true]
             );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
             $attrs -> set('type', $type);
@@ -597,11 +597,9 @@ class SimpleHtml extends Html implements Renderer {
             // We can see or change the data
             //
             $labels = $element -> getLabels(true);
-            $labelAttrs = new Attributes;
-            $labelAttrs  -> set('!for', $attrs -> get('id'));
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'label',
-                $labelAttrs, ['break' => true]
+                new Attributes('!for', $attrs -> get('id')), ['break' => true]
             );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
             $attrs -> setIfNotNull('cols', $presentation -> getCols());
@@ -664,23 +662,33 @@ class SimpleHtml extends Html implements Renderer {
     }
 
     /**
-     * Process layout options, called from showValidate()
+     * Process layout options, called from show()
      * @param string $scope Names the settings scope/element this applies to.
      * @param string $choice Primary option selection
-     * @param array $value Array of colon-delimited settings including the initial keyword.
+     * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($scope, $choice, $value = []) {
+    protected function showDoLayout($scope, $choice, $values = []) {
         if (!isset($this -> custom[$scope])) {
             $this -> custom[$scope] = [];
         }
-        $apply = &$this -> custom[$scope];
-        $apply['layout'] = $choice;
-        if ($choice === 'vertical') {
-            unset($apply['input-wrapper']);
+        // Clear out anything that might have been set by previous commands.
+        unset($this -> custom[$scope]['heading']);
+        unset($this -> custom[$scope]['input-wrapper']);
+        $this -> custom[$scope]['layout'] = $choice;
+        if ($choice === 'horizontal') {
+            $this -> showDoLayoutAnyHorizontal($scope, $values);
+        } elseif ($choice === 'vertical') {
+            $this -> showDoLayoutAnyVertical($scope, $values);
         }
-        if ($choice !== 'horizontal') {
-            return;
-        }
+    }
+
+    /**
+     * Process horizontal layout settings for any scope
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     * @throws \RuntimeException
+     */
+    protected function showDoLayoutAnyHorizontal($scope, $values) {
         // possible values for arguments:
         // h            - We get to decide
         // h:nxx        - First column width in CSS units
@@ -688,90 +696,151 @@ class SimpleHtml extends Html implements Renderer {
         // h:n:m:t      - ratio of headers to inputs over space t. If no t, t=n+m
         // h:.c1        - Class for headers
         // h:.c1:.c2    - Class for headers / input elements
-        switch (count($value)) {
+        $apply = &$this -> custom[$scope];
+        switch (count($values)) {
             case 1:
                 // No specification, use our default
-                $apply['heading'] = [
-                    'style' => [
-                        'display' => 'inline-block', 'vertical-align' => 'top',
+                $apply['heading'] = new Attributes(
+                    'style',
+                    [
+                        'display' => 'inline-block',
+                        'vertical-align' => 'top',
                         'width' => '25%'
-                    ],
-                ];
-                $apply['input-wrapper'] = [
-                    'style' => [
-                        'display' => 'inline-block', 'vertical-align' => 'top',
+                    ]
+                );
+                $apply['input-wrapper'] = new Attributes(
+                    'style',
+                    [
+                        'display' => 'inline-block',
+                        'vertical-align' => 'top',
                         'width' => '75%'
-                    ],
-                ];
+                    ]
+                );
                 break;
             case 2:
-                if ($value[1][0] == '.') {
+                if ($values[1][0] == '.') {
                     // Single class specification
-                    $apply['heading'] = [
-                        'class' => [substr($value[1], 1)],
-                    ];
-                    unset($apply['input-wrapper']);
+                    $apply['heading'] = new Attributes('class', [substr($values[1], 1)]);
                 } else {
                     // Single CSS units
-                    $apply['heading'] = [
-                        'style' => [
-                            'display' => 'inline-block', 'vertical-align' => 'top',
-                            'width' => $value[1]
-                        ],
-                    ];
-                    unset($apply['input-wrapper']);
+                    $apply['heading'] = new Attributes(
+                        'style',
+                        [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => $values[1]
+                        ]
+                    );
                 }
                 break;
             default:
-                if ($value[1][0] == '.') {
+                if ($values[1][0] == '.') {
                     // Dual class specification
-                    $apply['heading'] = [
-                        'class' => [substr($value[1], 1)],
-                    ];
-                    $apply['input-wrapper'] = [
-                        'class' => [substr($value[2], 1)],
-                    ];
-                } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $value[1])) {
+                    $apply['heading'] = new Attributes('class', [substr($values[1], 1)]);
+                    $apply['input-wrapper'] = new Attributes('class', [substr($values[2], 1)]);
+                } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
                     // ratio
-                    $part1 = (float) $value[1];
-                    $part2 = (float) $value[2];
+                    $part1 = (float) $values[1];
+                    $part2 = (float) $values[2];
                     if (!$part1 || !$part2) {
                         throw new \RuntimeException(
-                            'Invalid ratio: ' . $value[1] . ':' . $value[2]
+                            'Invalid ratio: ' . $values[1] . ':' . $values[2]
                         );
                     }
-                    $sum = isset($value[3]) ? $value[3] : ($part1 + $part2);
-                    $apply['heading'] = [
+                    $sum = isset($values[3]) ? $values[3] : ($part1 + $part2);
+                    $apply['heading'] = new Attributes(
+                        'style',
+                        [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => round(100.0 * $part1 / $sum, 3) . '%'
+                        ]
+                    );
+                    $apply['input-wrapper'] = new Attributes(
+                        'style',
+                        [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => round(100.0 * $part2 / $sum, 3) . '%'
+                        ]
+                    );
+                } else {
+                    // Dual CSS units
+                    $apply['heading'] = new Attributes(
+                        'style',
+                        [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => $values[1]
+                        ]
+                    );
+                    $apply['input-wrapper'] = new Attributes(
+                        'style',
+                        [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => $values[2]
+                        ]
+                    );
+                }
+                break;
+
+        }
+    }
+
+    /**
+     * Process vertical layout settings for any scope
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     * @throws \RuntimeException
+     */
+    protected function showDoLayoutAnyVertical($scope, $values) {
+        // possible values for arguments:
+        // v            - Default, nothing to do
+        // v:mxx        - CSS units for input elements
+        // v:.c2        - Class for input elements
+        // v:m:t        - ratio of inputs over space t.
+        $apply = $this -> custom[$scope];
+        switch (count($values)) {
+            case 1:
+                // No specification, nothing to do
+                break;
+            case 2:
+                if ($values[1][0] == '.') {
+                    // Single class specification
+                    $apply['input-wrapper'] = [
+                        'class' => [substr($values[1], 1)],
+                    ];
+                } else {
+                    // Single CSS units
+                    $apply['input-wrapper'] = [
+                        'style' => [
+                            'display' => 'inline-block',
+                            'vertical-align' => 'top',
+                            'width' => $values[1],
+                        ],
+                    ];
+                }
+                break;
+            default:
+                if (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
+                    // ratio
+                    $part1 = (float) $values[1];
+                    if (!$part1) {
+                        throw new \RuntimeException(
+                            'Zero is invalid in a ratio.'
+                        );
+                    }
+                    $sum = isset($values[2]) ? $values[2] : $part1;
+                    $apply['input-wrapper'] = [
                         'style' => [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
                             'width' => round(100.0 * $part1 / $sum, 3) . '%'
                         ],
                     ];
-                    $apply['input-wrapper'] = [
-                        'style' => [
-                            'display' => 'inline-block',
-                            'vertical-align' => 'top',
-                            'width' => round(100.0 * $part2 / $sum, 3) . '%'
-                        ],
-                    ];
-                } else {
-                    // Dual CSS units
-                    $apply['heading'] = [
-                        'style' => [
-                            'display' => 'inline-block', 'vertical-align' => 'top',
-                            'width' => $value[1]
-                        ],
-                    ];
-                    $apply['input-wrapper'] = [
-                        'style' => [
-                            'display' => 'inline-block', 'vertical-align' => 'top',
-                            'width' => $value[2]
-                        ],
-                    ];
                 }
                 break;
-
         }
     }
 

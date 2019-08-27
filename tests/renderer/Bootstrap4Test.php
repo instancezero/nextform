@@ -273,6 +273,109 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldCheckbox() {
         $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldCheckbox();
+        $expect = [];
+
+        $expect['basic'] = new Block;
+        $expect['basic'] -> body = $this -> column1('', 'div')
+            . $this -> formGroup(
+                '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "<br/>\n";
+
+        // Same result with explicit write access
+        $expect['write']  = $expect['basic'];
+
+        // Set a value
+        $expect['value'] = new Block;
+        $expect['value'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Test view access
+        $expect['view'] = new Block;
+        $expect['view'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" readonly/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Test read (less than view) access
+        $expect['read'] = new Block;
+        $expect['read'] -> body = '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n";
+
+        // no labels
+        $expect['label-none'] = new Block;
+        $expect['label-none'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // before
+        $expect['label-before'] = new Block;
+        $expect['label-before'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<span>prefix</span>'
+                . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // After
+        $expect['label-after'] = new Block;
+        $expect['label-after'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<span>suffix</span>'
+            )
+            . '<br/>' . "\n";
+
+        // Heading
+        $expect['label-head'] = new Block;
+        $expect['label-head'] -> body = $this -> column1('Header', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // Help
+        $expect['label-help'] = $expect['label-none'];
+
+        // Inner
+        $expect['label-inner'] = new Block;
+        $expect['label-inner'] -> body = $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1[]"'
+                . ' type="checkbox" value="3"/>' . "\n"
+                . '<label for="field-1">inner</label>' . "\n"
+            )
+            . '<br/>' . "\n";
+
+        // All
+        $expect['label-all'] = new Block;
+        $expect['label-all'] -> body = $this -> column1('Header', 'div')
+            . $this -> column2(
+                '<span>prefix</span><input id="field-1" name="field-1[]" type="checkbox"'
+                . ' value="3"/>' . "\n"
+                . '<label for="field-1">inner</label>' . "\n"
+                . '<span>suffix</span>'
+            )
+            . '<br/>' . "\n";
+
+        $this -> runCases($cases, $expect);
+    //--------------------------
+        return;
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         //
