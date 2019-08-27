@@ -214,31 +214,7 @@ class Attributes {
      */
     public function combine($source = null) : Attributes {
         $result = clone $this;
-        if ($source === null) {
-            return $result;
-        }
-        $merge = $source -> getAll();
-        foreach ($merge as $name => $list) {
-            if (isset($this -> attrs[$name])) {
-                if (is_array($this -> attrs[$name]) || is_array($list)) {
-                    // Make sure both components are arrays
-                    if (is_array($this -> attrs[$name])) {
-                        $dest = $this -> attrs[$name];
-                    } else {
-                        $dest = [$this -> attrs[$name]];
-                    }
-                    if (!is_array($list)) {
-                        $list = [$list];
-                    }
-                    $dest = array_merge($dest, $list);
-                } else {
-                    $dest .= ' ' . $list;
-                }
-                $result -> set($name, $dest);
-            } else {
-                $result -> set($name, $list);
-            }
-        }
+        $result -> merge($source);
         return $result;
     }
 
@@ -296,6 +272,40 @@ class Attributes {
 
     public function has($name) {
         return isset($this -> attrs[$name]);
+    }
+
+    /**
+     * Merge attributes into this set.
+     * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
+     * @return \self
+     */
+    public function merge($source = null) : self {
+        if ($source === null) {
+            return $this;
+        }
+        $merge = $source -> getAll();
+        foreach ($merge as $name => $list) {
+            if (isset($this -> attrs[$name])) {
+                if (is_array($this -> attrs[$name]) || is_array($list)) {
+                    // Make sure both components are arrays
+                    if (!is_array($this -> attrs[$name])) {
+                        $this -> attrs[$name] = [$this -> attrs[$name]];
+                    }
+                    if (!is_array($list)) {
+                        $list = [$list];
+                    }
+                    $this -> attrs[$name] = array_merge($this -> attrs[$name], $list);
+                } else {
+                    $this -> attrs[$name] .= (isset(self::$attrJoin[$name])
+                            ? self::$attrJoin[$name][0] : ' '
+                        )
+                        . $list;
+                }
+            } else {
+                $this -> attrs[$name] = $list;
+            }
+        }
+        return $this;
     }
 
     /**

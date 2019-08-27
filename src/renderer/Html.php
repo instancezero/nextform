@@ -10,12 +10,6 @@ use Abivia\NextForm\Element\Element;
  */
 abstract class Html implements Renderer {
 
-    /**
-     * What we need to join elements of some attributes
-     * @var array
-     */
-    static protected $attrJoin = ['class' => [' '], 'style' => ['; ', ":"]];
-
     protected $context = [];
     protected $contextStack = [];
 
@@ -60,7 +54,7 @@ abstract class Html implements Renderer {
             'default' => 'vertical',
             'validate' => [
                 'form' => [
-                    'horizontal' => '/hor/i', 'vertical' => '/ver/i', 'inline' => '/in/i'
+                    'horizontal' => '/^hor/i', 'vertical' => '/^ver/i', 'inline' => '/^in/i'
                 ],
             ],
         ],
@@ -74,7 +68,7 @@ abstract class Html implements Renderer {
             'default' => 'regular',
             'validate' => [
                 'form' => [
-                    'large' => '/l/', 'regular' => '/[mr]/', 'small' => '/s/'
+                    'large' => '/^l/', 'regular' => '/^[mr]/', 'small' => '/^s/'
                 ]
             ],
         ],
@@ -83,58 +77,6 @@ abstract class Html implements Renderer {
     protected function initialize() {
         // Reset the context
         $this -> context = [];
-    }
-
-    /**
-     * Merge HTML element attributes into attributes from the custom settings using rules in attrJoin.
-     * @param array $custom Arrays of custom settings indexed by attribute.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs Application settings.
-     * @return \Abivia\NextForm\Renderer\Attributes Merged attributes.
-     */
-    protected function mergeCustom($custom, $attrs = null) : Attributes {
-        if ($attrs === null) {
-            $attrs = new Attributes;
-        }
-        foreach ($custom as $name => $list) {
-            $glue = self::$attrJoin[$name];
-            if (isset($glue[1])) {
-                // Start by merging arrays
-                $merged = [];
-                if ($attrs -> has($name)) {
-                    $attrValue = $attrs -> get($name);
-                    $append = is_string($attrValue);
-                    if (!$append) {
-                        $list = array_merge($list, $attrValue);
-                    }
-                } else {
-                    $append = false;
-                }
-                // Both lists should be associative, merge keys into the values
-                foreach ($list as $term => &$value) {
-                    $merged[] = $term . $glue[1] . $value;
-                }
-                if ($append) {
-                    $merged[] = $attrValue;
-                }
-            } else {
-                // Start by merging arrays
-                if ($attrs -> has($name)) {
-                    $attrValue = $attrs -> get($name);
-                    if (is_string($attrValue)) {
-                        $list[] = $attrValue;
-                    } else {
-                        $list = array_merge($list, $attrValue);
-                    }
-                }
-                // Reverse, de-dup, reverse
-                $merged = array_reverse(array_merge(array_reverse($list)));
-            }
-            // Finally, implode to a string
-            if (!empty($list)) {
-                $attrs -> set($name, implode($glue[0], $merged));
-            }
-        }
-        return $attrs;
     }
 
     public function popContext() {

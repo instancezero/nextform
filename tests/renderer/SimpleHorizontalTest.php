@@ -138,6 +138,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
+        // Small... same as bda
+        $expect['small'] = $expect['bda'];
+
+        // Large... same as sbda
+        $expect['large'] = $expect['sbda'];
+
         $this -> runCases($cases, $expect);
     }
 

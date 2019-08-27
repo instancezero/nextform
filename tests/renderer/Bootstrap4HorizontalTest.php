@@ -50,7 +50,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
     protected function setUp() : void {
         NextForm::boot();
         $this -> testObj = new Bootstrap4();
-        $this -> testObj -> setShow('layout:h:2:10');
+        $this -> testObj -> setShow('layout:horizontal:2:10');
     }
 
     public static function setUpBeforeClass() : void {

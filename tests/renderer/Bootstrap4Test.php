@@ -146,6 +146,20 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
+        // Small button... based on bda
+        $expect['small'] = new Block;
+        $expect['small'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n"
+        );
+
+        // Large button... based on sbda
+        $expect['large'] = new Block;
+        $expect['large'] -> body = $this -> formGroup(
+            '<input id="button-1" name="button-1" type="submit"'
+            . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n"
+        );
+
         $this -> runCases($cases, $expect);
     }
 

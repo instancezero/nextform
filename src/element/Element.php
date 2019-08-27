@@ -53,6 +53,15 @@ abstract class Element implements \JsonSerializable {
 
     }
 
+    public function addShow($show) : self {
+        if ($this -> show === '') {
+            $this -> show = trim($show);
+        } else {
+            $this -> show .= '|' . trim($show);
+        }
+        return $this;
+    }
+
     /**
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema

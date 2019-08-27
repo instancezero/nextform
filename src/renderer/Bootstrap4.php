@@ -48,7 +48,8 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName());
         $attrs -> setIfNotNull('value', $labels -> inner);
-        $attrs -> set('class', $this -> showFindAll('button', ['button-class']));
+        $attrs -> merge($this -> showFindAll('button', ['button-attrs']));
+        $attrs -> merge($this -> showFindAll('button', ['size-attrs']));
         // Horizontal layouts need a wrapper
         $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
         $block -> body .= $this -> writeLabel(
@@ -417,7 +418,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $this -> custom[$scope] = [];
         }
         $this -> custom[$scope]['purpose'] = $choice;
-        $this -> custom[$scope]['button-class'] = new Attributes('class', ['btn btn-' . $choice]);
+        $this -> custom[$scope]['button-attrs'] = new Attributes('class', ['btn btn-' . $choice]);
     }
 
     /**
@@ -427,10 +428,22 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
     protected function showDoSize($scope, $choice, $values = []) {
+        static $buttonClasses = ['large' => 'btn-lg', 'small' => 'btn-sm'];
         if (!isset($this -> custom[$scope])) {
             $this -> custom[$scope] = [];
         }
         $this -> custom[$scope]['size'] = $choice;
+        switch ($scope) {
+            case 'button':
+                if (isset($buttonClasses[$choice])) {
+                    $this -> custom[$scope]['size-attrs'] = new Attributes(
+                        'class', [$buttonClasses[$choice]]
+                    );
+                } else {
+                    unset($this -> custom[$scope]['size-attrs']);
+                }
+                break;
+        }
     }
 
     public function start($options = []) {
