@@ -16,6 +16,8 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 class Bootstrap4 extends SimpleHtml implements Renderer {
 
+    static protected $buttonSizeClasses = ['large' => ' btn-lg', 'regular' => '', 'small' => ' btn-sm'];
+
     public function __construct($options = []) {
         parent::__construct($options);
         $this -> setOptions($options);
@@ -48,15 +50,19 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName());
         $attrs -> setIfNotNull('value', $labels -> inner);
-        $attrs -> merge($this -> showFindAll('button', ['button-attrs']));
-        $attrs -> merge($this -> showFindAll('button', ['size-attrs']));
+        $buttonClass = 'btn btn'
+            . ($this -> showGet('button', 'fill') === 'outline' ? '-outline' : '')
+            . '-' . $this -> showGet('button', 'purpose')
+            . self::$buttonSizeClasses[$this -> showGet('button', 'size')];
+        $attrs -> set('class', $buttonClass);
+        $attrs -> merge($this -> showGet('button', 'size-attrs'));
         // Horizontal layouts need a wrapper
-        $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'group-wrapper']);
         $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'label',
                 new Attributes('!for', $element -> getId()), ['break' => true]
             );
-        $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper');
+        $input = $this -> writeWrapper(new Block, 'div', ['show' => 'input-wrapper']);
         $attrs -> set('type', $element -> getFunction());
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
@@ -85,7 +91,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'cell-wrapper', null, ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'cell-wrapper', 'force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -115,13 +121,14 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'div', null, ['break' => true]
             );
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $bracketTag = empty($list) ? 'span' : 'div';
             $block -> body .= $this -> writeLabel(
                 'before', $labels -> before, $bracketTag, null, ['break' => !empty($list)]
             );
         }
         if (empty($list)) {
+            // This is a single-valued element
             $attrs -> set('id', $baseId);
             $attrs -> setIfNotNull('value', $element -> getValue());
             $sidecar = $data -> getPopulation() -> sidecar;
@@ -210,7 +217,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName() . ($confirm ? '-confirm' : ''));
         $value = $element -> getValue();
-        $block = $this -> writeWrapper($block, 'div', 'group-wrapper');
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'group-wrapper']);
 
         $attrs -> set('class', 'form-control');
         $attrs -> setIfNotNull('value', $value);
@@ -236,7 +243,9 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $wrapperAttrs -> set('class', 'input-group');
         }
         // Generate an input group if
-        $input = $this -> writeWrapper(new Block, 'div', 'input-wrapper', $wrapperAttrs);
+        $input = $this -> writeWrapper(
+            new Block, 'div', ['show' => 'input-wrapper', 'attrs' => $wrapperAttrs]
+        );
         $input -> body .= $this -> writeLabel(
             'before', $labels -> before, 'span',
             $labelAttrs, ['div' => 'input-group-prepend']
@@ -284,13 +293,13 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $this -> showDoLayoutCheck($choice, $value);
             return;
         }
-        if (!isset($this -> custom[$scope])) {
-            $this -> custom[$scope] = [];
+        if (!isset($this -> showState[$scope])) {
+            $this -> showState[$scope] = [];
         }
-        unset($this -> custom['input-wrapper']);
-        $this -> custom[$scope]['layout'] = $choice;
-        $this -> custom[$scope]['cell-wrapper'] = new Attributes('class', ['form-row']);
-        $this -> custom[$scope]['group-wrapper'] = new Attributes('class', ['form-group']);
+        unset($this -> showState['input-wrapper']);
+        $this -> showState[$scope]['layout'] = $choice;
+        $this -> showState[$scope]['cell-wrapper'] = new Attributes('class', ['form-row']);
+        $this -> showState[$scope]['group-wrapper'] = new Attributes('class', ['form-group']);
         if ($choice === 'horizontal') {
             $this -> showDoLayoutAnyHorizontal($scope, $values);
         } elseif ($choice === 'vertical') {
@@ -304,7 +313,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
      * @throws \RuntimeException
      */
     protected function showDoLayoutAnyHorizontal($scope, $values) {
-        $apply = &$this -> custom[$scope];
+        $apply = &$this -> showState[$scope];
         // possible values for arguments:
         // h            - We get to decide
         // h:nxx        - Ignored, we decide
@@ -313,7 +322,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         // h:.c1        - Ignored, we decide
         // h:.c1:.c2    - Class for headers / input elements
         $default = true;
-        $apply['group-wrapper'] -> append('class', 'row');
+        $apply['group-wrapper'] -> itemAppend('class', 'row');
         if (count($values) >= 3) {
             if ($values[1][0] == '.') {
                 // Dual class specification
@@ -364,7 +373,7 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         // v:.class
         // v:m:t        - ratio of inputs over space t, adjusted to the BS grid
         $default = true;
-        $apply = &$this -> custom[$scope];
+        $apply = &$this -> showState[$scope];
         $apply['group-wrapper']['class'][] = 'row';
         if (count($values) >= 2) {
             if ($values[1][0] == '.') {
@@ -408,42 +417,16 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
     protected function showDoPurpose($scope, $choice, $value = []) {
         if (
             strpos(
-                'primary|secondary|success|danger|warning|info|light|dark|link|',
-                $choice . '|'
+                '|primary|secondary|success|danger|warning|info|light|dark|link',
+                '|' . $choice
             ) === false
         ) {
             throw new RuntimeException($choice . ' is an invalid value for purpose.');
         }
-        if (!isset($this -> custom[$scope])) {
-            $this -> custom[$scope] = [];
+        if (!isset($this -> showState[$scope])) {
+            $this -> showState[$scope] = [];
         }
-        $this -> custom[$scope]['purpose'] = $choice;
-        $this -> custom[$scope]['button-attrs'] = new Attributes('class', ['btn btn-' . $choice]);
-    }
-
-    /**
-     * Process size options, called from show()
-     * @param string $scope Names the settings scope/element this applies to.
-     * @param string $choice Primary option selection
-     * @param array $values Array of colon-delimited settings including the initial keyword.
-     */
-    protected function showDoSize($scope, $choice, $values = []) {
-        static $buttonClasses = ['large' => 'btn-lg', 'small' => 'btn-sm'];
-        if (!isset($this -> custom[$scope])) {
-            $this -> custom[$scope] = [];
-        }
-        $this -> custom[$scope]['size'] = $choice;
-        switch ($scope) {
-            case 'button':
-                if (isset($buttonClasses[$choice])) {
-                    $this -> custom[$scope]['size-attrs'] = new Attributes(
-                        'class', [$buttonClasses[$choice]]
-                    );
-                } else {
-                    unset($this -> custom[$scope]['size-attrs']);
-                }
-                break;
-        }
+        $this -> showState[$scope]['purpose'] = $choice;
     }
 
     public function start($options = []) {

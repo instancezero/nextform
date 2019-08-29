@@ -14,6 +14,7 @@ trait RendererCaseRunner {
      */
     protected function runCases($cases, $expect, $skip = []) {
         $missingExpect = [];
+        $notRun = array_combine(array_keys($expect), array_keys($expect));
         foreach ($cases as $key => $info) {
             if (!isset($info[1])) {
                 $info[1] = [];
@@ -35,8 +36,16 @@ trait RendererCaseRunner {
                 $this -> logResult($expect[$key], 'Expected: ' . $info[2]);
             }
             $this -> assertEquals($expect[$key], $data, $info[2]);
+            unset($notRun[$key]);
         }
-        $this -> assertEquals([], $missingExpect, 'Missing cases');
+        $this -> assertTrue(
+            empty($missingExpect),
+            'Cases with no expectation:' . implode(' ', $missingExpect)
+        );
+        $this -> assertTrue(
+            empty($notRun),
+            'Expectations with no test case: ' . implode(' ', $notRun)
+        );
     }
 
 }

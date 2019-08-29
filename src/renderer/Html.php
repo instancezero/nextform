@@ -14,13 +14,6 @@ abstract class Html implements Renderer {
     protected $contextStack = [];
 
     /**
-     * Custom classes and styles to apply to various form elements
-     * @var array
-     */
-    protected $custom = [];
-    protected $customStack = [];
-
-    /**
      * Types of <input> that we'll auto-generate a confirmation for
      * @var array
      */
@@ -41,13 +34,13 @@ abstract class Html implements Renderer {
         'appearance' => [
             'default' => 'default',
             'validate' => [
-                'form' => '|button|button-group|default|no-label',
+                'form' => '|button|default|no-label|toggle',
             ],
         ],
         'fill' => [
             'default' => 'solid',
             'validate' => [
-                'form' => '|none|solid',
+                'form' => '|outline|solid',
             ],
         ],
         'layout' => [
@@ -74,6 +67,13 @@ abstract class Html implements Renderer {
         ],
     ];
 
+    /**
+     * Custom classes and styles to apply to various form elements
+     * @var array
+     */
+    protected $showState = [];
+    protected $showStack = [];
+
     protected function initialize() {
         // Reset the context
         $this -> context = [];
@@ -82,13 +82,13 @@ abstract class Html implements Renderer {
     public function popContext() {
         if (count($this -> contextStack)) {
             $this -> context = array_pop($this -> contextStack);
-            $this -> custom = array_pop($this -> customStack);
+            $this -> showState = array_pop($this -> showStack);
         }
     }
 
     public function pushContext() {
         array_push($this -> contextStack, $this -> context);
-        array_push($this -> customStack, $this -> custom);
+        array_push($this -> showStack, $this -> showState);
     }
 
     public function queryContext($selector) {
@@ -110,7 +110,7 @@ abstract class Html implements Renderer {
      */
     public function setShow($settings, $defaultScope = 'form') {
         if (is_string($settings)) {
-            $settings = NextForm::tokenizeShow($settings, $defaultScope);
+            $settings = NextForm::showTokenize($settings, $defaultScope);
         }
         foreach ($settings as $scope => $list) {
             foreach ($list as $key => $value) {
@@ -157,57 +157,68 @@ abstract class Html implements Renderer {
                 $choice = $args[0];
                 $valid = strpos($rules, '|' . $choice) !== false;
             }
-            if ($valid) {
-                $method = 'showDo' . ucfirst($key);
-                if (method_exists($this, $method)) {
-                    $this -> $method($scope, $choice, $args);
-                }
-            } else {
+            if (!$valid) {
                 throw new \RuntimeException(
                     'Invalid show setting: ' . $args[0] . ' is not valid for ' . $key
                 );
             }
         } else {
+            $choice = $args[0];
+            $valid = true;
+        }
+        if ($valid) {
+            // See if there's a method to process subsequent arguments,
+            // if not, just store the setting in $choice
             $method = 'showDo' . ucfirst($key);
             if (method_exists($this, $method)) {
-                $this -> $method($scope, $args[0], $args);
-            }
-        }
-    }
-
-    /**
-     * Look for a matching show setting
-     * @param string $scope The scope to be searched for a value.
-     * @param array $selector a List of indexes into the value we want
-     * @return mixed
-     */
-    protected function showFind($scope, $selector) {
-        $descend = null;
-        if (isset($this -> custom[$scope])) {
-            $descend = $this -> custom[$scope];
-            foreach ($selector as $key) {
-                if (!isset($descend[$key])) {
-                    return null;
+                $this -> $method($scope, $choice, $args);
+            } else {
+                if (!isset($this -> showState[$scope])) {
+                    $this -> showState[$scope] = [];
                 }
-                $descend = $descend[$key];
+                $this -> showState[$scope][$key] = $choice;
             }
         }
-        return $descend;
     }
 
     /**
      * Look for a show setting, falling back to the form if required.
      * @param string $scope The scope to be searched for a value.
-     * @param array $selector a List of indexes into the value we want
+     * @param string $key The index of the value we want.
      * @return mixed
      */
-    protected function showFindAll($scope, $selector) {
-        $descend = $this -> showFind($scope, $selector);
-        if ($descend === null && $scope != 'form') {
-            // Look for something specified at the form level
-            $descend = $this -> showFind('form', $selector);
+    protected function showGet($scope, $key) {
+
+        if (($result = $this -> showGetLocal($scope, $key)) !== null) {
+            return $result;
         }
-        return $descend;
+        if ($scope !== 'form') {
+            // Look for something specified at the form level
+            if (($result = $this -> showGetLocal('form', $key)) !== null) {
+                return $result;
+            }
+        }
+        if (isset(self::$showRules[$key]['default'])) {
+            $this -> showState['form'][$key] = self::$showRules[$key]['default'];
+            return $this -> showState['form'][$key];
+        }
+        return null;
+    }
+
+    /**
+     * Look for a matching show setting
+     * @param string $scope The scope to be searched for a value.
+     * @param string $key The index of the value we want.
+     * @return mixed
+     */
+    protected function showGetLocal($scope, $key) {
+        if (!isset($this -> showState[$scope])) {
+            return null;
+        }
+        if (!isset($this -> showState[$scope][$key])) {
+            return null;
+        }
+        return $this -> showState[$scope][$key];
     }
 
     public function start($options = []) {
@@ -237,14 +248,14 @@ abstract class Html implements Renderer {
         if ($text !== null) {
             $text = htmlspecialchars($text);
         } else {
-            if ($this -> custom['form']['layout'] === 'horizontal' && $purpose === 'heading') {
+            if ($this -> showState['form']['layout'] === 'horizontal' && $purpose === 'heading') {
                 $text = '&nbsp;';
             } else {
                 return '';
             }
         }
-        if (isset($this -> custom['form'][$purpose])) {
-            $attrs = $this -> custom['form'][$purpose] -> combine($attrs);
+        if (isset($this -> showState['form'][$purpose])) {
+            $attrs = $this -> showState['form'][$purpose] -> combine($attrs);
         }
         $breakTag = $options['break'] ?? false;
         $html = $this -> writeTag($tag, $attrs)
@@ -280,23 +291,28 @@ abstract class Html implements Renderer {
      * Conditionally write a wrapper element
      * @param \Abivia\NextForm\Renderer\Block $block
      * @param string $tag Name of the element to write (div, span, etc.)
-     * @param string $purpose Name of the purpose of this tag
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs attributes to be attached to the wrapper
      * @param array $options Name(type,default): append(string,''), force(bool,false), scope(string,'form')
+     *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function writeWrapper(Block $block, $tag, $purpose, $attrs = null, $options = []) {
-        $hasPost = true;
-        $scope = $options['scope'] ?? 'form';
-        if (isset($this -> custom[$scope][$purpose])) {
-            $attrs = $this -> custom[$scope][$purpose] -> combine($attrs);
-            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-        } elseif ($attrs !== null && !$attrs -> empty()) {
-            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-        } elseif (isset($options['force']) && $options['force']) {
-            $block -> body .= '<' . $tag . ">\n";
+    protected function writeWrapper(Block $block, $tag, $options = []) {
+        $hasPost = false;
+        $attrs = $options['attrs'] ?? null;
+        if (isset($options['show'])) {
+            list($scope, $setting) = NextForm::showGetSetting($options['show']);
         } else {
-            $hasPost = false;
+            $scope = false;
+        }
+        if ($scope && isset($this -> showState[$scope][$setting])) {
+            $attrs = $this -> showState[$scope][$setting] -> combine($attrs);
+            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
+            $hasPost = true;
+        } elseif ($attrs !== null && !$attrs -> isEmpty()) {
+            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
+            $hasPost = true;
+        } elseif ($options['force'] ?? false) {
+            $block -> body .= '<' . $tag . ">\n";
+            $hasPost = true;
         }
         if ($hasPost) {
             $block -> post = '</' . $tag . ">\n"

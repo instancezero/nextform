@@ -329,24 +329,29 @@ class NextForm implements \JsonSerializable {
         $this -> show[$key] = $value;
     }
 
+    static public function showGetSetting($text, $defaultScope = 'form') {
+        $first = explode('.', $text);
+        if (count($first) == 1) {
+            $scope = $defaultScope;
+            $setting = $first[0];
+        } else {
+            $scope = array_shift($first);
+            $setting = implode('.', $first);
+        }
+        return [$scope, $setting];
+    }
+
     /**
-     * Break a "show" string down into a settings array, adding defaults if possible.
+     * Break a "show" string down into a settings array.
      * @param string $text String of the form scope1.setting1:p1:p2...|scope2.setting2:p1:p2...
      * @return array A list of argument arrays indexed by setting.
      */
-    static public function tokenizeShow($text, $defaultScope = 'form') {
+    static public function showTokenize($text, $defaultScope = 'form') {
         $exprs = explode('|', $text);
         $settings = [];
         foreach ($exprs as $clause) {
             $parts = explode(':', $clause);
-            $first = explode('.', array_shift($parts));
-            if (count($first) == 1) {
-                $scope = $defaultScope;
-                $setting = $first[0];
-            } else {
-                $scope = array_shift($first);
-                $setting = implode('.', $first);
-            }
+            list($scope, $setting) = self::showGetSetting(array_shift($parts), $defaultScope);
             if (!isset($settings[$scope])) {
                 $settings[$scope] = [];
             }

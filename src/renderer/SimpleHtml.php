@@ -135,11 +135,22 @@ class SimpleHtml extends Html implements Renderer {
                     'heading', $labels -> heading, 'label',
                     new Attributes('!for', $element -> getId()), ['break' => true]
                 );
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $attrs -> set('type', $element -> getFunction());
+            if ($labels -> has('help')) {
+                $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
+            }
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
                 . $this -> writeTag('input', $attrs)
                 . $this -> writeLabel('after', $labels -> after, 'span');
+            if ($labels -> has('help')) {
+                $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+                $block -> body .= $this -> writeLabel(
+                    'help', $labels -> help, 'small',
+                    new Attributes('id', $attrs -> get('aria-describedby')),
+                    ['break' => true]
+                );
+            }
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         }
@@ -148,7 +159,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderCellElement(CellElement $element, $options = []) {
         $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['force' => true]);
+        $block = $this -> writeWrapper($block, 'div', ['force' => true, 'show' => 'input-wrapper']);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -238,7 +249,7 @@ class SimpleHtml extends Html implements Renderer {
                 $type = 'text';
             }
             $attrs -> set('type', $type);
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $sidecar = $data -> getPopulation() -> sidecar;
             $attrs -> setIfNotNull('*data-sidecar', $sidecar);
@@ -285,7 +296,7 @@ class SimpleHtml extends Html implements Renderer {
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'div', null, ['break' => true]
             );
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $bracketTag = empty($list) ? 'span' : 'div';
             $block -> body .= $this -> writeLabel(
                 'before', $labels -> before, $bracketTag, null, ['break' => !empty($list)]
@@ -382,7 +393,7 @@ class SimpleHtml extends Html implements Renderer {
             );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
             $attrs -> set('type', $type);
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
             // Render the data list if there is one
@@ -482,7 +493,7 @@ class SimpleHtml extends Html implements Renderer {
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'div', null, ['break' => true]
             );
-            $block = $this -> writeWrapper($block, 'div', 'input-wrapper');
+            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $block -> body .= $this -> writeLabel(
                 'before', $labels -> before, 'div', null, ['break' => true]
             );
@@ -629,7 +640,7 @@ class SimpleHtml extends Html implements Renderer {
     protected function renderHtmlElement(HtmlElement $element, $options = []) {
         $block = new Block();
         $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['append' => "<br/>\n"]);
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
         $block -> body .= $element -> getValue();
         $block -> close();
         return $block;
@@ -651,7 +662,7 @@ class SimpleHtml extends Html implements Renderer {
     protected function renderStaticElement(StaticElement $element, $options = []) {
         $block = new Block();
         $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', 'input-wrapper', null, ['append' => "<br/>\n"]);
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
         $block -> body .= htmlspecialchars($element -> getValue());
         $block -> close();
         return $block;
@@ -668,13 +679,13 @@ class SimpleHtml extends Html implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
     protected function showDoLayout($scope, $choice, $values = []) {
-        if (!isset($this -> custom[$scope])) {
-            $this -> custom[$scope] = [];
+        if (!isset($this -> showState[$scope])) {
+            $this -> showState[$scope] = [];
         }
         // Clear out anything that might have been set by previous commands.
-        unset($this -> custom[$scope]['heading']);
-        unset($this -> custom[$scope]['input-wrapper']);
-        $this -> custom[$scope]['layout'] = $choice;
+        unset($this -> showState[$scope]['heading']);
+        unset($this -> showState[$scope]['input-wrapper']);
+        $this -> showState[$scope]['layout'] = $choice;
         if ($choice === 'horizontal') {
             $this -> showDoLayoutAnyHorizontal($scope, $values);
         } elseif ($choice === 'vertical') {
@@ -696,7 +707,7 @@ class SimpleHtml extends Html implements Renderer {
         // h:n:m:t      - ratio of headers to inputs over space t. If no t, t=n+m
         // h:.c1        - Class for headers
         // h:.c1:.c2    - Class for headers / input elements
-        $apply = &$this -> custom[$scope];
+        $apply = &$this -> showState[$scope];
         switch (count($values)) {
             case 1:
                 // No specification, use our default
@@ -800,7 +811,7 @@ class SimpleHtml extends Html implements Renderer {
         // v:mxx        - CSS units for input elements
         // v:.c2        - Class for input elements
         // v:m:t        - ratio of inputs over space t.
-        $apply = $this -> custom[$scope];
+        $apply = $this -> showState[$scope];
         switch (count($values)) {
             case 1:
                 // No specification, nothing to do

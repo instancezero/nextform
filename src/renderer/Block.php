@@ -57,6 +57,13 @@ class Block {
         return $this;
     }
 
+    static public function fromString($body = '', $post = '') : Block {
+        $that = new Block;
+        $that -> body = $body;
+        $that -> post = $post;
+        return $that;
+    }
+
     public function merge(Block $block) {
         foreach ($block as $prop => $value) {
             switch ($prop) {

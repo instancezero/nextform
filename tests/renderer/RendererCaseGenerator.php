@@ -104,6 +104,10 @@ class RendererCaseGenerator {
         $e6 = $e3 -> copy() -> addShow('size:large');
         $cases['large'] = [$e6];
 
+        // How about a large outline warning?
+        $e7 = $baseButton -> copy() -> setShow('purpose:warning|size:large|fill:outline');
+        $cases['lg-warn-out'] = [$e7, [], 'button large warning outline'];
+
         return $cases;
     }
 

@@ -103,13 +103,14 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // Default access
-        $expect['bda'] = new Block;
-        $expect['bda'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-success" value="I am Button!"/>'
-                . "\n"
+        $expect['bda'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-success" value="I am Button!"/>'
+                    . "\n"
+                )
             )
         );
 
@@ -117,52 +118,90 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['bwa'] = $expect['bda'];
 
         // Reset button default access
-        $expect['rbda'] = new Block;
-        $expect['rbda'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="reset"'
-                . ' class="btn btn-primary" value="I am Button!"/>'
-                . "\n"
+        $expect['rbda'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="reset"'
+                    . ' class="btn btn-primary" value="I am Button!"/>'
+                    . "\n"
+                )
             )
         );
 
         // Submit button default access
-        $expect['sbda'] = new Block;
-        $expect['sbda'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="submit"'
-                . ' class="btn btn-primary" value="I am Button!"/>'
-                . "\n"
+        $expect['sbda'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="submit"'
+                    . ' class="btn btn-primary" value="I am Button!"/>'
+                    . "\n"
+                )
             )
         );
 
         // Return to button
-        $expect['bda2'] = new Block;
-        $expect['bda2'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary" value="I am Button!"/>'
-                . "\n"
+        $expect['bda2'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="I am Button!"/>'
+                    . "\n"
+                )
             )
         );
 
         // View access
-        $expect['bva'] = new Block;
-        $expect['bva'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+        $expect['bva'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+                )
             )
         );
 
         // Read access
-        $expect['bra'] = new Block;
-        $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
-            . ' value="I am Button!"/>' . "\n";
+        $expect['bra'] = Block::fromString(
+            '<input id="button-1" name="button-1" type="hidden"'
+            . ' value="I am Button!"/>' . "\n"
+        );
+
+        // Small button... based on bda
+        $expect['small'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n"
+                )
+            )
+        );
+
+        // Large button... based on sbda
+        $expect['large'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="submit"'
+                    . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n"
+                )
+            )
+        );
+
+        // Large warning outline
+        $expect['lg-warn-out'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-outline-warning btn-lg" value="I am Button!"/>' . "\n"
+                )
+            )
+        );
 
         $this -> runCases($cases, $expect);
     }
@@ -176,80 +215,87 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // no labels
-        $expect['label-none'] = new Block;
-        $expect['label-none'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary"/>'
-                . "\n"
+        $expect['label-none'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary"/>'
+                    . "\n"
+                )
             )
         );
 
         // before
-        $expect['label-before'] = new Block;
-        $expect['label-before'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<span>prefix</span>'
-            . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+        $expect['label-before'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<span>prefix</span>'
+                . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+                )
             )
         );
 
         // After
-        $expect['label-after'] = new Block;
-        $expect['label-after'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>'
-            . '<span>suffix</span>' . "\n"
+        $expect['label-after'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>'
+                . '<span>suffix</span>' . "\n"
+                )
             )
         );
 
         // Heading
-        $expect['label-head'] = new Block;
-        $expect['label-head'] -> body = $this -> formGroup(
-            $this -> column1('Header', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+        $expect['label-head'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('Header', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
+                )
             )
         );
 
         // Help
-        $expect['label-help'] = new Block;
-        $expect['label-help'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary" aria-describedby="button-1-formhelp"/>'
-                . "\n"
-                . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
-                . "\n"
+        $expect['label-help'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" aria-describedby="button-1-formhelp"/>'
+                    . "\n"
+                    . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
+                    . "\n"
+                )
             )
         );
 
         // Inner
-        $expect['label-inner'] = new Block;
-        $expect['label-inner'] -> body = $this -> formGroup(
-            $this -> column1('', 'label', 'button-1')
-            . $this -> column2(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary" value="inner"/>'
-                . "\n"
+        $expect['label-inner'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="inner"/>'
+                    . "\n"
+                )
             )
         );
 
         // All
-        $expect['label-all'] = new Block;
-        $expect['label-all'] -> body = $this -> formGroup(
-            $this -> column1('Header', 'label', 'button-1')
-            . $this -> column2(
-                '<span>prefix</span><input id="button-1" name="button-1" type="button"'
-                . ' class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/>'
-                . '<span>suffix</span>'
-                . "\n"
-                . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
-                . "\n"
+        $expect['label-all'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('Header', 'label', 'button-1')
+                . $this -> column2(
+                    '<span>prefix</span><input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/>'
+                    . '<span>suffix</span>'
+                    . "\n"
+                    . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
+                    . "\n"
+                )
             )
         );
 
@@ -285,63 +331,37 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $cases = RendererCaseGenerator::html_FieldButton();
 
         $expect = [];
-        $expect['value'] = new Block;
-        $expect['value'] -> body = $this -> formGroup(
-            $this -> column1('', 'label')
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="button"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="button"'
+                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                )
             )
         );
 
-        $expect['reset'] = new Block;
-        $expect['reset'] -> body = $this -> formGroup(
-            $this -> column1('', 'label')
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="reset"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+        $expect['reset'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="reset"'
+                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                )
             )
         );
 
-        $expect['submit'] = new Block;
-        $expect['submit'] -> body = $this -> formGroup(
-            $this -> column1('', 'label')
-            . $this -> column2(
-                '<input id="field-1" name="field-1" type="submit"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+        $expect['submit'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="submit"'
+                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                )
             )
         );
 
         $this -> runCases($cases, $expect);
-    //-----------------
-        return;
-        $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a button
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('button');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $element -> setValue('Ok Bob');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        $presentation -> setType('reset');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        $presentation -> setType('submit');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
    }
 
     /**

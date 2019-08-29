@@ -137,7 +137,7 @@ class Attributes {
     ];
 
     /**
-     * This constructor must be called once before the static inputAttributes map works.
+     * This constructor sets up the static inputAttributes map on first call.
      * @param string $name Optional name of an initial value.
      * @param string $value Optional initial value.
      */
@@ -192,16 +192,11 @@ class Attributes {
         }
     }
 
-    public function append($name, $value) : self {
-        if (!isset($attrs[$name])) {
-            $attrs[$name] = [];
-        } elseif(!is_array($attrs[$name])) {
-            $attrs[$name] = [$attrs[$name]];
-        }
-        $this -> attrs[$name][] = $value;
-        return $this;
-    }
-
+    /**
+     * Remove a flag-valued attribute.
+     * @param string $name Name of the attribute to operate on.
+     * @return \self
+     */
     public function clearFlag($name) : self {
         unset($this -> attrs['=' . $name]);
         return $this;
@@ -218,10 +213,22 @@ class Attributes {
         return $result;
     }
 
-    public function empty() {
-        return empty($this -> attrs);
+    /**
+     * Delete an attribute
+     * @param type $name Name of the attribute to be removed.
+     * @return \self
+     */
+    public function delete($name) : self {
+        unset($this -> attrs[$name]);
+        return $this;
     }
 
+    /**
+     * Flatten an array-valued attribute to a string using rules for a named attribute.
+     * @param string $attrName Attribute rules to use.
+     * @param array $value
+     * @return string
+     */
     protected function flatten($attrName, $value) {
         if (!is_array($value)) {
             return $value;
@@ -241,26 +248,65 @@ class Attributes {
         return $result;
     }
 
+    /**
+     * Get an attribute's value.
+     * @param string $name Name of the atribute to retrieve.
+     * @return mixed Attribute value.
+     */
     public function get($name) {
         return $this -> attrs[$name];
     }
 
+    /**
+     * Get a reference to an attribute.
+     * @param string $name Name of the attribute to retrieve.
+     * @return mixed Attribute value.
+     */
+    public function &getReference($name) {
+        return $this -> attrs[$name];
+    }
+
+    /**
+     * Get an array containing all the attributes.
+     * @return array
+     */
     public function getAll() {
         return $this -> attrs;
     }
 
-    protected function include($lookup, $mask) {
-        $prefix = substr($lookup, 0, 5);
+    /**
+     * Check to see if an attribute is set; the attribute may still be empty.
+     * @param string $name Name of the attribute to check.
+     * @return bool True if the attribute exists.
+     */
+    public function has($name) : bool{
+        return isset($this -> attrs[$name]);
+    }
+
+    /**
+     * Check to see if an attribute is premitted to be written in context.
+     * @param string $name The nem of the attribute to check.
+     * @param array $mask Allowable flags, boolean indexed by attribute name.
+     * @return boolean
+     */
+    protected function include($name, $mask) {
+        $prefix = substr($name, 0, 5);
         if ($prefix === 'aria-') {
             return true;
         }
         if ($prefix === 'data-') {
             return true;
         }
-        return (isset($mask[$lookup]) && $mask[$lookup]);
+        return (isset($mask[$name]) && $mask[$name]);
     }
 
-    static function inputHas($type, $name) {
+    /**
+     * Check to see if an input type has an attribute in its element definition.
+     * @param string $type The input type (extended to select, textarea...).
+     * @param string $name The attribute name.
+     * @return bool
+     */
+    static function inputHas($type, $name) : bool {
         if (!isset(self::$inputAttributes[$type])) {
             return false;
         }
@@ -270,8 +316,95 @@ class Attributes {
         return self::$inputAttributes[$type][$name];
     }
 
-    public function has($name) {
-        return isset($this -> attrs[$name]);
+    /**
+     * Determine if there are any attributes set.
+     * @return bool
+     */
+    public function isEmpty() {
+        return empty($this -> attrs);
+    }
+
+    /**
+     * Add an element to the named attribute.
+     * @param string $name Name of the attribute to operate on.
+     * @param mixed $value The value to be appended.
+     * @return \self
+     */
+    public function itemAppend($name, $value) : self {
+        if (!isset($this -> attrs[$name])) {
+            $this -> attrs[$name] = [];
+        } elseif(!is_array($this -> attrs[$name])) {
+            $this -> attrs[$name] = [$this -> attrs[$name]];
+        }
+        $this -> attrs[$name][] = $value;
+        return $this;
+    }
+
+    /**
+     * Remove one or more items from an attribute.
+     * @param string $name Name of the attribute to operate on.
+     * @param array $items Items to delete. If associative, keys are used for removal.
+     * @return \self
+     */
+    public function itemDelete($name, $items) : self {
+        if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
+            return $this;
+        }
+        // Determine if this is an associative array or not
+        if (count(array_filter(array_keys($items), 'is_string')) > 0) {
+            // Delete all matching keys
+            foreach(array_keys($items) as $key) {
+                unset($this -> attrs[$name][$key]);
+            }
+        } else {
+            // Delete all matching values
+            foreach ($items as $value) {
+                if (($key = array_search($value, $this -> attrs[$name]))) {
+                    unset($this -> attrs[$name][$key]);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Remove one or more items from an attribute by key.
+     * @param string $name Name of the attribute to operate on.
+     * @param string|array $keys The array key(s) to be removed.
+     * @return \self
+     */
+    public function itemDeleteKey($name, $keys) : self {
+        if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
+            return $this;
+        }
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
+        // Delete all matching keys
+        foreach($keys as $key) {
+            unset($this -> attrs[$name][$key]);
+        }
+        return $this;
+    }
+
+    /**
+     * Uniquely insert one or more items into the named attribute.
+     * @param string $name Name of the attribute to operate on.
+     * @param mixed $items One or more items to merge, scalar, array, or associative array.
+     * @return \self
+     */
+    public function itemInsert($name, $items) : self {
+        if (!isset($this -> attrs[$name])) {
+            $this -> attrs[$name] = [];
+        } elseif(!is_array($this -> attrs[$name])) {
+            $this -> attrs[$name] = [$this -> attrs[$name]];
+        }
+        if (!is_srray($items)) {
+            $items = [$items];
+        }
+        $this -> attrs[$name] = array_unique(array_merge($this -> attrs[$name], $items));
+
+        return $this;
     }
 
     /**
@@ -323,21 +456,33 @@ class Attributes {
         return [$name, $cmd];
     }
 
-    public function remove($name) : self {
-        unset($this -> attrs[$name]);
-        return $this;
-    }
-
+    /**
+     * Set an attribute value.
+     * @param string $name Name of the attribute to set.
+     * @param mixed $value Value to set the attribute to.
+     * @return \self
+     */
     public function set($name, $value) : self {
         $this -> attrs[$name] = $value;
         return $this;
     }
 
+    /**
+     * Set a flag-valued attribute.
+     * @param string $name Name of the flag to set.
+     * @return \self
+     */
     public function setFlag($name) : self {
         $this -> attrs['=' . $name] = $name;
         return $this;
     }
 
+    /**
+     * Set a flag-valued attribute if the value is not null.
+     * @param string $name Name of the attribute to set.
+     * @param mixed $value Value to set the attribute to.
+     * @return \self
+     */
     public function setIfNotNull($name, $value) : self {
         if ($value !== null) {
             $this -> attrs[$name] = $value;
@@ -345,6 +490,13 @@ class Attributes {
         return $this;
     }
 
+    /**
+     * Set an attribute if a source array has a specified index.
+     * @param string $name Name of the attribute to set.
+     * @param array $source The data source array
+     * @param string $key Optional index into source; if omitted, $name is used.
+     * @return \self
+     */
     public function setIfSet($name, $source, $key = null) : self {
         if ($key === null) {
             $key = $name;

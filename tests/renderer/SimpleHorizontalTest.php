@@ -144,6 +144,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Large... same as sbda
         $expect['large'] = $expect['sbda'];
 
+        // Large warning outline... same as bda
+        $expect['lg-warn-out'] = $expect['bda'];
+
         $this -> runCases($cases, $expect);
     }
 
@@ -198,28 +201,40 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $tail;
 
         // Help
-        $expect['label-help'] = $expect['label-none'];
+        $expect['label-help'] = Block::fromString(
+            '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+            . '&nbsp;</label>' . "\n"
+            . $this -> column2(
+                '<input id="button-1" name="button-1" type="button"'
+                . ' aria-describedby="button-1-formhelp"/><br/>' . "\n"
+                . '<small id="button-1-formhelp">Helpful</small>' . "\n"
+            )
+            . $tail
+        );
 
         // Inner
-        $expect['label-inner'] = new Block;
-        $expect['label-inner'] -> body = '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
-            . '&nbsp;</label>' . "\n"
+        $expect['label-inner'] = Block::fromString(
+            '<label for="button-1" style="display:inline-block;'
+            . ' vertical-align:top; width:20%">&nbsp;</label>' . "\n"
             . $this -> column2(
                 '<input id="button-1" name="button-1" type="button" value="inner"/>'
             )
-            . $tail;
+            . $tail
+        );
 
         // All
-        $expect['label-all'] = new Block;
-        $expect['label-all'] -> body =
+        $expect['label-all'] = Block::fromString(
             '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
             . 'Header</label>' . "\n"
             . $this -> column2(
                 '<span>prefix</span>'
-                . '<input id="button-1" name="button-1" type="button" value="inner"/>'
-                . '<span>suffix</span>'
+                . '<input id="button-1" name="button-1" type="button" value="inner"'
+                . ' aria-describedby="button-1-formhelp"/>'
+                . '<span>suffix</span><br/>' . "\n"
+                . '<small id="button-1-formhelp">Helpful</small>' . "\n"
             )
-            . $tail;
+            . $tail
+        );
 
         $this -> runCases($cases, $expect);
     }

@@ -15,7 +15,7 @@ Form
 ButtonElement
 
 purpose = primary|secondary|success|danger|warning|info|light|dark|link
-fill = solid|none
+fill = solid|outline
 
 FieldElement
 

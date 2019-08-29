@@ -109,6 +109,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Large... same as sbda
         $expect['large'] = $expect['sbda'];
 
+        // Large warning outline... same as bda
+        $expect['lg-warn-out'] = $expect['bda'];
+
         $this -> runCases($cases, $expect);
     }
 
@@ -121,38 +124,52 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // no labels
-        $expect['label-none'] = new Block;
-        $expect['label-none'] -> body = '<input id="button-1" name="button-1" type="button"/>'
-            . '<br/>' . "\n";
+        $expect['label-none'] = Block::fromString(
+            '<input id="button-1" name="button-1" type="button"/>'
+            . '<br/>' . "\n"
+        );
 
         // before
-        $expect['label-before'] = new Block;
-        $expect['label-before'] -> body = '<span>prefix</span>'
-            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n";
+        $expect['label-before'] = Block::fromString(
+            '<span>prefix</span>'
+            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n"
+        );
 
         // After
-        $expect['label-after'] = new Block;
-        $expect['label-after'] -> body = '<input id="button-1" name="button-1" type="button"/>'
-            . '<span>suffix</span><br/>' . "\n";
+        $expect['label-after'] = Block::fromString(
+            '<input id="button-1" name="button-1" type="button"/>'
+            . '<span>suffix</span><br/>' . "\n"
+        );
 
         // Heading
-        $expect['label-head'] = new Block;
-        $expect['label-head'] -> body = '<label for="button-1">Header</label>' . "\n"
-            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n";
+        $expect['label-head'] = Block::fromString(
+            '<label for="button-1">Header</label>' . "\n"
+            . '<input id="button-1" name="button-1" type="button"/><br/>' . "\n"
+        );
 
         // Help
-        $expect['label-help'] = $expect['label-none'];
+        $expect['label-help'] = Block::fromString(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' aria-describedby="button-1-formhelp"/><br/>' . "\n"
+            . '<small id="button-1-formhelp">Helpful</small>' . "\n"
+            . '<br/>' . "\n"
+        );
 
         // Inner
-        $expect['label-inner'] = new Block;
-        $expect['label-inner'] -> body = '<input id="button-1" name="button-1" type="button"'
-            . ' value="inner"/><br/>' . "\n";
+        $expect['label-inner'] = Block::fromString(
+            '<input id="button-1" name="button-1" type="button"'
+            . ' value="inner"/><br/>' . "\n"
+        );
 
         // All
-        $expect['label-all'] = new Block;
-        $expect['label-all'] -> body = '<label for="button-1">Header</label>' . "\n"
+        $expect['label-all'] = Block::fromString(
+            '<label for="button-1">Header</label>' . "\n"
             . '<span>prefix</span><input id="button-1" name="button-1" type="button"'
-            . ' value="inner"/><span>suffix</span><br/>' . "\n";
+            . ' value="inner" aria-describedby="button-1-formhelp"/>'
+            . '<span>suffix</span><br/>' . "\n"
+            . '<small id="button-1-formhelp">Helpful</small>' . "\n"
+            . '<br/>' . "\n"
+        );
 
         $this -> runCases($cases, $expect);
     }
