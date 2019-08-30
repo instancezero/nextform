@@ -14,7 +14,7 @@ trait HtmlTestLogger {
         self::$allHtml .= '<h4>' . ($message ? htmlentities($message) : '(assertion)') . "</h4>\n";
         $closing = clone $block;
         $closing -> close();
-        self::$allHtml .= $closing -> body;
+        self::$allHtml .= $closing -> body . "<hr/>\n";
     }
 
 }

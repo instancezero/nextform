@@ -25,6 +25,50 @@ class SimpleHtml extends Html implements Renderer {
         $this -> initialize();
     }
 
+    protected function checkList(Block $block, FieldElement $element, $list, $type, $visible, Attributes $attrs) {
+        $baseId = $element -> getId();
+        $select = $element -> getValue();
+        if ($select === null) {
+            $select = $element -> getDefault();
+        }
+        foreach ($list as $optId => $radio) {
+            $id = $baseId . '-opt' . $optId;
+            $attrs -> set('id', $id);
+            $value = $radio -> getValue();
+            $attrs -> set('value', $value);
+            if (
+                $type == 'checkbox'
+                && is_array($select) && in_array($value, $select)
+            ) {
+                $attrs -> setFlag('checked');
+                $checked = true;
+            } elseif ($value === $select) {
+                $attrs -> setFlag('checked');
+                $checked = true;
+            } else {
+                $attrs -> clearFlag('checked');
+                $checked = false;
+            }
+            $attrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
+            if ($visible) {
+                if ($checked) {
+                    $attrs -> setFlag('checked');
+                } else {
+                    $attrs -> clearFlag('checked');
+                }
+                $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
+                    . '  '
+                    . $this -> writeLabel(
+                        '', $radio -> getLabel(), 'label',
+                        new Attributes('!for',  $id), ['break' => true]
+                    )
+                    . "</div>\n";
+            } elseif ($checked) {
+                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            }
+        }
+    }
+
     /**
      * Render a data list, if there is one.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent attributes. Passed by reference.
@@ -182,17 +226,13 @@ class SimpleHtml extends Html implements Renderer {
                 case 'radio':
                     $block = $this -> renderFieldCheckbox($element, $options);
                     break;
-                case 'file':
-                    $block = $this -> renderFieldFile($element, $options);
-                    break;
-                case 'select':
-                    $block = $this -> renderFieldSelect($element, $options);
-                    break;
-                case 'textarea':
-                    $block = $this -> renderFieldTextarea($element, $options);
-                    break;
                 default:
-                    $block = $this -> renderFieldCommon($element, $options);
+                    $method = 'renderField' . \ucfirst($type);
+                    if (method_exists($this, $method)) {
+                        $block = $this -> $method($element, $options);
+                    } else {
+                        $block = $this -> renderFieldCommon($element, $options);
+                    }
                     break;
             }
             // Check to see if we need to generate a confirm field, and
@@ -315,43 +355,7 @@ class SimpleHtml extends Html implements Renderer {
                 );
             }
         } else {
-            $select = $element -> getValue();
-            if ($select === null) {
-                $select = $element -> getDefault();
-            }
-            foreach ($list as $optId => $radio) {
-                $id = $baseId . '-opt' . $optId;
-                $attrs -> set('id', $id);
-                $value = $radio -> getValue();
-                $attrs -> set('value', $value);
-                if ($type == 'checkbox' && is_array($select) && in_array($value, $select)) {
-                    $attrs -> setFlag('checked');
-                    $checked = true;
-                } elseif ($value === $select) {
-                    $attrs -> setFlag('checked');
-                    $checked = true;
-                } else {
-                    $attrs -> clearFlag('checked');
-                    $checked = false;
-                }
-                $attrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
-                if ($visible) {
-                    if ($checked) {
-                        $attrs -> setFlag('checked');
-                    } else {
-                        $attrs -> clearFlag('checked');
-                    }
-                    $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
-                        . '  '
-                        . $this -> writeLabel(
-                            '', $radio -> getLabel(), 'label',
-                            new Attributes('!for',  $id), ['break' => true]
-                        )
-                        . "</div>\n";
-                } elseif ($checked) {
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
-            }
+            $this -> checkList($block, $element, $list, $type, $visible, clone $attrs);
         }
         if ($visible) {
             $block -> body .= $this -> writeLabel(

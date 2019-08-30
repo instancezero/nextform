@@ -34,7 +34,12 @@ abstract class Html implements Renderer {
         'appearance' => [
             'default' => 'default',
             'validate' => [
-                'form' => '|button|default|no-label|toggle',
+                'form' => [
+                    'button' => '/^button$/i',
+                    'default' => '/^default$/i',
+                    'no-label' => '/^no-?labels?$/i',
+                    'toggle' => '/^toggle$/i'
+                ],
             ],
         ],
         'fill' => [
@@ -291,7 +296,7 @@ abstract class Html implements Renderer {
      * Conditionally write a wrapper element
      * @param \Abivia\NextForm\Renderer\Block $block
      * @param string $tag Name of the element to write (div, span, etc.)
-     * @param array $options Name(type,default): append(string,''), force(bool,false), scope(string,'form')
+     * @param array $options Name(type,default): append(string,''), force(bool,false),
      *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Renderer\Block
      */

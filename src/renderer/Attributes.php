@@ -214,6 +214,14 @@ class Attributes {
     }
 
     /**
+     * Make a (deep) copy of this object
+     * @return \Abivia\NextForm\Renderer\Attributes
+     */
+    public function copy() : Attributes {
+        return clone $this;
+    }
+
+    /**
      * Delete an attribute
      * @param type $name Name of the attribute to be removed.
      * @return \self

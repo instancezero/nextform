@@ -48,7 +48,7 @@ class Block {
      */
     public $styles = [];
 
-    public function close() {
+    public function close() : self {
         $this -> body .= $this -> post;
         $this -> post = '';
         if (is_callable($this -> onCloseDone)) {
@@ -64,7 +64,7 @@ class Block {
         return $that;
     }
 
-    public function merge(Block $block) {
+    public function merge(Block $block) : self {
         foreach ($block as $prop => $value) {
             switch ($prop) {
                 case 'onCloseDone':
@@ -88,6 +88,7 @@ class Block {
                     break;
             }
         }
+        return $this;
     }
 
 }

@@ -159,7 +159,6 @@ class RendererCaseGenerator {
 
     static public function html_FieldCheckbox() {
         $cases = [];
-        $expect = [];
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
         //
         // Modify the schema to change test/text to a checkbox
@@ -179,23 +178,82 @@ class RendererCaseGenerator {
         $cases['basic'] = [$element];
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write'], 'write access'];
+        $cases['write'] = [$element, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view'], 'view access'];
+        $cases['view'] = [$element, ['access' => 'view']];
 
         // Test read access
-        $cases['read'] = [$element, ['access' => 'read'], 'read acceess'];
+        $cases['read'] = [$element, ['access' => 'read']];
 
-        //
         // Set a value
-        //
         $e2 = $element -> copy();
         $e2 -> setValue(3);
         $cases['value'] = [$e2];
 
+        // Render inline
+        $e3 = $element -> copy();
+        $e3 -> addShow('layout:inline');
+        $cases['inline'] = [$e3];
+
+        // Render inline with no labels
+        $e4 = $e3 -> copy();
+        $e4 -> addShow('appearance:no-label');
+        $cases['inline-nolabel'] = [$e4];
+
         // Test headings
         $cases = array_merge($cases, self::addLabels($e2));
+
+        return $cases;
+    }
+
+    static public function html_FieldCheckboxList() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change textWithList to a checkbox
+        //
+        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = [$element];
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element, ['access' => 'read']];
+
+        // Set a value to trigger the checked option
+        $e2 = $element -> copy() -> setValue('textlist 3');
+        $cases['single-value'] = [$e2];
+
+        // Test read access
+        $cases['single-value-read'] = [$e2, ['access' => 'read']];
+
+        // Set a second value to trigger the checked option
+        $e3 = $element -> copy() -> setValue(['textlist 1', 'textlist 3']);
+        $cases['dual-value'] = [$e3];
+
+        // Test read access
+        $cases['dual-value-read'] = [$e3, ['access' => 'read']];
+
+        // Render inline
+        $e4 = $element -> copy();
+        $e4 -> addShow('layout:inline');
+        $cases['inline'] = [$e4];
+
+        // Render inline with no labels
+        $e5 = $e4 -> copy();
+        $e5 -> addShow('appearance:no-label');
+        $cases['inline-nolabel'] = [$e5];
 
         return $cases;
     }

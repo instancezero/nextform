@@ -42,6 +42,16 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         return $text;
     }
 
+    protected function formCheck($body, $extraClass = '') {
+        if ($extraClass !== '') {
+            $extraClass = ' ' . $extraClass;
+        }
+        $text = '<div class="form-check' . $extraClass . '">' . "\n"
+            . $body
+            . '</div>' . "\n";
+        return $text;
+    }
+
     protected function formGroup($body) {
         $text = '<div class="form-group">' . "\n"
             . $body
@@ -287,21 +297,21 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['value'] = Block::fromString(
             $this -> formGroup(
                 '<input id="field-1" name="field-1" type="button"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+                . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
             )
         );
 
         $expect['reset'] = Block::fromString(
             $this -> formGroup(
                 '<input id="field-1" name="field-1" type="reset"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+                . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
             )
         );
 
         $expect['submit'] = Block::fromString(
             $this -> formGroup(
                 '<input id="field-1" name="field-1" type="submit"'
-                . ' class="form-control" value="Ok Bob"/>' . "\n"
+                . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
             )
         );
 
@@ -318,11 +328,13 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this -> column1('', 'div')
-                . $this -> formGroup(
-                '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . "<br/>\n"
+            . "\n"
         );
 
         // Same result with explicit write access
@@ -331,21 +343,25 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this -> column1('', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // Test view access
         $expect['view'] = Block::fromString(
             $this -> column1('', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" readonly/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // Test read (less than view) access
@@ -353,174 +369,117 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n"
         );
 
+        // Layout inline
+        $expect['inline'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n",
+                'form-check-inline'
+            )
+            . "\n"
+        );
+
+        // Layout inline, appear nolabel
+        $expect['inline-nolabel'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>' . "\n",
+                'form-check-inline'
+            )
+            . "\n"
+        );
+
         // no labels
         $expect['label-none'] = Block::fromString(
-            $this -> column1('', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]"'
-                . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // before
         $expect['label-before'] = Block::fromString(
-            $this -> column1('', 'div')
-            . $this -> column2(
-                '<span>prefix</span>'
-                . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            '<span>prefix</span>'
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // After
         $expect['label-after'] = Block::fromString(
-            $this -> column1('', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]"'
-                . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                . '<span>suffix</span>'
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . '<span>suffix</span>'
+            . "\n"
         );
 
         // Heading
         $expect['label-head'] = Block::fromString(
             $this -> column1('Header', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // Help
-        $expect['label-help'] = $expect['label-none'];
+        $expect['label-help'] = Block::fromString(
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
+        );
 
         // Inner
         $expect['label-inner'] = Block::fromString(
             $this -> column1('', 'div')
-            . $this -> column2(
-                '<input id="field-1" name="field-1[]"'
-                . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">inner</label>' . "\n"
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
             )
-            . '<br/>' . "\n"
+            . "\n"
         );
 
         // All
         $expect['label-all'] = Block::fromString(
             $this -> column1('Header', 'div')
             . $this -> column2(
-                '<span>prefix</span><input id="field-1" name="field-1[]" type="checkbox"'
-                . ' value="3"/>' . "\n"
-                . '<label for="field-1">inner</label>' . "\n"
+                '<span>prefix</span>'
+                . $this -> formCheck(
+                    '<input id="field-1" name="field-1[]" type="checkbox"'
+                    . ' class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>' . "\n"
+                    . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
+                )
                 . '<span>suffix</span>'
             )
-            . '<br/>' . "\n"
+            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
         );
 
         $this -> runCases($cases, $expect);
-    //--------------------------
-        return;
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a checkbox
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('checkbox');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // Give the element a label
-        //
-        $element -> setLabel('inner', '<Stand-alone> checkbox');
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a value
-        //
-        $element -> setValue(3);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<br/>' . "\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Give it a heading
-        //
-        $element -> setLabel('heading', 'Check this out');
-        $expect -> body = '<div>Check this out</div>' . "\n"
-            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<br/>' . "\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some after text
-        //
-        $element -> setLabel('after', '(afterthought)');
-        $expect -> body = '<div>Check this out</div>' . "\n"
-            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<span>(afterthought)</span>'
-            . '<br/>' . "\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // And a before label
-        //
-        $element -> setLabel('before', 'freaky');
-        $expect -> body = '<div>Check this out</div>' . "\n"
-            . '<span>freaky</span>'
-            . '<input id="field-1" name="field-1[]" type="checkbox" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<span>(afterthought)</span>'
-            . '<br/>' . "\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div>Check this out</div>' . "\n"
-            . '<span>freaky</span>'
-            . '<input id="field-1" name="field-1[]" type="checkbox" value="3" readonly/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
-            . '<span>(afterthought)</span>'
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
     }
 
     /**
@@ -528,90 +487,205 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldCheckboxList() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change textWithList to a checkbox
-        //
-        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        // No access specification assumes write access
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<div>
-  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>
-<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a value to trigger the checked option
-        //
-        $element -> setValue('textlist 3');
-        $expect -> body = str_replace('list 3"', 'list 3" checked', $expect -> body);
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a second value to trigger the checked option
-        //
-        $element -> setValue(['textlist 1', 'textlist 3']);
-        $expect -> body = str_replace('list 1"', 'list 1" checked', $expect -> body);
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div>
-  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>
-<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $cases = RendererCaseGenerator::html_FieldCheckboxList();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1"/>' . "\n"
+                . '  <label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                . '  <label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                . '  <label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '  <label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        $expect['write'] = $expect['basic'];
+
+        $expect['view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
+                . '  <label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
+                . '  <label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3" readonly/>' . "\n"
+                . '  <label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '  <label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Test read access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n"
+        );
+
+        // One option set
+        $expect['single-value'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1"/>' . "\n"
+                . '  <label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                . '  <label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                . '  <label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '  <label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Test read access
+        $expect['single-value-read'] = Block::fromString(
+            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+        );
+
+        // Two options set
+        $expect['dual-value'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1" checked/>' . "\n"
+                . '  <label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                . '  <label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                . '  <label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '  <label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Test read access
+        $expect['dual-value-read'] = Block::fromString(
+            '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
+            . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+        );
+
+        $expect['inline'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1"/>' . "\n"
+                . '  <label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                . '  <label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                . '  <label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '  <label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n",
+                'form-check-inline'
+            )
+            . "\n"
+        );
+
+        $expect['inline-nolabel'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1" aria-label="textlist 1"/>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2" aria-label="textlist 2"/>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3" aria-label="textlist 3"/>' . "\n",
+                'form-check-inline'
+            )
+            . $this -> formCheck(
+                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"'
+                . ' aria-label="textlist 4"/>' . "\n",
+                'form-check-inline'
+            )
+            . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
    /**

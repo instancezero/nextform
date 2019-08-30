@@ -40,11 +40,11 @@ trait RendererCaseRunner {
         }
         $this -> assertTrue(
             empty($missingExpect),
-            'Cases with no expectation:' . implode(' ', $missingExpect)
+            'Cases with no expectation: ' . implode(', ', $missingExpect)
         );
         $this -> assertTrue(
             empty($notRun),
-            'Expectations with no test case: ' . implode(' ', $notRun)
+            'Expectations with no test case: ' . implode(', ', $notRun)
         );
     }
 

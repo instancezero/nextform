@@ -23,6 +23,85 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         $this -> setOptions($options);
     }
 
+    protected function checkInput(Block $block, $element, Attributes $attrs) {
+        // This is a single-valued element
+        $attrs -> set('id', $element -> getId());
+        $attrs -> setIfNotNull('value', $element -> getValue());
+        $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+    }
+
+    protected function checkList(Block $block, FieldElement $element, $list, $type, $visible, Attributes $attrs) {
+        $needEmpty = !$visible;
+        $baseId = $element -> getId();
+        $select = $element -> getValue();
+        if ($select === null) {
+            $select = $element -> getDefault();
+        }
+        $appearance = $this -> showGet('check', 'appearance');
+        $checkLayout = $this -> showGet('check', 'layout');
+        $formCheck = 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '');
+        $labelAttrs = new Attributes;
+        $labelAttrs -> set('class', 'form-check-label');
+        foreach ($list as $optId => $radio) {
+            $optAttrs = $attrs -> copy();
+            $id = $baseId . '-opt' . $optId;
+            $optAttrs -> set('id', $id);
+            $value = $radio -> getValue();
+            $optAttrs -> set('value', $value);
+            if (
+                $type == 'checkbox'
+                && is_array($select) && in_array($value, $select)
+            ) {
+                $checked = true;
+            } elseif ($value === $select) {
+                $checked = true;
+            } else {
+                $checked = false;
+            }
+            $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
+            if ($visible) {
+                if ($checked) {
+                    $optAttrs -> setFlag('checked');
+                }
+                $block = $this -> writeWrapper(
+                    $block, 'div', ['attrs' => new Attributes('class', $formCheck)]
+                );
+                $optAttrs -> set('class', 'form-check-input');
+                if ($appearance === 'no-label') {
+                    $optAttrs -> set('aria-label', $radio -> getLabel());
+                }
+                $block -> body .= '  ' . $this -> writeTag('input', $optAttrs) . "\n";
+                if ($appearance !== 'no-label') {
+                    $labelAttrs -> set('!for', $id);
+                    $block -> body .= '  ' . $this -> writeLabel(
+                        '', $radio -> getLabel(), 'label',
+                        $labelAttrs, ['break' => true]
+                    )
+                    ;
+                }
+                $block -> close();
+            } elseif ($checked) {
+                $block -> body .= $this -> writeTag('input', $optAttrs) . "\n";
+                $needEmpty = false;
+            }
+        }
+        if ($needEmpty) {
+            $block -> body .= $this -> checkInput($block, $element, $attrs);
+        }
+    }
+
+    /**
+     * Use current show settings to build the button class
+     * @return string
+     */
+    protected function getButtonClass() : string {
+        $buttonClass = 'btn btn'
+            . ($this -> showGet('button', 'fill') === 'outline' ? '-outline' : '')
+            . '-' . $this -> showGet('button', 'purpose')
+            . self::$buttonSizeClasses[$this -> showGet('button', 'size')];
+        return $buttonClass;
+    }
+
     protected function initialize() {
         parent::initialize();
         $this -> setShow('purpose:primary');
@@ -43,31 +122,21 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $this -> setShow($show, 'button');
         }
         $attrs = new Attributes;
-        $block = new Block();
         $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view') {
             $attrs -> setFlag('disabled');
         }
         $attrs -> set('name', $element -> getFormName());
         $attrs -> setIfNotNull('value', $labels -> inner);
-        $buttonClass = 'btn btn'
-            . ($this -> showGet('button', 'fill') === 'outline' ? '-outline' : '')
-            . '-' . $this -> showGet('button', 'purpose')
-            . self::$buttonSizeClasses[$this -> showGet('button', 'size')];
-        $attrs -> set('class', $buttonClass);
-        $attrs -> merge($this -> showGet('button', 'size-attrs'));
-        // Horizontal layouts need a wrapper
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'group-wrapper']);
-        $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label',
-                new Attributes('!for', $element -> getId()), ['break' => true]
-            );
-        $input = $this -> writeWrapper(new Block, 'div', ['show' => 'input-wrapper']);
+
+        $attrs -> set('class', $this -> getButtonClass());
+
+        $block = $this -> writeWrapper(new Block, 'div', ['show' => 'input-wrapper']);
         $attrs -> set('type', $element -> getFunction());
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
         }
-        $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+        $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
             . $this -> writeTag('input', $attrs)
             . $this -> writeLabel('after', $labels -> after, 'span', [])
             . "\n";
@@ -75,14 +144,23 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
             $helpAttrs = new Attributes;
             $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
             $helpAttrs -> set('class', 'form-text text-muted');
-            $input -> body .= $this -> writeLabel(
+            $block -> body .= $this -> writeLabel(
                 'help', $labels -> help, 'small',
                 $helpAttrs, ['break' => true]
             );
         }
-        $input -> close();
-        $block -> merge($input);
         $block -> close();
+
+        // Write the header. Horizontal layouts need a wrapper
+        $header = $this -> writeWrapper(new Block(), 'div', ['show' => 'group-wrapper']);
+        $header -> body .= $this -> writeLabel(
+                'heading', $labels -> heading, 'label',
+                new Attributes('!for', $element -> getId()), ['break' => true]
+            );
+        $header -> merge($block);
+        $block = $header -> close();
+
+        // Restore show context and done.
         if ($show) {
             $this -> popContext();
         }
@@ -100,6 +178,16 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
     }
 
     protected function renderFieldCheckbox(FieldElement $element, $options = []) {
+        //  appearance = default|button|toggle (can't be multiple)|no-label
+        //  layout = inline|vertical
+        $show = $element -> getShow();
+        if ($show) {
+            $this -> pushContext();
+            $this -> setShow($show, 'check');
+        }
+        $appearance = $this -> showGet('check', 'appearance');
+        $checkLayout = $this -> showGet('check', 'layout');
+        $formCheck = 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '');
         $attrs = new Attributes;
         $block = new Block();
         $baseId = $element -> getId();
@@ -117,75 +205,75 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName() . ($type == 'checkbox' ? '[]' : ''));
         $list = $element -> getList(true);
+        $sidecar = $data -> getPopulation() -> sidecar;
+        $attrs -> setIfNotNull('*data-sidecar', $sidecar);
         if ($visible) {
             $block -> body .= $this -> writeLabel(
                 'heading', $labels -> heading, 'div', null, ['break' => true]
             );
-            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
+
+            // The "before" and "after" texts are in a div if we have multiple
+            // choices, span otherwise.
             $bracketTag = empty($list) ? 'span' : 'div';
             $block -> body .= $this -> writeLabel(
-                'before', $labels -> before, $bracketTag, null, ['break' => !empty($list)]
+                'before', $labels -> before, $bracketTag, null
             );
-        }
-        if (empty($list)) {
-            // This is a single-valued element
-            $attrs -> set('id', $baseId);
-            $attrs -> setIfNotNull('value', $element -> getValue());
-            $sidecar = $data -> getPopulation() -> sidecar;
-            $attrs -> setIfNotNull('*data-sidecar', $sidecar);
-            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-            if ($visible) {
-                $block -> body .= $this -> writeLabel(
-                    'inner', $element -> getLabels(true) -> inner,
-                    'label', new Attributes('!for', $baseId), ['break' => true]
+            if (empty($list)) {
+                $block = $this -> writeWrapper(
+                    $block, 'div', ['attrs' => new Attributes('class', $formCheck)]
                 );
-            }
-        } else {
-            $select = $element -> getValue();
-            if ($select === null) {
-                $select = $element -> getDefault();
-            }
-            foreach ($list as $optId => $radio) {
-                $id = $baseId . '-opt' . $optId;
-                $attrs -> set('id', $id);
-                $value = $radio -> getValue();
-                $attrs -> set('value', $value);
-                if ($type == 'checkbox' && is_array($select) && in_array($value, $select)) {
-                    $attrs -> setFlag('checked');
-                    $checked = true;
-                } elseif ($value === $select) {
-                    $attrs -> setFlag('checked');
-                    $checked = true;
+                if ($labels -> has('help')) {
+                    $attrs -> set('aria-describedby', $baseId . '-formhelp');
+                }
+                $attrs -> set('class', 'form-check-input');
+                if ($appearance === 'no-label') {
+                    $attrs -> setIfNotNull('aria-label', $labels -> inner);
+                    $this -> checkInput($block, $element, $attrs);
                 } else {
-                    $attrs -> clearFlag('checked');
-                    $checked = false;
+                    $this -> checkInput($block, $element, $attrs);
+                    $labelAttrs = new Attributes;
+                    $labelAttrs -> set('!for', $baseId);
+                    $labelAttrs -> set('class', 'form-check-label');
+                    $block -> body .= $this -> writeLabel(
+                        'inner', $labels -> inner,
+                        'label', $labelAttrs, ['break' => true]
+                    );
                 }
-                $attrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
-                if ($visible) {
-                    if ($checked) {
-                        $attrs -> setFlag('checked');
-                    } else {
-                        $attrs -> clearFlag('checked');
-                    }
-                    $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
-                        . '  '
-                        . $this -> writeLabel(
-                            '', $radio -> getLabel(), 'label',
-                            new Attributes('!for',  $id), ['break' => true]
-                        )
-                        . "</div>\n";
-                } elseif ($checked) {
-                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-                }
+                $block -> close();
+            } else {
+                $this -> checkList($block, $element, $list, $type, $visible, clone $attrs);
             }
-        }
-        if ($visible) {
+
+            // Write any after-label
             $block -> body .= $this -> writeLabel(
                 'after', $labels -> after, $bracketTag,
                 [], ['break' => !empty($list)]
             );
             $block -> close();
-            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            if ($labels -> has('help')) {
+                $helpAttrs = new Attributes;
+                $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
+                $helpAttrs -> set('class', 'form-text text-muted');
+                $block -> body .= $this -> writeLabel(
+                    'help', $labels -> help, 'small',
+                    $helpAttrs, ['break' => true]
+                );
+            } else {
+                $block -> body .= "\n";
+            }
+        } else {
+            // Not visible, we're just writing hidden elements, no labels.
+            if (empty($list)) {
+                $this -> checkInput($block, $element, $attrs);
+            } else {
+                $this -> checkList($block, $element, $list, $type, $visible, clone $attrs);
+            }
+
+        }
+
+        // Restore show context and done.
+        if ($show) {
+            $this -> popContext();
         }
         return $block;
     }
@@ -233,6 +321,9 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         }
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $attrs -> get('id') . '-help');
+        }
+        if (in_array($type, ['button', 'reset', 'submit'])) {
+            $attrs -> set('class', $this -> getButtonClass());
         }
         $attrs -> set('type', $type);
         $labelAttrs = new Attributes;
@@ -289,20 +380,18 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
     protected function showDoLayout($scope, $choice, $values = []) {
-        if ($scope == 'check') {
-            $this -> showDoLayoutCheck($choice, $value);
-            return;
-        }
         if (!isset($this -> showState[$scope])) {
             $this -> showState[$scope] = [];
         }
-        unset($this -> showState['input-wrapper']);
         $this -> showState[$scope]['layout'] = $choice;
-        $this -> showState[$scope]['cell-wrapper'] = new Attributes('class', ['form-row']);
-        $this -> showState[$scope]['group-wrapper'] = new Attributes('class', ['form-group']);
-        if ($choice === 'horizontal') {
-            $this -> showDoLayoutAnyHorizontal($scope, $values);
-        } elseif ($choice === 'vertical') {
+        if ($scope === 'form') {
+            unset($this -> showState['input-wrapper']);
+            $this -> showState[$scope]['cell-wrapper'] = new Attributes('class', ['form-row']);
+            $this -> showState[$scope]['group-wrapper'] = new Attributes('class', ['form-group']);
+            if ($choice === 'horizontal') {
+                $this -> showDoLayoutAnyHorizontal($scope, $values);
+            } elseif ($choice === 'vertical') {
+            }
         }
     }
 
@@ -397,15 +486,6 @@ class Bootstrap4 extends SimpleHtml implements Renderer {
         if ($default) {
             $apply['input-wrapper'] = new Attributes('class', ['col-sm-12']);
         }
-    }
-
-    /**
-     * Process a show layout command for checkboxes/radio inputs.
-     * @param type $choice
-     * @param type $value
-     */
-    protected function showDoLayoutCheck($choice, $value = []) {
-        // options are vertical, inline
     }
 
     /**

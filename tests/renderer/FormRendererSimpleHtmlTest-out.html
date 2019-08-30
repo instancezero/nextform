@@ -9,102 +9,134 @@
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Button</h3>
 <h4>button default access</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
+<hr/>
 <h4>button write access</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
+<hr/>
 <h4>reset button default access</h4>
 <input id="button-1" name="button-1" type="reset" value="I am Button!"/><br/>
+<hr/>
 <h4>submit button default access</h4>
 <input id="button-1" name="button-1" type="submit" value="I am Button!"/><br/>
+<hr/>
 <h4>button default access #2</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
+<hr/>
 <h4>button view access</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!" disabled/><br/>
+<hr/>
 <h4>button read access</h4>
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
+<hr/>
 <h4>small</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
+<hr/>
 <h4>large</h4>
 <input id="button-1" name="button-1" type="submit" value="I am Button!"/><br/>
+<hr/>
 <h4>button large warning outline</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_ButtonLabels</h3>
 <h4>Button label none</h4>
 <input id="button-1" name="button-1" type="button"/><br/>
+<hr/>
 <h4>Button label inner</h4>
 <input id="button-1" name="button-1" type="button" value="inner"/><br/>
+<hr/>
 <h4>Button label before</h4>
 <span>prefix</span><input id="button-1" name="button-1" type="button"/><br/>
+<hr/>
 <h4>Button label after</h4>
 <input id="button-1" name="button-1" type="button"/><span>suffix</span><br/>
+<hr/>
 <h4>Button label heading</h4>
 <label for="button-1">Header</label>
 <input id="button-1" name="button-1" type="button"/><br/>
+<hr/>
 <h4>Button label help</h4>
 <input id="button-1" name="button-1" type="button" aria-describedby="button-1-formhelp"/><br/>
 <small id="button-1-formhelp">Helpful</small>
 <br/>
+<hr/>
 <h4>Button all labels</h4>
 <label for="button-1">Header</label>
 <span>prefix</span><input id="button-1" name="button-1" type="button" value="inner" aria-describedby="button-1-formhelp"/><span>suffix</span><br/>
 <small id="button-1-formhelp">Helpful</small>
 <br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Cell</h3>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldButton</h3>
 <h4>with value</h4>
 <input id="field-1" name="field-1" type="button" value="Ok Bob"/><br/>
+<hr/>
 <h4>reset</h4>
 <input id="field-1" name="field-1" type="reset" value="Ok Bob"/><br/>
+<hr/>
 <h4>submit</h4>
 <input id="field-1" name="field-1" type="submit" value="Ok Bob"/><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldCheckbox</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1[]" type="checkbox"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
-<h4>write access</h4>
+<hr/>
+<h4>write</h4>
 <input id="field-1" name="field-1[]" type="checkbox"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
-<h4>view access</h4>
+<hr/>
+<h4>view</h4>
 <input id="field-1" name="field-1[]" type="checkbox" readonly/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
-<h4>read acceess</h4>
+<hr/>
+<h4>read</h4>
 <input id="field-1" name="field-1[]" type="hidden"/>
+<hr/>
 <h4>value</h4>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
 <h4>label none</h4>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
 <h4>label inner</h4>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">inner</label>
 <br/>
+<hr/>
 <h4>label before</h4>
 <span>prefix</span><input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
 <h4>label after</h4>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <span>suffix</span><br/>
+<hr/>
 <h4>label heading</h4>
 <div>Header</div>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
 <h4>label help</h4>
 <input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
 <h4>all labels</h4>
 <div>Header</div>
 <span>prefix</span><input id="field-1" name="field-1[]" type="checkbox" value="3"/>
 <label for="field-1">inner</label>
 <span>suffix</span><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldCheckboxList</h3>
 <h4>(assertion)</h4>
 <div>
@@ -124,6 +156,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -142,6 +175,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -160,6 +194,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked/>
@@ -178,6 +213,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
@@ -196,162 +232,225 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
 <input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldColor</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="color"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="color" value="#F0F0F0"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="color" value="#F0F0F0"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="color" value="#F0F0F0" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldDate</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="date"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="date" value="2010-10-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="date" value="2010-10-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="date" value="2010-10-10" min="1957-10-08" max="2099-11-06"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="date" value="2010-10-10" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldDatetimeLocal</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="datetime-local"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="datetime-local" value="2010-10-10" min="1957-10-08T00:00" max="2099-11-06T14:15"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="datetime-local" value="2010-10-10" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldEmail</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="email"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="email" multiple/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <label for="field-1">Yer email</label>
 <input id="field-1" name="field-1" type="email" multiple/><br/>
 <label for="field-1-confirmation">Confirm yer email</label>
 <input id="field-1-confirmation" name="field-1-confirmation" type="email" multiple/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <label for="field-1">Yer email</label>
 <input id="field-1" name="field-1" type="email" value="snafu@fub.ar" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldFile</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="file"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1[]" type="file" accept="*.png,*.jpg" multiple/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" value="file1.png,file2.jpg" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldHidden</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldHiddenLabels</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldMonth</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="month"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="month" value="2010-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="month" value="2010-10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="month" value="2010-10" min="1957-10" max="2099-11"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="month" value="2010-10" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldNumber</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200" required/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200" min="-1000" max="999.45" required/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200" min="-1000" max="999.45" required step="1.23"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200" min="-1000" max="999.45" required step="1.23"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="number" value="200" readonly/><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldPassword</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="password"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="password"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="password" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="password" value="secret" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="secret"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadio</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="radio"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="radio"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="radio" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="radio" value="3" readonly/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioLabels</h3>
 <h4>full access</h4>
 <div>Very Important Choice</div>
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <span>See? No problem!</span><br/>
+<hr/>
 <h4>view only</h4>
 <div>Very Important Choice</div>
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3" readonly/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <span>See? No problem!</span><br/>
+<hr/>
 <h4>read(hidden) only</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioList</h3>
 <h4>(assertion)</h4>
 <div>
@@ -371,6 +470,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
@@ -389,6 +489,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
@@ -407,6 +508,7 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <div>
   <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
@@ -425,8 +527,10 @@
   <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioListLabels</h3>
 <h4>full access</h4>
 <div>Very Important Choice</div>
@@ -449,6 +553,7 @@
 </div>
 <div>See? No problem!</div>
 <br/>
+<hr/>
 <h4>view only</h4>
 <div>Very Important Choice</div>
 <div>No need to fear</div>
@@ -470,30 +575,42 @@
 </div>
 <div>See? No problem!</div>
 <br/>
+<hr/>
 <h4>read(hidden) only</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRange</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="range" value="200"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="range" value="200"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="range" value="200" min="-1000" max="999.45"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="range" value="200" min="-1000" max="999.45" step="20"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="range" value="200" min="-1000" max="999.45" step="20"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" value="200" readonly/><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSearch</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="search"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="search"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="search" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelect</h3>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
@@ -503,6 +620,7 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
   <option value="textlist 1">textlist 1</option>
@@ -511,11 +629,14 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
   <option value="textlist 1">textlist 1</option>
@@ -524,12 +645,15 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <span>textlist 2</span>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1[]" multiple>
   <option value="textlist 1">textlist 1</option>
@@ -538,15 +662,18 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
 <span>textlist 2</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
 <span>textlist 4</span><br/>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1[]" size="6" multiple>
   <option value="textlist 1">textlist 1</option>
@@ -555,6 +682,7 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
 </select>
 <br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelectNested</h3>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
@@ -569,6 +697,7 @@
 </optgroup>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
   <option value="General">General</option>
@@ -582,11 +711,14 @@
 </optgroup>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1">
   <option value="General">General</option>
@@ -600,12 +732,15 @@
 </optgroup>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
+<hr/>
 <h4>(assertion)</h4>
 <select id="field-1" name="field-1[]" multiple>
   <option value="General">General</option>
@@ -619,33 +754,44 @@
 </optgroup>
 </select>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>
 <span>Sub One Item One</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span><br/>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTel</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="tel"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="tel"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="tel" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldText</h3>
 <h4>default access</h4>
 <input id="field-1" name="field-1" type="text"/><br/>
+<hr/>
 <h4>explicit write access</h4>
 <input id="field-1" name="field-1" type="text"/><br/>
+<hr/>
 <h4>explicit view access</h4>
 <input id="field-1" name="field-1" type="text" readonly/><br/>
+<hr/>
 <h4>explicit read access</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextDataList</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" list="field-1-list"/><datalist id="field-1-list">
@@ -655,104 +801,150 @@
   <option value="textlist 4" data-sidecar="[1,2,3,4]"/>
 </datalist>
 <br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextLabels</h3>
 <h4>Text label none</h4>
 <input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<hr/>
 <h4>Text label inner</h4>
 <input id="field-1" name="field-1" type="text" value="the value" placeholder="inner"/><br/>
+<hr/>
 <h4>Text label before</h4>
 <span>prefix</span><input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<hr/>
 <h4>Text label after</h4>
 <input id="field-1" name="field-1" type="text" value="the value"/><span>suffix</span><br/>
+<hr/>
 <h4>Text label heading</h4>
 <label for="field-1">Header</label>
 <input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<hr/>
 <h4>Text label help</h4>
 <input id="field-1" name="field-1" type="text" value="the value"/><br/>
+<hr/>
 <h4>Text all labels</h4>
 <label for="field-1">Header</label>
 <span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="inner"/><span>suffix</span><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextValidation</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" required/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" maxlength="10" required/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" required/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/><br/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextarea</h3>
 <h4>(assertion)</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>
+<hr/>
 <h4>(assertion)</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>
+<hr/>
 <h4>(assertion)</h4>
 <textarea id="field-1" name="field-1" readonly></textarea><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTime</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="time"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="time" value="20:10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="time" value="20:10"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="time" value="20:10" min="19:57" max="20:19"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="time" value="20:10" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldUrl</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="url"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="url"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="url" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldWeek</h3>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="week"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37" min="1957-W30" max="2099-W42"/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37" readonly/><br/>
+<hr/>
 <h4>(assertion)</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Html</h3>
 <h4>(assertion)</h4>
-<p>This is some escaped html &amp;</p><h4>(assertion)</h4>
-<p>This is some escaped html &amp;</p><h4>(assertion)</h4>
-<p>This is some escaped html &amp;</p><h4>(assertion)</h4>
-<p>This is some escaped html &amp;</p><h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Section</h3>
+<p>This is some escaped html &amp;</p><hr/>
+<h4>(assertion)</h4>
+<p>This is some escaped html &amp;</p><hr/>
+<h4>(assertion)</h4>
+<p>This is some escaped html &amp;</p><hr/>
+<h4>(assertion)</h4>
+<p>This is some escaped html &amp;</p><hr/>
+<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Section</h3>
 <h4>(assertion)</h4>
 <fieldset>
 </fieldset>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
+<hr/>
 <h4>(assertion)</h4>
 <fieldset>
 <legend>This is legendary</legend>
 </fieldset>
+<hr/>
+<h4>(assertion)</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>(assertion)</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Static</h3>
 <h4>(assertion)</h4>
-This is unescaped text with &lt;stuff&gt;!<h4>(assertion)</h4>
-This is unescaped text with &lt;stuff&gt;!<h4>(assertion)</h4>
-This is unescaped text with &lt;stuff&gt;!<h4>(assertion)</h4>
-This is unescaped text with &lt;stuff&gt;!</form></body></html>
+This is unescaped text with &lt;stuff&gt;!<hr/>
+<h4>(assertion)</h4>
+This is unescaped text with &lt;stuff&gt;!<hr/>
+<h4>(assertion)</h4>
+This is unescaped text with &lt;stuff&gt;!<hr/>
+<h4>(assertion)</h4>
+This is unescaped text with &lt;stuff&gt;!<hr/>
+</form></body></html>
