@@ -15,6 +15,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 abstract class Element implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Traits\Showable;
 
     /**
      * System-assigned element ID
@@ -45,21 +46,11 @@ abstract class Element implements \JsonSerializable {
     ];
     protected $name = '';
     protected $readonly;
-    protected $show = '';
     protected $type;
     protected $visible = true;
 
     public function __construct() {
 
-    }
-
-    public function addShow($show) : self {
-        if ($this -> show === '') {
-            $this -> show = trim($show);
-        } else {
-            $this -> show .= '|' . trim($show);
-        }
-        return $this;
     }
 
     /**
@@ -162,10 +153,6 @@ abstract class Element implements \JsonSerializable {
         return $this -> readonly;
     }
 
-    public function getShow() {
-        return $this -> show;
-    }
-
     public function getType() {
         return $this -> type;
     }
@@ -196,11 +183,6 @@ abstract class Element implements \JsonSerializable {
 
     public function setReadonly($readonly) {
         $this -> readonly = $readonly;
-        return $this;
-    }
-
-    public function setShow($show) {
-        $this -> show = trim($show);
         return $this;
     }
 

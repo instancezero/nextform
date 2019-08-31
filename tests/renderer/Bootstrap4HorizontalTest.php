@@ -1538,10 +1538,10 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2">textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2">textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1573,10 +1573,10 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setValue('textlist 2');
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1605,10 +1605,10 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setValue(['textlist 2', 'textlist 4']);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1638,10 +1638,10 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $presentation -> setRows(6);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1669,14 +1669,14 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         //
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
@@ -1709,14 +1709,14 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setValue('S2I1');
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
@@ -1746,14 +1746,14 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $element -> setValue(['S2I1', 'Sub One Item One']);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";

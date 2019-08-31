@@ -22,5 +22,8 @@ FieldElement
 Button (same as ButtonElement)
 
 Check (for check boxes and radio options)
-    appearance = default|button|toggle (can't be multiple)|no-label
+    appearance = default|toggle (can't be multiple)|no-label
+    fill = solid|outline
     layout = inline|vertical
+    purpose = primary|secondary|success|danger|warning|info|light|dark|link
+    

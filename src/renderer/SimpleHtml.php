@@ -22,6 +22,8 @@ class SimpleHtml extends Html implements Renderer {
     static $renderMethodCache = [];
 
     public function __construct($options = []) {
+        parent::__construct($options);
+        self::$showDefaultScope = 'form';
         $this -> initialize();
     }
 
@@ -46,7 +48,7 @@ class SimpleHtml extends Html implements Renderer {
                 $attrs -> setFlag('checked');
                 $checked = true;
             } else {
-                $attrs -> clearFlag('checked');
+                $attrs -> setFlag('checked', false);
                 $checked = false;
             }
             $attrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
@@ -54,10 +56,9 @@ class SimpleHtml extends Html implements Renderer {
                 if ($checked) {
                     $attrs -> setFlag('checked');
                 } else {
-                    $attrs -> clearFlag('checked');
+                    $attrs -> setFlag('checked', false);
                 }
-                $block -> body .= "<div>\n  " . $this -> writeTag('input', $attrs) . "\n"
-                    . '  '
+                $block -> body .= "<div>\n" . $this -> writeTag('input', $attrs) . "\n"
                     . $this -> writeLabel(
                         '', $radio -> getLabel(), 'label',
                         new Attributes('!for',  $id), ['break' => true]
@@ -92,7 +93,7 @@ class SimpleHtml extends Html implements Renderer {
                 if ($sidecar !== null) {
                     $optAttrs -> set('*data-sidecar', $sidecar);
                 }
-                $block -> post .= '  ' . $this -> writeTag('option', $optAttrs) . "\n";
+                $block -> post .= $this -> writeTag('option', $optAttrs) . "\n";
             }
             $block -> post .= "</datalist>\n";
         }
@@ -569,7 +570,7 @@ class SimpleHtml extends Html implements Renderer {
         if (in_array($attrs -> get('value'), $value)) {
             $attrs -> setFlag('selected');
         }
-        $block -> body .= '  ' . $this -> writeTag('option', $attrs, $option -> getLabel()) . "\n";
+        $block -> body .= $this -> writeTag('option', $attrs, $option -> getLabel()) . "\n";
         return $block;
     }
 

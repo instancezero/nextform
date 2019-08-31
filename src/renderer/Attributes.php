@@ -193,16 +193,6 @@ class Attributes {
     }
 
     /**
-     * Remove a flag-valued attribute.
-     * @param string $name Name of the attribute to operate on.
-     * @return \self
-     */
-    public function clearFlag($name) : self {
-        unset($this -> attrs['=' . $name]);
-        return $this;
-    }
-
-    /**
      * Combine attributes into this set and return a copy.
      * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
      * @return \Abivia\NextForm\Renderer\Attributes New object with merged attributes.
@@ -480,8 +470,12 @@ class Attributes {
      * @param string $name Name of the flag to set.
      * @return \self
      */
-    public function setFlag($name) : self {
-        $this -> attrs['=' . $name] = $name;
+    public function setFlag($name, bool $value = true) : self {
+        if ($value) {
+            $this -> attrs['=' . $name] = $name;
+        } else {
+            unset($this -> attrs['=' . $name]);
+        }
         return $this;
     }
 

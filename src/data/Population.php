@@ -1,6 +1,7 @@
 <?php
 
 namespace Abivia\NextForm\Data;
+use Abivia\NextForm\Data\Population\Option;
 
 /**
  * Describes how a data object is displayed on a form.
@@ -78,6 +79,20 @@ class Population implements \JsonSerializable {
             return [];
         }
         return $this -> list;
+    }
+
+    public function getListItem($index) : Option {
+        if ($this -> list === null || !isset($this -> list[$index])) {
+            throw new RuntimeException('List has no item at position ' . $index);
+        }
+        return $this -> list[$index];
+    }
+
+    public function getListSize() {
+        if ($this -> list === null) {
+            return 0;
+        }
+        return count($this -> list);
     }
 
     public function getQuery() {

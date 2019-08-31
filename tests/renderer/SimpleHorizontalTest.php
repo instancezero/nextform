@@ -397,6 +397,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             )
             . '<br/>' . "\n";
 
+        // inline
+        $expect['inline'] = $expect['basic'];
+
+        // inline nolabel
+        $expect['inline-nolabel'] = $expect['basic'];
+
         $this -> runCases($cases, $expect);
     }
 
@@ -419,20 +425,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
             . $this -> column2('<div>
-  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>' . "\n")
             . "<br/>\n";
         $this -> assertEquals($expect, $data);
@@ -465,20 +471,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element, ['access' => 'view']);
         $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>' . "\n"
             . $this -> column2('<div>
-  <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>' . "\n")
             . "<br/>\n";
         $this -> assertEquals($expect, $data);
@@ -1319,20 +1325,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>
 </div>
 <br/>' . "\n";
@@ -1359,20 +1365,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = '<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>
 </div>
 <br/>' . "\n";
@@ -1414,20 +1420,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = $this -> column1('Very Important Choice', 'div')
             . $this -> column2('<div>No need to fear</div>' . "\n"
             . '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>' . "\n"
             . '<div>See? No problem!</div>' . "\n")
             . '<br/>' . "\n"
@@ -1442,20 +1448,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = $this -> column1('Very Important Choice', 'div')
             . $this -> column2('<div>No need to fear</div>' . "\n"
             . '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
-  <label for="field-1-opt0">textlist 1</label>
+<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
+<label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
+<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
+<label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+<label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
+<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
 </div>' . "\n"
             . '<div>See? No problem!</div>' . "\n")
             . '<br/>' . "\n"
@@ -1623,10 +1629,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2">textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2">textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>'. "\n")
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1660,10 +1666,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1694,10 +1700,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1729,10 +1735,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1762,14 +1768,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
@@ -1804,14 +1810,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
@@ -1843,14 +1849,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> render($element);
         $expect -> body = $col1
             . $this -> column2('<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n")
             . '<br/>' . "\n";
@@ -1969,10 +1975,10 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . $this -> column2(
                 '<input id="field-1" name="field-1" type="text" list="field-1-list"/>'
                 . "<datalist id=\"field-1-list\">\n"
-                . "  <option value=\"textlist 1\"/>\n"
-                . "  <option value=\"textlist 2\"/>\n"
-                . "  <option value=\"textlist 3\"/>\n"
-                . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\"/>\n"
+                . "<option value=\"textlist 3\"/>\n"
+                . "<option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
                 . "</datalist>\n"
             )
             . $tail;

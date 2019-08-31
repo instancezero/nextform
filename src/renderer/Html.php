@@ -9,6 +9,7 @@ use Abivia\NextForm\Element\Element;
  * A base for HTML rendering
  */
 abstract class Html implements Renderer {
+    use \Abivia\NextForm\Traits\Showable;
 
     protected $context = [];
     protected $contextStack = [];
@@ -35,10 +36,9 @@ abstract class Html implements Renderer {
             'default' => 'default',
             'validate' => [
                 'form' => [
-                    'button' => '/^button$/i',
                     'default' => '/^default$/i',
                     'no-label' => '/^no-?labels?$/i',
-                    'toggle' => '/^toggle$/i'
+                    'toggle' => '/^toggle$/i',
                 ],
             ],
         ],
@@ -79,6 +79,10 @@ abstract class Html implements Renderer {
     protected $showState = [];
     protected $showStack = [];
 
+    public function __construct($options = []) {
+        self::$showDefaultScope = 'form';
+    }
+
     protected function initialize() {
         // Reset the context
         $this -> context = [];
@@ -111,12 +115,10 @@ abstract class Html implements Renderer {
 
     /**
      * Convert a set of visual settings into rendering parameters.
-     * @param array $settings
+     * @param string $settings
      */
-    public function setShow($settings, $defaultScope = 'form') {
-        if (is_string($settings)) {
-            $settings = NextForm::showTokenize($settings, $defaultScope);
-        }
+    public function setShow($settings) {
+        $settings = self::showTokenize($settings);
         foreach ($settings as $scope => $list) {
             foreach ($list as $key => $value) {
                 $this -> show($scope, $key, $value);
@@ -304,7 +306,7 @@ abstract class Html implements Renderer {
         $hasPost = false;
         $attrs = $options['attrs'] ?? null;
         if (isset($options['show'])) {
-            list($scope, $setting) = NextForm::showGetSetting($options['show']);
+            list($scope, $setting) = self::showGetSetting($options['show']);
         } else {
             $scope = false;
         }

@@ -42,18 +42,17 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         return $text;
     }
 
-    protected function formCheck($body, $extraClass = '') {
-        if ($extraClass !== '') {
-            $extraClass = ' ' . $extraClass;
-        }
-        $text = '<div class="form-check' . $extraClass . '">' . "\n"
+    protected function formCheck($body, $changeClass = '') {
+        $changeClass = $changeClass === '' ? 'form-check' : $changeClass;
+        $text = '<div class="' . $changeClass . '">' . "\n"
             . $body
             . '</div>' . "\n";
         return $text;
     }
 
-    protected function formGroup($body) {
-        $text = '<div class="form-group">' . "\n"
+    protected function formGroup($body, $changeClass = '') {
+        $changeClass = $changeClass === '' ? 'form-group' : $changeClass;
+        $text = '<div class="' . $changeClass . '">' . "\n"
             . $body
             . '</div>' . "\n";
         return $text;
@@ -377,7 +376,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 . ' class="form-check-input"/>' . "\n"
                 . '<label for="field-1" class="form-check-label">'
                 . '&lt;Stand-alone&gt; checkbox</label>' . "\n",
-                'form-check-inline'
+                'form-check form-check-inline'
             )
             . "\n"
         );
@@ -388,7 +387,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             . $this -> formCheck(
                 '<input id="field-1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>' . "\n",
-                'form-check-inline'
+                'form-check form-check-inline'
             )
             . "\n"
         );
@@ -483,6 +482,94 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     }
 
     /**
+     * Test code generation for a checkbox styled as a button element
+     */
+	public function testFormRendererBootstrap4_FieldCheckboxButton() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldCheckboxButton();
+        $expect = [];
+
+        $expect['toggle'] = Block::fromString(
+            '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>'
+            . "\n"
+        );
+
+        $expect['label-none'] = $expect['toggle'];
+        $expect['label-before'] = Block::fromString(
+            '<span>prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>' . "\n"
+        );
+        $expect['label-after'] = Block::fromString(
+            '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>' . "\n"
+            . '<span>suffix</span>'
+        );
+        $expect['label-head'] = Block::fromString(
+            '<div>Header</div>' . "\n"
+            . '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>'
+            . "\n"
+        );
+        $expect['label-help'] = Block::fromString(
+            '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox" aria-describedby="field-1-formhelp"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>' . "\n"
+            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+        );
+        $expect['label-all'] = Block::fromString(
+            '<div>Header</div>' . "\n"
+            . '<span>prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1" name="field-1[]" type="checkbox" aria-describedby="field-1-formhelp"/>' . "\n"
+            . 'CheckButton!</label>' . "\n"
+            . '</div>' . "\n"
+            . '<span>suffix</span><small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+        );
+
+        $expect['toggle-list'] = Block::fromString(
+            '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>' . "\n"
+            . 'textlist 1</label>' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>' . "\n"
+            . 'textlist 2</label>' . "\n"
+            . '<label class="btn btn-primary">' . "\n"
+            . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
+            . 'textlist 3</label>' . "\n"
+            . '<label class="btn btn-danger">' . "\n"
+            . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+            . 'textlist 4</label>' . "\n"
+            . '</div>' . "\n"
+        );
+
+        $expect['list-label-none'] = $expect['toggle-list'];
+        $expect['list-label-before'] = $expect['toggle-list'];
+        $expect['list-label-after'] = $expect['toggle-list'];
+        $expect['list-label-head'] = $expect['toggle-list'];
+        $expect['list-label-help'] = $expect['toggle-list'];
+        $expect['list-label-all'] = $expect['toggle-list'];
+
+        $this -> runCases($cases, $expect);
+    }
+
+    /**
      * Test code generation for a checkbox element with a list
      */
 	public function testFormRendererBootstrap4_FieldCheckboxList() {
@@ -493,27 +580,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                . '  <label for="field-1-opt0" class="form-check-label">'
+                . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2"/>' . "\n"
-                . '  <label for="field-1-opt1" class="form-check-label">'
+                . '<label for="field-1-opt1" class="form-check-label">'
                 . 'textlist 2</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3"/>' . "\n"
-                . '  <label for="field-1-opt2" class="form-check-label">'
+                . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '  <label for="field-1-opt3" class="form-check-label">'
+                . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
             . "\n"
@@ -524,27 +611,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['view'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
-                . '  <label for="field-1-opt0" class="form-check-label">'
+                . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
-                . '  <label for="field-1-opt1" class="form-check-label">'
+                . '<label for="field-1-opt1" class="form-check-label">'
                 . 'textlist 2</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3" readonly/>' . "\n"
-                . '  <label for="field-1-opt2" class="form-check-label">'
+                . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '  <label for="field-1-opt3" class="form-check-label">'
+                . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
             . "\n"
@@ -559,27 +646,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['single-value'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                . '  <label for="field-1-opt0" class="form-check-label">'
+                . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2"/>' . "\n"
-                . '  <label for="field-1-opt1" class="form-check-label">'
+                . '<label for="field-1-opt1" class="form-check-label">'
                 . 'textlist 2</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
-                . '  <label for="field-1-opt2" class="form-check-label">'
+                . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '  <label for="field-1-opt3" class="form-check-label">'
+                . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
             . "\n"
@@ -594,27 +681,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['dual-value'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1" checked/>' . "\n"
-                . '  <label for="field-1-opt0" class="form-check-label">'
+                . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2"/>' . "\n"
-                . '  <label for="field-1-opt1" class="form-check-label">'
+                . '<label for="field-1-opt1" class="form-check-label">'
                 . 'textlist 2</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
-                . '  <label for="field-1-opt2" class="form-check-label">'
+                . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '  <label for="field-1-opt3" class="form-check-label">'
+                . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
             . "\n"
@@ -626,35 +713,36 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
         );
 
+        $inlineClasses = 'form-check form-check-inline';
         $expect['inline'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                . '  <label for="field-1-opt0" class="form-check-label">'
+                . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2"/>' . "\n"
-                . '  <label for="field-1-opt1" class="form-check-label">'
+                . '<label for="field-1-opt1" class="form-check-label">'
                 . 'textlist 2</label>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3"/>' . "\n"
-                . '  <label for="field-1-opt2" class="form-check-label">'
+                . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '  <label for="field-1-opt3" class="form-check-label">'
+                . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . "\n"
         );
@@ -662,25 +750,25 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['inline-nolabel'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> formCheck(
-                '  <input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 1" aria-label="textlist 1"/>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 2" aria-label="textlist 2"/>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 3" aria-label="textlist 3"/>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . $this -> formCheck(
-                '  <input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"'
                 . ' aria-label="textlist 4"/>' . "\n",
-                'form-check-inline'
+                $inlineClasses
             )
             . "\n"
         );
@@ -1669,10 +1757,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         //
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2">textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2">textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1704,10 +1792,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $element -> setValue('textlist 2');
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1736,10 +1824,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $element -> setValue(['textlist 2', 'textlist 4']);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1769,10 +1857,10 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $presentation -> setRows(6);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
-            . '  <option value="textlist 1">textlist 1</option>' . "\n"
-            . '  <option value="textlist 2" selected>textlist 2</option>' . "\n"
-            . '  <option value="textlist 3">textlist 3</option>' . "\n"
-            . '  <option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+            . '<option value="textlist 1">textlist 1</option>' . "\n"
+            . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+            . '<option value="textlist 3">textlist 3</option>' . "\n"
+            . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
         $this -> assertEquals($expect, $data);
@@ -1800,14 +1888,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         //
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
@@ -1840,14 +1928,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $element -> setValue('S2I1');
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";
@@ -1877,14 +1965,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $element -> setValue(['S2I1', 'Sub One Item One']);
         $data = $this -> testObj -> render($element);
         $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '  <option value="General">General</option>' . "\n"
+            . '<option value="General">General</option>' . "\n"
             . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '  <option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
-            . '  <option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+            . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
+            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '<optgroup label="Subgroup Two">' . "\n"
-            . '  <option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '  <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
             . '</optgroup>' . "\n"
             . '</select>' . "\n"
             . '<br/>' . "\n";

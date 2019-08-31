@@ -16,6 +16,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 class NextForm implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Traits\Showable;
 
     public const SEGMENT_DELIM = '/';
 
@@ -34,7 +35,7 @@ class NextForm implements \JsonSerializable {
     static protected $jsonEncodeMethod = [
         'name' => [],
         'useSegment' => ['drop:blank'],
-        'show' => ['method:jsonCollapseShow','drop:blank'],
+        'show' => ['drop:blank'],
         'elements' => [],
     ];
     protected $id;
@@ -53,15 +54,10 @@ class NextForm implements \JsonSerializable {
     protected $schemaIsLinked;
     protected $translate;
     protected $useSegment = '';
-    /**
-     * Settings that affect how the form is displayed, set individually with show()
-     * @var array
-     */
-    protected $show = [];
 
     public function __construct() {
         $this -> access = new \Abivia\NextForm\Access\BasicAccess;
-        $this -> show = [];
+        $this -> show = '';
     }
 
     protected function assignNames() {
@@ -222,23 +218,6 @@ class NextForm implements \JsonSerializable {
         return $name;
     }
 
-    /**
-     * Convert show settings to string.
-     * @param array $show
-     * @return string
-     */
-    static public function jsonCollapseShow($show, $defaultScope = 'form') {
-        foreach ($show as $scope => $settings) {
-            foreach ($settings as $setting => $info) {
-                $info = implode(':', $info);
-                $show[$setting] = ($scope == $defaultScope ? '' : $scope . '.')
-                    . $setting . ':' . $info;
-            }
-        }
-        $rules = implode('|', $show);
-        return $rules;
-    }
-
     protected function options($options) {
         if (isset($options['name'])) {
             $this -> name = $options['name'];
@@ -311,53 +290,12 @@ class NextForm implements \JsonSerializable {
         $this -> renderer = $renderer;
     }
 
-    public function setShow($settings) {
-        // Show settings are just saved and passed to the renderer
-        $this -> show = $settings;
-    }
-
     public function setTranslator(Translator $translate) {
         $this -> translate = $translate;
     }
 
     public function setUser($user) {
         $this -> access -> setUser($user);
-    }
-
-    public function show($key, $value) {
-        // Visual settings are just saved and passed to the renderer
-        $this -> show[$key] = $value;
-    }
-
-    static public function showGetSetting($text, $defaultScope = 'form') {
-        $first = explode('.', $text);
-        if (count($first) == 1) {
-            $scope = $defaultScope;
-            $setting = $first[0];
-        } else {
-            $scope = array_shift($first);
-            $setting = implode('.', $first);
-        }
-        return [$scope, $setting];
-    }
-
-    /**
-     * Break a "show" string down into a settings array.
-     * @param string $text String of the form scope1.setting1:p1:p2...|scope2.setting2:p1:p2...
-     * @return array A list of argument arrays indexed by setting.
-     */
-    static public function showTokenize($text, $defaultScope = 'form') {
-        $exprs = explode('|', $text);
-        $settings = [];
-        foreach ($exprs as $clause) {
-            $parts = explode(':', $clause);
-            list($scope, $setting) = self::showGetSetting(array_shift($parts), $defaultScope);
-            if (!isset($settings[$scope])) {
-                $settings[$scope] = [];
-            }
-            $settings[$scope][$setting] = $parts;
-        }
-        return $settings;
     }
 
 }

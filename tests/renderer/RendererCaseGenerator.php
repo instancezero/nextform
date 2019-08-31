@@ -21,43 +21,63 @@ class RendererCaseGenerator {
      * @param string $namePrefix Test label prefix
      * @return array
      */
-    static protected function addLabels($eBase, $prefix = '', $namePrefix = '') {
+    static protected function addLabels($eBase, $prefix = '', $namePrefix = '', $skip = []) {
         $cases = [];
 
         // No changes
         $cases[$prefix . 'label-none'] = [$eBase, [], $namePrefix . 'label none'];
 
-        $e1 = $eBase -> copy();
-        $e1 -> setLabel('inner', 'inner');
-        $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'label inner'];
+        if (!in_array('inner', $skip)) {
+            $e1 = $eBase -> copy();
+            $e1 -> setLabel('inner', 'inner');
+            $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'label inner'];
+        }
 
         // A before label
-        $e2 = $eBase -> copy();
-        $e2 -> setLabel('before', 'prefix');
-        $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'label before'];
+        if (!in_array('before', $skip)) {
+            $e2 = $eBase -> copy();
+            $e2 -> setLabel('before', 'prefix');
+            $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'label before'];
+        }
 
         // Some text after
-        $e3 = $eBase -> copy();
-        $e3 -> setLabel('after', 'suffix');
-        $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'label after'];
+        if (!in_array('after', $skip)) {
+            $e3 = $eBase -> copy();
+            $e3 -> setLabel('after', 'suffix');
+            $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'label after'];
+        }
 
         // A heading
-        $e4 = $eBase -> copy();
-        $e4 -> setLabel('heading', 'Header');
-        $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'label heading'];
+        if (!in_array('heading', $skip)) {
+            $e4 = $eBase -> copy();
+            $e4 -> setLabel('heading', 'Header');
+            $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'label heading'];
+        }
 
         // Help
-        $e5 = $eBase -> copy();
-        $e5 -> setLabel('help', 'Helpful');
-        $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'label help'];
+        if (!in_array('help', $skip)) {
+            $e5 = $eBase -> copy();
+            $e5 -> setLabel('help', 'Helpful');
+            $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'label help'];
+        }
 
         // All the labels
         $e6 = $eBase -> copy();
-        $e6 -> setLabel('inner', 'inner');
-        $e6 -> setLabel('heading', 'Header');
-        $e6 -> setLabel('help', 'Helpful');
-        $e6 -> setLabel('before', 'prefix');
-        $e6 -> setLabel('after', 'suffix');
+        if (!in_array('inner', $skip)) {
+            $e6 -> setLabel('inner', 'inner');
+        }
+        if (!in_array('heading', $skip)) {
+            $e6 -> setLabel('heading', 'Header');
+        }
+        if (!in_array('help', $skip)) {
+            $e6 -> setLabel('help', 'Helpful');
+        }
+        if (!in_array('before', $skip)) {
+            $e6 -> setLabel('before', 'prefix');
+        }
+        if (!in_array('after', $skip)) {
+            $e6 -> setLabel('after', 'suffix');
+        }
         $cases[$prefix . 'label-all'] = [$e6, [], $namePrefix . 'all labels'];
 
         return $cases;
@@ -207,6 +227,52 @@ class RendererCaseGenerator {
         return $cases;
     }
 
+    static public function html_FieldCheckboxButton() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        //
+        // Modify the schema to change test/text to a checkbox
+        //
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('checkbox');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // Give the element a label
+        $element -> setLabel('inner', 'CheckButton!');
+
+        // Make one show as a toggle
+        $e1 = $element -> copy();
+        $e1 -> addShow('appearance:toggle');
+        $cases['toggle'] = $e1;
+        $cases = array_merge($cases, self::addLabels($e1, '', '', ['inner']));
+
+
+        //
+        // Modify the schema to change textWithList to a checkbox, style the last item
+        //
+        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
+
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        $list = $element -> getList(true);
+        // Set appearance on the last list item
+        $list[3] -> setShow('purpose:danger');
+        // Make the list show as a toggle
+        $e2 = $element -> copy();
+        $e2 -> addShow('appearance:toggle');
+        $cases['toggle-list'] = $e2;
+
+        $cases = array_merge($cases, self::addLabels($e2, 'list-', 'list-', ['inner']));
+
+        return $cases;
+    }
+
     static public function html_FieldCheckboxList() {
         $cases = [];
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -214,6 +280,7 @@ class RendererCaseGenerator {
         // Modify the schema to change textWithList to a checkbox
         //
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
+
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element -> configure($config);

@@ -10,6 +10,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 class Option implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
+    use \Abivia\NextForm\Traits\Showable;
 
     protected $enabled = true;
     static protected $jsonEncodeMethod = [
@@ -22,12 +23,17 @@ class Option implements \JsonSerializable {
     protected $label;
     protected $name;
     protected $selected = false;
+
     /**
      * Arbitrary data associated with this field.
      * @var mixed
      */
     public $sidecar;
     protected $value;
+
+    public function __construct() {
+        self::$showDefaultScope = 'option';
+    }
 
     protected function configureClassMap($property, $value) {
         $result = false;
