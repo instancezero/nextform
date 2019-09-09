@@ -325,6 +325,285 @@ class RendererCaseGenerator {
         return $cases;
     }
 
+    static public function html_FieldColor() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('color');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        $cases['default'] = $element;
+
+        // Set a value
+        //
+        $e1 = $element -> copy();
+        $e1 -> setValue('#F0F0F0');
+        $cases['value'] = $e1;
+
+        // Same result with explicit write access
+        $cases['value-write'] = [$e1, ['access' => 'write']];
+
+        // Now with view access
+        $cases['value-view'] = [$e1, ['access' => 'view']];
+
+        //
+        // Read access
+        $cases['value-read'] = [$e1, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldDate() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('date');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Set a value
+        $e1 = $element -> copy();
+        $e1 -> setValue('2010-10-10');
+        $cases['value'] = $e1;
+
+        // Same result with explicit write access
+        //
+        $cases['write'] = [$e1, ['access' => 'write']];
+
+        // Now test validation
+        $e2 = $e1 -> copy();
+        $validation = $e2 -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '1957-10-08');
+        $validation -> set('maxValue', 'Nov 6th 2099');
+        $cases['minmax'] = $e2;
+
+        // Now with view access
+        $cases['view'] = [$e2, ['access' => 'view']];
+
+        // Convert to hidden for read access
+        //
+        $cases['read'] = [$e2, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldDatetimeLocal() {
+        $cases = [];
+
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('datetime-local');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Set a value
+        $e1 = $element -> copy();
+        $e1 -> setValue('2010-10-10');
+        $cases['value'] = $e1;
+
+        // Same result with explicit write access
+        $cases['write'] = [$e1, ['access' => 'write']];
+
+        // Now test validation
+        $e2 = $e1 -> copy();
+        $validation = $e2 -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '1957-10-08');
+        $validation -> set('maxValue', '2:15 pm Nov 6th 2099');
+        $cases['minmax'] = $e2;
+
+        // Now with view access
+        $cases['view'] = [$e2, ['access' => 'view']];
+
+        // Convert to hidden for read access
+        $cases['read'] = [$e2, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldEmail() {
+        $cases = [];
+
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('email');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Now test validation
+        $e1 = $element -> copy();
+        $validation = $e1 -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $cases['multiple'] = $e1;
+
+        // Turn confirmation on and set some test labels
+        $s2 = $schema -> copy();
+        $e2 = new FieldElement();
+        $e2 -> configure($config);
+        $e2 -> bindSchema($s2);
+        $s2 -> getProperty('test/text') -> getPresentation() -> setConfirm(true);
+        $e2 -> setLabel('heading', 'Yer email');
+        $e2 -> setLabel('confirm', 'Confirm yer email');
+        $cases['confirm'] = $e2;
+
+        // Test view access
+        $e3 = $e2 -> copy();
+        $e3 -> setValue('snafu@fub.ar');
+        $cases['view'] = [$e3, ['access' => 'view']];
+
+        // Read access
+        //
+        $cases['read'] = [$e3, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldFile() {
+        $cases = [];
+
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('file');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Now test validation
+        //
+        $e1 = $element -> copy();
+        $validation = $e1 -> getDataProperty() -> getValidation();
+        $validation -> set('accept', '*.png,*.jpg');
+        $validation -> set('multiple', true);
+        $cases['valid'] = $e1;
+
+        // Test view access
+        $cases['view'] = [$e1, ['access' => 'view']];
+
+        // Test view with a value
+        $e2 = $e1 -> copy();
+        $e2 -> setValue(['file1.png', 'file2.jpg']);
+        $cases['view-value'] = [$e2, ['access' => 'view']];
+
+        // Test read (less than view) access
+        $cases['read-value'] = [$e2, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldHidden() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldHiddenLabels() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldMonth() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldNumber() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldPassword() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldRadio() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldRadioLabels() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldRadioListLabels() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldRange() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldSearch() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldSelect() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldSelectNested() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldTel() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
     static public function html_FieldText() {
         $cases = [];
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -353,6 +632,55 @@ class RendererCaseGenerator {
         $element -> bindSchema($schema);
         $element -> setValue('the value');
         $cases = self::addLabels($element, '', 'Text ');
+
+        return $cases;
+    }
+
+    static public function html_FieldTextValidation() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldTextarea() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldTime() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldUrl() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_FieldWeek() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_Html() {
+        $cases = [];
+
+
+        return $cases;
+    }
+
+    static public function html_Section() {
+        $cases = [];
+
 
         return $cases;
     }

@@ -21,6 +21,13 @@ abstract class Html implements Renderer {
     static $inputConfirmable = [
         'email', 'number', 'password', 'tel', 'text',
     ];
+
+    /**
+     * Maps element types to render methods.
+     * @var array
+     */
+    static $renderMethodCache = [];
+
     /**
      * Quick lookup for self-closing elements
      * @var array
@@ -83,6 +90,38 @@ abstract class Html implements Renderer {
         self::$showDefaultScope = 'form';
     }
 
+    protected function elementHidden($element, $value) {
+        $block = new Block;
+        $baseId = $element -> getId();
+        $attrs = new Attributes;
+        $attrs -> set('type', 'hidden');
+        if (is_array($value)) {
+            $optId = 0;
+            foreach ($value as $key => $entry) {
+                $attrs -> set('id', $baseId . '-opt' . $optId);
+                ++$optId;
+                $attrs -> set('name', $element -> getFormName() . '[' . htmlspecialchars($key) . ']');
+                $attrs -> set('value', $entry);
+                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            }
+        } else {
+            $attrs -> set('id', $baseId);
+            $attrs -> set('name', $element -> getFormName());
+            $attrs -> setIfNotNull('value', $value);
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+        }
+        return $block;
+    }
+
+    protected function getRenderMethod(Element $element) {
+        $classPath = get_class($element);
+        if (!isset(self::$renderMethodCache[$classPath])) {
+            $classParts = explode('\\', $classPath);
+            self::$renderMethodCache[$classPath] = 'render' . array_pop($classParts);
+        }
+        return self::$renderMethodCache[$classPath];
+    }
+
     protected function initialize() {
         // Reset the context
         $this -> context = [];
@@ -107,7 +146,18 @@ abstract class Html implements Renderer {
         return $this -> context[$selector];
     }
 
-    abstract public function render(Element $element, $options = []);
+    public function render(Element $element, $options = []) {
+        $method = $this -> getRenderMethod($element);
+        if (method_exists($this, $method)) {
+            if (!isset($options['access'])) {
+                $options['access'] = 'write';
+            }
+            $result = $this -> $method($element, $options);
+        } else {
+            throw new \RuntimeException('Unable to render element ' . get_class($element));
+        }
+        return $result;
+    }
 
     public function setOptions($options = []) {
 
@@ -243,8 +293,42 @@ abstract class Html implements Renderer {
     }
 
     /**
-     * Write a label.
-     * @param string $purpose A string indicating what kind of label this is.
+     * Conditionally write an element into an open Block suitable for merging.
+     * @param string $tag Name of the element to write (div, span, etc.)
+     * @param array $options Name(type,default): append(string,''), force(bool,false),
+     *                      show(string,''), attrs(Attributes,null)
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    protected function writeElement($tag, $options = []) {
+        $hasPost = false;
+        $attrs = $options['attrs'] ?? null;
+        if (isset($options['show'])) {
+            list($scope, $setting) = self::showGetSetting($options['show']);
+        } else {
+            $scope = false;
+        }
+        $block = new Block;
+        if ($scope && isset($this -> showState[$scope][$setting])) {
+            $attrs = $this -> showState[$scope][$setting] -> combine($attrs);
+            $block -> body = $this -> writeTag($tag, $attrs) . "\n";
+            $hasPost = true;
+        } elseif ($attrs !== null && !$attrs -> isEmpty()) {
+            $block -> body = $this -> writeTag($tag, $attrs) . "\n";
+            $hasPost = true;
+        } elseif ($options['force'] ?? false) {
+            $block -> body = '<' . $tag . ">\n";
+            $hasPost = true;
+        }
+        if ($hasPost) {
+            $block -> post = '</' . $tag . ">\n"
+                . (isset($options['append']) ? $options['append'] : '');
+        }
+        return $block;
+    }
+
+    /**
+     * Write a label if required.
+     * @param string $purpose A string indicating what this label is for.
      * @param string $text The text for the label
      * @param string $tag The kind of HTML tag to wrap the label in.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs HTML attributes to associate with the element
@@ -252,14 +336,18 @@ abstract class Html implements Renderer {
      * @return string
      */
     protected function writeLabel($purpose, $text, $tag, $attrs = null, $options = []) {
-        if ($text !== null) {
-            $text = htmlspecialchars($text);
-        } else {
-            if ($this -> showState['form']['layout'] === 'horizontal' && $purpose === 'heading') {
+        if ($text === null) {
+            // In horizontal layouts we always generate an element
+            if (
+                $this -> showState['form']['layout'] === 'horizontal'
+                && $purpose === 'headingAttributes'
+            ) {
                 $text = '&nbsp;';
             } else {
                 return '';
             }
+        } else {
+            $text = htmlspecialchars($text);
         }
         if (isset($this -> showState['form'][$purpose])) {
             $attrs = $this -> showState['form'][$purpose] -> combine($attrs);
@@ -295,12 +383,13 @@ abstract class Html implements Renderer {
     }
 
     /**
-     * Conditionally write a wrapper element
+     * Conditionally write a wrapper element around an existing block
      * @param \Abivia\NextForm\Renderer\Block $block
      * @param string $tag Name of the element to write (div, span, etc.)
      * @param array $options Name(type,default): append(string,''), force(bool,false),
      *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Renderer\Block
+     * @deprecated Replace with writeElement...
      */
     protected function writeWrapper(Block $block, $tag, $options = []) {
         $hasPost = false;

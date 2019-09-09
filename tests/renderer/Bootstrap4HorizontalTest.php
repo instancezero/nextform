@@ -336,7 +336,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this -> column1('', 'label')
                 . $this -> column2(
                     '<input id="field-1" name="field-1" type="button"'
-                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
                 )
             )
         );
@@ -346,7 +346,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this -> column1('', 'label')
                 . $this -> column2(
                     '<input id="field-1" name="field-1" type="reset"'
-                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
                 )
             )
         );
@@ -356,7 +356,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this -> column1('', 'label')
                 . $this -> column2(
                     '<input id="field-1" name="field-1" type="submit"'
-                    . ' class="form-control" value="Ok Bob"/>' . "\n"
+                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
                 )
             )
         );
@@ -368,6 +368,196 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
      * Test code generation for a checkbox element
      */
 	public function testFormRendererBootstrap4_FieldCheckbox() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldCheckbox();
+        $expect = [];
+
+        $example = '
+  <div class="form-group row">
+    <div class="col-sm-2">Checkbox</div>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck1">
+        <label class="form-check-label" for="gridCheck1">
+          Example checkbox
+        </label>
+      </div>
+    </div>
+  </div>
+';
+        // Heading (copy for debug)
+        $expect['label-head'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('Header', 'div')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1[]" type="checkbox"'
+                    . ' class="form-check-input" value="3"/>' . "\n"
+                    . '<label for="field-1" class="form-check-label">'
+                    . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+            . "\n"
+        );
+        $this -> runCases($cases, $expect);
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label')
+                . $this -> column2(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+            . "\n"
+        );
+
+        // Same result with explicit write access
+        $expect['write']  = $expect['basic'];
+
+        // Set a value
+        $expect['value'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Test view access
+        $expect['view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" readonly/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Test read (less than view) access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n"
+        );
+
+        // Layout inline
+        $expect['inline'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n",
+                'form-check form-check-inline'
+            )
+            . "\n"
+        );
+
+        // Layout inline, appear nolabel
+        $expect['inline-nolabel'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>' . "\n",
+                'form-check form-check-inline'
+            )
+            . "\n"
+        );
+
+        // no labels
+        $expect['label-none'] = Block::fromString(
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // before
+        $expect['label-before'] = Block::fromString(
+            '<span>prefix</span>'
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // After
+        $expect['label-after'] = Block::fromString(
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<span>suffix</span>'
+            . "\n"
+        );
+
+        // Heading
+        $expect['label-head'] = Block::fromString(
+            $this -> column1('Header', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Help
+        $expect['label-help'] = Block::fromString(
+            $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
+        );
+
+        // Inner
+        $expect['label-inner'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="3"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // All
+        $expect['label-all'] = Block::fromString(
+            $this -> column1('Header', 'div')
+            . $this -> column2(
+                '<span>prefix</span>'
+                . $this -> formCheck(
+                    '<input id="field-1" name="field-1[]" type="checkbox"'
+                    . ' class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>' . "\n"
+                    . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
+                )
+                . '<span>suffix</span>'
+            )
+            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>'
+            . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
+    //-----------------------------------------------
+        return;
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -464,6 +654,17 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect -> body = '<input id="field-1" name="field-1[]" type="hidden" value="3"/>' . "\n";
         $this -> assertEquals($expect, $data);
         $this -> logResult($data);
+    }
+
+    /**
+     * Test code generation for a checkbox styled as a button element
+     */
+	public function testFormRendererBootstrap4_FieldCheckboxButton() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldCheckboxButton();
+        $expect = [];
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1902,7 +2103,6 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $cases = RendererCaseGenerator::html_FieldTextLabels();
         $expect = [];
         $tail = "\n";
-
         // no labels
         $expect['label-none'] = new Block;
         $expect['label-none'] -> body = $this -> formGroup(

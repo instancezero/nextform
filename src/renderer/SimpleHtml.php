@@ -13,7 +13,7 @@ use Abivia\NextForm\Element\StaticElement;
 /**
  * A skeletal renderer that generates a very basic form.
  */
-class SimpleHtml extends Html implements Renderer {
+class SimpleHtml extends CommonHtml implements Renderer {
 
     /**
      * Maps element types to render methods.
@@ -70,68 +70,6 @@ class SimpleHtml extends Html implements Renderer {
         }
     }
 
-    /**
-     * Render a data list, if there is one.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent attributes. Passed by reference.
-     * @param type $element The element we're rendering.
-     * @param type $type The element type
-     * @param type $options Options, specifically access rights.
-     * @return \Abivia\NextForm\Renderer\Block
-     */
-    protected function dataList(Attributes $attrs, $element, $type, $options) {
-        $block = new Block;
-        // Check for a data list, if there is write access.
-        $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
-            ? $element -> getList(true) : [];
-        if (!empty($list)) {
-            $attrs -> set('list', $attrs -> get('id') . '-list');
-            $block -> post = '<datalist id="' . $attrs -> get('list') . "\">\n";
-            $optAttrs = new Attributes();
-            foreach ($list as $option) {
-                $optAttrs -> set('value', $option -> getValue());
-                $sidecar = $option -> sidecar;
-                if ($sidecar !== null) {
-                    $optAttrs -> set('*data-sidecar', $sidecar);
-                }
-                $block -> post .= $this -> writeTag('option', $optAttrs) . "\n";
-            }
-            $block -> post .= "</datalist>\n";
-        }
-        return $block;
-    }
-
-    protected function elementHidden($element, $value) {
-        $block = new Block;
-        $baseId = $element -> getId();
-        $attrs = new Attributes;
-        $attrs -> set('type', 'hidden');
-        if (is_array($value)) {
-            $optId = 0;
-            foreach ($value as $key => $entry) {
-                $attrs -> set('id', $baseId . '-opt' . $optId);
-                ++$optId;
-                $attrs -> set('name', $element -> getFormName() . '[' . htmlspecialchars($key) . ']');
-                $attrs -> set('value', $entry);
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-            }
-        } else {
-            $attrs -> set('id', $baseId);
-            $attrs -> set('name', $element -> getFormName());
-            $attrs -> setIfNotNull('value', $value);
-            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
-        }
-        return $block;
-    }
-
-    protected function getRenderMethod(Element $element) {
-        $classPath = get_class($element);
-        if (!isset(self::$renderMethodCache[$classPath])) {
-            $classParts = explode('\\', $classPath);
-            self::$renderMethodCache[$classPath] = 'render' . array_pop($classParts);
-        }
-        return self::$renderMethodCache[$classPath];
-    }
-
     protected function initialize() {
         // Reset the context
         $this -> context = [
@@ -139,20 +77,6 @@ class SimpleHtml extends Html implements Renderer {
         ];
         // Initialize custom settings
         $this -> setShow('layout:vertical');
-    }
-
-    public function render(Element $element, $options = []) {
-        $method = $this -> getRenderMethod($element);
-        if (method_exists($this, $method)) {
-            if (!isset($options['access'])) {
-                $options['access'] = 'write';
-            }
-            $result = $this -> $method($element, $options);
-        } else {
-            $result = new Block();
-            $result -> body = 'Seems we don\'t have a ' . $method . ' method yet!' . "\n";
-        }
-        return $result;
     }
 
     protected function renderButtonElement(ButtonElement $element, $options = []) {
@@ -177,7 +101,7 @@ class SimpleHtml extends Html implements Renderer {
             // We can see or change the data
             //
             $block -> body .= $this -> writeLabel(
-                    'heading', $labels -> heading, 'label',
+                    'headingAttributes', $labels -> heading, 'label',
                     new Attributes('!for', $element -> getId()), ['break' => true]
                 );
             $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
@@ -212,46 +136,6 @@ class SimpleHtml extends Html implements Renderer {
         return $block;
     }
 
-    protected function renderFieldElement(FieldElement $element, $options = []) {
-        /*
-            'image'
-        */
-        $result = new Block;
-        $presentation = $element -> getDataProperty() -> getPresentation();
-        $type = $presentation -> getType();
-        $options['confirm'] = false;
-        $repeater = true;
-        while ($repeater) {
-            switch ($type) {
-                case 'checkbox':
-                case 'radio':
-                    $block = $this -> renderFieldCheckbox($element, $options);
-                    break;
-                default:
-                    $method = 'renderField' . \ucfirst($type);
-                    if (method_exists($this, $method)) {
-                        $block = $this -> $method($element, $options);
-                    } else {
-                        $block = $this -> renderFieldCommon($element, $options);
-                    }
-                    break;
-            }
-            // Check to see if we need to generate a confirm field, and
-            // haven't already done so...
-            if (
-                in_array($type, self::$inputConfirmable)
-                && $presentation -> getConfirm()
-                && $options['access'] === 'write' && !$options['confirm']
-            ) {
-                $options['confirm'] = true;
-            } else {
-                $repeater = false;
-            }
-            $result -> merge($block);
-        }
-        return $result;
-    }
-
     protected function renderFieldCommon(FieldElement $element, $options = []) {
         $attrs = new Attributes;
         $confirm = $options['confirm'];
@@ -281,7 +165,7 @@ class SimpleHtml extends Html implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                    'heading',
+                    'headingAttributes',
                     $confirm && $labels -> confirm != '' ? $labels -> confirm : $labels -> heading,
                     'label', new Attributes('!for', $attrs -> get('id')), ['break' => true]
                 );
@@ -331,11 +215,12 @@ class SimpleHtml extends Html implements Renderer {
             $attrs -> set('type', 'hidden');
             $visible = false;
         }
-        $attrs -> set('name', $element -> getFormName() . ($type == 'checkbox' ? '[]' : ''));
         $list = $element -> getList(true);
+        $attrs -> set('name', $element -> getFormName()
+            . ($type == 'checkbox' && !empty($list) ? '[]' : ''));
         if ($visible) {
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'div', null, ['break' => true]
+                'headingAttributes', $labels -> heading, 'div', null, ['break' => true]
             );
             $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $bracketTag = empty($list) ? 'span' : 'div';
@@ -393,7 +278,7 @@ class SimpleHtml extends Html implements Renderer {
             $attrs -> setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label',
+                'headingAttributes', $labels -> heading, 'label',
                 new Attributes('!for', $element -> getId()), ['break' => true]
             );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
@@ -450,7 +335,7 @@ class SimpleHtml extends Html implements Renderer {
             }
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label',
+                'headingAttributes', $labels -> heading, 'label',
                 ['!for' => $element -> getId()], ['break' => true]
             );
             $labels -> insertInnerTo($attrs, 'placeholder');
@@ -496,7 +381,7 @@ class SimpleHtml extends Html implements Renderer {
         } else {
             // This element is visible
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'div', null, ['break' => true]
+                'headingAttributes', $labels -> heading, 'div', null, ['break' => true]
             );
             $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
             $block -> body .= $this -> writeLabel(
@@ -614,7 +499,7 @@ class SimpleHtml extends Html implements Renderer {
             //
             $labels = $element -> getLabels(true);
             $block -> body .= $this -> writeLabel(
-                'heading', $labels -> heading, 'label',
+                'headingAttributes', $labels -> heading, 'label',
                 new Attributes('!for', $attrs -> get('id')), ['break' => true]
             );
             $attrs -> setIfNotNull('placeholder', $labels -> inner);
@@ -644,7 +529,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderHtmlElement(HtmlElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
+        $block -> body .= $this -> writeLabel('headingAttributes', null, 'div', null, ['break' => true]);
         $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
         $block -> body .= $element -> getValue();
         $block -> close();
@@ -666,7 +551,7 @@ class SimpleHtml extends Html implements Renderer {
 
     protected function renderStaticElement(StaticElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('heading', null, 'div', null, ['break' => true]);
+        $block -> body .= $this -> writeLabel('headingAttributes', null, 'div', null, ['break' => true]);
         $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
         $block -> body .= htmlspecialchars($element -> getValue());
         $block -> close();
@@ -688,7 +573,7 @@ class SimpleHtml extends Html implements Renderer {
             $this -> showState[$scope] = [];
         }
         // Clear out anything that might have been set by previous commands.
-        unset($this -> showState[$scope]['heading']);
+        unset($this -> showState[$scope]['headingAttributes']);
         unset($this -> showState[$scope]['input-wrapper']);
         $this -> showState[$scope]['layout'] = $choice;
         if ($choice === 'horizontal') {
@@ -716,7 +601,7 @@ class SimpleHtml extends Html implements Renderer {
         switch (count($values)) {
             case 1:
                 // No specification, use our default
-                $apply['heading'] = new Attributes(
+                $apply['headingAttributes'] = new Attributes(
                     'style',
                     [
                         'display' => 'inline-block',
@@ -736,10 +621,10 @@ class SimpleHtml extends Html implements Renderer {
             case 2:
                 if ($values[1][0] == '.') {
                     // Single class specification
-                    $apply['heading'] = new Attributes('class', [substr($values[1], 1)]);
+                    $apply['headingAttributes'] = new Attributes('class', [substr($values[1], 1)]);
                 } else {
                     // Single CSS units
-                    $apply['heading'] = new Attributes(
+                    $apply['headingAttributes'] = new Attributes(
                         'style',
                         [
                             'display' => 'inline-block',
@@ -752,7 +637,7 @@ class SimpleHtml extends Html implements Renderer {
             default:
                 if ($values[1][0] == '.') {
                     // Dual class specification
-                    $apply['heading'] = new Attributes('class', [substr($values[1], 1)]);
+                    $apply['headingAttributes'] = new Attributes('class', [substr($values[1], 1)]);
                     $apply['input-wrapper'] = new Attributes('class', [substr($values[2], 1)]);
                 } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
                     // ratio
@@ -764,7 +649,7 @@ class SimpleHtml extends Html implements Renderer {
                         );
                     }
                     $sum = isset($values[3]) ? $values[3] : ($part1 + $part2);
-                    $apply['heading'] = new Attributes(
+                    $apply['headingAttributes'] = new Attributes(
                         'style',
                         [
                             'display' => 'inline-block',
@@ -782,7 +667,7 @@ class SimpleHtml extends Html implements Renderer {
                     );
                 } else {
                     // Dual CSS units
-                    $apply['heading'] = new Attributes(
+                    $apply['headingAttributes'] = new Attributes(
                         'style',
                         [
                             'display' => 'inline-block',
