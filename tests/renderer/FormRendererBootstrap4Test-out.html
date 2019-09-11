@@ -637,53 +637,236 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldFile</h3>
 <h4>basic</h4>
-<input id="field-1" name="field-1" type="file"/><hr/>
-<h4>Expected: basic</h4>
 <div class="form-group col-sm-10">
-<input id="field-1" name="field-1" type="file" class="form-control"/>
+<input id="field-1" name="field-1" type="file" class="form-control-file"/>
 </div>
 <hr/>
+<h4>valid</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1[]" type="file" class="form-control-file" accept="*.png,*.jpg" multiple/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control-file" readonly/>
+</div>
+<hr/>
+<h4>value-view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
+</div>
+<hr/>
+<h4>value-read</h4>
+<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>
+<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldHidden</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldHiddenLabels</h3>
-<h4>(assertion)</h4>
+<h4>label none</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label inner</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label before</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label after</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label heading</h4>
+<input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
+<h4>label help</h4>
+<input id="field-1" name="field-1" type="hidden" value="the value"/>
+<hr/>
+<h4>all labels</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldMonth</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="month" class="form-control"/>
+</div>
+<hr/>
+<h4>value</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="month" class="form-control" value="2010-10"/>
+</div>
+<hr/>
+<h4>value-write</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="month" class="form-control" value="2010-10"/>
+</div>
+<hr/>
+<h4>minmax</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="month" class="form-control" value="2010-10" min="1957-10" max="2099-11"/>
+</div>
+<hr/>
+<h4>minmax-view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="month" class="form-control" value="2010-10" readonly/>
+</div>
+<hr/>
+<h4>read</h4>
+<input id="field-1" name="field-1" type="hidden" value="2010-10"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldNumber</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200"/>
+</div>
+<hr/>
+<h4>required</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200" required/>
+</div>
+<hr/>
+<h4>minmax</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required/>
+</div>
+<hr/>
+<h4>step</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required step="1.23"/>
+</div>
+<hr/>
+<h4>pattern</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required step="1.23"/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="number" class="form-control" value="200" readonly/>
+</div>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldPassword</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="password" class="form-control"/>
+</div>
+<hr/>
+<h4>write</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="password" class="form-control"/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="password" class="form-control" readonly/>
+</div>
+<hr/>
+<h4>value-view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="password" class="form-control" value="secret" readonly/>
+</div>
+<hr/>
+<h4>value-read</h4>
+<input id="field-1" name="field-1" type="hidden" value="secret"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldRadio</h3>
+<h4>basic</h4>
+<div class="form-check">
+<input id="field-1" name="field-1" type="radio" class="form-check-input"/>
+<label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
+</div>
+
+<hr/>
+<h4>Expected: basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="radio"/>
+<label for="field-1">&lt;Stand-alone&gt; radio</label>
+</div>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldRadioLabels</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldRadioList</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldRadioListLabels</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldRange</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="range" class="form-control" value="200"/>
+</div>
+<hr/>
+<h4>required</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="range" class="form-control" value="200"/>
+</div>
+<hr/>
+<h4>minmax</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45"/>
+</div>
+<hr/>
+<h4>step</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45" step="20"/>
+</div>
+<hr/>
+<h4>pattern</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45" step="20"/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" value="200" readonly/>
+</div>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldSearch</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="search" class="form-control"/>
+</div>
+<hr/>
+<h4>write</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="search" class="form-control"/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="search" class="form-control" readonly/>
+</div>
+<hr/>
+<h4>read</h4>
+<input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldSelect</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldSelectNested</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTel</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="tel" class="form-control"/>
+</div>
+<hr/>
+<h4>write</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="tel" class="form-control"/>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="tel" class="form-control" readonly/>
+</div>
+<hr/>
+<h4>read</h4>
+<input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldText</h3>
 <h4>default access</h4>
 <div class="form-group col-sm-10">
@@ -704,6 +887,25 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTextDataList</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" list="field-1-list"/>
+<datalist id="field-1-list">
+<option value="textlist 1"/>
+<option value="textlist 2"/>
+<option value="textlist 3"/>
+<option value="textlist 4" data-sidecar="[1,2,3,4]"/>
+</datalist>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" readonly/>
+</div>
+<hr/>
+<h4>read</h4>
+<input id="field-1" name="field-1" type="hidden"/>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTextLabels</h3>
 <h4>Text label none</h4>
 <div class="form-group col-sm-10">
@@ -764,6 +966,26 @@ textlist 4</label>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTextValidation</h3>
+<h4>required</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" required/>
+</div>
+<hr/>
+<h4>max</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" required/>
+</div>
+<hr/>
+<h4>minmax</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" minlength="3" required/>
+</div>
+<hr/>
+<h4>pattern</h4>
+<div class="form-group col-sm-10">
+<input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>
+</div>
+<hr/>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTextarea</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldTime</h3>
 <h3>FormRendererBootstrap4Test::testFormRendererBootstrap4_FieldUrl</h3>

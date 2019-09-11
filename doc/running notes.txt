@@ -2,3 +2,6 @@ To Do List
 - Alignment in text fields, radio, checkboxes.
 - New tests for BS4 features, eg "button purpose" should be run by all render tests
 - add tests for disabled, visible settings in the Element
+- "proper" unit tests need attention.
+- There are more test sets to iterate through (eg. large/small forms)... strategy?
+- Add a composite construct to assemble multiple items (texts, selects) into an input group

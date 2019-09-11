@@ -362,7 +362,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
         }
-        $block -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+
+        // Generate the input wrapper, if required for a horizontal layout.
+        $input = $this -> writeElement('div', ['show' => 'inputWrapperAttributes']);
+
+        // Add in the input element and before/after labels
+        $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
             . $this -> writeTag('input', $attrs)
             . $this -> writeLabel('after', $labels -> after, 'span', [])
             . "\n";
@@ -370,11 +375,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $helpAttrs = new Attributes;
             $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
             $helpAttrs -> set('class', 'form-text text-muted');
-            $block -> body .= $this -> writeLabel(
+            $input -> body .= $this -> writeLabel(
                 'help', $labels -> help, 'small',
                 $helpAttrs, ['break' => true]
             );
         }
+        $block -> merge($input);
         $block -> close();
 
         // Restore show context and done.
@@ -587,7 +593,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $helpAttrs -> set('class', 'form-text text-muted');
             $input -> body .= $this -> writeTag('small', $helpAttrs, $labels -> help) . "\n";
         }
-        $input -> close();
+        //$input -> close();
         $block -> merge($input);
         $block -> close();
 
@@ -605,6 +611,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $type = 'text';
         }
         $attrs -> set('name', $element -> getFormName());
+        $attrs -> set('class', 'form-control-file');
         $value = $element -> getValue();
         if ($options['access'] === 'read') {
             //
@@ -620,7 +627,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $labels = $element -> getLabels(true);
 
         // Start the form group
-        $block = $this -> writeElement('div', ['show' => 'group-wrapper']);
+        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
         $block -> body .= $this -> writeLabel(
             'headingAttributes', $labels -> heading, 'label',
             new Attributes('!for', $element -> getId()), ['break' => true]
@@ -647,7 +654,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
         // Generate the input element
         $block -> body .= $this -> writeTag('input', $attrs)
-            . $this -> writeLabel('after', $labels -> after, 'span');
+            . $this -> writeLabel('after', $labels -> after, 'span') . "\n";
         $block -> close();
 
         return $block;

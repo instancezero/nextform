@@ -186,9 +186,9 @@ class SimpleHtml extends CommonHtml implements Renderer {
             }
             // Generate the input element
             $block -> body .= $this -> writeTag('input', $attrs)
-                . $this -> writeLabel('after', $labels -> after, 'span');
+                . $this -> writeLabel('after', $labels -> after, 'span') . "\n";
             $block -> close();
-            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+            $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : "<br/>\n");
         }
         return $block;
     }
@@ -300,7 +300,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
                 $attrs -> setFlag('readonly');
             }
             // Generate the input element
-            $block -> body .= $this -> writeTag('input', $attrs)
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n"
                 . $this -> writeLabel('after', $labels -> after, 'span');
             $block -> close();
             $block -> body .= ($this -> context['inCell'] ? '&nbsp;' : '<br/>') . "\n";

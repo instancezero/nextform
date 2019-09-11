@@ -921,7 +921,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             )
         );
 
-
         // Set a value
         $expect['value'] = Block::fromString(
             $this -> formGroup(
@@ -1021,14 +1020,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
             $this -> formGroup(
-                '<input id="field-1" name="field-1" type="file" class="form-control"/>' . "\n"
+                '<input id="field-1" name="field-1" type="file" class="form-control-file"/>' . "\n"
             )
         );
 
         // Now test validation
         $expect['valid'] = Block::fromString(
             $this -> formGroup(
-                '<input id="field-1" name="field-1[]" type="file" class="form-control"'
+                '<input id="field-1" name="field-1[]" type="file" class="form-control-file"'
                 . ' accept="*.png,*.jpg" multiple/>' . "\n"
             )
         );
@@ -1036,78 +1035,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this -> formGroup(
-                '<input id="field-1" name="field-1" type="text" class="form-control" readonly/>' . "\n"
+                '<input id="field-1" name="field-1" type="text"'
+                . ' class="form-control-file" readonly/>' . "\n"
             )
         );
 
         // Test view with a value
-        $expect['view-value'] = Block::fromString(
+        $expect['value-view'] = Block::fromString(
             $this -> formGroup(
-                '<input id="field-1" name="field-1" type="text" class="form-control"'
+                '<input id="field-1" name="field-1" type="text" class="form-control-file"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
             )
         );
 
         // Test read access
         //
-        $expect['read-value'] = Block::fromString(
+        $expect['value-read'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
 
         $this -> runCases($cases, $expect);
-    //---------------------------------
-        return;
-        $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('file');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="file"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Now test validation
-        //
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('accept', '*.png,*.jpg');
-        $validation -> set('multiple', true);
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = '<input id="field-1" name="field-1[]" type="file" accept="*.png,*.jpg" multiple/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test view with a value
-        //
-        $element -> setValue(['file1.png', 'file2.jpg']);
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' value="file1.png,file2.jpg" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
     }
 
    /**
@@ -1115,39 +1063,25 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFormRendererBootstrap4_FieldHidden() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('hidden');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
+        $cases = RendererCaseGenerator::html_FieldHidden();
+
+        $expect = [];
+
         // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['basic'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Same result with view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = $expect['basic'];
+
         // Same result with read access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = $expect['basic'];
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1155,53 +1089,23 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldHiddenLabels() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('hidden');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $ret = $element -> setValue('the value');
-        $this -> assertTrue($element === $ret);
-        //
-        // Make sure the value shows up
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"'
-            . ' value="the value"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add a inner
-        //
-        $element -> setLabel('inner', 'Something with & in it');
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text before
-        //
-        $element -> setLabel('before', 'prefix');
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Some text after
-        //
-        $element -> setLabel('after', 'suffix');
-        // Strip the tail off, add label, re-add tail
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Add a heading
-        //
-        $element -> setLabel('heading', 'Stuff');
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $cases = RendererCaseGenerator::html_FieldHiddenLabels();
+
+        $expect = [];
+
+        $expect['label-none'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"'
+            . ' value="the value"/>' . "\n"
+        );
+
+        $expect['label-inner'] = $expect['label-none'];
+        $expect['label-before'] = $expect['label-none'];
+        $expect['label-after'] = $expect['label-none'];
+        $expect['label-head'] = $expect['label-none'];
+        $expect['label-help'] = $expect['label-none'];
+        $expect['label-all'] = $expect['label-none'];
+
+        $this -> runCases($cases, $expect);
     }
 
    /**
@@ -1209,60 +1113,49 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFormRendererBootstrap4_FieldMonth() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('month');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="month"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set a value
-        //
-        $element -> setValue('2010-10');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldMonth();
+
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="month" class="form-control"/>' . "\n"
+            )
+        );
+
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="month" class="form-control"'
+                . ' value="2010-10"/>' . "\n"
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-write'] = $expect['value'];
+
         // Now test validation
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('minValue', '1957-10');
-        $validation -> set('maxValue', 'Nov 2099');
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"'
-            . ' min="1957-10" max="2099-11"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="month" class="form-control"'
+                . ' value="2010-10" min="1957-10" max="2099-11"/>' . "\n"
+            )
+        );
+
         // Now with view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="month" value="2010-10"'
-            . ' readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Convert to hidden for read access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="2010-10"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['minmax-view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="month" class="form-control"'
+                . ' value="2010-10"'
+                . ' readonly/>' . "\n"
+            )
+        );
+
+        // Read access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="2010-10"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1271,119 +1164,96 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 	public function testFormRendererBootstrap4_FieldNumber() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a number
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('number');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $element -> setValue('200');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="number" value="200"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldNumber();
+
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="number"'
+                . ' class="form-control" value="200"/>' . "\n"
+            )
+        );
+
         // Make the field required
-        //
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('required', true);
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="number"'
-            . ' value="200"'
-            . ' required/>' . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['required'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="number"'
+                . ' class="form-control" value="200"'
+                . ' required/>' . "\n"
+            )
+        );
+
         // Set minimum/maximum values
-        //
-        $validation -> set('minValue', -1000);
-        $validation -> set('maxValue', 999.45);
-        $expect -> body = '<input id="field-1" name="field-1" type="number"'
-            . ' value="200"'
-            . ' min="-1000" max="999.45" required/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="number"'
+                . ' class="form-control" value="200"'
+                . ' min="-1000" max="999.45" required/>' . "\n"
+            )
+        );
+
         // Add a step
-        //
-        $validation -> set('step', 1.23);
-        $expect -> body = '<input id="field-1" name="field-1" type="number"'
-            . ' value="200"'
-            . ' min="-1000" max="999.45" required step="1.23"/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['step'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="number"'
+                . ' class="form-control" value="200"'
+                . ' min="-1000" max="999.45" required step="1.23"/>' . "\n"
+            )
+        );
+
         // Settng a pattern should have no effect!
-        //
-        $validation -> set('pattern', '/[+\-]?[0-9]+/');
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['pattern'] = $expect['step'];
+
         // Test view access
-        //
-        $expect -> body = '<input id="field-1" name="field-1" type="number"'
-            . ' value="200" readonly/>' . $tail;
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="number"'
+                . ' class="form-control" value="200" readonly/>' . "\n"
+            )
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererBootstrap4_FieldPassword() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a password
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('password');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="password"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldPassword();
+
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="password"'
+                . ' class="form-control"/>' . "\n"
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="password" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="password"'
+                . ' class="form-control" readonly/>' . "\n"
+            )
+        );
+
         // Test view with a value
-        //
-        $element -> setValue('secret');
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="password" value="secret" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="password"'
+                . ' class="form-control" value="secret" readonly/>' . "\n"
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="secret"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="secret"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1391,62 +1261,44 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldRadio() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a radio
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('radio');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // Give the element a label
-        //
-        $element -> setLabel('inner', '<Stand-alone> radio');
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="radio"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldRadio();
+
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="radio"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Set a value
-        //
-        $element -> setValue(3);
-        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<br/>' . "\n";
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-            . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1674,68 +1526,51 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 	public function testFormRendererBootstrap4_FieldRange() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a range
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('range');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $element -> setValue('200');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="range" value="200"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldRange();
+
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="range"'
+                . ' class="form-control" value="200"/>' . "\n"
+            )
+        );
+
         // Making the field required should have no effect
-        //
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('required', true);
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="range"'
-            . ' value="200"/>' . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['required'] = $expect['basic'];
+
         // Set minimum/maximum values
-        //
-        $validation -> set('minValue', -1000);
-        $validation -> set('maxValue', 999.45);
-        $expect -> body = '<input id="field-1" name="field-1" type="range"'
-            . ' value="200"'
-            . ' min="-1000" max="999.45"/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="range"'
+                . ' class="form-control" value="200"'
+                . ' min="-1000" max="999.45"/>' . "\n"
+            )
+        );
+
         // Add a step
-        //
-        $validation -> set('step', 20);
-        $expect -> body = '<input id="field-1" name="field-1" type="range"'
-            . ' value="200"'
-            . ' min="-1000" max="999.45" step="20"/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['step'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="range"'
+                . ' class="form-control" value="200"'
+                . ' min="-1000" max="999.45" step="20"/>' . "\n"
+            )
+        );
+
         // Settng a pattern should have no effect!
-        //
-        $validation -> set('pattern', '/[+\-]?[0-9]+/');
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['pattern'] = $expect['step'];
+
+
         // Test view access
-        //
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' value="200" readonly/>' . $tail;
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                '<input id="field-1" name="field-1" type="text"'
+                . ' class="form-control" value="200" readonly/>' . "\n"
+            )
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1743,44 +1578,39 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldSearch() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a search
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('search');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="search"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldSearch();
+
+        $expect = [];
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="search"'
+                    . ' class="form-control"/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="search" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="search"'
+                    . ' class="form-control" readonly/>' . "\n"
+                )
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2051,44 +1881,39 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldTel() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a tel
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('tel');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="tel"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldTel();
+
+        $expect = [];
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="tel"'
+                    . ' class="form-control"/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="tel" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="tel"'
+                    . ' class="form-control" readonly/>' . "\n"
+                )
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererBootstrap4_FieldText() {
@@ -2122,36 +1947,42 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFormRendererBootstrap4_FieldTextDataList() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $tail = "<br/>\n";
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        // No access assumes write access
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' list="field-1-list"/>'
-            . "<datalist id=\"field-1-list\">\n"
-            . "  <option value=\"textlist 1\"/>\n"
-            . "  <option value=\"textlist 2\"/>\n"
-            . "  <option value=\"textlist 3\"/>\n"
-            . "  <option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
-            . "</datalist>\n" . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $cases = RendererCaseGenerator::html_FieldTextDataList();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="text"'
+                    . ' class="form-control" list="field-1-list"/>' . "\n"
+                    . "<datalist id=\"field-1-list\">\n"
+                    . "<option value=\"textlist 1\"/>\n"
+                    . "<option value=\"textlist 2\"/>\n"
+                    . "<option value=\"textlist 3\"/>\n"
+                    . "<option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
+                    . "</datalist>\n"
+                )
+            )
+        );
+
         // Test view access: No list is required
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="text" readonly/>' . $tail;
-        $expect -> post = null;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="text"'
+                    . ' class="form-control" readonly/>' . "\n"
+                )
+            )
+        );
+
         // Test read (less than view) access
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2266,53 +2097,55 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldTextValidation() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
+        $cases = RendererCaseGenerator::html_FieldTextValidation();
+        $expect = [];
         $tail = "<br/>\n";
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        $validation = $element -> getDataProperty() -> getValidation();
-        //
-        // Make the field required
-        //
-        $validation -> set('required', true);
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1"'
-            . ' type="text"'
-            . ' required/>' . $tail;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['required'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1"'
+                    . ' type="text" class="form-control"'
+                    . ' required/>' . "\n"
+                )
+            )
+        );
+
         // Set a maximum length
-        //
-        $validation -> set('maxLength', 10);
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' maxlength="10" required/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['max'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="text"'
+                    . ' class="form-control" maxlength="10" required/>' . "\n"
+                )
+            )
+        );
+
         // Set a minimum length
-        //
-        $validation -> set('minLength', 3);
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' maxlength="10" minlength="3" required/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="text"'
+                    . ' class="form-control" maxlength="10" minlength="3" required/>' . "\n"
+                )
+            )
+        );
+
         // Make it match a postal code
-        //
-        $validation -> set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
-        // Strip the tail off, add label, re-add tail
-        $expect -> body = '<input id="field-1" name="field-1" type="text"'
-            . ' maxlength="10" minlength="3"'
-            . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . $tail;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['pattern'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="text"'
+                    . ' class="form-control" maxlength="10" minlength="3"'
+                    . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . "\n"
+                )
+            )
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererBootstrap4_FieldTextarea() {
