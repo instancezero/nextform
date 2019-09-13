@@ -79,7 +79,7 @@ class Property implements \JsonSerializable {
 
     public function getPopulation() : \Abivia\NextForm\Data\Population {
         if ($this -> population === null) {
-            return new \Abivia\NextForm\Data\Population;
+            $this -> population = new \Abivia\NextForm\Data\Population;
         }
         return $this -> population;
     }
