@@ -2,6 +2,7 @@
 
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Element\ButtonElement;
+use Abivia\NextForm\Element\CellElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Element\HtmlElement;
 use Abivia\NextForm\Element\SectionElement;
@@ -113,7 +114,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['bva'] = [$baseButton, ['access' => 'view'], 'button view access'];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['bra'] = [$baseButton, ['access' => 'read'], 'button read access'];
 
         // Test success with smaller size
@@ -140,6 +141,13 @@ class RendererCaseGenerator {
         $eBase = new ButtonElement();
         $eBase -> configure($config);
         $cases = self::addLabels($eBase, '', 'Button ');
+        return $cases;
+    }
+
+    static public function html_Cell() {
+        $cases = [];
+        $element = new CellElement();
+        $cases['basic'] = $element;
         return $cases;
     }
 
@@ -308,6 +316,9 @@ class RendererCaseGenerator {
         // Set a second value to trigger the checked option
         $e3 = $element -> copy() -> setValue(['textlist 1', 'textlist 3']);
         $cases['dual-value'] = [$e3];
+
+        // Test read access
+        $cases['dual-value-view'] = [$e3, ['access' => 'view']];
 
         // Test read access
         $cases['dual-value-read'] = [$e3, ['access' => 'read']];
@@ -507,7 +518,7 @@ class RendererCaseGenerator {
         $e2 -> setValue(['file1.png', 'file2.jpg']);
         $cases['value-view'] = [$e2, ['access' => 'view']];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['value-read'] = [$e2, ['access' => 'read']];
 
         return $cases;
@@ -661,7 +672,7 @@ class RendererCaseGenerator {
         $e1 -> setValue('secret');
         $cases['value-view'] = [$e1, ['access' => 'view']];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['value-read'] = [$e1, ['access' => 'read']];
 
         return $cases;
@@ -697,7 +708,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['value-view'] = [$e1, ['access' => 'view']];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['value-read'] = [$e1, ['access' => 'read']];
 
         return $cases;
@@ -706,6 +717,61 @@ class RendererCaseGenerator {
     static public function html_FieldRadioLabels() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change test/text to a radio
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // Give the element some labels and a value
+        $element -> setLabel('before', 'No need to fear');
+        $element -> setLabel('heading', 'Very Important Choice');
+        $element -> setLabel('inner', '<Stand-alone> radio');
+        $element -> setLabel('after', 'See? No problem!');
+        $element -> setValue(3);
+        $cases['labels-value'] = $element;
+
+        // Test view access
+        $cases['labels-value-view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['labels-value-read'] = [$element, ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_FieldRadioList() {
+        $cases = [];
+
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change textWithList to a radio
+        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element -> copy();
+
+        // Same result with explicit write access
+        $cases['write'] = [$element -> copy(), ['access' => 'write']];
+
+        // Set a value to trigger the checked option
+        $element -> setValue('textlist 3');
+        $cases['value'] = $element -> copy();
+
+        //
+        // Test view access
+        $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
 
         return $cases;
     }
@@ -713,6 +779,30 @@ class RendererCaseGenerator {
     static public function html_FieldRadioListLabels() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change test/text to a radio
+        $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
+        $presentation -> setType('radio');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+        //
+        // Give the element some labels and a value
+        //
+        $element -> setLabel('before', 'No need to fear');
+        $element -> setLabel('heading', 'Very Important Choice');
+        $element -> setLabel('inner', '<Stand-alone> radio');
+        $element -> setLabel('after', 'See? No problem!');
+        $element -> setValue('textlist 3');
+        $cases['labels-value'] = $element;
+
+        // Test view access
+        $cases['labels-value-view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['labels-value-read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -781,7 +871,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
@@ -790,6 +880,54 @@ class RendererCaseGenerator {
     static public function html_FieldSelect() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change test/text to a select
+        $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
+        $presentation -> setType('select');
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element -> copy();
+
+        // Same result with explicit write access
+        $cases['write'] = $cases['basic'];
+
+        // Test view access
+        $cases['view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element -> copy(), ['access' => 'read']];
+
+        // Now let's give it a value...
+        $element -> setValue('textlist 2');
+        $cases['value'] = $element -> copy();
+
+        // Test view access
+        $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
+
+        // Set multiple and give it two values
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $element -> setValue(['textlist 2', 'textlist 4']);
+        $cases['multivalue'] = $element -> copy();
+
+
+        // Test view access
+        $cases['multivalue-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['multivalue-read'] = [$element -> copy(), ['access' => 'read']];
+
+        // Set the presentation to one row
+        $presentation -> setRows(6);
+        $cases['onerow'] = $element;
 
         return $cases;
     }
@@ -797,6 +935,49 @@ class RendererCaseGenerator {
     static public function html_FieldSelectNested() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change test/text to a select
+        $presentation = $schema -> getProperty('test/textWithNestedList') -> getPresentation();
+        $presentation -> setType('select');
+        $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element -> copy();
+
+        // Same result with explicit write access
+        $cases['write'] = [$element -> copy(), ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element -> copy(), ['access' => 'read']];
+
+        // Now let's give it a value...
+        $element -> setValue('S2I1');
+        $cases['value'] = $element -> copy();
+
+        // Test view access
+        $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
+
+        // Set multiple and give it two values
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('multiple', true);
+        $element -> setValue(['S2I1', 'Sub One Item One']);
+        $cases['multivalue'] = $element -> copy();
+
+        // Test view access
+        $cases['multivalue-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Test read access
+        $cases['multivalue-read'] = [$element -> copy(), ['access' => 'read']];
 
         return $cases;
     }
@@ -823,7 +1004,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read (less than view) access
+        // Test read access
         $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
@@ -915,6 +1096,28 @@ class RendererCaseGenerator {
     static public function html_FieldTextarea() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
+        // Modify the schema to change test/text to a textarea
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('textarea');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        //
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -922,6 +1125,36 @@ class RendererCaseGenerator {
     static public function html_FieldTime() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('time');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element -> copy();
+
+        // Set a value
+        $element -> setValue('20:10');
+        $cases['value'] = $element -> copy();
+
+        // Same result with explicit write access
+        //
+        $cases['value-write'] = [$element -> copy(), ['access' => 'write']];
+
+        // Now test validation
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '19:57');
+        $validation -> set('maxValue', '20:19');
+        $cases['minmax'] = $element -> copy();
+
+        // Now with view access
+        $cases['minmax-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Convert to hidden for read access
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -929,6 +1162,26 @@ class RendererCaseGenerator {
     static public function html_FieldUrl() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        // Modify the schema to change test/text to a search
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('url');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -936,6 +1189,35 @@ class RendererCaseGenerator {
     static public function html_FieldWeek() {
         $cases = [];
 
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $presentation = $schema -> getProperty('test/text') -> getPresentation();
+        $presentation -> setType('week');
+        $config = json_decode('{"type": "field","object": "test/text"}');
+        $element = new FieldElement();
+        $element -> configure($config);
+        $element -> bindSchema($schema);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element -> copy();
+
+        // Set a value
+        $element -> setValue('2010-W37');
+        $cases['value'] = $element -> copy();
+
+        // Same result with explicit write access
+        $cases['value-write'] = [$element -> copy(), ['access' => 'write']];
+
+        // Now test validation
+        $validation = $element -> getDataProperty() -> getValidation();
+        $validation -> set('minValue', '1957-W30');
+        $validation -> set('maxValue', '2099-W42');
+        $cases['minmax'] = $element -> copy();
+
+        // Now with view access
+        $cases['minmax-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Convert to hidden for read access
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -943,6 +1225,21 @@ class RendererCaseGenerator {
     static public function html_Html() {
         $cases = [];
 
+        $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
+        $element = new HtmlElement();
+        $element -> configure($config);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }
@@ -950,6 +1247,42 @@ class RendererCaseGenerator {
     static public function html_Section() {
         $cases = [];
 
+        $element = new SectionElement();
+
+        // Start with an empty section
+        $cases['empty'] = $element -> copy();
+
+        // Add a label
+        $element -> setLabel('heading', 'This is legendary');
+        $cases['label'] = $element -> copy();
+
+        // Same for view access
+        $cases['label-view'] = [$element -> copy(), ['access' => 'view']];
+
+        // Same for read access
+        $cases['label-read'] = [$element -> copy(), ['access' => 'read']];
+
+        return $cases;
+    }
+
+    static public function html_Static() {
+        $cases = [];
+
+        $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
+        $element = new StaticElement();
+        $element -> configure($config);
+
+        // No access specification assumes write access
+        $cases['basic'] = $element;
+
+        // Same result with explicit write access
+        $cases['write'] = [$element, ['access' => 'write']];
+
+        // Test view access
+        $cases['view'] = [$element, ['access' => 'view']];
+
+        // Test read access
+        $cases['read'] = [$element, ['access' => 'read']];
 
         return $cases;
     }

@@ -66,6 +66,11 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Cell</h3>
+<h4>basic</h4>
+<div>
+</div>
+<hr/>
+<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_CellContext</h3>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldButton</h3>
 <h4>with value</h4>
 <input id="field-1" name="field-1" type="button" value="Ok Bob"/>
@@ -151,7 +156,7 @@
 <span>suffix</span><br/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldCheckboxList</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -170,7 +175,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -189,7 +194,28 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>
+<hr/>
+<h4>read</h4>
+<hr/>
+<h4>single-value</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -208,7 +234,10 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>single-value-read</h4>
+<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<hr/>
+<h4>dual-value</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked/>
 <label for="field-1-opt0">textlist 1</label>
@@ -227,7 +256,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>dual-value-view</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
 <label for="field-1-opt0">textlist 1</label>
@@ -246,9 +275,47 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>dual-value-read</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
 <input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<hr/>
+<h4>inline</h4>
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>
+<hr/>
+<h4>inline-nolabel</h4>
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+<br/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldColor</h3>
 <h4>default</h4>
@@ -493,23 +560,23 @@
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioLabels</h3>
-<h4>full access</h4>
+<h4>labels-value</h4>
 <div>Very Important Choice</div>
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <span>See? No problem!</span><br/>
 <hr/>
-<h4>view only</h4>
+<h4>labels-value-view</h4>
 <div>Very Important Choice</div>
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3" readonly/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
 <span>See? No problem!</span><br/>
 <hr/>
-<h4>read(hidden) only</h4>
+<h4>labels-value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioList</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div>
 <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -528,7 +595,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div>
 <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -547,7 +614,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <div>
 <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
 <label for="field-1-opt0">textlist 1</label>
@@ -566,7 +633,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <div>
 <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
 <label for="field-1-opt0">textlist 1</label>
@@ -585,11 +652,11 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioListLabels</h3>
-<h4>full access</h4>
+<h4>labels-value</h4>
 <div>Very Important Choice</div>
 <div>No need to fear</div>
 <div>
@@ -611,7 +678,7 @@
 <div>See? No problem!</div>
 <br/>
 <hr/>
-<h4>view only</h4>
+<h4>labels-value-view</h4>
 <div>Very Important Choice</div>
 <div>No need to fear</div>
 <div>
@@ -633,7 +700,7 @@
 <div>See? No problem!</div>
 <br/>
 <hr/>
-<h4>read(hidden) only</h4>
+<h4>labels-value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRange</h3>
@@ -678,7 +745,7 @@
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelect</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <select id="field-1" name="field-1">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2">textlist 2</option>
@@ -687,7 +754,7 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <select id="field-1" name="field-1">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2">textlist 2</option>
@@ -696,14 +763,14 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <select id="field-1" name="field-1">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -712,15 +779,15 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <span>textlist 2</span>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue</h4>
 <select id="field-1" name="field-1[]" multiple>
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -729,18 +796,18 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-view</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
 <span>textlist 2</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
 <span>textlist 4</span><br/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-read</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>onerow</h4>
 <select id="field-1" name="field-1[]" size="6" multiple>
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -750,7 +817,7 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelectNested</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <select id="field-1" name="field-1">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -764,7 +831,7 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <select id="field-1" name="field-1">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -778,14 +845,14 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <select id="field-1" name="field-1">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -799,15 +866,15 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue</h4>
 <select id="field-1" name="field-1[]" multiple>
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -821,14 +888,14 @@
 </select>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-view</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>
 <span>Sub One Item One</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span><br/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-read</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
@@ -931,118 +998,118 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextarea</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <textarea id="field-1" name="field-1" readonly></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTime</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <input id="field-1" name="field-1" type="time"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <input id="field-1" name="field-1" type="time" value="20:10"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-write</h4>
 <input id="field-1" name="field-1" type="time" value="20:10"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax</h4>
 <input id="field-1" name="field-1" type="time" value="20:10" min="19:57" max="20:19"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax-view</h4>
 <input id="field-1" name="field-1" type="time" value="20:10" readonly/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldUrl</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <input id="field-1" name="field-1" type="url"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <input id="field-1" name="field-1" type="url"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <input id="field-1" name="field-1" type="url" readonly/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldWeek</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <input id="field-1" name="field-1" type="week"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-write</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37" min="1957-W30" max="2099-W42"/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax-view</h4>
 <input id="field-1" name="field-1" type="week" value="2010-W37" readonly/>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Html</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <p>This is some escaped html &amp;</p><hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <p>This is some escaped html &amp;</p><hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <p>This is some escaped html &amp;</p><hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <p>This is some escaped html &amp;</p><hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Section</h3>
-<h4>(assertion)</h4>
+<h4>empty</h4>
 <fieldset>
 </fieldset>
 <hr/>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<hr/>
-<h4>(assertion)</h4>
+<h4>label</h4>
 <fieldset>
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label-view</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-read</h4>
 <fieldset>
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Static</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 This is unescaped text with &lt;stuff&gt;!<hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 This is unescaped text with &lt;stuff&gt;!<hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 This is unescaped text with &lt;stuff&gt;!<hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 This is unescaped text with &lt;stuff&gt;!<hr/>
 </form></body></html>

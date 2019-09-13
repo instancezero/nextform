@@ -112,6 +112,11 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_Cell</h3>
+<h4>basic</h4>
+<div style="display:inline-block; vertical-align:top; width:40%">
+</div>
+<hr/>
+<h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_CellContext</h3>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldButton</h3>
 <h4>with value</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
@@ -243,7 +248,7 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldCheckboxList</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -265,7 +270,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -287,7 +292,31 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
+<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" readonly/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+</div>
+<br/>
+<hr/>
+<h4>read</h4>
+<hr/>
+<h4>single-value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -309,7 +338,10 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>single-value-read</h4>
+<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<hr/>
+<h4>dual-value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -331,7 +363,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>dual-value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -353,9 +385,53 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>dual-value-read</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
 <input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<hr/>
+<h4>inline</h4>
+<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+</div>
+<br/>
+<hr/>
+<h4>inline-nolabel</h4>
+<div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
+<div style="display:inline-block; vertical-align:top; width:40%">
+<div>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
+<label for="field-1-opt0">textlist 1</label>
+</div>
+<div>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2"/>
+<label for="field-1-opt1">textlist 2</label>
+</div>
+<div>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
+<label for="field-1-opt2">textlist 3</label>
+</div>
+<div>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3">textlist 4</label>
+</div>
+</div>
+<br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldColor</h3>
 <h4>default</h4>
@@ -723,7 +799,7 @@
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldRadioLabels</h3>
-<h4>full access</h4>
+<h4>labels-value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">Very Important Choice</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3"/>
@@ -731,7 +807,7 @@
 <span>See? No problem!</span></div>
 <br/>
 <hr/>
-<h4>view only</h4>
+<h4>labels-value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">Very Important Choice</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3" readonly/>
@@ -739,11 +815,11 @@
 <span>See? No problem!</span></div>
 <br/>
 <hr/>
-<h4>read(hidden) only</h4>
+<h4>labels-value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldRadioList</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -765,7 +841,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -787,7 +863,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -809,7 +885,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>
@@ -831,11 +907,11 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldRadioListLabels</h3>
-<h4>full access</h4>
+<h4>labels-value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">Very Important Choice</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>No need to fear</div>
@@ -859,7 +935,7 @@
 </div>
 <br/>
 <hr/>
-<h4>view only</h4>
+<h4>labels-value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">Very Important Choice</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <div>No need to fear</div>
@@ -883,7 +959,7 @@
 </div>
 <br/>
 <hr/>
-<h4>read(hidden) only</h4>
+<h4>labels-value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldRange</h3>
@@ -955,7 +1031,7 @@
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldSelect</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -967,7 +1043,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -979,17 +1055,17 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -1001,7 +1077,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
@@ -1009,10 +1085,10 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1[]" multiple>
@@ -1024,7 +1100,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
@@ -1034,11 +1110,11 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-read</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>onerow</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1[]" size="6" multiple>
@@ -1051,7 +1127,7 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldSelectNested</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -1068,7 +1144,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -1085,17 +1161,17 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1">
@@ -1112,7 +1188,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
@@ -1120,10 +1196,10 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <select id="field-1" name="field-1[]" multiple>
@@ -1140,7 +1216,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>
@@ -1150,7 +1226,7 @@
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>multivalue-read</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
@@ -1308,189 +1384,185 @@
 <br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldTextarea</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <textarea id="field-1" name="field-1"></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <textarea id="field-1" name="field-1"></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <textarea id="field-1" name="field-1" readonly></textarea><br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldTime</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="time"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="time" value="20:10"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-write</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="time" value="20:10"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="time" value="20:10" min="19:57" max="20:19"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax-view</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="time" value="20:10" readonly/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldUrl</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="url"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="url"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="url" readonly/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_FieldWeek</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="week"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="week" value="2010-W37"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>value-write</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="week" value="2010-W37"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="week" value="2010-W37" min="1957-W30" max="2099-W42"/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>minmax-view</h4>
 <label for="field-1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <input id="field-1" name="field-1" type="week" value="2010-W37" readonly/>
 </div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_Html</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <p>This is some escaped html &amp;</p></div>
-<br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <p>This is some escaped html &amp;</p></div>
-<br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <p>This is some escaped html &amp;</p></div>
-<br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 <p>This is some escaped html &amp;</p></div>
-<br/>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_Section</h3>
-<h4>(assertion)</h4>
+<h4>empty</h4>
 <fieldset>
 </fieldset>
 <hr/>
-<h4>(assertion)</h4>
-<fieldset>
-<legend>This is legendary</legend>
-</fieldset>
-<hr/>
-<h4>(assertion)</h4>
+<h4>label</h4>
 <fieldset>
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
-<h4>(assertion)</h4>
+<h4>label-view</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-read</h4>
 <fieldset>
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
 <h3>FormRendererSimpleHtmlHorizontalTest::testFormRendererSimpleHtml_Static</h3>
-<h4>(assertion)</h4>
+<h4>basic</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 This is unescaped text with &lt;stuff&gt;!</div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>write</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 This is unescaped text with &lt;stuff&gt;!</div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>view</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 This is unescaped text with &lt;stuff&gt;!</div>
 <br/>
 <hr/>
-<h4>(assertion)</h4>
+<h4>read</h4>
 <div style="display:inline-block; vertical-align:top; width:20%">&nbsp;</div>
 <div style="display:inline-block; vertical-align:top; width:40%">
 This is unescaped text with &lt;stuff&gt;!</div>

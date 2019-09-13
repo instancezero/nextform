@@ -530,7 +530,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
     protected function renderHtmlElement(HtmlElement $element, $options = []) {
         $block = new Block();
         $block -> body .= $this -> writeLabel('headingAttributes', null, 'div', null, ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
+        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
         $block -> body .= $element -> getValue();
         $block -> close();
         return $block;

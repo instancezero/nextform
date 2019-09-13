@@ -267,15 +267,23 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFormRendererBootstrap4_Cell() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $this -> assertFalse($this -> testObj -> queryContext('inCell'));
+        $cases = RendererCaseGenerator::html_Cell();
+
+        $expect['basic'] = Block::fromString(
+            '<div class="form-row">' . "\n",
+            '</div>' . "\n"
+        );
+        $expect['basic'] -> onCloseDone = [$this -> testObj, 'popContext'];
+
+        $this -> runCases($cases, $expect);
+    }
+
+	public function testFormRendererSimpleHtml_CellContext() {
+        $this -> logMethod(__METHOD__);
         $element = new CellElement();
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<div class="form-row">' . "\n";
-        $expect -> post = '</div>' . "\n";
-        $expect -> onCloseDone = [$this -> testObj, 'popContext'];
+        $this -> assertFalse($this -> testObj -> queryContext('inCell'));
+        $this -> testObj -> render($element);
         $this -> assertTrue($this -> testObj -> queryContext('inCell'));
-        $this -> assertEquals($expect, $data);
     }
 
     /**
@@ -736,6 +744,37 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             . $this -> formCheck(
                 '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
                 . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3" class="form-check-label">'
+                . 'textlist 4</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        // Two options set, view mode
+        $expect['dual-value-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 1" readonly checked/>' . "\n"
+                . '<label for="field-1-opt0" class="form-check-label">'
+                . 'textlist 1</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
+                . '<label for="field-1-opt1" class="form-check-label">'
+                . 'textlist 2</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 3" readonly checked/>' . "\n"
+                . '<label for="field-1-opt2" class="form-check-label">'
+                . 'textlist 3</label>' . "\n"
+            )
+            . $this -> formCheck(
+                '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' class="form-check-input" value="textlist 4" readonly'
+                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
@@ -1306,52 +1345,34 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldRadioLabels() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a radio
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('radio');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // Give the element some labels and a value
-        //
-        $element -> setLabel('before', 'No need to fear');
-        $element -> setLabel('heading', 'Very Important Choice');
-        $element -> setLabel('inner', '<Stand-alone> radio');
-        $element -> setLabel('after', 'See? No problem!');
-        $element -> setValue(3);
-        $expect -> body = '<div>Very Important Choice</div>' . "\n"
-            . '<span>No need to fear</span>'
+        $cases = RendererCaseGenerator::html_FieldRadioLabels();
+
+        $expect = [];
+        $expect['labels-value'] = Block::fromString(
+            $this -> column1('Very Important Choice', 'div')
+            . $this -> column2('<span>No need to fear</span>'
             . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<span>See? No problem!</span><br/>' . "\n"
-            ;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'full access');
-        //
+            . '<span>See? No problem!</span>')
+            . '<br/>' . "\n"
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div>Very Important Choice</div>' . "\n"
-            . '<span>No need to fear</span>'
+        $expect['labels-value-view'] = Block::fromString(
+            $this -> column1('Very Important Choice', 'div')
+            . $this -> column2('<span>No need to fear</span>'
             . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
             . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
-            . '<span>See? No problem!</span><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'view only');
-        //
+            . '<span>See? No problem!</span>')
+            . '<br/>' . "\n"
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'read(hidden) only');
+        $expect['labels-value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1359,81 +1380,96 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldRadioList() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change textWithList to a radio
-        //
-        $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('radio');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        // No access specification assumes write access
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>
-<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldRadioList();
+
+        $expect = [];
+        $expect['basic'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<div>' . "\n"
+                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>' . "\n"
+                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Set a value to trigger the checked option
-        //
-        $element -> setValue('textlist 3');
-        $expect -> body = str_replace('list 3"', 'list 3" checked', $expect -> body);
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<div>' . "\n"
+                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . ' checked/>' . "\n"
+                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>
-<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<div>' . "\n"
+                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                . ' readonly/>' . "\n"
+                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                . ' readonly/>' . "\n"
+                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . ' readonly checked/>' . "\n"
+                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1441,83 +1477,71 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldRadioListLabels() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a radio
-        //
-        $presentation = $schema -> getProperty('test/textWithList') -> getPresentation();
-        $presentation -> setType('radio');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // Give the element some labels and a value
-        //
-        $element -> setLabel('before', 'No need to fear');
-        $element -> setLabel('heading', 'Very Important Choice');
-        $element -> setLabel('inner', '<Stand-alone> radio');
-        $element -> setLabel('after', 'See? No problem!');
-        $element -> setValue('textlist 3');
-        $expect -> body = '<div>Very Important Choice</div>' . "\n"
-            . '<div>No need to fear</div>' . "\n"
-            . '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>' . "\n"
-            . '<div>See? No problem!</div>' . "\n"
+        $cases = RendererCaseGenerator::html_FieldRadioListLabels();
+
+        $expect = [];
+
+        $expect['labels-value'] = Block::fromString(
+            $this -> column1('Very Important Choice', 'div')
+            . $this -> column2(
+                '<div>No need to fear</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>' . "\n"
+                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>See? No problem!</div>' . "\n"
+            )
             . '<br/>' . "\n"
-            ;
-        $data = $this -> testObj -> render($element);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'full access');
-        //
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<div>Very Important Choice</div>' . "\n"
-            . '<div>No need to fear</div>' . "\n"
-            . '<div>
-  <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1" readonly/>
-  <label for="field-1-opt0">textlist 1</label>
-</div>
-<div>
-  <input id="field-1-opt1" name="field-1" type="radio" value="textlist 2" readonly/>
-  <label for="field-1-opt1">textlist 2</label>
-</div>
-<div>
-  <input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
-  <label for="field-1-opt2">textlist 3</label>
-</div>
-<div>
-  <input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
-  <label for="field-1-opt3">textlist 4</label>
-</div>' . "\n"
-            . '<div>See? No problem!</div>' . "\n"
+        $expect['labels-value-view'] = Block::fromString(
+            $this -> column1('Very Important Choice', 'div')
+            . $this -> column2(
+                '<div>No need to fear</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                . ' readonly/>' . "\n"
+                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                . ' readonly/>' . "\n"
+                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . ' readonly checked/>' . "\n"
+                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>See? No problem!</div>' . "\n"
+            )
             . '<br/>' . "\n"
-            ;
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'view only');
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data, 'read(hidden) only');
+        );
+
+        // Test read access
+        $expect['labels-value-read'] = Block::fromString(
+            '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -1617,6 +1641,117 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      * Check a field as a simple select
      */
 	public function testFormRendererBootstrap4_FieldSelect() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldSelect();
+
+        $expect = [];
+        $expect['basic'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<select id="field-1" name="field-1">' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2">textlist 2</option>' . "\n"
+                . '<option value="textlist 3">textlist 3</option>' . "\n"
+                . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Same result with explicit write access
+        $expect['write'] = $expect['basic'];
+
+        // Test view access
+        $expect['view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test read (less than view) access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        // Now let's give it a value...
+        $expect['value'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<select id="field-1" name="field-1">' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+                . '<option value="textlist 3">textlist 3</option>' . "\n"
+                . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test view access
+        $expect['value-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+                . '<span>textlist 2</span>' . "\n"
+            ). '<br/>' . "\n"
+        );
+
+        // Test read (less than view) access
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+        );
+
+        // Set multiple and give it two values
+        $expect['multivalue'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+                . '<option value="textlist 3">textlist 3</option>' . "\n"
+                . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test view access
+        $expect['multivalue-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+                . '<span>textlist 2</span><br/>' . "\n"
+                . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n"
+                . '<span>textlist 4</span><br/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test read (less than view) access
+        $expect['multivalue-read'] = Block::fromString(
+            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
+        );
+
+        // Set the presentation to one row
+        $expect['onerow'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
+                . '<option value="textlist 3">textlist 3</option>' . "\n"
+                . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
+    //-------------------------
+        return;
         $this -> logMethod(__METHOD__);
         $expect = new Block;
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
@@ -1749,131 +1884,123 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldSelectNested() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a select
-        //
-        $presentation = $schema -> getProperty('test/textWithNestedList') -> getPresentation();
-        $presentation -> setType('select');
-        $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '<option value="General">General</option>' . "\n"
-            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '<optgroup label="Subgroup Two">' . "\n"
-            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '</select>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldSelectNested();
+
+        $expect = [];
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<select id="field-1" name="field-1">' . "\n"
+                    . '<option value="General">General</option>' . "\n"
+                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                    . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '<optgroup label="Subgroup Two">' . "\n"
+                    . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+                )
+            )
+        );
+
+        // Test read access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
         // Now let's give it a value...
-        //
-        $element -> setValue('S2I1');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<select id="field-1" name="field-1">' . "\n"
-            . '<option value="General">General</option>' . "\n"
-            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
-            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '<optgroup label="Subgroup Two">' . "\n"
-            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '</select>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<select id="field-1" name="field-1">' . "\n"
+                    . '<option value="General">General</option>' . "\n"
+                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                    . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '<optgroup label="Subgroup Two">' . "\n"
+                    . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
-            . '<span>Sub Two Item One</span>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+                    . '<span>Sub Two Item One</span>' . "\n"
+                )
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Set multiple an give it two values
-        //
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('multiple', true);
-        $element -> setValue(['S2I1', 'Sub One Item One']);
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<select id="field-1" name="field-1[]" multiple>' . "\n"
-            . '<option value="General">General</option>' . "\n"
-            . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
-            . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
-            . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '<optgroup label="Subgroup Two">' . "\n"
-            . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
-            . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
-            . '</optgroup>' . "\n"
-            . '</select>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+        );
+
+        // Set multiple and give it two values
+        $expect['multivalue'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                    . '<option value="General">General</option>' . "\n"
+                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
+                    . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '<optgroup label="Subgroup Two">' . "\n"
+                    . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+        );
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
-            . '<span>Sub One Item One</span><br/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
-            . '<span>Sub Two Item One</span><br/>' . "\n"
-            . '<br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['multivalue-view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
+                    . '<span>Sub One Item One</span><br/>' . "\n"
+                    . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
+                    . '<span>Sub Two Item One</span><br/>' . "\n"
+                )
+            )
+        );
+
+        // Test read access
+        $expect['multivalue-read'] = Block::fromString(
+            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
+            . '<input id="field-1-opt1" name="field-1[1]" type="hidden"'
+            . ' value="Sub One Item One"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2150,44 +2277,37 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFormRendererBootstrap4_FieldTextarea() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a textarea
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('textarea');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<textarea id="field-1" name="field-1"></textarea><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldTextarea();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<textarea id="field-1" name="field-1"></textarea><br/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<textarea id="field-1" name="field-1" readonly></textarea><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<textarea id="field-1" name="field-1" readonly></textarea><br/>' . "\n"
+                )
+            )
+        );
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
    /**
@@ -2195,60 +2315,63 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFormRendererBootstrap4_FieldTime() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('time');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="time"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldTime();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="time"'
+                    . ' class="form-control"/>' . "\n"
+                )
+            )
+        );
+
         // Set a value
-        //
-        $element -> setValue('20:10');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="time"'
+                    . ' class="form-control" value="20:10"/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-write'] = $expect['value'];
+
         // Now test validation
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('minValue', '19:57');
-        $validation -> set('maxValue', '20:19');
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"'
-            . ' min="19:57" max="20:19"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="time"'
+                    . ' class="form-control" value="20:10"'
+                    . ' min="19:57" max="20:19"/>' . "\n"
+                )
+            )
+        );
+
         // Now with view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="time" value="20:10"'
-            . ' readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax-view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="time"'
+                    . ' class="form-control" value="20:10"'
+                    . ' readonly/>' . "\n"
+                )
+            )
+        );
+
         // Convert to hidden for read access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="20:10"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="20:10"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2256,44 +2379,39 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_FieldUrl() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        //
-        // Modify the schema to change test/text to a search
-        //
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('url');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="url"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldUrl();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="url"'
+                    . ' class="form-control"/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="url" readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
-        // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="url"'
+                    . ' class="form-control" readonly/>' . "\n"
+                )
+            )
+        );
+
+        // Test read access
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
    /**
@@ -2301,60 +2419,63 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFormRendererBootstrap4_FieldWeek() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
-        $presentation = $schema -> getProperty('test/text') -> getPresentation();
-        $presentation -> setType('week');
-        $config = json_decode('{"type": "field","object": "test/text"}');
-        $element = new FieldElement();
-        $element -> configure($config);
-        $element -> bindSchema($schema);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="week"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_FieldWeek();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="week"'
+                    . ' class="form-control"/>' . "\n"
+                )
+            )
+        );
+
         // Set a value
-        //
-        $element -> setValue('2010-W37');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="week"'
+                    . ' class="form-control" value="2010-W37"/>' . "\n"
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['value-write'] = $expect['value'];
+
         // Now test validation
-        $validation = $element -> getDataProperty() -> getValidation();
-        $validation -> set('minValue', '1957-W30');
-        $validation -> set('maxValue', '2099-W42');
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"'
-            . ' min="1957-W30" max="2099-W42"/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="week"'
+                    . ' class="form-control" value="2010-W37"'
+                    . ' min="1957-W30" max="2099-W42"/>' . "\n"
+                )
+            )
+        );
+
         // Now with view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $expect -> body = '<input id="field-1" name="field-1" type="week" value="2010-W37"'
-            . ' readonly/><br/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['minmax-view'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<input id="field-1" name="field-1" type="week"'
+                    . ' class="form-control" value="2010-W37"'
+                    . ' readonly/>' . "\n"
+                )
+            )
+        );
+
         // Convert to hidden for read access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $expect -> body = '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n"
+        );
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2362,68 +2483,53 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_Html() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
-        $element = new HtmlElement();
-        $element -> configure($config);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<p>This is some escaped html &amp;</p>';
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_Html();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('')
+                . $this -> column2(
+                    '<p>This is some escaped html &amp;</p>'
+                )
+            )
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = $expect['basic'];
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = $expect['view'];
+
+        $this -> runCases($cases, $expect);
     }
 
 	public function testFormRendererBootstrap4_Section() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $element = new SectionElement();
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<fieldset>' . "\n";
-        $expect -> post = '</fieldset>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_Section();
+        $expect = [];
+
+        $expect['empty'] = Block::fromString(
+            '<fieldset>' . "\n",
+            '</fieldset>' . "\n"
+        );
         // Now add a label
-        //
-        $element -> setLabel('heading', 'This is legendary');
-        $data = $this -> testObj -> render($element);
-        $expect -> body = '<fieldset>' . "\n"
-            . '<legend>This is legendary</legend>' . "\n";
-        $expect -> post = '</fieldset>' . "\n";
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['label'] = Block::fromString(
+            '<fieldset>' . "\n"
+            . '<legend>This is legendary</legend>' . "\n",
+            '</fieldset>' . "\n"
+        );
+
         // Same for view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['label-view'] = $expect['label'];
+
         // Same for read access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['label-read'] = $expect['label'];
+
+        $this -> runCases($cases, $expect);
     }
 
     /**
@@ -2431,35 +2537,25 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormRendererBootstrap4_Static() {
         $this -> logMethod(__METHOD__);
-        $expect = new Block;
-        $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
-        $element = new StaticElement();
-        $element -> configure($config);
-        //
-        // No access specification assumes write access
-        //
-        $data = $this -> testObj -> render($element);
-        $expect -> body = 'This is unescaped text with &lt;stuff&gt;!';
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $cases = RendererCaseGenerator::html_Static();
+        $expect = [];
+
+        $expect['basic'] = Block::fromString(
+            $this -> column1('', 'div', '')
+            . $this -> column2('This is unescaped text with &lt;stuff&gt;!')
+            . "<br/>\n"
+        );
+
         // Same result with explicit write access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'write']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['write'] = $expect['basic'];
+
         // Test view access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'view']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
-        //
+        $expect['view'] = $expect['basic'];
+
         // Test read (less than view) access
-        //
-        $data = $this -> testObj -> render($element, ['access' => 'read']);
-        $this -> assertEquals($expect, $data);
-        $this -> logResult($data);
+        $expect['read'] = $expect['basic'];
+
+        $this -> runCases($cases, $expect);
     }
 
 }
