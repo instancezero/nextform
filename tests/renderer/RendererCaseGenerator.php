@@ -217,7 +217,11 @@ class RendererCaseGenerator {
         // Set a value
         $e2 = $element -> copy();
         $e2 -> setValue(3);
-        $cases['value'] = [$e2];
+        $e2b = $e2 -> copy();
+        $e2b -> getDataProperty() -> getPopulation() -> sidecar = 'foo';
+        $cases['value'] = [$e2b];
+        $cases['value-view'] = [$e2b, ['access' => 'view']];
+        $cases['value-read'] = [$e2b, ['access' => 'read']];
 
         // Render inline
         $e3 = $element -> copy();
@@ -307,14 +311,14 @@ class RendererCaseGenerator {
         $cases['read'] = [$element, ['access' => 'read']];
 
         // Set a value to trigger the checked option
-        $e2 = $element -> copy() -> setValue('textlist 3');
+        $e2 = $element -> copy() -> setValue('textlist 4');
         $cases['single-value'] = [$e2];
 
         // Test read access
         $cases['single-value-read'] = [$e2, ['access' => 'read']];
 
         // Set a second value to trigger the checked option
-        $e3 = $element -> copy() -> setValue(['textlist 1', 'textlist 3']);
+        $e3 = $element -> copy() -> setValue(['textlist 1', 'textlist 4']);
         $cases['dual-value'] = [$e3];
 
         // Test read access

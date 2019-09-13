@@ -76,7 +76,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> start(['method' => 'put']);
         $this -> assertEquals("<form method=\"put\">\n", $data -> body);
         $data = $this -> testObj -> start(['action' => 'https://localhost/some file.php']);
-        $this -> assertEquals("<form method=\"post\" action=\"https://localhost/some file.php\">\n", $data -> body);
+        $this -> assertEquals("<form action=\"https://localhost/some file.php\" method=\"post\">\n", $data -> body);
         $data = $this -> testObj -> start(['name' => 'bad<name']);
         $this -> assertEquals("<form name=\"bad&lt;name\" method=\"post\">\n", $data -> body);
         $data = $this -> testObj -> start(['id' => 'bad<name']);
@@ -321,13 +321,30 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['write']  = $expect['basic'];
 
         // Set a value
-        $expect['value'] = new Block;
-        $expect['value'] -> body = $this -> column1('', 'div')
+        $expect['value'] = Block::fromString(
+            $this -> column1('', 'div')
             . $this -> column2(
-                '<input id="field-1" name="field-1" type="checkbox" value="3"/>' . "\n"
+                '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
                 . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
-            . '<br/>' . "\n";
+            . '<br/>' . "\n"
+        );
+
+        $expect['value-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> column2(
+                '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
+                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1" type="hidden" value="3"'
+            . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+        );
 
         // Test view access
         $expect['view'] = new Block;
@@ -490,11 +507,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field-1-opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" checked/>' . "\n"
+                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' value="textlist 4" checked data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -503,7 +521,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Check read access with a single value
         $expect['single-value-read'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Set a second value to trigger the checked option
@@ -511,7 +530,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this -> column1('', 'div')
             . $this -> column2(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked/>' . "\n"
+                . '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                . ' value="textlist 1" checked/>' . "\n"
                 . '<label for="field-1-opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
@@ -519,11 +539,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field-1-opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" checked/>' . "\n"
+                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' value="textlist 4" checked data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -535,7 +556,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this -> column1('', 'div')
             . $this -> column2(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>' . "\n"
+                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked readonly/>' . "\n"
                 . '<label for="field-1-opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
@@ -543,11 +564,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field-1-opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>' . "\n"
+                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                . ' value="textlist 4" checked readonly data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -557,7 +579,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test read (less than view) access
         $expect['dual-value-read'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            . '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Inline mode, not used in simple renderer
@@ -1221,7 +1244,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
-                . ' readonly checked/>' . "\n"
+                . ' checked readonly/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
@@ -1292,7 +1315,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
-                . ' readonly checked/>' . "\n"
+                . ' checked readonly/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
@@ -1483,7 +1506,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+                . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1511,11 +1534,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['onerow'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> column2(
-                '<select id="field-1" name="field-1[]" size="6" multiple>' . "\n"
+                '<select id="field-1" name="field-1[]" multiple size="6">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>' . "\n"
+                . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1578,7 +1601,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '<optgroup label="Subgroup Two">' . "\n"
-                . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+                . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                 . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '</select>' . "\n"
@@ -1612,7 +1635,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '<optgroup label="Subgroup Two">' . "\n"
-                . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>' . "\n"
+                . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                 . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '</select>' . "\n"

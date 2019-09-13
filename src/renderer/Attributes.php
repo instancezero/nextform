@@ -556,11 +556,20 @@ class Attributes {
         $mask = $tag === 'input' ? self::$inputAttributes[$this -> attrs['type']] : null;
         // Convert all the attributes to HTML, using mask as a filter
         $parts = [];
+        $ariaParts = [];
+        $dataParts = [];
         foreach ($this -> attrs as $attrName => $value) {
             // For input elements, only write the allowed attributes
             list($lookup, $cmd) = $this -> parseName($attrName);
             if ($mask === null || $this -> include($lookup, $mask)) {
-                $parts[$lookup] = $this -> toHtml($lookup, $cmd, $value);
+                $attr = $this -> toHtml($lookup, $cmd, $value);;
+                if (strpos($lookup, 'aria-') === 0) {
+                    $ariaParts[$lookup] = $attr;
+                } elseif (strpos($lookup, 'data-') === 0) {
+                    $dataParts[$lookup] = $attr;
+                } else {
+                    $parts[$lookup] = $attr;
+                }
             }
         }
         $html = '';
@@ -570,7 +579,10 @@ class Attributes {
                 unset($parts[$attrName]);
             }
         }
-        $html .= implode('', $parts);
+        ksort($parts);
+        ksort($ariaParts);
+        ksort($dataParts);
+        $html .= implode('', array_merge($parts, $ariaParts, $dataParts));
         return $html;
     }
 

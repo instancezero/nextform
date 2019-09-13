@@ -104,9 +104,17 @@
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
-<input id="field-1" name="field-1" type="checkbox" value="3"/>
+<input id="field-1" name="field-1" type="checkbox" value="3" data-sidecar="&quot;foo&quot;"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
 <br/>
+<hr/>
+<h4>value-view</h4>
+<input id="field-1" name="field-1" type="checkbox" value="3" readonly data-sidecar="&quot;foo&quot;"/>
+<label for="field-1">&lt;Stand-alone&gt; checkbox</label>
+<br/>
+<hr/>
+<h4>value-read</h4>
+<input id="field-1" name="field-1" type="hidden" value="3" data-sidecar="&quot;foo&quot;"/>
 <hr/>
 <h4>inline</h4>
 <input id="field-1" name="field-1" type="checkbox"/>
@@ -225,17 +233,17 @@
 <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" checked/>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
 <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" checked data-sidecar="[1,2,3,4]"/>
 <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
 <hr/>
 <h4>single-value-read</h4>
-<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>dual-value</h4>
 <div>
@@ -247,18 +255,18 @@
 <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" checked/>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>
 <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" checked data-sidecar="[1,2,3,4]"/>
 <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
 <hr/>
 <h4>dual-value-view</h4>
 <div>
-<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly checked/>
+<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked readonly/>
 <label for="field-1-opt0">textlist 1</label>
 </div>
 <div>
@@ -266,18 +274,18 @@
 <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly checked/>
+<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>
 <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
-<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" checked readonly data-sidecar="[1,2,3,4]"/>
 <label for="field-1-opt3">textlist 4</label>
 </div>
 <br/>
 <hr/>
 <h4>dual-value-read</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
-<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
+<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>inline</h4>
 <div>
@@ -643,7 +651,7 @@
 <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked readonly/>
 <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
@@ -690,7 +698,7 @@
 <label for="field-1-opt1">textlist 2</label>
 </div>
 <div>
-<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" readonly checked/>
+<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked readonly/>
 <label for="field-1-opt2">textlist 3</label>
 </div>
 <div>
@@ -792,7 +800,7 @@
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
 <option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
+<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 <br/>
 <hr/>
@@ -808,11 +816,11 @@
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
 <h4>onerow</h4>
-<select id="field-1" name="field-1[]" size="6" multiple>
+<select id="field-1" name="field-1[]" multiple size="6">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
 <option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]" selected>textlist 4</option>
+<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 <br/>
 <hr/>
@@ -860,7 +868,7 @@
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>
+<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
 <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
@@ -882,7 +890,7 @@
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;" selected>Sub Two Item One</option>
+<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
 <option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>

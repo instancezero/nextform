@@ -98,9 +98,9 @@ abstract class Element implements \JsonSerializable {
 
     /**
      * Make a copy of this element, cloning/preserving selected properties
-     * @return \Abivia\NextForm\Element\Element
+     * @return \self
      */
-    public function copy() : Element {
+    public function copy() : self {
         static $cloner = null;
 
         if ($cloner === null) {

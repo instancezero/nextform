@@ -216,6 +216,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
             $visible = false;
         }
         $list = $element -> getList(true);
+        $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
         $attrs -> set('name', $element -> getFormName()
             . ($type == 'checkbox' && !empty($list) ? '[]' : ''));
         if ($visible) {
@@ -231,8 +232,6 @@ class SimpleHtml extends CommonHtml implements Renderer {
         if (empty($list)) {
             $attrs -> set('id', $baseId);
             $attrs -> setIfNotNull('value', $element -> getValue());
-            $sidecar = $data -> getPopulation() -> sidecar;
-            $attrs -> setIfNotNull('*data-sidecar', $sidecar);
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             if ($visible) {
                 $block -> body .= $this -> writeLabel(

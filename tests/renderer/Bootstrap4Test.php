@@ -98,7 +98,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $data = $this -> testObj -> start(['method' => 'put']);
         $this -> assertEquals("<form method=\"put\">\n", $data -> body);
         $data = $this -> testObj -> start(['action' => 'https://localhost/some file.php']);
-        $this -> assertEquals("<form method=\"post\" action=\"https://localhost/some file.php\">\n", $data -> body);
+        $this -> assertEquals("<form action=\"https://localhost/some file.php\" method=\"post\">\n", $data -> body);
         $data = $this -> testObj -> start(['name' => 'bad<name']);
         $this -> assertEquals("<form name=\"bad&lt;name\" method=\"post\">\n", $data -> body);
         $data = $this -> testObj -> start(['id' => 'bad<name']);
@@ -353,11 +353,30 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> column1('', 'div')
             . $this -> formCheck(
                 '<input id="field-1" name="field-1" type="checkbox"'
-                . ' class="form-check-input" value="3"/>' . "\n"
+                . ' class="form-check-input" value="3"'
+                . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
                 . '<label for="field-1" class="form-check-label">'
                 . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . "\n"
+        );
+
+        $expect['value-view'] = Block::fromString(
+            $this -> column1('', 'div')
+            . $this -> formCheck(
+                '<input id="field-1" name="field-1" type="checkbox"'
+                . ' class="form-check-input" value="3"'
+                . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
+                . '<label for="field-1" class="form-check-label">'
+                . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . "\n"
+        );
+
+        $expect['value-read'] = Block::fromString(
+            '<input id="field-1" name="field-1"'
+            . ' type="hidden" value="3"'
+            . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
         // Test view access
@@ -702,13 +721,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             )
             . $this -> formCheck(
                 '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                . ' class="form-check-input" value="textlist 3"/>' . "\n"
                 . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
                 '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' class="form-check-input" value="textlist 4"'
+                . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
@@ -717,7 +737,8 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
         // Test read access
         $expect['single-value-read'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Two options set
@@ -737,13 +758,14 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             )
             . $this -> formCheck(
                 '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                . ' class="form-check-input" value="textlist 3"/>' . "\n"
                 . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
                 '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' class="form-check-input" value="textlist 4"'
+                . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
             )
@@ -755,7 +777,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> column1('', 'div')
             . $this -> formCheck(
                 '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 1" readonly checked/>' . "\n"
+                . ' class="form-check-input" value="textlist 1" checked readonly/>' . "\n"
                 . '<label for="field-1-opt0" class="form-check-label">'
                 . 'textlist 1</label>' . "\n"
             )
@@ -767,13 +789,13 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             )
             . $this -> formCheck(
                 '<input id="field-1-opt2" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 3" readonly checked/>' . "\n"
+                . ' class="form-check-input" value="textlist 3" readonly/>' . "\n"
                 . '<label for="field-1-opt2" class="form-check-label">'
                 . 'textlist 3</label>' . "\n"
             )
             . $this -> formCheck(
                 '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
-                . ' class="form-check-input" value="textlist 4" readonly'
+                . ' class="form-check-input" value="textlist 4" checked readonly'
                 . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field-1-opt3" class="form-check-label">'
                 . 'textlist 4</label>' . "\n"
@@ -784,7 +806,8 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Test read access
         $expect['dual-value-read'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            . '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         $inlineClasses = 'form-check form-check-inline';
@@ -1452,7 +1475,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
-                . ' readonly checked/>' . "\n"
+                . ' checked readonly/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
@@ -1523,7 +1546,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
-                . ' readonly checked/>' . "\n"
+                . ' checked readonly/>' . "\n"
                 . '<label for="field-1-opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"

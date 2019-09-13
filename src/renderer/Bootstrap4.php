@@ -149,18 +149,21 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
     /**
      * Generate hidden elements for an option list.
-     * @param \Abivia\NextForm\Renderer\Block $block The output block.
      * @param FieldElement $element The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
+     * @return \Abivia\NextForm\Renderer\Block The output block.
      */
-    protected function checkListInvisible(Block $block, FieldElement $element, Attributes $attrs) {
+    protected function checkListInvisible(FieldElement $element, Attributes $attrs) {
         $needEmpty = true;
+        $block = new Block;
         $baseId = $element -> getId();
         $select = $element -> getValue();
+        $list = $element -> getList(true);
+        $attrs -> set('name', $element -> getFormName() . (!empty($list) ? '[]' : ''));
         if ($select === null) {
             $select = $element -> getDefault();
         }
-        foreach ($element -> getList(true) as $optId => $radio) {
+        foreach ($list as $optId => $radio) {
             $optAttrs = $attrs -> copy();
             $id = $baseId . '-opt' . $optId;
             $optAttrs -> set('id', $id);
@@ -180,6 +183,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if ($needEmpty) {
             $block -> body .= $this -> checkInput($block, $element, $attrs);
         }
+        return $block;
     }
 
     protected function checkSingle(Block $block, FieldElement $element, Attributes $attrs, Attributes $groupAttrs) {
@@ -403,13 +407,41 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         //  appearance = default|button|toggle (can't be multiple)|no-label
         //  layout = inline|vertical
         //  form.layout = horizontal|vertical|inline
+
+        // Read-only elements are hidden, generate and return.
+        if ($options['access'] === 'read') {
+            $attrs = new Attributes('type', 'hidden');
+            $attrs -> setIfNotNull(
+                '*data-sidecar',
+                $element -> getDataProperty() -> getPopulation() -> sidecar
+            );
+            $block = $this -> checkListInvisible($element, $attrs);
+            return $block;
+        }
+
+        // Push and update the show context
         $show = $element -> getShow();
         if ($show) {
             $this -> pushContext();
             $this -> setShow($show, 'check');
         }
+
+        if (empty($element -> getList(true))) {
+            $block = $this -> renderFieldCheckboxSingle($element, $options);
+        } else {
+            $block = $this -> renderFieldCheckboxMultiple($element, $options);
+        }
+
+        // Restore show context and return.
+        if ($show) {
+            $this -> popContext();
+        }
+
+        return $block;
+    }
+
+    protected function renderFieldCheckboxMultiple(FieldElement $element, $options = []) {
         $appearance = $this -> showGet('check', 'appearance');
-        $checkLayout = $this -> showGet('check', 'layout');
         $attrs = new Attributes;
         $block = new Block();
         $baseId = $element -> getId();
@@ -420,19 +452,99 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Set up basic attributes for the input element
         $attrs -> set('type', $type);
-        $list = $element -> getList(true);
         $attrs -> set('name', $element -> getFormName()
-            . ($type == 'checkbox' && !empty($list) ? '[]' : ''));
+            . ($type == 'checkbox' ? '[]' : ''));
+        $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
+
+        if ($options['access'] == 'view') {
+            $attrs -> setFlag('readonly');
+        }
+        // Customize the header to align baselines in horizontal layouts
+        $headerAttrs = new Attributes;
+        $rowBlock = new Block;
+        if ($this -> showGet('form', 'layout') === 'horizontal') {
+            $rowBlock  = $this -> writeElement('div', ['show' => 'group-wrapper']);
+            $headerAttrs -> set('class', 'pt-0');
+        }
+
+        // If this is showing as a row of buttons change the group attributes
+        $groupAttrs = new Attributes;
+        if ($appearance === 'toggle') {
+            $asButtons = true;
+            $groupAttrs -> set('class', 'btn-group btn-group-toggle');
+            $groupAttrs -> set('data-toggle', 'buttons');
+        } else {
+            $checkLayout = $this -> showGet('check', 'layout');
+            // Non-buttons can be stacked (default) or inline
+            $asButtons = false;
+            $groupAttrs -> set(
+                'class',
+                'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '')
+            );
+        }
+
+        // Write the heading. We added a pt-0 for horizontal layouts
+        $block -> body .= $this -> writeLabel(
+            'headingAttributes', $labels -> heading, 'div', $headerAttrs, ['break' => true]
+        );
+
+        // Write any before label
+        $block -> body .= $this -> writeLabel(
+            'before', $labels -> before, 'div', null
+        );
+        if ($labels -> has('help')) {
+            $attrs -> set('aria-describedby', $baseId . '-formhelp');
+        }
+        $listBlock = new Block;
+        if ($asButtons) {
+            $this -> writeWrapper($block, 'div', ['attrs' => $groupAttrs]);
+            $this -> checkListButtons($listBlock, $element, clone $attrs);
+        } else {
+            $this -> checkList($listBlock, $element, clone $attrs);
+        }
+        $block -> merge($listBlock);
+        $block -> close();
+
+        // Write any after-label
+        $block -> body .= $this -> writeLabel(
+            'after', $labels -> after, 'div', [], ['break' => false]
+        );
+        $block -> close();
+        if ($labels -> has('help')) {
+            $helpAttrs = new Attributes;
+            $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
+            $helpAttrs -> set('class', 'form-text text-muted');
+            $block -> body .= $this -> writeLabel(
+                'help', $labels -> help, 'small',
+                $helpAttrs, ['break' => true]
+            );
+        } elseif (!$asButtons) {
+            $block -> body .= "\n";
+        }
+        $rowBlock -> merge($block);
+        $rowBlock -> close();
+        return $rowBlock;
+    }
+
+    protected function renderFieldCheckboxSingle(FieldElement $element, $options = []) {
+        $appearance = $this -> showGet('check', 'appearance');
+        $checkLayout = $this -> showGet('check', 'layout');
+        $attrs = new Attributes;
+        $block = new Block();
+        $labels = $element -> getLabels(true);
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $type = $presentation -> getType();
+
+        // Set up basic attributes for the input element
+        $attrs -> set('type', $type);
+        $attrs -> set('name', $element -> getFormName());
         $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
 
         // Read-only elements are hidden, generate and return.
         if ($options['access'] === 'read') {
             $attrs -> set('type', 'hidden');
-            if (empty($list)) {
-                $this -> checkInput($block, $element, $attrs);
-            } else {
-                $this -> checkListInvisible($block, $element, clone $attrs);
-            }
+            $this -> checkInput($block, $element, $attrs);
             return $block;
         }
         if ($options['access'] == 'view') {
@@ -466,37 +578,16 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             'headingAttributes', $labels -> heading, 'div', $headerAttrs, ['break' => true]
         );
 
-        // The "before" and "after" texts are in a div if we have multiple
-        // choices, span otherwise.
-        $bracketTag = empty($list) ? 'span' : 'div';
-        $block -> body .= $this -> writeLabel(
-            'before', $labels -> before, $bracketTag, null
-        );
-        if (empty($list)) {
-            if ($asButtons) {
-                $this -> checkSingleButton($block, $element, $attrs, $groupAttrs);
-            } else {
-                $this -> checkSingle($block, $element, $attrs, $groupAttrs);
-            }
+        // Generate the "before" and "after" texts
+        $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
+        if ($asButtons) {
+            $this -> checkSingleButton($block, $element, $attrs, $groupAttrs);
         } else {
-            if ($labels -> has('help')) {
-                $attrs -> set('aria-describedby', $baseId . '-formhelp');
-            }
-            $listBlock = new Block;
-            if ($asButtons) {
-                $this -> writeWrapper($block, 'div', ['attrs' => $groupAttrs]);
-                $this -> checkListButtons($listBlock, $element, clone $attrs);
-            } else {
-                $this -> checkList($listBlock, $element, clone $attrs);
-            }
-            $block -> merge($listBlock);
-            $block -> close();
+            $this -> checkSingle($block, $element, $attrs, $groupAttrs);
         }
+        $block -> body .= $this -> writeLabel('after', $labels -> after, 'span');
 
-        // Write any after-label
-        $block -> body .= $this -> writeLabel(
-            'after', $labels -> after, $bracketTag, [], ['break' => !empty($list)]
-        );
+        // Write any help text
         $block -> close();
         if ($labels -> has('help')) {
             $helpAttrs = new Attributes;
@@ -512,10 +603,6 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $rowBlock -> merge($block);
         $rowBlock -> close();
 
-        // Restore show context and done.
-        if ($show) {
-            $this -> popContext();
-        }
         return $rowBlock;
     }
 
