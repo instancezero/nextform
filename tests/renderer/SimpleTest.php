@@ -1224,6 +1224,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
+        // Same result for BS4 custom
+        $expect['value-bs4custom'] = $expect['value'];
+
         // Test view access
         $expect['value-view'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
@@ -1262,8 +1265,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
         );
 
-        // Set the presentation to one row
-        $expect['onerow'] = Block::fromString(
+        // Set the presentation to six rows
+        $expect['sixrow'] = Block::fromString(
             '<select id="field-1" name="field-1[]" multiple size="6">' . "\n"
             . '<option value="textlist 1">textlist 1</option>' . "\n"
             . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
@@ -1328,6 +1331,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '</select>' . "\n"
             . '<br/>' . "\n"
         );
+
+        // No change for the BS custom presentation
+        $expect['value-bs4custom'] = $expect['value'];
 
         // Test view access
         $expect['value-view'] = Block::fromString(

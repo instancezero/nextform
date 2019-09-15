@@ -42,10 +42,15 @@ abstract class Html implements Renderer {
         'appearance' => [
             'default' => 'default',
             'validate' => [
-                'form' => [
+                'check' => [
                     'default' => '/^default$/i',
                     'no-label' => '/^no-?labels?$/i',
                     'toggle' => '/^toggle$/i',
+                    'switch' => '/^switch$/i',
+                ],
+                'select' => [
+                    'default' => '/^default$/i',
+                    'custom' => '/^custom$/i',
                 ],
             ],
         ],
@@ -167,8 +172,8 @@ abstract class Html implements Renderer {
      * Convert a set of visual settings into rendering parameters.
      * @param string $settings
      */
-    public function setShow($settings) {
-        $settings = self::showTokenize($settings);
+    public function setShow($settings, $defaultScope = '') {
+        $settings = self::showTokenize($settings, $defaultScope);
         foreach ($settings as $scope => $list) {
             foreach ($list as $key => $value) {
                 $this -> show($scope, $key, $value);

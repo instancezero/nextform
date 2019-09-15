@@ -5,3 +5,4 @@ To Do List
 - "proper" unit tests need attention.
 - There are more test sets to iterate through (eg. large/small forms)... strategy?
 - Add a composite construct to assemble multiple items (texts, selects) into an input group
+- Need checkboxes as switches (custom-control custom-switch0

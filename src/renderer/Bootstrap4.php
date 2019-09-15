@@ -145,6 +145,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 $this -> popContext();
             }
         }
+        return $block;
     }
 
     /**
@@ -442,6 +443,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
     protected function renderFieldCheckboxMultiple(FieldElement $element, $options = []) {
         $appearance = $this -> showGet('check', 'appearance');
+        $layout = $this -> showGet('form', 'layout');
         $attrs = new Attributes;
         $block = new Block();
         $baseId = $element -> getId();
@@ -461,9 +463,19 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
         // Customize the header to align baselines in horizontal layouts
         $headerAttrs = new Attributes;
-        $rowBlock = new Block;
-        if ($this -> showGet('form', 'layout') === 'horizontal') {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'group-wrapper']);
+        if ($layout === 'vertical') {
+            $rowBlock  = $this -> writeElement('fieldset', ['show' => 'formGroupAttributes']);
+            $headerElement = 'div';
+        } else {
+            // Horizontal layouts has a fieldset with just the form group class
+            $rowBlock  = $this -> writeElement(
+                'fieldset', ['attrs' => new Attributes('class', 'form-group')]
+            );
+            // Horizontal layouts have another div for the row
+            $rowBlock  -> merge($this -> writeElement(
+                'div', ['attrs' => new Attributes('class', 'row')])
+            );
+            $headerElement = 'legend';
             $headerAttrs -> set('class', 'pt-0');
         }
 
@@ -485,7 +497,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Write the heading. We added a pt-0 for horizontal layouts
         $block -> body .= $this -> writeLabel(
-            'headingAttributes', $labels -> heading, 'div', $headerAttrs, ['break' => true]
+            'headingAttributes', $labels -> heading, $headerElement, $headerAttrs, ['break' => true]
         );
 
         // Write any before label
@@ -495,19 +507,23 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $baseId . '-formhelp');
         }
+        if ($layout === 'horizontal') {
+            // Create the second column for a horizontal layout
+            $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
+        }
         $listBlock = new Block;
         if ($asButtons) {
-            $this -> writeWrapper($block, 'div', ['attrs' => $groupAttrs]);
-            $this -> checkListButtons($listBlock, $element, clone $attrs);
+            $listBlock -> merge($this -> writeElement('div', ['attrs' => $groupAttrs]));
+            $listBlock -> merge($this -> checkListButtons(new Block, $element, clone $attrs));
         } else {
             $this -> checkList($listBlock, $element, clone $attrs);
         }
+        $listBlock -> close();
         $block -> merge($listBlock);
-        $block -> close();
 
         // Write any after-label
         $block -> body .= $this -> writeLabel(
-            'after', $labels -> after, 'div', [], ['break' => false]
+            'after', $labels -> after, 'div', [], ['break' => true]
         );
         $block -> close();
         if ($labels -> has('help')) {
@@ -553,8 +569,10 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         // Customize the header to align baselines in horizontal layouts
         $headerAttrs = new Attributes;
         $rowBlock = new Block;
-        if ($this -> showGet('form', 'layout') === 'horizontal') {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'group-wrapper']);
+        if ($this -> showGet('form', 'layout') === 'vertical') {
+            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        } else {
+            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
             $headerAttrs -> set('class', 'pt-0');
         }
 
@@ -744,6 +762,172 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             . $this -> writeLabel('after', $labels -> after, 'span') . "\n";
         $block -> close();
 
+        return $block;
+    }
+
+    protected function renderFieldSelect(FieldElement $element, $options = []) {
+        $value = $element -> getValue();
+        if ($options['access'] === 'read') {
+
+            // Read-only: generate one or more hidden input elements
+            $block = $this -> elementHidden($element, $value);
+            return $block;
+        }
+
+        // Push and update the show context
+        $show = $element -> getShow();
+        if ($show) {
+            $this -> pushContext();
+            $this -> setShow($show, 'select');
+        }
+
+        // This element is visible
+        $block = new Block();
+
+        // Create a form group.
+        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+
+        $labels = $element -> getLabels(true);
+        $data = $element -> getDataProperty();
+
+        // Link the label if we're not in view mode
+        $multiple = $data -> getValidation() -> get('multiple');
+        $fieldName = $element -> getFormName() . ($multiple ? '[]' : '');
+        $headAttr = new Attributes;
+        if ($options['access'] != 'view') {
+            $headAttr -> set('for', $fieldName);
+        }
+
+        $block -> body .= $this -> writeLabel(
+            'headingAttributes', $labels -> heading, 'label', $headAttr, ['break' => true]
+        );
+
+        // Horizontal layouts generate a div for the input column
+        $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
+
+        // Text preceeding the select
+        $block -> body .= $this -> writeLabel(
+            'before', $labels -> before, 'div', null, ['break' => true]
+        );
+        if ($options['access'] == 'view') {
+            // In view mode we just generate a list of currently selected values as text
+            $block -> merge($this -> renderFieldSelectView($element));
+        } else {
+            // Generate an actual select!
+            $attrs = new Attributes;
+            $attrs -> set('name', $fieldName);
+
+            $attrs -> set('id', $element -> getId());
+            $attrs -> setIfNotNull('size', $data -> getPresentation() -> getRows());
+            $attrs -> addValidation('select', $data -> getValidation());
+            if ($this -> showGet('select', 'appearance') === 'custom') {
+                $attrs -> set('class', 'custom-select');
+            } else {
+                $attrs -> set('class', 'form-control');
+            }
+
+            $select = $this -> writeElement('select', ['attrs' => $attrs]);
+
+            // Add the options
+            // If there's no value set, see if there's a default
+            if ($value === null) {
+                $value = $element -> getDefault();
+            }
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            $select -> merge(
+                $this -> renderFieldSelectOptions($element -> getList(true), $value)
+            );
+            $select -> close();
+            $block -> merge($select);
+        }
+        $block -> body .= $this -> writeLabel(
+            'after', $labels -> after, 'div', null, ['break' => true]
+        );
+        $block -> close();
+
+        // Restore show context and return.
+        if ($show) {
+            $this -> popContext();
+        }
+
+        return $block;
+    }
+
+    protected function renderFieldSelectOption($option, $value) {
+        $block = new Block;
+        $attrs = new Attributes;
+        $attrs -> set('value', $option -> getValue());
+        $attrs -> setIfNotNull('*data-sidecar', $option -> getSidecar());
+        if (in_array($attrs -> get('value'), $value)) {
+            $attrs -> setFlag('selected');
+        }
+        $block -> body .= $this -> writeTag('option', $attrs, $option -> getLabel()) . "\n";
+        return $block;
+    }
+
+    protected function renderFieldSelectOptions($list, $value) {
+        $block = new Block;
+        foreach ($list as $option) {
+            if ($option -> isNested()) {
+                $attrs = new Attributes;
+                $attrs -> set('label', $option -> getLabel());
+                $attrs -> setIfNotNull('*data-sidecar', $option -> getSidecar());
+                $block -> body .= $this -> writeTag('optgroup', $attrs) . "\n";
+                $block -> merge($this -> renderFieldSelectOptions($option -> getList(), $value));
+                $block -> body .= '</optgroup>' . "\n";
+            } else {
+                $block -> merge($this -> renderFieldSelectOption($option, $value));
+            }
+        }
+        return $block;
+    }
+
+    protected function renderFieldSelectView($element) {
+        $baseId = $element -> getId();
+        $data = $element -> getDataProperty();
+        $multiple = $data -> getValidation() -> get('multiple');
+
+        $attrs = new Attributes;
+        $attrs -> set('name', $element -> getFormName() . ($multiple ? '[]' : ''));
+
+        $list = $element -> getFlatList(true);
+        // render as hidden with text
+        $attrs -> set('type', 'hidden');
+
+        $value = $element -> getValue();
+        $block = new Block;
+        if ($multiple) {
+            // step through each possible value, output matches
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            $optId = 0;
+            foreach ($list as $option) {
+                $slot = array_search($option -> getValue(), $value);
+                if ($slot !== false) {
+                    $id = $baseId . '-opt' . $optId;
+                    $attrs -> set('id', $id);
+                    $attrs -> set('value', $value[$slot]);
+                    $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                    $block -> body .= $this -> writeTag('span', [], $option -> getLabel())
+                        . "<br/>\n";
+                    ++$optId;
+                }
+            }
+        } else {
+            $attrs -> set('id', $baseId);
+            $attrs -> set('value', $value);
+            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            foreach ($list as $option) {
+                if ($value == $option -> getValue()) {
+                    $block -> body .= $this -> writeTag('span')
+                        . $option -> getLabel() . '</span>'
+                        . "\n";
+                }
+            }
+        }
         return $block;
     }
 

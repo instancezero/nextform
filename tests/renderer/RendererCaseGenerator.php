@@ -916,6 +916,9 @@ class RendererCaseGenerator {
         // Test read access
         $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
 
+        // Test the BS custom presentation
+        $cases['value-bs4custom'] = $element -> copy() -> setShow('appearance:custom');
+
         // Set multiple and give it two values
         $validation = $element -> getDataProperty() -> getValidation();
         $validation -> set('multiple', true);
@@ -929,9 +932,9 @@ class RendererCaseGenerator {
         // Test read access
         $cases['multivalue-read'] = [$element -> copy(), ['access' => 'read']];
 
-        // Set the presentation to one row
+        // Set the presentation to six rows
         $presentation -> setRows(6);
-        $cases['onerow'] = $element;
+        $cases['sixrow'] = $element;
 
         return $cases;
     }
@@ -964,6 +967,9 @@ class RendererCaseGenerator {
         // Now let's give it a value...
         $element -> setValue('S2I1');
         $cases['value'] = $element -> copy();
+
+        // Test the BS custom presentation
+        $cases['value-bs4custom'] = $element -> copy() -> setShow('appearance:custom');
 
         // Test view access
         $cases['value-view'] = [$element -> copy(), ['access' => 'view']];

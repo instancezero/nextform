@@ -1484,6 +1484,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
+        // Same result for BS4 custom
+        $expect['value-bs4custom'] = $expect['value'];
+
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this -> column1('', 'div')
@@ -1530,8 +1533,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
         );
 
-        // Set the presentation to one row
-        $expect['onerow'] = Block::fromString(
+        // Set the presentation to six rows
+        $expect['sixrow'] = Block::fromString(
             $this -> column1('', 'div')
             . $this -> column2(
                 '<select id="field-1" name="field-1[]" multiple size="6">' . "\n"
@@ -1608,6 +1611,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             )
             . '<br/>' . "\n"
         );
+
+        // No change for the BS custom presentation
+        $expect['value-bs4custom'] = $expect['value'];
 
         // Test view access
         $expect['value-view'] = Block::fromString(

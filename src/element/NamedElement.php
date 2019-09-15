@@ -83,7 +83,10 @@ abstract class NamedElement Extends Element {
         if ($this -> formName === null) {
             if ($this -> name != '') {
                 $this -> formName = $this -> name;
-            } elseif ($this -> autoId != '') {
+            } else {
+                if ($this -> autoId == '') {
+                    $this -> getId();
+                }
                 $this -> formName = $this -> autoId;
             }
         }
