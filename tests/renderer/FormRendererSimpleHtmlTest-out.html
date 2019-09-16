@@ -6,7 +6,7 @@
   </head>
 <body>
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Button</h3>
+<h3>FormRendererSimpleHtmlTest::testButton</h3>
 <h4>button default access</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
 <hr/>
@@ -37,7 +37,7 @@
 <h4>button large warning outline</h4>
 <input id="button-1" name="button-1" type="button" value="I am Button!"/><br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_ButtonLabels</h3>
+<h3>FormRendererSimpleHtmlTest::testButtonLabels</h3>
 <h4>Button label none</h4>
 <input id="button-1" name="button-1" type="button"/><br/>
 <hr/>
@@ -65,13 +65,13 @@
 <small id="button-1-formhelp">Helpful</small>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Cell</h3>
+<h3>FormRendererSimpleHtmlTest::testCell</h3>
 <h4>basic</h4>
 <div>
 </div>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_CellContext</h3>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldButton</h3>
+<h3>FormRendererSimpleHtmlTest::testCellContext</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldButton</h3>
 <h4>with value</h4>
 <input id="field-1" name="field-1" type="button" value="Ok Bob"/>
 <br/>
@@ -84,7 +84,7 @@
 <input id="field-1" name="field-1" type="submit" value="Ok Bob"/>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldCheckbox</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldCheckbox</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="checkbox"/>
 <label for="field-1">&lt;Stand-alone&gt; checkbox</label>
@@ -163,7 +163,7 @@
 <label for="field-1">inner</label>
 <span>suffix</span><br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldCheckboxList</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldCheckboxList</h3>
 <h4>basic</h4>
 <div>
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -325,7 +325,7 @@
 </div>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldColor</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldColor</h3>
 <h4>default</h4>
 <input id="field-1" name="field-1" type="color"/>
 <br/>
@@ -345,7 +345,7 @@
 <h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldDate</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldDate</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="date"/>
 <br/>
@@ -369,7 +369,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldDatetimeLocal</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldDatetimeLocal</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="datetime-local"/>
 <br/>
@@ -393,7 +393,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldEmail</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldEmail</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="email"/>
 <br/>
@@ -418,7 +418,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldFile</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldFile</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="file"/>
 <br/>
@@ -439,7 +439,7 @@
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldHidden</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldHidden</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
@@ -452,7 +452,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldHiddenLabels</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldHiddenLabels</h3>
 <h4>label none</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
@@ -474,7 +474,7 @@
 <h4>all labels</h4>
 <input id="field-1" name="field-1" type="hidden" value="the value"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldMonth</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldMonth</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="month"/>
 <br/>
@@ -498,7 +498,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldNumber</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldNumber</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="number" value="200"/>
 <br/>
@@ -523,7 +523,7 @@
 <input id="field-1" name="field-1" type="number" value="200" readonly/>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldPassword</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldPassword</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="password"/>
 <br/>
@@ -543,7 +543,7 @@
 <h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="secret"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadio</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldRadio</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="radio"/>
 <label for="field-1">&lt;Stand-alone&gt; radio</label>
@@ -567,7 +567,7 @@
 <h4>value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioLabels</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldRadioLabels</h3>
 <h4>labels-value</h4>
 <div>Very Important Choice</div>
 <span>No need to fear</span><input id="field-1" name="field-1" type="radio" value="3"/>
@@ -583,7 +583,7 @@
 <h4>labels-value-read</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioList</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldRadioList</h3>
 <h4>basic</h4>
 <div>
 <input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>
@@ -663,7 +663,7 @@
 <h4>value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRadioListLabels</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldRadioListLabels</h3>
 <h4>labels-value</h4>
 <div>Very Important Choice</div>
 <div>No need to fear</div>
@@ -711,7 +711,7 @@
 <h4>labels-value-read</h4>
 <input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldRange</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldRange</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="range" value="200"/>
 <br/>
@@ -736,7 +736,7 @@
 <input id="field-1" name="field-1" type="text" value="200" readonly/>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSearch</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldSearch</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="search"/>
 <br/>
@@ -752,7 +752,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelect</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldSelect</h3>
 <h4>basic</h4>
 <select id="field-1" name="field-1">
 <option value="textlist 1">textlist 1</option>
@@ -833,7 +833,7 @@
 </select>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldSelectNested</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldSelectNested</h3>
 <h4>basic</h4>
 <select id="field-1" name="field-1">
 <option value="General">General</option>
@@ -883,6 +883,20 @@
 </select>
 <br/>
 <hr/>
+<h4>value-bs4custom</h4>
+<select id="field-1" name="field-1">
+<option value="General">General</option>
+<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<option value="Sub One Item One">Sub One Item One</option>
+<option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+<br/>
+<hr/>
 <h4>value-view</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span>
@@ -916,7 +930,7 @@
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTel</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTel</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="tel"/>
 <br/>
@@ -932,7 +946,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldText</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldText</h3>
 <h4>default access</h4>
 <input id="field-1" name="field-1" type="text"/>
 <br/>
@@ -948,7 +962,7 @@
 <h4>explicit read access</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextDataList</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTextDataList</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="text" list="field-1-list"/>
 <datalist id="field-1-list">
@@ -966,7 +980,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextLabels</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTextLabels</h3>
 <h4>Text label none</h4>
 <input id="field-1" name="field-1" type="text" value="the value"/>
 <br/>
@@ -997,7 +1011,7 @@
 <span>prefix</span><input id="field-1" name="field-1" type="text" value="the value" placeholder="inner"/><span>suffix</span>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextValidation</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTextValidation</h3>
 <h4>required</h4>
 <input id="field-1" name="field-1" type="text" required/>
 <br/>
@@ -1014,7 +1028,7 @@
 <input id="field-1" name="field-1" type="text" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>
 <br/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTextarea</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTextarea</h3>
 <h4>basic</h4>
 <textarea id="field-1" name="field-1"></textarea><br/>
 <hr/>
@@ -1027,7 +1041,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldTime</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldTime</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="time"/>
 <br/>
@@ -1051,7 +1065,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldUrl</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldUrl</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="url"/>
 <br/>
@@ -1067,7 +1081,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_FieldWeek</h3>
+<h3>FormRendererSimpleHtmlTest::testFieldWeek</h3>
 <h4>basic</h4>
 <input id="field-1" name="field-1" type="week"/>
 <br/>
@@ -1091,7 +1105,7 @@
 <h4>read</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Html</h3>
+<h3>FormRendererSimpleHtmlTest::testHtml</h3>
 <h4>basic</h4>
 <p>This is some escaped html &amp;</p><hr/>
 <h4>write</h4>
@@ -1100,7 +1114,7 @@
 <p>This is some escaped html &amp;</p><hr/>
 <h4>read</h4>
 <p>This is some escaped html &amp;</p><hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Section</h3>
+<h3>FormRendererSimpleHtmlTest::testSection</h3>
 <h4>empty</h4>
 <fieldset>
 </fieldset>
@@ -1120,7 +1134,7 @@
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
-<h3>FormRendererSimpleHtmlTest::testFormRendererSimpleHtml_Static</h3>
+<h3>FormRendererSimpleHtmlTest::testStatic</h3>
 <h4>basic</h4>
 This is unescaped text with &lt;stuff&gt;!<hr/>
 <h4>write</h4>

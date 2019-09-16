@@ -87,11 +87,11 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
     }
 
-	public function testFormRendererBootstrap4_Instantiation() {
+	public function testInstantiation() {
 		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\Bootstrap4', $this -> testObj);
 	}
 
-	public function testFormRendererBootstrap4_Start() {
+	public function testStart() {
         $data = $this -> testObj -> start();
         $this -> assertEquals("<form method=\"post\">\n", $data -> body);
         $this -> assertEquals("</form>\n", $data -> post);
@@ -108,7 +108,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a button
      */
-	public function testFormRendererBootstrap4_Button() {
+	public function testButton() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Button();
         $expect = [];
@@ -192,7 +192,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test a field with label options
      */
-	public function testFormRendererBootstrap4_ButtonLabels() {
+	public function testButtonLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_ButtonLabels();
         $expect = [];
@@ -209,7 +209,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // before
         $expect['label-before'] = Block::fromString(
             $this -> formGroup(
-                '<span>prefix</span>'
+                '<span class="mr-1">prefix</span>'
                 . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
             )
         );
@@ -253,7 +253,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $expect['label-all'] = Block::fromString(
             $this -> formGroup(
                 '<label for="button-1">Header</label>' . "\n"
-                . '<span>prefix</span><input id="button-1" name="button-1" type="button"'
+                . '<span class="mr-1">prefix</span><input id="button-1" name="button-1" type="button"'
                 . ' class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/>'
                 . '<span>suffix</span>'
                 . "\n"
@@ -265,7 +265,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_Cell() {
+	public function testCell() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Cell();
 
@@ -278,7 +278,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_CellContext() {
+	public function testCellContext() {
         $this -> logMethod(__METHOD__);
         $element = new CellElement();
         $this -> assertFalse($this -> testObj -> queryContext('inCell'));
@@ -289,7 +289,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * @doesNotPerformAssertions
      */
-	public function testFormRendererBootstrap4_SetOptions() {
+	public function testSetOptions() {
 
         $this -> testObj -> setOptions();
     }
@@ -297,7 +297,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as the button types
      */
-	public function testFormRendererBootstrap4_FieldButton() {
+	public function testFieldButton() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldButton();
 
@@ -329,7 +329,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element
      */
-	public function testFormRendererBootstrap4_FieldCheckbox() {
+	public function testFieldCheckbox() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldCheckbox();
         $expect = [];
@@ -343,7 +343,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -361,7 +360,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -375,7 +373,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -395,7 +392,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -415,7 +411,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n",
                     'form-check form-check-inline'
                 )
-                . "\n"
             )
         );
 
@@ -428,7 +423,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>' . "\n",
                     'form-check form-check-inline'
                 )
-                . "\n"
             )
         );
 
@@ -441,21 +435,19 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
         // before
         $expect['label-before'] = Block::fromString(
             $this -> formGroup(
-                '<span>prefix</span>'
+                '<span class="mr-1">prefix</span>'
                 . $this -> formCheck(
                     '<input id="field-1" name="field-1" type="checkbox"'
                     . ' class="form-check-input" value="3"/>' . "\n"
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -468,8 +460,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . '<span>suffix</span>'
-                . "\n"
+                . '<span>suffix</span>' . "\n"
             )
         );
 
@@ -483,7 +474,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -510,7 +500,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' class="form-check-input" value="3"/>' . "\n"
                     . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -519,13 +508,13 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('Header', 'div')
                 . $this -> column2(
-                    '<span>prefix</span>'
+                    '<span class="mr-1">prefix</span>'
                     . $this -> formCheck(
                         '<input id="field-1" name="field-1" type="checkbox"'
                         . ' class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>' . "\n"
                         . '<label for="field-1" class="form-check-label">inner</label>' . "\n"
                     )
-                    . '<span>suffix</span>'
+                    . '<span>suffix</span>' . "\n"
                 )
                 . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>'
                 . "\n"
@@ -538,7 +527,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox styled as a button element
      */
-	public function testFormRendererBootstrap4_FieldCheckboxButton() {
+	public function testFieldCheckboxButton() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldCheckboxButton();
         $expect = [];
@@ -561,7 +550,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('', 'div')
                 . $this -> column2(
-                    '<span>prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    '<span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
                     . '<label class="btn btn-primary">' . "\n"
                     . '<input id="field-1" name="field-1" type="checkbox"/>' . "\n"
                     . 'CheckButton!</label>' . "\n"
@@ -578,7 +567,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<input id="field-1" name="field-1" type="checkbox"/>' . "\n"
                     . 'CheckButton!</label>' . "\n"
                     . '</div>' . "\n"
-                    . '<span>suffix</span>'
+                    . '<span>suffix</span>' . "\n"
                 )
             )
         );
@@ -614,15 +603,27 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 $this -> column1('', 'div')
                 . $this -> column2(
                     '<div>Header</div>' . "\n"
-                    . '<span>prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    . '<span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
                     . '<label class="btn btn-primary">' . "\n"
                     . '<input id="field-1" name="field-1" type="checkbox" aria-describedby="field-1-formhelp"/>' . "\n"
                     . 'CheckButton!</label>' . "\n"
                     . '</div>' . "\n"
-                    . '<span>suffix</span><small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+                    . '<span>suffix</span>' . "\n"
+                    . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
                 )
             )
         );
+
+        $this -> runCases($cases, $expect);
+    }
+
+    /**
+     * Test code generation for a checkbox list styled as button elements
+     */
+	public function testFieldCheckboxButtonList() {
+        $this -> logMethod(__METHOD__);
+        $cases = RendererCaseGenerator::html_FieldCheckboxButtonList();
+        $expect = [];
 
         $listCommon = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
             . '<label class="btn btn-primary">' . "\n"
@@ -673,7 +674,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('', 'div')
                 . $this -> column2(
-                    '<div>prefix</div>' . $listCommon
+                    '<span class="mr-1">prefix</span>' . $listCommon
                 ),
                 '', 'fieldset'
             )
@@ -682,7 +683,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('', 'div')
                 . $this -> column2(
-                    $listCommon . '<div>suffix</div>' . "\n"
+                    $listCommon . '<span>suffix</span>' . "\n"
                 ),
                 '', 'fieldset'
             )
@@ -712,9 +713,9 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 $this -> column1('', 'div')
                 . $this -> column2(
                     '<div>Header</div>' . "\n"
-                    . '<div>prefix</div>'
+                    . '<span class="mr-1">prefix</span>'
                     . $listHelp
-                    . '<div>suffix</div>' . "\n"
+                    . '<span>suffix</span>' . "\n"
                     . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
                 ),
                 '', 'fieldset'
@@ -727,7 +728,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element with a list
      */
-	public function testFormRendererBootstrap4_FieldCheckboxList() {
+	public function testFieldCheckboxList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldCheckboxList();
         $expect = [];
@@ -758,8 +759,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -791,8 +791,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -829,8 +828,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -868,8 +866,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -901,8 +898,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -944,8 +940,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n",
                     $inlineClasses
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -974,8 +969,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' data-sidecar="[1,2,3,4]"'
                     . '/>' . "\n",
                     $inlineClasses
-                )
-                . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -985,7 +979,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a color element
     */
-	public function testFormRendererBootstrap4_FieldColor() {
+	public function testFieldColor() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldColor();
 
@@ -1029,7 +1023,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a date element
     */
-	public function testFormRendererBootstrap4_FieldDate() {
+	public function testFieldDate() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldDate();
 
@@ -1078,7 +1072,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a datetime-local element
     */
-	public function testFormRendererBootstrap4_FieldDatetimeLocal() {
+	public function testFieldDatetimeLocal() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldDatetimeLocal();
 
@@ -1129,7 +1123,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldEmail() {
+	public function testFieldEmail() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldEmail();
 
@@ -1182,7 +1176,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldFile() {
+	public function testFieldFile() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldFile();
 
@@ -1232,7 +1226,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a hidden element
     */
-	public function testFormRendererBootstrap4_FieldHidden() {
+	public function testFieldHidden() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldHidden();
 
@@ -1258,7 +1252,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test a hidden field with label options
      */
-	public function testFormRendererBootstrap4_FieldHiddenLabels() {
+	public function testFieldHiddenLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldHiddenLabels();
 
@@ -1282,7 +1276,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a month element
     */
-	public function testFormRendererBootstrap4_FieldMonth() {
+	public function testFieldMonth() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldMonth();
 
@@ -1332,7 +1326,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a number
      */
-	public function testFormRendererBootstrap4_FieldNumber() {
+	public function testFieldNumber() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $cases = RendererCaseGenerator::html_FieldNumber();
@@ -1387,7 +1381,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldPassword() {
+	public function testFieldPassword() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldPassword();
 
@@ -1430,7 +1424,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element
      */
-	public function testFormRendererBootstrap4_FieldRadio() {
+	public function testFieldRadio() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadio();
 
@@ -1444,7 +1438,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -1460,7 +1453,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -1473,7 +1465,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . '<label for="field-1" class="form-check-label">'
                     . '&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
-                . "\n"
             )
         );
 
@@ -1488,7 +1479,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for single radio element with labels
      */
-	public function testFormRendererBootstrap4_FieldRadioLabels() {
+	public function testFieldRadioLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioLabels();
 
@@ -1497,7 +1488,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('Very Important Choice', 'div')
                 . $this -> column2(
-                    '<span>No need to fear</span>'
+                    '<span class="mr-1">No need to fear</span>'
                     . $this -> formCheck(
                         '<input id="field-1" name="field-1" type="radio"'
                         . ' class="form-check-input" value="3"/>' . "\n"
@@ -1514,7 +1505,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 $this -> column1('Very Important Choice', 'div')
                 . $this -> column2(
-                    '<span>No need to fear</span>'
+                    '<span class="mr-1">No need to fear</span>'
                     . $this -> formCheck(
                         '<input id="field-1" name="field-1" type="radio"'
                         . ' class="form-check-input" value="3" readonly/>' . "\n"
@@ -1537,7 +1528,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list
      */
-	public function testFormRendererBootstrap4_FieldRadioList() {
+	public function testFieldRadioList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioList();
 
@@ -1569,8 +1560,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-            . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -1605,8 +1595,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-            . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -1639,8 +1628,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field-1-opt3" class="form-check-label">'
                     . 'textlist 4</label>' . "\n"
-                )
-            . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -1655,7 +1643,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list and labels
      */
-	public function testFormRendererBootstrap4_FieldRadioListLabels() {
+	public function testFieldRadioListLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioListLabels();
 
@@ -1690,8 +1678,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                         . '<label for="field-1-opt3" class="form-check-label">textlist 4</label>' . "\n"
                     )
                     . '<div>See? No problem!</div>' . "\n"
-                )
-            . "\n",
+                ),
             '', 'fieldset')
         );
 
@@ -1729,8 +1716,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                             . '<label for="field-1-opt3" class="form-check-label">textlist 4</label>' . "\n"
                         )
                     . '<div>See? No problem!</div>' . "\n"
-                )
-                . "\n",
+                ),
                 '', 'fieldset'
             )
         );
@@ -1746,7 +1732,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a range
      */
-	public function testFormRendererBootstrap4_FieldRange() {
+	public function testFieldRange() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $cases = RendererCaseGenerator::html_FieldRange();
@@ -1799,7 +1785,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a search
      */
-	public function testFormRendererBootstrap4_FieldSearch() {
+	public function testFieldSearch() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSearch();
 
@@ -1839,7 +1825,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a simple select
      */
-	public function testFormRendererBootstrap4_FieldSelect() {
+	public function testFieldSelect() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSelect();
 
@@ -1977,7 +1963,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a nested select
      */
-	public function testFormRendererBootstrap4_FieldSelectNested() {
+	public function testFieldSelectNested() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSelectNested();
 
@@ -2121,7 +2107,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a tel
      */
-	public function testFormRendererBootstrap4_FieldTel() {
+	public function testFieldTel() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTel();
 
@@ -2158,7 +2144,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldText() {
+	public function testFieldText() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldText();
         $expect = [];
@@ -2187,7 +2173,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldTextDataList() {
+	public function testFieldTextDataList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextDataList();
         $expect = [];
@@ -2230,7 +2216,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test a text field with label options
      */
-	public function testFormRendererBootstrap4_FieldTextLabels() {
+	public function testFieldTextLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextLabels();
         $expect = [];
@@ -2337,7 +2323,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Test various validation options
      */
-	public function testFormRendererBootstrap4_FieldTextValidation() {
+	public function testFieldTextValidation() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextValidation();
         $expect = [];
@@ -2390,7 +2376,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_FieldTextarea() {
+	public function testFieldTextarea() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextarea();
         $expect = [];
@@ -2428,7 +2414,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a time element
     */
-	public function testFormRendererBootstrap4_FieldTime() {
+	public function testFieldTime() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTime();
         $expect = [];
@@ -2492,7 +2478,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a url
      */
-	public function testFormRendererBootstrap4_FieldUrl() {
+	public function testFieldUrl() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldUrl();
         $expect = [];
@@ -2532,7 +2518,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a week element
     */
-	public function testFormRendererBootstrap4_FieldWeek() {
+	public function testFieldWeek() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldWeek();
         $expect = [];
@@ -2596,7 +2582,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a html element
      */
-	public function testFormRendererBootstrap4_Html() {
+	public function testHtml() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Html();
         $expect = [];
@@ -2622,7 +2608,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererBootstrap4_Section() {
+	public function testSection() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Section();
         $expect = [];
@@ -2650,7 +2636,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     /**
      * Check a static element
      */
-	public function testFormRendererBootstrap4_Static() {
+	public function testStatic() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Static();
         $expect = [];

@@ -65,11 +65,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
     }
 
-	public function testFormRendererSimpleHtml_Instantiation() {
+	public function testInstantiation() {
 		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\SimpleHtml', $this -> testObj);
 	}
 
-	public function testFormRendererSimpleHtml_Start() {
+	public function testStart() {
         $data = $this -> testObj -> start();
         $this -> assertEquals("<form method=\"post\">\n", $data -> body);
         $this -> assertEquals("</form>\n", $data -> post);
@@ -86,7 +86,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a button
      */
-	public function testFormRendererSimpleHtml_Button() {
+	public function testButton() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Button();
         $expect = [];
@@ -154,7 +154,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a field with label options
      */
-	public function testFormRendererSimpleHtml_ButtonLabels() {
+	public function testButtonLabels() {
         $this -> logMethod(__METHOD__);
         $tail = '<br/>' . "\n";
         $cases = RendererCaseGenerator::html_ButtonLabels();
@@ -240,7 +240,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_Cell() {
+	public function testCell() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Cell();
 
@@ -253,7 +253,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_CellContext() {
+	public function testCellContext() {
         $this -> logMethod(__METHOD__);
         $element = new CellElement();
         $this -> assertFalse($this -> testObj -> queryContext('inCell'));
@@ -264,7 +264,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * @doesNotPerformAssertions
      */
-	public function testFormRendererSimpleHtml_SetOptions() {
+	public function testSetOptions() {
 
         $this -> testObj -> setOptions();
     }
@@ -272,7 +272,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as the button types
      */
-	public function testFormRendererSimpleHtml_FieldButton() {
+	public function testFieldButton() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldButton();
         // Value reset submit
@@ -304,7 +304,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element
      */
-	public function testFormRendererSimpleHtml_FieldCheckbox() {
+	public function testFieldCheckbox() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldCheckbox();
         $expect = [];
@@ -435,7 +435,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a checkbox element with a list
      */
-	public function testFormRendererSimpleHtml_FieldCheckboxList() {
+	public function testFieldCheckboxList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldCheckboxList();
 
@@ -595,7 +595,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a color element
     */
-	public function testFormRendererSimpleHtml_FieldColor() {
+	public function testFieldColor() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldColor();
 
@@ -641,7 +641,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a date element
     */
-	public function testFormRendererSimpleHtml_FieldDate() {
+	public function testFieldDate() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldDate();
 
@@ -699,7 +699,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a datetime-local element
     */
-	public function testFormRendererSimpleHtml_FieldDatetimeLocal() {
+	public function testFieldDatetimeLocal() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldDatetimeLocal();
 
@@ -755,7 +755,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldEmail() {
+	public function testFieldEmail() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldEmail();
 
@@ -813,7 +813,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldFile() {
+	public function testFieldFile() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldFile();
 
@@ -869,7 +869,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a hidden element
     */
-	public function testFormRendererSimpleHtml_FieldHidden() {
+	public function testFieldHidden() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldHidden();
 
@@ -895,7 +895,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a hidden field with label options
      */
-	public function testFormRendererSimpleHtml_FieldHiddenLabels() {
+	public function testFieldHiddenLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldHiddenLabels();
 
@@ -919,7 +919,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a month element
     */
-	public function testFormRendererSimpleHtml_FieldMonth() {
+	public function testFieldMonth() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldMonth();
 
@@ -973,7 +973,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a number
      */
-	public function testFormRendererSimpleHtml_FieldNumber() {
+	public function testFieldNumber() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $cases = RendererCaseGenerator::html_FieldNumber();
@@ -1038,7 +1038,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldPassword() {
+	public function testFieldPassword() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldPassword();
 
@@ -1086,7 +1086,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element
      */
-	public function testFormRendererSimpleHtml_FieldRadio() {
+	public function testFieldRadio() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadio();
 
@@ -1135,7 +1135,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for single radio element with labels
      */
-	public function testFormRendererSimpleHtml_FieldRadioLabels() {
+	public function testFieldRadioLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioLabels();
 
@@ -1170,7 +1170,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list
      */
-	public function testFormRendererSimpleHtml_FieldRadioList() {
+	public function testFieldRadioList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioList();
 
@@ -1267,7 +1267,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test code generation for a radio element with a list and labels
      */
-	public function testFormRendererSimpleHtml_FieldRadioListLabels() {
+	public function testFieldRadioListLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldRadioListLabels();
 
@@ -1339,7 +1339,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a range
      */
-	public function testFormRendererSimpleHtml_FieldRange() {
+	public function testFieldRange() {
         $this -> logMethod(__METHOD__);
         $tail = "<br/>\n";
         $cases = RendererCaseGenerator::html_FieldRange();
@@ -1399,7 +1399,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a search
      */
-	public function testFormRendererSimpleHtml_FieldSearch() {
+	public function testFieldSearch() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSearch();
 
@@ -1435,7 +1435,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a simple select
      */
-	public function testFormRendererSimpleHtml_FieldSelect() {
+	public function testFieldSelect() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSelect();
 
@@ -1553,7 +1553,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a nested select
      */
-	public function testFormRendererSimpleHtml_FieldSelectNested() {
+	public function testFieldSelectNested() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldSelectNested();
 
@@ -1674,7 +1674,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a tel
      */
-	public function testFormRendererSimpleHtml_FieldTel() {
+	public function testFieldTel() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTel();
 
@@ -1707,7 +1707,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldText() {
+	public function testFieldText() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldText();
         $expect = [];
@@ -1739,7 +1739,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldTextDataList() {
+	public function testFieldTextDataList() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextDataList();
         $expect = [];
@@ -1779,7 +1779,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test a text field with label options
      */
-	public function testFormRendererSimpleHtml_FieldTextLabels() {
+	public function testFieldTextLabels() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextLabels();
         $expect = [];
@@ -1853,7 +1853,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test various validation options
      */
-	public function testFormRendererSimpleHtml_FieldTextValidation() {
+	public function testFieldTextValidation() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextValidation();
         $expect = [];
@@ -1902,7 +1902,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_FieldTextarea() {
+	public function testFieldTextarea() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTextarea();
         $expect = [];
@@ -1933,7 +1933,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a time element
     */
-	public function testFormRendererSimpleHtml_FieldTime() {
+	public function testFieldTime() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldTime();
         $expect = [];
@@ -1989,7 +1989,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a field as a url
      */
-	public function testFormRendererSimpleHtml_FieldUrl() {
+	public function testFieldUrl() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldUrl();
         $expect = [];
@@ -2025,7 +2025,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
    /**
     * Check field as a week element
     */
-	public function testFormRendererSimpleHtml_FieldWeek() {
+	public function testFieldWeek() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_FieldWeek();
         $expect = [];
@@ -2082,7 +2082,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a html element
      */
-	public function testFormRendererSimpleHtml_Html() {
+	public function testHtml() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Html();
         $expect = [];
@@ -2106,7 +2106,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $this -> runCases($cases, $expect);
     }
 
-	public function testFormRendererSimpleHtml_Section() {
+	public function testSection() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Section();
         $expect = [];
@@ -2134,7 +2134,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check a static element
      */
-	public function testFormRendererSimpleHtml_Static() {
+	public function testStatic() {
         $this -> logMethod(__METHOD__);
         $cases = RendererCaseGenerator::html_Static();
         $expect = [];

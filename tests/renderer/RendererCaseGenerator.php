@@ -261,10 +261,14 @@ class RendererCaseGenerator {
         $cases['toggle'] = $e1;
         $cases = array_merge($cases, self::addLabels($e1, '', '', ['inner']));
 
+        return $cases;
+    }
 
-        //
+    static public function html_FieldCheckboxButtonList() {
+        $cases = [];
+        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+
         // Modify the schema to change textWithList to a checkbox, style the last item
-        //
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
 
         $config = json_decode('{"type": "field","object": "test/textWithList"}');

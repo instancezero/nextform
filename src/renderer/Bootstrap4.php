@@ -290,7 +290,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 );
                 // Write the before label in the prepend group
                 $group -> body .= $this -> writeLabel(
-                    'before', $labels -> before, 'span',
+                    'inputBefore', $labels -> before, 'span',
                     new Attributes('class', ['input-group-text'])
                 ) . "\n";
                 $group -> close();
@@ -307,7 +307,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 );
                 // Write the after label in the append group
                 $group -> body .= $this -> writeLabel(
-                    'before', $labels -> after, 'span',
+                    'inputAfter', $labels -> after, 'span',
                     new Attributes('class', ['input-group-text'])
                 ) . "\n";
                 $group -> close();
@@ -372,7 +372,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $input = $this -> writeElement('div', ['show' => 'inputWrapperAttributes']);
 
         // Add in the input element and before/after labels
-        $input -> body .= $this -> writeLabel('before', $labels -> before, 'span')
+        $input -> body .= $this -> writeLabel('beforespan', $labels -> before, 'span')
             . $this -> writeTag('input', $attrs)
             . $this -> writeLabel('after', $labels -> after, 'span', [])
             . "\n";
@@ -461,6 +461,27 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if ($options['access'] == 'view') {
             $attrs -> setFlag('readonly');
         }
+
+        // If this is showing as a row of buttons change the group attributes
+        $groupAttrs = new Attributes;
+        if ($appearance === 'toggle') {
+            $asButtons = true;
+            $groupAttrs -> set('class', 'btn-group btn-group-toggle');
+            $groupAttrs -> set('data-toggle', 'buttons');
+
+            // For buttons, write before/after labels on the same line
+            $labelElement = 'span';
+        } else {
+            $checkLayout = $this -> showGet('check', 'layout');
+            // Non-buttons can be stacked (default) or inline
+            $asButtons = false;
+            $groupAttrs -> set(
+                'class',
+                'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '')
+            );
+            $labelElement = 'div';
+        }
+
         // Customize the header to align baselines in horizontal layouts
         $headerAttrs = new Attributes;
         if ($layout === 'vertical') {
@@ -476,23 +497,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 'div', ['attrs' => new Attributes('class', 'row')])
             );
             $headerElement = 'legend';
-            $headerAttrs -> set('class', 'pt-0');
-        }
-
-        // If this is showing as a row of buttons change the group attributes
-        $groupAttrs = new Attributes;
-        if ($appearance === 'toggle') {
-            $asButtons = true;
-            $groupAttrs -> set('class', 'btn-group btn-group-toggle');
-            $groupAttrs -> set('data-toggle', 'buttons');
-        } else {
-            $checkLayout = $this -> showGet('check', 'layout');
-            // Non-buttons can be stacked (default) or inline
-            $asButtons = false;
-            $groupAttrs -> set(
-                'class',
-                'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '')
-            );
+            if (!$asButtons && $options['access'] == 'write') {
+                $headerAttrs -> set('class', 'pt-0');
+            }
         }
 
         // Write the heading. We added a pt-0 for horizontal layouts
@@ -500,32 +507,34 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             'headingAttributes', $labels -> heading, $headerElement, $headerAttrs, ['break' => true]
         );
 
-        // Write any before label
-        $block -> body .= $this -> writeLabel(
-            'before', $labels -> before, 'div', null
-        );
-        if ($labels -> has('help')) {
-            $attrs -> set('aria-describedby', $baseId . '-formhelp');
-        }
         if ($layout === 'horizontal') {
             // Create the second column for a horizontal layout
             $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
         }
-        $listBlock = new Block;
-        if ($asButtons) {
-            $listBlock -> merge($this -> writeElement('div', ['attrs' => $groupAttrs]));
-            $listBlock -> merge($this -> checkListButtons(new Block, $element, clone $attrs));
-        } else {
-            $this -> checkList($listBlock, $element, clone $attrs);
+
+        // Generate everything associated with the inputs, including before/after texts
+        $input = new Block;
+        $input -> body .= $this -> writeLabel(
+            'before' . $labelElement, $labels -> before, $labelElement
+        );
+        if ($labels -> has('help')) {
+            $attrs -> set('aria-describedby', $baseId . '-formhelp');
         }
-        $listBlock -> close();
-        $block -> merge($listBlock);
+        if ($asButtons) {
+            $input -> merge($this -> writeElement('div', ['attrs' => $groupAttrs]));
+            $input -> merge($this -> checkListButtons(new Block, $element, clone $attrs));
+        } else {
+            $this -> checkList($input, $element, clone $attrs);
+        }
+        $input -> close();
 
         // Write any after-label
-        $block -> body .= $this -> writeLabel(
-            'after', $labels -> after, 'div', [], ['break' => true]
+        $input -> body .= $this -> writeLabel(
+            'after', $labels -> after, $labelElement, [], ['break' => true]
         );
-        $block -> close();
+
+        $block -> merge($input);
+
         if ($labels -> has('help')) {
             $helpAttrs = new Attributes;
             $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
@@ -534,9 +543,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 'help', $labels -> help, 'small',
                 $helpAttrs, ['break' => true]
             );
-        } elseif (!$asButtons) {
-            $block -> body .= "\n";
         }
+        $block -> close();
         $rowBlock -> merge($block);
         $rowBlock -> close();
         return $rowBlock;
@@ -566,15 +574,6 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if ($options['access'] == 'view') {
             $attrs -> setFlag('readonly');
         }
-        // Customize the header to align baselines in horizontal layouts
-        $headerAttrs = new Attributes;
-        $rowBlock = new Block;
-        if ($this -> showGet('form', 'layout') === 'vertical') {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
-        } else {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
-            $headerAttrs -> set('class', 'pt-0');
-        }
 
         // If this is showing as a row of buttons change the group attributes
         $groupAttrs = new Attributes;
@@ -591,22 +590,44 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             );
         }
 
-        // Write the heading. We added a pt-0 for horizontal layouts
+        // Customize the header to align baselines in horizontal layouts
+        $headerAttrs = new Attributes;
+        $rowBlock = new Block;
+        if ($this -> showGet('form', 'layout') === 'vertical') {
+            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        } else {
+            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+            if (!$asButtons && $options['access'] == 'write') {
+                $headerAttrs -> set('class', 'pt-0');
+            }
+        }
+
+        // Write the heading. We added a pt-0 for horizontal non-button layouts
         $block -> body .= $this -> writeLabel(
             'headingAttributes', $labels -> heading, 'div', $headerAttrs, ['break' => true]
         );
-
-        // Generate the "before" and "after" texts
-        $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
-        if ($asButtons) {
-            $this -> checkSingleButton($block, $element, $attrs, $groupAttrs);
-        } else {
-            $this -> checkSingle($block, $element, $attrs, $groupAttrs);
+        if ($this -> showGet('form', 'layout') === 'horizontal') {
+            // Create the second column for a horizontal layout
+            $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
         }
-        $block -> body .= $this -> writeLabel('after', $labels -> after, 'span');
+
+        // Generate everything associated with the inputs, including before/after texts
+        $input = new Block;
+        $input -> body .= $this -> writeLabel(
+            'beforespan', $labels -> before, 'span'
+        );
+        if ($asButtons) {
+            $this -> checkSingleButton($input, $element, $attrs, $groupAttrs);
+        } else {
+            $this -> checkSingle($input, $element, $attrs, $groupAttrs);
+        }
+        $input -> body .= $this -> writeLabel(
+            'after', $labels -> after, 'span', null, ['break' => true]
+        );
+        $input -> close();
+        $block -> merge($input);
 
         // Write any help text
-        $block -> close();
         if ($labels -> has('help')) {
             $helpAttrs = new Attributes;
             $helpAttrs -> set('id', $attrs -> get('aria-describedby'));
@@ -615,8 +636,6 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 'help', $labels -> help, 'small',
                 $helpAttrs, ['break' => true]
             );
-        } elseif (!$asButtons) {
-            $block -> body .= "\n";
         }
         $rowBlock -> merge($block);
         $rowBlock -> close();
@@ -742,7 +761,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Start the input group
         $block = $this -> writeWrapper($block, 'div', ['show' => 'inputWrapperAttributes']);
-        $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
+        $block -> body .= $this -> writeLabel('beforespan', $labels -> before, 'span');
         $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
@@ -953,6 +972,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             // Reset key settings
             unset($this -> showState['form']['inputWrapperAttributes']);
             unset($this -> showState['form']['headingAttributes']);
+
+            // When before text is in a span, it has a right margin
+            $this -> showState['form']['beforespan'] = new Attributes('class', ['mr-1']);
 
             // A cell element will appear as a row
             $this -> showState['form']['cellElementAttributes'] = new Attributes('class', ['form-row']);
