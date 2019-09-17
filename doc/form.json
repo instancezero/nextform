@@ -12,7 +12,11 @@
                 {
                     "name": "optional unique name",
                     "type": "static",
+                    "labels": {
+                        "heading": "optional header for the text"
+                    },
                     "value": "string or language key",
+                    "html": "boolean - default false, value does not need to be escaped",
                     "visible": "boolean - initial state"
                 },
                 {

@@ -98,7 +98,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['bva'] -> body = '<input id="button-1" name="button-1" type="button"'
             . ' value="I am Button!" disabled/><br/>' . "\n";
 
-        // Readaccess
+        // Hidden access
         $expect['bra'] = new Block;
         $expect['bra'] -> body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
@@ -262,7 +262,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        $expect['value-read'] = Block::fromString(
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="3"'
             . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
         );
@@ -273,9 +273,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             . '<br/>' . "\n";
 
-        // Test read access
-        $expect['read'] = new Block;
-        $expect['read'] -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        // Test hidden access
+        $expect['hide'] = new Block;
+        $expect['hide'] -> body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
 
         // no labels
         $expect['label-none'] = new Block;
@@ -386,8 +386,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Read access
-        $expect['read'] = Block::fromString(
+        // Hidden access
+        $expect['hide'] = Block::fromString(
         );
 
         // Set a value to trigger the checked option
@@ -412,8 +412,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Check read access with a single value
-        $expect['single-value-read'] = Block::fromString(
+        // Check hidden access with a single value
+        $expect['single-value-hide'] = Block::fromString(
             '<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4"'
             . ' data-sidecar="[1,2,3,4]"/>' . "\n"
         );
@@ -462,8 +462,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['dual-value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['dual-value-hide'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
             . '<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4"'
             . ' data-sidecar="[1,2,3,4]"/>' . "\n"
@@ -508,8 +508,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['value-read'] = Block::fromString(
+        // Convert to hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>' . "\n"
         );
 
@@ -553,8 +553,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['read'] = Block::fromString(
+        // Convert to hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
@@ -600,8 +600,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['read'] = Block::fromString(
+        // Convert to hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
@@ -644,8 +644,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>' . "\n"
         );
 
@@ -684,9 +684,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
+        // Test hidden access
         //
-        $expect['value-read'] = Block::fromString(
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
@@ -714,8 +714,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Same result with view access
         $expect['view'] = $expect['basic'];
 
-        // Same result with read access
-        $expect['read'] = $expect['basic'];
+        // Same result with hidden access
+        $expect['hide'] = $expect['basic'];
 
         $this -> runCases($cases, $expect);
     }
@@ -783,7 +783,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Read access
-        $expect['read'] = Block::fromString(
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="2010-10"/>' . "\n"
         );
 
@@ -867,8 +867,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="secret"/>' . "\n"
         );
 
@@ -907,8 +907,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
         );
 
@@ -942,8 +942,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['labels-value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['labels-value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
         );
 
@@ -1030,8 +1030,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n"
         );
 
@@ -1098,8 +1098,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['labels-value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['labels-value-hide'] = Block::fromString(
             '<input id="field-1-opt2" name="field-1" type="hidden" value="textlist 3"/>' . "\n"
         );
 
@@ -1173,8 +1173,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1208,8 +1208,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1234,8 +1234,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
         );
 
@@ -1259,8 +1259,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['multivalue-read'] = Block::fromString(
+        // Test hidden access
+        $expect['multivalue-hide'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
         );
@@ -1311,8 +1311,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1342,8 +1342,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['value-read'] = Block::fromString(
+        // Test hidden access
+        $expect['value-hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
         );
 
@@ -1372,8 +1372,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['multivalue-read'] = Block::fromString(
+        // Test hidden access
+        $expect['multivalue-hide'] = Block::fromString(
             '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
             . '<input id="field-1-opt1" name="field-1[1]" type="hidden"'
             . ' value="Sub One Item One"/>' . "\n"
@@ -1404,8 +1404,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1433,8 +1433,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1467,8 +1467,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1575,8 +1575,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['basic'] = Block::fromString(
-            '<textarea id="field-1" name="field-1"></textarea>'
-            . '<br/>' . "\n"
+            '<textarea id="field-1" name="field-1"></textarea>' . "\n"
         );
 
         // Same result with explicit write access
@@ -1585,11 +1584,11 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             '<textarea id="field-1" name="field-1" readonly></textarea>'
-            . '<br/>' . "\n"
+            . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1632,8 +1631,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['read'] = Block::fromString(
+        // Convert to hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="20:10"/>' . "\n"
         );
 
@@ -1662,8 +1661,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Test read access
-        $expect['read'] = Block::fromString(
+        // Test hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
@@ -1707,8 +1706,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['read'] = Block::fromString(
+        // Convert to hidden access
+        $expect['hide'] = Block::fromString(
             '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
@@ -1724,7 +1723,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['basic'] = Block::fromString(
-            '<p>This is some escaped html &amp;</p>'
+            '<p>This is some raw html &amp;</p>'
         );
 
         // Same result with explicit write access
@@ -1733,8 +1732,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = $expect['basic'];
 
-        // Test read access
-        $expect['read'] = $expect['view'];
+        // Test hidden access
+        $expect['hide'] = new Block;;
 
         $this -> runCases($cases, $expect);
     }
@@ -1758,8 +1757,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Same for view access
         $expect['label-view'] = $expect['label'];
 
-        // Same for read access
-        $expect['label-read'] = $expect['label'];
+        // Same for hidden access
+        $expect['label-hide'] = $expect['label'];
 
         $this -> runCases($cases, $expect);
     }
@@ -1776,14 +1775,26 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             'This is unescaped text with &lt;stuff&gt;!'
         );
 
+        $expect['head'] = Block::fromString(
+            '<div>Header</div>' . "\n"
+            . 'This is unescaped text with &lt;stuff&gt;!'
+        );
+
         // Same result with explicit write access
-        $expect['write'] = $expect['basic'];
+        $expect['write'] = $expect['head'];
 
         // Test view access
-        $expect['view'] = $expect['basic'];
+        $expect['view'] = $expect['head'];
 
-        // Test read access
-        $expect['read'] = $expect['basic'];
+        // Test hidden access
+        $expect['hide'] = new Block;
+
+        $expect['raw'] = Block::fromString('This is <strong>raw html</strong>!');
+
+        $expect['raw-head'] = Block::fromString(
+            '<div>Header</div>' . "\n"
+            . 'This is <strong>raw html</strong>!'
+        );
 
         $this -> runCases($cases, $expect);
     }

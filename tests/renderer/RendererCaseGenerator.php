@@ -114,8 +114,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['bva'] = [$baseButton, ['access' => 'view'], 'button view access'];
 
-        // Test read access
-        $cases['bra'] = [$baseButton, ['access' => 'read'], 'button read access'];
+        // Test hidden access
+        $cases['bra'] = [$baseButton, ['access' => 'hide'], 'button hidden access'];
 
         // Test success with smaller size
         $e5 = $e1 -> copy() -> addShow('size:small');
@@ -211,8 +211,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         // Set a value
         $e2 = $element -> copy();
@@ -221,7 +221,7 @@ class RendererCaseGenerator {
         $e2b -> getDataProperty() -> getPopulation() -> sidecar = 'foo';
         $cases['value'] = [$e2b];
         $cases['value-view'] = [$e2b, ['access' => 'view']];
-        $cases['value-read'] = [$e2b, ['access' => 'read']];
+        $cases['value-hide'] = [$e2b, ['access' => 'hide']];
 
         // Render inline
         $e3 = $element -> copy();
@@ -311,25 +311,25 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         // Set a value to trigger the checked option
         $e2 = $element -> copy() -> setValue('textlist 4');
         $cases['single-value'] = [$e2];
 
-        // Test read access
-        $cases['single-value-read'] = [$e2, ['access' => 'read']];
+        // Test hidden access
+        $cases['single-value-hide'] = [$e2, ['access' => 'hide']];
 
         // Set a second value to trigger the checked option
         $e3 = $element -> copy() -> setValue(['textlist 1', 'textlist 4']);
         $cases['dual-value'] = [$e3];
 
-        // Test read access
+        // Test hidden access
         $cases['dual-value-view'] = [$e3, ['access' => 'view']];
 
-        // Test read access
-        $cases['dual-value-read'] = [$e3, ['access' => 'read']];
+        // Test hidden access
+        $cases['dual-value-hide'] = [$e3, ['access' => 'hide']];
 
         // Render inline
         $e4 = $element -> copy();
@@ -370,8 +370,8 @@ class RendererCaseGenerator {
         $cases['value-view'] = [$e1, ['access' => 'view']];
 
         //
-        // Read access
-        $cases['value-read'] = [$e1, ['access' => 'read']];
+        // Hidden access
+        $cases['value-hide'] = [$e1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -408,9 +408,9 @@ class RendererCaseGenerator {
         // Now with view access
         $cases['view'] = [$e2, ['access' => 'view']];
 
-        // Convert to hidden for read access
+        // Convert to hidden access
         //
-        $cases['read'] = [$e2, ['access' => 'read']];
+        $cases['hide'] = [$e2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -447,8 +447,8 @@ class RendererCaseGenerator {
         // Now with view access
         $cases['view'] = [$e2, ['access' => 'view']];
 
-        // Convert to hidden for read access
-        $cases['read'] = [$e2, ['access' => 'read']];
+        // Convert to hidden access
+        $cases['hide'] = [$e2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -489,9 +489,8 @@ class RendererCaseGenerator {
         $e3 -> setValue('snafu@fub.ar');
         $cases['view'] = [$e3, ['access' => 'view']];
 
-        // Read access
-        //
-        $cases['read'] = [$e3, ['access' => 'read']];
+        // Hidden access
+        $cases['hide'] = [$e3, ['access' => 'hide']];
 
         return $cases;
     }
@@ -526,8 +525,8 @@ class RendererCaseGenerator {
         $e2 -> setValue(['file1.png', 'file2.jpg']);
         $cases['value-view'] = [$e2, ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$e2, ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$e2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -552,8 +551,8 @@ class RendererCaseGenerator {
         // Same result with view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Same result with read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Same result for hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -605,8 +604,8 @@ class RendererCaseGenerator {
         // Now with view access
         $cases['minmax-view'] = [$e2, ['access' => 'view']];
 
-        // Convert to hidden for read access
-        $cases['read'] = [$e2, ['access' => 'read']];
+        // Convert to hidden access
+        $cases['hide'] = [$e2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -680,8 +679,8 @@ class RendererCaseGenerator {
         $e1 -> setValue('secret');
         $cases['value-view'] = [$e1, ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$e1, ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$e1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -716,8 +715,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['value-view'] = [$e1, ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$e1, ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$e1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -746,8 +745,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['labels-value-view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['labels-value-read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['labels-value-hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -778,8 +777,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -809,8 +808,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['labels-value-view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['labels-value-read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['labels-value-hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -879,8 +878,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -907,8 +906,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element -> copy(), ['access' => 'hide']];
 
         // Now let's give it a value...
         $element -> setValue('textlist 2');
@@ -917,8 +916,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         // Test the BS custom presentation
         $cases['value-bs4custom'] = $element -> copy() -> setShow('appearance:custom');
@@ -933,8 +932,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['multivalue-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['multivalue-read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['multivalue-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         // Set the presentation to six rows
         $presentation -> setRows(6);
@@ -965,8 +964,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element -> copy(), ['access' => 'hide']];
 
         // Now let's give it a value...
         $element -> setValue('S2I1');
@@ -978,8 +977,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['value-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['value-read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['value-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         // Set multiple and give it two values
         $validation = $element -> getDataProperty() -> getValidation();
@@ -990,8 +989,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['multivalue-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Test read access
-        $cases['multivalue-read'] = [$element -> copy(), ['access' => 'read']];
+        // Test hidden access
+        $cases['multivalue-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -1018,8 +1017,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1036,7 +1035,7 @@ class RendererCaseGenerator {
         $cases['default'] = [$element, [], 'default access'];
         $cases['write'] = [$element, ['access' => 'write'], 'explicit write access'];
         $cases['view'] = [$element, ['access' => 'view'], 'explicit view access'];
-        $cases['read'] = [$element, ['access' => 'read'], 'explicit read access'];
+        $cases['hide'] = [$element, ['access' => 'hide'], 'explicit hidden access'];
 
         return $cases;
     }
@@ -1057,7 +1056,7 @@ class RendererCaseGenerator {
         $cases['view'] = [$element, ['access' => 'view']];
 
         // Test read  access
-        $cases['read'] = [$element, ['access' => 'read']];
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1129,9 +1128,9 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
+        // Test hidden access
         //
-        $cases['read'] = [$element, ['access' => 'read']];
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1167,8 +1166,8 @@ class RendererCaseGenerator {
         // Now with view access
         $cases['minmax-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Convert to hidden for read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Convert to hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1194,8 +1193,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1230,8 +1229,8 @@ class RendererCaseGenerator {
         // Now with view access
         $cases['minmax-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Convert to hidden for read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Convert to hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1239,7 +1238,7 @@ class RendererCaseGenerator {
     static public function html_Html() {
         $cases = [];
 
-        $config = json_decode('{"type":"html","value":"<p>This is some escaped html &amp;<\/p>"}');
+        $config = json_decode('{"type":"html","value":"<p>This is some raw html &amp;<\/p>"}');
         $element = new HtmlElement();
         $element -> configure($config);
 
@@ -1252,8 +1251,8 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1273,8 +1272,8 @@ class RendererCaseGenerator {
         // Same for view access
         $cases['label-view'] = [$element -> copy(), ['access' => 'view']];
 
-        // Same for read access
-        $cases['label-read'] = [$element -> copy(), ['access' => 'read']];
+        // Same for hidden access
+        $cases['label-hide'] = [$element -> copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -1287,7 +1286,11 @@ class RendererCaseGenerator {
         $element -> configure($config);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $element -> copy();
+
+        // Add a heading
+        $element -> setLabel('heading', 'Header');
+        $cases['head'] = $element;
 
         // Same result with explicit write access
         $cases['write'] = [$element, ['access' => 'write']];
@@ -1295,8 +1298,19 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$element, ['access' => 'view']];
 
-        // Test read access
-        $cases['read'] = [$element, ['access' => 'read']];
+        // Test hidden access
+        $cases['hide'] = [$element, ['access' => 'hide']];
+
+        // Now with raw HTML
+        $config = json_decode('{"type":"static","value":"This is <strong>raw html</strong>!","html":true}');
+        $element = new StaticElement();
+        $element -> configure($config);
+
+        $cases['raw'] = $element -> copy();
+
+        // Add a heading
+        $element -> setLabel('heading', 'Header');
+        $cases['raw-head'] = $element;
 
         return $cases;
     }

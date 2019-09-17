@@ -40,7 +40,7 @@
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!" disabled/>
 </div>
 <hr/>
-<h4>button read access</h4>
+<h4>button hidden access</h4>
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
 <hr/>
 <h4>small</h4>
@@ -145,7 +145,7 @@
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -164,7 +164,7 @@
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="3" data-sidecar="&quot;foo&quot;"/>
 <hr/>
 <h4>inline</h4>
@@ -508,7 +508,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1[]" type="hidden"/>
 <hr/>
 <h4>single-value</h4>
@@ -531,7 +531,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>single-value-read</h4>
+<h4>single-value-hide</h4>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>dual-value</h4>
@@ -574,7 +574,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>dual-value-read</h4>
+<h4>dual-value-hide</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
@@ -635,7 +635,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="color" class="form-control" value="#F0F0F0" readonly/>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldDate</h3>
@@ -664,7 +664,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="date" class="form-control" value="2010-10-10" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldDatetimeLocal</h3>
@@ -693,7 +693,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="datetime-local" class="form-control" value="2010-10-10" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldEmail</h3>
@@ -723,7 +723,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="email" class="form-control" value="snafu@fub.ar" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldFile</h3>
@@ -747,7 +747,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>
 <hr/>
@@ -761,7 +761,7 @@ textlist 4</label>
 <h4>view</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldHiddenLabels</h3>
@@ -812,7 +812,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="month" class="form-control" value="2010-10" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldNumber</h3>
@@ -867,7 +867,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="password" class="form-control" value="secret" readonly/>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="secret"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadio</h3>
@@ -903,7 +903,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioLabels</h3>
@@ -927,7 +927,7 @@ textlist 4</label>
 <span>See? No problem!</span>
 </div>
 <hr/>
-<h4>labels-value-read</h4>
+<h4>labels-value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioList</h3>
@@ -1011,7 +1011,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioListLabels</h3>
@@ -1059,7 +1059,7 @@ textlist 4</label>
 <div>See? No problem!</div>
 </fieldset>
 <hr/>
-<h4>labels-value-read</h4>
+<h4>labels-value-hide</h4>
 <input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRange</h3>
@@ -1109,7 +1109,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="search" class="form-control" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldSelect</h3>
@@ -1138,7 +1138,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -1157,7 +1157,7 @@ textlist 4</label>
 <span>textlist 2</span>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <hr/>
 <h4>value-bs4custom</h4>
@@ -1188,7 +1188,7 @@ textlist 4</label>
 <span>textlist 4</span><br/>
 </div>
 <hr/>
-<h4>multivalue-read</h4>
+<h4>multivalue-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
@@ -1238,7 +1238,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -1277,7 +1277,7 @@ textlist 4</label>
 <span>Sub Two Item One</span>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <hr/>
 <h4>multivalue</h4>
@@ -1303,7 +1303,7 @@ textlist 4</label>
 <span>Sub Two Item One</span><br/>
 </div>
 <hr/>
-<h4>multivalue-read</h4>
+<h4>multivalue-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
@@ -1323,7 +1323,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="tel" class="form-control" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldText</h3>
@@ -1342,7 +1342,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="text" class="form-control" readonly/>
 </div>
 <hr/>
-<h4>explicit read access</h4>
+<h4>explicit hidden access</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextDataList</h3>
@@ -1362,7 +1362,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="text" class="form-control" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextLabels</h3>
@@ -1448,13 +1448,21 @@ textlist 4</label>
 <h3>FormRendererBootstrap4Test::testFieldTextarea</h3>
 <h4>basic</h4>
 <div class="form-group col-sm-10">
-<input id="field-1" name="field-1" type="textarea" class="form-control"/>
+<textarea id="field-1" name="field-1"></textarea>
 </div>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>write</h4>
 <div class="form-group col-sm-10">
-<textarea id="field-1" name="field-1"></textarea><br/>
+<textarea id="field-1" name="field-1"></textarea>
 </div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<textarea id="field-1" name="field-1" readonly></textarea>
+</div>
+<hr/>
+<h4>hide</h4>
+<input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTime</h3>
 <h4>basic</h4>
@@ -1482,7 +1490,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="time" class="form-control" value="20:10" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldUrl</h3>
@@ -1501,7 +1509,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="url" class="form-control" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldWeek</h3>
@@ -1530,12 +1538,69 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="week" class="form-control" value="2010-W37" readonly/>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testHtml</h3>
+<h4>basic</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>write</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>view</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>hide</h4>
+<hr/>
 <h3>FormRendererBootstrap4Test::testSection</h3>
+<h4>empty</h4>
+<fieldset>
+</fieldset>
+<hr/>
+<h4>label</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-view</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-hide</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
 <h3>FormRendererBootstrap4Test::testStatic</h3>
+<h4>basic</h4>
+<div class="form-group col-sm-10">
+This is unescaped text with &lt;stuff&gt;!</div>
+<hr/>
+<h4>head</h4>
+<div class="form-group col-sm-10">
+<div>Header</div>
+This is unescaped text with &lt;stuff&gt;!</div>
+<hr/>
+<h4>write</h4>
+<div class="form-group col-sm-10">
+<div>Header</div>
+This is unescaped text with &lt;stuff&gt;!</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group col-sm-10">
+<div>Header</div>
+This is unescaped text with &lt;stuff&gt;!</div>
+<hr/>
+<h4>hide</h4>
+<hr/>
+<h4>raw</h4>
+<div class="form-group col-sm-10">
+This is <strong>raw html</strong>!</div>
+<hr/>
+<h4>raw-head</h4>
+<div class="form-group col-sm-10">
+<div>Header</div>
+This is <strong>raw html</strong>!</div>
+<hr/>
 </div></form></body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></html>

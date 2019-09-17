@@ -3,17 +3,25 @@
 namespace Abivia\NextForm\Element;
 
 /**
- *
+ * The static element puts static text into the form
  */
 class StaticElement Extends SimpleElement {
     use \Abivia\Configurable\Configurable;
+    use \Abivia\NextForm\Element\HasLabels;
     use \Abivia\NextForm\Traits\JsonEncoder;
+
+    protected $html = false;
+    static protected $jsonEncodeMethod = [];
+    static protected $jsonLocalMethod = [
+        'html' => ['drop:false'],
+        'value' => [],
+    ];
 
     public function __construct() {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
-            self::$jsonEncodeMethod['value'] = [];
+            self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
+            self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
         }
         $this -> type = 'static';
     }
@@ -42,6 +50,15 @@ class StaticElement Extends SimpleElement {
 
     protected function configureValidate($property, &$value) {
         return parent::configureValidate($property, $value);
+    }
+
+    public function getHtml() {
+        return $this -> html;
+    }
+
+    public function setHtml(bool $isHtml) : self {
+        $this -> html = $isHtml;
+        return $this;
     }
 
 }

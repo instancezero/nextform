@@ -90,7 +90,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         $labels = $element -> getLabels(true);
         $attrs -> setIfNotNull('value', $labels -> inner);
 
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -149,7 +149,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName() . ($confirm ? '-confirmation' : ''));
         $value = $element -> getValue();
-        if ($options['access'] === 'read' || $type === 'hidden') {
+        if ($options['access'] === 'hide' || $type === 'hidden') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -211,7 +211,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         $visible = true;
         if ($options['access'] == 'view') {
             $attrs -> setFlag('readonly');
-        } elseif ($options['access'] === 'read') {
+        } elseif ($options['access'] === 'hide') {
             $attrs -> set('type', 'hidden');
             $visible = false;
         }
@@ -265,7 +265,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName());
         $value = $element -> getValue();
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -320,7 +320,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         }
         $attrs['name'] = $element -> getFormName();
         $value = $element -> getValue();
-        if ($options['access'] === 'read' || $type === 'hidden') {
+        if ($options['access'] === 'hide' || $type === 'hidden') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -372,10 +372,9 @@ class SimpleHtml extends CommonHtml implements Renderer {
 
         $attrs -> set('name', $element -> getFormName() . ($multiple ? '[]' : ''));
         $value = $element -> getValue();
-        if ($options['access'] === 'read') {
-            //
-            // Read-only: generate one or more hidden input elements
-            //
+        if ($options['access'] === 'hide') {
+
+            // Hide: generate one or more hidden input elements
             $block -> merge($this -> elementHidden($element, $value));
         } else {
             // This element is visible
@@ -487,7 +486,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         }
         $attrs -> set('name', $element -> getFormName());
         $value = $element -> getValue();
-        if ($options['access'] === 'read' || $type === 'hidden') {
+        if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -520,18 +519,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
                 . $this -> writeLabel(
                     'after', $labels -> after, 'div', null, ['break' => true]
                 )
-                . ($this -> context['inCell'] ? '&nbsp;' : '<br/>')
                 . "\n";
         }
-        return $block;
-    }
-
-    protected function renderHtmlElement(HtmlElement $element, $options = []) {
-        $block = new Block();
-        $block -> body .= $this -> writeLabel('headingAttributes', null, 'div', null, ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
-        $block -> body .= $element -> getValue();
-        $block -> close();
         return $block;
     }
 
@@ -550,10 +539,26 @@ class SimpleHtml extends CommonHtml implements Renderer {
 
     protected function renderStaticElement(StaticElement $element, $options = []) {
         $block = new Block();
-        $block -> body .= $this -> writeLabel('headingAttributes', null, 'div', null, ['break' => true]);
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]);
-        $block -> body .= htmlspecialchars($element -> getValue());
+
+        // There's no way to hide this element so if access is hidden, skip it.
+        if ($options['access'] === 'hide') {
+            return $block;
+        }
+
+        // Write a heading if there is one
+        $labels = $element -> getLabels(true);
+        $block -> body .= $this -> writeLabel(
+            'headingAttributes',
+            $labels ? $labels -> heading : null,
+            'div', null, ['break' => true]
+        );
+        $block -> merge($this -> writeElement('div', ['show' => 'input-wrapper', 'append' => "<br/>\n"]));
+
+        // Escape the value if it's not listed as HTML
+        $value = $element -> getValue();
+        $block -> body .= $element -> getHtml() ? $value : htmlspecialchars($value);
         $block -> close();
+
         return $block;
     }
 

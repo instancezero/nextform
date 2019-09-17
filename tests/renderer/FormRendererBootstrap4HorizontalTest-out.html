@@ -58,7 +58,7 @@
 </div>
 </div>
 <hr/>
-<h4>button read access</h4>
+<h4>button hidden access</h4>
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
 <hr/>
 <h4>small</h4>
@@ -209,7 +209,7 @@
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -234,7 +234,7 @@
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="3" data-sidecar="&quot;foo&quot;"/>
 <hr/>
 <h4>inline</h4>
@@ -670,7 +670,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1[]" type="hidden"/>
 <hr/>
 <h4>single-value</h4>
@@ -698,7 +698,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>single-value-read</h4>
+<h4>single-value-hide</h4>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>dual-value</h4>
@@ -751,7 +751,7 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>dual-value-read</h4>
+<h4>dual-value-hide</h4>
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
@@ -834,7 +834,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldDate</h3>
@@ -878,7 +878,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldDatetimeLocal</h3>
@@ -922,7 +922,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldEmail</h3>
@@ -964,7 +964,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldFile</h3>
@@ -1000,7 +1000,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>
 <hr/>
@@ -1014,7 +1014,7 @@ textlist 4</label>
 <h4>view</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldHiddenLabels</h3>
@@ -1080,7 +1080,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-10"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldNumber</h3>
@@ -1165,7 +1165,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="secret"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadio</h3>
@@ -1180,13 +1180,41 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>write</h4>
 <div class="form-group row">
+<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
 </div>
 </div>
+</div>
+<hr/>
+<h4>value</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="col-sm-10">
+<div class="form-check">
+<input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
+<label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
+</div>
+</div>
+</div>
+<hr/>
+<h4>value-view</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">&nbsp;</div>
+<div class="col-sm-10">
+<div class="form-check">
+<input id="field-1" name="field-1" type="radio" class="form-check-input" value="3" readonly/>
+<label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
+</div>
+</div>
+</div>
+<hr/>
+<h4>value-hide</h4>
+<input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadioLabels</h3>
 <h4>labels-value</h4>
@@ -1201,17 +1229,20 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>Expected: labels-value</h4>
+<h4>labels-value-view</h4>
 <div class="form-group row">
 <div class="col-sm-2 col-form-label">Very Important Choice</div>
 <div class="col-sm-10">
 <span class="mr-1">No need to fear</span><div class="form-check">
-<input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
+<input id="field-1" name="field-1" type="radio" class="form-check-input" value="3" readonly/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
 </div>
 <span>See? No problem!</span>
 </div>
 </div>
+<hr/>
+<h4>labels-value-hide</h4>
+<input id="field-1" name="field-1" type="hidden" value="3"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadioList</h3>
 <h4>basic</h4>
@@ -1239,9 +1270,11 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>Expected: basic</h4>
-<fieldset class="form-group row">
-<div class="col-sm-2 col-form-label">&nbsp;</div>
+<h4>write</h4>
+<fieldset class="form-group">
+<div class="row">
+<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
@@ -1258,8 +1291,62 @@ textlist 4</label>
 <input id="field-1-opt3" name="field-1" type="radio" class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <label for="field-1-opt3" class="form-check-label">textlist 4</label>
 </div>
-
+</div>
+</div>
 </fieldset>
+<hr/>
+<h4>value</h4>
+<fieldset class="form-group">
+<div class="row">
+<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<div class="col-sm-10">
+<div class="form-check">
+<input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
+<label for="field-1-opt0" class="form-check-label">textlist 1</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt1" name="field-1" type="radio" class="form-check-input" value="textlist 2"/>
+<label for="field-1-opt1" class="form-check-label">textlist 2</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt2" name="field-1" type="radio" class="form-check-input" value="textlist 3" checked/>
+<label for="field-1-opt2" class="form-check-label">textlist 3</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt3" name="field-1" type="radio" class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3" class="form-check-label">textlist 4</label>
+</div>
+</div>
+</div>
+</fieldset>
+<hr/>
+<h4>value-view</h4>
+<fieldset class="form-group">
+<div class="row">
+<legend class="col-sm-2 col-form-label">&nbsp;</legend>
+<div class="col-sm-10">
+<div class="form-check">
+<input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1" readonly/>
+<label for="field-1-opt0" class="form-check-label">textlist 1</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt1" name="field-1" type="radio" class="form-check-input" value="textlist 2" readonly/>
+<label for="field-1-opt1" class="form-check-label">textlist 2</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt2" name="field-1" type="radio" class="form-check-input" value="textlist 3" checked readonly/>
+<label for="field-1-opt2" class="form-check-label">textlist 3</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt3" name="field-1" type="radio" class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<label for="field-1-opt3" class="form-check-label">textlist 4</label>
+</div>
+</div>
+</div>
+</fieldset>
+<hr/>
+<h4>value-hide</h4>
+<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadioListLabels</h3>
 <h4>labels-value</h4>
@@ -1288,29 +1375,34 @@ textlist 4</label>
 </div>
 </fieldset>
 <hr/>
-<h4>Expected: labels-value</h4>
-<fieldset class="form-group row">
-<div class="col-sm-2 col-form-label">Very Important Choice</div>
+<h4>labels-value-view</h4>
+<fieldset class="form-group">
+<div class="row">
+<legend class="col-sm-2 col-form-label">Very Important Choice</legend>
 <div class="col-sm-10">
 <div>No need to fear</div><div class="form-check">
-<input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
+<input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1" readonly/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1" type="radio" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1" type="radio" class="form-check-input" value="textlist 2" readonly/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt2" name="field-1" type="radio" class="form-check-input" value="textlist 3" checked/>
+<input id="field-1-opt2" name="field-1" type="radio" class="form-check-input" value="textlist 3" checked readonly/>
 <label for="field-1-opt2" class="form-check-label">textlist 3</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt3" name="field-1" type="radio" class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field-1-opt3" name="field-1" type="radio" class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
 <label for="field-1-opt3" class="form-check-label">textlist 4</label>
 </div>
 <div>See? No problem!</div>
 </div>
+</div>
 </fieldset>
+<hr/>
+<h4>labels-value-hide</h4>
+<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRange</h3>
 <h4>basic</h4>
@@ -1386,7 +1478,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldSelect</h3>
@@ -1424,7 +1516,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -1449,7 +1541,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <hr/>
 <h4>value-bs4custom</h4>
@@ -1489,7 +1581,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>multivalue-read</h4>
+<h4>multivalue-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
@@ -1551,7 +1643,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
@@ -1599,7 +1691,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>value-read</h4>
+<h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <hr/>
 <h4>multivalue</h4>
@@ -1631,7 +1723,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>multivalue-read</h4>
+<h4>multivalue-hide</h4>
 <input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
@@ -1660,7 +1752,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldText</h3>
@@ -1688,7 +1780,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>explicit read access</h4>
+<h4>explicit hidden access</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldTextDataList</h3>
@@ -1714,7 +1806,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldTextLabels</h3>
@@ -1827,17 +1919,28 @@ textlist 4</label>
 <div class="form-group row">
 <label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
-<input id="field-1" name="field-1" type="textarea" class="form-control"/>
+<textarea id="field-1" name="field-1"></textarea>
 </div>
 </div>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>write</h4>
 <div class="form-group row">
 <label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
-<textarea id="field-1" name="field-1"></textarea><br/>
+<textarea id="field-1" name="field-1"></textarea>
 </div>
 </div>
+<hr/>
+<h4>view</h4>
+<div class="form-group row">
+<label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
+<div class="col-sm-10">
+<textarea id="field-1" name="field-1" readonly></textarea>
+</div>
+</div>
+<hr/>
+<h4>hide</h4>
+<input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldTime</h3>
 <h4>basic</h4>
@@ -1880,7 +1983,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="20:10"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldUrl</h3>
@@ -1908,7 +2011,7 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldWeek</h3>
@@ -1952,12 +2055,83 @@ textlist 4</label>
 </div>
 </div>
 <hr/>
-<h4>read</h4>
+<h4>hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="2010-W37"/>
 <hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testHtml</h3>
+<h4>basic</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>write</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>view</h4>
+<p>This is some raw html &amp;</p><hr/>
+<h4>hide</h4>
+<hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testSection</h3>
+<h4>empty</h4>
+<fieldset>
+</fieldset>
+<hr/>
+<h4>label</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-view</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
+<h4>label-hide</h4>
+<fieldset>
+<legend>This is legendary</legend>
+</fieldset>
+<hr/>
 <h3>FormRendererBootstrap4HorizontalTest::testStatic</h3>
+<h4>basic</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">&nbsp;</div>
+<div class="col-sm-10">
+This is unescaped text with &lt;stuff&gt;!</div>
+</div>
+<hr/>
+<h4>head</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">Header</div>
+<div class="col-sm-10">
+This is unescaped text with &lt;stuff&gt;!</div>
+</div>
+<hr/>
+<h4>write</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">Header</div>
+<div class="col-sm-10">
+This is unescaped text with &lt;stuff&gt;!</div>
+</div>
+<hr/>
+<h4>view</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">Header</div>
+<div class="col-sm-10">
+This is unescaped text with &lt;stuff&gt;!</div>
+</div>
+<hr/>
+<h4>hide</h4>
+<hr/>
+<h4>raw</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">&nbsp;</div>
+<div class="col-sm-10">
+This is <strong>raw html</strong>!</div>
+</div>
+<hr/>
+<h4>raw-head</h4>
+<div class="form-group row">
+<div class="col-sm-2 col-form-label">Header</div>
+<div class="col-sm-10">
+This is <strong>raw html</strong>!</div>
+</div>
+<hr/>
 </div></form></body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></html>

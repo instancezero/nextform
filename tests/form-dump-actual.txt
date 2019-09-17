@@ -16,6 +16,7 @@ Abivia\NextForm Object
         (
             [0] => Abivia\NextForm\Element\StaticElement Object
                 (
+                    [html:protected] =>
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
                     [autoId:protected] =>
                     [enabled:protected] => 1
@@ -42,6 +43,10 @@ Abivia\NextForm Object
  *RECURSION*
                         )
 
+                    [hasTranslation:protected] =>
+                    [labels:protected] =>
+                    [labelsMerged:protected] =>
+                    [labelsTranslated:protected] =>
                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                         (
                         )
@@ -1885,6 +1890,7 @@ Abivia\NextForm Object
 
                             [1] => Abivia\NextForm\Element\StaticElement Object
                                 (
+                                    [html:protected] =>
                                     [value:protected] => This text is part of a section.
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
@@ -1911,6 +1917,10 @@ Abivia\NextForm Object
  *RECURSION*
                                         )
 
+                                    [hasTranslation:protected] =>
+                                    [labels:protected] =>
+                                    [labelsMerged:protected] =>
+                                    [labelsTranslated:protected] =>
                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                         (
                                         )
@@ -2336,6 +2346,7 @@ Abivia\NextForm Object
  *RECURSION*
                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                 (
+                                                    [html:protected] =>
                                                     [value:protected] => This text is part of a section.
                                                     [autoId:protected] =>
                                                     [enabled:protected] => 1
@@ -2354,6 +2365,10 @@ Abivia\NextForm Object
 
                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
+                                                    [hasTranslation:protected] =>
+                                                    [labels:protected] =>
+                                                    [labelsMerged:protected] =>
+                                                    [labelsTranslated:protected] =>
                                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                                         (
                                                         )
@@ -2768,6 +2783,7 @@ Abivia\NextForm Object
  *RECURSION*
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
+                                                                    [html:protected] =>
                                                                     [value:protected] => This text is part of a section.
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
@@ -2786,6 +2802,10 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
+                                                                    [hasTranslation:protected] =>
+                                                                    [labels:protected] =>
+                                                                    [labelsMerged:protected] =>
+                                                                    [labelsTranslated:protected] =>
                                                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                                                         (
                                                                         )
@@ -3214,6 +3234,7 @@ Abivia\NextForm Object
  *RECURSION*
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
+                                                                    [html:protected] =>
                                                                     [value:protected] => This text is part of a section.
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
@@ -3232,6 +3253,10 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
+                                                                    [hasTranslation:protected] =>
+                                                                    [labels:protected] =>
+                                                                    [labelsMerged:protected] =>
+                                                                    [labelsTranslated:protected] =>
                                                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                                                         (
                                                                         )
@@ -3660,6 +3685,7 @@ Abivia\NextForm Object
  *RECURSION*
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
+                                                                    [html:protected] =>
                                                                     [value:protected] => This text is part of a section.
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
@@ -3678,6 +3704,10 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
+                                                                    [hasTranslation:protected] =>
+                                                                    [labels:protected] =>
+                                                                    [labelsMerged:protected] =>
+                                                                    [labelsTranslated:protected] =>
                                                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                                                         (
                                                                         )
@@ -3806,6 +3836,7 @@ Abivia\NextForm Object
 
             [12] => Abivia\NextForm\Element\StaticElement Object
                 (
+                    [html:protected] =>
                     [value:protected] => This text is part of a section.
                     [autoId:protected] =>
                     [enabled:protected] => 1
@@ -4254,6 +4285,10 @@ Abivia\NextForm Object
 
                         )
 
+                    [hasTranslation:protected] =>
+                    [labels:protected] =>
+                    [labelsMerged:protected] =>
+                    [labelsTranslated:protected] =>
                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                         (
                         )
@@ -4272,6 +4307,7 @@ Abivia\NextForm Object
         (
             [0] => Abivia\NextForm\Element\StaticElement Object
                 (
+                    [html:protected] =>
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
                     [autoId:protected] =>
                     [enabled:protected] => 1
@@ -4298,6 +4334,10 @@ Abivia\NextForm Object
  *RECURSION*
                         )
 
+                    [hasTranslation:protected] =>
+                    [labels:protected] =>
+                    [labelsMerged:protected] =>
+                    [labelsTranslated:protected] =>
                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                         (
                         )
@@ -5160,6 +5200,7 @@ Abivia\NextForm Object
 
                             [1] => Abivia\NextForm\Element\StaticElement Object
                                 (
+                                    [html:protected] =>
                                     [value:protected] => This text is part of a section.
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
@@ -5186,6 +5227,10 @@ Abivia\NextForm Object
  *RECURSION*
                                         )
 
+                                    [hasTranslation:protected] =>
+                                    [labels:protected] =>
+                                    [labelsMerged:protected] =>
+                                    [labelsTranslated:protected] =>
                                     [configureErrors:Abivia\NextForm\Element\SimpleElement:private] => Array
                                         (
                                         )

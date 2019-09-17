@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Element;
 
 /**
- *
+ * The HTML element simply injects raw HTML into the form.
  */
 class HtmlElement Extends SimpleElement {
     use \Abivia\Configurable\Configurable;

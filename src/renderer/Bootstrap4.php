@@ -332,7 +332,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
     protected function renderButtonElement(ButtonElement $element, $options = []) {
         $labels = $element -> getLabels(true);
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -409,8 +409,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         //  layout = inline|vertical
         //  form.layout = horizontal|vertical|inline
 
-        // Read-only elements are hidden, generate and return.
-        if ($options['access'] === 'read') {
+        // Generate hidden elements and return.
+        if ($options['access'] === 'hide') {
             $attrs = new Attributes('type', 'hidden');
             $attrs -> setIfNotNull(
                 '*data-sidecar',
@@ -422,7 +422,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Push and update the show context
         $show = $element -> getShow();
-        if ($show) {
+        if ($show !== '') {
             $this -> pushContext();
             $this -> setShow($show, 'check');
         }
@@ -434,7 +434,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
 
         // Restore show context and return.
-        if ($show) {
+        if ($show !== '') {
             $this -> popContext();
         }
 
@@ -565,8 +565,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $attrs -> set('name', $element -> getFormName());
         $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
 
-        // Read-only elements are hidden, generate and return.
-        if ($options['access'] === 'read') {
+        // Generate hidden elements and return.
+        if ($options['access'] === 'hide') {
             $attrs -> set('type', 'hidden');
             $this -> checkInput($block, $element, $attrs);
             return $block;
@@ -648,7 +648,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
-        if ($options['access'] === 'read' || $type === 'hidden') {
+        if ($options['access'] === 'hide' || $type === 'hidden') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
@@ -657,6 +657,13 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 $block = $this -> elementHidden($element, $element -> getValue());
             }
             return $block;
+        }
+
+        // Push and update the show context
+        $show = $element -> getShow();
+        if ($show !== '') {
+            $this -> pushContext();
+            $this -> setShow($show, $type);
         }
 
         // We can see or change the data. Create a form group.
@@ -721,6 +728,11 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $block -> merge($input);
         $block -> close();
 
+        // Restore show context and return.
+        if ($show !== '') {
+            $this -> popContext();
+        }
+
         return $block;
     }
 
@@ -737,14 +749,21 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $attrs -> set('name', $element -> getFormName());
         $attrs -> set('class', 'form-control-file');
         $value = $element -> getValue();
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
             $block -> merge($this -> elementHidden($element, $value));
             return $block;
         }
-        //
+
+        // Push and update the show context
+        $show = $element -> getShow();
+        if ($show !== '') {
+            $this -> pushContext();
+            $this -> setShow($show, 'file');
+        }
+
         // We can see or change the data
         //
         $attrs -> setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
@@ -781,14 +800,19 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             . $this -> writeLabel('after', $labels -> after, 'span') . "\n";
         $block -> close();
 
+        // Restore show context and return.
+        if ($show !== '') {
+            $this -> popContext();
+        }
+
         return $block;
     }
 
     protected function renderFieldSelect(FieldElement $element, $options = []) {
         $value = $element -> getValue();
-        if ($options['access'] === 'read') {
+        if ($options['access'] === 'hide') {
 
-            // Read-only: generate one or more hidden input elements
+            // Hidden: generate one or more hidden input elements
             $block = $this -> elementHidden($element, $value);
             return $block;
         }
@@ -947,6 +971,144 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 }
             }
         }
+        return $block;
+    }
+
+    protected function renderFieldTextarea(FieldElement $element, $options = []) {
+
+        // Get the type. We also use the data and presentation below.
+        $data = $element -> getDataProperty();
+        $presentation = $data -> getPresentation();
+        $type = $presentation -> getType();
+        $value = $element -> getValue();
+        if ($options['access'] === 'hide') {
+
+            // No write/view permissions, the field is hidden, we don't need labels, etc.
+            $block = $this -> elementHidden($element, $value);
+            return $block;
+        }
+
+        // Push and update the show context
+        $show = $element -> getShow();
+        if ($show !== '') {
+            $this -> pushContext();
+            $this -> setShow($show, 'textarea');
+        }
+
+        // We can see or change the data. Create a form group.
+        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+
+        // Assemble the textarea attributes
+        $attrs = new Attributes;
+        $attrs -> set('id', $element -> getId());
+        $attrs -> set('name', $element -> getFormName());
+        if ($options['access'] == 'view') {
+            $attrs -> setFlag('readonly');
+        }
+
+        // Get any labels associated with this element
+        $labels = $element -> getLabels(true);
+
+        // Write the heading
+        $block -> body .= $this -> writeLabel(
+            'headingAttributes', $labels -> heading, 'label',
+            new Attributes('!for', $attrs -> get('id')), ['break' => true]
+        );
+
+        // Placeholder label and any size specifiers
+        $attrs -> setIfNotNull('placeholder', $labels -> inner);
+        $attrs -> setIfNotNull('cols', $presentation -> getCols());
+        $attrs -> setIfNotNull('rows', $presentation -> getRows());
+
+        // Link to help if available
+        if ($labels -> has('help')) {
+            $attrs -> set('aria-describedby', $attrs -> get('id') . '-help');
+        }
+
+        // Sidecar data
+        $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
+
+        // Write access: Add in any validation
+        if ($options['access'] === 'write') {
+            $attrs -> addValidation($type, $data -> getValidation());
+        }
+
+        // Generate the input wrapper
+        $input = $this -> writeElement('div', ['show' => 'inputWrapperAttributes']);
+
+        $input -> body .= $this -> writeLabel(
+            'before', $labels -> before, 'div', null, ['break' => true]
+        );
+        if ($value === null) {
+            $value = '';
+        }
+        // Generate the textarea element
+        $input -> body .= $this -> writeTag('textarea', $attrs, $value)
+            . $this -> writeLabel(
+                'after', $labels -> after, 'div', null, ['break' => true]
+            )
+            . "\n";
+
+        // It's a wrap.
+        $block -> merge($input);
+        $block -> close();
+
+        // Restore show context and return.
+        if ($show !== '') {
+            $this -> popContext();
+        }
+
+        return $block;
+    }
+
+    protected function renderSectionElement(SectionElement $element, $options = []) {
+        $block = new Block();
+        $labels = $element -> getLabels(true);
+        $block -> body = '<fieldset>' . "\n";
+        if ($labels !== null) {
+            $block -> body .= $this -> writeLabel(
+                '', $labels -> heading, 'legend', null, ['break' => true]
+            );
+        }
+        $block -> post = '</fieldset>' . "\n";
+        return $block;
+    }
+
+    protected function renderStaticElement(StaticElement $element, $options = []) {
+        // There's no way to hide this element so if all we have is hidden access, skip it.
+        if ($options['access'] === 'hide') {
+            return new Block;
+        }
+
+        // Push and update the show context
+        $show = $element -> getShow();
+        if ($show !== '') {
+            $this -> pushContext();
+            $this -> setShow($show, 'html');
+        }
+
+        // We can see or change the data. Create a form group.
+        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+
+        // Write a heading if there is one
+        $labels = $element -> getLabels(true);
+        $block -> body .= $this -> writeLabel(
+            'headingAttributes',
+            $labels ? $labels -> heading : null,
+            'div', null, ['break' => true]
+        );
+        $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
+
+        // Escape the value if it's not listed as HTML
+        $value = $element -> getValue();
+        $block -> body .= $element -> getHtml() ? $value : htmlspecialchars($value);
+        $block -> close();
+
+        // Restore show context and return.
+        if ($show !== '') {
+            $this -> popContext();
+        }
+
         return $block;
     }
 

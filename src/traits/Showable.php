@@ -23,8 +23,8 @@ trait Showable {
         return $this -> show;
     }
 
-    public function setShow($show) {
-        $this -> show = trim($show);
+    public function setShow($show) : self {
+        $this -> show = trim($show === null ? '' : $show);
         return $this;
     }
 

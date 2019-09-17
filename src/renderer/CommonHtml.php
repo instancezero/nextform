@@ -116,6 +116,22 @@ abstract class CommonHtml extends Html implements Renderer {
      */
     abstract protected function renderFieldCheckbox(FieldElement $element, $options = []);
 
+    /**
+     * Insert a raw HTML element into the form.
+     * @param HtmlElement $element Element containing the HTML to insert.
+     * @param type $options Options, if access is "hide" no output is generated
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    protected function renderHtmlElement(HtmlElement $element, $options = []) {
+        $block = new Block();
+
+        // There's no way to hide this element so if all we have is hidden access, skip it.
+        if ($options['access'] !== 'hide') {
+            $block -> body = $element -> getValue();
+        }
+        return $block;
+    }
+
     public function setOptions($options = []) {
 
     }
