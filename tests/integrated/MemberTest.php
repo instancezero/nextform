@@ -9,6 +9,7 @@ use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
+use Abivia\NextForm\Renderer\Bootstrap4;
 
 class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
@@ -164,6 +165,26 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
             . "  </head>\n"
             . "<body>\n" . $page -> body . "</body>\n</html>\n";
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $html);
+        $this -> assertTrue(true);
+    }
+
+    public function testBootstrap4RenderUnpopulated() {
+        NextForm::boot();
+        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
+        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
+        $form -> bindSchema($schema);
+        $render = new Bootstrap4();
+        $form -> setRenderer($render);
+        $form -> setTranslator(new NullTranslate());
+        $html = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
+
+        $page = file_get_contents(__DIR__ . '/../test-tools/boilerplate.html');
+        $page = str_replace(
+            ['{{title}}', '<!--{{head}}-->', '{{form}}', '<!--{{scripts}}-->'],
+            [__FUNCTION__, $html -> head, $html -> body, implode("\n", $html -> scripts)],
+            $page
+        );
+        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $page);
         $this -> assertTrue(true);
     }
 

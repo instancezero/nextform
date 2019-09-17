@@ -6,3 +6,5 @@ To Do List
 - Add a composite construct to assemble multiple items (texts, selects) into an input group
 - Need checkboxes as switches (custom-control custom-switch)
 - Create an input group when help/error labels exist and put the text inside the group
+- Add the validation token as an option.
+- Cell spacing; inline spacing... needs work.

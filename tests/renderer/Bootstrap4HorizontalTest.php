@@ -320,7 +320,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $cases = RendererCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
-            '<div class="form-row">' . "\n",
+            '<div class="form-row col-sm-10">' . "\n",
             '</div>' . "\n"
         );
         $expect['basic'] -> onCloseDone = [$this -> testObj, 'popContext'];

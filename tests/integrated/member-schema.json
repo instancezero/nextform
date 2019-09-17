@@ -117,7 +117,7 @@
                     "description": "First name of the primary member",
                     "labels": {
                         "heading": "Legal First Name",
-                        "help": "If you use a public pseudonym, enter it below."
+                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
                     },
                     "presentation": {
                         "cols": 1,
@@ -136,7 +136,7 @@
                     "description": "Last name of the primary member",
                     "labels": {
                         "heading": "Legal Last Name",
-                        "help": "If you use a public pseudonym, enter it below."
+                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
                     },
                     "presentation": {
                         "cols": 1,
@@ -170,6 +170,7 @@
                     "name": "primaryEmail",
                     "description": "Email address of the primary member",
                     "labels": {
+                        "confirm": "Repeat email",
                         "heading": "Email"
                     },
                     "presentation": {
@@ -208,7 +209,7 @@
                     "description": "First name of the second member",
                     "labels": {
                         "heading": "Legal First Name",
-                        "help": "If you use a public pseudonym, enter it below."
+                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
                     },
                     "presentation": {
                         "cols": 1,
@@ -227,7 +228,7 @@
                     "description": "Last name of the second member",
                     "labels": {
                         "heading": "Legal Last Name",
-                        "help": "If you use a public pseudonym, enter it below."
+                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
                     },
                     "presentation": {
                         "cols": 1,

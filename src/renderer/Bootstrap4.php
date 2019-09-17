@@ -649,9 +649,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $presentation = $data -> getPresentation();
         $type = $presentation -> getType();
         if ($options['access'] === 'hide' || $type === 'hidden') {
-            //
+
             // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
             $block = new Block();
             if (!$confirm) {
                 $block = $this -> elementHidden($element, $element -> getValue());
@@ -1167,6 +1166,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         // h:.c1:.c2    - Class for headers / input elements
         //
         // Adjusts:
+        // cellElementAttributes - Add the input column class
         // formGroupAttributes - add the row class
         //
         // Creates an attribute set for:
@@ -1181,9 +1181,11 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 $apply['headingAttributes'] = new Attributes(
                     'class', [substr($values[1], 1), 'col-form-label']
                 );
+                $col2 = substr($values[2], 1);
                 $apply['inputWrapperAttributes'] = new Attributes(
-                    'class', substr($values[2], 1)
+                    'class', $col2
                 );
+                $apply['cellElementAttributes'] -> itemAppend('class', $col2);
                 $default = false;
             } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
                 // ratio
@@ -1198,20 +1200,23 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 $factor = 12.0 / $sum;
                 $total = round($factor * ($part1 + $part2));
                 // Ensure columns are nonzero
-                $col1 = ((int) round($factor * $part1)) ?: 1;
-                $col2 = (int) ($total - $col1 > 0 ? $total - $col1 : 1);
+                $width1 = ((int) round($factor * $part1)) ?: 1;
+                $col1 = 'col-sm-' . $width1;
+                $col2 = 'col-sm-' . (int) ($total - $width1 > 0 ? $total - $width1 : 1);
                 $apply['headingAttributes'] = new Attributes(
-                    'class',['col-sm-' . $col1, 'col-form-label']
+                    'class',[$col1, 'col-form-label']
                 );
                 $apply['inputWrapperAttributes'] = new Attributes(
-                    'class', ['col-sm-' . $col2]
+                    'class', [$col2]
                 );
+                $apply['cellElementAttributes'] -> itemAppend('class', $col2);
                 $default = false;
             }
         }
         if ($default) {
             $apply['headingAttributes'] = new Attributes('class', ['col-sm-2', 'col-form-label']);
             $apply['inputWrapperAttributes'] = new Attributes('class', ['col-sm-10']);
+            $apply['cellElementAttributes'] -> itemAppend('class', 'col-sm-10');
         }
     }
 
@@ -1229,6 +1234,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         // v:m:t        - ratio of inputs over space t, adjusted to the BS grid
         //
         // Adjusts:
+        // cellElementAttributes - Add the input column class
         // formGroupAttributes - add the form width
         //
         $default = true;
@@ -1236,7 +1242,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         if (count($values) >= 2) {
             if ($values[1][0] == '.') {
                 // class specification
-                $apply['formGroupAttributes'] -> itemAppend('class', substr($values[1], 1));
+                $col1 = substr($values[1], 1);
+                $apply['formGroupAttributes'] -> itemAppend('class', $col1);
+                $apply['cellElementAttributes'] -> itemAppend('class', $col1);
                 $default = false;
             } elseif (preg_match('/^[+\-]?[0-9]+(\.[0-9]*)?$/', $values[1])) {
                 // ratio
@@ -1249,13 +1257,15 @@ class Bootstrap4 extends CommonHtml implements Renderer {
                 $sum = isset($values[2]) ? $values[2] : 12;
                 $factor = 12.0 / $sum;
                 // Ensure columns are nonzero
-                $col1 = ((int) round($factor * $part1)) ?: 1;
-                $apply['formGroupAttributes'] -> itemAppend('class', 'col-sm-' . $col1);
+                $col1 = 'col-sm-' . ((int) round($factor * $part1)) ?: 1;
+                $apply['formGroupAttributes'] -> itemAppend('class', $col1);
+                $apply['cellElementAttributes'] -> itemAppend('class', $col1);
                 $default = false;
             }
         }
         if ($default) {
             $apply['formGroupAttributes'] -> itemAppend('class', 'col-sm-12');
+            $apply['cellElementAttributes'] -> itemAppend('class', 'col-sm-12');
         }
 
     }

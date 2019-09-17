@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>testBootstrap4RenderUnpopulated</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+<body>
+<div class="container">
+<form id="registrationForm" name="registrationForm" action="http://localhost/nextform/post.php" method="post">
+<fieldset class="form-group col-sm-12">
+<div>Membership Type (tslt)</div>
+<div class="form-check">
+<input id="field-1-opt0" name="members_membershipType" type="radio" class="form-check-input" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
+<label for="field-1-opt0" class="form-check-label">Individual $30 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt1" name="members_membershipType" type="radio" class="form-check-input" value="FAM" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
+<label for="field-1-opt1" class="form-check-label">Family $50 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt2" name="members_membershipType" type="radio" class="form-check-input" value="STU" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
+<label for="field-1-opt2" class="form-check-label">Student $15 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt3" name="members_membershipType" type="radio" class="form-check-input" value="FEL" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
+<label for="field-1-opt3" class="form-check-label">Fellow Association $40 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt4" name="members_membershipType" type="radio" class="form-check-input" value="BUS" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
+<label for="field-1-opt4" class="form-check-label">Business $75 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt5" name="members_membershipType" type="radio" class="form-check-input" value="PAT" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<label for="field-1-opt5" class="form-check-label">Patron $100-$299 (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field-1-opt6" name="members_membershipType" type="radio" class="form-check-input" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<label for="field-1-opt6" class="form-check-label">Sponsor $300+ (tslt)</label>
+</div>
+</fieldset>
+<fieldset>
+<legend>Primary Member (tslt)</legend>
+<div class="form-row col-sm-12">
+<div class="form-group">
+<label for="field-2">Legal First Name (tslt)</label>
+<input id="field-2" name="members_primaryFirstName" type="text" class="form-control" required aria-describedby="field-2-help"/>
+<small id="field-2-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+</div>
+<div class="form-group">
+<label for="field-3">Legal Last Name (tslt)</label>
+<input id="field-3" name="members_primaryLastName" type="text" class="form-control" required aria-describedby="field-3-help"/>
+<small id="field-3-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+</div>
+</div>
+<div class="form-group col-sm-12">
+<label for="field-4">Email (tslt)</label>
+<input id="field-4" name="members_primaryEmail" type="email" class="form-control" required/>
+</div>
+<div class="form-group col-sm-12">
+<label for="field-4-confirmation">Repeat email (tslt)</label>
+<input id="field-4-confirmation" name="members_primaryEmail-confirmation" type="email" class="form-control" required/>
+</div>
+<div class="form-group col-sm-12">
+<label for="field-5">Artist Name (tslt)</label>
+<input id="field-5" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field-5-help"/>
+<small id="field-5-help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
+</div>
+</fieldset>
+<fieldset>
+<legend>Second Member (tslt)</legend>
+<div class="form-row col-sm-12">
+<div class="form-group">
+<label for="field-6">Legal First Name (tslt)</label>
+<input id="field-6" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field-6-help"/>
+<small id="field-6-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+</div>
+<div class="form-group">
+<label for="field-7">Legal Last Name (tslt)</label>
+<input id="field-7" name="members_secondaryLastName" type="text" class="form-control" required aria-describedby="field-7-help"/>
+<small id="field-7-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+</div>
+</div>
+<div class="form-group col-sm-12">
+<label for="field-8">Artist Name (tslt)</label>
+<input id="field-8" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field-8-help"/>
+<small id="field-8-help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
+</div>
+</fieldset>
+<div class="form-group col-sm-12">
+<label for="field-9">Business Name (tslt)</label>
+<input id="field-9" name="members_businessName" type="text" class="form-control"/>
+</div>
+<div class="form-group col-sm-12">
+<input id="button-10" name="button-10" type="submit" class="btn btn-primary" value="Join (tslt)"/>
+</div>
+</form>
+
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>

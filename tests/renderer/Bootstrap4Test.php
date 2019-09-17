@@ -70,7 +70,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>' . __CLASS__  . '</title>
+    <title>{{title}}</title>
     {{head}}
   </head>
 <body>
@@ -82,7 +82,11 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     public static function tearDownAfterClass() : void {
         $obj = new Bootstrap4();
         $data = $obj -> start();
-        self::$allHtml = str_replace('{{head}}', $data -> head, self::$allHtml);
+        self::$allHtml = str_replace(
+            ['{{head}}', '{{title}}'],
+            [$data -> head, __CLASS__],
+            self::$allHtml
+        );
         self::$allHtml .= '</div></form></body>' . implode("\n", $data -> scripts) . '</html>';
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
     }
@@ -270,7 +274,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $cases = RendererCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
-            '<div class="form-row">' . "\n",
+            '<div class="form-row col-sm-10">' . "\n",
             '</div>' . "\n"
         );
         $expect['basic'] -> onCloseDone = [$this -> testObj, 'popContext'];

@@ -152,11 +152,14 @@ abstract class Html implements Renderer {
     }
 
     public function render(Element $element, $options = []) {
+        if (!isset($options['access'])) {
+            $options['access'] = 'write';
+        }
+        if ($options['access'] === 'none') {
+            return new Block;
+        }
         $method = $this -> getRenderMethod($element);
         if (method_exists($this, $method)) {
-            if (!isset($options['access'])) {
-                $options['access'] = 'write';
-            }
             $result = $this -> $method($element, $options);
         } else {
             throw new \RuntimeException('Unable to render element ' . get_class($element));
