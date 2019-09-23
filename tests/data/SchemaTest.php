@@ -10,43 +10,42 @@ class DataSchemaTest extends \PHPUnit\Framework\TestCase {
 
     use Inspection;
 
-	public function testDataSchemaInstantiation() {
+	public function testInstantiation() {
         $obj = new Schema();
 		$this -> assertInstanceOf('\Abivia\NextForm\Data\Schema', $obj);
 	}
 
-    public function testDataSchemaLoadJson() {
-        $obj = new Schema();
-        $populate = $obj -> loadDataSchema(__DIR__ . '/data-schema.json');
-        if ($populate) {
-            $msg = '';
-        } else {
-            $msg = implode("\n", $obj -> configureGetErrors());
-        }
-        $this -> assertTrue($populate, $msg);
+    public function testFromFileJson() {
+        $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
+		$this -> assertInstanceOf('\Abivia\NextForm\Data\Schema', $obj);
         $dump = print_r($obj, true);
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(__DIR__ . '/schema-dump_actual.txt', $dump);
         $this -> assertStringEqualsFile(__DIR__ . '/schema-dump_expect.txt', $dump);
     }
 
-    public function testDataSchemaLoadYaml() {
-        $obj = new Schema();
-        $obj -> loadDataSchema(__DIR__ . '/data-schema.yaml', 'yaml');
+    public function testFromFileJsonBad() {
+        // Expect an error on a bad source
+        $this -> expectException('\RuntimeException');
+        Schema::fromFile(__DIR__ . '/data-schema-bad.json');
+    }
+
+    public function testFromFileJsonBadDefault() {
+        // Expect an error on a bad source
+        $this -> expectException('\RuntimeException');
+        Schema::fromFile(__DIR__ . '/data-schema-bad-default.json');
+    }
+
+    public function testFromFileYaml() {
+        $obj = Schema::fromFile(__DIR__ . '/data-schema.yaml');
+		$this -> assertInstanceOf('\Abivia\NextForm\Data\Schema', $obj);
         $dump = print_r($obj, true);
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(__DIR__ . '/schema-dump_yamlactual.txt', $dump);
-        $this -> assertStringEqualsFile(__DIR__ . '/schema-dump_yamlexpect.txt', $dump);
+        $this -> assertStringEqualsFile(__DIR__ . '/schema-dump_expect.txt', $dump);
     }
 
-    public function testDataSchemaFromFile() {
-        $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
-		$this -> assertInstanceOf('\Abivia\NextForm\Data\Schema', $obj);
-        $this -> expectException('\RuntimeException');
-        $obj = Schema::fromFile(__DIR__ . '/data-schema-bad.json');
-    }
-
-    public function testDataSchemaGetProperty() {
+    public function testGetProperty() {
         $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
         $this -> assertNull($obj-> getProperty('foo/bar'));
         $this -> assertInstanceOf(

@@ -1,22 +1,26 @@
 Abivia\NextForm\Data\Schema Object
 (
-    [defaultRepo:protected] => Abivia\NextForm\Data\Labels Object
+    [defaultRepo:protected] => stdClass Object
         (
-            [after] =>
-            [before] =>
-            [confirm] =>
-            [error] =>
-            [heading] =>
-            [help] =>
-            [inner] =>
-            [translate] => 1
-            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+            [labels] => Abivia\NextForm\Data\Labels Object
                 (
-                )
+                    [after] =>
+                    [before] =>
+                    [confirm] =>
+                    [error] =>
+                    [heading] =>
+                    [help] =>
+                    [inner] =>
+                    [translate] => 1
+                    [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                        (
+                        )
 
-            [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
-                (
-                    [strict] =>
+                    [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
+                        (
+                            [strict] => 1
+                        )
+
                 )
 
         )
