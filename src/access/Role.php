@@ -8,7 +8,16 @@ namespace Abivia\NextForm\Access;
 class Role {
     use \Abivia\Configurable\Configurable;
 
+    /**
+     * The name of this role.
+     * @var string
+     */
     protected $name;
+
+    /**
+     * A list of permissions associated with the role.
+     * @var Permissions
+     */
     protected $permissions;
 
     /**
@@ -24,15 +33,39 @@ class Role {
         return false;
     }
 
-    public function getName() {
+    /**
+     * Get the role name.
+     * @return string
+     */
+    public function getName() : string {
         return $this -> name;
     }
 
-    public function has($object, $operation = null) {
+    /**
+     * Get the permissions object for this role.
+     * @return \Abivia\NextForm\Access\Permissions
+     */
+    public function getPermissions() : Permissions {
+        return $this -> permissions;
+    }
+
+    /**
+     * Determine if this role has a specific permission.
+     * @param string $object Either an object name or an object.operation
+     * @param string $operation Optional operation, required if $object doesn't have an
+     * operation.
+     * @return ?bool Boolean if the permission exists, null if it doesn't.
+     */
+    public function has($object, $operation = null) : ?bool {
         return $this -> permissions -> has($object, $operation);
     }
 
-    public function setName($name) {
+    /**
+     * Set the role name
+     * @param string $name The name for this role.
+     * @return \self
+     */
+    public function setName($name) : self {
         $this -> name = $name;
         return $this;
     }

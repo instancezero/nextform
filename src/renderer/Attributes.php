@@ -212,6 +212,19 @@ class Attributes {
     }
 
     /**
+     * Set an attribute if no value is currently set.
+     * @param string $name Name of the attribute to set.
+     * @param array $source The data source array
+     * @return \self
+     */
+    public function default($name, $value) : self {
+        if (!isset($this -> attrs[$name])) {
+            $this -> attrs[$name] = $value;
+        }
+        return $this;
+    }
+
+    /**
      * Delete an attribute
      * @param type $name Name of the attribute to be removed.
      * @return \self
@@ -493,7 +506,7 @@ class Attributes {
     }
 
     /**
-     * Set an attribute if a source array has a specified index.
+     * Set an attribute only if the source array has a specified index.
      * @param string $name Name of the attribute to set.
      * @param array $source The data source array
      * @param string $key Optional index into source; if omitted, $name is used.

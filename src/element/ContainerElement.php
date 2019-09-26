@@ -2,19 +2,35 @@
 
 namespace Abivia\NextForm\Element;
 
-use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Contracts\Access;
+use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Renderer\Block;
+use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
- *
+ * Class for any element that contains a list of sub-elements.
  */
 abstract class ContainerElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * The list of elements contained by this instance.
+     * @var Element[]
+     */
     protected $elements = [];
+
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
 
+    /**
+     * Build JSON encoder rules on the first instantiation.
+     */
     public function __construct() {
+        parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
             self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
@@ -24,6 +40,12 @@ abstract class ContainerElement Extends NamedElement {
 
     abstract public function addElement(Element $element);
 
+    /**
+     * Sub-elements have a procedural instantiation.
+     * @param string $property
+     * @param mixed $value
+     * @return mixed
+     */
     protected function configureClassMap($property, $value) {
         $result = false;
         if ($property == 'elements') {
@@ -62,7 +84,14 @@ abstract class ContainerElement Extends NamedElement {
         return parent::configureValidate($property, $value);
     }
 
-    public function generate($renderer, $access, $translate) {
+    /**
+     * Use a renderer to turn this element into part of the form.
+     * @param Renderer $renderer Any Renderer object.
+     * @param Access $access Any access control object
+     * @param Translator $translate Any translation object.
+     * @return Block
+     */
+    public function generate(Renderer $renderer, Access $access, Translator $translate) : Block {
         $this -> translate($translate);
         $options = false; // $access -> hasAccess(...)
         $options = ['access' => 'write'];
@@ -74,6 +103,10 @@ abstract class ContainerElement Extends NamedElement {
         return $containerData;
     }
 
+    /**
+     * Get the elements in this container.
+     * @return Element[]
+     */
     public function getElements() {
         return $this -> elements;
     }

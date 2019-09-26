@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Element;
 
 /**
- *
+ * A section contains multiple elements in an area of the form.
  */
 class SectionElement Extends ContainerElement {
     use \Abivia\Configurable\Configurable;

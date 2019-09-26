@@ -14,7 +14,7 @@ class DataPropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testPropertyMethods() {
         $obj = new Property();
-        $this -> assertEquals(null, $obj -> getLabels());
+        $this -> assertInstanceOf('\Abivia\NextForm\Data\Labels', $obj -> getLabels());
         $this -> assertEquals(null, $obj -> getName());
         $obj -> setName('test');
         $this -> assertEquals('test', $obj -> getName());

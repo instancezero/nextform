@@ -7,19 +7,25 @@ use Abivia\NextForm\Data\Labels;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
- * Elements with a label attribute
+ * Elements with a name attribute on the form.
  */
 abstract class NamedElement Extends Element {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
     use \Abivia\NextForm\Element\HasLabels;
 
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
+
     /**
      * Name on the rendered form.
      * @var string
      */
     protected $formName;
+
     /**
      * Flag indicating if the static context has been initialized.
      * @var bool
@@ -79,6 +85,10 @@ abstract class NamedElement Extends Element {
         return parent::configureValidate($property, $value);
     }
 
+    /**
+     * Get this element's name on the form. If not assigned, a name is generated.
+     * @return string
+     */
     public function getFormName() {
         if ($this -> formName === null) {
             if ($this -> name != '') {
@@ -93,6 +103,11 @@ abstract class NamedElement Extends Element {
         return $this -> formName;
     }
 
+    /**
+     * Assign or override the current name of this element on a form.
+     * @param string $name
+     * @return $this
+     */
     public function setFormName($name) {
         $this -> formName = $name;
         return $this;

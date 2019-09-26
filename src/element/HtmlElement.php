@@ -9,6 +9,10 @@ class HtmlElement Extends SimpleElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
 
     public function __construct() {

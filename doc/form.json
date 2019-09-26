@@ -13,9 +13,11 @@
                     "name": "optional unique name",
                     "type": "static",
                     "labels": {
-                        "heading": "optional header for the text"
+                        "heading": "optional header for the text",
+                        "translate": "boolean"
                     },
                     "value": "string or language key",
+                    "translate": "boolean",
                     "html": "boolean - default false, value does not need to be escaped",
                     "visible": "boolean - initial state"
                 },
@@ -23,6 +25,7 @@
                     "name": "optional unique name",
                     "type": "html",
                     "value": "string or language key",
+                    "translate": "boolean",
                     "visible": "boolean - initial state"
                 },
                 {

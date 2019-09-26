@@ -15,16 +15,19 @@ trait HasLabels {
      * @var bool
      */
     protected $hasTranslation = false;
+
     /**
      * Text labels for this element as defined in the form
      * @var \Abivia\NextForm\Data\Labels
      */
     protected $labels;
+
     /**
      * Text labels for this element after merging with any data source
      * @var \Abivia\NextForm\Data\Labels
      */
     protected $labelsMerged;
+
     /**
      * Post-merge, post-translation text labels for this element
      * @var \Abivia\NextForm\Data\Labels
@@ -38,11 +41,11 @@ trait HasLabels {
         return $this -> labels;
     }
 
-    public function translate(Translator $translate) {
-        $this -> labelsTranslated = $this -> labelsMerged -> translate($translate);
-        $this -> hasTranslation = true;
-    }
-
+    /**
+     * Set the value for a label element.
+     * @param string $labelName Name of the text to be set.
+     * @param string $text
+     */
     public function setLabel($labelName, $text) {
         if ($this -> labels === null) {
             $this -> labels = new Labels;
@@ -52,6 +55,17 @@ trait HasLabels {
         }
         $this -> labels -> set($labelName, $text);
         $this -> labelsMerged -> set($labelName, $text);
+    }
+
+    /**
+     * Translate the labels.
+     * @param Translator $translate
+     * @return \Abivia\NextForm\Element\Element
+     */
+    public function translate(Translator $translate) : Element {
+        $this -> labelsTranslated = $this -> labelsMerged -> translate($translate);
+        $this -> hasTranslation = true;
+        return $this;
     }
 
 }

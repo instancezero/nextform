@@ -24,7 +24,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
-    public function render(Element $element, $options = []) {
+    public function render(Element $element, $options = []) : Block {
         $result = new Block;
         $type = $element -> getType();
         $result -> body = $type;
@@ -50,7 +50,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
 
     }
 
-    public function start($options = []) {
+    public function start($options = []) : Block {
         $result = new Block;
         $result -> body = "Form\n";
         $result -> post = "End form\n";
@@ -70,7 +70,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $obj = new Schema();
         $jsonFile = __DIR__ . '/member-schema.json';
         $config = json_decode(file_get_contents($jsonFile));
-        $this -> assertTrue(false != $config, 'Error JSON decoding schema.');
+        $this -> assertTrue(false !== $config, 'Error JSON decoding schema.');
         $populate = $obj -> configure($config, true);
         if ($populate) {
             $errors = '';
@@ -84,6 +84,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         file_put_contents(__DIR__ . '/member-schema-out.json', $resultJson);
         // Stock JSON to stdClass for comparison
         $result = json_decode($resultJson);
+        // Reload the original configuration
         $this -> assertTrue($this -> jsonCompare($config, $result));
     }
 

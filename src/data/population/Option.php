@@ -12,6 +12,10 @@ class Option implements \JsonSerializable {
     use \Abivia\NextForm\Traits\JsonEncoder;
     use \Abivia\NextForm\Traits\Showable;
 
+    /**
+     * Whether or not this option is currently available.
+     * @var bool
+     */
     protected $enabled = true;
     static protected $jsonEncodeMethod = [
         'label' => [],
@@ -20,6 +24,11 @@ class Option implements \JsonSerializable {
         'name' => ['drop:blank','drop:null'],
         'sidecar' => ['drop:null'],
     ];
+
+    /**
+     * The user-visible text associated with this option.
+     * @var string
+     */
     protected $label;
     protected $name;
     protected $selected = false;
@@ -108,6 +117,10 @@ class Option implements \JsonSerializable {
         return $this -> value;
     }
 
+    /**
+     * Determine if this option is empty (used by JsonEncoder).
+     * @return bool
+     */
     public function isEmpty() : bool {
         if ($this -> enabled === false) {
             return false;

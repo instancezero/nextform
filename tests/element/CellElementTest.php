@@ -82,7 +82,7 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
         );
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> expectException(\OutOfBoundsException::class);
+        $this -> expectException(\RuntimeException::class);
         $this -> assertFalse($obj -> configure($config));
     }
 
@@ -103,7 +103,7 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
         );
         $this -> assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> expectException(\OutOfBoundsException::class);
+        $this -> expectException(\RuntimeException::class);
         $this -> assertFalse($obj -> configure($config));
     }
 

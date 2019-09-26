@@ -5,53 +5,57 @@
  */
 trait JsonComparison {
 
-    protected function jsonCompare($l, $r, $path = '') {
-        if (is_array($l)) {
-            if (!is_array($r)) {
+    protected function jsonCompare($leftSide, $rightSide, $path = '') {
+        if (is_array($leftSide)) {
+            if (!is_array($rightSide)) {
                 return false;
             }
-            $tr = $r;
-            foreach ($l as $key => $value) {
+            $testRight = $rightSide;
+            foreach ($leftSide as $key => $value) {
                 $subPath = $path . '/'. $key;
-                if (!isset($r[$key]) && !($l[$key] === null)) {
-                    echo 'Missing element ' . $subPath . "\n";
+                if (!isset($rightSide[$key]) && $leftSide[$key] !== null) {
+                    echo "\n" . 'Missing element on right ' . $subPath
+                        . ' (left = ' . $leftSide[$key] . ")\n";
                     return false;
                 }
-                if (!$this -> jsonCompare($l[$key], $tr[$key], $subPath)) {
+                if (!$this -> jsonCompare($leftSide[$key], $testRight[$key], $subPath)) {
                     echo 'Failed at ' . $path . "\n";
                     return false;
                 }
-                unset($tr[$key]);
+                unset($testRight[$key]);
             }
-            if (!empty($tr)) {
-                echo 'Extra elements at ' . $path . ' ' . implode(',', array_keys($tr)) . "\n";
+            if (!empty($testRight)) {
+                echo "\n" . 'Extra elements at ' . $path . ' ' . implode(',', array_keys($testRight)) . "\n";
                 return false;
             }
-        } elseif (is_object($l)) {
-            if (!is_object($r)) {
+        } elseif (is_object($leftSide)) {
+            if (!is_object($rightSide)) {
                 return false;
             }
-            $tr = clone $r;
-            foreach ($l as $prop => $value) {
+            $testRight = clone $rightSide;
+            foreach ($leftSide as $prop => $value) {
                 $subPath = $path . '/'. $prop;
-                if (!isset($tr -> $prop) && !($l -> $prop === null)) {
-                    echo 'Missing property ' . $subPath . "\n";
+                if (!isset($testRight -> $prop) && $leftSide -> $prop !== null) {
+                    echo "\n" . 'Missing property on right ' . $subPath
+                        . ' (left = ' . $leftSide -> $prop . ")\n";
                     return false;
                 }
-                if (!$this -> jsonCompare($l -> $prop, $tr -> $prop, $subPath)) {
-                    echo 'Failed at ' . $path . "\n";
-                    return false;
+                if (isset($testRight -> $prop)) {
+                    if (!$this -> jsonCompare($leftSide -> $prop, $testRight -> $prop, $subPath)) {
+                        echo 'Failed at ' . $path . "\n";
+                        return false;
+                    }
                 }
-                unset($tr -> $prop);
+                unset($testRight -> $prop);
             }
-            $tr = (array)$tr;
-            if (!empty($tr)) {
-                echo 'Extra elements at ' . $path . ' ' . implode(',', array_keys($tr)) . "\n";
+            $testRight = (array)$testRight;
+            if (!empty($testRight)) {
+                echo "\n" . 'Extra elements at ' . $path . ' ' . implode(',', array_keys($testRight)) . "\n";
                 return false;
             }
         } else {
-            if ($l !== $r) {
-                echo 'Value mismatch at ' . $path . "\n";
+            if ($leftSide !== $rightSide) {
+                echo "\n" . 'Value mismatch at ' . $path . "\n";
                 return false;
             }
             return true;

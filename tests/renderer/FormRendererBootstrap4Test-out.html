@@ -11,32 +11,32 @@
 <form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
 <h3>FormRendererBootstrap4Test::testButton</h3>
 <h4>button default access</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-success" value="I am Button!"/>
 </div>
 <hr/>
 <h4>button write access</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-success" value="I am Button!"/>
 </div>
 <hr/>
 <h4>reset button default access</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="reset" class="btn btn-primary" value="I am Button!"/>
 </div>
 <hr/>
 <h4>submit button default access</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="submit" class="btn btn-primary" value="I am Button!"/>
 </div>
 <hr/>
 <h4>button default access #2</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!"/>
 </div>
 <hr/>
 <h4>button view access</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!" disabled/>
 </div>
 <hr/>
@@ -44,55 +44,65 @@
 <input id="button-1" name="button-1" type="hidden" value="I am Button!"/>
 <hr/>
 <h4>small</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-success btn-sm" value="I am Button!"/>
 </div>
 <hr/>
 <h4>large</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="submit" class="btn btn-primary btn-lg" value="I am Button!"/>
 </div>
 <hr/>
 <h4>button large warning outline</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-outline-warning btn-lg" value="I am Button!"/>
+</div>
+<hr/>
+<h4>disabled</h4>
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
+<input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!" disabled/>
+</div>
+<hr/>
+<h4>invisible</h4>
+<div id="button-1-container" class="form-group col-sm-10" style="display:none" data-nf-for="button-1">
+<input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!"/>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testButtonLabels</h3>
 <h4>Button label none</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
 </div>
 <hr/>
 <h4>Button label inner</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" value="inner"/>
 </div>
 <hr/>
 <h4>Button label before</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <span class="mr-1">prefix</span><input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
 </div>
 <hr/>
 <h4>Button label after</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary"/><span>suffix</span>
 </div>
 <hr/>
 <h4>Button label heading</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <label for="button-1">Header</label>
 <input id="button-1" name="button-1" type="button" class="btn btn-primary"/>
 </div>
 <hr/>
 <h4>Button label help</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" aria-describedby="button-1-formhelp"/>
 <small id="button-1-formhelp" class="form-text text-muted">Helpful</small>
 </div>
 <hr/>
 <h4>Button all labels</h4>
-<div class="form-group col-sm-10">
+<div id="button-1-container" class="form-group col-sm-10" data-nf-for="button-1">
 <label for="button-1">Header</label>
 <span class="mr-1">prefix</span><input id="button-1" name="button-1" type="button" class="btn btn-primary" value="inner" aria-describedby="button-1-formhelp"/><span>suffix</span>
 <small id="button-1-formhelp" class="form-text text-muted">Helpful</small>
@@ -106,23 +116,23 @@
 <h3>FormRendererBootstrap4Test::testCellContext</h3>
 <h3>FormRendererBootstrap4Test::testFieldButton</h3>
 <h4>with value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="button" class="btn btn-primary" value="Ok Bob"/>
 </div>
 <hr/>
 <h4>reset</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="reset" class="btn btn-primary" value="Ok Bob"/>
 </div>
 <hr/>
 <h4>submit</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="submit" class="btn btn-primary" value="Ok Bob"/>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldCheckbox</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -130,7 +140,7 @@
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -138,7 +148,7 @@
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" readonly/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -149,7 +159,7 @@
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" data-sidecar="&quot;foo&quot;"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -157,7 +167,7 @@
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" readonly data-sidecar="&quot;foo&quot;"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -167,8 +177,16 @@
 <h4>value-hide</h4>
 <input id="field-1" name="field-1" type="hidden" value="3" data-sidecar="&quot;foo&quot;"/>
 <hr/>
+<h4>checked</h4>
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
+<div class="form-check">
+<input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" checked/>
+<label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
+</div>
+</div>
+<hr/>
 <h4>inline</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check form-check-inline">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -176,14 +194,14 @@
 </div>
 <hr/>
 <h4>inline-nolabel</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check form-check-inline">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>
 </div>
 </div>
 <hr/>
 <h4>label none</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -191,7 +209,7 @@
 </div>
 <hr/>
 <h4>label inner</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
 <label for="field-1" class="form-check-label">inner</label>
@@ -199,7 +217,7 @@
 </div>
 <hr/>
 <h4>label before</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <span class="mr-1">prefix</span><div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -207,7 +225,7 @@
 </div>
 <hr/>
 <h4>label after</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -216,7 +234,7 @@
 </div>
 <hr/>
 <h4>label heading</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -225,7 +243,7 @@
 </div>
 <hr/>
 <h4>label help</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; checkbox</label>
@@ -234,7 +252,7 @@
 </div>
 <hr/>
 <h4>all labels</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <span class="mr-1">prefix</span><div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>
@@ -246,7 +264,7 @@
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldCheckboxButton</h3>
 <h4>toggle</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1" name="field-1" type="checkbox"/>
@@ -255,7 +273,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>label none</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1" name="field-1" type="checkbox"/>
@@ -264,7 +282,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>label before</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1" name="field-1" type="checkbox"/>
@@ -273,7 +291,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>label after</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1" name="field-1" type="checkbox"/>
@@ -283,7 +301,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>label heading</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
@@ -293,7 +311,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>label help</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1" name="field-1" type="checkbox" aria-describedby="field-1-formhelp"/>
@@ -303,7 +321,7 @@ CheckButton!</label>
 </div>
 <hr/>
 <h4>all labels</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
@@ -316,7 +334,7 @@ CheckButton!</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldCheckboxButtonList</h3>
 <h4>toggle-list</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -334,7 +352,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-label none</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -352,7 +370,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-label before</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -370,7 +388,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-label after</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>
@@ -389,7 +407,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-label heading</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
@@ -408,7 +426,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-label help</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" aria-describedby="field-1-formhelp"/>
@@ -427,7 +445,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>list-all labels</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Header</div>
 <span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">
 <label class="btn btn-primary">
@@ -449,13 +467,13 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldCheckboxList</h3>
 <h4>basic</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -469,13 +487,13 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>write</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -489,13 +507,13 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>view</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" readonly/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" readonly/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled readonly/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -509,16 +527,16 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>hide</h4>
-<input id="field-1" name="field-1[]" type="hidden"/>
+<input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>single-value</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -535,13 +553,13 @@ textlist 4</label>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>dual-value</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" checked/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -555,13 +573,13 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>dual-value-view</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" checked readonly/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" readonly/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled readonly/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check">
@@ -579,13 +597,13 @@ textlist 4</label>
 <input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>inline</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check form-check-inline">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
 </div>
 <div class="form-check form-check-inline">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled/>
 <label for="field-1-opt1" class="form-check-label">textlist 2</label>
 </div>
 <div class="form-check form-check-inline">
@@ -599,12 +617,12 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>inline-nolabel</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check form-check-inline">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" aria-label="textlist 1"/>
 </div>
 <div class="form-check form-check-inline">
-<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" aria-label="textlist 2"/>
+<input id="field-1-opt1" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 2" disabled aria-label="textlist 2"/>
 </div>
 <div class="form-check form-check-inline">
 <input id="field-1-opt2" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 3" aria-label="textlist 3"/>
@@ -616,22 +634,22 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldColor</h3>
 <h4>default</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="color" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="color" class="form-control" value="#F0F0F0"/>
 </div>
 <hr/>
 <h4>value-write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="color" class="form-control" value="#F0F0F0"/>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="color" class="form-control" value="#F0F0F0" readonly/>
 </div>
 <hr/>
@@ -640,27 +658,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldDate</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="date" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="date" class="form-control" value="2010-10-10"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="date" class="form-control" value="2010-10-10"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="date" class="form-control" value="2010-10-10" min="1957-10-08" max="2099-11-06"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="date" class="form-control" value="2010-10-10" readonly/>
 </div>
 <hr/>
@@ -669,27 +687,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldDatetimeLocal</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="datetime-local" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="datetime-local" class="form-control" value="2010-10-10"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="datetime-local" class="form-control" value="2010-10-10"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="datetime-local" class="form-control" value="2010-10-10" min="1957-10-08T00:00" max="2099-11-06T14:15"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="datetime-local" class="form-control" value="2010-10-10" readonly/>
 </div>
 <hr/>
@@ -698,27 +716,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldEmail</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="email" class="form-control"/>
 </div>
 <hr/>
 <h4>multiple</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="email" class="form-control" multiple/>
 </div>
 <hr/>
 <h4>confirm</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <label for="field-1">Yer email</label>
 <input id="field-1" name="field-1" type="email" class="form-control"/>
 </div>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <label for="field-1-confirmation">Confirm yer email</label>
 <input id="field-1-confirmation" name="field-1-confirmation" type="email" class="form-control"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <label for="field-1">Yer email</label>
 <input id="field-1" name="field-1" type="email" class="form-control" value="snafu@fub.ar" readonly/>
 </div>
@@ -728,22 +746,22 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldFile</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="file" class="form-control-file"/>
 </div>
 <hr/>
 <h4>valid</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1[]" type="file" class="form-control-file" accept="*.png,*.jpg" multiple/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control-file" readonly/>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
 </div>
 <hr/>
@@ -788,27 +806,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldMonth</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="month" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="month" class="form-control" value="2010-10"/>
 </div>
 <hr/>
 <h4>value-write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="month" class="form-control" value="2010-10"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="month" class="form-control" value="2010-10" min="1957-10" max="2099-11"/>
 </div>
 <hr/>
 <h4>minmax-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="month" class="form-control" value="2010-10" readonly/>
 </div>
 <hr/>
@@ -817,53 +835,53 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldNumber</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200"/>
 </div>
 <hr/>
 <h4>required</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200" required/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required/>
 </div>
 <hr/>
 <h4>step</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required step="1.23"/>
 </div>
 <hr/>
 <h4>pattern</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200" min="-1000" max="999.45" required step="1.23"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="number" class="form-control" value="200" readonly/>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldPassword</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="password" class="form-control"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="password" class="form-control"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="password" class="form-control" readonly/>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="password" class="form-control" value="secret" readonly/>
 </div>
 <hr/>
@@ -872,7 +890,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadio</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
@@ -880,7 +898,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
@@ -888,7 +906,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
@@ -896,7 +914,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3" readonly/>
 <label for="field-1" class="form-check-label">&lt;Stand-alone&gt; radio</label>
@@ -908,7 +926,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioLabels</h3>
 <h4>labels-value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Very Important Choice</div>
 <span class="mr-1">No need to fear</span><div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
@@ -918,7 +936,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>labels-value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Very Important Choice</div>
 <span class="mr-1">No need to fear</span><div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3" readonly/>
@@ -932,7 +950,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioList</h3>
 <h4>basic</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
@@ -952,7 +970,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>write</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
@@ -972,7 +990,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>value</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
@@ -992,7 +1010,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>value-view</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1" readonly/>
 <label for="field-1-opt0" class="form-check-label">textlist 1</label>
@@ -1016,7 +1034,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRadioListLabels</h3>
 <h4>labels-value</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Very Important Choice</div>
 <div>No need to fear</div><div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
@@ -1038,7 +1056,7 @@ textlist 4</label>
 </fieldset>
 <hr/>
 <h4>labels-value-view</h4>
-<fieldset class="form-group col-sm-10">
+<fieldset id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div>Very Important Choice</div>
 <div>No need to fear</div><div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1" readonly/>
@@ -1064,48 +1082,48 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldRange</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="range" class="form-control" value="200"/>
 </div>
 <hr/>
 <h4>required</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="range" class="form-control" value="200"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45"/>
 </div>
 <hr/>
 <h4>step</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45" step="20"/>
 </div>
 <hr/>
 <h4>pattern</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="range" class="form-control" value="200" min="-1000" max="999.45" step="20"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" value="200" readonly/>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldSearch</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="search" class="form-control"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="search" class="form-control"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="search" class="form-control" readonly/>
 </div>
 <hr/>
@@ -1114,7 +1132,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldSelect</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2">textlist 2</option>
@@ -1124,7 +1142,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2">textlist 2</option>
@@ -1134,7 +1152,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <hr/>
@@ -1142,7 +1160,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -1152,7 +1170,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <span>textlist 2</span>
 </div>
@@ -1161,7 +1179,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden" value="textlist 2"/>
 <hr/>
 <h4>value-bs4custom</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="custom-select">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -1171,7 +1189,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>multivalue</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1[]" class="form-control" multiple>
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -1181,7 +1199,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>multivalue-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>
 <span>textlist 2</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>
@@ -1193,7 +1211,7 @@ textlist 4</label>
 <input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>
 <hr/>
 <h4>sixrow</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1[]" class="form-control" multiple size="6">
 <option value="textlist 1">textlist 1</option>
 <option value="textlist 2" selected>textlist 2</option>
@@ -1204,7 +1222,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldSelectNested</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -1219,7 +1237,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -1234,7 +1252,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="hidden" value=""/>
 </div>
 <hr/>
@@ -1242,7 +1260,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden"/>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="form-control">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -1257,7 +1275,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>value-bs4custom</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1" class="custom-select">
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -1272,7 +1290,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>value-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <span>Sub Two Item One</span>
 </div>
@@ -1281,7 +1299,7 @@ textlist 4</label>
 <input id="field-1" name="field-1" type="hidden" value="S2I1"/>
 <hr/>
 <h4>multivalue</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <select id="field-1" name="field-1[]" class="form-control" multiple>
 <option value="General">General</option>
 <optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
@@ -1296,7 +1314,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>multivalue-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>
 <span>Sub One Item One</span><br/>
 <input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>
@@ -1309,17 +1327,17 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTel</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="tel" class="form-control"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="tel" class="form-control"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="tel" class="form-control" readonly/>
 </div>
 <hr/>
@@ -1328,17 +1346,17 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldText</h3>
 <h4>default access</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control"/>
 </div>
 <hr/>
 <h4>explicit write access</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control"/>
 </div>
 <hr/>
 <h4>explicit view access</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" readonly/>
 </div>
 <hr/>
@@ -1347,7 +1365,7 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextDataList</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" list="field-1-list"/>
 <datalist id="field-1-list">
 <option value="textlist 1"/>
@@ -1358,7 +1376,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" readonly/>
 </div>
 <hr/>
@@ -1367,17 +1385,17 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextLabels</h3>
 <h4>Text label none</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value"/>
 </div>
 <hr/>
 <h4>Text label inner</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value" placeholder="inner"/>
 </div>
 <hr/>
 <h4>Text label before</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="input-group">
 <div class="input-group-prepend">
 <span class="input-group-text">prefix</span>
@@ -1387,7 +1405,7 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>Text label after</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <div class="input-group">
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value"/>
 <div class="input-group-append">
@@ -1397,19 +1415,19 @@ textlist 4</label>
 </div>
 <hr/>
 <h4>Text label heading</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <label for="field-1">Header</label>
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value"/>
 </div>
 <hr/>
 <h4>Text label help</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value" aria-describedby="field-1-help"/>
 <small id="field-1-help" class="form-text text-muted">Helpful</small>
 </div>
 <hr/>
 <h4>Text all labels</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <label for="field-1">Header</label>
 <div class="input-group">
 <div class="input-group-prepend">
@@ -1426,38 +1444,38 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextValidation</h3>
 <h4>required</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" required/>
 </div>
 <hr/>
 <h4>max</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" required/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" minlength="3" required/>
 </div>
 <hr/>
 <h4>pattern</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="text" class="form-control" maxlength="10" minlength="3" pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextarea</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <textarea id="field-1" name="field-1"></textarea>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <textarea id="field-1" name="field-1"></textarea>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <textarea id="field-1" name="field-1" readonly></textarea>
 </div>
 <hr/>
@@ -1466,27 +1484,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTime</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="time" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="time" class="form-control" value="20:10"/>
 </div>
 <hr/>
 <h4>value-write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="time" class="form-control" value="20:10"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="time" class="form-control" value="20:10" min="19:57" max="20:19"/>
 </div>
 <hr/>
 <h4>minmax-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="time" class="form-control" value="20:10" readonly/>
 </div>
 <hr/>
@@ -1495,17 +1513,17 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldUrl</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="url" class="form-control"/>
 </div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="url" class="form-control"/>
 </div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="url" class="form-control" readonly/>
 </div>
 <hr/>
@@ -1514,27 +1532,27 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldWeek</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="week" class="form-control"/>
 </div>
 <hr/>
 <h4>value</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="week" class="form-control" value="2010-W37"/>
 </div>
 <hr/>
 <h4>value-write</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="week" class="form-control" value="2010-W37"/>
 </div>
 <hr/>
 <h4>minmax</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="week" class="form-control" value="2010-W37" min="1957-W30" max="2099-W42"/>
 </div>
 <hr/>
 <h4>minmax-view</h4>
-<div class="form-group col-sm-10">
+<div id="field-1-container" class="form-group col-sm-10" data-nf-for="field-1">
 <input id="field-1" name="field-1" type="week" class="form-control" value="2010-W37" readonly/>
 </div>
 <hr/>
@@ -1552,54 +1570,72 @@ textlist 4</label>
 <hr/>
 <h3>FormRendererBootstrap4Test::testSection</h3>
 <h4>empty</h4>
-<fieldset>
+<fieldset id="section-1-container" class="form-group col-sm-10" data-nf-for="section-1">
 </fieldset>
 <hr/>
 <h4>label</h4>
-<fieldset>
+<fieldset id="section-1-container" class="form-group col-sm-10" data-nf-for="section-1">
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
 <h4>label-view</h4>
-<fieldset>
+<fieldset id="section-1-container" class="form-group col-sm-10" data-nf-for="section-1">
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
 <h4>label-hide</h4>
-<fieldset>
+<fieldset id="section-1-container" class="form-group col-sm-10" data-nf-for="section-1">
 <legend>This is legendary</legend>
 </fieldset>
 <hr/>
 <h3>FormRendererBootstrap4Test::testStatic</h3>
 <h4>basic</h4>
-<div class="form-group col-sm-10">
-This is unescaped text with &lt;stuff&gt;!</div>
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
+<div id="static-1">
+This is unescaped text with &lt;stuff&gt;!
+</div>
+</div>
 <hr/>
 <h4>head</h4>
-<div class="form-group col-sm-10">
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
 <div>Header</div>
-This is unescaped text with &lt;stuff&gt;!</div>
+<div id="static-1">
+This is unescaped text with &lt;stuff&gt;!
+</div>
+</div>
 <hr/>
 <h4>write</h4>
-<div class="form-group col-sm-10">
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
 <div>Header</div>
-This is unescaped text with &lt;stuff&gt;!</div>
+<div id="static-1">
+This is unescaped text with &lt;stuff&gt;!
+</div>
+</div>
 <hr/>
 <h4>view</h4>
-<div class="form-group col-sm-10">
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
 <div>Header</div>
-This is unescaped text with &lt;stuff&gt;!</div>
+<div id="static-1">
+This is unescaped text with &lt;stuff&gt;!
+</div>
+</div>
 <hr/>
 <h4>hide</h4>
 <hr/>
 <h4>raw</h4>
-<div class="form-group col-sm-10">
-This is <strong>raw html</strong>!</div>
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
+<div id="static-1">
+This is <strong>raw html</strong>!
+</div>
+</div>
 <hr/>
 <h4>raw-head</h4>
-<div class="form-group col-sm-10">
+<div id="static-1-container" class="form-group col-sm-10" data-nf-for="static-1">
 <div>Header</div>
-This is <strong>raw html</strong>!</div>
+<div id="static-1">
+This is <strong>raw html</strong>!
+</div>
+</div>
 <hr/>
 </div></form></body><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -2,6 +2,9 @@
 
 namespace Abivia\NextForm\Element;
 
+/**
+ * Representation of a cell, a list of adjacent form elements.
+ */
 use Abivia\NextForm;
 
 /**
@@ -11,8 +14,15 @@ class CellElement Extends ContainerElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
 
+    /**
+     * Initialize JSON encoder tables on the first instantiation.
+     */
     public function __construct() {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
@@ -21,9 +31,15 @@ class CellElement Extends ContainerElement {
         $this -> type = 'cell';
     }
 
-    public function addElement(Element $element) {
+    /**
+     * Add (append) an element to this cell
+     * @param \Abivia\NextForm\Element\Element $element An element to be added to this cell.
+     * @return \self
+     * @throws \RuntimeException
+     */
+    public function addElement(Element $element) : self {
         if ($element instanceof ContainerElement) {
-            throw new \OutOfBoundsException('Cells can\'t contain containers (sections or cells).');
+            throw new \RuntimeException('Cells can\'t contain containers (sections or cells).');
         }
         $this -> elements[] = $element;
         return $this;
@@ -59,7 +75,11 @@ class CellElement Extends ContainerElement {
         return parent::configureValidate($property, $value);
     }
 
-    public function findSegment() {
+    /**
+     * Get the data segment associated with this cell, if any.
+     * @return \Abivia\NextForm\Data\Segment|null
+     */
+    public function findSegment() : ?\Abivia\NextForm\Data\Segment {
         return isset($this -> configureOptions['parent'])
             ? $this -> configureOptions['parent'] -> getSegment() : null;
     }

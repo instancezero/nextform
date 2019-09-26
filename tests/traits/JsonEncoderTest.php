@@ -3,7 +3,7 @@ include_once __DIR__ . '/../test-tools/JsonComparison.php';
 
 class JsonEncoderMain implements \JsonSerializable {
     use \Abivia\NextForm\Traits\JsonEncoder;
-    
+
     static $jsonEncodeMethod = [
         'protArr' => 'array',   // left as string to test string-to-array
         'protObj' => [],
@@ -79,6 +79,17 @@ class JsonEncoderCommandDropTrue implements \JsonSerializable {
 
     public $boring = 'dull';
     public $istrue = true;
+}
+
+class JsonEncoderCommandDropZero implements \JsonSerializable {
+    use \Abivia\NextForm\Traits\JsonEncoder;
+    static $jsonEncodeMethod = [
+        'boring' => [],
+        'novalue' => ['drop:zero'],
+    ];
+
+    public $boring = 'dull';
+    public $novalue = 0;
 }
 
 class JsonEncoderCommandMap implements \JsonSerializable {
@@ -169,6 +180,15 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
 
     public function testDropTrue() {
         $obj = new JsonEncoderCommandDropTrue();
+        $actual = json_decode(json_encode($obj));
+        $expect = json_decode(
+            '{"boring":"dull"}'
+        );
+        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+    }
+
+    public function testDropZero() {
+        $obj = new JsonEncoderCommandDropZero();
         $actual = json_decode(json_encode($obj));
         $expect = json_decode(
             '{"boring":"dull"}'

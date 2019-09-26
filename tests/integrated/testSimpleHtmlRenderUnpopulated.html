@@ -6,6 +6,8 @@
   </head>
 <body>
 <form id="registrationForm" name="registrationForm" action="http://localhost/nextform/post.php" method="post">
+<input id="nf_token" name="nf_token" type="hidden" value="142a3ece5ca50f7d8496d730f821dc8766350fab7c8e8b3ab0deda43e2bf28c0">
+<div id="field-1-container" data-nf-for="field-1">
 <div>Membership Type (tslt)</div>
 <div>
 <input id="field-1-opt0" name="members_membershipType" type="radio" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
@@ -35,41 +37,63 @@
 <input id="field-1-opt6" name="members_membershipType" type="radio" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field-1-opt6">Sponsor $300+ (tslt)</label>
 </div>
+</div>
 <br/>
 <fieldset>
 <legend>Primary Member (tslt)</legend>
 <div>
+<div id="field-2-container" data-nf-for="field-2">
 <label for="field-2">Legal First Name (tslt)</label>
 <input id="field-2" name="members_primaryFirstName" type="text" required/>
-&nbsp;<label for="field-3">Legal Last Name (tslt)</label>
+</div>
+&nbsp;<div id="field-3-container" data-nf-for="field-3">
+<label for="field-3">Legal Last Name (tslt)</label>
 <input id="field-3" name="members_primaryLastName" type="text" required/>
+</div>
 &nbsp;</div>
+<div id="field-4-container" data-nf-for="field-4">
 <label for="field-4">Email (tslt)</label>
 <input id="field-4" name="members_primaryEmail" type="email" required/>
+</div>
 <br/>
+<div id="field-4-confirmation-container" data-nf-for="field-4-confirmation">
 <label for="field-4-confirmation">Repeat email (tslt)</label>
 <input id="field-4-confirmation" name="members_primaryEmail-confirmation" type="email" required/>
+</div>
 <br/>
+<div id="field-5-container" data-nf-for="field-5">
 <label for="field-5">Artist Name (tslt)</label>
 <input id="field-5" name="members_primaryPublicName" type="text"/>
+</div>
 <br/>
 </fieldset>
 <fieldset>
 <legend>Second Member (tslt)</legend>
 <div>
+<div id="field-6-container" data-nf-for="field-6">
 <label for="field-6">Legal First Name (tslt)</label>
 <input id="field-6" name="members_secondaryFirstName" type="text" required/>
-&nbsp;<label for="field-7">Legal Last Name (tslt)</label>
+</div>
+&nbsp;<div id="field-7-container" data-nf-for="field-7">
+<label for="field-7">Legal Last Name (tslt)</label>
 <input id="field-7" name="members_secondaryLastName" type="text" required/>
+</div>
 &nbsp;</div>
+<div id="field-8-container" data-nf-for="field-8" data-nf-group="[&quot;family&quot;]">
 <label for="field-8">Artist Name (tslt)</label>
 <input id="field-8" name="members_secondaryPublicName" type="text"/>
+</div>
 <br/>
 </fieldset>
+<div id="field-9-container" data-nf-for="field-9" data-nf-group="[&quot;business&quot;]">
 <label for="field-9">Business Name (tslt)</label>
 <input id="field-9" name="members_businessName" type="text"/>
+</div>
 <br/>
-<input id="button-10" name="button-10" type="submit" value="Join (tslt)"/><br/>
+<div id="button-10-container" data-nf-for="button-10">
+<input id="button-10" name="button-10" type="submit" value="Join (tslt)"/>
+</div>
+<br/>
 </form>
 </body>
 </html>

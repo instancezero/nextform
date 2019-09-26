@@ -9,14 +9,14 @@
         },
         {
             "type": "html",
-            "group": "success",
+            "memberOf": "success",
             "name": "completeHeader",
             "value": "<p>This is an initially invisible html element.</p>",
             "visible": false
         },
         {
             "type": "field",
-            "group": "groupname",
+            "memberOf": "groupname",
             "object": "name",
             "enabled": true,
             "labels": {

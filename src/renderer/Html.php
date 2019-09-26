@@ -4,6 +4,7 @@ namespace Abivia\NextForm\Renderer;
 use Abivia\NextForm;
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Element\FieldElement;
 
 /**
  * A base for HTML rendering
@@ -98,22 +99,67 @@ abstract class Html implements Renderer {
     protected function elementHidden($element, $value) {
         $block = new Block;
         $baseId = $element -> getId();
-        $attrs = new Attributes;
-        $attrs -> set('type', 'hidden');
+        $formName = $element -> getFormName();
+        $attrs = new Attributes('type', 'hidden');
+        if ($element instanceof FieldElement) {
+            $attrs -> setIfNotNull(
+                '*data-sidecar',
+                $element -> getDataProperty() -> getPopulation() -> sidecar
+            );
+        }
         if (is_array($value)) {
             $optId = 0;
             foreach ($value as $key => $entry) {
                 $attrs -> set('id', $baseId . '-opt' . $optId);
                 ++$optId;
-                $attrs -> set('name', $element -> getFormName() . '[' . htmlspecialchars($key) . ']');
+                $attrs -> set('name', $formName . '[' . htmlspecialchars($key) . ']');
                 $attrs -> set('value', $entry);
                 $block -> body .= $this -> writeTag('input', $attrs) . "\n";
             }
         } else {
             $attrs -> set('id', $baseId);
-            $attrs -> set('name', $element -> getFormName());
+            $attrs -> set('name', $formName);
             $attrs -> setIfNotNull('value', $value);
             $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+        }
+        return $block;
+    }
+
+    /**
+     * Generate hidden elements for an option list.
+     * @param FieldElement $element The element we're generating for.
+     * @return \Abivia\NextForm\Renderer\Block The output block.
+     */
+    protected function elementHiddenList(FieldElement $element) {
+        $needEmpty = true;
+        $block = new Block;
+        $baseId = $element -> getId();
+        $select = $element -> getValue();
+        $list = $element -> getList(true);
+        $attrs = new Attributes('type', 'hidden');
+        $attrs -> set('name', $element -> getFormName() . (empty($list) ? '' : '[]'));
+        if ($select === null) {
+            $select = $element -> getDefault();
+        }
+        foreach ($list as $optId => $radio) {
+            $optAttrs = $attrs -> copy();
+            $id = $baseId . '-opt' . $optId;
+            $optAttrs -> set('id', $id);
+            $value = $radio -> getValue();
+            $optAttrs -> set('value', $value);
+            $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
+            if (is_array($select)) {
+                $checked = in_array($value, $select);
+            } else {
+                $checked = $value === $select;
+            }
+            if ($checked) {
+                $block -> body .= $this -> writeTag('input', $optAttrs) . "\n";
+                $needEmpty = false;
+            }
+        }
+        if ($needEmpty) {
+            $block = $this -> elementHidden($element, $select);
         }
         return $block;
     }
@@ -127,11 +173,33 @@ abstract class Html implements Renderer {
         return self::$renderMethodCache[$classPath];
     }
 
+    /**
+     * Generate attributes for a group container.
+     * @param Element $element
+     * @return \Abivia\NextForm\Renderer\Attributes
+     */
+    protected function groupAttributes($element, $options = []) : Attributes {
+        $id = $options['id'] ?? $element -> getId();
+        $container = new Attributes('id', $id . '-container');
+        if (!$element -> getVisible()) {
+            $container -> set('style', 'display:none');
+        }
+        $groups = $element -> getGroups();
+        if (!empty($groups)) {
+            $container -> set('*data-nf-group', $groups);
+        }
+        $container -> set('data-nf-for', $id);
+        return $container;
+    }
+
     protected function initialize() {
         // Reset the context
         $this -> context = [];
     }
 
+    /**
+     * Pop the rendering context
+     */
     public function popContext() {
         if (count($this -> contextStack)) {
             $this -> context = array_pop($this -> contextStack);
@@ -139,6 +207,9 @@ abstract class Html implements Renderer {
         }
     }
 
+    /**
+     * Push the rendering context
+     */
     public function pushContext() {
         array_push($this -> contextStack, $this -> context);
         array_push($this -> showStack, $this -> showState);
@@ -151,7 +222,7 @@ abstract class Html implements Renderer {
         return $this -> context[$selector];
     }
 
-    public function render(Element $element, $options = []) {
+    public function render(Element $element, $options = []) : Block {
         if (!isset($options['access'])) {
             $options['access'] = 'write';
         }
@@ -286,17 +357,35 @@ abstract class Html implements Renderer {
         return $this -> showState[$scope][$key];
     }
 
-    public function start($options = []) {
+    /**
+     * Start form generation
+     * @param array $options @see NextForm
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    public function start($options = []) : Block {
         $this -> initialize();
-        $attrs = new Attributes;
+        if (isset($options['attrs'])) {
+            $attrs = $options['attrs'];
+        } else {
+            $attrs = new Attributes;
+        }
         $attrs -> set('method', isset($options['method']) ? $options['method'] : 'post');
         $attrs -> setIfSet('action', $options);
-        $attrs -> setIfSet('id', $options);
-        $attrs -> setIfSet('name', $options);
 
         $pageData = new Block();
         $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
         $pageData -> post = '</form>' . "\n";
+        if (isset($options['token'])) {
+            $pageData -> token = $options['token'];
+        } else {
+            $pageData -> token = bin2hex(random_bytes(32));
+        }
+        $nfToken = $options['tokenName'] ?? 'nf_token';
+        if ($pageData -> token !== '') {
+            $pageData -> body .= '<input id="' . $nfToken . '"'
+                . ' name="' . $nfToken . '" type="hidden"'
+                . ' value="' . $pageData -> token . '">' . "\n";
+        }
         return $pageData;
     }
 

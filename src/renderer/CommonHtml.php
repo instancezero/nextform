@@ -3,15 +3,11 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Element\Element;
-use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Element\HtmlElement;
-use Abivia\NextForm\Element\SectionElement;
-use Abivia\NextForm\Element\StaticElement;
 
 /**
- * Methods used by most HTML render classes
+ * Render methods common to HTML render classes
  */
 abstract class CommonHtml extends Html implements Renderer {
 
@@ -30,12 +26,12 @@ abstract class CommonHtml extends Html implements Renderer {
     /**
      * Render a data list, if there is one.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent attributes. Passed by reference.
-     * @param type $element The element we're rendering.
-     * @param type $type The element type
-     * @param type $options Options, specifically access rights.
+     * @param Element $element The element we're rendering.
+     * @param string $type The element type
+     * @param array $options Options, specifically access rights.
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function dataList(Attributes $attrs, $element, $type, $options) {
+    protected function dataList(Attributes $attrs, Element $element, $type, $options) {
         $block = new Block;
         // Check for a data list, if there is write access.
         $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')

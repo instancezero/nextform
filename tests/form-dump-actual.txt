@@ -17,12 +17,18 @@ Abivia\NextForm Object
             [0] => Abivia\NextForm\Element\StaticElement Object
                 (
                     [html:protected] =>
+                    [hasTranslation:protected] =>
+                    [translate:protected] => 1
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
+                    [valueTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] => intro
                     [readonly:protected] =>
@@ -43,7 +49,6 @@ Abivia\NextForm Object
  *RECURSION*
                         )
 
-                    [hasTranslation:protected] =>
                     [labels:protected] =>
                     [labelsMerged:protected] =>
                     [labelsTranslated:protected] =>
@@ -61,12 +66,19 @@ Abivia\NextForm Object
 
             [1] => Abivia\NextForm\Element\HtmlElement Object
                 (
+                    [hasTranslation:protected] =>
+                    [translate:protected] => 1
                     [value:protected] => <p>This is an initially invisible html element.</p>
+                    [valueTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] => success
+                    [groups:protected] => Array
+                        (
+                            [0] => success
+                        )
+
                     [id:protected] =>
                     [name:protected] => completeHeader
                     [readonly:protected] =>
@@ -170,7 +182,11 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] => groupname
+                    [groups:protected] => Array
+                        (
+                            [0] => groupname
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -236,7 +252,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -322,7 +341,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -408,7 +430,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -484,7 +509,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -575,7 +603,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -651,7 +682,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -729,7 +763,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -797,7 +834,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -902,7 +942,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -976,7 +1019,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1056,7 +1102,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1124,7 +1173,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -1229,7 +1281,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -1303,7 +1358,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1381,7 +1439,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1451,7 +1512,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -1566,7 +1630,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1652,7 +1719,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1738,7 +1808,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -1814,7 +1887,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -1891,12 +1967,18 @@ Abivia\NextForm Object
                             [1] => Abivia\NextForm\Element\StaticElement Object
                                 (
                                     [html:protected] =>
+                                    [hasTranslation:protected] =>
+                                    [translate:protected] => 1
                                     [value:protected] => This text is part of a section.
+                                    [valueTranslated:protected] =>
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -1917,7 +1999,6 @@ Abivia\NextForm Object
  *RECURSION*
                                         )
 
-                                    [hasTranslation:protected] =>
                                     [labels:protected] =>
                                     [labelsMerged:protected] =>
                                     [labelsTranslated:protected] =>
@@ -1940,7 +2021,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -2035,7 +2119,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -2121,7 +2208,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -2207,7 +2297,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -2283,7 +2376,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -2347,12 +2443,18 @@ Abivia\NextForm Object
                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                 (
                                                     [html:protected] =>
+                                                    [hasTranslation:protected] =>
+                                                    [translate:protected] => 1
                                                     [value:protected] => This text is part of a section.
+                                                    [valueTranslated:protected] =>
                                                     [autoId:protected] =>
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -2365,7 +2467,6 @@ Abivia\NextForm Object
 
                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
-                                                    [hasTranslation:protected] =>
                                                     [labels:protected] =>
                                                     [labelsMerged:protected] =>
                                                     [labelsTranslated:protected] =>
@@ -2388,7 +2489,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -2498,7 +2602,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -2574,7 +2681,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -2652,7 +2762,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -2720,7 +2833,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -2784,12 +2900,18 @@ Abivia\NextForm Object
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
                                                                     [html:protected] =>
+                                                                    [hasTranslation:protected] =>
+                                                                    [translate:protected] => 1
                                                                     [value:protected] => This text is part of a section.
+                                                                    [valueTranslated:protected] =>
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -2802,7 +2924,6 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
-                                                                    [hasTranslation:protected] =>
                                                                     [labels:protected] =>
                                                                     [labelsMerged:protected] =>
                                                                     [labelsTranslated:protected] =>
@@ -2825,7 +2946,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -2949,7 +3073,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -3023,7 +3150,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3103,7 +3233,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3171,7 +3304,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -3235,12 +3371,18 @@ Abivia\NextForm Object
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
                                                                     [html:protected] =>
+                                                                    [hasTranslation:protected] =>
+                                                                    [translate:protected] => 1
                                                                     [value:protected] => This text is part of a section.
+                                                                    [valueTranslated:protected] =>
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -3253,7 +3395,6 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
-                                                                    [hasTranslation:protected] =>
                                                                     [labels:protected] =>
                                                                     [labelsMerged:protected] =>
                                                                     [labelsTranslated:protected] =>
@@ -3276,7 +3417,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3400,7 +3544,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -3474,7 +3621,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3552,7 +3702,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3622,7 +3775,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -3686,12 +3842,18 @@ Abivia\NextForm Object
                                                             [1] => Abivia\NextForm\Element\StaticElement Object
                                                                 (
                                                                     [html:protected] =>
+                                                                    [hasTranslation:protected] =>
+                                                                    [translate:protected] => 1
                                                                     [value:protected] => This text is part of a section.
+                                                                    [valueTranslated:protected] =>
                                                                     [autoId:protected] =>
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -3704,7 +3866,6 @@ Abivia\NextForm Object
 
                                                                     [configureOptions:Abivia\NextForm\Element\StaticElement:private] => Array
  *RECURSION*
-                                                                    [hasTranslation:protected] =>
                                                                     [labels:protected] =>
                                                                     [labelsMerged:protected] =>
                                                                     [labelsTranslated:protected] =>
@@ -3727,7 +3888,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -3837,12 +4001,18 @@ Abivia\NextForm Object
             [12] => Abivia\NextForm\Element\StaticElement Object
                 (
                     [html:protected] =>
+                    [hasTranslation:protected] =>
+                    [translate:protected] => 1
                     [value:protected] => This text is part of a section.
+                    [valueTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -3886,7 +4056,10 @@ Abivia\NextForm Object
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -3972,7 +4145,10 @@ Abivia\NextForm Object
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -4058,7 +4234,10 @@ Abivia\NextForm Object
                                                                     [enabled:protected] => 1
                                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                                    [group:protected] =>
+                                                                    [groups:protected] => Array
+                                                                        (
+                                                                        )
+
                                                                     [id:protected] =>
                                                                     [name:protected] =>
                                                                     [readonly:protected] =>
@@ -4134,7 +4313,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -4209,7 +4391,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -4285,7 +4470,6 @@ Abivia\NextForm Object
 
                         )
 
-                    [hasTranslation:protected] =>
                     [labels:protected] =>
                     [labelsMerged:protected] =>
                     [labelsTranslated:protected] =>
@@ -4308,12 +4492,18 @@ Abivia\NextForm Object
             [0] => Abivia\NextForm\Element\StaticElement Object
                 (
                     [html:protected] =>
+                    [hasTranslation:protected] =>
+                    [translate:protected] => 1
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
+                    [valueTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] => intro
                     [readonly:protected] =>
@@ -4334,7 +4524,6 @@ Abivia\NextForm Object
  *RECURSION*
                         )
 
-                    [hasTranslation:protected] =>
                     [labels:protected] =>
                     [labelsMerged:protected] =>
                     [labelsTranslated:protected] =>
@@ -4352,12 +4541,19 @@ Abivia\NextForm Object
 
             [1] => Abivia\NextForm\Element\HtmlElement Object
                 (
+                    [hasTranslation:protected] =>
+                    [translate:protected] => 1
                     [value:protected] => <p>This is an initially invisible html element.</p>
+                    [valueTranslated:protected] =>
                     [autoId:protected] =>
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] => success
+                    [groups:protected] => Array
+                        (
+                            [0] => success
+                        )
+
                     [id:protected] =>
                     [name:protected] => completeHeader
                     [readonly:protected] =>
@@ -4461,7 +4657,11 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] => groupname
+                    [groups:protected] => Array
+                        (
+                            [0] => groupname
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -4527,7 +4727,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -4613,7 +4816,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -4699,7 +4905,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -4775,7 +4984,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>
@@ -4876,7 +5088,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -4962,7 +5177,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -5048,7 +5266,10 @@ Abivia\NextForm Object
                                                     [enabled:protected] => 1
                                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                                    [group:protected] =>
+                                                    [groups:protected] => Array
+                                                        (
+                                                        )
+
                                                     [id:protected] =>
                                                     [name:protected] =>
                                                     [readonly:protected] =>
@@ -5124,7 +5345,10 @@ Abivia\NextForm Object
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -5201,12 +5425,18 @@ Abivia\NextForm Object
                             [1] => Abivia\NextForm\Element\StaticElement Object
                                 (
                                     [html:protected] =>
+                                    [hasTranslation:protected] =>
+                                    [translate:protected] => 1
                                     [value:protected] => This text is part of a section.
+                                    [valueTranslated:protected] =>
                                     [autoId:protected] =>
                                     [enabled:protected] => 1
                                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                                    [group:protected] =>
+                                    [groups:protected] => Array
+                                        (
+                                        )
+
                                     [id:protected] =>
                                     [name:protected] =>
                                     [readonly:protected] =>
@@ -5227,7 +5457,6 @@ Abivia\NextForm Object
  *RECURSION*
                                         )
 
-                                    [hasTranslation:protected] =>
                                     [labels:protected] =>
                                     [labelsMerged:protected] =>
                                     [labelsTranslated:protected] =>
@@ -5250,7 +5479,10 @@ Abivia\NextForm Object
                     [enabled:protected] => 1
                     [form:protected] => Abivia\NextForm Object
  *RECURSION*
-                    [group:protected] =>
+                    [groups:protected] => Array
+                        (
+                        )
+
                     [id:protected] =>
                     [name:protected] =>
                     [readonly:protected] =>

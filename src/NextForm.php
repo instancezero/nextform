@@ -7,6 +7,8 @@ use Abivia\NextForm\Contracts\Renderer as Renderer;
 use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\FieldElement;
+use Abivia\NextForm\Renderer\Attributes;
+use Abivia\NextForm\Renderer\Block;
 
 use Illuminate\Contracts\Translation\Translator as Translator;
 
@@ -22,10 +24,15 @@ class NextForm implements \JsonSerializable {
 
     protected $access;
     /**
-     * The list of all elements in the form
-     * @var array
+     * A list of all elements in the form
+     * @var Element[]
      */
     protected $allElements = [];
+
+    /**
+     * A list of top level elements on the form.
+     * @var Element[]
+     */
     protected $elements;
     /**
      * Counter used to assign HTML identifiers
@@ -137,18 +144,37 @@ class NextForm implements \JsonSerializable {
         if (!$form -> configure(json_decode(file_get_contents($formFile)), true)) {
             throw new \RuntimeException(
                 'Failed to load ' . $formFile . "\n"
-                . implode("\n", $schema -> configureErrors)
+                . implode("\n", $form -> configureErrors)
             );
         }
         return $form;
     }
 
+    /**
+     * Generate a form.
+     * @param array $options Generation options, optional unless stated otherwise:
+     *  $options = [
+     *      'attrs' => (Renderer\Attributes) Attributes to be added to the form element.
+     *      'token' => (string) Form submission token. If provided and empty, no token is used.
+     *      'tokenName' => (string) Name/ID to use for the token. Default is "nf_token".
+     *  ]
+     * @return Block
+     */
     public function generate($options) {
         $this -> options($options);
-        $options['id'] = $this -> id;
-        $options['name'] = $this -> name;
+        if (!isset($options['attrs'])) {
+            $options['attrs'] = new Attributes;
+        }
+
+        // Set the name and ID if not passed in to us.
+        $options['attrs'] -> default('id', $this -> id);
+        $options['attrs'] -> default('name', $this -> name);
+
+        // Assign field names
         $this -> assignNames();
         $this -> renderer -> setShow($this -> show);
+
+        // Start the form, write all the elements, close the form, return.
         $pageData = $this -> renderer -> start($options);
         foreach ($this -> elements as $element) {
             $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));

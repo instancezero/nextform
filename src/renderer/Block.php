@@ -48,6 +48,12 @@ class Block {
      */
     public $styles = [];
 
+    /**
+     * A submission verification token; only useful at the form level.
+     * @var string
+     */
+    public $token = '';
+
     public function close() : self {
         $this -> body .= $this -> post;
         $this -> post = '';

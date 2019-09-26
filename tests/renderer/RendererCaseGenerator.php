@@ -100,15 +100,15 @@ class RendererCaseGenerator {
         $cases['bwa'] = [$e1, ['access' => 'write'], 'button write access'];
 
         // Make it a reset
-        $e2 = $baseButton -> copy() -> set('function', 'reset');
+        $e2 = $baseButton -> copy() -> setFunction('reset');
         $cases['rbda'] = [$e2, [], 'reset button default access'];
 
         // Make it a submit
-        $e3 = $baseButton -> copy() -> set('function', 'submit');
+        $e3 = $baseButton -> copy() -> setFunction('submit');
         $cases['sbda'] = [$e3, [], 'submit button default access'];
 
         // Set it back to button
-        $e4 = $baseButton -> copy() -> set('function', 'button');
+        $e4 = $baseButton -> copy() -> setFunction('button');
         $cases['bda2'] = [$e4, [], 'button default access #2'];
 
         // Test view access
@@ -128,6 +128,16 @@ class RendererCaseGenerator {
         // How about a large outline warning?
         $e7 = $baseButton -> copy() -> setShow('purpose:warning|size:large|fill:outline');
         $cases['lg-warn-out'] = [$e7, [], 'button large warning outline'];
+
+        // How about a large outline warning?
+        $e7 = $baseButton -> copy() -> setShow('purpose:warning|size:large|fill:outline');
+        $cases['lg-warn-out'] = [$e7, [], 'button large warning outline'];
+
+        // Disabled button
+        $cases['disabled'] = $baseButton -> copy() -> setEnabled(false);
+
+        // Invisible button
+        $cases['invisible'] = $baseButton -> copy() -> setVisible(false);
 
         return $cases;
     }
@@ -214,7 +224,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$element, ['access' => 'hide']];
 
-        // Set a value
+        // Set a value (e2 gets used below)
         $e2 = $element -> copy();
         $e2 -> setValue(3);
         $e2b = $e2 -> copy();
@@ -222,6 +232,11 @@ class RendererCaseGenerator {
         $cases['value'] = [$e2b];
         $cases['value-view'] = [$e2b, ['access' => 'view']];
         $cases['value-hide'] = [$e2b, ['access' => 'hide']];
+
+        // Set the default to the same as the value to render it as checked
+        $e2c = $e2 -> copy();
+        $e2c -> setDefault(3);
+        $cases['checked'] = [$e2c];
 
         // Render inline
         $e3 = $element -> copy();
@@ -268,7 +283,7 @@ class RendererCaseGenerator {
         $cases = [];
         $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
 
-        // Modify the schema to change textWithList to a checkbox, style the last item
+        // Modify the schema to change textWithList to a checkbox, mix up item attributes
         $schema -> getProperty('test/textWithList') -> getPresentation() -> setType('checkbox');
 
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
@@ -277,6 +292,10 @@ class RendererCaseGenerator {
         $element -> bindSchema($schema);
 
         $list = $element -> getList(true);
+
+        // Disable the second item
+        $list[1] -> setEnabled(false);
+
         // Set appearance on the last list item
         $list[3] -> setShow('purpose:danger');
         // Make the list show as a toggle
@@ -301,6 +320,11 @@ class RendererCaseGenerator {
         $element = new FieldElement();
         $element -> configure($config);
         $element -> bindSchema($schema);
+
+        $list = $element -> getList(true);
+
+        // Disable the second item
+        $list[1] -> setEnabled(false);
 
         // No access specification assumes write access
         $cases['basic'] = [$element];

@@ -9,9 +9,28 @@ class Validation implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * A list of file patterns for an input element of type file.
+     * @var string[]
+     */
     protected $accept = [];
+
+    /**
+     * Set when validation should be performed via a server request.
+     * @var bool
+     */
     protected $async = false;
+
+    /**
+     * Sets the source for image or video in an input element of type file.
+     * @var string
+     */
     protected $capture;
+
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [
         'accept' => ['drop:empty'],
         'async' => ['drop:false'],
@@ -26,14 +45,60 @@ class Validation implements \JsonSerializable {
         'step' => ['drop:null','drop:zero'],
         'translatePattern' => ['drop:false'],
     ];
+
+    /**
+     * The maximum acceptable input length.
+     * @var int
+     */
     protected $maxLength;
+
+    /**
+     * The maximum value for numeric input types.
+     * @var float
+     */
     protected $maxValue;
+
+    /**
+     * The minimum acceptable input length.
+     * @var int
+     */
     protected $minLength;
+
+    /**
+     * The minimum value for numeric input types.
+     * @var flost
+     */
     protected $minValue;
+
+    /**
+     * Set when a check box list or select can have multiple values.
+     * @var bool
+     */
     protected $multiple = false;
+
+    /**
+     * Regular expression with PHP start-end delimiters (but still Javascript compatible)
+     * for validating inputs.
+     * @var string
+     */
     protected $pattern = '';
+
+    /**
+     * Set when a value must be supplied.
+     * @var bool
+     */
     protected $required = false;
+
+    /**
+     * The size of an increment for numeric/date input types.
+     * @var float
+     */
     protected $step;
+
+    /**
+     * Set when the validation regex should be translated before use.
+     * @var bool
+     */
     protected $translatePattern = false;
 
     protected function configureComplete() {
@@ -106,8 +171,8 @@ class Validation implements \JsonSerializable {
     }
 
     /**
-     * Get the named property, with the ability to trim the pattern regex.
-     * @param string $property
+     * Get the named property, with the ability to trim the pattern regex by using -pattern.
+     * @param string $property The name of the property to get.
      * @return mixed
      * @throws \RuntimeException
      */
@@ -121,6 +186,10 @@ class Validation implements \JsonSerializable {
         return $this -> $property;
     }
 
+    /**
+     * Determine if this object contributes nothing to a JSON encoding.
+     * @return bool
+     */
     public function isEmpty() {
         if (!empty($this -> accept)) {
             return false;

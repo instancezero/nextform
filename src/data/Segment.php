@@ -13,18 +13,47 @@ class Segment implements \JsonSerializable {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [
         'name' => [],
         'primary' => ['scalarize'],
-        'objects' => 'array',
+        'properties' => ['map:objects','array'],
     ];
+
+    /**
+     * The name of this segment
+     * @var string
+     */
     protected $name;
-    protected $objects;
+
+    /**
+     * A list of the properties in this segment.
+     * @var Property[]
+     */
+    protected $properties;
+
     /**
      * Objects that constitute a primary key for the segment.
-     * @var array
+     * @var string[]
      */
-    protected $primary;
+    protected $primary = [];
+
+    /**
+     * Check that all elements in a list of property names are defined.
+     * @param string[] $keyList List of property names.
+     * @return string Name of the first missing property or empty if no errors.
+     */
+    protected function checkPrimary($keyList) {
+        foreach ($keyList as $propName) {
+            if (!isset($this -> properties[$propName])) {
+                return $propName;
+            }
+        }
+        return '';
+    }
 
     /**
      * Map a property to a class.
@@ -35,7 +64,7 @@ class Segment implements \JsonSerializable {
      */
     protected function configureClassMap($property, $value) {
         static $classMap = [
-            'objects' => ['className' => '\Abivia\NextForm\Data\Property', 'key' => 'getName', 'keyIsMethod' => true],
+            'properties' => ['className' => '\Abivia\NextForm\Data\Property', 'key' => 'getName', 'keyIsMethod' => true],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];
@@ -44,10 +73,36 @@ class Segment implements \JsonSerializable {
     }
 
     protected function configureComplete() {
-        // Make sure the objects listed in primary exist.
+        // Make sure the properties listed in primary exist.
+        $badPropName = $this -> checkPrimary($this -> primary);
+        if ($badPropName !== '') {
+            $this -> configureLogError(
+                $badPropName . ' does not exist but is named as a primary key in segment '
+                . $this -> name
+            );
+            return false;
+        }
         return true;
     }
 
+    /**
+     * Rename "objects" in the configure file to "properties" in this class.
+     * @param string $property
+     * @return string
+     */
+    protected function configurePropertyMap($property): string {
+        if ($property === 'objects') {
+            return 'properties';
+        }
+        return $property;
+    }
+
+    /**
+     * Convert string as a primary key into a single valued array.
+     * @param string $property The property name.
+     * @param mixed $value The current property value.
+     * @return type
+     */
     protected function configureValidate($property, &$value) {
         if ($property == 'primary' && !is_array($value)) {
             $value = [$value];
@@ -55,12 +110,71 @@ class Segment implements \JsonSerializable {
         return $value;
     }
 
+    /**
+     * Get the name of this segment.
+     * @return string
+     */
     public function getName() {
         return $this -> name;
     }
 
+    /**
+     * Get the list of properties contributing to a primary key.
+     * @return string[]
+     */
+    public function getPrimary() {
+        return $this -> primary;
+    }
+
+    /**
+     * Get a property by name.
+     * @param string $propName Name of the property to fetch.
+     * @return Property|null
+     */
     public function getProperty($propName) : ?Property {
-        return isset($this -> objects[$propName]) ? $this -> objects[$propName] : null;
+        return isset($this -> properties[$propName]) ? $this -> properties[$propName] : null;
+    }
+
+    /**
+     * Set the name of this segment.
+     * @param string $name Name for the segment.
+     * @return self
+     */
+    public function setName($name) :self {
+        $this -> name = $name;
+        return $this;
+    }
+
+    /**
+     * Set the primary key properties for this segment.
+     * @param type $keyList
+     * @return \self
+     */
+    public function setPrimary($keyList) : self {
+        // Check the format of the values, converting string to array.
+        $keyList = $this -> configureValidate('primary', $keyList);
+
+        // Make sure all the properties are defined.
+        $badPropName = $this -> checkPrimary($keyList);
+        if ($badPropName !== '') {
+            throw new RuntimeException(
+                $badPropName . ' is not a valid primary key in segment'
+                . $this -> name . '.'
+            );
+        }
+        $this -> primary = $keyList;
+        return $this;
+    }
+
+    /**
+     * Set/replace a property.
+     * @param Property $prop The property to add/replace.
+     * @return Property|null
+     */
+    public function setProperty(Property $prop) : self {
+        $propName = $prop -> getName();
+        $this -> properties[$propName] = $prop;
+        return $this;
     }
 
 }

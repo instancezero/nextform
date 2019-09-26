@@ -1,7 +1,7 @@
 Abivia\NextForm\Data\Segment Object
 (
     [name:protected] => ObjectOne
-    [objects:protected] => Array
+    [properties:protected] => Array
         (
             [id] => Abivia\NextForm\Data\Property Object
                 (

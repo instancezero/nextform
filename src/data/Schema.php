@@ -149,6 +149,14 @@ class Schema implements \JsonSerializable {
     }
 
     /**
+     * Get the default schema settings
+     * @return \stdClass
+     */
+    public function getDefault() {
+        return $this -> defaultRepo;
+    }
+
+    /**
      * Convenience function to fetch a property from a segment.
      * @param string $segProp Either a segment name or a segment/property.
      * @param string $name Property name. Only required if $segProp is just a segment name.

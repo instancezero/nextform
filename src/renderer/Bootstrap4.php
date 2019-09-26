@@ -3,14 +3,11 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\CellElement;
 use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\HtmlElement;
 use Abivia\NextForm\Element\SectionElement;
 use Abivia\NextForm\Element\StaticElement;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Renderer for Bootstrap4
@@ -62,6 +59,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $id = $baseId . '-opt' . $optId;
             $optAttrs -> set('id', $id);
             $value = $radio -> getValue();
+            $optAttrs -> setFlag('disabled', !$radio -> getEnabled());
             $optAttrs -> set('value', $value);
             if (
                 $type == 'checkbox'
@@ -73,10 +71,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             } else {
                 $checked = false;
             }
+            $optAttrs -> setFlag('checked', $checked);
             $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
-            if ($checked) {
-                $optAttrs -> setFlag('checked');
-            }
+
             $block = $this -> writeWrapper(
                 $block, 'div', ['attrs' => new Attributes('class', $groupClass)]
             );
@@ -144,45 +141,6 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             if ($show) {
                 $this -> popContext();
             }
-        }
-        return $block;
-    }
-
-    /**
-     * Generate hidden elements for an option list.
-     * @param FieldElement $element The element we're generating for.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
-     * @return \Abivia\NextForm\Renderer\Block The output block.
-     */
-    protected function checkListInvisible(FieldElement $element, Attributes $attrs) {
-        $needEmpty = true;
-        $block = new Block;
-        $baseId = $element -> getId();
-        $select = $element -> getValue();
-        $list = $element -> getList(true);
-        $attrs -> set('name', $element -> getFormName() . (!empty($list) ? '[]' : ''));
-        if ($select === null) {
-            $select = $element -> getDefault();
-        }
-        foreach ($list as $optId => $radio) {
-            $optAttrs = $attrs -> copy();
-            $id = $baseId . '-opt' . $optId;
-            $optAttrs -> set('id', $id);
-            $value = $radio -> getValue();
-            $optAttrs -> set('value', $value);
-            $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
-            if (is_array($select)) {
-                $checked = in_array($value, $select);
-            } else {
-                $checked = $value === $select;
-            }
-            if ($checked) {
-                $block -> body .= $this -> writeTag('input', $optAttrs) . "\n";
-                $needEmpty = false;
-            }
-        }
-        if ($needEmpty) {
-            $block -> body .= $this -> checkInput($block, $element, $attrs);
         }
         return $block;
     }
@@ -344,9 +302,11 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $this -> pushContext();
             $this -> setShow($show, 'button');
         }
+
+        // Build attributes for the input
         $attrs = new Attributes;
         $attrs -> set('id', $element -> getId());
-        if ($options['access'] == 'view') {
+        if ($options['access'] == 'view' || !$element -> getEnabled()) {
             $attrs -> setFlag('disabled');
         }
         $attrs -> set('name', $element -> getFormName());
@@ -355,7 +315,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $attrs -> set('class', $this -> getButtonClass());
 
         // We can see or change the data. Create a form group.
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
 
         // Write the header.
         $block -> body .= $this -> writeLabel(
@@ -411,12 +376,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Generate hidden elements and return.
         if ($options['access'] === 'hide') {
-            $attrs = new Attributes('type', 'hidden');
-            $attrs -> setIfNotNull(
-                '*data-sidecar',
-                $element -> getDataProperty() -> getPopulation() -> sidecar
-            );
-            $block = $this -> checkListInvisible($element, $attrs);
+            $block = $this -> elementHiddenList($element);
             return $block;
         }
 
@@ -485,12 +445,19 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         // Customize the header to align baselines in horizontal layouts
         $headerAttrs = new Attributes;
         if ($layout === 'vertical') {
-            $rowBlock  = $this -> writeElement('fieldset', ['show' => 'formGroupAttributes']);
+            $rowBlock = $this -> writeElement(
+                'fieldset', [
+                    'attrs' => $this -> groupAttributes($element),
+                    'show' => 'formGroupAttributes'
+                ]
+            );
             $headerElement = 'div';
         } else {
             // Horizontal layouts has a fieldset with just the form group class
-            $rowBlock  = $this -> writeElement(
-                'fieldset', ['attrs' => new Attributes('class', 'form-group')]
+            $rowAttrs = new Attributes('class', 'form-group');
+            $rowAttrs -> merge($this -> groupAttributes($element));
+            $rowBlock = $this -> writeElement(
+                'fieldset', ['attrs' => $rowAttrs]
             );
             // Horizontal layouts have another div for the row
             $rowBlock  -> merge($this -> writeElement(
@@ -592,11 +559,13 @@ class Bootstrap4 extends CommonHtml implements Renderer {
 
         // Customize the header to align baselines in horizontal layouts
         $headerAttrs = new Attributes;
-        $rowBlock = new Block;
-        if ($this -> showGet('form', 'layout') === 'vertical') {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
-        } else {
-            $rowBlock  = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $rowBlock = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
+        if ($this -> showGet('form', 'layout') !== 'vertical') {
             if (!$asButtons && $options['access'] == 'write') {
                 $headerAttrs -> set('class', 'pt-0');
             }
@@ -666,7 +635,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
 
         // We can see or change the data. Create a form group.
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
 
         // Get attributes for the input element
         $attrs = new Attributes;
@@ -769,7 +743,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $labels = $element -> getLabels(true);
 
         // Start the form group
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
         $block -> body .= $this -> writeLabel(
             'headingAttributes', $labels -> heading, 'label',
             new Attributes('!for', $element -> getId()), ['break' => true]
@@ -827,7 +806,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $block = new Block();
 
         // Create a form group.
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
 
         $labels = $element -> getLabels(true);
         $data = $element -> getDataProperty();
@@ -995,7 +979,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
 
         // We can see or change the data. Create a form group.
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
 
         // Assemble the textarea attributes
         $attrs = new Attributes;
@@ -1061,15 +1050,19 @@ class Bootstrap4 extends CommonHtml implements Renderer {
     }
 
     protected function renderSectionElement(SectionElement $element, $options = []) {
-        $block = new Block();
         $labels = $element -> getLabels(true);
-        $block -> body = '<fieldset>' . "\n";
+        $block = $this -> writeElement(
+            'fieldset', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
         if ($labels !== null) {
             $block -> body .= $this -> writeLabel(
                 '', $labels -> heading, 'legend', null, ['break' => true]
             );
         }
-        $block -> post = '</fieldset>' . "\n";
+
         return $block;
     }
 
@@ -1087,7 +1080,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
 
         // We can see or change the data. Create a form group.
-        $block = $this -> writeElement('div', ['show' => 'formGroupAttributes']);
+        $block = $this -> writeElement(
+            'div', [
+                'attrs' => $this -> groupAttributes($element),
+                'show' => 'formGroupAttributes'
+            ]
+        );
 
         // Write a heading if there is one
         $labels = $element -> getLabels(true);
@@ -1098,8 +1096,10 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         );
         $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
 
+        $attrs = new Attributes('id', $element -> getId());
+        $block -> merge($this -> writeElement('div', ['attrs' => $attrs]));
         // Escape the value if it's not listed as HTML
-        $value = $element -> getValue();
+        $value = $element -> getValue() . "\n";
         $block -> body .= $element -> getHtml() ? $value : htmlspecialchars($value);
         $block -> close();
 
@@ -1291,7 +1291,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $this -> showState[$scope]['purpose'] = $choice;
     }
 
-    public function start($options = []) {
+    public function start($options = []) : Block {
         $pageData = parent::start($options);
         $pageData -> head .= '<link rel="stylesheet"'
             . ' href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"'

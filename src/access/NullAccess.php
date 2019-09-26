@@ -15,7 +15,7 @@ class NullAccess implements AccessContract {
      * @param string $operation The operation we're asking permission for (read|write).
      * @return bool True if access is granted. Always true.
      */
-    public function hasAccess($segment, $objectName, $operation) : bool {
+    public function hasAccess($segment, $objectName, $operation, $user = null) : bool {
         return true;
     }
 

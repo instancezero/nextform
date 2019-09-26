@@ -11,12 +11,30 @@ use Abivia\NextForm\Contracts\Access as AccessContract;
 class BasicAccess implements AccessContract {
     use \Abivia\Configurable\Configurable;
 
+    /**
+     * The default user to check when no explicit user identifier is passed to hasAccess().
+     * @var string
+     */
     protected $currentUser = null;
+
+    /**
+     * Role definitions.
+     * @var Role[]
+     */
     protected $roles;
+
+    /**
+     * User roles.
+     * @var User[]
+     */
     protected $users;
 
     /**
      * Map a property to a class.
+     * @staticvar array $classMap Maps property names to a set of instantiation rules
+     * @param string $property The name of the property to check.
+     * @param mixed $value The current value of the named property.
+     * @return mixed An instantiation rule object or false if no rule applies.
      */
     protected function configureClassMap($property, $value) {
         static $classMap = [
@@ -41,7 +59,7 @@ class BasicAccess implements AccessContract {
     }
 
     /**
-     * Determine if the current user has access to an object.
+     * Determine if the a user has access to an object.
      * @param string $segment The segment that the requested object belongs to.
      * @param string $objectName The name of the object.
      * @param string $operation The operation we're asking permission for (read|write).
@@ -85,7 +103,13 @@ class BasicAccess implements AccessContract {
         return $access;
     }
 
-    public function setUser($user) {
+    /**
+     * Set a default user for subsequent access requests.
+     * @param string $user The user identifier
+     * @return \self
+     * @throws \LogicException
+     */
+    public function setUser($user) : self {
         if ($user === null || isset($this -> users[$user])) {
             $this -> currentUser = $user;
             return $this;

@@ -15,16 +15,51 @@ class Labels implements \JsonSerializable{
     use \Abivia\NextForm\Traits\JsonEncoder;
 
     /**
-     * Text to display after the body of an item
+     * Text to display after the body of an item.
      * @var string
      */
     public $after = null;
+
+    /**
+     * Text to display before the body of an item.
+     * @var string
+     */
     public $before = null;
+
+    /**
+     * Heading to use when asking for a confirmation.
+     * @var string
+     */
     public $confirm = null;
+
+    /**
+     * Text to display when there is an error.
+     * @var string
+     */
     public $error = null;
+
+    /**
+     * Text to display before as the item header.
+     * @var string
+     */
     public $heading = null;
+
+    /**
+     * Text to display for item help.
+     * @var string
+     */
     public $help = null;
+
+    /**
+     * Text to display "inside" an item: placeholder or label on a check/radio.
+     * @var string
+     */
     public $inner = null;
+
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [
         'translate' => ['drop:true'],
         'after' => ['drop:null'],
@@ -35,13 +70,19 @@ class Labels implements \JsonSerializable{
         'help' => ['drop:null'],
         'inner' => ['drop:null'],
     ];
+
     /**
      * A list of the properties that contain text.
-     * @var array
+     * @var string[]
      */
     static private $textProperties = [
         'after', 'before', 'confirm', 'error', 'heading', 'help', 'inner'
     ];
+
+    /**
+     * Flag indicating if these labels should be translated or not.
+     * @var bool
+     */
     public $translate = true;
 
     /**
@@ -57,7 +98,13 @@ class Labels implements \JsonSerializable{
         return $this -> $labelName;
     }
 
-    public function has($labelName) {
+    /**
+     * Determine if a label type has been set or not.
+     * @param string $labelName
+     * @return bool
+     * @throws \RuntimeException
+     */
+    public function has($labelName) : bool {
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
@@ -65,10 +112,10 @@ class Labels implements \JsonSerializable{
     }
 
     /**
-     * Check to see if there are any non-null text labels.
+     * Check to see if there are any non-null elements in the label.
      * @return bool
      */
-    public function isEmpty() {
+    public function isEmpty() : bool {
         foreach (self::$textProperties as $prop) {
             if ($this -> $prop !== null) {
                 return false;
@@ -97,10 +144,10 @@ class Labels implements \JsonSerializable{
      * Set a label by name
      * @param string $labelName
      * @param string $text
-     * @return $this
+     * @return \self
      * @throws \RuntimeException
      */
-    public function set($labelName, $text) {
+    public function set($labelName, $text) : self {
         if (in_array($labelName, self::$textProperties)) {
             $this -> $labelName = $text;
         } else {
@@ -111,10 +158,10 @@ class Labels implements \JsonSerializable{
 
     /**
      * Create a translated version of the labels.
-     * @param Translator $translate
+     * @param Translator $translate The translation facility.
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function translate(Translator $translate) {
+    public function translate(Translator $translate) : Labels {
         $newLabels = clone $this;
         if ($newLabels -> translate) {
             foreach (self::$textProperties as $prop) {

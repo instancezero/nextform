@@ -3,19 +3,41 @@
 namespace Abivia\NextForm\Element;
 
 /**
- *
+ * Support for a form button
  */
 class ButtonElement Extends NamedElement {
     use \Abivia\Configurable\Configurable;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * The function this button performs on the form.
+     * @var string
+     */
     protected $function = 'button';
+
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
+
+    /**
+     * Local rules for the JsonEncoder, merged into those of parent classes.
+     * @var array
+     */
     static protected $jsonLocalMethod = [
         'function' => ['drop:false'],
     ];
+
+    /**
+     * A list of valid button functions.
+     * @var string[]
+     */
     static protected $validFunctions = ['button', 'reset', 'submit'];
 
+    /**
+     * Merge JSON encoding rules on first instantiation.
+     */
     public function __construct() {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
@@ -50,6 +72,12 @@ class ButtonElement Extends NamedElement {
         return parent::configurePropertyMap($property);
     }
 
+    /**
+     * Ensure that the button function is valid.
+     * @param string $property Name of the property to validate.
+     * @param mixed $value Current value of the property.
+     * @return boolean
+     */
     protected function configureValidate($property, &$value) {
         if ($property === 'function') {
             if (!in_array($value, self::$validFunctions)) {
@@ -68,18 +96,17 @@ class ButtonElement Extends NamedElement {
     }
 
     /**
-     * Set a property, validating while doing so
-     * @param string $property The property name.
-     * @param mixed $value The property value.
+     * Set the button function
+     * @param mixed $value The button function.
      * @return $this
-     * @throws \RuntimeException If the property has an invalid value.
+     * @throws \RuntimeException If the value is not a valid button function.
      */
-    public function set($property, $value) {
+    public function setFunction($value) {
         $this -> configureErrors = [];
-        if (!$this -> configureValidate($property, $value)) {
+        if (!$this -> configureValidate('function', $value)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));
         }
-        $this -> $property = $value;
+        $this -> function = $value;
         return $this;
     }
 

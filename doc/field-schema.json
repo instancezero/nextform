@@ -59,7 +59,9 @@
                         "size": "max size in database: int | number[, decimals] | "
                     },
                     "validation": {
+                        "accept": "*.jpg,*.gif,*.etc",
                         "async": "boolean",
+                        "capture": "source for image or video in a file type",
                         "maxLength": "length",
                         "minLength": "length",
                         "maxValue": "value",

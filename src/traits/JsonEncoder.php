@@ -9,7 +9,7 @@ namespace Abivia\NextForm\Traits;
  * values. The scalar should be either 'array' or 'default' (or '').
  * An array can be used to specify:
  * 'array', strip keys from an associative array and return the array.
- * 'drop:empty', empty array properties will be omitted
+ * 'drop:empty', empty array properties or objects that return isEmpty() = true will be omitted
  * 'drop:false', false-valued properties will be omitted
  * 'drop:null', null-valued properties will be omitted
  * 'drop:true', true-valued properties will be omitted

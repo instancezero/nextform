@@ -8,7 +8,7 @@ use Abivia\NextForm\Trigger\Trigger;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
- *
+ * Representation of a form element that accepts user input (including a button).
  */
 class FieldElement extends NamedElement {
     use \Abivia\Configurable\Configurable;
@@ -19,6 +19,7 @@ class FieldElement extends NamedElement {
      * @var array
      */
     protected $dataList;
+
     /**
      * A translated list of possible values for radio/drop-down types.
      * @var array
@@ -37,7 +38,16 @@ class FieldElement extends NamedElement {
      */
     protected $default;
 
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
+
+    /**
+     * Local rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonLocalMethod = [
         'object' => ['method:removeScope'],
         'default' => ['drop:null'],
@@ -52,7 +62,7 @@ class FieldElement extends NamedElement {
 
     /**
      * List of triggers associated with this element.
-     * @var array \Abivia\Trigger\Trigger
+     * @var \Abivia\Trigger\Trigger[]
      */
     protected $triggers = [];
 
@@ -62,6 +72,9 @@ class FieldElement extends NamedElement {
      */
     protected $value;
 
+    /**
+     * Configure the JSON encoder on first instantiation.
+     */
     public function __construct() {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
@@ -73,8 +86,9 @@ class FieldElement extends NamedElement {
     /**
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema
+     * @return \self
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self {
         $this -> dataProperty = $schema -> getProperty($this -> object);
         if ($this -> dataProperty) {
             // Give the data property the ability to signal us.
@@ -88,6 +102,7 @@ class FieldElement extends NamedElement {
             $this -> dataList = $this -> dataProperty -> getPopulation() -> getList();
             $this -> dataListTranslated = $this -> dataList;
         }
+        return $this;
     }
 
     protected function configureClassMap($property, $value) {
@@ -164,17 +179,17 @@ class FieldElement extends NamedElement {
     }
 
     /**
-     * Get the default value for this field
-     * @return string
+     * Get the default value for this field.
+     * @return mixed
      */
     public function getDefault() {
         return $this -> default;
     }
 
     /**
-     * Get an array of Population/Option objects associated with the field with no hierarchy
+     * Get the of Population/Option objects associated with the field with no hierarchy.
      * @param bool $translated Returns the translated texts, if available
-     * @return array
+     * @return \Abivia\NextForm\Data\Population\Option[]
      */
     public function getFlatList($translated = false) {
         if ($translated && $this -> hasTranslation) {
@@ -211,9 +226,9 @@ class FieldElement extends NamedElement {
     }
 
     /**
-     * Get an array of Population/Option objects associated with the field
+     * Get a hierarchical list of Population/Option objects associated with the field
      * @param bool $translated Returns the translated texts, if available
-     * @return array
+     * @return Abivia\NextForm\Data\Population\Option[]
      */
     public function getList($translated = false) {
         if ($translated && $this -> hasTranslation) {
@@ -224,14 +239,27 @@ class FieldElement extends NamedElement {
         return $list;
     }
 
+    /**
+     * Get the name of an associated schema object.
+     * @return string
+     */
     public function getObject() {
         return $this -> object;
     }
 
+    /**
+     * Get the current value of the field.
+     * @return mixed
+     */
     public function getValue() {
         return $this -> value;
     }
 
+    /**
+     * Appears to not be in use... deprecate?
+     * @param type $value
+     * @return type
+     */
     protected function removeScope($value) {
         if (!$this -> form) {
             return $value;
@@ -245,12 +273,32 @@ class FieldElement extends NamedElement {
         return $value;
     }
 
-    public function setValue($value) {
+    /**
+     * Set the default value for this field
+     * @param $value The new default value.
+     * @return \self
+     */
+    public function setDefault($value) : self {
+        $this -> default = $value;
+        return $this;
+    }
+
+    /**
+     * Set the current value for this field
+     * @param $value The new default value.
+     * @return \self
+     */
+    public function setValue($value) : self {
         $this -> value = $value;
         return $this;
     }
 
-    public function translate(Translator $translate) {
+    /**
+     * Translate the texts in this element.
+     * @param Translator $translate
+     * @return \Abivia\NextForm\Element\Element
+     */
+    public function translate(Translator $translate) : Element {
         // Translate the data list, if any
         if ($this -> dataProperty) {
             $this -> dataListTranslated = $this -> dataList;
@@ -260,7 +308,8 @@ class FieldElement extends NamedElement {
                 }
             }
         }
-        parent::translate($translate);
+        // Translate the labels.
+        return parent::translate($translate);
     }
 
 }

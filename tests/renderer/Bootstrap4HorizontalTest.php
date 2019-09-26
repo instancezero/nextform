@@ -52,11 +52,21 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         return $text;
     }
 
-    protected function formGroup($body, $changeClass = '', $element = 'div') {
-        $changeClass = $changeClass === '' ? 'form-group row' : $changeClass;
-        $text = '<' . $element . ' class="' . $changeClass . '">' . "\n"
-            . $body
-            . '</' . $element . '>' . "\n";
+    protected function formGroup($body, $options = []) {
+        $attr = '';
+        $id = $options['id'] ?? 'field-1';
+        $attr .= ' id="' . $id . '-container' . '"';
+        $attr .= ' class="'
+            . (isset($options['class']) ? $options['class'] : 'form-group row')
+            . '"';
+        $element = $options['element'] ?? 'div';
+        $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
+        $attr .= ' data-nf-for="' . $id . '"';
+        $text = '<' . $element . $attr . '>' . "\n"
+            . $body;
+        if ($options['close'] ?? true) {
+            $text .= '</' . $element . '>' . "\n";
+        }
         return $text;
     }
 
@@ -93,20 +103,6 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 		$this -> assertInstanceOf('\Abivia\NextForm\Renderer\Bootstrap4', $this -> testObj);
 	}
 
-	public function testStart() {
-        $data = $this -> testObj -> start();
-        $this -> assertEquals("<form method=\"post\">\n", $data -> body);
-        $this -> assertEquals("</form>\n", $data -> post);
-        $data = $this -> testObj -> start(['method' => 'put']);
-        $this -> assertEquals("<form method=\"put\">\n", $data -> body);
-        $data = $this -> testObj -> start(['action' => 'https://localhost/some file.php']);
-        $this -> assertEquals("<form action=\"https://localhost/some file.php\" method=\"post\">\n", $data -> body);
-        $data = $this -> testObj -> start(['name' => 'bad<name']);
-        $this -> assertEquals("<form name=\"bad&lt;name\" method=\"post\">\n", $data -> body);
-        $data = $this -> testObj -> start(['id' => 'bad<name']);
-        $this -> assertEquals("<form id=\"bad&lt;name\" method=\"post\">\n", $data -> body);
-    }
-
     /**
      * Check a button
      */
@@ -123,7 +119,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-success" value="I am Button!"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -138,7 +135,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="reset"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -150,7 +148,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="submit"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -162,7 +161,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -173,7 +173,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -190,7 +191,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -201,7 +203,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="submit"'
                     . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -212,7 +215,32 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-outline-warning btn-lg" value="I am Button!"/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
+            )
+        );
+
+        // Disabled
+        $expect['disabled'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+                ),
+                ['id' => 'button-1']
+            )
+        );
+
+        // Not visible
+        $expect['invisible'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'label', 'button-1')
+                . $this -> column2(
+                    '<input id="button-1" name="button-1" type="button"'
+                    . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
+                ),
+                ['id' => 'button-1', 'style' => 'display:none']
             )
         );
 
@@ -235,7 +263,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -246,7 +275,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<span class="mr-1">prefix</span>'
                 . '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -257,7 +287,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>'
                 . '<span>suffix</span>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -267,7 +298,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this -> column1('Header', 'label', 'button-1')
                 . $this -> column2(
                     '<input id="button-1" name="button-1" type="button" class="btn btn-primary"/>' . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -281,7 +313,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     . "\n"
                     . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -293,7 +326,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary" value="inner"/>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -308,7 +342,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     . "\n"
                     . '<small id="button-1-formhelp" class="form-text text-muted">Helpful</small>'
                     . "\n"
-                )
+                ),
+                ['id' => 'button-1']
             )
         );
 
@@ -432,6 +467,20 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                         '<input id="field-1" name="field-1" type="checkbox"'
                         . ' class="form-check-input" value="3"'
                         . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+                        . '<label for="field-1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    )
+                )
+            )
+        );
+
+        $expect['checked'] = Block::fromString(
+            $this -> formGroup(
+                $this -> column1('', 'div', '', 'pt-0')
+                . $this -> column2(
+                    $this -> formCheck(
+                        '<input id="field-1" name="field-1" type="checkbox"'
+                        . ' class="form-check-input" value="3" checked/>' . "\n"
                         . '<label for="field-1" class="form-check-label">'
                         . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                     )
@@ -759,72 +808,78 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             . '</div>' . "\n";
 
         $expect['toggle-list'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . $listCommon
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . $listCommon
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
 
         $expect['list-label-none'] = $expect['toggle-list'];
 
         $expect['list-label-before'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . '<span class="mr-1">prefix</span>' . $listCommon
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . '<span class="mr-1">prefix</span>' . $listCommon
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
 
         $expect['list-label-after'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . $listCommon . '<span>suffix</span>' . "\n"
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . $listCommon . '<span>suffix</span>' . "\n"
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
         $expect['list-label-head'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . $listCommon
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . $listCommon
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
 
         $expect['list-label-help'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . $listHelp
-            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . $listHelp
+                . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
 
         $expect['list-label-all'] = Block::fromString(
-            '<fieldset class="form-group">' . "\n"
-            . '<div class="row">' . "\n"
-            . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
-            . '<div class="col-sm-10">' . "\n"
-            . '<span class="mr-1">prefix</span>' . $listHelp . '<span>suffix</span>' . "\n"
-            . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-            . '</div>' . "\n"
-            . '</div>' . "\n"
-            . '</fieldset>' . "\n"
+            $this -> formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . '<span class="mr-1">prefix</span>' . $listHelp . '<span>suffix</span>' . "\n"
+                . '<small id="field-1-formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
         );
 
         $this -> runCases($cases, $expect);
@@ -851,7 +906,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
@@ -869,7 +924,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         $expect['write'] = $expect['basic'];
@@ -887,7 +943,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled readonly/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
@@ -905,12 +961,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1[]" type="hidden"/>' . "\n"
+            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
         );
 
         // One option set
@@ -927,7 +984,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
@@ -946,7 +1003,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test hidden access
@@ -969,7 +1027,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
@@ -988,7 +1046,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Two options set, view mode
@@ -1005,7 +1064,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled readonly/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
@@ -1024,7 +1083,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test hidden access
@@ -1049,7 +1109,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
                         . '<label for="field-1-opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n",
                         $inlineClasses
@@ -1070,7 +1130,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         $expect['inline-nolabel'] = Block::fromString(
@@ -1085,7 +1146,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this -> formCheck(
                         '<input id="field-1-opt1" name="field-1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" aria-label="textlist 2"/>' . "\n",
+                        . ' class="form-check-input" value="textlist 2" disabled aria-label="textlist 2"/>' . "\n",
                         $inlineClasses
                     )
                     . $this -> formCheck(
@@ -1103,7 +1164,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         $this -> runCases($cases, $expect);
@@ -1806,7 +1868,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Same result with explicit write access
@@ -1845,7 +1908,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test view access
@@ -1882,7 +1946,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test hidden access
@@ -1934,7 +1999,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>'. "\n",
-            'form-group', 'fieldset')
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
         );
 
         // Test view access
@@ -1974,7 +2040,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>' . "\n",
-                'form-group', 'fieldset'
+                ['class' => 'form-group', 'element' => 'fieldset']
             )
         );
 
@@ -2879,13 +2945,18 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['empty'] = Block::fromString(
-            '<fieldset>' . "\n",
+            $this -> formGroup(
+                '', ['element' => 'fieldset', 'id' => 'section-1', 'close' => false]
+            ),
             '</fieldset>' . "\n"
         );
+
         // Now add a label
         $expect['label'] = Block::fromString(
-            '<fieldset>' . "\n"
-            . '<legend>This is legendary</legend>' . "\n",
+            $this -> formGroup(
+                '<legend>This is legendary</legend>' . "\n",
+                ['element' => 'fieldset', 'id' => 'section-1', 'close' => false]
+            ),
             '</fieldset>' . "\n"
         );
 
@@ -2909,14 +2980,24 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this -> formGroup(
                 $this -> column1('', 'div', '')
-                . $this -> column2('This is unescaped text with &lt;stuff&gt;!')
+                . $this -> column2(
+                    '<div id="static-1">' . "\n"
+                    . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
+                    . '</div>' . "\n"
+                ),
+                ['id' => 'static-1']
             )
         );
 
         $expect['head'] = Block::fromString(
             $this -> formGroup(
                 $this -> column1('Header', 'div', '')
-                . $this -> column2('This is unescaped text with &lt;stuff&gt;!')
+                . $this -> column2(
+                    '<div id="static-1">' . "\n"
+                    . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
+                    . '</div>' . "\n"
+                ),
+                ['id' => 'static-1']
             )
         );
 
@@ -2932,14 +3013,24 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['raw'] = Block::fromString(
             $this -> formGroup(
                 $this -> column1('', 'div', '')
-                . $this -> column2('This is <strong>raw html</strong>!')
+                . $this -> column2(
+                    '<div id="static-1">' . "\n"
+                    . 'This is <strong>raw html</strong>!' . "\n"
+                    . '</div>' . "\n"
+                ),
+                ['id' => 'static-1']
             )
         );
 
         $expect['raw-head'] = Block::fromString(
             $this -> formGroup(
                 $this -> column1('Header', 'div', '')
-                . $this -> column2('This is <strong>raw html</strong>!')
+                . $this -> column2(
+                    '<div id="static-1">' . "\n"
+                    . 'This is <strong>raw html</strong>!' . "\n"
+                    . '</div>' . "\n"
+                ),
+                ['id' => 'static-1']
             )
         );
 

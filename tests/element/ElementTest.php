@@ -1,9 +1,13 @@
 <?php
 
 use \Abivia\NextForm\Element\Element;
+use Illuminate\Contracts\Translation\Translator as Translator;
 
 class ConcreteElement extends Element {
 
+    public function translate(Translator $translate) : Element {
+        return $this;
+    }
 }
 
 class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
@@ -31,9 +35,21 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
      */
 	public function testFormConcreteElementGroup() {
         $obj = new ConcreteElement();
-        $this -> assertEquals('', $obj -> getGroup());
-		$this -> assertTrue($obj === $obj -> setGroup('somegroup'));
-        $this -> assertEquals('somegroup', $obj -> getGroup());
+        $this -> assertEquals([], $obj -> getGroups());
+		$this -> assertTrue($obj === $obj -> setGroups('somegroup'));
+        $this -> assertEquals(['somegroup'], $obj -> getGroups());
+
+        // No duplicates in group list
+        $this -> assertTrue($obj === $obj -> addGroup('somegroup'));
+        $this -> assertEquals(['somegroup'], $obj -> getGroups());
+
+        // Bad groupnames filtered
+        $this -> assertTrue($obj === $obj -> addGroup('bad*group'));
+        $this -> assertEquals(['somegroup'], $obj -> getGroups());
+
+        // Whitespace around groupnames ignored
+        $this -> assertTrue($obj === $obj -> addGroup(' goodgroup '));
+        $this -> assertEquals(['somegroup', 'goodgroup'], $obj -> getGroups());
     }
 
     /**
