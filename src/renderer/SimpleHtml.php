@@ -68,6 +68,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
     }
 
     protected function initialize() {
+        parent::initialize();
         // Reset the context
         $this -> context = [
             'inCell' => false

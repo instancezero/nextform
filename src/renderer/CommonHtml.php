@@ -59,6 +59,7 @@ abstract class CommonHtml extends Html implements Renderer {
             'inCell' => false
         ];
         // Initialize custom settings
+        $this -> setShow('invisible:nf-hidden');
         $this -> setShow('layout:vertical');
     }
 

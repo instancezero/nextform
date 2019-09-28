@@ -61,6 +61,9 @@ abstract class Html implements Renderer {
                 'form' => '|outline|solid',
             ],
         ],
+        'invisible' => [
+            'default' => 'nf_hidden',
+        ],
         'layout' => [
             'default' => 'vertical',
             'validate' => [
@@ -182,7 +185,8 @@ abstract class Html implements Renderer {
         $id = $options['id'] ?? $element -> getId();
         $container = new Attributes('id', $id . '-container');
         if (!$element -> getVisible()) {
-            $container -> set('style', 'display:none');
+            //$container -> set('style', 'display:none');
+            $container -> merge($this -> showGet('form', 'invisible'));
         }
         $groups = $element -> getGroups();
         if (!empty($groups)) {
@@ -318,6 +322,20 @@ abstract class Html implements Renderer {
     }
 
     /**
+     * Process invisible options, called from show()
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    protected function showDoInvisible($scope, $choice, $values = []) {
+        if (!isset($this -> showState[$scope])) {
+            $this -> showState[$scope] = [];
+        }
+        // Use the choice as a class name
+        $this -> showState[$scope]['invisible'] = new Attributes('class', $choice);
+    }
+
+    /**
      * Look for a show setting, falling back to the form if required.
      * @param string $scope The scope to be searched for a value.
      * @param string $key The index of the value we want.
@@ -373,6 +391,7 @@ abstract class Html implements Renderer {
         $attrs -> setIfSet('action', $options);
 
         $pageData = new Block();
+        $pageData -> styles = '.nf-hidden {display:none}' . "\n";
         $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
         $pageData -> post = '</form>' . "\n";
         if (isset($options['token'])) {
