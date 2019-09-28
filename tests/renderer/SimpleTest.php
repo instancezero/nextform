@@ -9,6 +9,7 @@ use Abivia\NextForm\Renderer\SimpleHtml;
 include_once __DIR__ . '/RendererCaseGenerator.php';
 include_once __DIR__ . '/RendererCaseRunner.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
+include_once __DIR__ . '/../test-tools/Page.php';
 
 /**
  * @covers \Abivia\NextForm\Renderer\SimpleHtml
@@ -23,7 +24,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $attr = '';
         $id = $options['id'] ?? 'field-1';
         $attr .= ' id="' . $id . '-container' . '"';
-        $attr .= isset($options['class']) ? ' class="' . $options['class'] . '"' : '';
+        $class = isset($options['class']) ? $options['class'] : '';
+        $class = trim($class . ' ' . ($options['classAppend'] ?? ''));
+        $attr .= $class ? ' class="' . $class . '"' : '';
         $element = $options['element'] ?? 'div';
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
         $attr .= ' data-nf-for="' . $id . '"';
@@ -39,20 +42,15 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     }
 
     public static function setUpBeforeClass() : void {
-        self::$allHtml = '<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>' . __CLASS__  . '</title>
-  </head>
-<body>
-<form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
-';
+        self::$allHtml = '';
     }
 
     public static function tearDownAfterClass() : void {
-        self::$allHtml .= '</form></body></html>';
-        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
+        $obj = new SimpleHtml();
+        $data = $obj -> start(['action' => 'http://localhost/nextform/post.php']);
+        $data -> body .= self::$allHtml;
+        $data -> close();
+        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
     }
 
 	public function testInstantiation() {
@@ -184,7 +182,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this -> formGroup(
                 '<input id="button-1" name="button-1" type="button"'
                 . ' value="I am Button!"/>' . "\n",
-                ['id' => 'button-1', 'style' => 'display:none']
+                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
             )
             . '<br/>' . "\n"
         );

@@ -43,7 +43,7 @@
                             "event": "onValid,onInvalid",
                             "actions": [
                                 {
-                                    "change": "enabled|visible|value",
+                                    "change": "enabled|visible|value|class",
                                     "value": "enable|disable|{value}",
                                     "target": ["field1", "group1", "group2"]
                                 }

@@ -15,6 +15,7 @@ use Abivia\NextForm\Renderer\Bootstrap4;
 include_once __DIR__ . '/RendererCaseGenerator.php';
 include_once __DIR__ . '/RendererCaseRunner.php';
 include_once __DIR__ . '/../test-tools/HtmlTestLogger.php';
+include_once __DIR__ . '/../test-tools/Page.php';
 
 /**
  * @covers \Abivia\NextForm\Renderer\Bootstrap4
@@ -56,9 +57,9 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $attr = '';
         $id = $options['id'] ?? 'field-1';
         $attr .= ' id="' . $id . '-container' . '"';
-        $attr .= ' class="'
-            . (isset($options['class']) ? $options['class'] : 'form-group row')
-            . '"';
+        $class = isset($options['class']) ? $options['class'] : 'form-group row';
+        $class = trim($class . ' ' . ($options['classAppend'] ?? ''));
+        $attr .= $class ? ' class="' . $class . '"' : '';
         $element = $options['element'] ?? 'div';
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
         $attr .= ' data-nf-for="' . $id . '"';
@@ -77,26 +78,15 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
     }
 
     public static function setUpBeforeClass() : void {
-        self::$allHtml = '<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>' . __CLASS__  . '</title>
-    {{head}}
-  </head>
-<body>
-<div class="container">
-<form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
-';
+        self::$allHtml = '';
     }
 
     public static function tearDownAfterClass() : void {
         $obj = new Bootstrap4();
-        $data = $obj -> start();
-        self::$allHtml = str_replace('{{head}}', $data -> head, self::$allHtml);
-        self::$allHtml .= '</div></form></body>' . implode("\n", $data -> scripts) . '</html>';
-        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', self::$allHtml);
+        $data = $obj -> start(['action' => 'http://localhost/nextform/post.php']);
+        $data -> body .= self::$allHtml;
+        $data -> close();
+        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
     }
 
 	public function testInstantiation() {
@@ -240,7 +230,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1', 'style' => 'display:none']
+                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
             )
         );
 

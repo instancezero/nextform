@@ -182,7 +182,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $page = file_get_contents(__DIR__ . '/../test-tools/boilerplate.html');
         $page = str_replace(
             ['{{title}}', '<!--{{head}}-->', '{{form}}', '<!--{{scripts}}-->'],
-            [__FUNCTION__, $html -> head, $html -> body, implode("\n", $html -> scripts)],
+            [__FUNCTION__, $html -> head, $html -> body, implode("\n", $html -> scriptFiles)],
             $page
         );
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $page);

@@ -2,10 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FormRendererSimpleHtmlTest</title>
+    
+<style>
+.nf-hidden {display:none}
+</style>
   </head>
 <body>
-<form id="someform" name="someform" method="post" action="http://localhost/nextform/post.php">
+<div class="container">
+<form action="http://localhost/nextform/post.php" method="post">
+<input id="nf_token" name="nf_token" type="hidden" value="d623f99df2475eb3c430920e75828a393be6dc82dd109ad15f0f8f96055583a7">
 <h3>FormRendererSimpleHtmlTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button-1-container" data-nf-for="button-1">
@@ -71,7 +78,7 @@
 <br/>
 <hr/>
 <h4>invisible</h4>
-<div id="button-1-container" style="display:none" data-nf-for="button-1">
+<div id="button-1-container" class="nf-hidden" data-nf-for="button-1">
 <input id="button-1" name="button-1" type="button" value="I am Button!"/>
 </div>
 <br/>
@@ -1529,4 +1536,9 @@ This is <strong>raw html</strong>!
 </div>
 <br/>
 <hr/>
-</form></body></html>
+</form>
+
+</div>
+</body>
+
+</html>

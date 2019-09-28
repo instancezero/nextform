@@ -11,6 +11,8 @@ Abivia\NextForm\Data\Schema Object
                     [heading] =>
                     [help] =>
                     [inner] =>
+                    [schema:protected] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                     [translate] => 1
                     [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                         (
@@ -19,6 +21,8 @@ Abivia\NextForm\Data\Schema Object
                     [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
                         (
                             [strict] => 1
+                            [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                         )
 
                 )
@@ -44,6 +48,8 @@ Abivia\NextForm\Data\Schema Object
                                             [heading] =>
                                             [help] =>
                                             [inner] =>
+                                            [schema:protected] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -52,6 +58,8 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
                                                     [strict] => 1
+                                                    [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                                     [newlog] =>
                                                     [parent] => Abivia\NextForm\Data\Property Object
  *RECURSION*
@@ -78,6 +86,8 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Presentation:private] => Array
                                                 (
                                                     [strict] => 1
+                                                    [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                                     [newlog] =>
                                                     [parent] => Abivia\NextForm\Data\Property Object
  *RECURSION*
@@ -96,6 +106,8 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Store:private] => Array
                                                 (
                                                     [strict] => 1
+                                                    [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                                     [newlog] =>
                                                     [parent] => Abivia\NextForm\Data\Property Object
  *RECURSION*
@@ -111,6 +123,8 @@ Abivia\NextForm\Data\Schema Object
                                     [configureOptions:Abivia\NextForm\Data\Property:private] => Array
                                         (
                                             [strict] => 1
+                                            [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                             [newlog] =>
                                             [parent] => Abivia\NextForm\Data\Segment Object
  *RECURSION*
@@ -130,6 +144,7 @@ Abivia\NextForm\Data\Schema Object
                                             [heading] =>
                                             [help] =>
                                             [inner] =>
+                                            [schema:protected] =>
                                             [translate] => 1
                                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                                 (
@@ -157,6 +172,8 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Presentation:private] => Array
                                                 (
                                                     [strict] => 1
+                                                    [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                                     [newlog] =>
                                                     [parent] => Abivia\NextForm\Data\Property Object
  *RECURSION*
@@ -175,6 +192,8 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Store:private] => Array
                                                 (
                                                     [strict] => 1
+                                                    [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                                     [newlog] =>
                                                     [parent] => Abivia\NextForm\Data\Property Object
  *RECURSION*
@@ -190,6 +209,8 @@ Abivia\NextForm\Data\Schema Object
                                     [configureOptions:Abivia\NextForm\Data\Property:private] => Array
                                         (
                                             [strict] => 1
+                                            [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                                             [newlog] =>
                                             [parent] => Abivia\NextForm\Data\Segment Object
  *RECURSION*
@@ -210,6 +231,8 @@ Abivia\NextForm\Data\Schema Object
                     [configureOptions:Abivia\NextForm\Data\Segment:private] => Array
                         (
                             [strict] => 1
+                            [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
                             [newlog] =>
                             [parent] => Abivia\NextForm\Data\Schema Object
  *RECURSION*
@@ -226,6 +249,8 @@ Abivia\NextForm\Data\Schema Object
     [configureOptions:Abivia\NextForm\Data\Schema:private] => Array
         (
             [strict] => 1
+            [_schema] => Abivia\NextForm\Data\Schema Object
+ *RECURSION*
         )
 
 )

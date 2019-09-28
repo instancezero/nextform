@@ -47,26 +47,26 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this -> assertFalse($obj -> isEmpty());
 	}
 
-	public function testDataLabelsMergeSimple() {
+	public function testDataLabelsCombineSimple() {
         $obj1 = new Labels();
         $obj1 -> heading = 'stuff';
         $obj2 = new Labels();
         $obj2 -> before = 'before';
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $obj3 = new Labels();
         $obj3 -> heading = 'stuff';
         $obj3 -> before = 'before';
         $this -> assertEquals($obj3, $merge);
 	}
 
-	public function testDataLabelsMergeOverwrite() {
+	public function testDataLabelsCombineOverwrite() {
         $obj1 = new Labels();
         $obj1 -> heading = 'stuff';
         $obj1 -> before = 'default';
         $obj2 = new Labels();
         $obj2 -> after = 'after';
         $obj2 -> before = 'before';
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $obj3 = new Labels();
         $obj3 -> after = 'after';
         $obj3 -> before = 'default';
@@ -74,26 +74,26 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this -> assertEquals($obj3, $merge);
 	}
 
-	public function testDataLabelsMergeTranslate() {
+	public function testDataLabelsCombineTranslate() {
         // false + false = false
         $obj1 = new Labels();
         $obj1 -> translate = false;
         $obj2 = new Labels();
         $obj2 -> translate = false;
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $this -> assertFalse($merge -> translate);
         // false + true = true
         $obj2 -> translate = true;
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $this -> assertTrue($merge -> translate);
         // true + false = true
         $obj1 -> translate = true;
         $obj2 -> translate = false;
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $this -> assertTrue($merge -> translate);
         // true + true = true
         $obj2 -> translate = true;
-        $merge = $obj2 -> merge($obj1);
+        $merge = $obj2 -> combine($obj1);
         $this -> assertTrue($merge -> translate);
 	}
 

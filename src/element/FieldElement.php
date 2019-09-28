@@ -97,7 +97,7 @@ class FieldElement extends NamedElement {
                 $this -> form -> registerObject($this);
             }
             // Merge a copy of the data labels so we can use them with translation
-            $this -> labelsMerged = $this -> dataProperty -> getLabels() -> merge($this -> labels);
+            $this -> labelsMerged = $this -> dataProperty -> getLabels() -> combine($this -> labels);
             // Make a copy of the data list so we can translate labels
             $this -> dataList = $this -> dataProperty -> getPopulation() -> getList();
             $this -> dataListTranslated = $this -> dataList;
