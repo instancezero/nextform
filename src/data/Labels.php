@@ -72,6 +72,12 @@ class Labels implements \JsonSerializable{
     ];
 
     /**
+     * Reference to the schema this property is part of.
+     * @var Schema
+     */
+    protected $schema;
+
+    /**
      * A list of the properties that contain text.
      * @var string[]
      */
@@ -84,6 +90,28 @@ class Labels implements \JsonSerializable{
      * @var bool
      */
     public $translate = true;
+
+    /**
+     * Merge another label set into this one and return a new merged object.
+     * @param \Abivia\NextForm\Data\Labels $merge
+     * @return \Abivia\NextForm\Data\Labels
+     */
+    public function &combine(Labels $merge) {
+        $newLabels = clone $this;
+        foreach (self::$textProperties as $prop) {
+            if ($merge -> $prop !== null) {
+                $newLabels -> $prop = $merge -> $prop;
+            }
+        }
+        $newLabels -> translate = $newLabels -> translate || $merge -> translate;
+        return $newLabels;
+    }
+
+    protected function configureInitialize() {
+        if (isset($this -> configureOptions['_schema'])) {
+            $this -> schema = $this -> configureOptions['_schema'];
+        }
+    }
 
     /**
      * Get a label by name
@@ -125,22 +153,6 @@ class Labels implements \JsonSerializable{
     }
 
     /**
-     * Merge another label set into this one and return a new merged object.
-     * @param \Abivia\NextForm\Data\Labels $merge
-     * @return \Abivia\NextForm\Data\Labels
-     */
-    public function &merge(Labels $merge) {
-        $newLabels = clone $this;
-        foreach (self::$textProperties as $prop) {
-            if ($merge -> $prop !== null) {
-                $newLabels -> $prop = $merge -> $prop;
-            }
-        }
-        $newLabels -> translate = $newLabels -> translate || $merge -> translate;
-        return $newLabels;
-    }
-
-    /**
      * Set a label by name
      * @param string $labelName
      * @param string $text
@@ -163,6 +175,12 @@ class Labels implements \JsonSerializable{
      */
     public function translate(Translator $translate) : Labels {
         $newLabels = clone $this;
+        if ($this -> schema) {
+            $defaults = $this -> schema -> getDefault('labels');
+            if ($defaults !== null) {
+                $newLabels = $defaults -> combine($newLabels);
+            }
+        }
         if ($newLabels -> translate) {
             foreach (self::$textProperties as $prop) {
                 if ($newLabels -> $prop !== null) {

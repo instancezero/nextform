@@ -75,6 +75,12 @@ class Schema implements \JsonSerializable {
         return true;
     }
 
+    protected function configureInitialize() {
+        // Pass an instance of the schema down in Configurable's options so we can
+        // access the form directly from deep within the data structures.
+        $this -> configureOptions['_schema'] = &$this;
+    }
+
     /**
      * Change "default" to "defaultRepo" to work around PHP keyword issue.
      * @param string $property
@@ -150,10 +156,17 @@ class Schema implements \JsonSerializable {
 
     /**
      * Get the default schema settings
-     * @return \stdClass
+     * @param string $setting Gets the specified setting. If missing, all settings are returned.
+     * @return mixed
      */
-    public function getDefault() {
-        return $this -> defaultRepo;
+    public function getDefault($setting = null) {
+        if ($setting === null) {
+            return $this -> defaultRepo;
+        }
+        if (!isset($this -> defaultRepo -> $setting)) {
+            return null;
+        }
+        return $this -> defaultRepo -> $setting;
     }
 
     /**
