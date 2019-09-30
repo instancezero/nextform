@@ -116,24 +116,12 @@
                 {
                     "type": "cell",
                     "elements": [
-                        {
-                            "type": "field",
-                            "object": "primaryFirstName"
-                        },
-                        {
-                            "type": "field",
-                            "object": "primaryLastName"
-                        }
+                        "primaryFirstName",
+                        "primaryLastName"
                     ]
                 },
-                {
-                    "type": "field",
-                    "object": "primaryEmail"
-                },
-                {
-                    "type": "field",
-                    "object": "primaryPublicName"
-                }
+                "primaryEmail",
+                "primaryPublicName"
             ]
         },
         {
@@ -146,28 +134,14 @@
                 {
                     "type": "cell",
                     "elements": [
-                        {
-                            "type": "field",
-                            "object": "secondaryFirstName"
-                        },
-                        {
-                            "type": "field",
-                            "object": "secondaryLastName"
-                        }
+                        "secondaryFirstName",
+                        "secondaryLastName"
                     ]
                 },
-                {
-                    "type": "field",
-                    "memberOf": "family",
-                    "object": "secondaryPublicName"
-                }
+                "secondaryPublicName:family"
             ]
         },
-        {
-            "type": "field",
-            "memberOf": "business",
-            "object": "businessName"
-        },
+        "businessName:business",
         {
             "type": "button",
             "show": "purpose:primary",

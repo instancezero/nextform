@@ -128,7 +128,7 @@ class FieldElement extends NamedElement {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize() {
+    protected function configureInitialize(&$config) {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
@@ -256,7 +256,31 @@ class FieldElement extends NamedElement {
     }
 
     /**
-     * Appears to not be in use... deprecate?
+     * If we can represent this field in JSON as a string, return a string otherwise $this.
+     */
+    public function jsonCollapse() {
+        if ($this -> default !== null) {
+            return $this;
+        }
+        if (!empty($this -> triggers)) {
+            return $this;
+        }
+        if (!$this -> enabled || $this -> readonly || !$this -> visible) {
+            return $this;
+        }
+        if ($this -> show !== '') {
+            return $this;
+        }
+        $collapsed = $this -> removeScope($this -> object);
+        if (!empty($this -> groups)) {
+            $collapsed .= NextForm::GROUP_DELIM
+                . implode(NextForm::GROUP_DELIM, $this -> groups);
+        }
+        return $collapsed;
+    }
+
+    /**
+     * Used by the JSON encoder. Remove the scope if the form has a matching default segment.
      * @param type $value
      * @return type
      */

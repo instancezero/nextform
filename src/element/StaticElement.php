@@ -10,8 +10,22 @@ class StaticElement Extends SimpleElement {
     use \Abivia\NextForm\Element\HasLabels;
     use \Abivia\NextForm\Traits\JsonEncoder;
 
+    /**
+     * Text is HTML encoded flag. If set, the contents are assumed to be safe and escaped.
+     * @var boolean
+     */
     protected $html = false;
+
+    /**
+     * Rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonEncodeMethod = [];
+
+    /**
+     * Local rules for the JsonEncoder
+     * @var array
+     */
     static protected $jsonLocalMethod = [
         'html' => ['drop:false'],
         'value' => [],
@@ -33,7 +47,7 @@ class StaticElement Extends SimpleElement {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize() {
+    protected function configureInitialize(&$config) {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
@@ -52,10 +66,19 @@ class StaticElement Extends SimpleElement {
         return parent::configureValidate($property, $value);
     }
 
-    public function getHtml() {
+    /**
+     * Get the text is HTML flag.
+     * @return bool
+     */
+    public function getHtml() : bool {
         return $this -> html;
     }
 
+    /**
+     * Set the text is HTML flag.
+     * @param bool $isHtml
+     * @return \self
+     */
     public function setHtml(bool $isHtml) : self {
         $this -> html = $isHtml;
         return $this;

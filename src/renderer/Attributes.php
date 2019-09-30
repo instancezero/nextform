@@ -3,7 +3,7 @@
 Namespace Abivia\NextForm\Renderer;
 
 /**
- *
+ * Support for attributes that are part of a HTML element.
  */
 class Attributes {
     /**
@@ -23,7 +23,8 @@ class Attributes {
     ];
 
     /**
-     * Attribute masks for <input> elements. This array has to be initialized by a constructor.
+     * Attribute masks for <input> elements. This array is in a convenience notation and
+     * has to be initialized by the first constructor before it's useful.
      * @var array
      */
     static $inputAttributes = [
@@ -226,7 +227,7 @@ class Attributes {
 
     /**
      * Delete an attribute
-     * @param type $name Name of the attribute to be removed.
+     * @param type $name Name of the attribute to be deleted.
      * @return \self
      */
     public function delete($name) : self {
@@ -261,7 +262,7 @@ class Attributes {
 
     /**
      * Get an attribute's value.
-     * @param string $name Name of the atribute to retrieve.
+     * @param string $name Name of the attribute to retrieve.
      * @return mixed Attribute value.
      */
     public function get($name) {
@@ -290,17 +291,17 @@ class Attributes {
      * @param string $name Name of the attribute to check.
      * @return bool True if the attribute exists.
      */
-    public function has($name) : bool{
+    public function has($name) : bool {
         return isset($this -> attrs[$name]);
     }
 
     /**
-     * Check to see if an attribute is premitted to be written in context.
-     * @param string $name The nem of the attribute to check.
-     * @param array $mask Allowable flags, boolean indexed by attribute name.
-     * @return boolean
+     * Check to see if an attribute is permitted to be written in context.
+     * @param string $name The name of the attribute to check.
+     * @param array $mask Allowable flags, Boolean indexed by attribute name.
+     * @return bool
      */
-    protected function include($name, $mask) {
+    protected function include($name, $mask) : bool {
         $prefix = substr($name, 0, 5);
         if ($prefix === 'aria-') {
             return true;
@@ -313,7 +314,7 @@ class Attributes {
 
     /**
      * Check to see if an input type has an attribute in its element definition.
-     * @param string $type The input type (extended to select, textarea...).
+     * @param string $type The input type (extended to select, text area...).
      * @param string $name The attribute name.
      * @return bool
      */
@@ -328,7 +329,7 @@ class Attributes {
     }
 
     /**
-     * Determine if there are any attributes set.
+     * Determine if there are any attributes set. Used with the JSON encoder.
      * @return bool
      */
     public function isEmpty() {
@@ -381,7 +382,7 @@ class Attributes {
     /**
      * Remove one or more items from an attribute by key.
      * @param string $name Name of the attribute to operate on.
-     * @param string|array $keys The array key(s) to be removed.
+     * @param string|array $keys The array key(s) to be deleted.
      * @return \self
      */
     public function itemDeleteKey($name, $keys) : self {
@@ -561,9 +562,12 @@ class Attributes {
     }
 
     /**
-     * Filter, arrange, and write attributes into escaped HTML
-     * @param string $tag
-     * @return string
+     * Filter, arrange, and write attributes into escaped HTML. Highlighted attributes
+     * are placed first, according to self::$highlightAttribute; then secondary
+     * attributes in alpha order; then aria- prefixed attributes; then data- prefixed.
+     * Aria and data elements are also sorted.
+     * @param string $tag The HTML element we're coding for; used to filter attributes.
+     * @return string The list of attributes ready for insertion into a HTML element.
      */
     public function write($tag) {
         $mask = $tag === 'input' ? self::$inputAttributes[$this -> attrs['type']] : null;
@@ -572,9 +576,12 @@ class Attributes {
         $ariaParts = [];
         $dataParts = [];
         foreach ($this -> attrs as $attrName => $value) {
+
             // For input elements, only write the allowed attributes
             list($lookup, $cmd) = $this -> parseName($attrName);
             if ($mask === null || $this -> include($lookup, $mask)) {
+
+                // Convert the attribute to name="data" form, store into a sorting array.
                 $attr = $this -> toHtml($lookup, $cmd, $value);;
                 if (strpos($lookup, 'aria-') === 0) {
                     $ariaParts[$lookup] = $attr;
@@ -586,12 +593,16 @@ class Attributes {
             }
         }
         $html = '';
+
+        // Pick out the highlighted attributes
         foreach (self::$highlightAttribute as $attrName) {
             if (isset($parts[$attrName])) {
                 $html .= $parts[$attrName];
                 unset($parts[$attrName]);
             }
         }
+
+        // Sort everything and assemble into a string.
         ksort($parts);
         ksort($ariaParts);
         ksort($dataParts);

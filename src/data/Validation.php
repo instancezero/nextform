@@ -123,7 +123,7 @@ class Validation implements \JsonSerializable {
                 return false;
             }
             $value = (int) $value;
-            if (($property === 'maxLength' || $property === 'step') && $value <= 0) {
+            if ($property === 'maxLength' && $value <= 0) {
                 $this -> configureLogError($property . ' must be a positive integer.');
                 return false;
             }
@@ -154,7 +154,7 @@ class Validation implements \JsonSerializable {
                 return false;
             }
         } elseif ($property === 'accept') {
-            if (is_string($value)) {
+            if (is_scalar($value)) {
                 $value = explode(',', $value);
             }
             if (!is_array($value)) {
@@ -195,6 +195,9 @@ class Validation implements \JsonSerializable {
             return false;
         }
         if ($this -> async) {
+            return false;
+        }
+        if ($this -> capture) {
             return false;
         }
         if ($this -> maxLength != 0) {

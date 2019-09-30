@@ -22,7 +22,13 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $this -> setOptions($options);
     }
 
-    protected function checkInput(Block $block, FieldElement $element, Attributes $attrs) {
+    /**
+     * Generate a simple input element.
+     * @param FieldElement $element
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs
+     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     */
+    protected function checkInput(FieldElement $element, Attributes $attrs) {
         // This is a single-valued element
         $attrs -> set('id', $element -> getId());
         $attrs -> setIfNotNull('value', $element -> getValue());
@@ -32,17 +38,16 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         ) {
             $attrs -> setFlag('checked');
         }
-        $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+        return Block::fromString($this -> writeTag('input', $attrs) . "\n");
     }
 
     /**
-     *
-     * @param \Abivia\NextForm\Renderer\Block $block The output block.
+     * Generate check/radio HTML inputs from an element's data list.
      * @param FieldElement $element The element we're generating for.
-     * @param type $type
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
+     * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkList(Block $block, FieldElement $element, Attributes $attrs) {
+    protected function checkList(FieldElement $element, Attributes $attrs) {
         $baseId = $element -> getId();
         $type = $element -> getDataProperty() -> getPresentation() -> getType();
         $select = $element -> getValue();
@@ -54,6 +59,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $groupClass = 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '');
         $labelAttrs = new Attributes;
         $labelAttrs -> set('class', 'form-check-label');
+        $block = new Block;
         foreach ($element -> getList(true) as $optId => $radio) {
             $optAttrs = $attrs -> copy();
             $id = $baseId . '-opt' . $optId;
@@ -74,8 +80,10 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             $optAttrs -> setFlag('checked', $checked);
             $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
 
-            $block = $this -> writeWrapper(
-                $block, 'div', ['attrs' => new Attributes('class', $groupClass)]
+            $block -> merge(
+                $this -> writeElement(
+                    'div', ['attrs' => new Attributes('class', $groupClass)]
+                )
             );
             $optAttrs -> set('class', 'form-check-input');
             if ($appearance === 'no-label') {
@@ -92,9 +100,16 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             }
             $block -> close();
         }
+        return $block;
     }
 
-    protected function checkListButtons(Block $block, FieldElement $element, Attributes $attrs) {
+    /**
+     * Generate check/radio HTML inputs as buttons from an element's data list.
+     * @param FieldElement $element The element we're generating for.
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
+     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     */
+    protected function checkListButtons(FieldElement $element, Attributes $attrs) {
         $baseId = $element -> getId();
         $type = $element -> getDataProperty() -> getPresentation() -> getType();
         $select = $element -> getValue();
@@ -105,6 +120,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         //$appearance = $this -> showGet('check', 'appearance');
         //$checkLayout = $this -> showGet('check', 'layout');
         $labelAttrs = new Attributes;
+        $block = new Block;
         foreach ($element -> getList(true) as $optId => $radio) {
             $optAttrs = $attrs -> copy();
             $id = $baseId . '-opt' . $optId;
@@ -132,9 +148,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             }
             $buttonClass = $this -> getButtonClass('radio');
             $labelAttrs -> set('class', $buttonClass . ($checked ? ' active' : ''));
-            $block = $this -> writeWrapper(
-                $block, 'label', ['attrs' => $labelAttrs]
-            );
+            $block -> merge($this -> writeElement('label', ['attrs' => $labelAttrs]));
             $block -> body .= $this -> writeTag('input', $optAttrs) . "\n";
             $block -> body .= $radio -> getLabel();
             $block -> close();
@@ -145,22 +159,27 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function checkSingle(Block $block, FieldElement $element, Attributes $attrs, Attributes $groupAttrs) {
+    /**
+     * Generate a single check box/radio input.
+     * @param FieldElement $element The element we're generating for.
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs
+     * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
+     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     */
+    protected function checkSingle(FieldElement $element, Attributes $attrs, Attributes $groupAttrs) {
         $baseId = $element -> getId();
         $labels = $element -> getLabels(true);
         $appearance = $this -> showGet('check', 'appearance');
-        $block = $this -> writeWrapper(
-            $block, 'div', ['attrs' => $groupAttrs]
-        );
+        $block = $this -> writeElement('div', ['attrs' => $groupAttrs]);
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $baseId . '-formhelp');
         }
         $attrs -> set('class', 'form-check-input');
         if ($appearance === 'no-label') {
             $attrs -> setIfNotNull('aria-label', $labels -> inner);
-            $this -> checkInput($block, $element, $attrs);
+            $block -> merge($this -> checkInput($element, $attrs));
         } else {
-            $this -> checkInput($block, $element, $attrs);
+            $block -> merge($this -> checkInput($element, $attrs));
             $labelAttrs = new Attributes;
             $labelAttrs -> set('!for', $baseId);
             $labelAttrs -> set('class', 'form-check-label');
@@ -170,24 +189,23 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             );
         }
         $block -> close();
+        return $block;
     }
 
     /**
      * Render a single-valued checkbox as a button
-     * @param \Abivia\NextForm\Renderer\Block $block
-     * @param FieldElement $element
+     * @param FieldElement $element The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
+     * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
     protected function checkSingleButton(
-        Block $block, FieldElement $element, Attributes $attrs, Attributes $groupAttrs
+        FieldElement $element, Attributes $attrs, Attributes $groupAttrs
     ) {
         $baseId = $element -> getId();
         $attrs -> set('id', $baseId);
         $labels = $element -> getLabels(true);
-        $block = $this -> writeWrapper(
-            $block, 'div', ['attrs' => $groupAttrs]
-        );
+        $block = $this -> writeElement('div', ['attrs' => $groupAttrs]);
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $baseId . '-formhelp');
         }
@@ -196,12 +214,11 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $checked = $element -> getValue() === $element -> getDefault()
             && $element -> getValue() !== null;
         $labelAttrs -> set('class', $buttonClass . ($checked ? ' active' : ''));
-        $block = $this -> writeWrapper(
-            $block, 'label', ['attrs' => $labelAttrs]
-        );
+        $block -> merge($this -> writeElement('label', ['attrs' => $labelAttrs]));
         $block -> body .= $this -> writeTag('input', $attrs) . "\n";
         $block -> body .= $labels -> inner;
         $block -> close();
+        return $block;
     }
 
     /**
@@ -216,6 +233,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $buttonClass;
     }
 
+    /**
+     * Set up to start generating output.
+     */
     protected function initialize() {
         parent::initialize();
         // Reset the context
@@ -288,6 +308,12 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $input;
     }
 
+    /**
+     * Write a button element.
+     * @param ButtonElement $element
+     * @param type $options
+     * @return \Abivia\NextForm\Renderer\Block
+     */
     protected function renderButtonElement(ButtonElement $element, $options = []) {
         $labels = $element -> getLabels(true);
         if ($options['access'] === 'hide') {
@@ -489,9 +515,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         }
         if ($asButtons) {
             $input -> merge($this -> writeElement('div', ['attrs' => $groupAttrs]));
-            $input -> merge($this -> checkListButtons(new Block, $element, clone $attrs));
+            $input -> merge($this -> checkListButtons($element, clone $attrs));
         } else {
-            $this -> checkList($input, $element, clone $attrs);
+            $input -> merge($this -> checkList($element, clone $attrs));
         }
         $input -> close();
 
@@ -535,7 +561,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         // Generate hidden elements and return.
         if ($options['access'] === 'hide') {
             $attrs -> set('type', 'hidden');
-            $this -> checkInput($block, $element, $attrs);
+            $block -> merge($this -> checkInput($element, $attrs));
             return $block;
         }
         if ($options['access'] == 'view') {
@@ -586,9 +612,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
             'beforespan', $labels -> before, 'span'
         );
         if ($asButtons) {
-            $this -> checkSingleButton($input, $element, $attrs, $groupAttrs);
+            $input -> merge($this -> checkSingleButton($element, $attrs, $groupAttrs));
         } else {
-            $this -> checkSingle($input, $element, $attrs, $groupAttrs);
+            $input -> merge($this -> checkSingle($element, $attrs, $groupAttrs));
         }
         $input -> body .= $this -> writeLabel(
             'after', $labels -> after, 'span', null, ['break' => true]
@@ -757,7 +783,7 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         $attrs -> set('type', $type);
 
         // Start the input group
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'inputWrapperAttributes']);
+        $block -> merge($this -> writeElement('div', ['show' => 'inputWrapperAttributes']));
         $block -> body .= $this -> writeLabel('beforespan', $labels -> before, 'span');
         $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
         if ($options['access'] === 'write') {

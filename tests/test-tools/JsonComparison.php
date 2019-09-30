@@ -8,6 +8,9 @@ trait JsonComparison {
     protected function jsonCompare($leftSide, $rightSide, $path = '') {
         if (is_array($leftSide)) {
             if (!is_array($rightSide)) {
+                echo "\n" . 'jsonCompare: ' . gettype($leftSide)
+                    . ' to ' . gettype($rightSide)
+                    . ' comparison at ' . $path . "\n";
                 return false;
             }
             $testRight = $rightSide;
@@ -19,7 +22,6 @@ trait JsonComparison {
                     return false;
                 }
                 if (!$this -> jsonCompare($leftSide[$key], $testRight[$key], $subPath)) {
-                    echo 'Failed at ' . $path . "\n";
                     return false;
                 }
                 unset($testRight[$key]);
@@ -30,6 +32,9 @@ trait JsonComparison {
             }
         } elseif (is_object($leftSide)) {
             if (!is_object($rightSide)) {
+                echo "\n" . 'jsonCompare: ' . gettype($leftSide)
+                    . ' to ' . gettype($rightSide)
+                    . ' comparison at ' . $path . "\n";
                 return false;
             }
             $testRight = clone $rightSide;
@@ -42,7 +47,6 @@ trait JsonComparison {
                 }
                 if (isset($testRight -> $prop)) {
                     if (!$this -> jsonCompare($leftSide -> $prop, $testRight -> $prop, $subPath)) {
-                        echo 'Failed at ' . $path . "\n";
                         return false;
                     }
                 }

@@ -105,7 +105,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
                 'headingAttributes', $labels -> heading, 'label',
                 new Attributes('!for', $element -> getId()), ['break' => true]
             );
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
+        $block -> merge($this -> writeElement('div', ['show' => 'input-wrapper']));
         $attrs -> set('type', $element -> getFunction());
         if ($labels -> has('help')) {
             $attrs -> set('aria-describedby', $attrs -> get('id') . '-formhelp');
@@ -127,8 +127,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
     }
 
     protected function renderCellElement(CellElement $element, $options = []) {
-        $block = new Block();
-        $block = $this -> writeWrapper($block, 'div', ['force' => true, 'show' => 'input-wrapper']);
+        $block = $this -> writeElement('div', ['force' => true, 'show' => 'input-wrapper']);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
         $this -> context['inCell'] = true;
@@ -180,7 +179,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
                 $type = 'text';
             }
             $attrs -> set('type', $type);
-            $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
+            $block -> merge($this -> writeElement('div', ['show' => 'input-wrapper']));
             $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
             // Render the data list if there is one
             $block -> merge($this -> dataList($attrs, $element, $type, $options));
@@ -293,7 +292,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         );
         $attrs -> setIfNotNull('placeholder', $labels -> inner);
         $attrs -> set('type', $type);
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
+        $block -> merge($this -> writeElement('div', ['show' => 'input-wrapper']));
         $block -> body .= $this -> writeLabel('before', $labels -> before, 'span');
         $attrs -> setIfNotNull('*data-sidecar', $data -> getPopulation() -> sidecar);
         // Render the data list if there is one
@@ -394,7 +393,7 @@ class SimpleHtml extends CommonHtml implements Renderer {
         $block -> body .= $this -> writeLabel(
             'headingAttributes', $labels -> heading, 'div', null, ['break' => true]
         );
-        $block = $this -> writeWrapper($block, 'div', ['show' => 'input-wrapper']);
+        $block -> merge($this -> writeElement('div', ['show' => 'input-wrapper']));
         $block -> body .= $this -> writeLabel(
             'before', $labels -> before, 'div', null, ['break' => true]
         );

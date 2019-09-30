@@ -66,7 +66,7 @@ abstract class NamedElement Extends Element {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize() {
+    protected function configureInitialize(&$config) {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);

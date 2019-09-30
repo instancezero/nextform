@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @codeCoverageIgnore
  * A DataProvider services AJAX requests for form population.
  * @codeCoverageIgnore
  */

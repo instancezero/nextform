@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__ . '/../test-tools/JsonComparison.php';
 include_once __DIR__ . '/../test-tools/NullTranslate.php';
+include_once __DIR__ . '/../test-tools/Page.php';
 
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Schema;
@@ -109,8 +110,11 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         // Save the result as JSON so we can compare
         $resultJson = json_encode($obj, JSON_PRETTY_PRINT);
         file_put_contents(__DIR__ . '/member-form-out.json', $resultJson);
-        // Stock JSON to stdClass for comparison
+
+        // Stock JSON to stdClass for comparison; reload the config
         $result = json_decode($resultJson);
+        $jsonFile = __DIR__ . '/member-form.json';
+        $config = json_decode(file_get_contents($jsonFile));
         $this -> assertTrue($this -> jsonCompare($config, $result));
     }
 
@@ -158,14 +162,9 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new SimpleHtml();
         $form -> setRenderer($render);
         $form -> setTranslator(new NullTranslate());
-        $page = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
+        $html = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
 
-        $html = "<!doctype html>\n<html lang=\"en\">\n"
-            . "  <head>\n    <meta charset=\"utf-8\">\n"
-            . "    <title>" . __FUNCTION__ . "</title>\n"
-            . "  </head>\n"
-            . "<body>\n" . $page -> body . "</body>\n</html>\n";
-        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $html);
+        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
         $this -> assertTrue(true);
     }
 
@@ -179,13 +178,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $form -> setTranslator(new NullTranslate());
         $html = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
 
-        $page = file_get_contents(__DIR__ . '/../test-tools/boilerplate.html');
-        $page = str_replace(
-            ['{{title}}', '<!--{{head}}-->', '{{form}}', '<!--{{scripts}}-->'],
-            [__FUNCTION__, $html -> head, $html -> body, implode("\n", $html -> scriptFiles)],
-            $page
-        );
-        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', $page);
+        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
         $this -> assertTrue(true);
     }
 

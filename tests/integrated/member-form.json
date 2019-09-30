@@ -82,59 +82,27 @@
             "elements": [
                 {
                     "type": "cell",
-                    "elements": [
-                        {
-                            "type": "field",
-                            "object": "primaryFirstName"
-                        },
-                        {
-                            "type": "field",
-                            "object": "primaryLastName"
-                        }
-                    ]
+                    "elements": ["primaryFirstName", "primaryLastName"]
                 },
-                {
-                    "type": "field",
-                    "object": "primaryEmail"
-                },
-                {
-                    "type": "field",
-                    "object": "primaryPublicName"
-                }
+                "primaryEmail",
+                "primaryPublicName"
             ]
         },
         {
             "type": "section",
-            "labels" : {
+            "memberOf": "family",
+            "labels": {
                 "heading": "Second Member"
             },
-            "memberOf": "family",
             "elements": [
                 {
                     "type": "cell",
-                    "elements": [
-                        {
-                            "type": "field",
-                            "object": "secondaryFirstName"
-                        },
-                        {
-                            "type": "field",
-                            "object": "secondaryLastName"
-                        }
-                    ]
+                    "elements": ["secondaryFirstName", "secondaryLastName"]
                 },
-                {
-                    "type": "field",
-                    "object": "secondaryPublicName",
-                    "memberOf": "family"
-                }
+                "secondaryPublicName:family"
             ]
         },
-        {
-            "type": "field",
-            "object": "businessName",
-            "memberOf": "business"
-        },
+        "businessName:business",
         {
             "type": "button",
             "function": "submit",

@@ -498,41 +498,5 @@ abstract class Html implements Renderer {
         return $html;
     }
 
-    /**
-     * Conditionally write a wrapper element around an existing block
-     * @param \Abivia\NextForm\Renderer\Block $block
-     * @param string $tag Name of the element to write (div, span, etc.)
-     * @param array $options Name(type,default): append(string,''), force(bool,false),
-     *                      show(string,''), attrs(Attributes,null)
-     * @return \Abivia\NextForm\Renderer\Block
-     * @deprecated Replace with writeElement...
-     */
-    protected function writeWrapper(Block $block, $tag, $options = []) {
-        $hasPost = false;
-        $attrs = $options['attrs'] ?? null;
-        if (isset($options['show'])) {
-            list($scope, $setting) = self::showGetSetting($options['show']);
-        } else {
-            $scope = false;
-        }
-        if ($scope && isset($this -> showState[$scope][$setting])) {
-            $attrs = $this -> showState[$scope][$setting] -> combine($attrs);
-            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-            $hasPost = true;
-        } elseif ($attrs !== null && !$attrs -> isEmpty()) {
-            $block -> body .= $this -> writeTag($tag, $attrs) . "\n";
-            $hasPost = true;
-        } elseif ($options['force'] ?? false) {
-            $block -> body .= '<' . $tag . ">\n";
-            $hasPost = true;
-        }
-        if ($hasPost) {
-            $block -> post = '</' . $tag . ">\n"
-                . (isset($options['append']) ? $options['append'] : '')
-                . $block -> post;
-        }
-        return $block;
-    }
-
 }
 

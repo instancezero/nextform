@@ -2,6 +2,7 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\NextForm;
 use Abivia\NextForm\Contracts\Access;
 use Abivia\NextForm\Contracts\Renderer;
 use Abivia\NextForm\Renderer\Block;
@@ -34,11 +35,21 @@ abstract class ContainerElement Extends NamedElement {
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
             self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
-            self::$jsonEncodeMethod['elements'] = [];
+            self::$jsonEncodeMethod['elements'] = ['method:jsonCollapseElements'];
         }
     }
 
     abstract public function addElement(Element $element);
+
+    /**
+     * Connect data elements in a schema
+     * @param \Abivia\NextForm\Data\Schema $schema
+     */
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+        foreach ($this -> elements as $element) {
+            $element -> bindSchema($schema);
+        }
+    }
 
     /**
      * Sub-elements have a procedural instantiation.
@@ -65,10 +76,19 @@ abstract class ContainerElement Extends NamedElement {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize() {
+    protected function configureInitialize(&$config) {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
+        }
+        // Any elements that are simply strings are converted to basic field objects
+        if (isset($config -> elements) && is_array($config -> elements)) {
+            foreach ($config -> elements as &$value) {
+                if (is_string($value)) {
+                    // Convert to a useful class
+                    $value = NextForm::expandField($value);
+                }
+            }
         }
     }
 
@@ -112,13 +132,14 @@ abstract class ContainerElement Extends NamedElement {
     }
 
     /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
+     * See if any of the contained elements can be represented as a shorthand string.
+     * @param array $elementList
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
-        foreach ($this -> elements as $element) {
-            $element -> bindSchema($schema);
+    protected function jsonCollapseElements($elementList) {
+        foreach ($elementList as &$element) {
+            $element = $element -> jsonCollapse();
         }
+        return $elementList;
     }
 
 }

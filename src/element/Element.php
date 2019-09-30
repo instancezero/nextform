@@ -136,7 +136,7 @@ abstract class Element implements \JsonSerializable {
     /**
      * If the element is created as part of a form, register it as such.
      */
-    protected function configureInitialize() {
+    protected function configureInitialize(&$config) {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
@@ -207,6 +207,19 @@ abstract class Element implements \JsonSerializable {
             );
         }
         return $cloner -> copy($this);
+    }
+
+    /**
+     * Delete this element from the named group.
+     * @param type $groupName Name of the group to be added.
+     * @return \self
+     */
+    public function deleteGroup($groupName) : self {
+        if (($key = array_search($groupName, $this -> groups)) !== false) {
+            unset($this -> groups[$key]);
+            $this -> groups = array_values($this -> groups);
+        }
+        return $this;
     }
 
     /**
@@ -287,15 +300,9 @@ abstract class Element implements \JsonSerializable {
     }
 
     /**
-     * Remove this element from the named group.
-     * @param type $groupName Name of the group to be added.
-     * @return \self
+     * If we can represent this field in JSON as a string, return a string otherwise $this.
      */
-    public function removeGroup($groupName) : self {
-        if (($key = array_search($groupName, $this -> groups)) !== false) {
-            unset($this -> groups[$key]);
-            $this -> groups = array_values($this -> groups);
-        }
+    public function jsonCollapse() {
         return $this;
     }
 

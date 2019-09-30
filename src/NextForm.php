@@ -20,6 +20,7 @@ class NextForm implements \JsonSerializable {
     use \Abivia\NextForm\Traits\JsonEncoder;
     use \Abivia\NextForm\Traits\Showable;
 
+    public const GROUP_DELIM = ':';
     public const SEGMENT_DELIM = '/';
 
     protected $access;
@@ -43,7 +44,7 @@ class NextForm implements \JsonSerializable {
         'name' => [],
         'useSegment' => ['drop:blank'],
         'show' => ['drop:blank'],
-        'elements' => [],
+        'elements' => ['method:jsonCollapseElements'],
     ];
     protected $id;
     protected $name;
@@ -117,10 +118,23 @@ class NextForm implements \JsonSerializable {
         self::$htmlId = 0;
     }
 
-    protected function configureInitialize() {
+    /**
+     * Sets up options and converts string-valued elements into field objects.
+     * @param \stdClass $config
+     */
+    protected function configureInitialize(&$config) {
         // Pass an instance of the form down in Configurable's options so we can
         // access the form directly from deep within the data structures.
         $this -> configureOptions['_form'] = &$this;
+
+        // Any elements that are simply strings are converted to basic field objects
+        if (isset($config -> elements) && is_array($config -> elements)) {
+            foreach ($config -> elements as &$value) {
+                if (is_string($value)) {
+                    $value = self::expandField($value);
+                }
+            }
+        }
     }
 
     protected function configureClassMap($property, $value) {
@@ -148,6 +162,18 @@ class NextForm implements \JsonSerializable {
             );
         }
         return $form;
+    }
+
+    static public function expandField($value) {
+        $groupParts = explode(self::GROUP_DELIM, $value);
+        // Convert to a useful class
+        $obj = new \stdClass;
+        $obj -> type = 'field';
+        $obj -> object = array_shift($groupParts);
+        if (!empty($groupParts)) {
+            $obj -> memberOf = $groupParts;
+        }
+        return $obj;
     }
 
     /**
@@ -242,6 +268,17 @@ class NextForm implements \JsonSerializable {
             $name = preg_replace('/^[^a-z0-9\-]/i', 'nf-\1', $name);
         }
         return $name;
+    }
+
+    /**
+     * See if any of the contained elements can be represented as a shorthand string.
+     * @param type $elementList
+     */
+    protected function jsonCollapseElements($elementList) {
+        foreach ($elementList as &$element) {
+            $element = $element -> jsonCollapse();
+        }
+        return $elementList;
     }
 
     protected function options($options) {
