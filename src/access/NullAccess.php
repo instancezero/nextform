@@ -1,12 +1,13 @@
 <?php
 namespace Abivia\NextForm\Access;
 
-use Abivia\NextForm\Contracts\Access as AccessContract;
+use Abivia\NextForm\Contracts\AccessInterface;
 
 /**
  * This the default null access provider.
  */
-class NullAccess implements AccessContract {
+class NullAccess implements AccessInterface
+{
 
     /**
      * Null access provider: grants access to everything.
@@ -15,7 +16,8 @@ class NullAccess implements AccessContract {
      * @param string $operation The operation we're asking permission for (read|write).
      * @return bool True if access is granted. Always true.
      */
-    public function hasAccess($segment, $objectName, $operation, $user = null) : bool {
+    public function hasAccess($segment, $objectName, $operation, $user = null) : bool
+    {
         return true;
     }
 
@@ -24,7 +26,8 @@ class NullAccess implements AccessContract {
      * @param mixed $user
      * @return $this
      */
-    public function setUser($user) {
+    public function setUser($user)
+    {
         return $this;
     }
 

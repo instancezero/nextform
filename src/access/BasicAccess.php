@@ -1,15 +1,16 @@
 <?php
 namespace Abivia\NextForm\Access;
 
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
-
-use Abivia\NextForm\Contracts\Access as AccessContract;
+use Abivia\NextForm\Contracts\AccessInterface;
 
 /**
  * This a very skeletal access provider driven by a simple configuration file.
  */
-class BasicAccess implements AccessContract {
-    use \Abivia\Configurable\Configurable;
+class BasicAccess implements AccessInterface
+{
+    use Configurable;
 
     /**
      * The default user to check when no explicit user identifier is passed to hasAccess().
@@ -36,7 +37,8 @@ class BasicAccess implements AccessContract {
      * @param mixed $value The current value of the named property.
      * @return mixed An instantiation rule object or false if no rule applies.
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'roles' => ['className' => '\Abivia\NextForm\Access\Role', 'key' => 'getName', 'keyIsMethod' => true],
             'users' => ['className' => '\Abivia\NextForm\Access\User', 'key' => 'getId', 'keyIsMethod' => true],
@@ -54,7 +56,8 @@ class BasicAccess implements AccessContract {
      * @param string $property
      * @return boolean true if the property is allowed.
      */
-    protected function configurePropertyAllow($property) {
+    protected function configurePropertyAllow($property)
+    {
         return in_array($property, ['roles', 'users']);
     }
 
@@ -66,7 +69,8 @@ class BasicAccess implements AccessContract {
      * @param mixed $user User to query, uses current user if null
      * @return bool True if access is granted.
      */
-    public function hasAccess($segment, $objectName, $operation, $user = null) : bool {
+    public function hasAccess($segment, $objectName, $operation, $user = null) : bool
+    {
         if ($user === null) {
             $user = $this -> currentUser;
         }
@@ -109,7 +113,8 @@ class BasicAccess implements AccessContract {
      * @return \self
      * @throws \LogicException
      */
-    public function setUser($user) : self {
+    public function setUser($user) : self
+    {
         if ($user === null || isset($this -> users[$user])) {
             $this -> currentUser = $user;
             return $this;

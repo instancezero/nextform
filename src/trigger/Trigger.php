@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Trigger;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  *
  */
-class Trigger implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Trigger implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * @var Action A List of actions to take when this trigger fires.
@@ -41,7 +45,8 @@ class Trigger implements \JsonSerializable {
      * @return mixed An object containing a class name and key, or false
      * @codeCoverageIgnore
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'actions' => ['className' => '\Abivia\NextForm\Trigger\Action', 'key' => ''],
         ];
@@ -51,7 +56,8 @@ class Trigger implements \JsonSerializable {
         return false;
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         // Exactly one of event or value must be set.
         if (isset($this -> event) == isset($this -> value)) {
             return false;
@@ -67,17 +73,20 @@ class Trigger implements \JsonSerializable {
     /**
      * Initialize this object at the start of configuration.
      */
-    protected function configureInitialize() {
+    protected function configureInitialize()
+    {
         $this -> event = null;
         $this -> type = null;
         $this -> value = null;
     }
 
-    protected function configurePropertyAllow($property) {
+    protected function configurePropertyAllow($property)
+    {
         return in_array($property, ['actions', 'event', 'value']);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         switch ($property) {
             case 'event':
                 $value = strtolower($value);
@@ -89,19 +98,23 @@ class Trigger implements \JsonSerializable {
         return $result;
     }
 
-    public function getActions() {
+    public function getActions()
+    {
         return $this -> actions;
     }
 
-    public function getEvent() {
+    public function getEvent()
+    {
         return $this -> event;
     }
 
-    public function getType() {
+    public function getType()
+    {
         return $this -> type;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this -> value;
     }
 

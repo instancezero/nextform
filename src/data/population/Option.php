@@ -2,15 +2,20 @@
 
 namespace Abivia\NextForm\Data\Population;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+use Abivia\NextForm\Traits\ShowableTrait;
+
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Describes a value or list of values in a user selectable form object.
  */
-class Option implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\Showable;
+class Option implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
+    use ShowableTrait;
 
     /**
      * Whether or not this option is currently available.
@@ -40,11 +45,13 @@ class Option implements \JsonSerializable {
     public $sidecar;
     protected $value;
 
-    public function __construct() {
+    public function __construct()
+    {
         self::$showDefaultScope = 'option';
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         $result = false;
         if ($property == 'value' && is_array($value)) {
             $result = self::class;
@@ -52,7 +59,8 @@ class Option implements \JsonSerializable {
         return $result;
     }
 
-    protected function configureComplete(): bool {
+    protected function configureComplete(): bool
+    {
         if (is_array($this -> value)) {
             foreach($this -> value as $option) {
                 if (is_array($option -> getList())) {
@@ -69,7 +77,8 @@ class Option implements \JsonSerializable {
         return true;
     }
 
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         // if the value is an array convert any strings to a class
         if (isset($config -> value) && is_array($config -> value)) {
             foreach ($config -> value as &$value) {
@@ -83,34 +92,41 @@ class Option implements \JsonSerializable {
         }
     }
 
-    public function getEnabled() {
+    public function getEnabled()
+    {
         return $this -> enabled;
     }
 
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this -> label;
     }
 
-    public function getList() {
+    public function getList()
+    {
         if (!is_array($this -> value)) {
             return null;
         }
         return $this -> value;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this -> name;
     }
 
-    public function getSelected() {
+    public function getSelected()
+    {
         return $this -> selected;
     }
 
-    public function getSidecar() {
+    public function getSidecar()
+    {
         return $this -> sidecar;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         if (is_array($this -> value)) {
             return null;
         }
@@ -121,7 +137,8 @@ class Option implements \JsonSerializable {
      * Determine if this option is empty (used by JsonEncoder).
      * @return bool
      */
-    public function isEmpty() : bool {
+    public function isEmpty() : bool
+    {
         if ($this -> enabled === false) {
             return false;
         }
@@ -140,41 +157,49 @@ class Option implements \JsonSerializable {
         return true;
     }
 
-    public function isNested() {
+    public function isNested()
+    {
         return is_array($this -> value);
     }
 
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this -> enabled = $enabled;
         return $this;
     }
 
-    public function setLabel($label) {
+    public function setLabel($label)
+    {
         $this -> label = $label;
         return $this;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this -> name = $name;
         return $this;
     }
 
-    public function setSelected($selected) {
+    public function setSelected($selected)
+    {
         $this -> selected = $selected;
         return $this;
     }
 
-    public function setSidecar($data) {
+    public function setSidecar($data)
+    {
         $this -> sidecar = $data;
         return $this;
     }
 
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this -> value = $value;
         return $this;
     }
 
-    public function translate(Translator $translate) {
+    public function translate(Translator $translate)
+    {
         $this -> label = $translate -> trans($this -> label);
     }
 

@@ -1,15 +1,19 @@
 <?php
 
 namespace Abivia\NextForm\Data;
+
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
  * A Property describes a data object in the schema; objects are contained in Segments.
  */
-class Property implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Property implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Description of what this property is / is for.
@@ -76,7 +80,8 @@ class Property implements \JsonSerializable {
     /**
      * Initialize a new Property.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this -> labels = new Labels();
     }
 
@@ -87,7 +92,8 @@ class Property implements \JsonSerializable {
      * @return mixed An object containing a class name and key, or false
      * @codeCoverageIgnore
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'population' => ['className' => '\Abivia\NextForm\Data\Population'],
             'presentation' => ['className' => '\Abivia\NextForm\Data\Presentation'],
@@ -105,7 +111,8 @@ class Property implements \JsonSerializable {
      * Ensure that we have a label object after configuration is completed
      * @return boolean
      */
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         if ($this -> labels === null) {
             $this -> labels = new Labels();
         }
@@ -116,7 +123,8 @@ class Property implements \JsonSerializable {
      * Get the description of this Property.
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this -> description;
     }
 
@@ -124,7 +132,8 @@ class Property implements \JsonSerializable {
      * Get the schema-defined labels
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function getLabels() {
+    public function getLabels()
+    {
         return $this -> labels;
     }
 
@@ -132,7 +141,8 @@ class Property implements \JsonSerializable {
      * Get the property name.
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this -> name;
     }
 
@@ -151,7 +161,8 @@ class Property implements \JsonSerializable {
      * Get the property's presentation object.
      * @return \Abivia\NextForm\Data\Presentation
      */
-    public function getPresentation() : \Abivia\NextForm\Data\Presentation {
+    public function getPresentation() : \Abivia\NextForm\Data\Presentation
+    {
         if ($this -> presentation === null) {
             $this -> presentation = new \Abivia\NextForm\Data\Presentation;
         }
@@ -162,7 +173,8 @@ class Property implements \JsonSerializable {
      * Get the property's validation object.
      * @return \Abivia\NextForm\Data\Validation
      */
-    public function getValidation() : \Abivia\NextForm\Data\Validation {
+    public function getValidation() : \Abivia\NextForm\Data\Validation
+    {
         if ($this -> validation === null) {
             $this -> validation = new \Abivia\NextForm\Data\Validation;
         }
@@ -173,7 +185,8 @@ class Property implements \JsonSerializable {
      * Get the property's data store object.
      * @return \Abivia\NextForm\Data\Store
      */
-    public function getStore() : ?\Abivia\NextForm\Data\Store {
+    public function getStore() : ?\Abivia\NextForm\Data\Store
+    {
         return $this -> store;
     }
 
@@ -182,7 +195,8 @@ class Property implements \JsonSerializable {
      * @param Element $element The element to be connected.
      * @return \self
      */
-    public function linkElement(Element $element) : self {
+    public function linkElement(Element $element) : self
+    {
         if (!in_array($element, $this -> linkedElements)) {
             $this -> linkedElements[] = $element;
         }
@@ -194,7 +208,8 @@ class Property implements \JsonSerializable {
      * @param string $text Descriptive text.
      * @return \self
      */
-    public function setDescription($text) : self {
+    public function setDescription($text) : self
+    {
         $this -> description = $text;
         return $this;
     }
@@ -204,7 +219,8 @@ class Property implements \JsonSerializable {
      * @param Labels $labels Object containing displayable labels.
      * @return \self
      */
-    public function setLabels(Labels $labels) : self {
+    public function setLabels(Labels $labels) : self
+    {
         $this -> labels = $labels;
         return $this;
     }
@@ -214,7 +230,8 @@ class Property implements \JsonSerializable {
      * @param string $name
      * @return $this
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this -> name = $name;
         return $this;
     }
@@ -223,7 +240,8 @@ class Property implements \JsonSerializable {
      * set the property's population object.
      * @param \Abivia\NextForm\Data\Population $population
      */
-    public function setPopulation(\Abivia\NextForm\Data\Population $population) : self {
+    public function setPopulation(\Abivia\NextForm\Data\Population $population) : self
+    {
         $this -> population = $population;
         return $this;
     }
@@ -233,7 +251,8 @@ class Property implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Presentation $presentation Presentation settings.
      * @return \self
      */
-    public function setPresentation(\Abivia\NextForm\Data\Presentation $presentation) : self {
+    public function setPresentation(\Abivia\NextForm\Data\Presentation $presentation) : self
+    {
         $this -> presentation = $presentation;
         return $this;
     }
@@ -243,7 +262,8 @@ class Property implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Validation $validation Validation rules.
      * @return \self
      */
-    public function setValidation(\Abivia\NextForm\Data\Validation $validation) : self {
+    public function setValidation(\Abivia\NextForm\Data\Validation $validation) : self
+    {
         $this -> validation = $validation;
         return $this;
     }

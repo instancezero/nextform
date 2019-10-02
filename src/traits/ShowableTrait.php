@@ -4,11 +4,13 @@ namespace Abivia\NextForm\Traits;
 /**
  * Trait for classes that support a show setting.
  */
-trait Showable {
+trait ShowableTrait
+{
 
     protected $show = '';
 
     static protected $showDefaultScope = 'undefined';
+
 
     public function addShow($show) : self {
         if ($this -> show === '') {
@@ -19,16 +21,19 @@ trait Showable {
         return $this;
     }
 
-    public function getShow() {
+    public function getShow()
+    {
         return $this -> show;
     }
 
-    public function setShow($show) : self {
+    public function setShow($show) : self
+    {
         $this -> show = trim($show === null ? '' : $show);
         return $this;
     }
 
-    static public function showGetSetting($text, $defaultScope = '') {
+    static public function showGetSetting($text, $defaultScope = '')
+    {
         if ($defaultScope === '') {
             $defaultScope = self::$showDefaultScope;
         }
@@ -43,7 +48,8 @@ trait Showable {
         return [$scope, $setting];
     }
 
-    static public function showScopeToString($settings, $setScope = '') {
+    static public function showScopeToString($settings, $setScope = '')
+    {
         $parts = [];
         foreach ($settings as $setting => $info) {
             $info = implode(':', $info);
@@ -58,7 +64,8 @@ trait Showable {
      * @param string $text String of the form scope1.setting1:p1:p2...|scope2.setting2:p1:p2...
      * @return array A list of argument arrays indexed by setting.
      */
-    static public function showTokenize($text, $defaultScope = '') {
+    static public function showTokenize($text, $defaultScope = '')
+    {
         if ($defaultScope === '') {
             $defaultScope = self::$showDefaultScope;
         }

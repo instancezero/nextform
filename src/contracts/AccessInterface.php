@@ -6,7 +6,8 @@ namespace Abivia\NextForm\Contracts;
  * Interface for access control.
  * @codeCoverageIgnore
  */
-interface Access {
+interface AccessInterface
+{
     /**
      * Determine if the a user has access to an object.
      * @param string $segment The segment that the requested object belongs to.

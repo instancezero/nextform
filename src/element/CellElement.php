@@ -2,6 +2,9 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * Representation of a cell, a list of adjacent form elements.
  */
@@ -10,9 +13,10 @@ use Abivia\NextForm;
 /**
  *
  */
-class CellElement Extends ContainerElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class CellElement Extends ContainerElement
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Rules for the JsonEncoder
@@ -37,7 +41,8 @@ class CellElement Extends ContainerElement {
      * @return \self
      * @throws \RuntimeException
      */
-    public function addElement(Element $element) : self {
+    public function addElement(Element $element) : self
+    {
         if ($element instanceof ContainerElement) {
             throw new \RuntimeException('Cells can\'t contain containers (sections or cells).');
         }
@@ -45,14 +50,16 @@ class CellElement Extends ContainerElement {
         return $this;
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         return parent::configureClassMap($property, $value);
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         parent::configureInitialize($config);
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
@@ -60,19 +67,23 @@ class CellElement Extends ContainerElement {
         }
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         return parent::configureComplete();
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
@@ -80,7 +91,8 @@ class CellElement Extends ContainerElement {
      * Get the data segment associated with this cell, if any.
      * @return \Abivia\NextForm\Data\Segment|null
      */
-    public function findSegment() : ?\Abivia\NextForm\Data\Segment {
+    public function findSegment() : ?\Abivia\NextForm\Data\Segment
+    {
         return isset($this -> configureOptions['parent'])
             ? $this -> configureOptions['parent'] -> getSegment() : null;
     }

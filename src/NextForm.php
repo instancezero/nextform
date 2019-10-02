@@ -2,23 +2,26 @@
 
 namespace Abivia;
 
-use Abivia\NextForm\Contracts\Access as Access;
-use Abivia\NextForm\Contracts\Renderer as Renderer;
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Contracts\AccessInterface;
+use Abivia\NextForm\Contracts\RendererInterface as RendererInterface;
 use Abivia\NextForm\Element\ContainerElement;
 use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+use Abivia\NextForm\Traits\ShowableTrait;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  *
  */
-class NextForm implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\Showable;
+class NextForm implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
+    use ShowableTrait;
 
     public const GROUP_DELIM = ':';
     public const SEGMENT_DELIM = '/';
@@ -63,12 +66,14 @@ class NextForm implements \JsonSerializable {
     protected $translate;
     protected $useSegment = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this -> access = new \Abivia\NextForm\Access\BasicAccess;
         $this -> show = '';
     }
 
-    protected function assignNames() {
+    protected function assignNames()
+    {
         $this -> nameMap = [];
         $containerCount = 0;
         foreach ($this -> allElements as $element) {
@@ -102,7 +107,8 @@ class NextForm implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Schema $schema
      * @return $this
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
+    {
         $this -> objectMap = [];
         foreach ($this -> elements as $element) {
             $element -> bindSchema($schema);
@@ -114,7 +120,8 @@ class NextForm implements \JsonSerializable {
     /**
      * Reset the static context
      */
-    static public function boot() {
+    static public function boot()
+    {
         self::$htmlId = 0;
     }
 
@@ -122,7 +129,8 @@ class NextForm implements \JsonSerializable {
      * Sets up options and converts string-valued elements into field objects.
      * @param \stdClass $config
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         // Pass an instance of the form down in Configurable's options so we can
         // access the form directly from deep within the data structures.
         $this -> configureOptions['_form'] = &$this;
@@ -137,7 +145,8 @@ class NextForm implements \JsonSerializable {
         }
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         $result = false;
         if ($property == 'elements') {
             $result = new \stdClass;
@@ -153,7 +162,8 @@ class NextForm implements \JsonSerializable {
      * @return \Abivia\NextForm
      * @throws RuntimeException
      */
-    static public function fromFile($formFile) {
+    static public function fromFile($formFile)
+    {
         $form = new NextForm;
         if (!$form -> configure(json_decode(file_get_contents($formFile)), true)) {
             throw new \RuntimeException(
@@ -164,7 +174,8 @@ class NextForm implements \JsonSerializable {
         return $form;
     }
 
-    static public function expandField($value) {
+    static public function expandField($value)
+    {
         $groupParts = explode(self::GROUP_DELIM, $value);
         // Convert to a useful class
         $obj = new \stdClass;
@@ -186,7 +197,8 @@ class NextForm implements \JsonSerializable {
      *  ]
      * @return Block
      */
-    public function generate($options) {
+    public function generate($options)
+    {
         $this -> options($options);
         if (!isset($options['attrs'])) {
             $options['attrs'] = new Attributes;
@@ -213,7 +225,8 @@ class NextForm implements \JsonSerializable {
      * Get all the data objects from the form.
      * @return array Data elements indexed by object name
      */
-    public function getData() {
+    public function getData()
+    {
         $data = [];
         // The first element should have the value... there should only be one value.
         foreach ($this -> objectMap as $objectName => $list) {
@@ -222,15 +235,18 @@ class NextForm implements \JsonSerializable {
         return $data;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this -> id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this -> name;
     }
 
-    public function getSegment() {
+    public function getSegment()
+    {
         return $this -> useSegment;
     }
 
@@ -239,7 +255,8 @@ class NextForm implements \JsonSerializable {
      * @param type $segment
      * @return array Data elements indexed by object name
      */
-    public function getSegmentData($segment) {
+    public function getSegmentData($segment)
+    {
         $prefix = $segment . NextForm::SEGMENT_DELIM;
         $prefixLen = strlen($segment . NextForm::SEGMENT_DELIM);
         $data = [];
@@ -257,7 +274,8 @@ class NextForm implements \JsonSerializable {
      * @param string $name
      * @return string
      */
-    static public function htmlIdentifier($name = '', $appendId = false) {
+    static public function htmlIdentifier($name = '', $appendId = false)
+    {
         if ($name == '') {
             $name = 'nf-' . ++self::$htmlId;
         } else {
@@ -274,14 +292,16 @@ class NextForm implements \JsonSerializable {
      * See if any of the contained elements can be represented as a shorthand string.
      * @param type $elementList
      */
-    protected function jsonCollapseElements($elementList) {
+    protected function jsonCollapseElements($elementList)
+    {
         foreach ($elementList as &$element) {
             $element = $element -> jsonCollapse();
         }
         return $elementList;
     }
 
-    protected function options($options) {
+    protected function options($options)
+    {
         if (isset($options['name'])) {
             $this -> name = $options['name'];
         }
@@ -301,7 +321,8 @@ class NextForm implements \JsonSerializable {
      * @throws LogicException
      * @return $this
      */
-    public function populate($data, $segment = '') {
+    public function populate($data, $segment = '')
+    {
         if (!$this -> schemaIsLinked) {
             throw new LogicException('Form not linked to schema.');
         }
@@ -324,7 +345,8 @@ class NextForm implements \JsonSerializable {
      * @param Element $element
      * @return $this
      */
-    public function registerElement($element) {
+    public function registerElement($element)
+    {
         if (!in_array($element, $this -> allElements)) {
             $this -> allElements[] = $element;
         }
@@ -336,7 +358,8 @@ class NextForm implements \JsonSerializable {
      * @param Element $element
      * @return $this
      */
-    public function registerObject($element) {
+    public function registerObject($element)
+    {
         $object = $element -> getObject();
         if (!isset($this -> objectMap[$object])) {
             $this -> objectMap[$object] = [];
@@ -345,19 +368,23 @@ class NextForm implements \JsonSerializable {
         return $this;
     }
 
-    public function setAccess(Access $access) {
+    public function setAccess(AccessInterface $access)
+    {
         $this -> access = $access;
     }
 
-    public function setRenderer(Renderer $renderer) {
+    public function setRenderer(RendererInterface $renderer)
+    {
         $this -> renderer = $renderer;
     }
 
-    public function setTranslator(Translator $translate) {
+    public function setTranslator(Translator $translate)
+    {
         $this -> translate = $translate;
     }
 
-    public function setUser($user) {
+    public function setUser($user)
+    {
         $this -> access -> setUser($user);
     }
 

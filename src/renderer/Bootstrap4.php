@@ -1,7 +1,7 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\CellElement;
@@ -12,11 +12,13 @@ use Abivia\NextForm\Element\StaticElement;
 /**
  * Renderer for Bootstrap4
  */
-class Bootstrap4 extends CommonHtml implements Renderer {
+class Bootstrap4 extends CommonHtml implements RendererInterface
+{
 
     static protected $buttonSizeClasses = ['large' => ' btn-lg', 'regular' => '', 'small' => ' btn-sm'];
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
         $this -> initialize();
         $this -> setOptions($options);
@@ -28,7 +30,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkInput(FieldElement $element, Attributes $attrs) {
+    protected function checkInput(FieldElement $element, Attributes $attrs)
+    {
         // This is a single-valued element
         $attrs -> set('id', $element -> getId());
         $attrs -> setIfNotNull('value', $element -> getValue());
@@ -47,7 +50,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkList(FieldElement $element, Attributes $attrs) {
+    protected function checkList(FieldElement $element, Attributes $attrs)
+    {
         $baseId = $element -> getId();
         $type = $element -> getDataProperty() -> getPresentation() -> getType();
         $select = $element -> getValue();
@@ -109,7 +113,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkListButtons(FieldElement $element, Attributes $attrs) {
+    protected function checkListButtons(FieldElement $element, Attributes $attrs)
+    {
         $baseId = $element -> getId();
         $type = $element -> getDataProperty() -> getPresentation() -> getType();
         $select = $element -> getValue();
@@ -166,7 +171,11 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkSingle(FieldElement $element, Attributes $attrs, Attributes $groupAttrs) {
+    protected function checkSingle(
+        FieldElement $element,
+        Attributes $attrs,
+        Attributes $groupAttrs
+    ) {
         $baseId = $element -> getId();
         $labels = $element -> getLabels(true);
         $appearance = $this -> showGet('check', 'appearance');
@@ -200,7 +209,9 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
     protected function checkSingleButton(
-        FieldElement $element, Attributes $attrs, Attributes $groupAttrs
+        FieldElement $element,
+        Attributes $attrs,
+        Attributes $groupAttrs
     ) {
         $baseId = $element -> getId();
         $attrs -> set('id', $baseId);
@@ -225,7 +236,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * Use current show settings to build the button class
      * @return string
      */
-    protected function getButtonClass($scope = 'button') : string {
+    protected function getButtonClass($scope = 'button') : string
+    {
         $buttonClass = 'btn btn'
             . ($this -> showGet($scope, 'fill') === 'outline' ? '-outline' : '')
             . '-' . $this -> showGet($scope, 'purpose')
@@ -236,7 +248,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
     /**
      * Set up to start generating output.
      */
-    protected function initialize() {
+    protected function initialize()
+    {
         parent::initialize();
         // Reset the context
         $this -> context = [
@@ -253,7 +266,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param Attributes $attrs
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function inputGroup(Labels $labels, Attributes $attrs) {
+    protected function inputGroup(Labels $labels, Attributes $attrs)
+    {
         // Generate the actual input element, with labels if provided.
         if ($labels -> has('before') || $labels -> has('after')) {
             // We have before/after elements to attach, we need to create an input group
@@ -314,7 +328,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param type $options
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function renderButtonElement(ButtonElement $element, $options = []) {
+    protected function renderButtonElement(ButtonElement $element, $options = [])
+    {
         $labels = $element -> getLabels(true);
         if ($options['access'] === 'hide') {
             //
@@ -386,7 +401,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderCellElement(CellElement $element, $options = []) {
+    protected function renderCellElement(CellElement $element, $options = [])
+    {
         $block = $this -> writeElement('div', ['show' => 'cellElementAttributes', 'force' => true]);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
@@ -427,7 +443,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldCheckboxMultiple(FieldElement $element, $options = []) {
+    protected function renderFieldCheckboxMultiple(FieldElement $element, $options = [])
+    {
         $appearance = $this -> showGet('check', 'appearance');
         $layout = $this -> showGet('form', 'layout');
         $attrs = new Attributes;
@@ -543,7 +560,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $rowBlock;
     }
 
-    protected function renderFieldCheckboxSingle(FieldElement $element, $options = []) {
+    protected function renderFieldCheckboxSingle(FieldElement $element, $options = [])
+    {
         $appearance = $this -> showGet('check', 'appearance');
         $checkLayout = $this -> showGet('check', 'layout');
         $attrs = new Attributes;
@@ -638,7 +656,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $rowBlock;
     }
 
-    protected function renderFieldCommon(FieldElement $element, $options = []) {
+    protected function renderFieldCommon(FieldElement $element, $options = [])
+    {
         $confirm = $options['confirm'];
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
@@ -735,7 +754,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldFile(FieldElement $element, $options = []) {
+    protected function renderFieldFile(FieldElement $element, $options = [])
+    {
         $attrs = new Attributes;
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
@@ -812,7 +832,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelect(FieldElement $element, $options = []) {
+    protected function renderFieldSelect(FieldElement $element, $options = [])
+    {
         $value = $element -> getValue();
         if ($options['access'] === 'hide') {
 
@@ -907,7 +928,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelectOption($option, $value) {
+    protected function renderFieldSelectOption($option, $value)
+    {
         $block = new Block;
         $attrs = new Attributes;
         $attrs -> set('value', $option -> getValue());
@@ -936,7 +958,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelectView($element) {
+    protected function renderFieldSelectView($element)
+    {
         $baseId = $element -> getId();
         $data = $element -> getDataProperty();
         $multiple = $data -> getValidation() -> get('multiple');
@@ -983,7 +1006,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldTextarea(FieldElement $element, $options = []) {
+    protected function renderFieldTextarea(FieldElement $element, $options = [])
+    {
 
         // Get the type. We also use the data and presentation below.
         $data = $element -> getDataProperty();
@@ -1075,7 +1099,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderSectionElement(SectionElement $element, $options = []) {
+    protected function renderSectionElement(SectionElement $element, $options = [])
+    {
         $labels = $element -> getLabels(true);
         $block = $this -> writeElement(
             'fieldset', [
@@ -1092,7 +1117,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderStaticElement(StaticElement $element, $options = []) {
+    protected function renderStaticElement(StaticElement $element, $options = [])
+    {
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] === 'hide') {
             return new Block;
@@ -1143,7 +1169,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($scope, $choice, $values = []) {
+    protected function showDoLayout($scope, $choice, $values = [])
+    {
         //
         // Structure of the layout elements
         // formGroupAttributes - An Attributes object associated with the element acting as a form group
@@ -1182,7 +1209,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyHorizontal($scope, $values) {
+    protected function showDoLayoutAnyHorizontal($scope, $values)
+    {
         // possible values for arguments:
         // h            - We get to decide
         // h:nxx        - Ignored, we decide
@@ -1252,7 +1280,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyVertical($scope, $values) {
+    protected function showDoLayoutAnyVertical($scope, $values)
+    {
         // possible values for arguments:
         // v            - Default
         // v:.class
@@ -1302,7 +1331,8 @@ class Bootstrap4 extends CommonHtml implements Renderer {
      * @param string $choice Primary option selection
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoPurpose($scope, $choice, $value = []) {
+    protected function showDoPurpose($scope, $choice, $value = [])
+    {
         if (
             strpos(
                 '|primary|secondary|success|danger|warning|info|light|dark|link',

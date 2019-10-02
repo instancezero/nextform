@@ -2,11 +2,14 @@
 
 namespace Abivia\NextForm\Access;
 
+use Abivia\Configurable\Configurable;
+
 /**
  * A simple role for the BasicAccess class.
  */
-class Role {
-    use \Abivia\Configurable\Configurable;
+class Role
+{
+    use Configurable;
 
     /**
      * The name of this role.
@@ -23,7 +26,8 @@ class Role {
     /**
      * Map a property to a class.
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'permissions' => ['className' => '\Abivia\NextForm\Access\Permissions'],
         ];
@@ -37,7 +41,8 @@ class Role {
      * Get the role name.
      * @return string
      */
-    public function getName() : string {
+    public function getName() : string
+    {
         return $this -> name;
     }
 
@@ -45,7 +50,8 @@ class Role {
      * Get the permissions object for this role.
      * @return \Abivia\NextForm\Access\Permissions
      */
-    public function getPermissions() : Permissions {
+    public function getPermissions() : Permissions
+    {
         return $this -> permissions;
     }
 
@@ -56,7 +62,8 @@ class Role {
      * operation.
      * @return ?bool Boolean if the permission exists, null if it doesn't.
      */
-    public function has($object, $operation = null) : ?bool {
+    public function has($object, $operation = null) : ?bool
+    {
         return $this -> permissions -> has($object, $operation);
     }
 
@@ -65,7 +72,8 @@ class Role {
      * @param string $name The name for this role.
      * @return \self
      */
-    public function setName($name) : self {
+    public function setName($name) : self
+    {
         $this -> name = $name;
         return $this;
     }

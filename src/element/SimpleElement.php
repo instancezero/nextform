@@ -2,14 +2,17 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * A simple element is any element with a value that is part of the form specification.
  */
-abstract class SimpleElement Extends Element {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+abstract class SimpleElement Extends Element
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Indicates if the value has been translated or not.
@@ -41,7 +44,8 @@ abstract class SimpleElement Extends Element {
      */
     protected $valueTranslated = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
@@ -50,29 +54,34 @@ abstract class SimpleElement Extends Element {
         }
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         return parent::configureClassMap($property, $value);
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
@@ -80,7 +89,8 @@ abstract class SimpleElement Extends Element {
      * Get the "translation required" state.
      * @return bool
      */
-    public function getTranslate() : bool {
+    public function getTranslate() : bool
+    {
         return $this -> translate;
     }
 
@@ -89,7 +99,8 @@ abstract class SimpleElement Extends Element {
      * @param boolean $translated If true, any translated version is returned.
      * @return string
      */
-    public function getValue($translated = true) {
+    public function getValue($translated = true)
+    {
         if ($translated and $this -> hasTranslation) {
             return $this -> valueTranslated;
         }
@@ -101,7 +112,8 @@ abstract class SimpleElement Extends Element {
      * @param bool $translate True if this element's value should be translated.
      * @return \self
      */
-    public function setTranslate(bool $translate) : self {
+    public function setTranslate(bool $translate) : self
+    {
         $this -> translate = $translate;
         return $this;
     }
@@ -111,7 +123,8 @@ abstract class SimpleElement Extends Element {
      * @param string $value
      * @return \self
      */
-    public function setValue($value) : self {
+    public function setValue($value) : self
+    {
         $this -> value = $value;
         if ($this -> translate) {
             $this -> hasTranslation = false;
@@ -126,7 +139,8 @@ abstract class SimpleElement Extends Element {
      * @param \Abivia\NextForm\Element\Translator $translate
      * @return \Abivia\NextForm\Element\Element
      */
-    public function translate(Translator $translate) : Element {
+    public function translate(Translator $translate) : Element
+    {
         $this -> valueTranslated = $translate -> trans($this -> value);
         $this -> hasTranslation = true;
         return $this;

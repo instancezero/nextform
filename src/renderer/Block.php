@@ -7,7 +7,8 @@ Namespace Abivia\NextForm\Renderer;
  * a generated page, including header elements, scripts, style sheets, inline styles,
  * and inline script.
  */
-class Block {
+class Block
+{
     /**
      * Page header data associated with an Element.
      * @var string
@@ -80,7 +81,8 @@ class Block {
      * Combine the page body with any closing (post) text, execute any close handler.
      * @return \self
      */
-    public function close() : self {
+    public function close() : self
+    {
         $this -> body .= $this -> post;
         $this -> post = '';
         if (is_callable($this -> onCloseDone)) {
@@ -95,7 +97,8 @@ class Block {
      * @param type $post Any closing text.
      * @return \Abivia\NextForm\Renderer\Block
      */
-    static public function fromString($body = '', $post = '') : Block {
+    static public function fromString($body = '', $post = '') : Block
+    {
         $that = new Block;
         $that -> body = $body;
         $that -> post = $post;
@@ -108,7 +111,8 @@ class Block {
      * @return \self
      */
     public function merge(Block $block) : self {
-        foreach (self::$mergeRules as $prop => $operation) {
+        foreach (self::$mergeRules as $prop => $operation)
+        {
             switch ($operation) {
                 case 'merge':
                     // Script and style file lists are merged with no duplicates.

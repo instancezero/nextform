@@ -1,14 +1,17 @@
 <?php
 
 namespace Abivia\NextForm\Data;
-use Abivia\NextForm\Data\Population\Option;
+
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
  * Describes the data source and values available for a field.
  */
-class Population implements \JsonSerializable, \IteratorAggregate  {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Population implements \JsonSerializable, \IteratorAggregate
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
 
     /**
@@ -72,7 +75,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * {@inheritDoc}
      * @codeCoverageIgnore
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'list' => ['className' => '\Abivia\NextForm\Data\Population\Option'], //'key' => '', 'keyIsMethod' => true],
         ];
@@ -87,7 +91,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * converting them to classes with a label property.
      * @param \stdClass $config
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         // if the list is an array of strings, convert it
         if (isset($config -> list) && is_array($config -> list)) {
             foreach ($config -> list as &$value) {
@@ -107,7 +112,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * @param mixed $value
      * @return boolean
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         switch ($property) {
             case 'source':
                 $result = in_array($value, self::$knownSources);
@@ -122,7 +128,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * Get an iterator so we can loop through the list.
      * @return \ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this -> list);
     }
 
@@ -130,7 +137,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * Get the current option list.
      * @return Population\Option[]
      */
-    public function getList() {
+    public function getList()
+    {
         if ($this -> list === null) {
             return [];
         }
@@ -141,7 +149,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * Get the data list query.
      * @return string
      */
-    public function getQuery() {
+    public function getQuery()
+    {
         return $this -> query;
     }
 
@@ -149,7 +158,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * Get the data source type.
      * @return string
      */
-    public function getSource() {
+    public function getSource()
+    {
         return $this -> source;
     }
 
@@ -157,7 +167,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * Get the translation status, true if text should be translated.
      * @return bool
      */
-    public function getTranslate() : bool {
+    public function getTranslate() : bool
+    {
         return $this -> translate;
     }
 
@@ -165,7 +176,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * JsonEncoder support: Determine if this object is empty.
      * @return bool
      */
-    public function isEmpty() : bool {
+    public function isEmpty() : bool
+    {
         if (!empty($this -> list)) {
             return false;
         }
@@ -192,7 +204,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * @param string $query
      * @return \self
      */
-    public function setQuery($query) : self {
+    public function setQuery($query) : self
+    {
         $this -> query = $query;
         return $this;
     }
@@ -203,7 +216,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * @return \self
      * @throws \LogicException
      */
-    public function setSource($source) : self {
+    public function setSource($source) : self
+    {
         if (!$this -> configureValidate('source', $source)) {
             throw new \LogicException('Invalid value for source: ' . $source);
         }
@@ -215,7 +229,8 @@ class Population implements \JsonSerializable, \IteratorAggregate  {
      * @param bool $mustTranslate True if the text in the options list need to be translated.
      * @return \self
      */
-    public function setTranslate(bool $mustTranslate) : self {
+    public function setTranslate(bool $mustTranslate) : self
+    {
         $this -> translate = $mustTranslate;
         return $this;
     }

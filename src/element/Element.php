@@ -2,10 +2,13 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
-use Abivia\NextForm\Contracts\Access;
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\AccessInterface;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+use Abivia\NextForm\Traits\ShowableTrait;
 use DeepCopy\DeepCopy;
 use DeepCopy\Filter\KeepFilter;
 use DeepCopy\Filter\SetNullFilter;
@@ -15,10 +18,11 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 /**
  * Any element that can appear on a form.
  */
-abstract class Element implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Traits\Showable;
+abstract class Element implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
+    use ShowableTrait;
 
     /**
      * System-assigned element ID
@@ -89,7 +93,8 @@ abstract class Element implements \JsonSerializable {
      */
     protected $visible = true;
 
-    public function __construct() {
+    public function __construct()
+    {
 
     }
 
@@ -98,7 +103,8 @@ abstract class Element implements \JsonSerializable {
      * @param type $groupName Name of the group to be added.
      * @return \self
      */
-    public function addGroup($groupName) : self {
+    public function addGroup($groupName) : self
+    {
         if (!in_array($groupName, $this -> groups)) {
             $this -> groups[] = $groupName;
             $this -> configureValidate('groups', $this -> groups);
@@ -111,7 +117,8 @@ abstract class Element implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Schema $schema
      * @codeCoverageIgnore
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
+    {
         // Non-data elements do nothing. This just simplifies walking the tree
     }
 
@@ -121,7 +128,8 @@ abstract class Element implements \JsonSerializable {
      * @return string
      * @throws \InvalidArgumentException
      */
-    static public function classFromType($obj) {
+    static public function classFromType($obj)
+    {
         $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
         if (!class_exists($result)) {
             throw new \InvalidArgumentException($obj -> type . ' is not a valid element type.');
@@ -129,14 +137,16 @@ abstract class Element implements \JsonSerializable {
         return $result;
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         return true;
     }
 
     /**
      * If the element is created as part of a form, register it as such.
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
@@ -148,7 +158,8 @@ abstract class Element implements \JsonSerializable {
      * @param string $property Name of the property.
      * @return bool
      */
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return $property == 'type';
     }
 
@@ -157,7 +168,8 @@ abstract class Element implements \JsonSerializable {
      * @param string $property Name of the property.
      * @return string
      */
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         if ($property == 'memberOf') {
             $property = 'groups';
         }
@@ -170,7 +182,8 @@ abstract class Element implements \JsonSerializable {
      * @param type $value Current value of the property.
      * @return boolean True when the property is valid.
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         if ($property === 'groups') {
             if (!is_array($value)) {
                 $value = [$value];
@@ -190,7 +203,8 @@ abstract class Element implements \JsonSerializable {
      * Make a copy of this element, cloning/preserving selected properties
      * @return \self
      */
-    public function copy() : self {
+    public function copy() : self
+    {
         static $cloner = null;
 
         if ($cloner === null) {
@@ -214,7 +228,8 @@ abstract class Element implements \JsonSerializable {
      * @param type $groupName Name of the group to be added.
      * @return \self
      */
-    public function deleteGroup($groupName) : self {
+    public function deleteGroup($groupName) : self
+    {
         if (($key = array_search($groupName, $this -> groups)) !== false) {
             unset($this -> groups[$key]);
             $this -> groups = array_values($this -> groups);
@@ -224,12 +239,13 @@ abstract class Element implements \JsonSerializable {
 
     /**
      * Use a renderer to turn this element into part of the form.
-     * @param Renderer $renderer Any Renderer object.
-     * @param Access $access Any access control object
+     * @param RendererInterface $renderer Any Renderer object.
+     * @param AccessInterface $access Any access control object
      * @param Translator $translate Any translation object.
      * @return Block
      */
-    public function generate(Renderer $renderer, Access $access, Translator $translate) : Block {
+    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translate) : Block
+    {
         $this -> translate($translate);
         //$readOnly = false; // $access -> hasAccess(...)
         $options = ['access' => 'write'];
@@ -241,7 +257,8 @@ abstract class Element implements \JsonSerializable {
      * Get the enabled state of this element.
      * @return bool
      */
-    public function getEnabled() {
+    public function getEnabled()
+    {
         return $this -> enabled;
     }
 
@@ -249,7 +266,8 @@ abstract class Element implements \JsonSerializable {
      * Get the list of groups this element is a member of.
      * @return string[]
      */
-    public function getGroups() {
+    public function getGroups()
+    {
         return $this -> groups;
     }
 
@@ -257,7 +275,8 @@ abstract class Element implements \JsonSerializable {
      * Get the form ID for this element.
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         if ($this -> id != '') {
             return $this -> id;
         }
@@ -271,7 +290,8 @@ abstract class Element implements \JsonSerializable {
      * Get the name of this element.
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this -> name;
     }
 
@@ -279,7 +299,8 @@ abstract class Element implements \JsonSerializable {
      * Get the read-only state of this element.
      * @return bool
      */
-    public function getReadonly() {
+    public function getReadonly()
+    {
         return $this -> readonly;
     }
 
@@ -287,7 +308,8 @@ abstract class Element implements \JsonSerializable {
      * Get this element's type.
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this -> type;
     }
 
@@ -295,14 +317,16 @@ abstract class Element implements \JsonSerializable {
      * Get the visible state of this element.
      * @return bool
      */
-    public function getVisible() {
+    public function getVisible()
+    {
         return $this -> visible;
     }
 
     /**
      * If we can represent this field in JSON as a string, return a string otherwise $this.
      */
-    public function jsonCollapse() {
+    public function jsonCollapse()
+    {
         return $this;
     }
 
@@ -311,7 +335,8 @@ abstract class Element implements \JsonSerializable {
      * @param bool $enabled
      * @return \self
      */
-    public function setEnabled($enabled) : self {
+    public function setEnabled($enabled) : self
+    {
         $this -> enabled = $enabled;
         return $this;
     }
@@ -321,7 +346,8 @@ abstract class Element implements \JsonSerializable {
      * @param string|string[] $groups The group or groups.
      * @return \self
      */
-    public function setGroups($groups) : self {
+    public function setGroups($groups) : self
+    {
         $this -> configureValidate('groups', $groups);
         $this -> groups = $groups;
         return $this;
@@ -332,7 +358,8 @@ abstract class Element implements \JsonSerializable {
      * @param string $id
      * @return \self
      */
-    public function setId($id) : self {
+    public function setId($id) : self
+    {
         $this -> id = $id;
         return $this;
     }
@@ -342,7 +369,8 @@ abstract class Element implements \JsonSerializable {
      * @param string $name
      * @return \self
      */
-    public function setName($name) : self {
+    public function setName($name) : self
+    {
         $this -> name = $name;
         return $this;
     }
@@ -352,7 +380,8 @@ abstract class Element implements \JsonSerializable {
      * @param bool $readonly
      * @return \self
      */
-    public function setReadonly($readonly) : self {
+    public function setReadonly($readonly) : self
+    {
         $this -> readonly = $readonly;
         return $this;
     }
@@ -362,7 +391,8 @@ abstract class Element implements \JsonSerializable {
      * @param bool $visible
      * @return \self
      */
-    public function setVisible($visible) : self {
+    public function setVisible($visible) : self
+    {
         $this -> visible = $visible;
         return $this;
     }

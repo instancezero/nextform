@@ -2,11 +2,14 @@
 
 namespace Abivia\NextForm\Access;
 
+use Abivia\Configurable\Configurable;
+
 /**
  * A simple user for the BasicAccess class.
  */
-class User {
-    use \Abivia\Configurable\Configurable;
+class User
+{
+    use Configurable;
 
     /**
      * The user identifier.
@@ -24,7 +27,8 @@ class User {
      * Add a role to this user.
      * @return string[]
      */
-    public function addRole($name) : self {
+    public function addRole($name) : self
+    {
         if (!in_array($name, $this -> roles)) {
             $this -> roles[] = $name;
         }
@@ -35,7 +39,8 @@ class User {
      * Delete a role from this user.
      * @return string[]
      */
-    public function deleteRole($name) : self {
+    public function deleteRole($name) : self
+    {
         if (($key = array_search($name, $this -> roles))) {
             unset($this -> roles[$key]);
         }
@@ -46,7 +51,8 @@ class User {
      * Get the user ID.
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this -> id;
     }
 
@@ -54,7 +60,8 @@ class User {
      * Get the user's roles.
      * @return string[]
      */
-    public function getRoles() {
+    public function getRoles()
+    {
         return $this -> roles;
     }
 
@@ -63,7 +70,8 @@ class User {
      * @param string $id The user identifier.
      * @return self
      */
-    public function setId($id) : self {
+    public function setId($id) : self
+    {
         $this -> id = $id;
         return $this;
     }

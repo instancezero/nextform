@@ -1,7 +1,7 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\FieldElement;
 use Abivia\NextForm\Element\HtmlElement;
@@ -9,7 +9,8 @@ use Abivia\NextForm\Element\HtmlElement;
 /**
  * Render methods common to HTML render classes
  */
-abstract class CommonHtml extends Html implements Renderer {
+abstract class CommonHtml extends Html implements RendererInterface
+{
 
     /**
      * Maps element types to render methods.
@@ -17,7 +18,8 @@ abstract class CommonHtml extends Html implements Renderer {
      */
     static $renderMethodCache = [];
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
         self::$showDefaultScope = 'form';
         $this -> initialize();
@@ -31,7 +33,8 @@ abstract class CommonHtml extends Html implements Renderer {
      * @param array $options Options, specifically access rights.
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function dataList(Attributes $attrs, Element $element, $type, $options) {
+    protected function dataList(Attributes $attrs, Element $element, $type, $options)
+    {
         $block = new Block;
         // Check for a data list, if there is write access.
         $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
@@ -53,7 +56,8 @@ abstract class CommonHtml extends Html implements Renderer {
         return $block;
     }
 
-    protected function initialize() {
+    protected function initialize()
+    {
         // Reset the context
         $this -> context = [
             'inCell' => false
@@ -63,7 +67,8 @@ abstract class CommonHtml extends Html implements Renderer {
         $this -> setShow('layout:vertical');
     }
 
-    protected function renderFieldElement(FieldElement $element, $options = []) {
+    protected function renderFieldElement(FieldElement $element, $options = [])
+    {
         /*
             'image'
         */
@@ -119,7 +124,8 @@ abstract class CommonHtml extends Html implements Renderer {
      * @param type $options Options, if access is "hide" no output is generated
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function renderHtmlElement(HtmlElement $element, $options = []) {
+    protected function renderHtmlElement(HtmlElement $element, $options = [])
+    {
         $block = new Block();
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
@@ -129,7 +135,8 @@ abstract class CommonHtml extends Html implements Renderer {
         return $block;
     }
 
-    public function setOptions($options = []) {
+    public function setOptions($options = [])
+    {
 
     }
 

@@ -2,16 +2,19 @@
 
 namespace Abivia\NextForm\Data;
 
+use Abivia\Configurable\Configurable;
 use \Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
  *  Describes a collection of Properties that come from the same source, for example
  *  columns are the properties that come from a database table. The table represents
  *  a segment.
  */
-class Segment implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Segment implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Rules for the JsonEncoder
@@ -46,7 +49,8 @@ class Segment implements \JsonSerializable {
      * @param string[] $keyList List of property names.
      * @return string Name of the first missing property or empty if no errors.
      */
-    protected function checkPrimary($keyList) {
+    protected function checkPrimary($keyList)
+    {
         foreach ($keyList as $propName) {
             if (!isset($this -> properties[$propName])) {
                 return $propName;
@@ -62,7 +66,8 @@ class Segment implements \JsonSerializable {
      * @return mixed An object containing a class name and key, or false
      * @codeCoverageIgnore
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'properties' => ['className' => '\Abivia\NextForm\Data\Property', 'key' => 'getName', 'keyIsMethod' => true],
         ];
@@ -72,7 +77,8 @@ class Segment implements \JsonSerializable {
         return false;
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         // Make sure the properties listed in primary exist.
         $badPropName = $this -> checkPrimary($this -> primary);
         if ($badPropName !== '') {
@@ -90,7 +96,8 @@ class Segment implements \JsonSerializable {
      * @param string $property
      * @return string
      */
-    protected function configurePropertyMap($property): string {
+    protected function configurePropertyMap($property): string
+    {
         if ($property === 'objects') {
             return 'properties';
         }
@@ -103,7 +110,8 @@ class Segment implements \JsonSerializable {
      * @param mixed $value The current property value.
      * @return type
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         if ($property == 'primary' && !is_array($value)) {
             $value = [$value];
         }
@@ -114,7 +122,8 @@ class Segment implements \JsonSerializable {
      * Get the name of this segment.
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this -> name;
     }
 
@@ -122,7 +131,8 @@ class Segment implements \JsonSerializable {
      * Get the list of properties contributing to a primary key.
      * @return string[]
      */
-    public function getPrimary() {
+    public function getPrimary()
+    {
         return $this -> primary;
     }
 
@@ -131,7 +141,8 @@ class Segment implements \JsonSerializable {
      * @param string $propName Name of the property to fetch.
      * @return Property|null
      */
-    public function getProperty($propName) : ?Property {
+    public function getProperty($propName) : ?Property
+    {
         return isset($this -> properties[$propName]) ? $this -> properties[$propName] : null;
     }
 
@@ -140,7 +151,8 @@ class Segment implements \JsonSerializable {
      * @param string $name Name for the segment.
      * @return self
      */
-    public function setName($name) :self {
+    public function setName($name) :self
+    {
         $this -> name = $name;
         return $this;
     }
@@ -150,7 +162,8 @@ class Segment implements \JsonSerializable {
      * @param type $keyList
      * @return \self
      */
-    public function setPrimary($keyList) : self {
+    public function setPrimary($keyList) : self
+    {
         // Check the format of the values, converting string to array.
         $keyList = $this -> configureValidate('primary', $keyList);
 
@@ -171,7 +184,8 @@ class Segment implements \JsonSerializable {
      * @param Property $prop The property to add/replace.
      * @return Property|null
      */
-    public function setProperty(Property $prop) : self {
+    public function setProperty(Property $prop) : self
+    {
         $propName = $prop -> getName();
         $this -> properties[$propName] = $prop;
         return $this;

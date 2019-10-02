@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Trigger;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  *
  */
-class Action implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Action implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     protected $change = [];
     static protected $changeValidation = [
@@ -21,7 +25,8 @@ class Action implements \JsonSerializable {
     protected $target = [];
     protected $value;
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         switch ($property) {
             case 'change':
                 if (!is_array($value)) {
@@ -53,19 +58,23 @@ class Action implements \JsonSerializable {
         return $result;
     }
 
-    public function getChange() {
+    public function getChange()
+    {
         return $this -> change;
     }
 
-    public function getTarget() {
+    public function getTarget()
+    {
         return $this -> target;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this -> value;
     }
 
-    public function setChange($value) {
+    public function setChange($value)
+    {
         if (!$this -> configureValidate('change', $value)) {
             throw new \UnexpectedValueException(
                 'Valid values for change are: ' . implode('|', self::$changeValidation)
@@ -75,7 +84,8 @@ class Action implements \JsonSerializable {
         return $this;
     }
 
-    public function setTarget($value) {
+    public function setTarget($value)
+    {
         if (!$this -> configureValidate('target', $value)) {
             // @codeCoverageIgnoreStart
             throw new \UnexpectedValueException('Invalid value for target.');
@@ -85,7 +95,8 @@ class Action implements \JsonSerializable {
         return $this;
     }
 
-    public function setValue($value) {
+    public function setValue($value)
+    {
         if (!$this -> configureValidate('value', $value)) {
             // @codeCoverageIgnoreStart
             throw new \UnexpectedValueException('Invalid value.');

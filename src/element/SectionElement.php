@@ -2,17 +2,22 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * A section contains multiple elements in an area of the form.
  */
-class SectionElement Extends ContainerElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class SectionElement Extends ContainerElement
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     protected $object;
     protected $triggers;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$parentJsonEncodeMethod;
@@ -23,7 +28,8 @@ class SectionElement Extends ContainerElement {
         $this -> type = 'section';
     }
 
-    public function addElement(Element $element) {
+    public function addElement(Element $element)
+    {
         if ($element instanceof SectionElement) {
             throw new \OutOfBoundsException('Sections can\'t be nested.');
         }
@@ -31,18 +37,21 @@ class SectionElement Extends ContainerElement {
         return $this;
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         return parent::configureClassMap($property, $value);
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         return parent::configureComplete();
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         parent::configureInitialize($config);
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
@@ -50,19 +59,23 @@ class SectionElement Extends ContainerElement {
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
-    protected function findSegment() {
+    protected function findSegment()
+    {
         return $this -> configureOptions['parent'] -> findSegment();
     }
 

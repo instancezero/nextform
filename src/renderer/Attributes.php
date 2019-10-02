@@ -5,7 +5,8 @@ Namespace Abivia\NextForm\Renderer;
 /**
  * Support for attributes that are part of a HTML element.
  */
-class Attributes {
+class Attributes
+{
     /**
      * What we need to join elements of some attributes (default is space delimited)
      * @var array
@@ -142,7 +143,8 @@ class Attributes {
      * @param string $name Optional name of an initial value.
      * @param string $value Optional initial value.
      */
-    public function __construct($name = null, $value = null) {
+    public function __construct($name = null, $value = null)
+    {
         // Build a non-sparse input attribute matrix
         if (isset(self::$inputAttributes['*'])) {
             // Merge all attributes into the common defaults
@@ -171,7 +173,8 @@ class Attributes {
      * @param string $type The input type we're generating
      * @param \Abivia\NextForm\Data\Validation $validation
      */
-    public function addValidation($type, $validation) {
+    public function addValidation($type, $validation)
+    {
         foreach (self::$validationMap as $attrName => $specs) {
             list($lookup) = $this -> parseName($attrName);
             if (self::$inputAttributes[$type][$lookup]) {
@@ -198,7 +201,8 @@ class Attributes {
      * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
      * @return \Abivia\NextForm\Renderer\Attributes New object with merged attributes.
      */
-    public function combine($source = null) : Attributes {
+    public function combine($source = null) : Attributes
+    {
         $result = clone $this;
         $result -> merge($source);
         return $result;
@@ -208,17 +212,19 @@ class Attributes {
      * Make a (deep) copy of this object
      * @return \Abivia\NextForm\Renderer\Attributes
      */
-    public function copy() : Attributes {
+    public function copy() : Attributes
+    {
         return clone $this;
     }
 
     /**
      * Set an attribute if no value is currently set.
      * @param string $name Name of the attribute to set.
-     * @param array $source The data source array
+     * @param string|array $value The attribute value.
      * @return \self
      */
-    public function default($name, $value) : self {
+    public function default($name, $value) : self
+    {
         if (!isset($this -> attrs[$name])) {
             $this -> attrs[$name] = $value;
         }
@@ -230,7 +236,8 @@ class Attributes {
      * @param type $name Name of the attribute to be deleted.
      * @return \self
      */
-    public function delete($name) : self {
+    public function delete($name) : self
+    {
         unset($this -> attrs[$name]);
         return $this;
     }
@@ -241,7 +248,8 @@ class Attributes {
      * @param array $value
      * @return string
      */
-    protected function flatten($attrName, $value) {
+    protected function flatten($attrName, $value)
+    {
         if (!is_array($value)) {
             return $value;
         }
@@ -265,7 +273,8 @@ class Attributes {
      * @param string $name Name of the attribute to retrieve.
      * @return mixed Attribute value.
      */
-    public function get($name) {
+    public function get($name)
+    {
         return $this -> attrs[$name];
     }
 
@@ -274,7 +283,8 @@ class Attributes {
      * @param string $name Name of the attribute to retrieve.
      * @return mixed Attribute value.
      */
-    public function &getReference($name) {
+    public function &getReference($name)
+    {
         return $this -> attrs[$name];
     }
 
@@ -282,7 +292,8 @@ class Attributes {
      * Get an array containing all the attributes.
      * @return array
      */
-    public function getAll() {
+    public function getAll()
+    {
         return $this -> attrs;
     }
 
@@ -291,7 +302,8 @@ class Attributes {
      * @param string $name Name of the attribute to check.
      * @return bool True if the attribute exists.
      */
-    public function has($name) : bool {
+    public function has($name) : bool
+    {
         return isset($this -> attrs[$name]);
     }
 
@@ -301,7 +313,8 @@ class Attributes {
      * @param array $mask Allowable flags, Boolean indexed by attribute name.
      * @return bool
      */
-    protected function include($name, $mask) : bool {
+    protected function include($name, $mask) : bool
+    {
         $prefix = substr($name, 0, 5);
         if ($prefix === 'aria-') {
             return true;
@@ -318,7 +331,8 @@ class Attributes {
      * @param string $name The attribute name.
      * @return bool
      */
-    static function inputHas($type, $name) : bool {
+    static function inputHas($type, $name) : bool
+    {
         if (!isset(self::$inputAttributes[$type])) {
             return false;
         }
@@ -332,7 +346,8 @@ class Attributes {
      * Determine if there are any attributes set. Used with the JSON encoder.
      * @return bool
      */
-    public function isEmpty() {
+    public function isEmpty()
+    {
         return empty($this -> attrs);
     }
 
@@ -342,7 +357,8 @@ class Attributes {
      * @param mixed $value The value to be appended.
      * @return \self
      */
-    public function itemAppend($name, $value) : self {
+    public function itemAppend($name, $value) : self
+    {
         if (!isset($this -> attrs[$name])) {
             $this -> attrs[$name] = [];
         } elseif(!is_array($this -> attrs[$name])) {
@@ -358,7 +374,8 @@ class Attributes {
      * @param array $items Items to delete. If associative, keys are used for removal.
      * @return \self
      */
-    public function itemDelete($name, $items) : self {
+    public function itemDelete($name, $items) : self
+    {
         if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
             return $this;
         }
@@ -385,7 +402,8 @@ class Attributes {
      * @param string|array $keys The array key(s) to be deleted.
      * @return \self
      */
-    public function itemDeleteKey($name, $keys) : self {
+    public function itemDeleteKey($name, $keys) : self
+    {
         if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
             return $this;
         }
@@ -405,7 +423,8 @@ class Attributes {
      * @param mixed $items One or more items to merge, scalar, array, or associative array.
      * @return \self
      */
-    public function itemInsert($name, $items) : self {
+    public function itemInsert($name, $items) : self
+    {
         if (!isset($this -> attrs[$name])) {
             $this -> attrs[$name] = [];
         } elseif(!is_array($this -> attrs[$name])) {
@@ -424,7 +443,8 @@ class Attributes {
      * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
      * @return \self
      */
-    public function merge($source = null) : self {
+    public function merge($source = null) : self
+    {
         if ($source === null) {
             return $this;
         }
@@ -458,7 +478,8 @@ class Attributes {
      * @param string $name The attribute command and name
      * @return array Attribute name in the first element, command (or '') in the second.
      */
-    protected function parseName($name) {
+    protected function parseName($name)
+    {
         if (strpos('!=*', $name[0]) !== false) {
             $cmd = $name[0];
             $name = substr($name, 1);
@@ -474,7 +495,8 @@ class Attributes {
      * @param mixed $value Value to set the attribute to.
      * @return \self
      */
-    public function set($name, $value) : self {
+    public function set($name, $value) : self
+    {
         $this -> attrs[$name] = $value;
         return $this;
     }
@@ -484,7 +506,8 @@ class Attributes {
      * @param string $name Name of the flag to set.
      * @return \self
      */
-    public function setFlag($name, bool $value = true) : self {
+    public function setFlag($name, bool $value = true) : self
+    {
         if ($value) {
             $this -> attrs['=' . $name] = $name;
         } else {
@@ -499,7 +522,8 @@ class Attributes {
      * @param mixed $value Value to set the attribute to.
      * @return \self
      */
-    public function setIfNotNull($name, $value) : self {
+    public function setIfNotNull($name, $value) : self
+    {
         if ($value !== null) {
             $this -> attrs[$name] = $value;
         }
@@ -513,7 +537,8 @@ class Attributes {
      * @param string $key Optional index into source; if omitted, $name is used.
      * @return \self
      */
-    public function setIfSet($name, $source, $key = null) : self {
+    public function setIfSet($name, $source, $key = null) : self
+    {
         if ($key === null) {
             $key = $name;
         }
@@ -529,7 +554,8 @@ class Attributes {
      * @param string $value The attribute value.
      * @return string
      */
-    protected function toHtml($name, $cmd, $value) {
+    protected function toHtml($name, $cmd, $value)
+    {
         // was writeattribute()
         switch ($cmd) {
             case '!': {
@@ -569,7 +595,8 @@ class Attributes {
      * @param string $tag The HTML element we're coding for; used to filter attributes.
      * @return string The list of attributes ready for insertion into a HTML element.
      */
-    public function write($tag) {
+    public function write($tag)
+    {
         $mask = $tag === 'input' ? self::$inputAttributes[$this -> attrs['type']] : null;
         // Convert all the attributes to HTML, using mask as a filter
         $parts = [];

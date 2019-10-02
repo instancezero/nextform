@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Data;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * Describes the storage characteristics of an object.
  */
-class Store implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Store implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Rules for the JsonEncoder
@@ -42,7 +46,8 @@ class Store implements \JsonSerializable {
      * @param mixed $value Current value for the property.
      * @return boolean
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         $result = true;
         if ($property === 'type') {
             if (!($result = in_array($value, self::$knownTypes))) {
@@ -59,7 +64,8 @@ class Store implements \JsonSerializable {
      * Get the current storage size.
      * @return string
      */
-    public function getSize() {
+    public function getSize()
+    {
         return (string) $this -> size;
     }
 
@@ -67,7 +73,8 @@ class Store implements \JsonSerializable {
      * Get the current data type
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this -> type;
     }
 
@@ -75,7 +82,8 @@ class Store implements \JsonSerializable {
      * Determine if this object contributes nothing to a JSON encoding.
      * @return bool
      */
-    public function isEmpty() : bool {
+    public function isEmpty() : bool
+    {
         if ($this -> size !== null) {
             return false;
         }
@@ -90,7 +98,8 @@ class Store implements \JsonSerializable {
      * @param string $size The desired storage size.
      * @return \self
      */
-    public function setSize($size) : self {
+    public function setSize($size) : self
+    {
         $this -> size = (string) $size;
         return $this;
     }
@@ -101,7 +110,8 @@ class Store implements \JsonSerializable {
      * @return \self
      * @throws RuntimeException If the type is not valid.
      */
-    public function setType($type) : self {
+    public function setType($type) : self
+    {
         if (!$this -> configureValidate('type', $type)) {
             throw new RuntimeException($type . ' is not a valid value for type.');
         }

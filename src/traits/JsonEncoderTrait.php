@@ -18,11 +18,13 @@ namespace Abivia\NextForm\Traits;
  * 'scalarize', converts a single element array to scalar.
  *
  */
-trait JsonEncoder {
+trait JsonEncoderTrait
+{
 
     //static protected $jsonEncodeMethod = [];
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         $result = new \stdClass;
         foreach (self::$jsonEncodeMethod as $prop => $encoding) {
             if (!is_array($encoding)) {
@@ -68,7 +70,8 @@ trait JsonEncoder {
      * @param mixed $value The value of the property
      * @return boolean Returns true if the value is part of the serialization.
      */
-    protected function jsonSerializeCommand($option, $cut, &$prop, &$value) {
+    protected function jsonSerializeCommand($option, $cut, &$prop, &$value)
+    {
         $cmd = substr($option, 0, $cut);
         $arg = substr($option, $cut + 1);
         $drop = false;

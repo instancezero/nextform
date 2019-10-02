@@ -12,7 +12,7 @@ use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 use Abivia\NextForm\Renderer\Bootstrap4;
 
-class FlatRenderer implements Abivia\NextForm\Contracts\Renderer {
+class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
 
     public function __construct($options = []) {
 

@@ -2,17 +2,21 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Trigger\Trigger;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Representation of a form element that accepts user input (including a button).
  */
-class FieldElement extends NamedElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class FieldElement extends NamedElement
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * A list of possible values for radio/drop-down types.
@@ -75,10 +79,13 @@ class FieldElement extends NamedElement {
     /**
      * Configure the JSON encoder on first instantiation.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
+            self::$jsonEncodeMethod = array_merge(
+                parent::$jsonEncodeMethod, self::$jsonLocalMethod
+            );
         }
         $this -> type = 'field';
     }
@@ -88,7 +95,8 @@ class FieldElement extends NamedElement {
      * @param \Abivia\NextForm\Data\Schema $schema
      * @return \self
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self
+    {
         $this -> dataProperty = $schema -> getProperty($this -> object);
         if ($this -> dataProperty) {
             // Give the data property the ability to signal us.
@@ -96,16 +104,21 @@ class FieldElement extends NamedElement {
             if ($this -> form) {
                 $this -> form -> registerObject($this);
             }
+
             // Merge a copy of the data labels so we can use them with translation
-            $this -> labelsMerged = $this -> dataProperty -> getLabels() -> combine($this -> labels);
+            $this -> labelsMerged = $this -> dataProperty -> getLabels()
+                -> combine($this -> labels);
+
             // Make a copy of the data list so we can translate labels
-            $this -> dataList = $this -> dataProperty -> getPopulation() -> getList();
+            $this -> dataList = $this -> dataProperty
+                -> getPopulation() -> getList();
             $this -> dataListTranslated = $this -> dataList;
         }
         return $this;
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'triggers' => ['className' => Trigger::class],
         ];
@@ -120,7 +133,8 @@ class FieldElement extends NamedElement {
      * Pass the completeness check up so we have a label structure.
      * @return boolean
      */
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         // The NamedElement class initializes the labelsMerged property
         return parent::configureComplete();
     }
@@ -128,18 +142,21 @@ class FieldElement extends NamedElement {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
@@ -149,7 +166,8 @@ class FieldElement extends NamedElement {
      * @param mixed $value
      * @return boolean
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         if ($property == 'object') {
             if ($value === '') {
                 return true;
@@ -167,9 +185,10 @@ class FieldElement extends NamedElement {
 
     /**
      * Get the connected schema object, if any
-     * @return \Abivia\NextForm\Data\Property
+     * @return Abivia\NextForm\Data\Property
      */
-    public function getDataProperty() : \Abivia\NextForm\Data\Property {
+    public function getDataProperty() : Property
+    {
         if ($this -> dataProperty === null) {
             throw new \RuntimeException(
                 'Attempt to get missing schema information, object ' . $this -> getObject()
@@ -182,7 +201,8 @@ class FieldElement extends NamedElement {
      * Get the default value for this field.
      * @return mixed
      */
-    public function getDefault() {
+    public function getDefault()
+    {
         return $this -> default;
     }
 
@@ -191,7 +211,8 @@ class FieldElement extends NamedElement {
      * @param bool $translated Returns the translated texts, if available
      * @return \Abivia\NextForm\Data\Population\Option[]
      */
-    public function getFlatList($translated = false) {
+    public function getFlatList($translated = false)
+    {
         if ($translated && $this -> hasTranslation) {
             $source = $this -> dataListTranslated;
         } else {
@@ -216,7 +237,8 @@ class FieldElement extends NamedElement {
      * @param bool $translated
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function getLabels($translated = false) : \Abivia\NextForm\Data\Labels {
+    public function getLabels($translated = false) : Labels
+    {
         if ($translated && $this -> hasTranslation) {
             return $this -> labelsTranslated;
         } else {
@@ -230,7 +252,8 @@ class FieldElement extends NamedElement {
      * @param bool $translated Returns the translated texts, if available
      * @return Abivia\NextForm\Data\Population\Option[]
      */
-    public function getList($translated = false) {
+    public function getList($translated = false)
+    {
         if ($translated && $this -> hasTranslation) {
             $list = $this -> dataListTranslated;
         } else {
@@ -258,7 +281,8 @@ class FieldElement extends NamedElement {
     /**
      * If we can represent this field in JSON as a string, return a string otherwise $this.
      */
-    public function jsonCollapse() {
+    public function jsonCollapse()
+    {
         if ($this -> default !== null) {
             return $this;
         }
@@ -284,7 +308,8 @@ class FieldElement extends NamedElement {
      * @param type $value
      * @return type
      */
-    protected function removeScope($value) {
+    protected function removeScope($value)
+    {
         if (!$this -> form) {
             return $value;
         }
@@ -302,7 +327,8 @@ class FieldElement extends NamedElement {
      * @param $value The new default value.
      * @return \self
      */
-    public function setDefault($value) : self {
+    public function setDefault($value) : self
+    {
         $this -> default = $value;
         return $this;
     }
@@ -312,7 +338,8 @@ class FieldElement extends NamedElement {
      * @param $value The new default value.
      * @return \self
      */
-    public function setValue($value) : self {
+    public function setValue($value) : self
+    {
         $this -> value = $value;
         return $this;
     }
@@ -322,7 +349,8 @@ class FieldElement extends NamedElement {
      * @param Translator $translate
      * @return \Abivia\NextForm\Element\Element
      */
-    public function translate(Translator $translate) : Element {
+    public function translate(Translator $translate) : Element
+    {
         // Translate the data list, if any
         if ($this -> dataProperty) {
             $this -> dataListTranslated = $this -> dataList;

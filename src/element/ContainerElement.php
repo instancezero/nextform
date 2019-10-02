@@ -2,18 +2,21 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
-use Abivia\NextForm\Contracts\Access;
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\AccessInterface;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Class for any element that contains a list of sub-elements.
  */
-abstract class ContainerElement Extends NamedElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+abstract class ContainerElement Extends NamedElement
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * The list of elements contained by this instance.
@@ -30,7 +33,8 @@ abstract class ContainerElement Extends NamedElement {
     /**
      * Build JSON encoder rules on the first instantiation.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
@@ -45,7 +49,8 @@ abstract class ContainerElement Extends NamedElement {
      * Connect data elements in a schema
      * @param \Abivia\NextForm\Data\Schema $schema
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) {
+    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
+    {
         foreach ($this -> elements as $element) {
             $element -> bindSchema($schema);
         }
@@ -57,7 +62,8 @@ abstract class ContainerElement Extends NamedElement {
      * @param mixed $value
      * @return mixed
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         $result = false;
         if ($property == 'elements') {
             $result = new \stdClass;
@@ -69,14 +75,16 @@ abstract class ContainerElement Extends NamedElement {
         return $result;
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         return parent::configureComplete();
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
@@ -92,26 +100,33 @@ abstract class ContainerElement Extends NamedElement {
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
     /**
      * Use a renderer to turn this element into part of the form.
-     * @param Renderer $renderer Any Renderer object.
-     * @param Access $access Any access control object
+     * @param RendererInterface $renderer Any Renderer object.
+     * @param AccessInterface $access Any access control object
      * @param Translator $translate Any translation object.
      * @return Block
      */
-    public function generate(Renderer $renderer, Access $access, Translator $translate) : Block {
+    public function generate(
+        RendererInterface $renderer,
+        AccessInterface $access,
+        Translator $translate
+    ) : Block {
         $this -> translate($translate);
         $options = false; // $access -> hasAccess(...)
         $options = ['access' => 'write'];
@@ -127,7 +142,8 @@ abstract class ContainerElement Extends NamedElement {
      * Get the elements in this container.
      * @return Element[]
      */
-    public function getElements() {
+    public function getElements()
+    {
         return $this -> elements;
     }
 
@@ -135,7 +151,8 @@ abstract class ContainerElement Extends NamedElement {
      * See if any of the contained elements can be represented as a shorthand string.
      * @param array $elementList
      */
-    protected function jsonCollapseElements($elementList) {
+    protected function jsonCollapseElements($elementList)
+    {
         foreach ($elementList as &$element) {
             $element = $element -> jsonCollapse();
         }

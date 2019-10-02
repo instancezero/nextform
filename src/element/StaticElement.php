@@ -2,13 +2,18 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Element\LabelsTrait;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * The static element puts static text into the form
  */
-class StaticElement Extends SimpleElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Element\HasLabels;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class StaticElement Extends SimpleElement
+{
+    use Configurable;
+    use LabelsTrait;
+    use JsonEncoderTrait;
 
     /**
      * Text is HTML encoded flag. If set, the contents are assumed to be safe and escaped.
@@ -31,7 +36,8 @@ class StaticElement Extends SimpleElement {
         'value' => [],
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
@@ -40,29 +46,34 @@ class StaticElement Extends SimpleElement {
         $this -> type = 'static';
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         return parent::configureClassMap($property, $value);
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
@@ -70,7 +81,8 @@ class StaticElement Extends SimpleElement {
      * Get the text is HTML flag.
      * @return bool
      */
-    public function getHtml() : bool {
+    public function getHtml() : bool
+    {
         return $this -> html;
     }
 
@@ -79,7 +91,8 @@ class StaticElement Extends SimpleElement {
      * @param bool $isHtml
      * @return \self
      */
-    public function setHtml(bool $isHtml) : self {
+    public function setHtml(bool $isHtml) : self
+    {
         $this -> html = $isHtml;
         return $this;
     }

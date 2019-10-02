@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * Support for a form button
  */
-class ButtonElement Extends NamedElement {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class ButtonElement Extends NamedElement
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * The function this button performs on the form.
@@ -38,7 +42,8 @@ class ButtonElement Extends NamedElement {
     /**
      * Merge JSON encoding rules on first instantiation.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
@@ -46,29 +51,34 @@ class ButtonElement Extends NamedElement {
         $this -> type = 'button';
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         return parent::configureClassMap($property, $value);
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         return parent::configureComplete();
     }
 
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
@@ -78,7 +88,8 @@ class ButtonElement Extends NamedElement {
      * @param mixed $value Current value of the property.
      * @return boolean
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         if ($property === 'function') {
             if (!in_array($value, self::$validFunctions)) {
                 $this -> configureLogError(
@@ -91,7 +102,8 @@ class ButtonElement Extends NamedElement {
         return parent::configureValidate($property, $value);
     }
 
-    public function getFunction() {
+    public function getFunction()
+    {
         return $this -> function;
     }
 
@@ -101,7 +113,8 @@ class ButtonElement Extends NamedElement {
      * @return $this
      * @throws \RuntimeException If the value is not a valid button function.
      */
-    public function setFunction($value) {
+    public function setFunction($value)
+    {
         $this -> configureErrors = [];
         if (!$this -> configureValidate('function', $value)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));

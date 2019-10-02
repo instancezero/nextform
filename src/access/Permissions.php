@@ -5,7 +5,8 @@ namespace Abivia\NextForm\Access;
 /**
  * A simple permission for the BasicAccess class.
  */
-class Permissions {
+class Permissions
+{
 
     /**
      * Permission flags.
@@ -19,7 +20,8 @@ class Permissions {
      * @param bool $flag True if the permission is granted.
      * @return self
      */
-    public function addRule($rule, $flag) : self {
+    public function addRule($rule, $flag) : self
+    {
         $parts = $this -> parseRule($rule);
         if (!isset($this -> rules[$parts[0]])) {
             $this -> rules[$parts[0]] = [];
@@ -34,7 +36,8 @@ class Permissions {
      * @param bool $strict Strict validation. When set a malformed rule will abort configuration.
      * @return boolean
      */
-    public function configure($value, $strict = false) {
+    public function configure($value, $strict = false)
+    {
         foreach ($value as $rule => $flag) {
             try {
                 $this -> addRule($rule, $flag);
@@ -52,7 +55,8 @@ class Permissions {
      * @param string $rule The rule identifier ("object.operation").
      * @return self
      */
-    public function deleteRule($rule) : self {
+    public function deleteRule($rule) : self
+    {
         $parts = $this -> parseRule($rule);
         if (isset($this -> rules[$parts[0]])) {
             unset($this -> rules[$parts[0]][$parts[1]]);
@@ -67,7 +71,8 @@ class Permissions {
      * @param string $operation The operation name, when not part of the $object.
      * @return ?bool Boolean if there is a permission by this name, null otherwise.
      */
-    public function has($object, $operation = null) : ?bool {
+    public function has($object, $operation = null) : ?bool
+    {
         if ($operation === null) {
             list($object, $operation) = $this -> parseRule($object);
         }
@@ -83,7 +88,8 @@ class Permissions {
      * @return string[] An array of [object, operation]
      * @throws \DomainException when the rule is malformed.
      */
-    protected function parseRule($rule) {
+    protected function parseRule($rule)
+    {
         if (false === $lastPos = strrpos($rule, '.')) {
             throw new \DomainException('Rule must end with a period followed by an operation name.');
         }

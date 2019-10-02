@@ -3,14 +3,19 @@
 namespace Abivia\NextForm\Data;
 
 use Abivia\NextForm;
+
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 use function DeepCopy\deep_copy;
 
 /**
  * Describes the schema of a data set.
  */
-class Schema implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Schema implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Default characteristics for properties in this schema.
@@ -40,7 +45,8 @@ class Schema implements \JsonSerializable {
      * @return mixed An object containing a class name and key, or false
      * @codeCoverageIgnore
      */
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'segments' => ['className' => '\Abivia\NextForm\Data\Segment', 'key' => 'getName', 'keyIsMethod' => true],
         ];
@@ -53,7 +59,8 @@ class Schema implements \JsonSerializable {
     /**
      * Configure elements set in the default property.
      */
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         if ($this -> defaultRepo !== null) {
             // If the source was YAML, we have an array instead of an object.
             if (is_array($this -> defaultRepo)) {
@@ -75,7 +82,8 @@ class Schema implements \JsonSerializable {
         return true;
     }
 
-    protected function configureInitialize() {
+    protected function configureInitialize()
+    {
         // Pass an instance of the schema down in Configurable's options so we can
         // access the form directly from deep within the data structures.
         $this -> configureOptions['_schema'] = &$this;
@@ -86,7 +94,8 @@ class Schema implements \JsonSerializable {
      * @param string $property
      * @return string
      */
-    protected function configurePropertyMap($property): string {
+    protected function configurePropertyMap($property): string
+    {
         if ($property == 'default') {
             $property = 'defaultRepo';
         }
@@ -97,7 +106,8 @@ class Schema implements \JsonSerializable {
      * Create a deep clone of this schema, copying all connected objects.
      * @return \Abivia\NextForm\Data\Schema
      */
-    public function copy() : Schema {
+    public function copy() : Schema
+    {
         return deep_copy($this);
     }
 
@@ -110,7 +120,8 @@ class Schema implements \JsonSerializable {
      * @return \Abivia\NextForm\Data\Schema
      * @throws \RuntimeException
      */
-    static public function fromFile($schemaFile, $format = '') {
+    static public function fromFile($schemaFile, $format = '')
+    {
         $schema = new Schema;
         if (!file_exists($schemaFile)) {
             throw new \RuntimeException(
@@ -159,7 +170,8 @@ class Schema implements \JsonSerializable {
      * @param string $setting Gets the specified setting. If missing, all settings are returned.
      * @return mixed
      */
-    public function getDefault($setting = null) {
+    public function getDefault($setting = null)
+    {
         if ($setting === null) {
             return $this -> defaultRepo;
         }
@@ -175,7 +187,8 @@ class Schema implements \JsonSerializable {
      * @param string $name Property name. Only required if $segProp is just a segment name.
      * @return \Abivia\NextForm\Data\Property|null Null if the property doesn't exist.
      */
-    public function getProperty($segProp, $name = '') : ?Property {
+    public function getProperty($segProp, $name = '') : ?Property
+    {
         if (strpos($segProp, NextForm::SEGMENT_DELIM) !== false) {
             list($segProp, $name) = explode(NextForm::SEGMENT_DELIM, $segProp);
         }
@@ -190,7 +203,8 @@ class Schema implements \JsonSerializable {
      * @param string $segName Name of the segment to retrieve
      * @return \Abivia\NextForm\Data\Segment|null Null if the segment does not exist.
      */
-    public function getSegment($segName) : ?Segment {
+    public function getSegment($segName) : ?Segment
+    {
         if (!isset($this -> segments[$segName])) {
             return null;
         }
@@ -203,7 +217,8 @@ class Schema implements \JsonSerializable {
      * @param \Abivia\NextForm\Data\Segment $segment Segment contents.
      * @return \self
      */
-    public function setSegment($segName, Segment $segment) : self {
+    public function setSegment($segName, Segment $segment) : self
+    {
         $this -> segments[$segName] = $segment;
         return $this;
     }

@@ -10,7 +10,8 @@ use Abivia\NextForm\Element\Element;
  * Interface for a page renderer.
  * @codeCoverageIgnore
  */
-interface Renderer {
+interface RendererInterface
+{
 
     /**
      * Pop the rendering context

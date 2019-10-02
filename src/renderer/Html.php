@@ -2,15 +2,17 @@
 namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm;
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\FieldElement;
+use Abivia\NextForm\Traits\ShowableTrait;
 
 /**
  * A base for HTML rendering
  */
-abstract class Html implements Renderer {
-    use \Abivia\NextForm\Traits\Showable;
+abstract class Html implements RendererInterface
+{
+    use ShowableTrait;
 
     protected $context = [];
     protected $contextStack = [];
@@ -95,11 +97,13 @@ abstract class Html implements Renderer {
     protected $showState = [];
     protected $showStack = [];
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         self::$showDefaultScope = 'form';
     }
 
-    protected function elementHidden($element, $value) {
+    protected function elementHidden($element, $value)
+    {
         $block = new Block;
         $baseId = $element -> getId();
         $formName = $element -> getFormName();
@@ -133,7 +137,8 @@ abstract class Html implements Renderer {
      * @param FieldElement $element The element we're generating for.
      * @return \Abivia\NextForm\Renderer\Block The output block.
      */
-    protected function elementHiddenList(FieldElement $element) {
+    protected function elementHiddenList(FieldElement $element)
+    {
         $needEmpty = true;
         $block = new Block;
         $baseId = $element -> getId();
@@ -167,7 +172,8 @@ abstract class Html implements Renderer {
         return $block;
     }
 
-    protected function getRenderMethod(Element $element) {
+    protected function getRenderMethod(Element $element)
+    {
         $classPath = get_class($element);
         if (!isset(self::$renderMethodCache[$classPath])) {
             $classParts = explode('\\', $classPath);
@@ -181,7 +187,8 @@ abstract class Html implements Renderer {
      * @param Element $element
      * @return \Abivia\NextForm\Renderer\Attributes
      */
-    protected function groupAttributes($element, $options = []) : Attributes {
+    protected function groupAttributes($element, $options = []) : Attributes
+    {
         $id = $options['id'] ?? $element -> getId();
         $container = new Attributes('id', $id . '-container');
         if (!$element -> getVisible()) {
@@ -204,7 +211,8 @@ abstract class Html implements Renderer {
     /**
      * Pop the rendering context
      */
-    public function popContext() {
+    public function popContext()
+    {
         if (count($this -> contextStack)) {
             $this -> context = array_pop($this -> contextStack);
             $this -> showState = array_pop($this -> showStack);
@@ -214,19 +222,22 @@ abstract class Html implements Renderer {
     /**
      * Push the rendering context
      */
-    public function pushContext() {
+    public function pushContext()
+    {
         array_push($this -> contextStack, $this -> context);
         array_push($this -> showStack, $this -> showState);
     }
 
-    public function queryContext($selector) {
+    public function queryContext($selector)
+    {
         if (!isset($this -> context[$selector])) {
             throw new RuntimeException($selector . ' is not valid in current context.');
         }
         return $this -> context[$selector];
     }
 
-    public function render(Element $element, $options = []) : Block {
+    public function render(Element $element, $options = []) : Block
+    {
         if (!isset($options['access'])) {
             $options['access'] = 'write';
         }
@@ -250,7 +261,8 @@ abstract class Html implements Renderer {
      * Convert a set of visual settings into rendering parameters.
      * @param string $settings
      */
-    public function setShow($settings, $defaultScope = '') {
+    public function setShow($settings, $defaultScope = '')
+    {
         $settings = self::showTokenize($settings, $defaultScope);
         foreach ($settings as $scope => $list) {
             foreach ($list as $key => $value) {
@@ -265,7 +277,8 @@ abstract class Html implements Renderer {
      * @param array $args A list of arguments
      * @throws \RuntimeError
      */
-    protected function show($scope, $key, $args) {
+    protected function show($scope, $key, $args)
+    {
         if (!isset(self::$showRules[$key])) {
             throw new \RuntimeException(
                 'Invalid show: ' . $key . ' is not recognized.'
@@ -327,7 +340,8 @@ abstract class Html implements Renderer {
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoInvisible($scope, $choice, $values = []) {
+    protected function showDoInvisible($scope, $choice, $values = [])
+    {
         if (!isset($this -> showState[$scope])) {
             $this -> showState[$scope] = [];
         }
@@ -341,7 +355,8 @@ abstract class Html implements Renderer {
      * @param string $key The index of the value we want.
      * @return mixed
      */
-    protected function showGet($scope, $key) {
+    protected function showGet($scope, $key)
+    {
 
         if (($result = $this -> showGetLocal($scope, $key)) !== null) {
             return $result;
@@ -365,7 +380,8 @@ abstract class Html implements Renderer {
      * @param string $key The index of the value we want.
      * @return mixed
      */
-    protected function showGetLocal($scope, $key) {
+    protected function showGetLocal($scope, $key)
+    {
         if (!isset($this -> showState[$scope])) {
             return null;
         }
@@ -380,7 +396,8 @@ abstract class Html implements Renderer {
      * @param array $options @see NextForm
      * @return \Abivia\NextForm\Renderer\Block
      */
-    public function start($options = []) : Block {
+    public function start($options = []) : Block
+    {
         $this -> initialize();
         if (isset($options['attrs'])) {
             $attrs = $options['attrs'];
@@ -415,7 +432,8 @@ abstract class Html implements Renderer {
      *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function writeElement($tag, $options = []) {
+    protected function writeElement($tag, $options = [])
+    {
         $hasPost = false;
         $attrs = $options['attrs'] ?? null;
         if (isset($options['show'])) {
@@ -451,7 +469,8 @@ abstract class Html implements Renderer {
      * @param type $options break(bool,''), div(string,classes)
      * @return string
      */
-    protected function writeLabel($purpose, $text, $tag, $attrs = null, $options = []) {
+    protected function writeLabel($purpose, $text, $tag, $attrs = null, $options = [])
+    {
         if ($text === null) {
             // In horizontal layouts we always generate an element
             if (
@@ -486,7 +505,8 @@ abstract class Html implements Renderer {
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @return string
      */
-    protected function writeTag($tag, $attrs = null, $text = null) {
+    protected function writeTag($tag, $attrs = null, $text = null)
+    {
         $html = '<' . $tag . ($attrs ? $attrs -> write($tag) : '');
         if (isset(self::$selfClose[$tag]) && $text === null) {
             $html .= '/>';

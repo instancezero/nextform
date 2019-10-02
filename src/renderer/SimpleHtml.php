@@ -1,7 +1,7 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
-use Abivia\NextForm\Contracts\Renderer;
+use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Element\Element;
 use Abivia\NextForm\Element\ButtonElement;
 use Abivia\NextForm\Element\CellElement;
@@ -13,7 +13,8 @@ use Abivia\NextForm\Element\StaticElement;
 /**
  * A skeletal renderer that generates a very basic form.
  */
-class SimpleHtml extends CommonHtml implements Renderer {
+class SimpleHtml extends CommonHtml implements RendererInterface
+{
 
     /**
      * Maps element types to render methods.
@@ -21,13 +22,20 @@ class SimpleHtml extends CommonHtml implements Renderer {
      */
     static $renderMethodCache = [];
 
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
         parent::__construct($options);
         self::$showDefaultScope = 'form';
         $this -> initialize();
     }
 
-    protected function checkList(Block $block, FieldElement $element, $list, $type, Attributes $attrs) {
+    protected function checkList(
+        Block $block,
+        FieldElement $element,
+        $list,
+        $type,
+        Attributes $attrs
+    ) {
         $baseId = $element -> getId();
         $select = $element -> getValue();
         if ($select === null) {
@@ -67,7 +75,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         }
     }
 
-    protected function initialize() {
+    protected function initialize()
+    {
         parent::initialize();
         // Reset the context
         $this -> context = [
@@ -77,7 +86,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         $this -> setShow('layout:vertical');
     }
 
-    protected function renderButtonElement(ButtonElement $element, $options = []) {
+    protected function renderButtonElement(ButtonElement $element, $options = [])
+    {
         $attrs = new Attributes;
         $attrs -> set('id', $element -> getId());
         if ($options['access'] == 'view' || !$element -> getEnabled()) {
@@ -126,7 +136,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderCellElement(CellElement $element, $options = []) {
+    protected function renderCellElement(CellElement $element, $options = [])
+    {
         $block = $this -> writeElement('div', ['force' => true, 'show' => 'input-wrapper']);
         $block -> onCloseDone = [$this, 'popContext'];
         $this -> pushContext();
@@ -135,7 +146,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldCommon(FieldElement $element, $options = []) {
+    protected function renderFieldCommon(FieldElement $element, $options = [])
+    {
         $attrs = new Attributes;
         $confirm = $options['confirm'];
         $data = $element -> getDataProperty();
@@ -202,7 +214,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
      * @param array $options
      * @return Block
      */
-    protected function renderFieldCheckbox(FieldElement $element, $options = []) {
+    protected function renderFieldCheckbox(FieldElement $element, $options = [])
+    {
         if ($options['access'] === 'hide') {
             // Generate hidden elements and return
             return $this -> elementHiddenList($element);
@@ -262,7 +275,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldFile(FieldElement $element, $options = []) {
+    protected function renderFieldFile(FieldElement $element, $options = [])
+    {
         $value = $element -> getValue();
         if ($options['access'] === 'hide') {
 
@@ -317,7 +331,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldImage(FieldElement $element, $options = []) {
+    protected function renderFieldImage(FieldElement $element, $options = [])
+    {
         $attrs = new Attributes;
         $data = $element -> getDataProperty();
         $presentation = $data -> getPresentation();
@@ -370,7 +385,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelect(FieldElement $element, $options = []) {
+    protected function renderFieldSelect(FieldElement $element, $options = [])
+    {
         $value = $element -> getValue();
         if ($options['access'] === 'hide') {
 
@@ -457,7 +473,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelectOption($option, $value) {
+    protected function renderFieldSelectOption($option, $value)
+    {
         $block = new Block;
         $attrs = new Attributes;
         $attrs -> set('value', $option -> getValue());
@@ -469,7 +486,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldSelectOptions($list, $value) {
+    protected function renderFieldSelectOptions($list, $value)
+    {
         $block = new Block;
         foreach ($list as $option) {
             if ($option -> isNested()) {
@@ -486,7 +504,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderFieldTextarea(FieldElement $element, $options = []) {
+    protected function renderFieldTextarea(FieldElement $element, $options = [])
+    {
         $value = $element -> getValue();
         if ($options['access'] === 'hide') {
 
@@ -536,7 +555,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderSectionElement(SectionElement $element, $options = []) {
+    protected function renderSectionElement(SectionElement $element, $options = [])
+    {
         $block = new Block();
         $labels = $element -> getLabels(true);
         $block -> body = '<fieldset>' . "\n";
@@ -549,7 +569,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    protected function renderStaticElement(StaticElement $element, $options = []) {
+    protected function renderStaticElement(StaticElement $element, $options = [])
+    {
         $block = new Block();
 
         // There's no way to hide this element so if access is hidden, skip it.
@@ -581,7 +602,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
         return $block;
     }
 
-    public function setOptions($options = []) {
+    public function setOptions($options = [])
+    {
 
     }
 
@@ -591,7 +613,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($scope, $choice, $values = []) {
+    protected function showDoLayout($scope, $choice, $values = [])
+    {
         if (!isset($this -> showState[$scope])) {
             $this -> showState[$scope] = [];
         }
@@ -612,7 +635,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyHorizontal($scope, $values) {
+    protected function showDoLayoutAnyHorizontal($scope, $values)
+    {
         // possible values for arguments:
         // h            - We get to decide
         // h:nxx        - First column width in CSS units
@@ -718,7 +742,8 @@ class SimpleHtml extends CommonHtml implements Renderer {
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyVertical($scope, $values) {
+    protected function showDoLayoutAnyVertical($scope, $values)
+    {
         // possible values for arguments:
         // v            - Default, nothing to do
         // v:mxx        - CSS units for input elements

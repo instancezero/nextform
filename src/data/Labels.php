@@ -2,6 +2,9 @@
 
 namespace Abivia\NextForm\Data;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -10,9 +13,10 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  * Values default to null to allow inheritance form another level; an explicit blank
  * overwrites inheritance.
  */
-class Labels implements \JsonSerializable{
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Labels implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * Text to display after the body of an item.
@@ -96,7 +100,8 @@ class Labels implements \JsonSerializable{
      * @param \Abivia\NextForm\Data\Labels $merge
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function &combine(Labels $merge) {
+    public function &combine(Labels $merge)
+    {
         $newLabels = clone $this;
         foreach (self::$textProperties as $prop) {
             if ($merge -> $prop !== null) {
@@ -107,7 +112,8 @@ class Labels implements \JsonSerializable{
         return $newLabels;
     }
 
-    protected function configureInitialize() {
+    protected function configureInitialize()
+    {
         if (isset($this -> configureOptions['_schema'])) {
             $this -> schema = $this -> configureOptions['_schema'];
         }
@@ -119,7 +125,8 @@ class Labels implements \JsonSerializable{
      * @return string
      * @throws \RuntimeException
      */
-    public function get($labelName) {
+    public function get($labelName)
+    {
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
@@ -132,7 +139,8 @@ class Labels implements \JsonSerializable{
      * @return bool
      * @throws \RuntimeException
      */
-    public function has($labelName) : bool {
+    public function has($labelName) : bool
+    {
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
@@ -143,7 +151,8 @@ class Labels implements \JsonSerializable{
      * Check to see if there are any non-null elements in the label.
      * @return bool
      */
-    public function isEmpty() : bool {
+    public function isEmpty() : bool
+    {
         foreach (self::$textProperties as $prop) {
             if ($this -> $prop !== null) {
                 return false;
@@ -159,7 +168,8 @@ class Labels implements \JsonSerializable{
      * @return \self
      * @throws \RuntimeException
      */
-    public function set($labelName, $text) : self {
+    public function set($labelName, $text) : self
+    {
         if (in_array($labelName, self::$textProperties)) {
             $this -> $labelName = $text;
         } else {
@@ -173,7 +183,8 @@ class Labels implements \JsonSerializable{
      * @param Translator $translate The translation facility.
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function translate(Translator $translate) : Labels {
+    public function translate(Translator $translate) : Labels
+    {
         $newLabels = clone $this;
         if ($this -> schema) {
             $defaults = $this -> schema -> getDefault('labels');

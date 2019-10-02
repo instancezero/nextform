@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Data;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * Describes acceptable values for a property
  */
-class Validation implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Validation implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * A list of file patterns for an input element of type file.
@@ -101,7 +105,8 @@ class Validation implements \JsonSerializable {
      */
     protected $translatePattern = false;
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         if ($this -> maxValue < $this -> minValue) {
                 $this -> configureLogError(
                     'Minimum value must be less than or equal to maximum value.'
@@ -111,7 +116,8 @@ class Validation implements \JsonSerializable {
         return true;
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         if (in_array($property, ['async', 'multiple', 'required', 'translatePattern'])) {
             if (!is_bool($value)) {
                 $this -> configureLogError($property . ' must be a boolean.');
@@ -176,7 +182,8 @@ class Validation implements \JsonSerializable {
      * @return mixed
      * @throws \RuntimeException
      */
-    public function get($property) {
+    public function get($property)
+    {
         if ($property == '-pattern') {
             return $this -> pattern !== '' ? substr($this -> pattern, 1, -1) : '';
         }
@@ -190,7 +197,8 @@ class Validation implements \JsonSerializable {
      * Determine if this object contributes nothing to a JSON encoding.
      * @return bool
      */
-    public function isEmpty() {
+    public function isEmpty()
+    {
         if (!empty($this -> accept)) {
             return false;
         }
@@ -237,7 +245,8 @@ class Validation implements \JsonSerializable {
      * @return $this
      * @throws \RuntimeException If the property has an invalid value.
      */
-    public function set($property, $value) {
+    public function set($property, $value)
+    {
         $this -> configureErrors = [];
         if (!$this -> configureValidate($property, $value)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));

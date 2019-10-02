@@ -2,12 +2,16 @@
 
 namespace Abivia\NextForm\Data;
 
+use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
+
 /**
  * Describes how a data object is displayed on a form.
  */
-class Presentation implements \JsonSerializable {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
+class Presentation implements \JsonSerializable
+{
+    use Configurable;
+    use JsonEncoderTrait;
 
     /**
      * The number of columns to use when displaying an element.
@@ -63,7 +67,8 @@ class Presentation implements \JsonSerializable {
      * @param mixed $value
      * @return boolean
      */
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         switch ($property) {
             case 'cols':
             case 'rows':
@@ -95,7 +100,8 @@ class Presentation implements \JsonSerializable {
      * Get the number of display columns.
      * @return int
      */
-    public function getCols() {
+    public function getCols()
+    {
         return $this -> cols;
     }
 
@@ -103,7 +109,8 @@ class Presentation implements \JsonSerializable {
      * Get the "confirmation required" flag.
      * @return bool
      */
-    public function getConfirm() {
+    public function getConfirm()
+    {
         return $this -> confirm;
     }
 
@@ -111,7 +118,8 @@ class Presentation implements \JsonSerializable {
      * Get the number of display rows.
      * @return int
      */
-    public function getRows() {
+    public function getRows()
+    {
         return $this -> rows;
     }
 
@@ -119,7 +127,8 @@ class Presentation implements \JsonSerializable {
      * Get the visual presentation type.
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this -> type;
     }
 
@@ -129,7 +138,8 @@ class Presentation implements \JsonSerializable {
      * @return \self
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setCols($cols) : self {
+    public function setCols($cols) : self
+    {
         $this -> configureErrors = [];
         if (!$this -> configureValidate('cols', $cols)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));
@@ -144,7 +154,8 @@ class Presentation implements \JsonSerializable {
      * @return \self
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setConfirm($confirm) : self {
+    public function setConfirm($confirm) : self
+    {
         $this -> configureErrors = [];
         if (!$this -> configureValidate('confirm', $confirm)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));
@@ -159,7 +170,8 @@ class Presentation implements \JsonSerializable {
      * @return \self
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setRows($rows) : self {
+    public function setRows($rows) : self
+    {
         $this -> configureErrors = [];
         if (!$this -> configureValidate('rows', $rows)) {
             throw new \RuntimeException(implode("\n", $this -> configureErrors));
@@ -174,7 +186,8 @@ class Presentation implements \JsonSerializable {
      * @return \self
      * @throws \RuntimeException If the type is not recognized.
      */
-    public function setType($value) : self {
+    public function setType($value) : self
+    {
         if (!$this -> configureValidate('type', $value)) {
             if (is_scalar($value)) {
                 $msg = '"' . $value . '" is not a valid presentation type.';

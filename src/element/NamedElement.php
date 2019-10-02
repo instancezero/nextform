@@ -2,17 +2,19 @@
 
 namespace Abivia\NextForm\Element;
 
+use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
-
-use Illuminate\Contracts\Translation\Translator as Translator;
+use Abivia\NextForm\Element\LabelsTrait;
+use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
  * Elements with a name attribute on the form.
  */
-abstract class NamedElement Extends Element {
-    use \Abivia\Configurable\Configurable;
-    use \Abivia\NextForm\Traits\JsonEncoder;
-    use \Abivia\NextForm\Element\HasLabels;
+abstract class NamedElement Extends Element
+{
+    use Configurable;
+    use JsonEncoderTrait;
+    use LabelsTrait;
 
     /**
      * Rules for the JsonEncoder
@@ -32,7 +34,8 @@ abstract class NamedElement Extends Element {
      */
     static private $staticInit;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (!self::$staticInit) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
@@ -41,7 +44,8 @@ abstract class NamedElement Extends Element {
         }
     }
 
-    protected function configureClassMap($property, $value) {
+    protected function configureClassMap($property, $value)
+    {
         static $classMap = [
             'labels' => ['className' => Labels::class],
         ];
@@ -54,7 +58,8 @@ abstract class NamedElement Extends Element {
         return $result;
     }
 
-    protected function configureComplete() {
+    protected function configureComplete()
+    {
         if ($this -> labels === null) {
             $this -> labels  = new Labels;
         }
@@ -66,22 +71,26 @@ abstract class NamedElement Extends Element {
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config) {
+    protected function configureInitialize(&$config)
+    {
         if (isset($this -> configureOptions['_form'])) {
             $this -> form = $this -> configureOptions['_form'];
             $this -> form -> registerElement($this);
         }
     }
 
-    protected function configurePropertyIgnore($property) {
+    protected function configurePropertyIgnore($property)
+    {
         return parent::configurePropertyIgnore($property);
     }
 
-    protected function configurePropertyMap($property) {
+    protected function configurePropertyMap($property)
+    {
         return parent::configurePropertyMap($property);
     }
 
-    protected function configureValidate($property, &$value) {
+    protected function configureValidate($property, &$value)
+    {
         return parent::configureValidate($property, $value);
     }
 
@@ -89,7 +98,8 @@ abstract class NamedElement Extends Element {
      * Get this element's name on the form. If not assigned, a name is generated.
      * @return string
      */
-    public function getFormName() {
+    public function getFormName()
+    {
         if ($this -> formName === null) {
             if ($this -> name != '') {
                 $this -> formName = $this -> name;
@@ -108,7 +118,8 @@ abstract class NamedElement Extends Element {
      * @param string $name
      * @return $this
      */
-    public function setFormName($name) {
+    public function setFormName($name)
+    {
         $this -> formName = $name;
         return $this;
     }
