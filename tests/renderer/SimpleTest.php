@@ -1,7 +1,7 @@
 <?php
 
 use Abivia\NextForm;
-use Abivia\NextForm\Element\CellElement;
+use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
@@ -154,7 +154,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Hidden access
-        $expect['bra'] = new Block;
+        $expect['bra'] = new Block();
         $expect['bra']->body = '<input id="button-1" name="button-1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
@@ -2092,7 +2092,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['basic'];
 
         // Test hidden access
-        $expect['hide'] = new Block;;
+        $expect['hide'] = new Block();;
 
         $this->runCases($cases, $expect);
     }
@@ -2158,7 +2158,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['head'];
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
 
         $expect['raw'] = Block::fromString(
             $this->formGroup(

@@ -1,9 +1,9 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Element\LabelsTrait;
+use Abivia\NextForm\Form\Element\LabelsTrait;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**

@@ -215,7 +215,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testScalarize() {
-        $obj = new JsonEncoderCommandScalar;
+        $obj = new JsonEncoderCommandScalar();
         $actual = json_decode(json_encode($obj));
         $expect = json_decode(
             '{"boring":"dull","arrayToScalar1":"scalar","arrayToScalar2":["still","an","array"]}'

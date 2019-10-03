@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
@@ -347,7 +347,7 @@ class FieldElement extends NamedElement
     /**
      * Translate the texts in this element.
      * @param Translator $translate
-     * @return \Abivia\NextForm\Element\Element
+     * @return \Abivia\NextForm\Form\Element\Element
      */
     public function translate(Translator $translate) : Element
     {

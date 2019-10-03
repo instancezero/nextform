@@ -1,14 +1,12 @@
 <?php
 
 use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
-use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\HtmlElement;
-use Abivia\NextForm\Element\SectionElement;
-use Abivia\NextForm\Element\StaticElement;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\SimpleHtml;
+use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Element\CellElement;
+use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Element\HtmlElement;
+use Abivia\NextForm\Form\Element\SectionElement;
+use Abivia\NextForm\Form\Element\StaticElement;
 
 /**
  * Generate standard test cases for use in testing multiple render classes.

@@ -4,7 +4,7 @@ namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**

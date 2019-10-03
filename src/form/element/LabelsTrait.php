@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\NextForm\Data\Labels;
 use Illuminate\Contracts\Translation\Translator as Translator;
@@ -63,7 +63,7 @@ trait LabelsTrait
     /**
      * Translate the labels.
      * @param Translator $translate
-     * @return \Abivia\NextForm\Element\Element
+     * @return \Abivia\NextForm\Form\Element\Element
      */
     public function translate(Translator $translate) : Element
     {

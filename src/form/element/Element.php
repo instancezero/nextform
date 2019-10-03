@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
@@ -130,7 +130,7 @@ abstract class Element implements \JsonSerializable
      */
     static public function classFromType($obj)
     {
-        $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj->type)) . 'Element';
+        $result = 'Abivia\NextForm\Form\Element\\' . ucfirst(strtolower($obj->type)) . 'Element';
         if (!class_exists($result)) {
             throw new \InvalidArgumentException($obj->type . ' is not a valid element type.');
         }
@@ -212,12 +212,12 @@ abstract class Element implements \JsonSerializable
             // Don't copy the form ID
             $cloner->addFilter(
                 new SetNullFilter(),
-                new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'autoId')
+                new PropertyNameMatcher('\Abivia\NextForm\Form\Element\Element', 'autoId')
             );
             // Don't clone the linked data
             $cloner->addFilter(
                 new KeepFilter(),
-                new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'dataProperty')
+                new PropertyNameMatcher('\Abivia\NextForm\Form\Element\Element', 'dataProperty')
             );
         }
         return $cloner->copy($this);
@@ -400,7 +400,7 @@ abstract class Element implements \JsonSerializable
     /**
      * Translate the texts in this element.
      * @param Translator $translate
-     * @return \Abivia\NextForm\Element\Element
+     * @return \Abivia\NextForm\Form\Element\Element
      */
     abstract public function translate(Translator $translate) : Element;
 

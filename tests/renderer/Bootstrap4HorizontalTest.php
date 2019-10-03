@@ -3,12 +3,12 @@
 use Abivia\NextForm;
 //use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
-use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\HtmlElement;
-use Abivia\NextForm\Element\SectionElement;
-use Abivia\NextForm\Element\StaticElement;
+use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Element\CellElement;
+use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Element\HtmlElement;
+use Abivia\NextForm\Form\Element\SectionElement;
+use Abivia\NextForm\Form\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Bootstrap4;
 
@@ -2474,7 +2474,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         // No access specification assumes write access
-        $expect['default'] = new Block;
+        $expect['default'] = new Block();
         $expect['default']->body = $this->formGroup(
             $this->column1('', 'label')
             . $this->column2(
@@ -2487,7 +2487,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['write'] = $expect['default'];
 
         // Test view access
-        $expect['view'] = new Block;
+        $expect['view'] = new Block();
         $expect['view']->body = $this->formGroup(
             $this->column1('', 'label')
             . $this->column2(
@@ -2497,7 +2497,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
         $expect['hide']->body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
 
         $this->runCases($cases, $expect);
@@ -2552,7 +2552,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
         $tail = "\n";
         // no labels
-        $expect['label-none'] = new Block;
+        $expect['label-none'] = new Block();
         $expect['label-none']->body = $this->formGroup(
                 $this->column1('')
                 . $this->column2(
@@ -2562,7 +2562,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // before
-        $expect['label-before'] = new Block;
+        $expect['label-before'] = new Block();
         $expect['label-before']->body = $this->formGroup(
                 $this->column1('')
                 . $this->column2(
@@ -2576,7 +2576,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // After
-        $expect['label-after'] = new Block;
+        $expect['label-after'] = new Block();
         $expect['label-after']->body = $this->formGroup(
                 $this->column1('')
                 . $this->column2(
@@ -2590,7 +2590,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // Heading
-        $expect['label-head'] = new Block;
+        $expect['label-head'] = new Block();
         $expect['label-head']->body = $this->formGroup(
                 $this->column1('Header')
                 . $this->column2(
@@ -2600,7 +2600,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // Help
-        $expect['label-help'] = new Block;
+        $expect['label-help'] = new Block();
         $expect['label-help']->body = $this->formGroup(
                 $this->column1('')
                 . $this->column2(
@@ -2613,7 +2613,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // Inner
-        $expect['label-inner'] = new Block;
+        $expect['label-inner'] = new Block();
         $expect['label-inner']->body = $this->formGroup(
                 $this->column1('')
                 . $this->column2(
@@ -2624,7 +2624,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             );
 
         // All
-        $expect['label-all'] = new Block;
+        $expect['label-all'] = new Block();
         $expect['label-all']->body = $this->formGroup(
                 $this->column1('Header')
                 . $this->column2(
@@ -2924,7 +2924,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['basic'];
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
 
         $this->runCases($cases, $expect);
     }
@@ -2998,7 +2998,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['head'];
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
 
         $expect['raw'] = Block::fromString(
             $this->formGroup(

@@ -2,9 +2,9 @@
 namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\RendererInterface;
-use Abivia\NextForm\Element\Element;
-use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\HtmlElement;
+use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Element\HtmlElement;
 
 /**
  * Render methods common to HTML render classes

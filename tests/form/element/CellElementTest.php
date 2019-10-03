@@ -1,16 +1,16 @@
 <?php
 
-use Abivia\NextForm\Element\CellElement;
+use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm;
 
 /**
- * @covers \Abivia\NextForm\Element\CellElement
+ * @covers \Abivia\NextForm\Form\Element\CellElement
  */
 class FormCellElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormCellElementInstantiation() {
         $obj = new CellElement();
-		$this->assertInstanceOf('\Abivia\NextForm\Element\CellElement', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\CellElement', $obj);
 	}
 
     /**
@@ -60,9 +60,9 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('cell', $obj->getType());
         $elements = $obj->getElements();
 		$this->assertEquals(3, count($elements));
-		$this->assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
-		$this->assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
-		$this->assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
+		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\FieldElement', $elements[0]);
+		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\HtmlElement', $elements[1]);
+		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\StaticElement', $elements[2]);
     }
 
     /**

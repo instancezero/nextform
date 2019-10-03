@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
@@ -136,8 +136,8 @@ abstract class SimpleElement Extends Element
 
     /**
      * Generate a translated version of this element.
-     * @param \Abivia\NextForm\Element\Translator $translate
-     * @return \Abivia\NextForm\Element\Element
+     * @param \Abivia\NextForm\Form\Element\Translator $translate
+     * @return \Abivia\NextForm\Form\Element\Element
      */
     public function translate(Translator $translate) : Element
     {

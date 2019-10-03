@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm;

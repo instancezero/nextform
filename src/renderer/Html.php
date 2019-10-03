@@ -3,8 +3,8 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm;
 use Abivia\NextForm\Contracts\RendererInterface;
-use Abivia\NextForm\Element\Element;
-use Abivia\NextForm\Element\FieldElement;
+use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Traits\ShowableTrait;
 
 /**

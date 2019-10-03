@@ -3,12 +3,12 @@
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
-use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\HtmlElement;
-use Abivia\NextForm\Element\SectionElement;
-use Abivia\NextForm\Element\StaticElement;
+use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Element\CellElement;
+use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Element\HtmlElement;
+use Abivia\NextForm\Form\Element\SectionElement;
+use Abivia\NextForm\Form\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
@@ -451,7 +451,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
         $expect['hide']->body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
 
         // no labels
@@ -2407,7 +2407,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['basic'];
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
 
         $this->runCases($cases, $expect);
     }
@@ -2478,7 +2478,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['head'];
 
         // Test hidden access
-        $expect['hide'] = new Block;
+        $expect['hide'] = new Block();
 
         $expect['raw'] = Block::fromString(
             $this->formGroup(

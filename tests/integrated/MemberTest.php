@@ -5,9 +5,9 @@ include_once __DIR__ . '/../test-tools/Page.php';
 
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Element\Element;
-use Abivia\NextForm\Element\ContainerElement;
-use Abivia\NextForm\Element\FieldElement;
+use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Element\ContainerElement;
+use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 use Abivia\NextForm\Renderer\Bootstrap4;
@@ -26,7 +26,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
     }
 
     public function render(Element $element, $options = []) : Block {
-        $result = new Block;
+        $result = new Block();
         $type = $element->getType();
         $result->body = $type;
         $name = $element->getName();
@@ -52,7 +52,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
     }
 
     public function start($options = []) : Block {
-        $result = new Block;
+        $result = new Block();
         $result->body = "Form\n";
         $result->post = "End form\n";
         return $result;
@@ -147,7 +147,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
             'id' => 0,
         ];
         $form->populate($data, 'members');
-        $render = new FlatRenderer;
+        $render = new FlatRenderer();
         $form->setRenderer($render);
         $form->setTranslator(new NullTranslate());
         $form->generate(['action' => 'myform.php']);

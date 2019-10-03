@@ -3,11 +3,11 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Element\ButtonElement;
-use Abivia\NextForm\Element\CellElement;
-use Abivia\NextForm\Element\FieldElement;
-use Abivia\NextForm\Element\SectionElement;
-use Abivia\NextForm\Element\StaticElement;
+use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Element\CellElement;
+use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Element\SectionElement;
+use Abivia\NextForm\Form\Element\StaticElement;
 
 /**
  * Renderer for Bootstrap4

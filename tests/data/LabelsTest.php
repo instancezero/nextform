@@ -107,7 +107,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $obj->help = 'help';
         $obj->inner = 'placeholder';
         $obj->translate = false;
-        $trans = new NullTranslate;
+        $trans = new NullTranslate();
         $translated = $obj->translate($trans);
         $this->assertEquals('after', $translated->after);
         $this->assertEquals('before', $translated->before);

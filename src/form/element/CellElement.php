@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia\NextForm\Element;
+namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
@@ -37,7 +37,7 @@ class CellElement Extends ContainerElement
 
     /**
      * Add (append) an element to this cell
-     * @param \Abivia\NextForm\Element\Element $element An element to be added to this cell.
+     * @param \Abivia\NextForm\Form\Element\Element $element An element to be added to this cell.
      * @return \self
      * @throws \RuntimeException
      */

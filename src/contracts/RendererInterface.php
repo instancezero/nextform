@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Contracts;
 
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Form\Element\Element;
 
 
 /**
