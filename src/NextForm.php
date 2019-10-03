@@ -68,37 +68,37 @@ class NextForm implements \JsonSerializable
 
     public function __construct()
     {
-        $this -> access = new \Abivia\NextForm\Access\BasicAccess;
-        $this -> show = '';
+        $this->access = new \Abivia\NextForm\Access\BasicAccess;
+        $this->show = '';
     }
 
     protected function assignNames()
     {
-        $this -> nameMap = [];
+        $this->nameMap = [];
         $containerCount = 0;
-        foreach ($this -> allElements as $element) {
+        foreach ($this->allElements as $element) {
             if ($element instanceof FieldElement) {
-                $baseName = str_replace('/', '_', $element -> getObject());
+                $baseName = str_replace('/', '_', $element->getObject());
                 $name = $baseName;
                 $confirmName = $baseName . '_confirm';
                 $append = 0;
-                while (isset($this -> nameMap[$name]) || isset($this -> nameMap[$confirmName])) {
+                while (isset($this->nameMap[$name]) || isset($this->nameMap[$confirmName])) {
                     $name = $baseName . '_' . ++$append;
                     $confirmName = $name . '_' . $append . '_confirm';
                 }
-                $this -> nameMap[$name] = $element;
-                $element -> setFormName($name);
+                $this->nameMap[$name] = $element;
+                $element->setFormName($name);
             } elseif ($element instanceof ContainerElement) {
                 $baseName = 'container_';
                 $name = $baseName;
-                while (isset($this -> nameMap[$name])) {
+                while (isset($this->nameMap[$name])) {
                     $name = $baseName . ++$containerCount;
                 }
-                $this -> nameMap[$name] = $element;
-                $element -> setFormName($name);
+                $this->nameMap[$name] = $element;
+                $element->setFormName($name);
             }
         }
-        $this -> schemaIsLinked = true;
+        $this->schemaIsLinked = true;
         return $this;
     }
 
@@ -109,11 +109,11 @@ class NextForm implements \JsonSerializable
      */
     public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
     {
-        $this -> objectMap = [];
-        foreach ($this -> elements as $element) {
-            $element -> bindSchema($schema);
+        $this->objectMap = [];
+        foreach ($this->elements as $element) {
+            $element->bindSchema($schema);
         }
-        $this -> schemaIsLinked = true;
+        $this->schemaIsLinked = true;
         return $this;
     }
 
@@ -133,11 +133,11 @@ class NextForm implements \JsonSerializable
     {
         // Pass an instance of the form down in Configurable's options so we can
         // access the form directly from deep within the data structures.
-        $this -> configureOptions['_form'] = &$this;
+        $this->configureOptions['_form'] = &$this;
 
         // Any elements that are simply strings are converted to basic field objects
-        if (isset($config -> elements) && is_array($config -> elements)) {
-            foreach ($config -> elements as &$value) {
+        if (isset($config->elements) && is_array($config->elements)) {
+            foreach ($config->elements as &$value) {
                 if (is_string($value)) {
                     $value = self::expandField($value);
                 }
@@ -150,8 +150,8 @@ class NextForm implements \JsonSerializable
         $result = false;
         if ($property == 'elements') {
             $result = new \stdClass;
-            $result -> key = '';
-            $result -> className = [Element::class, 'classFromType'];
+            $result->key = '';
+            $result->className = [Element::class, 'classFromType'];
         }
         return $result;
     }
@@ -165,10 +165,10 @@ class NextForm implements \JsonSerializable
     static public function fromFile($formFile)
     {
         $form = new NextForm;
-        if (!$form -> configure(json_decode(file_get_contents($formFile)), true)) {
+        if (!$form->configure(json_decode(file_get_contents($formFile)), true)) {
             throw new \RuntimeException(
                 'Failed to load ' . $formFile . "\n"
-                . implode("\n", $form -> configureErrors)
+                . implode("\n", $form->configureErrors)
             );
         }
         return $form;
@@ -179,10 +179,10 @@ class NextForm implements \JsonSerializable
         $groupParts = explode(self::GROUP_DELIM, $value);
         // Convert to a useful class
         $obj = new \stdClass;
-        $obj -> type = 'field';
-        $obj -> object = array_shift($groupParts);
+        $obj->type = 'field';
+        $obj->object = array_shift($groupParts);
         if (!empty($groupParts)) {
-            $obj -> memberOf = $groupParts;
+            $obj->memberOf = $groupParts;
         }
         return $obj;
     }
@@ -199,25 +199,25 @@ class NextForm implements \JsonSerializable
      */
     public function generate($options)
     {
-        $this -> options($options);
+        $this->options($options);
         if (!isset($options['attrs'])) {
             $options['attrs'] = new Attributes;
         }
 
         // Set the name and ID if not passed in to us.
-        $options['attrs'] -> default('id', $this -> id);
-        $options['attrs'] -> default('name', $this -> name);
+        $options['attrs']->default('id', $this->id);
+        $options['attrs']->default('name', $this->name);
 
         // Assign field names
-        $this -> assignNames();
-        $this -> renderer -> setShow($this -> show);
+        $this->assignNames();
+        $this->renderer->setShow($this->show);
 
         // Start the form, write all the elements, close the form, return.
-        $pageData = $this -> renderer -> start($options);
-        foreach ($this -> elements as $element) {
-            $pageData -> merge($element -> generate($this -> renderer, $this -> access, $this -> translate));
+        $pageData = $this->renderer->start($options);
+        foreach ($this->elements as $element) {
+            $pageData->merge($element->generate($this->renderer, $this->access, $this->translate));
         }
-        $pageData -> close();
+        $pageData->close();
         return $pageData;
     }
 
@@ -229,25 +229,25 @@ class NextForm implements \JsonSerializable
     {
         $data = [];
         // The first element should have the value... there should only be one value.
-        foreach ($this -> objectMap as $objectName => $list) {
-            $data[$objectName] = $list[0] -> getValue();
+        foreach ($this->objectMap as $objectName => $list) {
+            $data[$objectName] = $list[0]->getValue();
         }
         return $data;
     }
 
     public function getId()
     {
-        return $this -> id;
+        return $this->id;
     }
 
     public function getName()
     {
-        return $this -> name;
+        return $this->name;
     }
 
     public function getSegment()
     {
-        return $this -> useSegment;
+        return $this->useSegment;
     }
 
     /**
@@ -261,9 +261,9 @@ class NextForm implements \JsonSerializable
         $prefixLen = strlen($segment . NextForm::SEGMENT_DELIM);
         $data = [];
         // The first element should have the value... there should only be one value.
-        foreach ($this -> objectMap as $objectName => $list) {
+        foreach ($this->objectMap as $objectName => $list) {
             if (substr($objectName, 0, $prefixLen) == $prefix) {
-                $data[substr($objectName, $prefixLen)] = $list[0] -> getValue();
+                $data[substr($objectName, $prefixLen)] = $list[0]->getValue();
             }
         }
         return $data;
@@ -295,7 +295,7 @@ class NextForm implements \JsonSerializable
     protected function jsonCollapseElements($elementList)
     {
         foreach ($elementList as &$element) {
-            $element = $element -> jsonCollapse();
+            $element = $element->jsonCollapse();
         }
         return $elementList;
     }
@@ -303,14 +303,14 @@ class NextForm implements \JsonSerializable
     protected function options($options)
     {
         if (isset($options['name'])) {
-            $this -> name = $options['name'];
+            $this->name = $options['name'];
         }
         if (isset($options['id'])) {
-            $this -> id = $options['id'];
-        } elseif ($this -> name != '') {
-            $this -> id = self::htmlIdentifier($this -> name);
+            $this->id = $options['id'];
+        } elseif ($this->name != '') {
+            $this->id = self::htmlIdentifier($this->name);
         } else {
-            $this -> id = 'form' . ++self::$htmlId;
+            $this->id = 'form' . ++self::$htmlId;
         }
     }
 
@@ -323,18 +323,18 @@ class NextForm implements \JsonSerializable
      */
     public function populate($data, $segment = '')
     {
-        if (!$this -> schemaIsLinked) {
+        if (!$this->schemaIsLinked) {
             throw new LogicException('Form not linked to schema.');
         }
         foreach ($data as $field => $value) {
             if ($segment !== '') {
                 $field = $segment . NextForm::SEGMENT_DELIM . $field;
             }
-            if (!isset($this -> objectMap[$field])) {
+            if (!isset($this->objectMap[$field])) {
                 continue;
             }
-            foreach ($this -> objectMap[$field] as $element) {
-                $element -> setValue($value);
+            foreach ($this->objectMap[$field] as $element) {
+                $element->setValue($value);
             }
         }
         return $this;
@@ -347,8 +347,8 @@ class NextForm implements \JsonSerializable
      */
     public function registerElement($element)
     {
-        if (!in_array($element, $this -> allElements)) {
-            $this -> allElements[] = $element;
+        if (!in_array($element, $this->allElements)) {
+            $this->allElements[] = $element;
         }
         return $this;
     }
@@ -360,32 +360,32 @@ class NextForm implements \JsonSerializable
      */
     public function registerObject($element)
     {
-        $object = $element -> getObject();
-        if (!isset($this -> objectMap[$object])) {
-            $this -> objectMap[$object] = [];
+        $object = $element->getObject();
+        if (!isset($this->objectMap[$object])) {
+            $this->objectMap[$object] = [];
         }
-        $this -> objectMap[$object][] = $element;
+        $this->objectMap[$object][] = $element;
         return $this;
     }
 
     public function setAccess(AccessInterface $access)
     {
-        $this -> access = $access;
+        $this->access = $access;
     }
 
     public function setRenderer(RendererInterface $renderer)
     {
-        $this -> renderer = $renderer;
+        $this->renderer = $renderer;
     }
 
     public function setTranslator(Translator $translate)
     {
-        $this -> translate = $translate;
+        $this->translate = $translate;
     }
 
     public function setUser($user)
     {
-        $this -> access -> setUser($user);
+        $this->access->setUser($user);
     }
 
 }

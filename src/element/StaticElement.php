@@ -43,7 +43,7 @@ class StaticElement Extends SimpleElement
             self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
             self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
         }
-        $this -> type = 'static';
+        $this->type = 'static';
     }
 
     protected function configureClassMap($property, $value)
@@ -56,9 +56,9 @@ class StaticElement Extends SimpleElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -83,7 +83,7 @@ class StaticElement Extends SimpleElement
      */
     public function getHtml() : bool
     {
-        return $this -> html;
+        return $this->html;
     }
 
     /**
@@ -93,7 +93,7 @@ class StaticElement Extends SimpleElement
      */
     public function setHtml(bool $isHtml) : self
     {
-        $this -> html = $isHtml;
+        $this->html = $isHtml;
         return $this;
     }
 

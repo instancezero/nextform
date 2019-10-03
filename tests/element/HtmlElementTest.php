@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Element\HtmlElement;
+use Abivia\NextForm\Element\HtmlElement;
 
 class FormHtmlElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormHtmlElementInstantiation() {
         $obj = new HtmlElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $obj);
 	}
 
     /**
@@ -19,12 +19,12 @@ class FormHtmlElementTest extends \PHPUnit\Framework\TestCase {
                 "value": "<h1>This is a heading<\\/h1>"
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new HtmlElement();
-        $this -> assertTrue($obj -> configure($config, true));
-		$this -> assertEquals('html', $obj -> getType());
-		$this -> assertEquals('', $obj -> getName());
-		$this -> assertEquals(true, $obj -> getVisible());
+        $this->assertTrue($obj->configure($config, true));
+		$this->assertEquals('html', $obj->getType());
+		$this->assertEquals('', $obj->getName());
+		$this->assertEquals(true, $obj->getVisible());
     }
 
 }

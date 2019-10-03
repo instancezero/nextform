@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Element\SectionElement;
+use Abivia\NextForm\Element\SectionElement;
 
 class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormSectionElementInstantiation() {
         $obj = new SectionElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\SectionElement', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\SectionElement', $obj);
 	}
 
     /**
@@ -20,10 +20,10 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
             }'
         );
         $obj = new SectionElement();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('section', $obj -> getType());
-		$this -> assertEquals('', $obj -> getName());
-		$this -> assertEquals(true, $obj -> getVisible());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('section', $obj->getType());
+		$this->assertEquals('', $obj->getName());
+		$this->assertEquals(true, $obj->getVisible());
     }
 
     /**
@@ -53,16 +53,16 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new SectionElement();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('section', $obj -> getType());
-        $elements = $obj -> getElements();
-		$this -> assertEquals(4, count($elements));
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\CellElement', $elements[3]);
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('section', $obj->getType());
+        $elements = $obj->getElements();
+		$this->assertEquals(4, count($elements));
+		$this->assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\CellElement', $elements[3]);
     }
 
     /**
@@ -80,10 +80,10 @@ class FormSectionElementTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new SectionElement();
-        $this -> expectException(\OutOfBoundsException::class);
-        $this -> assertFalse($obj -> configure($config));
+        $this->expectException(\OutOfBoundsException::class);
+        $this->assertFalse($obj->configure($config));
     }
 
 }

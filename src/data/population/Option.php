@@ -61,18 +61,18 @@ class Option implements \JsonSerializable
 
     protected function configureComplete(): bool
     {
-        if (is_array($this -> value)) {
-            foreach($this -> value as $option) {
-                if (is_array($option -> getList())) {
+        if (is_array($this->value)) {
+            foreach($this->value as $option) {
+                if (is_array($option->getList())) {
                     throw new \OutOfBoundsException('Options can\'t be nested more than two levels deep.');
                 }
             }
         }
-        if ($this -> label == '') {
+        if ($this->label == '') {
             throw new \OutOfBoundsException('Options must have a label.');
         }
-        if ($this -> value == '') {
-            $this -> value = $this -> label;
+        if ($this->value == '') {
+            $this->value = $this->label;
         }
         return true;
     }
@@ -80,12 +80,12 @@ class Option implements \JsonSerializable
     protected function configureInitialize(&$config)
     {
         // if the value is an array convert any strings to a class
-        if (isset($config -> value) && is_array($config -> value)) {
-            foreach ($config -> value as &$value) {
+        if (isset($config->value) && is_array($config->value)) {
+            foreach ($config->value as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
                     $obj = new \Stdclass;
-                    $obj -> label = $value;
+                    $obj->label = $value;
                     $value = $obj;
                 }
             }
@@ -94,43 +94,43 @@ class Option implements \JsonSerializable
 
     public function getEnabled()
     {
-        return $this -> enabled;
+        return $this->enabled;
     }
 
     public function getLabel()
     {
-        return $this -> label;
+        return $this->label;
     }
 
     public function getList()
     {
-        if (!is_array($this -> value)) {
+        if (!is_array($this->value)) {
             return null;
         }
-        return $this -> value;
+        return $this->value;
     }
 
     public function getName()
     {
-        return $this -> name;
+        return $this->name;
     }
 
     public function getSelected()
     {
-        return $this -> selected;
+        return $this->selected;
     }
 
     public function getSidecar()
     {
-        return $this -> sidecar;
+        return $this->sidecar;
     }
 
     public function getValue()
     {
-        if (is_array($this -> value)) {
+        if (is_array($this->value)) {
             return null;
         }
-        return $this -> value;
+        return $this->value;
     }
 
     /**
@@ -139,19 +139,19 @@ class Option implements \JsonSerializable
      */
     public function isEmpty() : bool
     {
-        if ($this -> enabled === false) {
+        if ($this->enabled === false) {
             return false;
         }
-        if ($this -> label !== null && $this -> label !== '') {
+        if ($this->label !== null && $this->label !== '') {
             return false;
         }
-        if ($this -> name !== null && $this -> name !== '') {
+        if ($this->name !== null && $this->name !== '') {
             return false;
         }
-        if ($this -> sidecar !== null) {
+        if ($this->sidecar !== null) {
             return false;
         }
-        if ($this -> value !== null) {
+        if ($this->value !== null) {
             return false;
         }
         return true;
@@ -159,48 +159,48 @@ class Option implements \JsonSerializable
 
     public function isNested()
     {
-        return is_array($this -> value);
+        return is_array($this->value);
     }
 
     public function setEnabled($enabled)
     {
-        $this -> enabled = $enabled;
+        $this->enabled = $enabled;
         return $this;
     }
 
     public function setLabel($label)
     {
-        $this -> label = $label;
+        $this->label = $label;
         return $this;
     }
 
     public function setName($name)
     {
-        $this -> name = $name;
+        $this->name = $name;
         return $this;
     }
 
     public function setSelected($selected)
     {
-        $this -> selected = $selected;
+        $this->selected = $selected;
         return $this;
     }
 
     public function setSidecar($data)
     {
-        $this -> sidecar = $data;
+        $this->sidecar = $data;
         return $this;
     }
 
     public function setValue($value)
     {
-        $this -> value = $value;
+        $this->value = $value;
         return $this;
     }
 
     public function translate(Translator $translate)
     {
-        $this -> label = $translate -> trans($this -> label);
+        $this->label = $translate->trans($this->label);
     }
 
 }

@@ -36,7 +36,7 @@ class Action implements \JsonSerializable
                 foreach ($value as &$element) {
                     if (!($valid = in_array($element, self::$changeValidation))) {
                         $result = false;
-                        $this -> configureLogError(
+                        $this->configureLogError(
                             '"' . $element . '" is not a valid value for "' . $property . '".'
                         );
                     }
@@ -60,49 +60,49 @@ class Action implements \JsonSerializable
 
     public function getChange()
     {
-        return $this -> change;
+        return $this->change;
     }
 
     public function getTarget()
     {
-        return $this -> target;
+        return $this->target;
     }
 
     public function getValue()
     {
-        return $this -> value;
+        return $this->value;
     }
 
     public function setChange($value)
     {
-        if (!$this -> configureValidate('change', $value)) {
+        if (!$this->configureValidate('change', $value)) {
             throw new \UnexpectedValueException(
                 'Valid values for change are: ' . implode('|', self::$changeValidation)
             );
         }
-        $this -> change = $value;
+        $this->change = $value;
         return $this;
     }
 
     public function setTarget($value)
     {
-        if (!$this -> configureValidate('target', $value)) {
+        if (!$this->configureValidate('target', $value)) {
             // @codeCoverageIgnoreStart
             throw new \UnexpectedValueException('Invalid value for target.');
             // @codeCoverageIgnoreEnd
         }
-        $this -> target = $value;
+        $this->target = $value;
         return $this;
     }
 
     public function setValue($value)
     {
-        if (!$this -> configureValidate('value', $value)) {
+        if (!$this->configureValidate('value', $value)) {
             // @codeCoverageIgnoreStart
             throw new \UnexpectedValueException('Invalid value.');
             // @codeCoverageIgnoreEnd
         }
-        $this -> value = $value;
+        $this->value = $value;
         return $this;
     }
 

@@ -83,10 +83,10 @@ class Block
      */
     public function close() : self
     {
-        $this -> body .= $this -> post;
-        $this -> post = '';
-        if (is_callable($this -> onCloseDone)) {
-            call_user_func($this -> onCloseDone, $this);
+        $this->body .= $this->post;
+        $this->post = '';
+        if (is_callable($this->onCloseDone)) {
+            call_user_func($this->onCloseDone, $this);
         }
         return $this;
     }
@@ -100,8 +100,8 @@ class Block
     static public function fromString($body = '', $post = '') : Block
     {
         $that = new Block;
-        $that -> body = $body;
-        $that -> post = $post;
+        $that->body = $body;
+        $that->post = $post;
         return $that;
     }
 
@@ -116,18 +116,18 @@ class Block
             switch ($operation) {
                 case 'merge':
                     // Script and style file lists are merged with no duplicates.
-                    $this -> $prop = array_unique(array_merge($this -> $prop, $block -> $prop));
+                    $this->$prop = array_unique(array_merge($this->$prop, $block->$prop));
                     break;
 
                 case 'prepend':
                     // Merged block prefixes the existing data
-                    $this -> $prop = $block -> $prop . $this -> $prop;
+                    $this->$prop = $block->$prop . $this->$prop;
                     break;
 
                 case 'append':
                 default:
                     // Merged block appended to the existing data
-                    $this -> $prop .= $block -> $prop;
+                    $this->$prop .= $block->$prop;
                     break;
             }
         }

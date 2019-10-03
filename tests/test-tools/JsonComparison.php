@@ -21,7 +21,7 @@ trait JsonComparison {
                         . ' (left = ' . $leftSide[$key] . ")\n";
                     return false;
                 }
-                if (!$this -> jsonCompare($leftSide[$key], $testRight[$key], $subPath)) {
+                if (!$this->jsonCompare($leftSide[$key], $testRight[$key], $subPath)) {
                     return false;
                 }
                 unset($testRight[$key]);
@@ -40,17 +40,17 @@ trait JsonComparison {
             $testRight = clone $rightSide;
             foreach ($leftSide as $prop => $value) {
                 $subPath = $path . '/'. $prop;
-                if (!isset($testRight -> $prop) && $leftSide -> $prop !== null) {
+                if (!isset($testRight->$prop) && $leftSide->$prop !== null) {
                     echo "\n" . 'Missing property on right ' . $subPath
-                        . ' (left = ' . $leftSide -> $prop . ")\n";
+                        . ' (left = ' . $leftSide->$prop . ")\n";
                     return false;
                 }
-                if (isset($testRight -> $prop)) {
-                    if (!$this -> jsonCompare($leftSide -> $prop, $testRight -> $prop, $subPath)) {
+                if (isset($testRight->$prop)) {
+                    if (!$this->jsonCompare($leftSide->$prop, $testRight->$prop, $subPath)) {
                         return false;
                     }
                 }
-                unset($testRight -> $prop);
+                unset($testRight->$prop);
             }
             $testRight = (array)$testRight;
             if (!empty($testRight)) {

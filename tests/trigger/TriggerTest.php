@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Trigger\Trigger;
+use Abivia\NextForm\Trigger\Trigger;
 
 class FormTriggerTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerInstantiation() {
         $obj = new Trigger();
-		$this -> assertInstanceOf('\Abivia\NextForm\Trigger\Trigger', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Trigger\Trigger', $obj);
 	}
 
     /**
@@ -19,11 +19,11 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 "actions": []
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Trigger();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('event', $obj -> getType());
-		$this -> assertEquals('onvalid', $obj -> getEvent());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('event', $obj->getType());
+		$this->assertEquals('onvalid', $obj->getEvent());
     }
 
     /**
@@ -47,12 +47,12 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Trigger();
-        $this -> assertTrue($obj -> configure($config, true));
-		$actions = $obj -> getActions();
-		$this -> assertEquals(2, count($actions));
-        $this -> assertInstanceOf('\Abivia\NextForm\Trigger\Action', $actions[0]);
+        $this->assertTrue($obj->configure($config, true));
+		$actions = $obj->getActions();
+		$this->assertEquals(2, count($actions));
+        $this->assertInstanceOf('\Abivia\NextForm\Trigger\Action', $actions[0]);
     }
 
     /**
@@ -65,9 +65,9 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 "actions": []
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Trigger();
-        $this -> assertFalse($obj -> configure($config));
+        $this->assertFalse($obj->configure($config));
     }
 
 	public function testFormTriggerConfigurationValue() {
@@ -77,11 +77,11 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 "actions": []
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Trigger();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('value', $obj -> getType());
-		$this -> assertEquals(7, $obj -> getValue());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('value', $obj->getType());
+		$this->assertEquals(7, $obj->getValue());
     }
 
 	public function testFormTriggerConfigurationMalformed() {
@@ -90,9 +90,9 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 "actions": []
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Trigger();
-        $this -> assertFalse($obj -> configure($config));
+        $this->assertFalse($obj->configure($config));
     }
 
 }

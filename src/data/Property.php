@@ -82,7 +82,7 @@ class Property implements \JsonSerializable
      */
     public function __construct()
     {
-        $this -> labels = new Labels();
+        $this->labels = new Labels();
     }
 
     /**
@@ -113,8 +113,8 @@ class Property implements \JsonSerializable
      */
     protected function configureComplete()
     {
-        if ($this -> labels === null) {
-            $this -> labels = new Labels();
+        if ($this->labels === null) {
+            $this->labels = new Labels();
         }
         return true;
     }
@@ -125,7 +125,7 @@ class Property implements \JsonSerializable
      */
     public function getDescription()
     {
-        return $this -> description;
+        return $this->description;
     }
 
     /**
@@ -134,7 +134,7 @@ class Property implements \JsonSerializable
      */
     public function getLabels()
     {
-        return $this -> labels;
+        return $this->labels;
     }
 
     /**
@@ -143,7 +143,7 @@ class Property implements \JsonSerializable
      */
     public function getName()
     {
-        return $this -> name;
+        return $this->name;
     }
 
     /**
@@ -151,10 +151,10 @@ class Property implements \JsonSerializable
      * @return \Abivia\NextForm\Data\Population
      */
     public function getPopulation() : \Abivia\NextForm\Data\Population {
-        if ($this -> population === null) {
-            $this -> population = new \Abivia\NextForm\Data\Population;
+        if ($this->population === null) {
+            $this->population = new \Abivia\NextForm\Data\Population;
         }
-        return $this -> population;
+        return $this->population;
     }
 
     /**
@@ -163,10 +163,10 @@ class Property implements \JsonSerializable
      */
     public function getPresentation() : \Abivia\NextForm\Data\Presentation
     {
-        if ($this -> presentation === null) {
-            $this -> presentation = new \Abivia\NextForm\Data\Presentation;
+        if ($this->presentation === null) {
+            $this->presentation = new \Abivia\NextForm\Data\Presentation;
         }
-        return $this -> presentation;
+        return $this->presentation;
     }
 
     /**
@@ -175,10 +175,10 @@ class Property implements \JsonSerializable
      */
     public function getValidation() : \Abivia\NextForm\Data\Validation
     {
-        if ($this -> validation === null) {
-            $this -> validation = new \Abivia\NextForm\Data\Validation;
+        if ($this->validation === null) {
+            $this->validation = new \Abivia\NextForm\Data\Validation;
         }
-        return $this -> validation;
+        return $this->validation;
     }
 
 /**
@@ -187,7 +187,7 @@ class Property implements \JsonSerializable
      */
     public function getStore() : ?\Abivia\NextForm\Data\Store
     {
-        return $this -> store;
+        return $this->store;
     }
 
     /**
@@ -197,8 +197,8 @@ class Property implements \JsonSerializable
      */
     public function linkElement(Element $element) : self
     {
-        if (!in_array($element, $this -> linkedElements)) {
-            $this -> linkedElements[] = $element;
+        if (!in_array($element, $this->linkedElements)) {
+            $this->linkedElements[] = $element;
         }
         return $this;
     }
@@ -210,7 +210,7 @@ class Property implements \JsonSerializable
      */
     public function setDescription($text) : self
     {
-        $this -> description = $text;
+        $this->description = $text;
         return $this;
     }
 
@@ -221,7 +221,7 @@ class Property implements \JsonSerializable
      */
     public function setLabels(Labels $labels) : self
     {
-        $this -> labels = $labels;
+        $this->labels = $labels;
         return $this;
     }
 
@@ -232,7 +232,7 @@ class Property implements \JsonSerializable
      */
     public function setName($name)
     {
-        $this -> name = $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -242,7 +242,7 @@ class Property implements \JsonSerializable
      */
     public function setPopulation(\Abivia\NextForm\Data\Population $population) : self
     {
-        $this -> population = $population;
+        $this->population = $population;
         return $this;
     }
 
@@ -253,7 +253,7 @@ class Property implements \JsonSerializable
      */
     public function setPresentation(\Abivia\NextForm\Data\Presentation $presentation) : self
     {
-        $this -> presentation = $presentation;
+        $this->presentation = $presentation;
         return $this;
     }
 
@@ -264,7 +264,7 @@ class Property implements \JsonSerializable
      */
     public function setValidation(\Abivia\NextForm\Data\Validation $validation) : self
     {
-        $this -> validation = $validation;
+        $this->validation = $validation;
         return $this;
     }
 

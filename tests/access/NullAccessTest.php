@@ -9,7 +9,7 @@ class NullAccessTest extends \PHPUnit\Framework\TestCase {
 
 	public function testNullAccessInstantiation() {
         $obj = new NullAccess();
-		$this -> assertInstanceOf('\Abivia\NextForm\Access\NullAccess', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Access\NullAccess', $obj);
 	}
 
     /**
@@ -17,7 +17,7 @@ class NullAccessTest extends \PHPUnit\Framework\TestCase {
      */
     public function testNullAccessResult() {
         $obj = new NullAccess();
-        $this -> assertTrue($obj -> hasAccess('foo', 'bar', 'bat'));
+        $this->assertTrue($obj->hasAccess('foo', 'bar', 'bat'));
     }
 
     /**
@@ -25,7 +25,7 @@ class NullAccessTest extends \PHPUnit\Framework\TestCase {
      */
     public function testNullSetUser() {
         $obj = new NullAccess();
-        $this -> assertTrue($obj === $obj -> setUser(0));
+        $this->assertTrue($obj === $obj->setUser(0));
     }
 
 }

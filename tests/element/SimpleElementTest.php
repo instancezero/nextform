@@ -1,34 +1,30 @@
 <?php
 
 use Abivia\NextForm\Element\Element;
+use Abivia\NextForm\Element\SimpleElement;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
-class ConcreteElement extends Element {
+class ConcreteSimpleElement extends SimpleElement
+{
 
     public function __construct() {
         parent::__construct();
     }
 
-    public function translate(Translator $translate) : Element {
+    public function translate(Translator $translate) : Element
+    {
         return $this;
     }
 }
 
-class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
-
-    /**
-     * Test instantiation of a nonexistent element class
-     */
-	public function testFormConcreteElementInstantiation() {
-        $this->expectException('InvalidArgumentException');
-        ConcreteElement::classFromType((object)['type' => 'SomeUnlikelyToExistElement']);
-	}
+class FormConcreteSimpleElementTest extends \PHPUnit\Framework\TestCase
+{
 
     /**
      * Test the access methods for enabled
      */
-	public function testFormConcreteElementEnabled() {
-        $obj = new ConcreteElement();
+	public function testEnabled() {
+        $obj = new ConcreteSimpleElement();
         $this->assertTrue($obj->getEnabled());
 		$this->assertTrue($obj === $obj->setEnabled(false));
         $this->assertFalse($obj->getEnabled());
@@ -37,8 +33,8 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the access methods for group
      */
-	public function testFormConcreteElementGroup() {
-        $obj = new ConcreteElement();
+	public function testGroup() {
+        $obj = new ConcreteSimpleElement();
         $this->assertEquals([], $obj->getGroups());
 		$this->assertTrue($obj === $obj->setGroups('somegroup'));
         $this->assertEquals(['somegroup'], $obj->getGroups());
@@ -59,8 +55,8 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the access methods for name
      */
-	public function testFormConcreteElementId() {
-        $obj = new ConcreteElement();
+	public function testId() {
+        $obj = new ConcreteSimpleElement();
         $this->assertIsString($obj->getId());
 		$this->assertTrue($obj === $obj->setId('ID'));
         $this->assertEquals('ID', $obj->getId());
@@ -69,8 +65,8 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the access methods for name
      */
-	public function testFormConcreteElementName() {
-        $obj = new ConcreteElement();
+	public function testName() {
+        $obj = new ConcreteSimpleElement();
         $this->assertEquals('', $obj->getName());
 		$this->assertTrue($obj === $obj->setName('somename'));
         $this->assertEquals('somename', $obj->getName());
@@ -79,8 +75,8 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the name validation
      */
-	public function thisisnota_testFormConcreteElementBadNames() {
-        $obj = new ConcreteElement();
+	public function thisisnota_testBadNames() {
+        $obj = new ConcreteSimpleElement();
         $this->assertEquals('', $obj->getName());
 		$this->assertTrue($obj === $obj->setName('somename'));
     }
@@ -88,8 +84,8 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     /**
      * Test the access methods for visible
      */
-	public function testFormConcreteElementVisible() {
-        $obj = new ConcreteElement();
+	public function testVisible() {
+        $obj = new ConcreteSimpleElement();
         $this->assertTrue($obj->getVisible());
 		$this->assertTrue($obj === $obj->setVisible(false));
         $this->assertFalse($obj->getVisible());

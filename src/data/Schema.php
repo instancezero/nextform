@@ -61,22 +61,22 @@ class Schema implements \JsonSerializable
      */
     protected function configureComplete()
     {
-        if ($this -> defaultRepo !== null) {
+        if ($this->defaultRepo !== null) {
             // If the source was YAML, we have an array instead of an object.
-            if (is_array($this -> defaultRepo)) {
-                $this -> defaultRepo = (object) $this -> defaultRepo;
+            if (is_array($this->defaultRepo)) {
+                $this->defaultRepo = (object) $this->defaultRepo;
             }
 
             // Convert a labels property into a Labels data structure
-            if (isset($this -> defaultRepo -> labels)) {
+            if (isset($this->defaultRepo->labels)) {
                 $obj = new Labels;
-                if (!$obj -> configure($this -> defaultRepo -> labels, $this -> configureOptions)) {
-                    $this -> configureErrors = array_merge(
-                        $this -> configureErrors, $obj -> configureGetErrors()
+                if (!$obj->configure($this->defaultRepo->labels, $this->configureOptions)) {
+                    $this->configureErrors = array_merge(
+                        $this->configureErrors, $obj->configureGetErrors()
                     );
                     return false;
                 }
-                $this -> defaultRepo -> labels = $obj;
+                $this->defaultRepo->labels = $obj;
             }
         }
         return true;
@@ -86,7 +86,7 @@ class Schema implements \JsonSerializable
     {
         // Pass an instance of the schema down in Configurable's options so we can
         // access the form directly from deep within the data structures.
-        $this -> configureOptions['_schema'] = &$this;
+        $this->configureOptions['_schema'] = &$this;
     }
 
     /**
@@ -155,10 +155,10 @@ class Schema implements \JsonSerializable
         }
 
         // Convert the configuration into our data structures.
-        if (!$schema -> configure($rawConfig, true)) {
+        if (!$schema->configure($rawConfig, true)) {
             throw new \RuntimeException(
                 'Failed to load ' . $schemaFile . "\n"
-                . implode("\n", $schema -> configureErrors)
+                . implode("\n", $schema->configureErrors)
             );
         }
 
@@ -173,12 +173,12 @@ class Schema implements \JsonSerializable
     public function getDefault($setting = null)
     {
         if ($setting === null) {
-            return $this -> defaultRepo;
+            return $this->defaultRepo;
         }
-        if (!isset($this -> defaultRepo -> $setting)) {
+        if (!isset($this->defaultRepo->$setting)) {
             return null;
         }
-        return $this -> defaultRepo -> $setting;
+        return $this->defaultRepo->$setting;
     }
 
     /**
@@ -192,10 +192,10 @@ class Schema implements \JsonSerializable
         if (strpos($segProp, NextForm::SEGMENT_DELIM) !== false) {
             list($segProp, $name) = explode(NextForm::SEGMENT_DELIM, $segProp);
         }
-        if (!isset($this -> segments[$segProp])) {
+        if (!isset($this->segments[$segProp])) {
             return null;
         }
-        return $this -> segments[$segProp] -> getProperty($name);
+        return $this->segments[$segProp]->getProperty($name);
     }
 
     /**
@@ -205,10 +205,10 @@ class Schema implements \JsonSerializable
      */
     public function getSegment($segName) : ?Segment
     {
-        if (!isset($this -> segments[$segName])) {
+        if (!isset($this->segments[$segName])) {
             return null;
         }
-        return $this -> segments[$segName];
+        return $this->segments[$segName];
     }
 
     /**
@@ -219,7 +219,7 @@ class Schema implements \JsonSerializable
      */
     public function setSegment($segName, Segment $segment) : self
     {
-        $this -> segments[$segName] = $segment;
+        $this->segments[$segName] = $segment;
         return $this;
     }
 

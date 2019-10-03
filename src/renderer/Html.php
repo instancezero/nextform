@@ -105,29 +105,29 @@ abstract class Html implements RendererInterface
     protected function elementHidden($element, $value)
     {
         $block = new Block;
-        $baseId = $element -> getId();
-        $formName = $element -> getFormName();
+        $baseId = $element->getId();
+        $formName = $element->getFormName();
         $attrs = new Attributes('type', 'hidden');
         if ($element instanceof FieldElement) {
-            $attrs -> setIfNotNull(
+            $attrs->setIfNotNull(
                 '*data-sidecar',
-                $element -> getDataProperty() -> getPopulation() -> sidecar
+                $element->getDataProperty()->getPopulation()->sidecar
             );
         }
         if (is_array($value)) {
             $optId = 0;
             foreach ($value as $key => $entry) {
-                $attrs -> set('id', $baseId . '-opt' . $optId);
+                $attrs->set('id', $baseId . '-opt' . $optId);
                 ++$optId;
-                $attrs -> set('name', $formName . '[' . htmlspecialchars($key) . ']');
-                $attrs -> set('value', $entry);
-                $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+                $attrs->set('name', $formName . '[' . htmlspecialchars($key) . ']');
+                $attrs->set('value', $entry);
+                $block->body .= $this->writeTag('input', $attrs) . "\n";
             }
         } else {
-            $attrs -> set('id', $baseId);
-            $attrs -> set('name', $formName);
-            $attrs -> setIfNotNull('value', $value);
-            $block -> body .= $this -> writeTag('input', $attrs) . "\n";
+            $attrs->set('id', $baseId);
+            $attrs->set('name', $formName);
+            $attrs->setIfNotNull('value', $value);
+            $block->body .= $this->writeTag('input', $attrs) . "\n";
         }
         return $block;
     }
@@ -141,33 +141,33 @@ abstract class Html implements RendererInterface
     {
         $needEmpty = true;
         $block = new Block;
-        $baseId = $element -> getId();
-        $select = $element -> getValue();
-        $list = $element -> getList(true);
+        $baseId = $element->getId();
+        $select = $element->getValue();
+        $list = $element->getList(true);
         $attrs = new Attributes('type', 'hidden');
-        $attrs -> set('name', $element -> getFormName() . (empty($list) ? '' : '[]'));
+        $attrs->set('name', $element->getFormName() . (empty($list) ? '' : '[]'));
         if ($select === null) {
-            $select = $element -> getDefault();
+            $select = $element->getDefault();
         }
         foreach ($list as $optId => $radio) {
-            $optAttrs = $attrs -> copy();
+            $optAttrs = $attrs->copy();
             $id = $baseId . '-opt' . $optId;
-            $optAttrs -> set('id', $id);
-            $value = $radio -> getValue();
-            $optAttrs -> set('value', $value);
-            $optAttrs -> setIfNotNull('*data-sidecar', $radio -> sidecar);
+            $optAttrs->set('id', $id);
+            $value = $radio->getValue();
+            $optAttrs->set('value', $value);
+            $optAttrs->setIfNotNull('*data-sidecar', $radio->sidecar);
             if (is_array($select)) {
                 $checked = in_array($value, $select);
             } else {
                 $checked = $value === $select;
             }
             if ($checked) {
-                $block -> body .= $this -> writeTag('input', $optAttrs) . "\n";
+                $block->body .= $this->writeTag('input', $optAttrs) . "\n";
                 $needEmpty = false;
             }
         }
         if ($needEmpty) {
-            $block = $this -> elementHidden($element, $select);
+            $block = $this->elementHidden($element, $select);
         }
         return $block;
     }
@@ -189,23 +189,23 @@ abstract class Html implements RendererInterface
      */
     protected function groupAttributes($element, $options = []) : Attributes
     {
-        $id = $options['id'] ?? $element -> getId();
+        $id = $options['id'] ?? $element->getId();
         $container = new Attributes('id', $id . '-container');
-        if (!$element -> getVisible()) {
-            //$container -> set('style', 'display:none');
-            $container -> merge($this -> showGet('form', 'invisible'));
+        if (!$element->getVisible()) {
+            //$container->set('style', 'display:none');
+            $container->merge($this->showGet('form', 'invisible'));
         }
-        $groups = $element -> getGroups();
+        $groups = $element->getGroups();
         if (!empty($groups)) {
-            $container -> set('*data-nf-group', $groups);
+            $container->set('*data-nf-group', $groups);
         }
-        $container -> set('data-nf-for', $id);
+        $container->set('data-nf-for', $id);
         return $container;
     }
 
     protected function initialize() {
         // Reset the context
-        $this -> context = [];
+        $this->context = [];
     }
 
     /**
@@ -213,9 +213,9 @@ abstract class Html implements RendererInterface
      */
     public function popContext()
     {
-        if (count($this -> contextStack)) {
-            $this -> context = array_pop($this -> contextStack);
-            $this -> showState = array_pop($this -> showStack);
+        if (count($this->contextStack)) {
+            $this->context = array_pop($this->contextStack);
+            $this->showState = array_pop($this->showStack);
         }
     }
 
@@ -224,16 +224,16 @@ abstract class Html implements RendererInterface
      */
     public function pushContext()
     {
-        array_push($this -> contextStack, $this -> context);
-        array_push($this -> showStack, $this -> showState);
+        array_push($this->contextStack, $this->context);
+        array_push($this->showStack, $this->showState);
     }
 
     public function queryContext($selector)
     {
-        if (!isset($this -> context[$selector])) {
+        if (!isset($this->context[$selector])) {
             throw new RuntimeException($selector . ' is not valid in current context.');
         }
-        return $this -> context[$selector];
+        return $this->context[$selector];
     }
 
     public function render(Element $element, $options = []) : Block
@@ -244,9 +244,9 @@ abstract class Html implements RendererInterface
         if ($options['access'] === 'none') {
             return new Block;
         }
-        $method = $this -> getRenderMethod($element);
+        $method = $this->getRenderMethod($element);
         if (method_exists($this, $method)) {
-            $result = $this -> $method($element, $options);
+            $result = $this->$method($element, $options);
         } else {
             throw new \RuntimeException('Unable to render element ' . get_class($element));
         }
@@ -266,7 +266,7 @@ abstract class Html implements RendererInterface
         $settings = self::showTokenize($settings, $defaultScope);
         foreach ($settings as $scope => $list) {
             foreach ($list as $key => $value) {
-                $this -> show($scope, $key, $value);
+                $this->show($scope, $key, $value);
             }
         }
     }
@@ -324,12 +324,12 @@ abstract class Html implements RendererInterface
             // if not, just store the setting in $choice
             $method = 'showDo' . ucfirst($key);
             if (method_exists($this, $method)) {
-                $this -> $method($scope, $choice, $args);
+                $this->$method($scope, $choice, $args);
             } else {
-                if (!isset($this -> showState[$scope])) {
-                    $this -> showState[$scope] = [];
+                if (!isset($this->showState[$scope])) {
+                    $this->showState[$scope] = [];
                 }
-                $this -> showState[$scope][$key] = $choice;
+                $this->showState[$scope][$key] = $choice;
             }
         }
     }
@@ -342,11 +342,11 @@ abstract class Html implements RendererInterface
      */
     protected function showDoInvisible($scope, $choice, $values = [])
     {
-        if (!isset($this -> showState[$scope])) {
-            $this -> showState[$scope] = [];
+        if (!isset($this->showState[$scope])) {
+            $this->showState[$scope] = [];
         }
         // Use the choice as a class name
-        $this -> showState[$scope]['invisible'] = new Attributes('class', $choice);
+        $this->showState[$scope]['invisible'] = new Attributes('class', $choice);
     }
 
     /**
@@ -358,18 +358,18 @@ abstract class Html implements RendererInterface
     protected function showGet($scope, $key)
     {
 
-        if (($result = $this -> showGetLocal($scope, $key)) !== null) {
+        if (($result = $this->showGetLocal($scope, $key)) !== null) {
             return $result;
         }
         if ($scope !== 'form') {
             // Look for something specified at the form level
-            if (($result = $this -> showGetLocal('form', $key)) !== null) {
+            if (($result = $this->showGetLocal('form', $key)) !== null) {
                 return $result;
             }
         }
         if (isset(self::$showRules[$key]['default'])) {
-            $this -> showState['form'][$key] = self::$showRules[$key]['default'];
-            return $this -> showState['form'][$key];
+            $this->showState['form'][$key] = self::$showRules[$key]['default'];
+            return $this->showState['form'][$key];
         }
         return null;
     }
@@ -382,13 +382,13 @@ abstract class Html implements RendererInterface
      */
     protected function showGetLocal($scope, $key)
     {
-        if (!isset($this -> showState[$scope])) {
+        if (!isset($this->showState[$scope])) {
             return null;
         }
-        if (!isset($this -> showState[$scope][$key])) {
+        if (!isset($this->showState[$scope][$key])) {
             return null;
         }
-        return $this -> showState[$scope][$key];
+        return $this->showState[$scope][$key];
     }
 
     /**
@@ -398,29 +398,29 @@ abstract class Html implements RendererInterface
      */
     public function start($options = []) : Block
     {
-        $this -> initialize();
+        $this->initialize();
         if (isset($options['attrs'])) {
             $attrs = $options['attrs'];
         } else {
             $attrs = new Attributes;
         }
-        $attrs -> set('method', isset($options['method']) ? $options['method'] : 'post');
-        $attrs -> setIfSet('action', $options);
+        $attrs->set('method', isset($options['method']) ? $options['method'] : 'post');
+        $attrs->setIfSet('action', $options);
 
         $pageData = new Block();
-        $pageData -> styles = '.nf-hidden {display:none}' . "\n";
-        $pageData -> body = $this -> writeTag('form', $attrs) . "\n";
-        $pageData -> post = '</form>' . "\n";
+        $pageData->styles = '.nf-hidden {display:none}' . "\n";
+        $pageData->body = $this->writeTag('form', $attrs) . "\n";
+        $pageData->post = '</form>' . "\n";
         if (isset($options['token'])) {
-            $pageData -> token = $options['token'];
+            $pageData->token = $options['token'];
         } else {
-            $pageData -> token = bin2hex(random_bytes(32));
+            $pageData->token = bin2hex(random_bytes(32));
         }
         $nfToken = $options['tokenName'] ?? 'nf_token';
-        if ($pageData -> token !== '') {
-            $pageData -> body .= '<input id="' . $nfToken . '"'
+        if ($pageData->token !== '') {
+            $pageData->body .= '<input id="' . $nfToken . '"'
                 . ' name="' . $nfToken . '" type="hidden"'
-                . ' value="' . $pageData -> token . '">' . "\n";
+                . ' value="' . $pageData->token . '">' . "\n";
         }
         return $pageData;
     }
@@ -442,19 +442,19 @@ abstract class Html implements RendererInterface
             $scope = false;
         }
         $block = new Block;
-        if ($scope && isset($this -> showState[$scope][$setting])) {
-            $attrs = $this -> showState[$scope][$setting] -> combine($attrs);
-            $block -> body = $this -> writeTag($tag, $attrs) . "\n";
+        if ($scope && isset($this->showState[$scope][$setting])) {
+            $attrs = $this->showState[$scope][$setting]->combine($attrs);
+            $block->body = $this->writeTag($tag, $attrs) . "\n";
             $hasPost = true;
-        } elseif ($attrs !== null && !$attrs -> isEmpty()) {
-            $block -> body = $this -> writeTag($tag, $attrs) . "\n";
+        } elseif ($attrs !== null && !$attrs->isEmpty()) {
+            $block->body = $this->writeTag($tag, $attrs) . "\n";
             $hasPost = true;
         } elseif ($options['force'] ?? false) {
-            $block -> body = '<' . $tag . ">\n";
+            $block->body = '<' . $tag . ">\n";
             $hasPost = true;
         }
         if ($hasPost) {
-            $block -> post = '</' . $tag . ">\n"
+            $block->post = '</' . $tag . ">\n"
                 . (isset($options['append']) ? $options['append'] : '');
         }
         return $block;
@@ -474,7 +474,7 @@ abstract class Html implements RendererInterface
         if ($text === null) {
             // In horizontal layouts we always generate an element
             if (
-                $this -> showState['form']['layout'] === 'horizontal'
+                $this->showState['form']['layout'] === 'horizontal'
                 && $purpose === 'headingAttributes'
             ) {
                 $text = '&nbsp;';
@@ -484,11 +484,11 @@ abstract class Html implements RendererInterface
         } else {
             $text = htmlspecialchars($text);
         }
-        if (isset($this -> showState['form'][$purpose])) {
-            $attrs = $this -> showState['form'][$purpose] -> combine($attrs);
+        if (isset($this->showState['form'][$purpose])) {
+            $attrs = $this->showState['form'][$purpose]->combine($attrs);
         }
         $breakTag = $options['break'] ?? false;
-        $html = $this -> writeTag($tag, $attrs)
+        $html = $this->writeTag($tag, $attrs)
             . $text
             . '</' . $tag . '>' . ($breakTag ? "\n" : '')
         ;
@@ -507,7 +507,7 @@ abstract class Html implements RendererInterface
      */
     protected function writeTag($tag, $attrs = null, $text = null)
     {
-        $html = '<' . $tag . ($attrs ? $attrs -> write($tag) : '');
+        $html = '<' . $tag . ($attrs ? $attrs->write($tag) : '');
         if (isset(self::$selfClose[$tag]) && $text === null) {
             $html .= '/>';
         } elseif ($text !== null) {

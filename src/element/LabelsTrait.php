@@ -37,10 +37,10 @@ trait LabelsTrait
 
     public function getLabels($translated = false)
     : ?\Abivia\NextForm\Data\Labels {
-        if ($translated && $this -> hasTranslation) {
-            return $this -> labelsTranslated;
+        if ($translated && $this->hasTranslation) {
+            return $this->labelsTranslated;
         }
-        return $this -> labels;
+        return $this->labels;
     }
 
     /**
@@ -50,14 +50,14 @@ trait LabelsTrait
      */
     public function setLabel($labelName, $text)
     {
-        if ($this -> labels === null) {
-            $this -> labels = new Labels;
+        if ($this->labels === null) {
+            $this->labels = new Labels;
         }
-        if ($this -> labelsMerged === null) {
-            $this -> labelsMerged = clone $this -> labels;
+        if ($this->labelsMerged === null) {
+            $this->labelsMerged = clone $this->labels;
         }
-        $this -> labels -> set($labelName, $text);
-        $this -> labelsMerged -> set($labelName, $text);
+        $this->labels->set($labelName, $text);
+        $this->labelsMerged->set($labelName, $text);
     }
 
     /**
@@ -67,8 +67,8 @@ trait LabelsTrait
      */
     public function translate(Translator $translate) : Element
     {
-        $this -> labelsTranslated = $this -> labelsMerged -> translate($translate);
-        $this -> hasTranslation = true;
+        $this->labelsTranslated = $this->labelsMerged->translate($translate);
+        $this->hasTranslation = true;
         return $this;
     }
 

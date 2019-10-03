@@ -1,6 +1,6 @@
 <?php
 
-use \Abivia\NextForm\Data\Population\Option;
+use Abivia\NextForm\Data\Population\Option;
 
 /**
  * @covers Abivia\NextForm\Data\Population\Option
@@ -9,7 +9,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testPopulationOptionInstantiation() {
         $obj = new Option();
-		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj);
 	}
 
     /**
@@ -18,15 +18,15 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     public function testPopulationOptionSimpleDefault() {
         $json = '{"label": "Something"}';
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> assertTrue($obj -> configure($config));
-        $this -> assertEquals('Something', $obj -> getLabel());
-        $this -> assertEquals('', $obj -> getName());
-        $this -> assertEquals('Something', $obj -> getValue());
-        $this -> assertTrue($obj -> getEnabled());
-        $this -> assertFalse($obj -> getSelected());
-        $this -> assertTrue($obj -> configure($config));
+        $this->assertTrue($obj->configure($config));
+        $this->assertEquals('Something', $obj->getLabel());
+        $this->assertEquals('', $obj->getName());
+        $this->assertEquals('Something', $obj->getValue());
+        $this->assertTrue($obj->getEnabled());
+        $this->assertFalse($obj->getSelected());
+        $this->assertTrue($obj->configure($config));
     }
 
     /**
@@ -35,15 +35,15 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     public function testPopulationOptionSimpleValued() {
         $json = '{"label": "Something", "value": 5}';
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> assertTrue($obj -> configure($config));
-        $this -> assertEquals('Something', $obj -> getLabel());
-        $this -> assertEquals('', $obj -> getName());
-        $this -> assertEquals(5, $obj -> getValue());
-        $this -> assertTrue($obj -> getEnabled());
-        $this -> assertFalse($obj -> getSelected());
-        $this -> assertTrue($obj -> configure($config));
+        $this->assertTrue($obj->configure($config));
+        $this->assertEquals('Something', $obj->getLabel());
+        $this->assertEquals('', $obj->getName());
+        $this->assertEquals(5, $obj->getValue());
+        $this->assertTrue($obj->getEnabled());
+        $this->assertFalse($obj->getSelected());
+        $this->assertTrue($obj->configure($config));
     }
 
     /**
@@ -52,10 +52,10 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     public function testPopulationOptionSimpleNoLabel() {
         $json = '{"value": 5}';
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> expectException('OutOfBoundsException');
-        $obj -> configure($config);
+        $this->expectException('OutOfBoundsException');
+        $obj->configure($config);
     }
 
     public function testPopulationOptionNested() {
@@ -75,9 +75,9 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> assertTrue($obj -> configure($config));
+        $this->assertTrue($obj->configure($config));
     }
 
     public function testPopulationOptionNestedTooDeep() {
@@ -104,10 +104,10 @@ jsonend;
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> expectException('OutOfBoundsException');
-        $obj -> configure($config);
+        $this->expectException('OutOfBoundsException');
+        $obj->configure($config);
     }
 
     /**
@@ -116,14 +116,14 @@ jsonend;
     public function testPopulationOptionSidecar() {
         $json = '{"label": "Something","sidecar":{"prop":"foo"}}';
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Option();
-        $this -> assertTrue($obj -> configure($config));
-        $sidecar = $obj -> sidecar;
-        $this -> assertInstanceOf('\Stdclass', $sidecar);
-        $this -> assertEquals('foo', $sidecar -> prop);
-        $this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj -> setSidecar('fred'));
-        $this -> assertEquals('fred', $obj -> sidecar);
+        $this->assertTrue($obj->configure($config));
+        $sidecar = $obj->sidecar;
+        $this->assertInstanceOf('\Stdclass', $sidecar);
+        $this->assertEquals('foo', $sidecar->prop);
+        $this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj->setSidecar('fred'));
+        $this->assertEquals('fred', $obj->sidecar);
     }
 
 }

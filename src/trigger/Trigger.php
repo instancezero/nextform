@@ -59,13 +59,13 @@ class Trigger implements \JsonSerializable
     protected function configureComplete()
     {
         // Exactly one of event or value must be set.
-        if (isset($this -> event) == isset($this -> value)) {
+        if (isset($this->event) == isset($this->value)) {
             return false;
         }
-        if (isset($this -> event)) {
-            $this -> type = 'event';
+        if (isset($this->event)) {
+            $this->type = 'event';
         } else {
-            $this -> type = 'value';
+            $this->type = 'value';
         }
         return true;
     }
@@ -75,9 +75,9 @@ class Trigger implements \JsonSerializable
      */
     protected function configureInitialize()
     {
-        $this -> event = null;
-        $this -> type = null;
-        $this -> value = null;
+        $this->event = null;
+        $this->type = null;
+        $this->value = null;
     }
 
     protected function configurePropertyAllow($property)
@@ -100,22 +100,22 @@ class Trigger implements \JsonSerializable
 
     public function getActions()
     {
-        return $this -> actions;
+        return $this->actions;
     }
 
     public function getEvent()
     {
-        return $this -> event;
+        return $this->event;
     }
 
     public function getType()
     {
-        return $this -> type;
+        return $this->type;
     }
 
     public function getValue()
     {
-        return $this -> value;
+        return $this->value;
     }
 
 }

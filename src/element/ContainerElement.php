@@ -51,8 +51,8 @@ abstract class ContainerElement Extends NamedElement
      */
     public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
     {
-        foreach ($this -> elements as $element) {
-            $element -> bindSchema($schema);
+        foreach ($this->elements as $element) {
+            $element->bindSchema($schema);
         }
     }
 
@@ -67,8 +67,8 @@ abstract class ContainerElement Extends NamedElement
         $result = false;
         if ($property == 'elements') {
             $result = new \stdClass;
-            $result -> key = [$this, 'addElement'];
-            $result -> className = [Element::class, 'classFromType'];
+            $result->key = [$this, 'addElement'];
+            $result->className = [Element::class, 'classFromType'];
         } else {
             $result = parent::configureClassMap($property, $value);
         }
@@ -85,13 +85,13 @@ abstract class ContainerElement Extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
         // Any elements that are simply strings are converted to basic field objects
-        if (isset($config -> elements) && is_array($config -> elements)) {
-            foreach ($config -> elements as &$value) {
+        if (isset($config->elements) && is_array($config->elements)) {
+            foreach ($config->elements as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
                     $value = NextForm::expandField($value);
@@ -127,14 +127,14 @@ abstract class ContainerElement Extends NamedElement
         AccessInterface $access,
         Translator $translate
     ) : Block {
-        $this -> translate($translate);
-        $options = false; // $access -> hasAccess(...)
+        $this->translate($translate);
+        $options = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
-        $containerData = $renderer -> render($this, $options);
-        foreach ($this -> elements as $element) {
-            $containerData -> merge($element -> generate($renderer, $access, $translate));
+        $containerData = $renderer->render($this, $options);
+        foreach ($this->elements as $element) {
+            $containerData->merge($element->generate($renderer, $access, $translate));
         }
-        $containerData -> close();
+        $containerData->close();
         return $containerData;
     }
 
@@ -144,7 +144,7 @@ abstract class ContainerElement Extends NamedElement
      */
     public function getElements()
     {
-        return $this -> elements;
+        return $this->elements;
     }
 
     /**
@@ -154,7 +154,7 @@ abstract class ContainerElement Extends NamedElement
     protected function jsonCollapseElements($elementList)
     {
         foreach ($elementList as &$element) {
-            $element = $element -> jsonCollapse();
+            $element = $element->jsonCollapse();
         }
         return $elementList;
     }

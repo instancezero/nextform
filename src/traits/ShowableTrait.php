@@ -13,22 +13,22 @@ trait ShowableTrait
 
 
     public function addShow($show) : self {
-        if ($this -> show === '') {
-            $this -> show = trim($show);
+        if ($this->show === '') {
+            $this->show = trim($show);
         } else {
-            $this -> show .= '|' . trim($show);
+            $this->show .= '|' . trim($show);
         }
         return $this;
     }
 
     public function getShow()
     {
-        return $this -> show;
+        return $this->show;
     }
 
     public function setShow($show) : self
     {
-        $this -> show = trim($show === null ? '' : $show);
+        $this->show = trim($show === null ? '' : $show);
         return $this;
     }
 

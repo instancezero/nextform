@@ -11,11 +11,11 @@ class Page {
             ['{{title}}', '<!--{{head}}-->', '{{form}}', '<!--{{scripts}}-->'],
             [
                 $title,
-                $html -> head . implode("\n", $html -> styleFiles) . "\n"
-                . ($html -> styles ? "<style>\n" . $html -> styles . "</style>" : ''),
-                $html -> body,
-                implode("\n", $html -> scriptFiles)
-                . ($html -> script ? "<script>\n" . $html -> script . "</script>" : ''),
+                $html->head . implode("\n", $html->styleFiles) . "\n"
+                . ($html->styles ? "<style>\n" . $html->styles . "</style>" : ''),
+                $html->body,
+                implode("\n", $html->scriptFiles)
+                . ($html->script ? "<script>\n" . $html->script . "</script>" : ''),
             ],
             $page
         );

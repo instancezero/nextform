@@ -25,7 +25,7 @@ class HtmlElement Extends SimpleElement
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
         }
-        $this -> type = 'html';
+        $this->type = 'html';
     }
 
     protected function configureClassMap($property, $value)
@@ -38,9 +38,9 @@ class HtmlElement Extends SimpleElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 

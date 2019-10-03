@@ -29,8 +29,8 @@ class User
      */
     public function addRole($name) : self
     {
-        if (!in_array($name, $this -> roles)) {
-            $this -> roles[] = $name;
+        if (!in_array($name, $this->roles)) {
+            $this->roles[] = $name;
         }
         return $this;
     }
@@ -41,8 +41,8 @@ class User
      */
     public function deleteRole($name) : self
     {
-        if (($key = array_search($name, $this -> roles))) {
-            unset($this -> roles[$key]);
+        if (($key = array_search($name, $this->roles))) {
+            unset($this->roles[$key]);
         }
         return $this;
     }
@@ -53,7 +53,7 @@ class User
      */
     public function getId()
     {
-        return $this -> id;
+        return $this->id;
     }
 
     /**
@@ -62,7 +62,7 @@ class User
      */
     public function getRoles()
     {
-        return $this -> roles;
+        return $this->roles;
     }
 
     /**
@@ -72,7 +72,7 @@ class User
      */
     public function setId($id) : self
     {
-        $this -> id = $id;
+        $this->id = $id;
         return $this;
     }
 

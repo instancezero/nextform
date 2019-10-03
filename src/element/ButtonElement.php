@@ -48,7 +48,7 @@ class ButtonElement Extends NamedElement
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
         }
-        $this -> type = 'button';
+        $this->type = 'button';
     }
 
     protected function configureClassMap($property, $value)
@@ -66,9 +66,9 @@ class ButtonElement Extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -92,7 +92,7 @@ class ButtonElement Extends NamedElement
     {
         if ($property === 'function') {
             if (!in_array($value, self::$validFunctions)) {
-                $this -> configureLogError(
+                $this->configureLogError(
                     $property . ' must be one of ' . implode(',', self::$validFunctions) . '.'
                 );
                 return false;
@@ -104,7 +104,7 @@ class ButtonElement Extends NamedElement
 
     public function getFunction()
     {
-        return $this -> function;
+        return $this->function;
     }
 
     /**
@@ -115,11 +115,11 @@ class ButtonElement Extends NamedElement
      */
     public function setFunction($value)
     {
-        $this -> configureErrors = [];
-        if (!$this -> configureValidate('function', $value)) {
-            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        $this->configureErrors = [];
+        if (!$this->configureValidate('function', $value)) {
+            throw new \RuntimeException(implode("\n", $this->configureErrors));
         }
-        $this -> function = $value;
+        $this->function = $value;
         return $this;
     }
 

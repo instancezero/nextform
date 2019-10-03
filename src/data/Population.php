@@ -94,12 +94,12 @@ class Population implements \JsonSerializable, \IteratorAggregate
     protected function configureInitialize(&$config)
     {
         // if the list is an array of strings, convert it
-        if (isset($config -> list) && is_array($config -> list)) {
-            foreach ($config -> list as &$value) {
+        if (isset($config->list) && is_array($config->list)) {
+            foreach ($config->list as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
                     $obj = new \stdClass;
-                    $obj -> label = $value;
+                    $obj->label = $value;
                     $value = $obj;
                 }
             }
@@ -130,7 +130,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this -> list);
+        return new \ArrayIterator($this->list);
     }
 
     /**
@@ -139,10 +139,10 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function getList()
     {
-        if ($this -> list === null) {
+        if ($this->list === null) {
             return [];
         }
-        return $this -> list;
+        return $this->list;
     }
 
     /**
@@ -151,7 +151,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function getQuery()
     {
-        return $this -> query;
+        return $this->query;
     }
 
     /**
@@ -160,7 +160,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function getSource()
     {
-        return $this -> source;
+        return $this->source;
     }
 
     /**
@@ -169,7 +169,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function getTranslate() : bool
     {
-        return $this -> translate;
+        return $this->translate;
     }
 
     /**
@@ -178,22 +178,22 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function isEmpty() : bool
     {
-        if (!empty($this -> list)) {
+        if (!empty($this->list)) {
             return false;
         }
-        if (!empty($this -> parameters)) {
+        if (!empty($this->parameters)) {
             return false;
         }
-        if ($this -> query !== null && $this -> query !== '') {
+        if ($this->query !== null && $this->query !== '') {
             return false;
         }
-        if ($this -> sidecar !== null) {
+        if ($this->sidecar !== null) {
             return false;
         }
-        if ($this -> source !== null && $this -> source !== '') {
+        if ($this->source !== null && $this->source !== '') {
             return false;
         }
-        if ($this -> translate != true) {
+        if ($this->translate != true) {
             return false;
         }
         return true;
@@ -206,7 +206,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function setQuery($query) : self
     {
-        $this -> query = $query;
+        $this->query = $query;
         return $this;
     }
 
@@ -218,7 +218,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function setSource($source) : self
     {
-        if (!$this -> configureValidate('source', $source)) {
+        if (!$this->configureValidate('source', $source)) {
             throw new \LogicException('Invalid value for source: ' . $source);
         }
         return $this;
@@ -231,7 +231,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      */
     public function setTranslate(bool $mustTranslate) : self
     {
-        $this -> translate = $mustTranslate;
+        $this->translate = $mustTranslate;
         return $this;
     }
 

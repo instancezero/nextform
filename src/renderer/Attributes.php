@@ -164,7 +164,7 @@ class Attributes
             }
         }
         if ($name !== null) {
-            $this -> attrs[$name] = $value;
+            $this->attrs[$name] = $value;
         }
     }
 
@@ -176,21 +176,21 @@ class Attributes
     public function addValidation($type, $validation)
     {
         foreach (self::$validationMap as $attrName => $specs) {
-            list($lookup) = $this -> parseName($attrName);
+            list($lookup) = $this->parseName($attrName);
             if (self::$inputAttributes[$type][$lookup]) {
-                $setting = $validation -> get($specs[0]);
+                $setting = $validation->get($specs[0]);
                 if ($setting === $specs[1]) {
                     continue;
                 }
                 if ($lookup === 'accept') {
-                    $this -> attrs[$attrName] = implode(',', $setting);
+                    $this->attrs[$attrName] = implode(',', $setting);
                 } elseif (
                     ($lookup == 'min' || $lookup == 'max')
                     && isset(self::$inputDateTime[$type])
                 ){
-                    $this -> attrs[$attrName] = date(self::$inputDateTime[$type], strtotime($setting));
+                    $this->attrs[$attrName] = date(self::$inputDateTime[$type], strtotime($setting));
                 } else {
-                    $this -> attrs[$attrName] = $setting;
+                    $this->attrs[$attrName] = $setting;
                 }
             }
         }
@@ -204,7 +204,7 @@ class Attributes
     public function combine($source = null) : Attributes
     {
         $result = clone $this;
-        $result -> merge($source);
+        $result->merge($source);
         return $result;
     }
 
@@ -225,8 +225,8 @@ class Attributes
      */
     public function default($name, $value) : self
     {
-        if (!isset($this -> attrs[$name])) {
-            $this -> attrs[$name] = $value;
+        if (!isset($this->attrs[$name])) {
+            $this->attrs[$name] = $value;
         }
         return $this;
     }
@@ -238,7 +238,7 @@ class Attributes
      */
     public function delete($name) : self
     {
-        unset($this -> attrs[$name]);
+        unset($this->attrs[$name]);
         return $this;
     }
 
@@ -275,7 +275,7 @@ class Attributes
      */
     public function get($name)
     {
-        return $this -> attrs[$name];
+        return $this->attrs[$name];
     }
 
     /**
@@ -285,7 +285,7 @@ class Attributes
      */
     public function &getReference($name)
     {
-        return $this -> attrs[$name];
+        return $this->attrs[$name];
     }
 
     /**
@@ -294,7 +294,7 @@ class Attributes
      */
     public function getAll()
     {
-        return $this -> attrs;
+        return $this->attrs;
     }
 
     /**
@@ -304,7 +304,7 @@ class Attributes
      */
     public function has($name) : bool
     {
-        return isset($this -> attrs[$name]);
+        return isset($this->attrs[$name]);
     }
 
     /**
@@ -348,7 +348,7 @@ class Attributes
      */
     public function isEmpty()
     {
-        return empty($this -> attrs);
+        return empty($this->attrs);
     }
 
     /**
@@ -359,12 +359,12 @@ class Attributes
      */
     public function itemAppend($name, $value) : self
     {
-        if (!isset($this -> attrs[$name])) {
-            $this -> attrs[$name] = [];
-        } elseif(!is_array($this -> attrs[$name])) {
-            $this -> attrs[$name] = [$this -> attrs[$name]];
+        if (!isset($this->attrs[$name])) {
+            $this->attrs[$name] = [];
+        } elseif(!is_array($this->attrs[$name])) {
+            $this->attrs[$name] = [$this->attrs[$name]];
         }
-        $this -> attrs[$name][] = $value;
+        $this->attrs[$name][] = $value;
         return $this;
     }
 
@@ -376,20 +376,20 @@ class Attributes
      */
     public function itemDelete($name, $items) : self
     {
-        if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
+        if (!isset($this->attrs[$name]) || !is_array($this->attrs[$name])) {
             return $this;
         }
         // Determine if this is an associative array or not
         if (count(array_filter(array_keys($items), 'is_string')) > 0) {
             // Delete all matching keys
             foreach(array_keys($items) as $key) {
-                unset($this -> attrs[$name][$key]);
+                unset($this->attrs[$name][$key]);
             }
         } else {
             // Delete all matching values
             foreach ($items as $value) {
-                if (($key = array_search($value, $this -> attrs[$name]))) {
-                    unset($this -> attrs[$name][$key]);
+                if (($key = array_search($value, $this->attrs[$name]))) {
+                    unset($this->attrs[$name][$key]);
                 }
             }
         }
@@ -404,7 +404,7 @@ class Attributes
      */
     public function itemDeleteKey($name, $keys) : self
     {
-        if (!isset($this -> attrs[$name]) || !is_array($this -> attrs[$name])) {
+        if (!isset($this->attrs[$name]) || !is_array($this->attrs[$name])) {
             return $this;
         }
         if (!is_array($keys)) {
@@ -412,7 +412,7 @@ class Attributes
         }
         // Delete all matching keys
         foreach($keys as $key) {
-            unset($this -> attrs[$name][$key]);
+            unset($this->attrs[$name][$key]);
         }
         return $this;
     }
@@ -425,15 +425,15 @@ class Attributes
      */
     public function itemInsert($name, $items) : self
     {
-        if (!isset($this -> attrs[$name])) {
-            $this -> attrs[$name] = [];
-        } elseif(!is_array($this -> attrs[$name])) {
-            $this -> attrs[$name] = [$this -> attrs[$name]];
+        if (!isset($this->attrs[$name])) {
+            $this->attrs[$name] = [];
+        } elseif(!is_array($this->attrs[$name])) {
+            $this->attrs[$name] = [$this->attrs[$name]];
         }
         if (!is_srray($items)) {
             $items = [$items];
         }
-        $this -> attrs[$name] = array_unique(array_merge($this -> attrs[$name], $items));
+        $this->attrs[$name] = array_unique(array_merge($this->attrs[$name], $items));
 
         return $this;
     }
@@ -448,26 +448,26 @@ class Attributes
         if ($source === null) {
             return $this;
         }
-        $merge = $source -> getAll();
+        $merge = $source->getAll();
         foreach ($merge as $name => $list) {
-            if (isset($this -> attrs[$name])) {
-                if (is_array($this -> attrs[$name]) || is_array($list)) {
+            if (isset($this->attrs[$name])) {
+                if (is_array($this->attrs[$name]) || is_array($list)) {
                     // Make sure both components are arrays
-                    if (!is_array($this -> attrs[$name])) {
-                        $this -> attrs[$name] = [$this -> attrs[$name]];
+                    if (!is_array($this->attrs[$name])) {
+                        $this->attrs[$name] = [$this->attrs[$name]];
                     }
                     if (!is_array($list)) {
                         $list = [$list];
                     }
-                    $this -> attrs[$name] = array_merge($this -> attrs[$name], $list);
+                    $this->attrs[$name] = array_merge($this->attrs[$name], $list);
                 } else {
-                    $this -> attrs[$name] .= (isset(self::$attrJoin[$name])
+                    $this->attrs[$name] .= (isset(self::$attrJoin[$name])
                             ? self::$attrJoin[$name][0] : ' '
                         )
                         . $list;
                 }
             } else {
-                $this -> attrs[$name] = $list;
+                $this->attrs[$name] = $list;
             }
         }
         return $this;
@@ -497,7 +497,7 @@ class Attributes
      */
     public function set($name, $value) : self
     {
-        $this -> attrs[$name] = $value;
+        $this->attrs[$name] = $value;
         return $this;
     }
 
@@ -509,9 +509,9 @@ class Attributes
     public function setFlag($name, bool $value = true) : self
     {
         if ($value) {
-            $this -> attrs['=' . $name] = $name;
+            $this->attrs['=' . $name] = $name;
         } else {
-            unset($this -> attrs['=' . $name]);
+            unset($this->attrs['=' . $name]);
         }
         return $this;
     }
@@ -525,7 +525,7 @@ class Attributes
     public function setIfNotNull($name, $value) : self
     {
         if ($value !== null) {
-            $this -> attrs[$name] = $value;
+            $this->attrs[$name] = $value;
         }
         return $this;
     }
@@ -543,7 +543,7 @@ class Attributes
             $key = $name;
         }
         if (isset($source[$key])) {
-            $this -> attrs[$name] = $source[$key];
+            $this->attrs[$name] = $source[$key];
         }
         return $this;
     }
@@ -560,7 +560,7 @@ class Attributes
         switch ($cmd) {
             case '!': {
                 // Attrribute that does not need to be escaped
-                $html = ' ' . $name . '="' . $this -> flatten($name, $value) . '"';
+                $html = ' ' . $name . '="' . $this->flatten($name, $value) . '"';
             }
             break;
 
@@ -578,7 +578,7 @@ class Attributes
 
             default: {
                 $html = ' ' . $name . '="'
-                    . htmlspecialchars($this -> flatten($name, $value))
+                    . htmlspecialchars($this->flatten($name, $value))
                     . '"';
             }
             break;
@@ -597,19 +597,19 @@ class Attributes
      */
     public function write($tag)
     {
-        $mask = $tag === 'input' ? self::$inputAttributes[$this -> attrs['type']] : null;
+        $mask = $tag === 'input' ? self::$inputAttributes[$this->attrs['type']] : null;
         // Convert all the attributes to HTML, using mask as a filter
         $parts = [];
         $ariaParts = [];
         $dataParts = [];
-        foreach ($this -> attrs as $attrName => $value) {
+        foreach ($this->attrs as $attrName => $value) {
 
             // For input elements, only write the allowed attributes
-            list($lookup, $cmd) = $this -> parseName($attrName);
-            if ($mask === null || $this -> include($lookup, $mask)) {
+            list($lookup, $cmd) = $this->parseName($attrName);
+            if ($mask === null || $this->include($lookup, $mask)) {
 
                 // Convert the attribute to name="data" form, store into a sorting array.
-                $attr = $this -> toHtml($lookup, $cmd, $value);;
+                $attr = $this->toHtml($lookup, $cmd, $value);;
                 if (strpos($lookup, 'aria-') === 0) {
                     $ariaParts[$lookup] = $attr;
                 } elseif (strpos($lookup, 'data-') === 0) {

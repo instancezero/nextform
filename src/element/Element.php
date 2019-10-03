@@ -105,9 +105,9 @@ abstract class Element implements \JsonSerializable
      */
     public function addGroup($groupName) : self
     {
-        if (!in_array($groupName, $this -> groups)) {
-            $this -> groups[] = $groupName;
-            $this -> configureValidate('groups', $this -> groups);
+        if (!in_array($groupName, $this->groups)) {
+            $this->groups[] = $groupName;
+            $this->configureValidate('groups', $this->groups);
         }
         return $this;
     }
@@ -130,9 +130,9 @@ abstract class Element implements \JsonSerializable
      */
     static public function classFromType($obj)
     {
-        $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj -> type)) . 'Element';
+        $result = 'Abivia\NextForm\Element\\' . ucfirst(strtolower($obj->type)) . 'Element';
         if (!class_exists($result)) {
-            throw new \InvalidArgumentException($obj -> type . ' is not a valid element type.');
+            throw new \InvalidArgumentException($obj->type . ' is not a valid element type.');
         }
         return $result;
     }
@@ -147,9 +147,9 @@ abstract class Element implements \JsonSerializable
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -210,17 +210,17 @@ abstract class Element implements \JsonSerializable
         if ($cloner === null) {
             $cloner = new DeepCopy;
             // Don't copy the form ID
-            $cloner -> addFilter(
+            $cloner->addFilter(
                 new SetNullFilter(),
                 new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'autoId')
             );
             // Don't clone the linked data
-            $cloner -> addFilter(
+            $cloner->addFilter(
                 new KeepFilter(),
                 new PropertyNameMatcher('\Abivia\NextForm\Element\Element', 'dataProperty')
             );
         }
-        return $cloner -> copy($this);
+        return $cloner->copy($this);
     }
 
     /**
@@ -230,9 +230,9 @@ abstract class Element implements \JsonSerializable
      */
     public function deleteGroup($groupName) : self
     {
-        if (($key = array_search($groupName, $this -> groups)) !== false) {
-            unset($this -> groups[$key]);
-            $this -> groups = array_values($this -> groups);
+        if (($key = array_search($groupName, $this->groups)) !== false) {
+            unset($this->groups[$key]);
+            $this->groups = array_values($this->groups);
         }
         return $this;
     }
@@ -246,10 +246,10 @@ abstract class Element implements \JsonSerializable
      */
     public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translate) : Block
     {
-        $this -> translate($translate);
-        //$readOnly = false; // $access -> hasAccess(...)
+        $this->translate($translate);
+        //$readOnly = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
-        $pageData = $renderer -> render($this, $options);
+        $pageData = $renderer->render($this, $options);
         return $pageData;
     }
 
@@ -259,7 +259,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getEnabled()
     {
-        return $this -> enabled;
+        return $this->enabled;
     }
 
     /**
@@ -268,7 +268,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getGroups()
     {
-        return $this -> groups;
+        return $this->groups;
     }
 
     /**
@@ -277,13 +277,13 @@ abstract class Element implements \JsonSerializable
      */
     public function getId()
     {
-        if ($this -> id != '') {
-            return $this -> id;
+        if ($this->id != '') {
+            return $this->id;
         }
-        if ($this -> autoId == '') {
-            $this -> autoId = NextForm::htmlIdentifier($this -> type, true);
+        if ($this->autoId == '') {
+            $this->autoId = NextForm::htmlIdentifier($this->type, true);
         }
-        return $this -> autoId;
+        return $this->autoId;
     }
 
     /**
@@ -292,7 +292,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getName()
     {
-        return $this -> name;
+        return $this->name;
     }
 
     /**
@@ -301,7 +301,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getReadonly()
     {
-        return $this -> readonly;
+        return $this->readonly;
     }
 
     /**
@@ -310,7 +310,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getType()
     {
-        return $this -> type;
+        return $this->type;
     }
 
     /**
@@ -319,7 +319,7 @@ abstract class Element implements \JsonSerializable
      */
     public function getVisible()
     {
-        return $this -> visible;
+        return $this->visible;
     }
 
     /**
@@ -337,7 +337,7 @@ abstract class Element implements \JsonSerializable
      */
     public function setEnabled($enabled) : self
     {
-        $this -> enabled = $enabled;
+        $this->enabled = $enabled;
         return $this;
     }
 
@@ -348,8 +348,8 @@ abstract class Element implements \JsonSerializable
      */
     public function setGroups($groups) : self
     {
-        $this -> configureValidate('groups', $groups);
-        $this -> groups = $groups;
+        $this->configureValidate('groups', $groups);
+        $this->groups = $groups;
         return $this;
     }
 
@@ -360,7 +360,7 @@ abstract class Element implements \JsonSerializable
      */
     public function setId($id) : self
     {
-        $this -> id = $id;
+        $this->id = $id;
         return $this;
     }
 
@@ -371,7 +371,7 @@ abstract class Element implements \JsonSerializable
      */
     public function setName($name) : self
     {
-        $this -> name = $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -382,7 +382,7 @@ abstract class Element implements \JsonSerializable
      */
     public function setReadonly($readonly) : self
     {
-        $this -> readonly = $readonly;
+        $this->readonly = $readonly;
         return $this;
     }
 
@@ -393,7 +393,7 @@ abstract class Element implements \JsonSerializable
      */
     public function setVisible($visible) : self
     {
-        $this -> visible = $visible;
+        $this->visible = $visible;
         return $this;
     }
 

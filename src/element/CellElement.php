@@ -32,7 +32,7 @@ class CellElement Extends ContainerElement
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
         }
-        $this -> type = 'cell';
+        $this->type = 'cell';
     }
 
     /**
@@ -46,7 +46,7 @@ class CellElement Extends ContainerElement
         if ($element instanceof ContainerElement) {
             throw new \RuntimeException('Cells can\'t contain containers (sections or cells).');
         }
-        $this -> elements[] = $element;
+        $this->elements[] = $element;
         return $this;
     }
 
@@ -61,9 +61,9 @@ class CellElement Extends ContainerElement
     protected function configureInitialize(&$config)
     {
         parent::configureInitialize($config);
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -93,8 +93,8 @@ class CellElement Extends ContainerElement
      */
     public function findSegment() : ?\Abivia\NextForm\Data\Segment
     {
-        return isset($this -> configureOptions['parent'])
-            ? $this -> configureOptions['parent'] -> getSegment() : null;
+        return isset($this->configureOptions['parent'])
+            ? $this->configureOptions['parent']->getSegment() : null;
     }
 
 }

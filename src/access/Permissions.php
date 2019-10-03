@@ -22,11 +22,11 @@ class Permissions
      */
     public function addRule($rule, $flag) : self
     {
-        $parts = $this -> parseRule($rule);
-        if (!isset($this -> rules[$parts[0]])) {
-            $this -> rules[$parts[0]] = [];
+        $parts = $this->parseRule($rule);
+        if (!isset($this->rules[$parts[0]])) {
+            $this->rules[$parts[0]] = [];
         }
-        $this -> rules[$parts[0]][$parts[1]] = $flag;
+        $this->rules[$parts[0]][$parts[1]] = $flag;
         return $this;
     }
 
@@ -40,7 +40,7 @@ class Permissions
     {
         foreach ($value as $rule => $flag) {
             try {
-                $this -> addRule($rule, $flag);
+                $this->addRule($rule, $flag);
             } catch (\DomainException $ex) {
                 if ($strict) {
                     return false;
@@ -57,9 +57,9 @@ class Permissions
      */
     public function deleteRule($rule) : self
     {
-        $parts = $this -> parseRule($rule);
-        if (isset($this -> rules[$parts[0]])) {
-            unset($this -> rules[$parts[0]][$parts[1]]);
+        $parts = $this->parseRule($rule);
+        if (isset($this->rules[$parts[0]])) {
+            unset($this->rules[$parts[0]][$parts[1]]);
         }
         return $this;
     }
@@ -74,12 +74,12 @@ class Permissions
     public function has($object, $operation = null) : ?bool
     {
         if ($operation === null) {
-            list($object, $operation) = $this -> parseRule($object);
+            list($object, $operation) = $this->parseRule($object);
         }
-        if (!isset($this -> rules[$object]) || !isset($this -> rules[$object][$operation])) {
+        if (!isset($this->rules[$object]) || !isset($this->rules[$object][$operation])) {
             return null;
         }
-        return $this -> rules[$object][$operation];
+        return $this->rules[$object][$operation];
     }
 
     /**

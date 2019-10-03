@@ -25,7 +25,7 @@ class SectionElement Extends ContainerElement
             self::$jsonEncodeMethod['object'] = '';
             self::$jsonEncodeMethod['triggers'] = '';
         }
-        $this -> type = 'section';
+        $this->type = 'section';
     }
 
     public function addElement(Element $element)
@@ -33,7 +33,7 @@ class SectionElement Extends ContainerElement
         if ($element instanceof SectionElement) {
             throw new \OutOfBoundsException('Sections can\'t be nested.');
         }
-        $this -> elements[] = $element;
+        $this->elements[] = $element;
         return $this;
     }
 
@@ -53,9 +53,9 @@ class SectionElement Extends ContainerElement
     protected function configureInitialize(&$config)
     {
         parent::configureInitialize($config);
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -76,7 +76,7 @@ class SectionElement Extends ContainerElement
 
     protected function findSegment()
     {
-        return $this -> configureOptions['parent'] -> findSegment();
+        return $this->configureOptions['parent']->findSegment();
     }
 
 }

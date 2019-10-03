@@ -64,9 +64,9 @@ abstract class SimpleElement Extends Element
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -91,7 +91,7 @@ abstract class SimpleElement Extends Element
      */
     public function getTranslate() : bool
     {
-        return $this -> translate;
+        return $this->translate;
     }
 
     /**
@@ -101,10 +101,10 @@ abstract class SimpleElement Extends Element
      */
     public function getValue($translated = true)
     {
-        if ($translated and $this -> hasTranslation) {
-            return $this -> valueTranslated;
+        if ($translated and $this->hasTranslation) {
+            return $this->valueTranslated;
         }
-        return $this -> value;
+        return $this->value;
     }
 
     /**
@@ -114,7 +114,7 @@ abstract class SimpleElement Extends Element
      */
     public function setTranslate(bool $translate) : self
     {
-        $this -> translate = $translate;
+        $this->translate = $translate;
         return $this;
     }
 
@@ -125,11 +125,11 @@ abstract class SimpleElement Extends Element
      */
     public function setValue($value) : self
     {
-        $this -> value = $value;
-        if ($this -> translate) {
-            $this -> hasTranslation = false;
+        $this->value = $value;
+        if ($this->translate) {
+            $this->hasTranslation = false;
         } else {
-            $this -> valueTranslated = $this -> value;
+            $this->valueTranslated = $this->value;
         }
         return $this;
     }
@@ -141,8 +141,8 @@ abstract class SimpleElement Extends Element
      */
     public function translate(Translator $translate) : Element
     {
-        $this -> valueTranslated = $translate -> trans($this -> value);
-        $this -> hasTranslation = true;
+        $this->valueTranslated = $translate->trans($this->value);
+        $this->hasTranslation = true;
         return $this;
     }
 

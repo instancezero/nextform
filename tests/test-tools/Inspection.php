@@ -7,10 +7,10 @@ trait Inspection {
 
     protected function getProperty($instance, $property) {
         $reflector = new \ReflectionClass($instance);
-        $reflectorProperty = $reflector -> getProperty($property);
-        $reflectorProperty -> setAccessible(true);
+        $reflectorProperty = $reflector->getProperty($property);
+        $reflectorProperty->setAccessible(true);
 
-        return $reflectorProperty -> getValue($instance);
+        return $reflectorProperty->getValue($instance);
     }
 
 }

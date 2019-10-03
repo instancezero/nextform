@@ -73,20 +73,20 @@ class Presentation implements \JsonSerializable
             case 'cols':
             case 'rows':
                 if (!is_numeric($value) || ((int) $value) < 0) {
-                    $this -> configureLogError($property . ' must be a positive number.');
+                    $this->configureLogError($property . ' must be a positive number.');
                     return false;
                 }
                 $value = (int) $value;
                 break;
             case 'confirm':
                 if (!is_bool($value)) {
-                    $this -> configureLogError($property . ' must be boolean.');
+                    $this->configureLogError($property . ' must be boolean.');
                     return false;
                 }
                 break;
             case 'type':
                 if (!(in_array($value, self::$knownTypes))) {
-                    $this -> configureLogError(
+                    $this->configureLogError(
                         'Invalid value "'. $value . '" for property "' . $property . '".'
                     );
                     return false;
@@ -102,7 +102,7 @@ class Presentation implements \JsonSerializable
      */
     public function getCols()
     {
-        return $this -> cols;
+        return $this->cols;
     }
 
     /**
@@ -111,7 +111,7 @@ class Presentation implements \JsonSerializable
      */
     public function getConfirm()
     {
-        return $this -> confirm;
+        return $this->confirm;
     }
 
     /**
@@ -120,7 +120,7 @@ class Presentation implements \JsonSerializable
      */
     public function getRows()
     {
-        return $this -> rows;
+        return $this->rows;
     }
 
     /**
@@ -129,7 +129,7 @@ class Presentation implements \JsonSerializable
      */
     public function getType()
     {
-        return $this -> type;
+        return $this->type;
     }
 
     /**
@@ -140,11 +140,11 @@ class Presentation implements \JsonSerializable
      */
     public function setCols($cols) : self
     {
-        $this -> configureErrors = [];
-        if (!$this -> configureValidate('cols', $cols)) {
-            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        $this->configureErrors = [];
+        if (!$this->configureValidate('cols', $cols)) {
+            throw new \RuntimeException(implode("\n", $this->configureErrors));
         }
-        $this -> cols = $cols;
+        $this->cols = $cols;
         return $this;
     }
 
@@ -156,11 +156,11 @@ class Presentation implements \JsonSerializable
      */
     public function setConfirm($confirm) : self
     {
-        $this -> configureErrors = [];
-        if (!$this -> configureValidate('confirm', $confirm)) {
-            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        $this->configureErrors = [];
+        if (!$this->configureValidate('confirm', $confirm)) {
+            throw new \RuntimeException(implode("\n", $this->configureErrors));
         }
-        $this -> confirm = $confirm;
+        $this->confirm = $confirm;
         return $this;
     }
 
@@ -172,11 +172,11 @@ class Presentation implements \JsonSerializable
      */
     public function setRows($rows) : self
     {
-        $this -> configureErrors = [];
-        if (!$this -> configureValidate('rows', $rows)) {
-            throw new \RuntimeException(implode("\n", $this -> configureErrors));
+        $this->configureErrors = [];
+        if (!$this->configureValidate('rows', $rows)) {
+            throw new \RuntimeException(implode("\n", $this->configureErrors));
         }
-        $this -> rows = $rows;
+        $this->rows = $rows;
         return $this;
     }
 
@@ -188,7 +188,7 @@ class Presentation implements \JsonSerializable
      */
     public function setType($value) : self
     {
-        if (!$this -> configureValidate('type', $value)) {
+        if (!$this->configureValidate('type', $value)) {
             if (is_scalar($value)) {
                 $msg = '"' . $value . '" is not a valid presentation type.';
             } else {
@@ -196,7 +196,7 @@ class Presentation implements \JsonSerializable
             }
             throw new \RuntimeException($msg);
         }
-        $this -> type = $value;
+        $this->type = $value;
         return $this;
     }
 

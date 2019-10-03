@@ -87,7 +87,7 @@ class FieldElement extends NamedElement
                 parent::$jsonEncodeMethod, self::$jsonLocalMethod
             );
         }
-        $this -> type = 'field';
+        $this->type = 'field';
     }
 
     /**
@@ -97,22 +97,22 @@ class FieldElement extends NamedElement
      */
     public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self
     {
-        $this -> dataProperty = $schema -> getProperty($this -> object);
-        if ($this -> dataProperty) {
+        $this->dataProperty = $schema->getProperty($this->object);
+        if ($this->dataProperty) {
             // Give the data property the ability to signal us.
-            $this -> dataProperty -> linkElement($this);
-            if ($this -> form) {
-                $this -> form -> registerObject($this);
+            $this->dataProperty->linkElement($this);
+            if ($this->form) {
+                $this->form->registerObject($this);
             }
 
             // Merge a copy of the data labels so we can use them with translation
-            $this -> labelsMerged = $this -> dataProperty -> getLabels()
-                -> combine($this -> labels);
+            $this->labelsMerged = $this->dataProperty->getLabels()
+->combine($this->labels);
 
             // Make a copy of the data list so we can translate labels
-            $this -> dataList = $this -> dataProperty
-                -> getPopulation() -> getList();
-            $this -> dataListTranslated = $this -> dataList;
+            $this->dataList = $this->dataProperty
+->getPopulation()->getList();
+            $this->dataListTranslated = $this->dataList;
         }
         return $this;
     }
@@ -144,9 +144,9 @@ class FieldElement extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -172,8 +172,8 @@ class FieldElement extends NamedElement
             if ($value === '') {
                 return true;
             }
-            if (strpos($value, NextForm::SEGMENT_DELIM) === false && $this -> form) {
-                $value = $this -> form -> getSegment()
+            if (strpos($value, NextForm::SEGMENT_DELIM) === false && $this->form) {
+                $value = $this->form->getSegment()
                     . NextForm::SEGMENT_DELIM . $value;
             }
             return true;
@@ -189,12 +189,12 @@ class FieldElement extends NamedElement
      */
     public function getDataProperty() : Property
     {
-        if ($this -> dataProperty === null) {
+        if ($this->dataProperty === null) {
             throw new \RuntimeException(
-                'Attempt to get missing schema information, object ' . $this -> getObject()
+                'Attempt to get missing schema information, object ' . $this->getObject()
             );
         }
-        return $this -> dataProperty;
+        return $this->dataProperty;
     }
 
     /**
@@ -203,7 +203,7 @@ class FieldElement extends NamedElement
      */
     public function getDefault()
     {
-        return $this -> default;
+        return $this->default;
     }
 
     /**
@@ -213,16 +213,16 @@ class FieldElement extends NamedElement
      */
     public function getFlatList($translated = false)
     {
-        if ($translated && $this -> hasTranslation) {
-            $source = $this -> dataListTranslated;
+        if ($translated && $this->hasTranslation) {
+            $source = $this->dataListTranslated;
         } else {
-            $source = $this -> dataList;
+            $source = $this->dataList;
         }
         // Lists can only nest one level deep, so this is straightforward.
         $list = [];
         foreach ($source as $option) {
-            if ($option -> isNested()) {
-                foreach ($option -> getList() as $item) {
+            if ($option->isNested()) {
+                foreach ($option->getList() as $item) {
                     $list[] = $item;
                 }
             } else {
@@ -239,10 +239,10 @@ class FieldElement extends NamedElement
      */
     public function getLabels($translated = false) : Labels
     {
-        if ($translated && $this -> hasTranslation) {
-            return $this -> labelsTranslated;
+        if ($translated && $this->hasTranslation) {
+            return $this->labelsTranslated;
         } else {
-            $labels = $this -> labelsMerged;
+            $labels = $this->labelsMerged;
         }
         return $labels;
     }
@@ -254,10 +254,10 @@ class FieldElement extends NamedElement
      */
     public function getList($translated = false)
     {
-        if ($translated && $this -> hasTranslation) {
-            $list = $this -> dataListTranslated;
+        if ($translated && $this->hasTranslation) {
+            $list = $this->dataListTranslated;
         } else {
-            $list = $this -> dataList;
+            $list = $this->dataList;
         }
         return $list;
     }
@@ -267,7 +267,7 @@ class FieldElement extends NamedElement
      * @return string
      */
     public function getObject() {
-        return $this -> object;
+        return $this->object;
     }
 
     /**
@@ -275,7 +275,7 @@ class FieldElement extends NamedElement
      * @return mixed
      */
     public function getValue() {
-        return $this -> value;
+        return $this->value;
     }
 
     /**
@@ -283,22 +283,22 @@ class FieldElement extends NamedElement
      */
     public function jsonCollapse()
     {
-        if ($this -> default !== null) {
+        if ($this->default !== null) {
             return $this;
         }
-        if (!empty($this -> triggers)) {
+        if (!empty($this->triggers)) {
             return $this;
         }
-        if (!$this -> enabled || $this -> readonly || !$this -> visible) {
+        if (!$this->enabled || $this->readonly || !$this->visible) {
             return $this;
         }
-        if ($this -> show !== '') {
+        if ($this->show !== '') {
             return $this;
         }
-        $collapsed = $this -> removeScope($this -> object);
-        if (!empty($this -> groups)) {
+        $collapsed = $this->removeScope($this->object);
+        if (!empty($this->groups)) {
             $collapsed .= NextForm::GROUP_DELIM
-                . implode(NextForm::GROUP_DELIM, $this -> groups);
+                . implode(NextForm::GROUP_DELIM, $this->groups);
         }
         return $collapsed;
     }
@@ -310,10 +310,10 @@ class FieldElement extends NamedElement
      */
     protected function removeScope($value)
     {
-        if (!$this -> form) {
+        if (!$this->form) {
             return $value;
         }
-        $segment = $this -> form -> getSegment();
+        $segment = $this->form->getSegment();
         if ($segment !== '') {
             if (strpos($value, $segment . NextForm::SEGMENT_DELIM) === 0) {
                 $value = substr($value, strlen($segment) +1);
@@ -329,7 +329,7 @@ class FieldElement extends NamedElement
      */
     public function setDefault($value) : self
     {
-        $this -> default = $value;
+        $this->default = $value;
         return $this;
     }
 
@@ -340,7 +340,7 @@ class FieldElement extends NamedElement
      */
     public function setValue($value) : self
     {
-        $this -> value = $value;
+        $this->value = $value;
         return $this;
     }
 
@@ -352,11 +352,11 @@ class FieldElement extends NamedElement
     public function translate(Translator $translate) : Element
     {
         // Translate the data list, if any
-        if ($this -> dataProperty) {
-            $this -> dataListTranslated = $this -> dataList;
-            if ($this -> dataProperty -> getPopulation() -> getTranslate()) {
-                foreach ($this -> dataListTranslated as $option) {
-                    $option -> translate($translate);
+        if ($this->dataProperty) {
+            $this->dataListTranslated = $this->dataList;
+            if ($this->dataProperty->getPopulation()->getTranslate()) {
+                foreach ($this->dataListTranslated as $option) {
+                    $option->translate($translate);
                 }
             }
         }

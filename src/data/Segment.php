@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
-use \Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -52,7 +52,7 @@ class Segment implements \JsonSerializable
     protected function checkPrimary($keyList)
     {
         foreach ($keyList as $propName) {
-            if (!isset($this -> properties[$propName])) {
+            if (!isset($this->properties[$propName])) {
                 return $propName;
             }
         }
@@ -80,11 +80,11 @@ class Segment implements \JsonSerializable
     protected function configureComplete()
     {
         // Make sure the properties listed in primary exist.
-        $badPropName = $this -> checkPrimary($this -> primary);
+        $badPropName = $this->checkPrimary($this->primary);
         if ($badPropName !== '') {
-            $this -> configureLogError(
+            $this->configureLogError(
                 $badPropName . ' does not exist but is named as a primary key in segment '
-                . $this -> name
+                . $this->name
             );
             return false;
         }
@@ -124,7 +124,7 @@ class Segment implements \JsonSerializable
      */
     public function getName()
     {
-        return $this -> name;
+        return $this->name;
     }
 
     /**
@@ -133,7 +133,7 @@ class Segment implements \JsonSerializable
      */
     public function getPrimary()
     {
-        return $this -> primary;
+        return $this->primary;
     }
 
     /**
@@ -143,7 +143,7 @@ class Segment implements \JsonSerializable
      */
     public function getProperty($propName) : ?Property
     {
-        return isset($this -> properties[$propName]) ? $this -> properties[$propName] : null;
+        return isset($this->properties[$propName]) ? $this->properties[$propName] : null;
     }
 
     /**
@@ -153,7 +153,7 @@ class Segment implements \JsonSerializable
      */
     public function setName($name) :self
     {
-        $this -> name = $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -165,17 +165,17 @@ class Segment implements \JsonSerializable
     public function setPrimary($keyList) : self
     {
         // Check the format of the values, converting string to array.
-        $keyList = $this -> configureValidate('primary', $keyList);
+        $keyList = $this->configureValidate('primary', $keyList);
 
         // Make sure all the properties are defined.
-        $badPropName = $this -> checkPrimary($keyList);
+        $badPropName = $this->checkPrimary($keyList);
         if ($badPropName !== '') {
             throw new RuntimeException(
                 $badPropName . ' is not a valid primary key in segment'
-                . $this -> name . '.'
+                . $this->name . '.'
             );
         }
-        $this -> primary = $keyList;
+        $this->primary = $keyList;
         return $this;
     }
 
@@ -186,8 +186,8 @@ class Segment implements \JsonSerializable
      */
     public function setProperty(Property $prop) : self
     {
-        $propName = $prop -> getName();
-        $this -> properties[$propName] = $prop;
+        $propName = $prop->getName();
+        $this->properties[$propName] = $prop;
         return $this;
     }
 

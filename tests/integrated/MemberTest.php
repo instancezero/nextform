@@ -27,18 +27,18 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
 
     public function render(Element $element, $options = []) : Block {
         $result = new Block;
-        $type = $element -> getType();
-        $result -> body = $type;
-        $name = $element -> getName();
+        $type = $element->getType();
+        $result->body = $type;
+        $name = $element->getName();
         if ($name) {
-            $result -> body .= ' (' . $name . ')';
+            $result->body .= ' (' . $name . ')';
         }
         if ($element instanceof FieldElement) {
-            $result -> body .= ' object = ' . $element -> getObject();
+            $result->body .= ' object = ' . $element->getObject();
         }
-        $result -> body .= "\n";
+        $result->body .= "\n";
         if ($element instanceof ContainerElement) {
-            $result -> post = 'Close ' . $type . "\n";
+            $result->post = 'Close ' . $type . "\n";
         }
         return $result;
     }
@@ -53,8 +53,8 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
 
     public function start($options = []) : Block {
         $result = new Block;
-        $result -> body = "Form\n";
-        $result -> post = "End form\n";
+        $result->body = "Form\n";
+        $result->post = "End form\n";
         return $result;
     }
 
@@ -71,22 +71,22 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $obj = new Schema();
         $jsonFile = __DIR__ . '/member-schema.json';
         $config = json_decode(file_get_contents($jsonFile));
-        $this -> assertTrue(false !== $config, 'Error JSON decoding schema.');
-        $populate = $obj -> configure($config, true);
+        $this->assertTrue(false !== $config, 'Error JSON decoding schema.');
+        $populate = $obj->configure($config, true);
         if ($populate) {
             $errors = '';
         } else {
-            $errors = $obj -> configureGetErrors();
+            $errors = $obj->configureGetErrors();
             $errors = 'Schema load:' . "\n" . implode("\n", $errors) . "\n";
         }
-        $this -> assertTrue($populate, $errors);
+        $this->assertTrue($populate, $errors);
         // Save the result as JSON so we can compare
         $resultJson = json_encode($obj, JSON_PRETTY_PRINT);
         file_put_contents(__DIR__ . '/member-schema-out.json', $resultJson);
         // Stock JSON to stdClass for comparison
         $result = json_decode($resultJson);
         // Reload the original configuration
-        $this -> assertTrue($this -> jsonCompare($config, $result));
+        $this->assertTrue($this->jsonCompare($config, $result));
     }
 
     /**
@@ -98,15 +98,15 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $obj = new NextForm();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
-        $this -> assertTrue(false != $config, 'Error JSON decoding form.');
-        $populate = $obj -> configure($config, true);
+        $this->assertTrue(false != $config, 'Error JSON decoding form.');
+        $populate = $obj->configure($config, true);
         if ($populate) {
             $errors = '';
         } else {
-            $errors = $obj -> configureGetErrors();
+            $errors = $obj->configureGetErrors();
             $errors = 'Form load:' . "\n" . implode("\n", $errors) . "\n";
         }
-        $this -> assertTrue($populate, $errors);
+        $this->assertTrue($populate, $errors);
         // Save the result as JSON so we can compare
         $resultJson = json_encode($obj, JSON_PRETTY_PRINT);
         file_put_contents(__DIR__ . '/member-form-out.json', $resultJson);
@@ -115,7 +115,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $result = json_decode($resultJson);
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
-        $this -> assertTrue($this -> jsonCompare($config, $result));
+        $this->assertTrue($this->jsonCompare($config, $result));
     }
 
     /**
@@ -126,12 +126,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> bindSchema($schema);
+        $form->bindSchema($schema);
         $render = new FlatRenderer();
-        $form -> setRenderer($render);
-        $form -> setTranslator(new NullTranslate());
-        $page = $form -> generate(['action' => 'myform.php']);
-        $this -> assertTrue(true);
+        $form->setRenderer($render);
+        $form->setTranslator(new NullTranslate());
+        $page = $form->generate(['action' => 'myform.php']);
+        $this->assertTrue(true);
     }
 
     /**
@@ -142,44 +142,44 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> bindSchema($schema);
+        $form->bindSchema($schema);
         $data = [
             'id' => 0,
         ];
-        $form -> populate($data, 'members');
+        $form->populate($data, 'members');
         $render = new FlatRenderer;
-        $form -> setRenderer($render);
-        $form -> setTranslator(new NullTranslate());
-        $form -> generate(['action' => 'myform.php']);
-        $this -> assertTrue(true);
+        $form->setRenderer($render);
+        $form->setTranslator(new NullTranslate());
+        $form->generate(['action' => 'myform.php']);
+        $this->assertTrue(true);
     }
 
     public function testSimpleHtmlRenderUnpopulated() {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> bindSchema($schema);
+        $form->bindSchema($schema);
         $render = new SimpleHtml();
-        $form -> setRenderer($render);
-        $form -> setTranslator(new NullTranslate());
-        $html = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
+        $form->setRenderer($render);
+        $form->setTranslator(new NullTranslate());
+        $html = $form->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
-        $this -> assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testBootstrap4RenderUnpopulated() {
         NextForm::boot();
         $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form -> bindSchema($schema);
+        $form->bindSchema($schema);
         $render = new Bootstrap4();
-        $form -> setRenderer($render);
-        $form -> setTranslator(new NullTranslate());
-        $html = $form -> generate(['action' => 'http://localhost/nextform/post.php']);
+        $form->setRenderer($render);
+        $form->setTranslator(new NullTranslate());
+        $html = $form->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
-        $this -> assertTrue(true);
+        $this->assertTrue(true);
     }
 
 }

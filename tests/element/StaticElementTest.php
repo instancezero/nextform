@@ -1,12 +1,12 @@
 <?php
 
-use \Abivia\NextForm\Element\StaticElement;
+use Abivia\NextForm\Element\StaticElement;
 
 class FormStaticElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormStaticElementInstantiation() {
         $obj = new StaticElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $obj);
 	}
 
     /**
@@ -18,12 +18,12 @@ class FormStaticElementTest extends \PHPUnit\Framework\TestCase {
                 "type": "static"
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new StaticElement();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('static', $obj -> getType());
-		$this -> assertEquals('', $obj -> getName());
-		$this -> assertEquals(true, $obj -> getVisible());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('static', $obj->getType());
+		$this->assertEquals('', $obj->getName());
+		$this->assertEquals(true, $obj->getVisible());
     }
 
 }

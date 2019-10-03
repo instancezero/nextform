@@ -1,6 +1,6 @@
 <?php
 
-use \Abivia\NextForm\Data\Population;
+use Abivia\NextForm\Data\Population;
 
 /**
  * @covers Abivia\NextForm\Data\Population
@@ -9,7 +9,7 @@ class DataPopulationTest extends \PHPUnit\Framework\TestCase {
 
 	public function testDataPopulationInstantiation() {
         $obj = new Population();
-		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Population', $obj);
 	}
 
 	public function testDataPopulationConfiguration() {
@@ -19,22 +19,22 @@ class DataPopulationTest extends \PHPUnit\Framework\TestCase {
             . '"translate": false,'
             . '"parameters": ["objid"],"list": []}'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('static', $obj -> getSource());
-		$this -> assertEquals('test', $obj -> getQuery());
-		$this -> assertFalse($obj -> getTranslate());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('static', $obj->getSource());
+		$this->assertEquals('test', $obj->getQuery());
+		$this->assertFalse($obj->getTranslate());
     }
 
     public function testDataPopulationTypeValidation() {
         $knownSources = 'fixed|static|local|remote';
         $obj = new Population();
         foreach (explode('|', $knownSources) as $type) {
-            $obj -> setSource($type);
+            $obj->setSource($type);
         }
-        $this -> expectException('LogicException');
-        $obj -> setSource('&^%* this will never be valid!!');
+        $this->expectException('LogicException');
+        $obj->setSource('&^%* this will never be valid!!');
     }
 
     /**
@@ -57,14 +57,14 @@ class DataPopulationTest extends \PHPUnit\Framework\TestCase {
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
-        $this -> assertTrue($obj -> configure($config));
-        $list = $obj -> getList();
-        $this -> assertTrue(isset($list[0]));
-        $this -> assertTrue(isset($list[1]));
-        $this -> assertEquals(2, count($list));
-		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[1]);
+        $this->assertTrue($obj->configure($config));
+        $list = $obj->getList();
+        $this->assertTrue(isset($list[0]));
+        $this->assertTrue(isset($list[1]));
+        $this->assertEquals(2, count($list));
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[1]);
     }
 
     /**
@@ -81,14 +81,14 @@ jsonend;
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
-        $this -> assertTrue($obj -> configure($config));
-        $list = $obj -> getList();
-        $this -> assertEquals(2, count($list));
-        $this -> assertTrue(isset($list[0]));
-        $this -> assertTrue(isset($list[1]));
-		$this -> assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[0]);
+        $this->assertTrue($obj->configure($config));
+        $list = $obj->getList();
+        $this->assertEquals(2, count($list));
+        $this->assertTrue(isset($list[0]));
+        $this->assertTrue(isset($list[1]));
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[0]);
     }
 
     /**
@@ -116,12 +116,12 @@ jsonend;
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
-        $this -> assertTrue($obj -> configure($config, true));
-        $list = $obj -> getList();
-        $this -> assertEquals(2, count($list));
-        $this -> assertEquals(1, count($list[1] -> getList()));
+        $this->assertTrue($obj->configure($config, true));
+        $list = $obj->getList();
+        $this->assertEquals(2, count($list));
+        $this->assertEquals(1, count($list[1]->getList()));
     }
 
     /**
@@ -142,14 +142,14 @@ jsonend;
 }
 jsonend;
         $config = json_decode($json);
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Population();
-        $this -> assertTrue($obj -> configure($config, true));
+        $this->assertTrue($obj->configure($config, true));
     }
 
     public function testPopulationEmptyList() {
         $obj = new Population();
-        $this -> assertEquals([], $obj -> getList());
+        $this->assertEquals([], $obj->getList());
     }
 
 }

@@ -104,18 +104,18 @@ class Labels implements \JsonSerializable
     {
         $newLabels = clone $this;
         foreach (self::$textProperties as $prop) {
-            if ($merge -> $prop !== null) {
-                $newLabels -> $prop = $merge -> $prop;
+            if ($merge->$prop !== null) {
+                $newLabels->$prop = $merge->$prop;
             }
         }
-        $newLabels -> translate = $newLabels -> translate || $merge -> translate;
+        $newLabels->translate = $newLabels->translate || $merge->translate;
         return $newLabels;
     }
 
     protected function configureInitialize()
     {
-        if (isset($this -> configureOptions['_schema'])) {
-            $this -> schema = $this -> configureOptions['_schema'];
+        if (isset($this->configureOptions['_schema'])) {
+            $this->schema = $this->configureOptions['_schema'];
         }
     }
 
@@ -130,7 +130,7 @@ class Labels implements \JsonSerializable
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
-        return $this -> $labelName;
+        return $this->$labelName;
     }
 
     /**
@@ -144,7 +144,7 @@ class Labels implements \JsonSerializable
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
-        return $this -> $labelName !== null;
+        return $this->$labelName !== null;
     }
 
     /**
@@ -154,7 +154,7 @@ class Labels implements \JsonSerializable
     public function isEmpty() : bool
     {
         foreach (self::$textProperties as $prop) {
-            if ($this -> $prop !== null) {
+            if ($this->$prop !== null) {
                 return false;
             }
         }
@@ -171,7 +171,7 @@ class Labels implements \JsonSerializable
     public function set($labelName, $text) : self
     {
         if (in_array($labelName, self::$textProperties)) {
-            $this -> $labelName = $text;
+            $this->$labelName = $text;
         } else {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
@@ -186,20 +186,20 @@ class Labels implements \JsonSerializable
     public function translate(Translator $translate) : Labels
     {
         $newLabels = clone $this;
-        if ($this -> schema) {
-            $defaults = $this -> schema -> getDefault('labels');
+        if ($this->schema) {
+            $defaults = $this->schema->getDefault('labels');
             if ($defaults !== null) {
-                $newLabels = $defaults -> combine($newLabels);
+                $newLabels = $defaults->combine($newLabels);
             }
         }
-        if ($newLabels -> translate) {
+        if ($newLabels->translate) {
             foreach (self::$textProperties as $prop) {
-                if ($newLabels -> $prop !== null) {
-                    $newLabels -> $prop = $translate -> trans($this -> $prop);
+                if ($newLabels->$prop !== null) {
+                    $newLabels->$prop = $translate->trans($this->$prop);
                 }
             }
         }
-        $newLabels -> translate = false;
+        $newLabels->translate = false;
         return $newLabels;
     }
 

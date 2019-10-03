@@ -22,7 +22,7 @@ abstract class CommonHtml extends Html implements RendererInterface
     {
         parent::__construct($options);
         self::$showDefaultScope = 'form';
-        $this -> initialize();
+        $this->initialize();
     }
 
     /**
@@ -38,20 +38,20 @@ abstract class CommonHtml extends Html implements RendererInterface
         $block = new Block;
         // Check for a data list, if there is write access.
         $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
-            ? $element -> getList(true) : [];
+            ? $element->getList(true) : [];
         if (!empty($list)) {
-            $attrs -> set('list', $attrs -> get('id') . '-list');
-            $block -> post = '<datalist id="' . $attrs -> get('list') . "\">\n";
+            $attrs->set('list', $attrs->get('id') . '-list');
+            $block->post = '<datalist id="' . $attrs->get('list') . "\">\n";
             $optAttrs = new Attributes();
             foreach ($list as $option) {
-                $optAttrs -> set('value', $option -> getValue());
-                $sidecar = $option -> sidecar;
+                $optAttrs->set('value', $option->getValue());
+                $sidecar = $option->sidecar;
                 if ($sidecar !== null) {
-                    $optAttrs -> set('*data-sidecar', $sidecar);
+                    $optAttrs->set('*data-sidecar', $sidecar);
                 }
-                $block -> post .= $this -> writeTag('option', $optAttrs) . "\n";
+                $block->post .= $this->writeTag('option', $optAttrs) . "\n";
             }
-            $block -> post .= "</datalist>\n";
+            $block->post .= "</datalist>\n";
         }
         return $block;
     }
@@ -59,12 +59,12 @@ abstract class CommonHtml extends Html implements RendererInterface
     protected function initialize()
     {
         // Reset the context
-        $this -> context = [
+        $this->context = [
             'inCell' => false
         ];
         // Initialize custom settings
-        $this -> setShow('invisible:nf-hidden');
-        $this -> setShow('layout:vertical');
+        $this->setShow('invisible:nf-hidden');
+        $this->setShow('layout:vertical');
     }
 
     protected function renderFieldElement(FieldElement $element, $options = [])
@@ -73,22 +73,22 @@ abstract class CommonHtml extends Html implements RendererInterface
             'image'
         */
         $result = new Block;
-        $presentation = $element -> getDataProperty() -> getPresentation();
-        $type = $presentation -> getType();
+        $presentation = $element->getDataProperty()->getPresentation();
+        $type = $presentation->getType();
         $options['confirm'] = false;
         $repeater = true;
         while ($repeater) {
             switch ($type) {
                 case 'checkbox':
                 case 'radio':
-                    $block = $this -> renderFieldCheckbox($element, $options);
+                    $block = $this->renderFieldCheckbox($element, $options);
                     break;
                 default:
                     $method = 'renderField' . \ucfirst($type);
                     if (method_exists($this, $method)) {
-                        $block = $this -> $method($element, $options);
+                        $block = $this->$method($element, $options);
                     } else {
-                        $block = $this -> renderFieldCommon($element, $options);
+                        $block = $this->renderFieldCommon($element, $options);
                     }
                     break;
             }
@@ -96,14 +96,14 @@ abstract class CommonHtml extends Html implements RendererInterface
             // haven't already done so...
             if (
                 in_array($type, self::$inputConfirmable)
-                && $presentation -> getConfirm()
+                && $presentation->getConfirm()
                 && $options['access'] === 'write' && !$options['confirm']
             ) {
                 $options['confirm'] = true;
             } else {
                 $repeater = false;
             }
-            $result -> merge($block);
+            $result->merge($block);
         }
         return $result;
     }
@@ -130,7 +130,7 @@ abstract class CommonHtml extends Html implements RendererInterface
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] !== 'hide') {
-            $block -> body = $element -> getValue();
+            $block->body = $element->getValue();
         }
         return $block;
     }

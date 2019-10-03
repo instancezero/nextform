@@ -1,7 +1,7 @@
 <?php
 
-use \Abivia\NextForm\Element\CellElement;
-use \Abivia\NextForm;
+use Abivia\NextForm\Element\CellElement;
+use Abivia\NextForm;
 
 /**
  * @covers \Abivia\NextForm\Element\CellElement
@@ -10,7 +10,7 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormCellElementInstantiation() {
         $obj = new CellElement();
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\CellElement', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\CellElement', $obj);
 	}
 
     /**
@@ -23,12 +23,12 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
                 "elements": []
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('cell', $obj -> getType());
-		$this -> assertEquals('', $obj -> getName());
-		$this -> assertEquals(true, $obj -> getVisible());
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('cell', $obj->getType());
+		$this->assertEquals('', $obj->getName());
+		$this->assertEquals(true, $obj->getVisible());
     }
 
     /**
@@ -54,15 +54,15 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> assertTrue($obj -> configure($config));
-		$this -> assertEquals('cell', $obj -> getType());
-        $elements = $obj -> getElements();
-		$this -> assertEquals(3, count($elements));
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
-		$this -> assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
+        $this->assertTrue($obj->configure($config));
+		$this->assertEquals('cell', $obj->getType());
+        $elements = $obj->getElements();
+		$this->assertEquals(3, count($elements));
+		$this->assertInstanceOf('\Abivia\NextForm\Element\FieldElement', $elements[0]);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\HtmlElement', $elements[1]);
+		$this->assertInstanceOf('\Abivia\NextForm\Element\StaticElement', $elements[2]);
     }
 
     /**
@@ -80,10 +80,10 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> expectException(\RuntimeException::class);
-        $this -> assertFalse($obj -> configure($config));
+        $this->expectException(\RuntimeException::class);
+        $this->assertFalse($obj->configure($config));
     }
 
     /**
@@ -101,10 +101,10 @@ class FormCellElementTest extends \PHPUnit\Framework\TestCase {
                 ]
             }'
         );
-        $this -> assertTrue(false != $config, 'JSON error!');
+        $this->assertTrue(false != $config, 'JSON error!');
         $obj = new CellElement();
-        $this -> expectException(\RuntimeException::class);
-        $this -> assertFalse($obj -> configure($config));
+        $this->expectException(\RuntimeException::class);
+        $this->assertFalse($obj->configure($config));
     }
 
 }

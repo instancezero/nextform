@@ -43,7 +43,7 @@ class Role
      */
     public function getName() : string
     {
-        return $this -> name;
+        return $this->name;
     }
 
     /**
@@ -52,7 +52,7 @@ class Role
      */
     public function getPermissions() : Permissions
     {
-        return $this -> permissions;
+        return $this->permissions;
     }
 
     /**
@@ -64,7 +64,7 @@ class Role
      */
     public function has($object, $operation = null) : ?bool
     {
-        return $this -> permissions -> has($object, $operation);
+        return $this->permissions->has($object, $operation);
     }
 
     /**
@@ -74,7 +74,7 @@ class Role
      */
     public function setName($name) : self
     {
-        $this -> name = $name;
+        $this->name = $name;
         return $this;
     }
 

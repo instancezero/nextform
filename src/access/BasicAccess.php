@@ -72,25 +72,25 @@ class BasicAccess implements AccessInterface
     public function hasAccess($segment, $objectName, $operation, $user = null) : bool
     {
         if ($user === null) {
-            $user = $this -> currentUser;
+            $user = $this->currentUser;
         }
-        if ($user === null || !isset($this -> users[$user])) {
+        if ($user === null || !isset($this->users[$user])) {
             throw new \LogicException('No valid user has been selected.');
         }
         $composite = $segment . NextForm::SEGMENT_DELIM . $objectName;
         $segAccess = null;
         $objAccess = null;
         // Check the roles for the current user
-        foreach ($this -> users[$user] -> getRoles() as $role) {
-            if (isset($this -> roles[$role])) {
-                $has = $this -> roles[$role] -> has($segment, $operation);
+        foreach ($this->users[$user]->getRoles() as $role) {
+            if (isset($this->roles[$role])) {
+                $has = $this->roles[$role]->has($segment, $operation);
                 if ($has !== null) {
                     $segAccess = $has;
                 }
                 if ($segAccess === false) {
                     break;
                 }
-                $has = $this -> roles[$role] -> has($composite, $operation);
+                $has = $this->roles[$role]->has($composite, $operation);
                 if ($has !== null) {
                     $objAccess = $has;
                 }
@@ -115,11 +115,11 @@ class BasicAccess implements AccessInterface
      */
     public function setUser($user) : self
     {
-        if ($user === null || isset($this -> users[$user])) {
-            $this -> currentUser = $user;
+        if ($user === null || isset($this->users[$user])) {
+            $this->currentUser = $user;
             return $this;
         }
-        $this -> currentUser = null;
+        $this->currentUser = null;
         throw new \LogicException('User not found.');
     }
 }

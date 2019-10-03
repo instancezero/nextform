@@ -60,11 +60,11 @@ abstract class NamedElement Extends Element
 
     protected function configureComplete()
     {
-        if ($this -> labels === null) {
-            $this -> labels  = new Labels;
+        if ($this->labels === null) {
+            $this->labels  = new Labels;
         }
         // Default merge is nothing to merge with.
-        $this -> labelsMerged = clone $this -> labels;
+        $this->labelsMerged = clone $this->labels;
         return parent::configureComplete();
     }
 
@@ -73,9 +73,9 @@ abstract class NamedElement Extends Element
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this -> configureOptions['_form'])) {
-            $this -> form = $this -> configureOptions['_form'];
-            $this -> form -> registerElement($this);
+        if (isset($this->configureOptions['_form'])) {
+            $this->form = $this->configureOptions['_form'];
+            $this->form->registerElement($this);
         }
     }
 
@@ -100,17 +100,17 @@ abstract class NamedElement Extends Element
      */
     public function getFormName()
     {
-        if ($this -> formName === null) {
-            if ($this -> name != '') {
-                $this -> formName = $this -> name;
+        if ($this->formName === null) {
+            if ($this->name != '') {
+                $this->formName = $this->name;
             } else {
-                if ($this -> autoId == '') {
-                    $this -> getId();
+                if ($this->autoId == '') {
+                    $this->getId();
                 }
-                $this -> formName = $this -> autoId;
+                $this->formName = $this->autoId;
             }
         }
-        return $this -> formName;
+        return $this->formName;
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class NamedElement Extends Element
      */
     public function setFormName($name)
     {
-        $this -> formName = $name;
+        $this->formName = $name;
         return $this;
     }
 

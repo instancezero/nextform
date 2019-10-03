@@ -30,7 +30,7 @@ trait JsonEncoderTrait
             if (!is_array($encoding)) {
                 $encoding = [$encoding];
             }
-            $value = $this -> $prop;
+            $value = $this->$prop;
             $scalarize = false;
             $asArray = false;
             $keep = true;
@@ -41,7 +41,7 @@ trait JsonEncoderTrait
                 } elseif ($option == 'scalarize') {
                     $scalarize = true;
                 } elseif (($cut = strpos($option, ':')) !== false) {
-                    $keep = $this -> jsonSerializeCommand($option, $cut, $toProp, $value);
+                    $keep = $this->jsonSerializeCommand($option, $cut, $toProp, $value);
                     if (!$keep) {
                         break;
                     }
@@ -51,12 +51,12 @@ trait JsonEncoderTrait
                 continue;
             }
             if ($asArray) {
-                $result -> $toProp = array_values($value);
+                $result->$toProp = array_values($value);
             } else {
-                $result -> $toProp = $value;
+                $result->$toProp = $value;
             }
-            if ($scalarize && is_array($result -> $toProp) && count($result -> $toProp) == 1) {
-                $result -> $toProp = $result -> $toProp[0];
+            if ($scalarize && is_array($result->$toProp) && count($result->$toProp) == 1) {
+                $result->$toProp = $result->$toProp[0];
             }
         }
         return $result;
@@ -84,7 +84,7 @@ trait JsonEncoderTrait
                     if (is_array($value)) {
                         $drop = empty($value);
                     } elseif (is_object($value) && method_exists($value, 'isEmpty')) {
-                        $drop = $value -> isEmpty();
+                        $drop = $value->isEmpty();
                     }
                     break;
                 case 'false':
@@ -106,7 +106,7 @@ trait JsonEncoderTrait
         } elseif ($cmd == 'map') {
             $prop = $arg;
         } elseif ($cmd == 'method') {
-            $value = $this -> $arg($value);
+            $value = $this->$arg($value);
         }
         return true;
     }

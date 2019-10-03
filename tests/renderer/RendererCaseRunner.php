@@ -33,19 +33,19 @@ trait RendererCaseRunner {
                 continue;
             }
             NextForm::boot();
-            $data = $this -> testObj -> render($info[0], $info[1]);
-            $this -> logResult($data, $info[2]);
+            $data = $this->testObj->render($info[0], $info[1]);
+            $this->logResult($data, $info[2]);
             if ($expect[$key] != $data) {
-                $this -> logResult($expect[$key], 'Expected: ' . $info[2]);
+                $this->logResult($expect[$key], 'Expected: ' . $info[2]);
             }
-            $this -> assertEquals($expect[$key], $data, $info[2]);
+            $this->assertEquals($expect[$key], $data, $info[2]);
             unset($notRun[$key]);
         }
-        $this -> assertTrue(
+        $this->assertTrue(
             empty($missingExpect),
             'Cases with no expectation: ' . implode(', ', $missingExpect)
         );
-        $this -> assertTrue(
+        $this->assertTrue(
             empty($notRun),
             'Expectations with no test case: ' . implode(', ', $notRun)
         );

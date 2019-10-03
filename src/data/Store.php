@@ -51,7 +51,7 @@ class Store implements \JsonSerializable
         $result = true;
         if ($property === 'type') {
             if (!($result = in_array($value, self::$knownTypes))) {
-                $this -> configureLogError(
+                $this->configureLogError(
                     'Invalid value "'. $value . '" for property "' . $property . '".'
                 );
                 $result = false;
@@ -66,7 +66,7 @@ class Store implements \JsonSerializable
      */
     public function getSize()
     {
-        return (string) $this -> size;
+        return (string) $this->size;
     }
 
     /**
@@ -75,7 +75,7 @@ class Store implements \JsonSerializable
      */
     public function getType()
     {
-        return $this -> type;
+        return $this->type;
     }
 
     /**
@@ -84,10 +84,10 @@ class Store implements \JsonSerializable
      */
     public function isEmpty() : bool
     {
-        if ($this -> size !== null) {
+        if ($this->size !== null) {
             return false;
         }
-        if ($this -> type !== null && $this -> type !== '') {
+        if ($this->type !== null && $this->type !== '') {
             return false;
         }
         return true;
@@ -100,7 +100,7 @@ class Store implements \JsonSerializable
      */
     public function setSize($size) : self
     {
-        $this -> size = (string) $size;
+        $this->size = (string) $size;
         return $this;
     }
 
@@ -112,10 +112,10 @@ class Store implements \JsonSerializable
      */
     public function setType($type) : self
     {
-        if (!$this -> configureValidate('type', $type)) {
+        if (!$this->configureValidate('type', $type)) {
             throw new RuntimeException($type . ' is not a valid value for type.');
         }
-        $this -> type = $type;
+        $this->type = $type;
         return $this;
     }
 

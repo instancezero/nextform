@@ -2,7 +2,7 @@
 include_once __DIR__ . '/../test-tools/JsonComparison.php';
 
 class JsonEncoderMain implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
 
     static $jsonEncodeMethod = [
         'protArr' => 'array',   // left as string to test string-to-array
@@ -25,7 +25,7 @@ class JsonEncoderMain implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropBlank implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'blank' => ['drop:blank'],
         'boring' => [],
@@ -36,7 +36,7 @@ class JsonEncoderCommandDropBlank implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropEmpty implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'array1' => ['drop:empty'],
         'array2' => ['drop:empty'],
@@ -49,7 +49,7 @@ class JsonEncoderCommandDropEmpty implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropFalse implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => [],
         'untrue' => ['drop:false'],
@@ -60,7 +60,7 @@ class JsonEncoderCommandDropFalse implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropNull implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => [],
         'novalue' => ['drop:null'],
@@ -71,7 +71,7 @@ class JsonEncoderCommandDropNull implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropTrue implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => [],
         'istrue' => ['drop:true'],
@@ -82,7 +82,7 @@ class JsonEncoderCommandDropTrue implements \JsonSerializable {
 }
 
 class JsonEncoderCommandDropZero implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => [],
         'novalue' => ['drop:zero'],
@@ -93,7 +93,7 @@ class JsonEncoderCommandDropZero implements \JsonSerializable {
 }
 
 class JsonEncoderCommandMap implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => ['map:exciting'],
     ];
@@ -102,7 +102,7 @@ class JsonEncoderCommandMap implements \JsonSerializable {
 }
 
 class JsonEncoderCommandMethod implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'boring' => ['method:changeIt'],
     ];
@@ -115,7 +115,7 @@ class JsonEncoderCommandMethod implements \JsonSerializable {
 }
 
 class JsonEncoderCommandScalar implements \JsonSerializable {
-    use \Abivia\NextForm\Traits\JsonEncoderTrait;
+    use Abivia\NextForm\Traits\JsonEncoderTrait;
     static $jsonEncodeMethod = [
         'arrayToScalar1' => ['scalarize'],
         'arrayToScalar2' => ['scalarize'],
@@ -132,14 +132,14 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
 
 	public function testJsonEncoderInstantiation() {
         $obj = new JsonEncoderMain();
-		$this -> assertInstanceOf('JsonEncoderMain', $obj);
+		$this->assertInstanceOf('JsonEncoderMain', $obj);
 	}
 
 	public function testSimpleValid() {
         $obj = new JsonEncoderMain();
         $actual = json_encode($obj);
         file_put_contents(dirname(__FILE__) . '/json-encoder-actual.json', $actual);
-        $this -> assertStringEqualsFile(dirname(__FILE__) . '/json-encoder-expect.json', $actual);
+        $this->assertStringEqualsFile(dirname(__FILE__) . '/json-encoder-expect.json', $actual);
 	}
 
     public function testDropBlank() {
@@ -148,7 +148,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testDropEmpty() {
@@ -157,7 +157,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull","array1":["stuff"]}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testDropFalse() {
@@ -166,7 +166,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testDropNull() {
@@ -175,7 +175,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testDropTrue() {
@@ -184,7 +184,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testDropZero() {
@@ -193,7 +193,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testMap() {
@@ -202,7 +202,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"exciting":"dull"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testMethod() {
@@ -211,7 +211,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"DULL!"}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
     public function testScalarize() {
@@ -220,7 +220,7 @@ class JsonEncoderTest extends \PHPUnit\Framework\TestCase {
         $expect = json_decode(
             '{"boring":"dull","arrayToScalar1":"scalar","arrayToScalar2":["still","an","array"]}'
         );
-        $this -> assertTrue($this -> jsonCompare($actual, $expect));
+        $this->assertTrue($this->jsonCompare($actual, $expect));
     }
 
 }
