@@ -104,7 +104,7 @@ abstract class Html implements RendererInterface
 
     protected function elementHidden($element, $value)
     {
-        $block = new Block;
+        $block = new Block();
         $baseId = $element->getId();
         $formName = $element->getFormName();
         $attrs = new Attributes('type', 'hidden');
@@ -140,7 +140,7 @@ abstract class Html implements RendererInterface
     protected function elementHiddenList(FieldElement $element)
     {
         $needEmpty = true;
-        $block = new Block;
+        $block = new Block();
         $baseId = $element->getId();
         $select = $element->getValue();
         $list = $element->getList(true);
@@ -242,7 +242,7 @@ abstract class Html implements RendererInterface
             $options['access'] = 'write';
         }
         if ($options['access'] === 'none') {
-            return new Block;
+            return new Block();
         }
         $method = $this->getRenderMethod($element);
         if (method_exists($this, $method)) {
@@ -402,7 +402,7 @@ abstract class Html implements RendererInterface
         if (isset($options['attrs'])) {
             $attrs = $options['attrs'];
         } else {
-            $attrs = new Attributes;
+            $attrs = new Attributes();
         }
         $attrs->set('method', isset($options['method']) ? $options['method'] : 'post');
         $attrs->setIfSet('action', $options);
@@ -441,7 +441,7 @@ abstract class Html implements RendererInterface
         } else {
             $scope = false;
         }
-        $block = new Block;
+        $block = new Block();
         if ($scope && isset($this->showState[$scope][$setting])) {
             $attrs = $this->showState[$scope][$setting]->combine($attrs);
             $block->body = $this->writeTag($tag, $attrs) . "\n";

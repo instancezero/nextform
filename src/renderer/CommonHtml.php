@@ -35,7 +35,7 @@ abstract class CommonHtml extends Html implements RendererInterface
      */
     protected function dataList(Attributes $attrs, Element $element, $type, $options)
     {
-        $block = new Block;
+        $block = new Block();
         // Check for a data list, if there is write access.
         $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
             ? $element->getList(true) : [];
@@ -72,7 +72,7 @@ abstract class CommonHtml extends Html implements RendererInterface
         /*
             'image'
         */
-        $result = new Block;
+        $result = new Block();
         $presentation = $element->getDataProperty()->getPresentation();
         $type = $presentation->getType();
         $options['confirm'] = false;

@@ -61,9 +61,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $appearance = $this->showGet('check', 'appearance');
         $checkLayout = $this->showGet('check', 'layout');
         $groupClass = 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '');
-        $labelAttrs = new Attributes;
+        $labelAttrs = new Attributes();
         $labelAttrs->set('class', 'form-check-label');
-        $block = new Block;
+        $block = new Block();
         foreach ($element->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
             $id = $baseId . '-opt' . $optId;
@@ -124,8 +124,8 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We know the appearance is going to be button or toggle
         //$appearance = $this->showGet('check', 'appearance');
         //$checkLayout = $this->showGet('check', 'layout');
-        $labelAttrs = new Attributes;
-        $block = new Block;
+        $labelAttrs = new Attributes();
+        $block = new Block();
         foreach ($element->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
             $id = $baseId . '-opt' . $optId;
@@ -189,7 +189,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $block->merge($this->checkInput($element, $attrs));
         } else {
             $block->merge($this->checkInput($element, $attrs));
-            $labelAttrs = new Attributes;
+            $labelAttrs = new Attributes();
             $labelAttrs->set('!for', $baseId);
             $labelAttrs->set('class', 'form-check-label');
             $block->body .= $this->writeLabel(
@@ -220,7 +220,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         if ($labels->has('help')) {
             $attrs->set('aria-describedby', $baseId . '-formhelp');
         }
-        $labelAttrs = new Attributes;
+        $labelAttrs = new Attributes();
         $buttonClass = $this->getButtonClass('radio');
         $checked = $element->getValue() === $element->getDefault()
             && $element->getValue() !== null;
@@ -345,7 +345,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Build attributes for the input
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $attrs->set('id', $element->getId());
         if ($options['access'] == 'view' || !$element->getEnabled()) {
             $attrs->setFlag('disabled');
@@ -383,7 +383,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             . $this->writeLabel('after', $labels->after, 'span', [])
             . "\n";
         if ($labels->has('help')) {
-            $helpAttrs = new Attributes;
+            $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->set('class', 'form-text text-muted');
             $input->body .= $this->writeLabel(
@@ -447,7 +447,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     {
         $appearance = $this->showGet('check', 'appearance');
         $layout = $this->showGet('form', 'layout');
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $block = new Block();
         $baseId = $element->getId();
         $labels = $element->getLabels(true);
@@ -466,7 +466,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // If this is showing as a row of buttons change the group attributes
-        $groupAttrs = new Attributes;
+        $groupAttrs = new Attributes();
         if ($appearance === 'toggle') {
             $asButtons = true;
             $groupAttrs->set('class', 'btn-group btn-group-toggle');
@@ -486,7 +486,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Customize the header to align baselines in horizontal layouts
-        $headerAttrs = new Attributes;
+        $headerAttrs = new Attributes();
         if ($layout === 'vertical') {
             $rowBlock = $this->writeElement(
                 'fieldset', [
@@ -523,7 +523,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Generate everything associated with the inputs, including before/after texts
-        $input = new Block;
+        $input = new Block();
         $input->body .= $this->writeLabel(
             'before' . $labelElement, $labels->before, $labelElement
         );
@@ -546,7 +546,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block->merge($input);
 
         if ($labels->has('help')) {
-            $helpAttrs = new Attributes;
+            $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->set('class', 'form-text text-muted');
             $block->body .= $this->writeLabel(
@@ -564,7 +564,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     {
         $appearance = $this->showGet('check', 'appearance');
         $checkLayout = $this->showGet('check', 'layout');
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $block = new Block();
         $labels = $element->getLabels(true);
         $data = $element->getDataProperty();
@@ -587,7 +587,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // If this is showing as a row of buttons change the group attributes
-        $groupAttrs = new Attributes;
+        $groupAttrs = new Attributes();
         if ($appearance === 'toggle') {
             $asButtons = true;
             $groupAttrs->set('class', 'btn-group btn-group-toggle');
@@ -602,7 +602,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Customize the header to align baselines in horizontal layouts
-        $headerAttrs = new Attributes;
+        $headerAttrs = new Attributes();
         $rowBlock = $this->writeElement(
             'div', [
                 'attrs' => $this->groupAttributes($element),
@@ -625,7 +625,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Generate everything associated with the inputs, including before/after texts
-        $input = new Block;
+        $input = new Block();
         $input->body .= $this->writeLabel(
             'beforespan', $labels->before, 'span'
         );
@@ -642,7 +642,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         // Write any help text
         if ($labels->has('help')) {
-            $helpAttrs = new Attributes;
+            $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->set('class', 'form-text text-muted');
             $block->body .= $this->writeLabel(
@@ -688,7 +688,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         );
 
         // Get attributes for the input element
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $attrs->set('id', $element->getId() . ($confirm ? '-confirmation' : ''));
         if ($options['access'] == 'view') {
             $attrs->setFlag('readonly');
@@ -737,7 +737,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         // Generate help text, if any
         if ($labels->has('help')) {
-            $helpAttrs = new Attributes;
+            $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->set('class', 'form-text text-muted');
             $input->body .= $this->writeTag('small', $helpAttrs, $labels->help) . "\n";
@@ -756,7 +756,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     protected function renderFieldFile(FieldElement $element, $options = [])
     {
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
@@ -866,7 +866,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Link the label if we're not in view mode
         $multiple = $data->getValidation()->get('multiple');
         $fieldName = $element->getFormName() . ($multiple ? '[]' : '');
-        $headAttr = new Attributes;
+        $headAttr = new Attributes();
         if ($options['access'] != 'view') {
             $headAttr->set('for', $fieldName);
         }
@@ -887,7 +887,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $block->merge($this->renderFieldSelectView($element));
         } else {
             // Generate an actual select!
-            $attrs = new Attributes;
+            $attrs = new Attributes();
             $attrs->set('name', $fieldName);
 
             $attrs->set('id', $element->getId());
@@ -930,8 +930,8 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     protected function renderFieldSelectOption($option, $value)
     {
-        $block = new Block;
-        $attrs = new Attributes;
+        $block = new Block();
+        $attrs = new Attributes();
         $attrs->set('value', $option->getValue());
         $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
         if (in_array($attrs->get('value'), $value)) {
@@ -942,10 +942,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     }
 
     protected function renderFieldSelectOptions($list, $value) {
-        $block = new Block;
+        $block = new Block();
         foreach ($list as $option) {
             if ($option->isNested()) {
-                $attrs = new Attributes;
+                $attrs = new Attributes();
                 $attrs->set('label', $option->getLabel());
                 $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
                 $block->body .= $this->writeTag('optgroup', $attrs) . "\n";
@@ -964,7 +964,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $data = $element->getDataProperty();
         $multiple = $data->getValidation()->get('multiple');
 
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $attrs->set('name', $element->getFormName() . ($multiple ? '[]' : ''));
 
         $list = $element->getFlatList(true);
@@ -972,7 +972,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs->set('type', 'hidden');
 
         $value = $element->getValue();
-        $block = new Block;
+        $block = new Block();
         if ($multiple) {
             // step through each possible value, output matches
             if (!is_array($value)) {
@@ -1037,7 +1037,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         );
 
         // Assemble the textarea attributes
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $attrs->set('id', $element->getId());
         $attrs->set('name', $element->getFormName());
         if ($options['access'] == 'view') {
@@ -1121,7 +1121,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     {
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] === 'hide') {
-            return new Block;
+            return new Block();
         }
 
         // Push and update the show context

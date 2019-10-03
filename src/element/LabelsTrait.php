@@ -51,7 +51,7 @@ trait LabelsTrait
     public function setLabel($labelName, $text)
     {
         if ($this->labels === null) {
-            $this->labels = new Labels;
+            $this->labels = new Labels();
         }
         if ($this->labelsMerged === null) {
             $this->labelsMerged = clone $this->labels;

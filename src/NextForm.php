@@ -164,7 +164,7 @@ class NextForm implements \JsonSerializable
      */
     static public function fromFile($formFile)
     {
-        $form = new NextForm;
+        $form = new NextForm();
         if (!$form->configure(json_decode(file_get_contents($formFile)), true)) {
             throw new \RuntimeException(
                 'Failed to load ' . $formFile . "\n"
@@ -201,7 +201,7 @@ class NextForm implements \JsonSerializable
     {
         $this->options($options);
         if (!isset($options['attrs'])) {
-            $options['attrs'] = new Attributes;
+            $options['attrs'] = new Attributes();
         }
 
         // Set the name and ID if not passed in to us.

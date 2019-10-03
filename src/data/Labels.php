@@ -185,13 +185,18 @@ class Labels implements \JsonSerializable
      */
     public function translate(Translator $translate) : Labels
     {
+        // Create a copy for the translated strings
         $newLabels = clone $this;
+
+        // Merge in any schema defaults
         if ($this->schema) {
             $defaults = $this->schema->getDefault('labels');
             if ($defaults !== null) {
                 $newLabels = $defaults->combine($newLabels);
             }
         }
+
+        // Perform the translation
         if ($newLabels->translate) {
             foreach (self::$textProperties as $prop) {
                 if ($newLabels->$prop !== null) {

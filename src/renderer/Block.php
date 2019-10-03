@@ -99,7 +99,7 @@ class Block
      */
     static public function fromString($body = '', $post = '') : Block
     {
-        $that = new Block;
+        $that = new Block();
         $that->body = $body;
         $that->post = $post;
         return $that;

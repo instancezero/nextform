@@ -88,7 +88,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderButtonElement(ButtonElement $element, $options = [])
     {
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $attrs->set('id', $element->getId());
         if ($options['access'] == 'view' || !$element->getEnabled()) {
             $attrs->setFlag('disabled');
@@ -148,7 +148,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderFieldCommon(FieldElement $element, $options = [])
     {
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $confirm = $options['confirm'];
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
@@ -285,7 +285,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         }
 
         // We can see or change the data
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
@@ -333,7 +333,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderFieldImage(FieldElement $element, $options = [])
     {
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
@@ -394,7 +394,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             return $this->elementHidden($element, $value);
         }
         // This element is visible
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $block = new Block();
         $baseId = $element->getId();
         $labels = $element->getLabels(true);
@@ -475,8 +475,8 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderFieldSelectOption($option, $value)
     {
-        $block = new Block;
-        $attrs = new Attributes;
+        $block = new Block();
+        $attrs = new Attributes();
         $attrs->set('value', $option->getValue());
         $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
         if (in_array($attrs->get('value'), $value)) {
@@ -488,10 +488,10 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderFieldSelectOptions($list, $value)
     {
-        $block = new Block;
+        $block = new Block();
         foreach ($list as $option) {
             if ($option->isNested()) {
-                $attrs = new Attributes;
+                $attrs = new Attributes();
                 $attrs->set('label', $option->getLabel());
                 $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
                 $block->body .= $this->writeTag('optgroup', $attrs) . "\n";
@@ -514,7 +514,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         }
 
         // We can see or change the data
-        $attrs = new Attributes;
+        $attrs = new Attributes();
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();

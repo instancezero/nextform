@@ -208,7 +208,7 @@ abstract class Element implements \JsonSerializable
         static $cloner = null;
 
         if ($cloner === null) {
-            $cloner = new DeepCopy;
+            $cloner = new DeepCopy();
             // Don't copy the form ID
             $cloner->addFilter(
                 new SetNullFilter(),

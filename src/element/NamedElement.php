@@ -61,7 +61,7 @@ abstract class NamedElement Extends Element
     protected function configureComplete()
     {
         if ($this->labels === null) {
-            $this->labels  = new Labels;
+            $this->labels  = new Labels();
         }
         // Default merge is nothing to merge with.
         $this->labelsMerged = clone $this->labels;

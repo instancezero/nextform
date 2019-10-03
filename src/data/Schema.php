@@ -69,7 +69,7 @@ class Schema implements \JsonSerializable
 
             // Convert a labels property into a Labels data structure
             if (isset($this->defaultRepo->labels)) {
-                $obj = new Labels;
+                $obj = new Labels();
                 if (!$obj->configure($this->defaultRepo->labels, $this->configureOptions)) {
                     $this->configureErrors = array_merge(
                         $this->configureErrors, $obj->configureGetErrors()
@@ -122,7 +122,7 @@ class Schema implements \JsonSerializable
      */
     static public function fromFile($schemaFile, $format = '')
     {
-        $schema = new Schema;
+        $schema = new Schema();
         if (!file_exists($schemaFile)) {
             throw new \RuntimeException(
                 'Failed to load ' . $schemaFile . ", file does not exist\n"
