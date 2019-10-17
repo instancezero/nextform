@@ -5,9 +5,10 @@ include_once __DIR__ . '/../test-tools/Page.php';
 
 use Abivia\NextForm;
 use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\Form\Element\ContainerElement;
-use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Form\Binding\ContainerBinding;
+use Abivia\NextForm\Form\Binding\FieldBinding;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 use Abivia\NextForm\Renderer\Bootstrap4;
@@ -25,19 +26,19 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
 
     }
 
-    public function render(Element $element, $options = []) : Block {
+    public function render(Binding $binding, $options = []) : Block {
         $result = new Block();
-        $type = $element->getType();
+        $type = $binding->getElement()->getType();
         $result->body = $type;
-        $name = $element->getName();
+        $name = $binding->getName();
         if ($name) {
             $result->body .= ' (' . $name . ')';
         }
-        if ($element instanceof FieldElement) {
-            $result->body .= ' object = ' . $element->getObject();
+        if ($binding instanceof FieldBinding) {
+            $result->body .= ' object = ' . $binding->getObject();
         }
         $result->body .= "\n";
-        if ($element instanceof ContainerElement) {
+        if ($binding instanceof ContainerBinding) {
             $result->post = 'Close ' . $type . "\n";
         }
         return $result;
@@ -124,13 +125,16 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testGenerateUnpopulated() {
         NextForm::boot();
-        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
+        $form  = Form::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form->bindSchema($schema);
         $render = new FlatRenderer();
-        $form->setRenderer($render);
-        $form->setTranslator(new NullTranslate());
-        $page = $form->generate(['action' => 'myform.php']);
+
+        $manager = new NextForm();
+        $manager->setForm($form);
+        $manager->setSchema($schema);
+        $manager->setRenderer($render);
+        $manager->setTranslator(new NullTranslate());
+        $page = $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
     }
 

@@ -183,19 +183,24 @@ class Schema implements \JsonSerializable
 
     /**
      * Convenience function to fetch a property from a segment.
-     * @param string $segProp Either a segment name or a segment/property.
+     * @param mixed $segProp A segment name, segment/property or [segment, property].
      * @param string $name Property name. Only required if $segProp is just a segment name.
      * @return \Abivia\NextForm\Data\Property|null Null if the property doesn't exist.
      */
     public function getProperty($segProp, $name = '') : ?Property
     {
-        if (strpos($segProp, NextForm::SEGMENT_DELIM) !== false) {
-            list($segProp, $name) = explode(NextForm::SEGMENT_DELIM, $segProp);
+        if (is_array($segProp)) {
+            $name = $segProp[1];
+            $segment = $segProp[0];
+        } elseif (strpos($segProp, NextForm::SEGMENT_DELIM) !== false) {
+            list($segment, $name) = explode(NextForm::SEGMENT_DELIM, $segProp);
+        } else {
+            $segment = $segProp;
         }
-        if (!isset($this->segments[$segProp])) {
+        if (!isset($this->segments[$segment])) {
             return null;
         }
-        return $this->segments[$segProp]->getProperty($name);
+        return $this->segments[$segment]->getProperty($name);
     }
 
     /**

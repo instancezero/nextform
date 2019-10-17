@@ -1,0 +1,62 @@
+{
+    "useSegment": "user",
+    "elements": [
+        {
+            "type": "static",
+            "name": "intro",
+            "value": "Some plain text where <, &, etc. gets escaped."
+        },
+        {
+            "type": "html",
+            "name": "completeHeader",
+            "memberOf": "success",
+            "value": "<p>This is an initially invisible html element.<\/p>",
+            "visible": false
+        },
+        {
+            "type": "field",
+            "object": "name",
+            "memberOf": "groupname",
+            "labels": {
+                "tooltip": "overidden!"
+            },
+            "triggers": [
+                {
+                    "event": "onvalid",
+                    "actions": [
+                        {
+                            "change": "visible",
+                            "value": "enable",
+                            "target": "completeHeader"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "cell",
+            "elements": [
+                "areaCode",
+                "phoneNumber",
+                "phoneExtension"
+            ]
+        },
+        {
+            "type": "section",
+            "elements": [
+                {
+                    "type": "cell",
+                    "elements": [
+                        "user2\/areaCode",
+                        "user2\/phoneNumber",
+                        "user2\/phoneExtension"
+                    ]
+                },
+                {
+                    "type": "static",
+                    "value": "This text is part of a section."
+                }
+            ]
+        }
+    ]
+}

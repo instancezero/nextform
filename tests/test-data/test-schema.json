@@ -1,4 +1,9 @@
 {
+    "default": {
+        "labels": {
+            "error": "This error provided by default."
+        }
+    },
     "segments": [
         {
             "name": "test",

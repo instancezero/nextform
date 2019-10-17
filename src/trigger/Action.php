@@ -19,8 +19,8 @@ class Action implements \JsonSerializable
     ];
     static protected $jsonEncodeMethod = [
         'change' => ['scalarize'],
-        'target' => ['drop:empty', 'drop:null', 'scalarize'],
         'value' => [],
+        'target' => ['drop:empty', 'drop:null', 'scalarize'],
     ];
     protected $target = [];
     protected $value;

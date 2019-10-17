@@ -6,6 +6,7 @@ use Abivia\Configurable\Configurable;
 use Abivia\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
@@ -25,22 +26,10 @@ abstract class Element implements \JsonSerializable
     use ShowableTrait;
 
     /**
-     * System-assigned element ID
-     * @var string
-     */
-    protected $autoId;
-
-    /**
      * Set if this element is enabled on the form.
      * @var bool
      */
     protected $enabled = true;
-
-    /**
-     * The form this element belongs to
-     * @var \Abivia\NextForm
-     */
-    protected $form;
 
     /**
      * A list of groups that this element belongs to.
@@ -60,14 +49,30 @@ abstract class Element implements \JsonSerializable
      */
     static protected $jsonEncodeMethod = [
         'type' => [],
-        'name' => ['drop:blank'],
-        'id' => ['drop:blank'],
-        'groups' => ['drop:null', 'drop:empty', 'scalarize', 'map:memberOf'],
-        'enabled' => ['drop:true'],
-        'readonly' => ['drop:false', 'drop:null'],
-        'visible' => ['drop:true'],
-        'show' => ['drop:blank'],
+        'name' => ['drop:blank', 'order:100'],
+        'id' => ['drop:blank', 'order:200'],
+        'groups' => ['drop:null', 'drop:empty', 'scalarize', 'map:memberOf', 'order:300'],
+        'labels' => ['drop:empty', 'drop:null', 'order:400'],
+        'enabled' => ['drop:true', 'order:1000'],
+        'readonly' => ['drop:false', 'drop:null', 'order:1100'],
+        'visible' => ['drop:true', 'order:1200'],
+        'show' => ['drop:blank', 'order:2000'],
     ];
+
+    /**
+     * Text labels for this element as defined in the form. Some element types
+     * don't have labels so they are JSON-configured where used.
+     *
+     * @var \Abivia\NextForm\Data\Labels
+     */
+    protected $labels;
+
+    /**
+     * Text labels for this element after merging with a data source.
+     *
+     * @var \Abivia\NextForm\Data\Labels
+     */
+    protected $labelsMerged;
 
     /**
      * The name of this element.
@@ -277,13 +282,21 @@ abstract class Element implements \JsonSerializable
      */
     public function getId()
     {
-        if ($this->id != '') {
-            return $this->id;
-        }
-        if ($this->autoId == '') {
-            $this->autoId = NextForm::htmlIdentifier($this->type, true);
-        }
-        return $this->autoId;
+        return $this->id;
+    }
+
+    /**
+     * Get the JSON Encoding rules.
+     *
+     * @return array JSON encoding rules.
+     */
+    static public function getJsonEncodings() {
+        return self::$jsonEncodeMethod;
+    }
+
+    public function getLabels() : ?Labels
+    {
+        return $this->labels;
     }
 
     /**
@@ -365,6 +378,23 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
+     * Set the value for a label element.
+     * @param string $labelName Name of the text to be set.
+     * @param string $text
+     */
+    public function setLabel($labelName, $text)
+    {
+        if ($this->labels === null) {
+            $this->labels = new Labels();
+        }
+        if ($this->labelsMerged === null) {
+            $this->labelsMerged = clone $this->labels;
+        }
+        $this->labels->set($labelName, $text);
+        $this->labelsMerged->set($labelName, $text);
+    }
+
+    /**
      * Set the name of this element.
      * @param string $name
      * @return \self
@@ -396,12 +426,5 @@ abstract class Element implements \JsonSerializable
         $this->visible = $visible;
         return $this;
     }
-
-    /**
-     * Translate the texts in this element.
-     * @param Translator $translate
-     * @return \Abivia\NextForm\Form\Element\Element
-     */
-    abstract public function translate(Translator $translate) : Element;
 
 }

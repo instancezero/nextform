@@ -1,13 +1,37 @@
-Element                 (enabled, form, group, name, type, visible)
-    NamedElement      (formName)
-        ButtonElement       (reset,submit)
-        ContainerElement    (elements)
-            CellElement
-            SectionElement
-        FieldElement        (dataProperty, object, triggers)
-    SimpleElement           (value)
+Before bindings:
+
+Element                             (enabled, form, group, name, type, visible)
+    NamedElement            Labels  (formName)
+        ButtonElement       Labels  (reset,submit)
+        ContainerElement    Labels  (elements)
+            CellElement     Labels
+            SectionElement  Labels
+        FieldElement        Labels  (dataProperty, object, triggers)
+    SimpleElement                   (value)
         HtmlElement
-        StaticElement
-        
+        StaticElement       Labels
+
 traits
-    Labels              (hasTranslation, labels, labelsTranslated)
+    Labels                  (hasTranslation, labels, labelsTranslated)
+
+
+After bindings:
+===
+
+Binding                     Labels  (element, form, formName)
+    ContainerBinding                (bindings)
+    FieldBinding                    (dataProperty, dataPropertyTranslated)
+
+Element                             (enabled, group, name, type, visible)
+    NamedElement            Labels
+        ButtonElement       Labels  (reset,submit)
+        ContainerElement    Labels  (elements)
+            CellElement     Labels
+            SectionElement  Labels
+        FieldElement        Labels  (dataProperty, object, triggers)
+    SimpleElement                   (translate,value)
+        HtmlElement
+        StaticElement       Labels  (html)
+
+traits
+    Labels                  (hasTranslation, labels, labelsTranslated)

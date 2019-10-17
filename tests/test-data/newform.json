@@ -1,5 +1,6 @@
 {
-    "useSegment": "user",
+    "name": "registrationForm",
+    "useSegment": "test",
     "elements": [
         {
             "name": "intro",
@@ -17,10 +18,10 @@
         {
             "type": "field",
             "memberOf": "groupname",
-            "object": "name",
+            "object": "text",
             "enabled": true,
             "labels": {
-                "tooltip": "overidden!"
+                "inner": "overidden!"
             },
             "triggers": [
                 {
@@ -41,15 +42,15 @@
             "elements": [
                 {
                     "type": "field",
-                    "object": "areaCode"
+                    "object": "user-areaCode"
                 },
                 {
                     "type": "field",
-                    "object": "phoneNumber"
+                    "object": "user-phoneNumber"
                 },
                 {
                     "type": "field",
-                    "object": "phoneExtension"
+                    "object": "user-phoneExtension"
                 }
             ]
         },
@@ -61,15 +62,15 @@
                     "elements": [
                         {
                             "type": "field",
-                            "object": "user2/areaCode"
+                            "object": "user2-areaCode"
                         },
                         {
                             "type": "field",
-                            "object": "user2/phoneNumber"
+                            "object": "user2-phoneNumber"
                         },
                         {
                             "type": "field",
-                            "object": "user2/phoneExtension"
+                            "object": "user2-phoneExtension"
                         }
                     ]
                 },

@@ -2,7 +2,7 @@
 namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\RendererInterface;
-use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\ButtonElement;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Form\Element\FieldElement;

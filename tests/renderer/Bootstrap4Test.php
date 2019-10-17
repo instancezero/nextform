@@ -57,7 +57,11 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         $id = $options['id'] ?? 'field-1';
         $attr .= ' id="' . $id . '-container' . '"';
         $class = isset($options['class']) ? $options['class'] : 'form-group col-sm-10';
-        $class = trim($class . ' ' . ($options['classAppend'] ?? ''));
+        $class = trim(
+            ($options['classPrepend'] ?? '')
+            . ' ' . $class
+            . ' ' . ($options['classAppend'] ?? '')
+        );
         $attr .= $class ? ' class="' . $class . '"' : '';
         $element = $options['element'] ?? 'div';
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
@@ -237,7 +241,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<input id="button-1" name="button-1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
-                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
+                ['id' => 'button-1', 'classPrepend' => 'nf-hidden']
             )
         );
 

@@ -48,9 +48,7 @@ abstract class SimpleElement Extends Element
     {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
-            self::$jsonEncodeMethod['value'] = [];
-            self::$jsonEncodeMethod['translate'] = ['drop:true'];
+            self::$jsonEncodeMethod = self::getJsonEncodings();
         }
     }
 
@@ -83,6 +81,18 @@ abstract class SimpleElement Extends Element
     protected function configureValidate($property, &$value)
     {
         return parent::configureValidate($property, $value);
+    }
+
+    /**
+     * Get the JSON Encoding rules.
+     *
+     * @return array JSON encoding rules.
+     */
+    static public function getJsonEncodings() {
+        $jsonEncoding = parent::getJsonEncodings();
+        $jsonEncoding['value'] = ['order:500'];
+        $jsonEncoding['translate'] = ['drop:true', 'order:2000'];
+        return $jsonEncoding;
     }
 
     /**

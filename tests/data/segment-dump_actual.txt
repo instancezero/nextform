@@ -24,7 +24,7 @@ Abivia\NextForm\Data\Segment Object
                             [configureOptions:Abivia\NextForm\Data\Labels:private] =>
                         )
 
-                    [linkedElements:protected] => Array
+                    [linkedBindings:protected] => Array
                         (
                         )
 
@@ -104,7 +104,7 @@ Abivia\NextForm\Data\Segment Object
                             [configureOptions:Abivia\NextForm\Data\Labels:private] =>
                         )
 
-                    [linkedElements:protected] => Array
+                    [linkedBindings:protected] => Array
                         (
                         )
 

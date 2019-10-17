@@ -58,7 +58,11 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $id = $options['id'] ?? 'field-1';
         $attr .= ' id="' . $id . '-container' . '"';
         $class = isset($options['class']) ? $options['class'] : 'form-group row';
-        $class = trim($class . ' ' . ($options['classAppend'] ?? ''));
+        $class = trim(
+            ($options['classPrepend'] ?? '')
+            . ' ' . $class
+            . ' ' . ($options['classAppend'] ?? '')
+        );
         $attr .= $class ? ' class="' . $class . '"' : '';
         $element = $options['element'] ?? 'div';
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';

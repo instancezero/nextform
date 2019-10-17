@@ -3,6 +3,7 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm;
 use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Traits\ShowableTrait;
@@ -184,12 +185,13 @@ abstract class Html implements RendererInterface
 
     /**
      * Generate attributes for a group container.
-     * @param Element $element
+     * @param Binding $binding
      * @return \Abivia\NextForm\Renderer\Attributes
      */
-    protected function groupAttributes($element, $options = []) : Attributes
+    protected function groupAttributes(Binding $binding, $options = []) : Attributes
     {
-        $id = $options['id'] ?? $element->getId();
+        $id = $options['id'] ?? $binding->getId();
+        $element = $binding->getElement();
         $container = new Attributes('id', $id . '-container');
         if (!$element->getVisible()) {
             //$container->set('style', 'display:none');
@@ -236,7 +238,7 @@ abstract class Html implements RendererInterface
         return $this->context[$selector];
     }
 
-    public function render(Element $element, $options = []) : Block
+    public function render(Binding $binding, $options = []) : Block
     {
         if (!isset($options['access'])) {
             $options['access'] = 'write';
@@ -244,11 +246,11 @@ abstract class Html implements RendererInterface
         if ($options['access'] === 'none') {
             return new Block();
         }
-        $method = $this->getRenderMethod($element);
+        $method = $this->getRenderMethod($binding->getElement());
         if (method_exists($this, $method)) {
-            $result = $this->$method($element, $options);
+            $result = $this->$method($binding, $options);
         } else {
-            throw new \RuntimeException('Unable to render element ' . get_class($element));
+            throw new \RuntimeException('Unable to render element ' . get_class($binding->getElement()));
         }
         return $result;
     }
@@ -443,7 +445,7 @@ abstract class Html implements RendererInterface
         }
         $block = new Block();
         if ($scope && isset($this->showState[$scope][$setting])) {
-            $attrs = $this->showState[$scope][$setting]->combine($attrs);
+            $attrs = $attrs->merge($this->showState[$scope][$setting]);
             $block->body = $this->writeTag($tag, $attrs) . "\n";
             $hasPost = true;
         } elseif ($attrs !== null && !$attrs->isEmpty()) {
@@ -485,7 +487,7 @@ abstract class Html implements RendererInterface
             $text = htmlspecialchars($text);
         }
         if (isset($this->showState['form'][$purpose])) {
-            $attrs = $this->showState['form'][$purpose]->combine($attrs);
+            $attrs = $this->showState['form'][$purpose]->merge($attrs);
         }
         $breakTag = $options['break'] ?? false;
         $html = $this->writeTag($tag, $attrs)

@@ -95,23 +95,6 @@ class Labels implements \JsonSerializable
      */
     public $translate = true;
 
-    /**
-     * Merge another label set into this one and return a new merged object.
-     * @param \Abivia\NextForm\Data\Labels $merge
-     * @return \Abivia\NextForm\Data\Labels
-     */
-    public function &combine(Labels $merge)
-    {
-        $newLabels = clone $this;
-        foreach (self::$textProperties as $prop) {
-            if ($merge->$prop !== null) {
-                $newLabels->$prop = $merge->$prop;
-            }
-        }
-        $newLabels->translate = $newLabels->translate || $merge->translate;
-        return $newLabels;
-    }
-
     protected function configureInitialize()
     {
         if (isset($this->configureOptions['_schema'])) {
@@ -159,6 +142,23 @@ class Labels implements \JsonSerializable
             }
         }
         return true;
+    }
+
+    /**
+     * Merge another label set into this one and return a new merged object.
+     * @param \Abivia\NextForm\Data\Labels $merge
+     * @return \Abivia\NextForm\Data\Labels
+     */
+    public function merge(Labels $merge)
+    {
+        $newLabels = clone $this;
+        foreach (self::$textProperties as $prop) {
+            if ($merge->$prop !== null) {
+                $newLabels->$prop = $merge->$prop;
+            }
+        }
+        $newLabels->translate = $newLabels->translate || $merge->translate;
+        return $newLabels;
     }
 
     /**

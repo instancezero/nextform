@@ -4,7 +4,7 @@ namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -42,10 +42,10 @@ class Property implements \JsonSerializable
     protected $labels;
 
     /**
-     * A list of form elements that use this property
-     * @var Element[]
+     * A list of form bindings that use this property
+     * @var Binding[]
      */
-    protected $linkedElements = [];
+    protected $linkedBindings = [];
 
     /**
      * The segment-unique name of this property.
@@ -192,13 +192,13 @@ class Property implements \JsonSerializable
 
     /**
      * Connect a form element to this property.
-     * @param Element $element The element to be connected.
+     * @param Binding $binding The binding to be connected.
      * @return \self
      */
-    public function linkElement(Element $element) : self
+    public function linkBinding(Binding $binding) : self
     {
-        if (!in_array($element, $this->linkedElements)) {
-            $this->linkedElements[] = $element;
+        if (!in_array($binding, $this->linkedBindings)) {
+            $this->linkedBindings[] = $binding;
         }
         return $this;
     }

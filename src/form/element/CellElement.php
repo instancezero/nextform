@@ -61,10 +61,6 @@ class CellElement Extends ContainerElement
     protected function configureInitialize(&$config)
     {
         parent::configureInitialize($config);
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
     }
 
     protected function configureComplete()

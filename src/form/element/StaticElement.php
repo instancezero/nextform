@@ -3,7 +3,6 @@
 namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Form\Element\LabelsTrait;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -12,7 +11,6 @@ use Abivia\NextForm\Traits\JsonEncoderTrait;
 class StaticElement Extends SimpleElement
 {
     use Configurable;
-    use LabelsTrait;
     use JsonEncoderTrait;
 
     /**
@@ -32,16 +30,15 @@ class StaticElement Extends SimpleElement
      * @var array
      */
     static protected $jsonLocalMethod = [
-        'html' => ['drop:false'],
-        'value' => [],
+        'html' => ['drop:false', 'order:500'],
+        'value' => ['order:500'],
     ];
 
     public function __construct()
     {
         parent::__construct();
         if (empty(self::$jsonEncodeMethod)) {
-            self::$jsonEncodeMethod = array_merge(parent::$jsonEncodeMethod, self::$jsonLocalMethod);
-            self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
+            self::$jsonEncodeMethod = self::getJsonEncodings();
         }
         $this->type = 'static';
     }
@@ -56,10 +53,6 @@ class StaticElement Extends SimpleElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
     }
 
     protected function configurePropertyIgnore($property)
@@ -84,6 +77,16 @@ class StaticElement Extends SimpleElement
     public function getHtml() : bool
     {
         return $this->html;
+    }
+
+    /**
+     * Get the JSON Encoding rules.
+     *
+     * @return array JSON encoding rules.
+     */
+    static public function getJsonEncodings() {
+        $jsonEncoding = array_merge(parent::getJsonEncodings(), self::$jsonLocalMethod);
+        return $jsonEncoding;
     }
 
     /**

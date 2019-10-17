@@ -32,7 +32,7 @@ class Trigger implements \JsonSerializable
      */
     static protected $jsonEncodeMethod = [
         'event' => ['drop:null'],
-        'value' => [],
+        'value' => ['drop:null'],
         'actions' => [],
     ];
     protected $type;

@@ -53,7 +53,7 @@ class FieldElement extends NamedElement
      * @var array
      */
     static protected $jsonLocalMethod = [
-        'object' => ['method:removeScope'],
+        'object' => ['method:removeScope', 'order:250'],
         'default' => ['drop:null'],
         'triggers' => ['drop:empty', 'drop:null'],
     ];
@@ -107,11 +107,11 @@ class FieldElement extends NamedElement
 
             // Merge a copy of the data labels so we can use them with translation
             $this->labelsMerged = $this->dataProperty->getLabels()
-->combine($this->labels);
+                ->merge($this->labels);
 
             // Make a copy of the data list so we can translate labels
-            $this->dataList = $this->dataProperty
-->getPopulation()->getList();
+            $this->dataList = $this->dataProperty->getPopulation()
+                ->getList();
             $this->dataListTranslated = $this->dataList;
         }
         return $this;
@@ -125,6 +125,8 @@ class FieldElement extends NamedElement
         $result = false;
         if (isset($classMap[$property])) {
             $result = (object) $classMap[$property];
+        } else {
+            $result = parent::configureClassMap($property, $value);
         }
         return $result;
     }
@@ -144,10 +146,6 @@ class FieldElement extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
     }
 
     protected function configurePropertyIgnore($property)
@@ -168,16 +166,7 @@ class FieldElement extends NamedElement
      */
     protected function configureValidate($property, &$value)
     {
-        if ($property == 'object') {
-            if ($value === '') {
-                return true;
-            }
-            if (strpos($value, NextForm::SEGMENT_DELIM) === false && $this->form) {
-                $value = $this->form->getSegment()
-                    . NextForm::SEGMENT_DELIM . $value;
-            }
-            return true;
-        } elseif (in_array($property, array_keys(self::$jsonLocalMethod))) {
+        if (in_array($property, array_keys(self::$jsonLocalMethod))) {
             return true;
         }
         return parent::configureValidate($property, $value);
@@ -230,21 +219,6 @@ class FieldElement extends NamedElement
             }
         }
         return $list;
-    }
-
-    /**
-     * Get native or translated scope-resolved labels for this element.
-     * @param bool $translated
-     * @return \Abivia\NextForm\Data\Labels
-     */
-    public function getLabels($translated = false) : Labels
-    {
-        if ($translated && $this->hasTranslation) {
-            return $this->labelsTranslated;
-        } else {
-            $labels = $this->labelsMerged;
-        }
-        return $labels;
     }
 
     /**
@@ -310,6 +284,7 @@ class FieldElement extends NamedElement
      */
     protected function removeScope($value)
     {
+            return $value;
         if (!$this->form) {
             return $value;
         }

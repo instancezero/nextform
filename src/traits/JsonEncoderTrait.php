@@ -16,6 +16,7 @@ namespace Abivia\NextForm\Traits;
  * 'map:toName', changes the property name to "toName"
  * 'method:mname', passes the property to the class method mname()
  * 'scalarize', converts a single element array to scalar.
+ * 'order:n', weight for selecting the order in which elements are generated (default 0)
  *
  */
 trait JsonEncoderTrait
@@ -25,11 +26,9 @@ trait JsonEncoderTrait
 
     public function jsonSerialize()
     {
+        $ordered = self::jsonSerializeSort();
         $result = new \stdClass;
-        foreach (self::$jsonEncodeMethod as $prop => $encoding) {
-            if (!is_array($encoding)) {
-                $encoding = [$encoding];
-            }
+        foreach ($ordered as $prop => $encoding) {
             $value = $this->$prop;
             $scalarize = false;
             $asArray = false;
@@ -109,6 +108,50 @@ trait JsonEncoderTrait
             $value = $this->$arg($value);
         }
         return true;
+    }
+
+    /**
+     * Sort the encoder rules by weight and name.
+     */
+    static protected function jsonSerializeSort() {
+        // Build a list of [weight, property]
+        $minWeight = PHP_INT_MIN;
+        $sorter = [];
+        foreach (self::$jsonEncodeMethod as $prop => $encoding) {
+            if (!is_array($encoding)) {
+                $encoding = explode(';', $encoding);
+                self::$jsonEncodeMethod[$prop] = $encoding;
+            }
+            $weight = $minWeight;
+            foreach ($encoding as $key => $option) {
+                if (substr($option, 0, 6) === 'order:') {
+                    $value = substr($option, 6);
+                    if (is_numeric($value)) {
+                        $weight = round($value);
+                    }
+                    unset($encoding[$key]);
+                }
+            }
+            $minWeight = max($minWeight, $weight) + 1;
+            $sorter[] = [$weight, $prop];
+        }
+        // Sort by weight, name
+        usort($sorter, function ($l, $r) {
+            if ($l[0] === $r[0]) {
+                return strcmp($l[1], $r[1]);
+            }
+            return ($l[0] < $r[0]) ? -1 : 1;
+        });
+
+        // Create a new array in the resulting order
+        $ordered = [];
+        foreach ($sorter as $info) {
+            $prop = $info[1];
+            $ordered[$prop] = self::$jsonEncodeMethod[$prop];
+        }
+
+        // Return the ordered rules
+        return $ordered;
     }
 
 }

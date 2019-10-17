@@ -1,6 +1,7 @@
 <?php
 
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\ButtonElement;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Form\Element\FieldElement;
@@ -24,40 +25,40 @@ class RendererCaseGenerator {
         $cases = [];
 
         // No changes
-        $cases[$prefix . 'label-none'] = [$eBase, [], $namePrefix . 'label none'];
+        $cases[$prefix . 'label-none'] = [Binding::fromElement($eBase), [], $namePrefix . 'label none'];
 
         if (!in_array('inner', $skip)) {
             $e1 = $eBase->copy();
             $e1->setLabel('inner', 'inner');
-            $cases[$prefix . 'label-inner'] = [$e1, [], $namePrefix . 'label inner'];
+            $cases[$prefix . 'label-inner'] = [Binding::fromElement($e1), [], $namePrefix . 'label inner'];
         }
 
         // A before label
         if (!in_array('before', $skip)) {
             $e2 = $eBase->copy();
             $e2->setLabel('before', 'prefix');
-            $cases[$prefix . 'label-before'] = [$e2, [], $namePrefix . 'label before'];
+            $cases[$prefix . 'label-before'] = [Binding::fromElement($e2), [], $namePrefix . 'label before'];
         }
 
         // Some text after
         if (!in_array('after', $skip)) {
             $e3 = $eBase->copy();
             $e3->setLabel('after', 'suffix');
-            $cases[$prefix . 'label-after'] = [$e3, [], $namePrefix . 'label after'];
+            $cases[$prefix . 'label-after'] = [Binding::fromElement($e3), [], $namePrefix . 'label after'];
         }
 
         // A heading
         if (!in_array('heading', $skip)) {
             $e4 = $eBase->copy();
             $e4->setLabel('heading', 'Header');
-            $cases[$prefix . 'label-head'] = [$e4, [], $namePrefix . 'label heading'];
+            $cases[$prefix . 'label-head'] = [Binding::fromElement($e4), [], $namePrefix . 'label heading'];
         }
 
         // Help
         if (!in_array('help', $skip)) {
             $e5 = $eBase->copy();
             $e5->setLabel('help', 'Helpful');
-            $cases[$prefix . 'label-help'] = [$e5, [], $namePrefix . 'label help'];
+            $cases[$prefix . 'label-help'] = [Binding::fromElement($e5), [], $namePrefix . 'label help'];
         }
 
         // All the labels
@@ -77,7 +78,7 @@ class RendererCaseGenerator {
         if (!in_array('after', $skip)) {
             $e6->setLabel('after', 'suffix');
         }
-        $cases[$prefix . 'label-all'] = [$e6, [], $namePrefix . 'all labels'];
+        $cases[$prefix . 'label-all'] = [Binding::fromElement($e6), [], $namePrefix . 'all labels'];
 
         return $cases;
     }
@@ -93,49 +94,54 @@ class RendererCaseGenerator {
 
         $baseButton = new ButtonElement();
         $baseButton->configure($config);
+        $baseBinding = Binding::fromElement($baseButton);
         $e1 = $baseButton->copy()->setShow('purpose:success');
-        $cases['bda'] = [$e1, [], 'button default access'];
-        $cases['bwa'] = [$e1, ['access' => 'write'], 'button write access'];
+        $b1 = Binding::fromElement($e1);
+        $cases['bda'] = [$b1, [], 'button default access'];
+        $cases['bwa'] = [$b1, ['access' => 'write'], 'button write access'];
 
         // Make it a reset
-        $e2 = $baseButton->copy()->setFunction('reset');
-        $cases['rbda'] = [$e2, [], 'reset button default access'];
+        $b2 = Binding::fromElement($baseButton->copy()->setFunction('reset'));
+        $cases['rbda'] = [$b2, [], 'reset button default access'];
 
         // Make it a submit
         $e3 = $baseButton->copy()->setFunction('submit');
-        $cases['sbda'] = [$e3, [], 'submit button default access'];
+        $b3 = Binding::fromElement($e3);
+        $cases['sbda'] = [$b3, [], 'submit button default access'];
 
         // Set it back to button
-        $e4 = $baseButton->copy()->setFunction('button');
-        $cases['bda2'] = [$e4, [], 'button default access #2'];
+        $b4 = Binding::fromElement($baseButton->copy()->setFunction('button'));
+        $cases['bda2'] = [$b4, [], 'button default access #2'];
 
         // Test view access
-        $cases['bva'] = [$baseButton, ['access' => 'view'], 'button view access'];
+        $cases['bva'] = [$baseBinding, ['access' => 'view'], 'button view access'];
 
         // Test hidden access
-        $cases['bra'] = [$baseButton, ['access' => 'hide'], 'button hidden access'];
+        $cases['bra'] = [$baseBinding, ['access' => 'hide'], 'button hidden access'];
 
         // Test success with smaller size
-        $e5 = $e1->copy()->addShow('size:small');
-        $cases['small'] = [$e5];
+        $b5 = Binding::fromElement($e1->copy()->addShow('size:small'));
+        $cases['small'] = [$b5];
 
         // Test submit with larger size
-        $e6 = $e3->copy()->addShow('size:large');
-        $cases['large'] = [$e6];
+        $b6 = Binding::fromElement($e3->copy()->addShow('size:large'));
+        $cases['large'] = [$b6];
 
         // How about a large outline warning?
-        $e7 = $baseButton->copy()->setShow('purpose:warning|size:large|fill:outline');
-        $cases['lg-warn-out'] = [$e7, [], 'button large warning outline'];
-
-        // How about a large outline warning?
-        $e7 = $baseButton->copy()->setShow('purpose:warning|size:large|fill:outline');
-        $cases['lg-warn-out'] = [$e7, [], 'button large warning outline'];
+        $b7 = Binding::fromElement(
+            $baseButton->copy()->setShow('purpose:warning|size:large|fill:outline')
+        );
+        $cases['lg-warn-out'] = [$b7, [], 'button large warning outline'];
 
         // Disabled button
-        $cases['disabled'] = $baseButton->copy()->setEnabled(false);
+        $cases['disabled'] = Binding::fromElement(
+            $baseButton->copy()->setEnabled(false)
+        );
 
         // Invisible button
-        $cases['invisible'] = $baseButton->copy()->setVisible(false);
+        $cases['invisible'] = Binding::fromElement(
+            $baseButton->copy()->setVisible(false)
+        );
 
         return $cases;
     }
@@ -161,7 +167,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldButton() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         //
         // Modify the schema to change test/text to a button
         //
@@ -169,33 +175,36 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $e1 = new FieldElement();
         $e1->configure($config);
-        $e1->bindSchema($schema);
-        $e1->setValue('Ok Bob');
+        $b1 = Binding::fromElement($e1);
+        $b1->bindSchema($schema);
+        $b1->setValue('Ok Bob');
 
-        $cases['value'] = [$e1, [], 'with value'];
+        $cases['value'] = [$b1, [], 'with value'];
 
         $s2 = $schema->copy();
         $e2 = new FieldElement();
         $e2->configure($config);
-        $e2->bindSchema($s2);
-        $e2->setValue('Ok Bob');
+        $b2 = Binding::fromElement($e2);
+        $b2->bindSchema($s2);
+        $b2->setValue('Ok Bob');
         $s2->getProperty('test/text')->getPresentation()->setType('reset');
-        $cases['reset'] = [$e2];
+        $cases['reset'] = [$b2];
 
         $s3 = $schema->copy();
         $e3 = new FieldElement();
         $e3->configure($config);
-        $e3->bindSchema($s3);
-        $e3->setValue('Ok Bob');
+        $b3 = Binding::fromElement($e3);
+        $b3->bindSchema($s3);
+        $b3->setValue('Ok Bob');
         $s3->getProperty('test/text')->getPresentation()->setType('submit');
-        $cases['submit'] = [$e3];
+        $cases['submit'] = [$b3];
 
         return $cases;
     }
 
     static public function html_FieldCheckbox() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         //
         // Modify the schema to change test/text to a checkbox
         //
@@ -204,7 +213,8 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
         //
         // Give the element a label
         //
@@ -254,7 +264,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldCheckboxButton() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         //
         // Modify the schema to change test/text to a checkbox
         //
@@ -279,7 +289,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldCheckboxButtonList() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change textWithList to a checkbox, mix up item attributes
         $schema->getProperty('test/textWithList')->getPresentation()->setType('checkbox');
@@ -308,7 +318,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldCheckboxList() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         //
         // Modify the schema to change textWithList to a checkbox
         //
@@ -368,7 +378,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldColor() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('color');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -400,7 +410,7 @@ class RendererCaseGenerator {
 
     static public function html_FieldDate() {
         $cases = [];
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('date');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -440,7 +450,7 @@ class RendererCaseGenerator {
     static public function html_FieldDatetimeLocal() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('datetime-local');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -478,7 +488,7 @@ class RendererCaseGenerator {
     static public function html_FieldEmail() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('email');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -520,7 +530,7 @@ class RendererCaseGenerator {
     static public function html_FieldFile() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('file');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -556,7 +566,7 @@ class RendererCaseGenerator {
     static public function html_FieldHidden() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('hidden');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -580,7 +590,7 @@ class RendererCaseGenerator {
     }
 
     static public function html_FieldHiddenLabels() {
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('hidden');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -597,7 +607,7 @@ class RendererCaseGenerator {
     static public function html_FieldMonth() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('month');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -635,7 +645,7 @@ class RendererCaseGenerator {
     static public function html_FieldNumber() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         //
         // Modify the schema to change test/text to a number
         //
@@ -677,7 +687,7 @@ class RendererCaseGenerator {
     static public function html_FieldPassword() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a password
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -710,7 +720,7 @@ class RendererCaseGenerator {
     static public function html_FieldRadio() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a radio
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -746,7 +756,7 @@ class RendererCaseGenerator {
     static public function html_FieldRadioLabels() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a radio
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -776,7 +786,7 @@ class RendererCaseGenerator {
     static public function html_FieldRadioList() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change textWithList to a radio
         $schema->getProperty('test/textWithList')->getPresentation()->setType('radio');
@@ -808,7 +818,7 @@ class RendererCaseGenerator {
     static public function html_FieldRadioListLabels() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a radio
         $presentation = $schema->getProperty('test/textWithList')->getPresentation();
@@ -839,7 +849,7 @@ class RendererCaseGenerator {
     static public function html_FieldRange() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a range
         //
@@ -881,7 +891,7 @@ class RendererCaseGenerator {
     static public function html_FieldSearch() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a search
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -909,7 +919,7 @@ class RendererCaseGenerator {
     static public function html_FieldSelect() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a select
         $presentation = $schema->getProperty('test/textWithList')->getPresentation();
@@ -967,7 +977,7 @@ class RendererCaseGenerator {
     static public function html_FieldSelectNested() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a select
         $presentation = $schema->getProperty('test/textWithNestedList')->getPresentation();
@@ -1020,7 +1030,7 @@ class RendererCaseGenerator {
     static public function html_FieldTel() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a tel
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -1048,7 +1058,7 @@ class RendererCaseGenerator {
     static public function html_FieldText() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
@@ -1065,7 +1075,7 @@ class RendererCaseGenerator {
     static public function html_FieldTextDataList() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
@@ -1088,7 +1098,7 @@ class RendererCaseGenerator {
      * @return array
      */
 	static public function html_FieldTextLabels() {
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
@@ -1102,7 +1112,7 @@ class RendererCaseGenerator {
     static public function html_FieldTextValidation() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
@@ -1131,7 +1141,7 @@ class RendererCaseGenerator {
     static public function html_FieldTextarea() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
 
         // Modify the schema to change test/text to a textarea
         $presentation = $schema->getProperty('test/text')->getPresentation();
@@ -1160,7 +1170,7 @@ class RendererCaseGenerator {
     static public function html_FieldTime() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('time');
         $config = json_decode('{"type": "field","object": "test/text"}');
@@ -1197,7 +1207,7 @@ class RendererCaseGenerator {
     static public function html_FieldUrl() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         // Modify the schema to change test/text to a search
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('url');
@@ -1224,7 +1234,7 @@ class RendererCaseGenerator {
     static public function html_FieldWeek() {
         $cases = [];
 
-        $schema = Schema::fromFile(__DIR__ . '/../test-schema.json');
+        $schema = Schema::fromFile(__DIR__ . '/../test-data/test-schema.json');
         $presentation = $schema->getProperty('test/text')->getPresentation();
         $presentation->setType('week');
         $config = json_decode('{"type": "field","object": "test/text"}');

@@ -3,6 +3,8 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\ButtonElement;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Form\Element\FieldElement;
@@ -26,18 +28,18 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Generate a simple input element.
-     * @param FieldElement $element
+     * @param FieldBinding $binding
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkInput(FieldElement $element, Attributes $attrs)
+    protected function checkInput(FieldBinding $binding, Attributes $attrs)
     {
         // This is a single-valued element
-        $attrs->set('id', $element->getId());
-        $attrs->setIfNotNull('value', $element->getValue());
+        $attrs->set('id', $binding->getId());
+        $attrs->setIfNotNull('value', $binding->getValue());
         if (
-            $element->getValue() === $element->getDefault()
-            && $element->getValue()  !== null
+            $binding->getValue() === $binding->getElement()->getDefault()
+            && $binding->getValue()  !== null
         ) {
             $attrs->setFlag('checked');
         }
@@ -46,13 +48,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Generate check/radio HTML inputs from an element's data list.
-     * @param FieldElement $element The element we're generating for.
+     * @param FieldBinding $binding The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkList(FieldElement $element, Attributes $attrs)
+    protected function checkList(FieldBinding $binding, Attributes $attrs)
     {
-        $baseId = $element->getId();
+        $baseId = $binding->getId();
         $type = $element->getDataProperty()->getPresentation()->getType();
         $select = $element->getValue();
         if ($select === null) {
@@ -64,7 +66,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $labelAttrs = new Attributes();
         $labelAttrs->set('class', 'form-check-label');
         $block = new Block();
-        foreach ($element->getList(true) as $optId => $radio) {
+        foreach ($binding->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
             $id = $baseId . '-opt' . $optId;
             $optAttrs->set('id', $id);
@@ -109,15 +111,15 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Generate check/radio HTML inputs as buttons from an element's data list.
-     * @param FieldElement $element The element we're generating for.
+     * @param FieldBinding $binding The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
-    protected function checkListButtons(FieldElement $element, Attributes $attrs)
+    protected function checkListButtons(FieldBinding $binding, Attributes $attrs)
     {
-        $baseId = $element->getId();
+        $baseId = $binding->getId();
         $type = $element->getDataProperty()->getPresentation()->getType();
-        $select = $element->getValue();
+        $select = $binding->getValue();
         if ($select === null) {
             $select = $element->getDefault();
         }
@@ -126,7 +128,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         //$checkLayout = $this->showGet('check', 'layout');
         $labelAttrs = new Attributes();
         $block = new Block();
-        foreach ($element->getList(true) as $optId => $radio) {
+        foreach ($binding->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
             $id = $baseId . '-opt' . $optId;
             $optAttrs->set('id', $id);
@@ -166,18 +168,18 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Generate a single check box/radio input.
-     * @param FieldElement $element The element we're generating for.
+     * @param FieldBinding $binding The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
     protected function checkSingle(
-        FieldElement $element,
+        FieldBinding $binding,
         Attributes $attrs,
         Attributes $groupAttrs
     ) {
-        $baseId = $element->getId();
-        $labels = $element->getLabels(true);
+        $baseId = $binding->getId();
+        $labels = $binding->getLabels(true);
         $appearance = $this->showGet('check', 'appearance');
         $block = $this->writeElement('div', ['attrs' => $groupAttrs]);
         if ($labels->has('help')) {
@@ -186,9 +188,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs->set('class', 'form-check-input');
         if ($appearance === 'no-label') {
             $attrs->setIfNotNull('aria-label', $labels->inner);
-            $block->merge($this->checkInput($element, $attrs));
+            $block->merge($this->checkInput($binding, $attrs));
         } else {
-            $block->merge($this->checkInput($element, $attrs));
+            $block->merge($this->checkInput($binding, $attrs));
             $labelAttrs = new Attributes();
             $labelAttrs->set('!for', $baseId);
             $labelAttrs->set('class', 'form-check-label');
@@ -203,26 +205,26 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Render a single-valued checkbox as a button
-     * @param FieldElement $element The element we're generating for.
+     * @param FieldBinding $binding The element we're generating for.
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
      */
     protected function checkSingleButton(
-        FieldElement $element,
+        FieldBinding $binding,
         Attributes $attrs,
         Attributes $groupAttrs
     ) {
-        $baseId = $element->getId();
+        $baseId = $binding->getId();
         $attrs->set('id', $baseId);
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         $block = $this->writeElement('div', ['attrs' => $groupAttrs]);
         if ($labels->has('help')) {
             $attrs->set('aria-describedby', $baseId . '-formhelp');
         }
         $labelAttrs = new Attributes();
         $buttonClass = $this->getButtonClass('radio');
-        $checked = $element->getValue() === $element->getDefault()
+        $checked = $binding->getValue() === $element->getDefault()
             && $element->getValue() !== null;
         $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
         $block->merge($this->writeElement('label', ['attrs' => $labelAttrs]));
@@ -324,20 +326,21 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
     /**
      * Write a button element.
-     * @param ButtonElement $element
+     * @param Binding $binding
      * @param type $options
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function renderButtonElement(ButtonElement $element, $options = [])
+    protected function renderButtonElement(Binding $binding, $options = [])
     {
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $block = $this->elementHidden($element, $labels->inner);
+            $block = $this->elementHidden($binding, $labels->inner);
             return $block;
         }
+        $element = $binding->getElement();
         $show = $element->getShow();
         if ($show) {
             $this->pushContext();
@@ -346,11 +349,11 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         // Build attributes for the input
         $attrs = new Attributes();
-        $attrs->set('id', $element->getId());
+        $attrs->set('id', $binding->getId());
         if ($options['access'] == 'view' || !$element->getEnabled()) {
             $attrs->setFlag('disabled');
         }
-        $attrs->set('name', $element->getFormName());
+        $attrs->set('name', $binding->getFormName());
         $attrs->setIfNotNull('value', $labels->inner);
 
         $attrs->set('class', $this->getButtonClass());
@@ -358,7 +361,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -366,7 +369,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Write the header.
         $block->body .= $this->writeLabel(
                 'headingAttributes', $labels->heading, 'label',
-                new Attributes('!for', $element->getId()), ['break' => true]
+                new Attributes('!for', $binding->getId()), ['break' => true]
             );
 
         $attrs->set('type', $element->getFunction());
@@ -401,7 +404,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderCellElement(CellElement $element, $options = [])
+    protected function renderCellElement(CellBinding $binding, $options = [])
     {
         $block = $this->writeElement('div', ['show' => 'cellElementAttributes', 'force' => true]);
         $block->onCloseDone = [$this, 'popContext'];
@@ -411,14 +414,14 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldCheckbox(FieldElement $element, $options = []) {
+    protected function renderFieldCheckbox(FieldBinding $binding, $options = []) {
         //  appearance = default|button|toggle (can't be multiple)|no-label
         //  layout = inline|vertical
         //  form.layout = horizontal|vertical|inline
 
         // Generate hidden elements and return.
         if ($options['access'] === 'hide') {
-            $block = $this->elementHiddenList($element);
+            $block = $this->elementHiddenList($binding);
             return $block;
         }
 
@@ -429,10 +432,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $this->setShow($show, 'check');
         }
 
-        if (empty($element->getList(true))) {
-            $block = $this->renderFieldCheckboxSingle($element, $options);
+        if (empty($binding->getList(true))) {
+            $block = $this->renderFieldCheckboxSingle($binding, $options);
         } else {
-            $block = $this->renderFieldCheckboxMultiple($element, $options);
+            $block = $this->renderFieldCheckboxMultiple($binding, $options);
         }
 
         // Restore show context and return.
@@ -443,21 +446,21 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldCheckboxMultiple(FieldElement $element, $options = [])
+    protected function renderFieldCheckboxMultiple(FieldBinding $binding, $options = [])
     {
         $appearance = $this->showGet('check', 'appearance');
         $layout = $this->showGet('form', 'layout');
         $attrs = new Attributes();
         $block = new Block();
-        $baseId = $element->getId();
-        $labels = $element->getLabels(true);
+        $baseId = $binding->getId();
+        $labels = $binding->getLabels(true);
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
 
         // Set up basic attributes for the input element
         $attrs->set('type', $type);
-        $attrs->set('name', $element->getFormName()
+        $attrs->set('name', $binding->getFormName()
             . ($type == 'checkbox' ? '[]' : ''));
         $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
 
@@ -490,7 +493,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         if ($layout === 'vertical') {
             $rowBlock = $this->writeElement(
                 'fieldset', [
-                    'attrs' => $this->groupAttributes($element),
+                    'attrs' => $this->groupAttributes($binding),
                     'show' => 'formGroupAttributes'
                 ]
             );
@@ -498,7 +501,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         } else {
             // Horizontal layouts has a fieldset with just the form group class
             $rowAttrs = new Attributes('class', 'form-group');
-            $rowAttrs->merge($this->groupAttributes($element));
+            $rowAttrs->merge($this->groupAttributes($binding));
             $rowBlock = $this->writeElement(
                 'fieldset', ['attrs' => $rowAttrs]
             );
@@ -532,9 +535,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
         if ($asButtons) {
             $input->merge($this->writeElement('div', ['attrs' => $groupAttrs]));
-            $input->merge($this->checkListButtons($element, clone $attrs));
+            $input->merge($this->checkListButtons($binding, clone $attrs));
         } else {
-            $input->merge($this->checkList($element, clone $attrs));
+            $input->merge($this->checkList($binding, clone $attrs));
         }
         $input->close();
 
@@ -560,26 +563,26 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $rowBlock;
     }
 
-    protected function renderFieldCheckboxSingle(FieldElement $element, $options = [])
+    protected function renderFieldCheckboxSingle(FieldBinding $binding, $options = [])
     {
         $appearance = $this->showGet('check', 'appearance');
         $checkLayout = $this->showGet('check', 'layout');
         $attrs = new Attributes();
         $block = new Block();
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
 
         // Set up basic attributes for the input element
         $attrs->set('type', $type);
-        $attrs->set('name', $element->getFormName());
+        $attrs->set('name', $binding->getFormName());
         $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
 
         // Generate hidden elements and return.
         if ($options['access'] === 'hide') {
             $attrs->set('type', 'hidden');
-            $block->merge($this->checkInput($element, $attrs));
+            $block->merge($this->checkInput($binding, $attrs));
             return $block;
         }
         if ($options['access'] == 'view') {
@@ -605,7 +608,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $headerAttrs = new Attributes();
         $rowBlock = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -630,9 +633,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             'beforespan', $labels->before, 'span'
         );
         if ($asButtons) {
-            $input->merge($this->checkSingleButton($element, $attrs, $groupAttrs));
+            $input->merge($this->checkSingleButton($binding, $attrs, $groupAttrs));
         } else {
-            $input->merge($this->checkSingle($element, $attrs, $groupAttrs));
+            $input->merge($this->checkSingle($binding, $attrs, $groupAttrs));
         }
         $input->body .= $this->writeLabel(
             'after', $labels->after, 'span', null, ['break' => true]
@@ -656,10 +659,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $rowBlock;
     }
 
-    protected function renderFieldCommon(FieldElement $element, $options = [])
+    protected function renderFieldCommon(FieldBinding $binding, $options = [])
     {
         $confirm = $options['confirm'];
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         if ($options['access'] === 'hide' || $type === 'hidden') {
@@ -667,13 +670,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             $block = new Block();
             if (!$confirm) {
-                $block = $this->elementHidden($element, $element->getValue());
+                $block = $this->elementHidden($binding, $binding->getValue());
             }
             return $block;
         }
 
         // Push and update the show context
-        $show = $element->getShow();
+        $show = $binding->getElement()->getShow();
         if ($show !== '') {
             $this->pushContext();
             $this->setShow($show, $type);
@@ -682,24 +685,24 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
 
         // Get attributes for the input element
         $attrs = new Attributes();
-        $attrs->set('id', $element->getId() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('id', $binding->getId() . ($confirm ? '-confirmation' : ''));
         if ($options['access'] == 'view') {
             $attrs->setFlag('readonly');
         }
-        $attrs->set('name', $element->getFormName() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('name', $binding->getFormName() . ($confirm ? '-confirmation' : ''));
         $attrs->set('class', 'form-control');
-        $value = $element->getValue();
+        $value = $binding->getValue();
         $attrs->setIfNotNull('value', $value);
 
         // Get any labels associated with this element
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
 
         // Write the heading
         // If we're generating a confirmation and there's a confirm heading, use that
@@ -725,7 +728,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
 
         // Render the data list if there is one
-        $block->merge($this->dataList($attrs, $element, $type, $options));
+        $block->merge($this->dataList($attrs, $binding, $type, $options));
 
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
@@ -754,25 +757,25 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldFile(FieldElement $element, $options = [])
+    protected function renderFieldFile(FieldBinding $binding, $options = [])
     {
         $attrs = new Attributes();
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         $block = new Block();
-        $attrs->set('id', $element->getId());
+        $attrs->set('id', $binding->getId());
         if ($options['access'] == 'view') {
             $type = 'text';
         }
-        $attrs->set('name', $element->getFormName());
+        $attrs->set('name', $binding->getFormName());
         $attrs->set('class', 'form-control-file');
-        $value = $element->getValue();
+        $value = $binding->getValue();
         if ($options['access'] === 'hide') {
             //
             // No write/view permissions, the field is hidden, we don't need labels, etc.
             //
-            $block->merge($this->elementHidden($element, $value));
+            $block->merge($this->elementHidden($binding, $value));
             return $block;
         }
 
@@ -786,18 +789,18 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data
         //
         $attrs->setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
 
         // Start the form group
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
         $block->body .= $this->writeLabel(
             'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $element->getId()), ['break' => true]
+            new Attributes('!for', $binding->getId()), ['break' => true]
         );
         $attrs->setIfNotNull('placeholder', $labels->inner);
         $attrs->set('type', $type);
@@ -812,7 +815,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
             // If we allow multiple files, make the name an array
             if ($attrs->has('=multiple')) {
-                $attrs->set('name', $element->getFormName() . '[]');
+                $attrs->set('name', $binding->getFormName() . '[]');
             }
         } else {
             // View Access
@@ -832,13 +835,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldSelect(FieldElement $element, $options = [])
+    protected function renderFieldSelect(FieldBinding $binding, $options = [])
     {
-        $value = $element->getValue();
+        $value = $binding->getValue();
         if ($options['access'] === 'hide') {
 
             // Hidden: generate one or more hidden input elements
-            $block = $this->elementHidden($element, $value);
+            $block = $this->elementHidden($binding, $value);
             return $block;
         }
 
@@ -855,17 +858,17 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
 
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         $data = $element->getDataProperty();
 
         // Link the label if we're not in view mode
         $multiple = $data->getValidation()->get('multiple');
-        $fieldName = $element->getFormName() . ($multiple ? '[]' : '');
+        $fieldName = $binding->getFormName() . ($multiple ? '[]' : '');
         $headAttr = new Attributes();
         if ($options['access'] != 'view') {
             $headAttr->set('for', $fieldName);
@@ -884,13 +887,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         );
         if ($options['access'] == 'view') {
             // In view mode we just generate a list of currently selected values as text
-            $block->merge($this->renderFieldSelectView($element));
+            $block->merge($this->renderFieldSelectView($binding));
         } else {
             // Generate an actual select!
             $attrs = new Attributes();
             $attrs->set('name', $fieldName);
 
-            $attrs->set('id', $element->getId());
+            $attrs->set('id', $binding->getId());
             $attrs->setIfNotNull('size', $data->getPresentation()->getRows());
             $attrs->addValidation('select', $data->getValidation());
             if ($this->showGet('select', 'appearance') === 'custom') {
@@ -910,7 +913,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 $value = [$value];
             }
             $select->merge(
-                $this->renderFieldSelectOptions($element->getList(true), $value)
+                $this->renderFieldSelectOptions($binding->getList(true), $value)
             );
             $select->close();
             $block->merge($select);
@@ -958,20 +961,20 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldSelectView($element)
+    protected function renderFieldSelectView($binding)
     {
-        $baseId = $element->getId();
+        $baseId = $binding->getId();
         $data = $element->getDataProperty();
         $multiple = $data->getValidation()->get('multiple');
 
         $attrs = new Attributes();
-        $attrs->set('name', $element->getFormName() . ($multiple ? '[]' : ''));
+        $attrs->set('name', $binding->getFormName() . ($multiple ? '[]' : ''));
 
-        $list = $element->getFlatList(true);
+        $list = $binding->getFlatList(true);
         // render as hidden with text
         $attrs->set('type', 'hidden');
 
-        $value = $element->getValue();
+        $value = $binding->getValue();
         $block = new Block();
         if ($multiple) {
             // step through each possible value, output matches
@@ -1006,18 +1009,18 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldTextarea(FieldElement $element, $options = [])
+    protected function renderFieldTextarea(FieldBinding $binding, $options = [])
     {
 
         // Get the type. We also use the data and presentation below.
         $data = $element->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
-        $value = $element->getValue();
+        $value = $binding->getValue();
         if ($options['access'] === 'hide') {
 
             // No write/view permissions, the field is hidden, we don't need labels, etc.
-            $block = $this->elementHidden($element, $value);
+            $block = $this->elementHidden($binding, $value);
             return $block;
         }
 
@@ -1031,21 +1034,21 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
 
         // Assemble the textarea attributes
         $attrs = new Attributes();
-        $attrs->set('id', $element->getId());
-        $attrs->set('name', $element->getFormName());
+        $attrs->set('id', $binding->getId());
+        $attrs->set('name', $binding->getFormName());
         if ($options['access'] == 'view') {
             $attrs->setFlag('readonly');
         }
 
         // Get any labels associated with this element
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
 
         // Write the heading
         $block->body .= $this->writeLabel(
@@ -1099,12 +1102,12 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderSectionElement(SectionElement $element, $options = [])
+    protected function renderSectionElement(SectionBinding $binding, $options = [])
     {
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         $block = $this->writeElement(
             'fieldset', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -1117,7 +1120,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderStaticElement(StaticElement $element, $options = [])
+    protected function renderStaticElement(StaticBinding $binding, $options = [])
     {
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] === 'hide') {
@@ -1134,13 +1137,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($element),
+                'attrs' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
 
         // Write a heading if there is one
-        $labels = $element->getLabels(true);
+        $labels = $binding->getLabels(true);
         $block->body .= $this->writeLabel(
             'headingAttributes',
             $labels ? $labels->heading : null,
@@ -1148,10 +1151,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         );
         $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
 
-        $attrs = new Attributes('id', $element->getId());
+        $attrs = new Attributes('id', $binding->getId());
         $block->merge($this->writeElement('div', ['attrs' => $attrs]));
         // Escape the value if it's not listed as HTML
-        $value = $element->getValue() . "\n";
+        $value = $binding->getValue() . "\n";
         $block->body .= $element->getHtml() ? $value : htmlspecialchars($value);
         $block->close();
 
