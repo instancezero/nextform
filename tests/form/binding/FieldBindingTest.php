@@ -14,18 +14,19 @@ use Abivia\NextForm\Form\Element\FieldElement;
  */
 class FieldBindingTest extends \PHPUnit\Framework\TestCase
 {
+    public function testInstantiation() {
+        $this->assertTrue(true);
+    }
     /**
-     *
+     * This test belongs somewhere else
      */
-    public function testLabels()
+    public function debug_testBinding()
     {
        $schema = Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json');
        $form = Form::fromFile(__DIR__ . '/../../test-data/newform.json');
        $manager = new Manager();
-       $manager -> setSchema($schema);
-       $manager -> setForm($form);
-       $callBind = function () { $this->bind(); };
-       $callBind = $callBind->bindTo($manager, $manager);
-       $callBind();
+       $manager->bind($form, $schema);
+       $data = $manager->getData();
+       $this->assertTrue(true);
     }
 }

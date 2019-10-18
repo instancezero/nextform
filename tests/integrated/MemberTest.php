@@ -145,8 +145,10 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function testGeneratePopulated() {
         Manager::boot();
         $manager = new Manager();
-        $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
-        $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
+        $manager->bind(
+            Form::fromFile(__DIR__ . '/member-form.json'),
+            Schema::fromFile(__DIR__ . '/member-schema.json')
+        );
         $data = [
             'id' => 0,
         ];

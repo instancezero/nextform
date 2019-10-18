@@ -45,15 +45,19 @@ class FieldBinding extends Binding
         } elseif ($this->manager) {
             $segmentName = $this->manager->getSegment();
         }
-        $this->dataProperty = $schema->getProperty($segmentName, $objectName);
-        if ($this->dataProperty) {
+        $resolvedName = $segmentName . Manager::SEGMENT_DELIM . $objectName;
+        if ($objectName !== '') {
+            if ($schema === null) {
+                throw new \RuntimeException('Unable to bind '. $resolvedName .', schema is null.');
+            }
+            $this->dataProperty = $schema->getProperty($segmentName, $objectName);
+            if ($this->dataProperty === null) {
+                throw new \RuntimeException('Unable to bind '. $resolvedName .', property not found.');
+            }
             $this->objectRef = [$segmentName, $objectName];
 
             // Give the data property the ability to signal us.
             $this->dataProperty->linkBinding($this);
-            if ($this->manager) {
-                $this->manager->registerBinding($this);
-            }
 
             // Get default labels from the schema, if any.
             $labels = $schema->getDefault('labels');
@@ -72,6 +76,9 @@ class FieldBinding extends Binding
             // Make a copy of the data list so we can translate labels
             $this->dataList = $this->dataProperty->getPopulation()->getList();
             $this->dataListTranslated = $this->dataList;
+        }
+        if ($this->manager) {
+            $this->manager->registerBinding($this);
         }
         return $this;
     }

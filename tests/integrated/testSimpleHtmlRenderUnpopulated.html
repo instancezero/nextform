@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form1" name="" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="f8f560b5a3a52024396771d7b876284eee07fc1ccbe3e17d1b36b4d3cd155c41">
+<input id="nf_token" name="nf_token" type="hidden" value="292cb4c47895ef00ebc10a33b731b0e9af2343c527b6c2e913d3e67535f3e0c3">
 <div id="field-2-container" data-nf-for="field-2">
 <div>Membership Type</div>
 <div>
@@ -47,17 +47,57 @@
 <br/>
 <fieldset>
 <legend>Primary Member</legend>
+<div>
+<div id="field-3-container" data-nf-for="field-3">
+<label for="field-3">Legal First Name</label>
+<input id="field-3" name="members_primaryFirstName" type="text" required/>
+</div>
+&nbsp;<div id="field-4-container" data-nf-for="field-4">
+<label for="field-4">Legal Last Name</label>
+<input id="field-4" name="members_primaryLastName" type="text" required/>
+</div>
+&nbsp;</div>
+<div id="field-5-container" data-nf-for="field-5">
+<label for="field-5">Email</label>
+<input id="field-5" name="members_primaryEmail" type="email" required/>
+</div>
+<br/>
+<div id="field-5-confirmation-container" data-nf-for="field-5-confirmation">
+<label for="field-5-confirmation">Repeat email</label>
+<input id="field-5-confirmation" name="members_primaryEmail-confirmation" type="email" required/>
+</div>
+<br/>
+<div id="field-6-container" data-nf-for="field-6">
+<label for="field-6">Artist Name</label>
+<input id="field-6" name="members_primaryPublicName" type="text"/>
+</div>
+<br/>
 </fieldset>
 <fieldset>
 <legend>Second Member</legend>
-</fieldset>
-<div id="field-3-container" data-nf-for="field-3" data-nf-group="[&quot;business&quot;]">
-<label for="field-3">Business Name</label>
-<input id="field-3" name="members_businessName" type="text"/>
+<div>
+<div id="field-7-container" data-nf-for="field-7">
+<label for="field-7">Legal First Name</label>
+<input id="field-7" name="members_secondaryFirstName" type="text" required/>
+</div>
+&nbsp;<div id="field-8-container" data-nf-for="field-8">
+<label for="field-8">Legal Last Name</label>
+<input id="field-8" name="members_secondaryLastName" type="text" required/>
+</div>
+&nbsp;</div>
+<div id="field-9-container" data-nf-for="field-9" data-nf-group="[&quot;family&quot;]">
+<label for="field-9">Artist Name</label>
+<input id="field-9" name="members_secondaryPublicName" type="text"/>
 </div>
 <br/>
-<div id="button-4-container" data-nf-for="button-4">
-<input id="button-4" name="button-4" type="submit" value="Join"/>
+</fieldset>
+<div id="field-10-container" data-nf-for="field-10" data-nf-group="[&quot;business&quot;]">
+<label for="field-10">Business Name</label>
+<input id="field-10" name="members_businessName" type="text"/>
+</div>
+<br/>
+<div id="button-11-container" data-nf-for="button-11">
+<input id="button-11" name="button-11" type="submit" value="Join"/>
 </div>
 <br/>
 </form>

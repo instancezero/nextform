@@ -22,6 +22,12 @@ class ContainerBinding Extends Binding
      */
     protected $bindings = [];
 
+    public function addBinding(Binding $binding) : self
+    {
+        $this->bindings[] = $binding;
+        return $this;
+    }
+
     /**
      * Connect data bindings in a schema
      *
@@ -51,8 +57,8 @@ class ContainerBinding Extends Binding
         $options = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $containerData = $renderer->render($this, $options);
-        foreach ($this->bindings as $element) {
-            $containerData->merge($element->generate($renderer, $access, $translate));
+        foreach ($this->bindings as $binding) {
+            $containerData->merge($binding->generate($renderer, $access, $translate));
         }
         $containerData->close();
         return $containerData;

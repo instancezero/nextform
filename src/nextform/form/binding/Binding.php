@@ -102,7 +102,9 @@ class Binding
      */
     public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
     {
-        // Non-data elements do nothing. This just simplifies walking the tree
+        if ($this->manager) {
+            $this->manager->registerBinding($this);
+        }
     }
 
     /**
@@ -147,6 +149,11 @@ class Binding
         }
         $binding = new $bindingClass;
         $binding->setElement($element);
+        if ($binding instanceof ContainerBinding) {
+            foreach ($element->getElements() as $subElement) {
+                $binding->addBinding(Binding::fromElement($subElement));
+            }
+        }
 
         return $binding;
 
@@ -225,6 +232,16 @@ class Binding
             $this->labels = new Labels();
         }
         return $this->labels;
+    }
+
+    /**
+     * Get the name of a bound object, null when not a FieldBinding.
+     *
+     * @return ?string
+     */
+    public function getObject() : ?string
+    {
+        return null;
     }
 
     /**

@@ -30,16 +30,16 @@ class Manager
     protected $access;
 
     /**
-     * A list of all bindings.
+     * A list of all bindings in the form.
+     * @var Binding[]
+     */
+    protected $allBindings = [];
+
+    /**
+     * A list of top level bindings in the form.
      * @var Binding[]
      */
     protected $bindings = [];
-
-    /**
-     * A list of top level elements on the form.
-     * @var Element[]
-     */
-    protected $elements;
 
     /**
      * The form definition.
@@ -56,12 +56,12 @@ class Manager
     protected $id;
     protected $name;
     /**
-     * Maps form names to form elements/
+     * Maps form names to form bindings
      * @var array
      */
     protected $nameMap;
     /**
-     * Maps schema objects to form elements/
+     * Maps schema objects to form bindings
      * @var array
      */
     protected $objectMap;
@@ -81,7 +81,7 @@ class Manager
     {
         $this->nameMap = [];
         $containerCount = 0;
-        foreach ($this->bindings as $binding) {
+        foreach ($this->allBindings as $binding) {
             if ($binding instanceof FieldBinding) {
                 $baseName = str_replace('/', '_', $binding->getObject());
                 $name = $baseName;
@@ -109,11 +109,24 @@ class Manager
 
     /**
      * Connect all the components into something we can generate
-     * @return $this
+     * @return \self
      */
-    protected function bind()
+    public function bind(Form $form = null, Schema $schema = null) : self
     {
+        if ($this->schemaIsLinked) {
+            return $this;
+        }
+        if ($form !== null) {
+            $this->setForm($form);
+        }
+        if ($schema !== null) {
+            $this->setSchema($schema);
+        }
+        if ($this->form === null) {
+            throw new RuntimeException('Unable to bind to a null form.');
+        }
         $this->objectMap = [];
+        $this->allBindings = [];
         $this->bindings = [];
         foreach ($this->form->getElements() as $element) {
             $binding = Binding::fromElement($element);
@@ -121,6 +134,7 @@ class Manager
             $binding->bindSchema($this->schema);
             $this->bindings[] = $binding;
         }
+        $this->schemaIsLinked = true;
         return $this;
     }
 
@@ -158,7 +172,7 @@ class Manager
         $this->assignNames();
         $this->renderer->setShow($this->show);
 
-        // Start the form, write all the elements, close the form, return.
+        // Start the form, write all the bindings, close the form, return.
         $pageData = $this->renderer->start($options);
         foreach ($this->bindings as $binding) {
             $pageData->merge(
@@ -171,7 +185,7 @@ class Manager
 
     /**
      * Get all the data objects from the form.
-     * @return array Data elements indexed by object name
+     * @return array Data bindings indexed by object name
      */
     public function getData()
     {
@@ -201,7 +215,7 @@ class Manager
     /**
      * Get all the data objects in the specified segment from the form.
      * @param type $segment
-     * @return array Data elements indexed by object name
+     * @return array Data bindings indexed by object name
      */
     public function getSegmentData($segment)
     {
@@ -248,16 +262,18 @@ class Manager
         } else {
             $this->id = 'form' . ++self::$htmlId;
         }
+        return $this;
     }
 
     /**
-     * Populate form elements.
+     * Populate form bindings.
+     *
      * @param array $data Values indexed by schema object ID.
      * @param string $segment Optional segment prefix.
      * @throws LogicException
      * @return $this
      */
-    public function populate($data, $segment = '')
+    public function populate($data, $segment = '') : self
     {
         if (!$this->schemaIsLinked) {
             throw new \LogicException('Form not linked to schema.');
@@ -277,59 +293,58 @@ class Manager
     }
 
     /**
-     * Add a binding to the object map.
+     * Add a binding to the all bindings list and the object map.
      * @param Binding $binding
      * @return $this
      */
-    public function registerBinding(Binding $binding)
+    public function registerBinding(Binding $binding) : self
     {
+        if (!in_array($binding, $this->allBindings, true)) {
+            $this->allBindings[] = $binding;
+        }
         $objectRef = $binding->getObject();
-        if (!isset($this->objectMap[$objectRef])) {
-            $this->objectMap[$objectRef] = [];
-        }
-        $this->objectMap[$objectRef][] = $binding;
-        return $this;
-    }
-
-    /**
-     * Add a form element to the list of all elements.
-     * @param Element $element
-     * @return $this
-     */
-    public function registerElement($element)
-    {
-        if (!in_array($element, $this->allElements)) {
-            $this->allElements[] = $element;
+        if ($objectRef !== null) {
+            if (!isset($this->objectMap[$objectRef])) {
+                $this->objectMap[$objectRef] = [];
+            }
+            $this->objectMap[$objectRef][] = $binding;
         }
         return $this;
     }
 
-    public function setAccess(AccessInterface $access)
+    public function setAccess(AccessInterface $access) : self
     {
         $this->access = $access;
+        return $this;
     }
 
-    public function setForm(Form $form)
+    public function setForm(Form $form) : self
     {
         $this->form = $form;
+        $this->schemaIsLinked = false;
+        return $this;
     }
 
-    public function setRenderer(RendererInterface $renderer)
+    public function setRenderer(RendererInterface $renderer) : self
     {
         $this->renderer = $renderer;
+        return $this;
     }
 
-    public function setSchema(Schema $schema)
+    public function setSchema(Schema $schema) : self
     {
         $this->schema = $schema;
+        $this->schemaIsLinked = false;
+        return $this;
     }
 
-    public function setTranslator(Translator $translate)
+    public function setTranslator(Translator $translate) : self
     {
         $this->translate = $translate;
+        return $this;
     }
 
-    public function setUser($user)
+    public function setUser($user) : self
     {
         $this->access->setUser($user);
     }
