@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -21,7 +21,7 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
     {
        $schema = Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json');
        $form = Form::fromFile(__DIR__ . '/../../test-data/newform.json');
-       $manager = new NextForm();
+       $manager = new Manager();
        $manager -> setSchema($schema);
        $manager -> setForm($form);
        $callBind = function () { $this->bind(); };

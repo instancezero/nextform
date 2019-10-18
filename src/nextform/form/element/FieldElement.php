@@ -3,8 +3,7 @@
 namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm;
-use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Trigger\Trigger;
@@ -236,8 +235,8 @@ class FieldElement extends NamedElement
         }
         $collapsed = $this->removeScope($this->object);
         if (!empty($this->groups)) {
-            $collapsed .= NextForm::GROUP_DELIM
-                . implode(NextForm::GROUP_DELIM, $this->groups);
+            $collapsed .= Manager::GROUP_DELIM
+                . implode(Manager::GROUP_DELIM, $this->groups);
         }
         return $collapsed;
     }
@@ -255,7 +254,7 @@ class FieldElement extends NamedElement
         }
         $segment = $this->form->getSegment();
         if ($segment !== '') {
-            if (strpos($value, $segment . NextForm::SEGMENT_DELIM) === 0) {
+            if (strpos($value, $segment . Manager::SEGMENT_DELIM) === 0) {
                 $value = substr($value, strlen($segment) +1);
             }
         }

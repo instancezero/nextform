@@ -1,6 +1,6 @@
 <?php
 
-namespace Abivia;
+namespace Abivia\NextForm;
 
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface as RendererInterface;
@@ -17,7 +17,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 /**
  *
  */
-class NextForm
+class Manager
 {
 
     public const GROUP_DELIM = ':';
@@ -117,7 +117,7 @@ class NextForm
         $this->bindings = [];
         foreach ($this->form->getElements() as $element) {
             $binding = Binding::fromElement($element);
-            $binding->setForm($this);
+            $binding->setManager($this);
             $binding->bindSchema($this->schema);
             $this->bindings[] = $binding;
         }
@@ -205,8 +205,8 @@ class NextForm
      */
     public function getSegmentData($segment)
     {
-        $prefix = $segment . NextForm::SEGMENT_DELIM;
-        $prefixLen = strlen($segment . NextForm::SEGMENT_DELIM);
+        $prefix = $segment . Manager::SEGMENT_DELIM;
+        $prefixLen = strlen($segment . Manager::SEGMENT_DELIM);
         $data = [];
         // The first element should have the value... there should only be one value.
         foreach ($this->objectMap as $objectName => $list) {
@@ -264,7 +264,7 @@ class NextForm
         }
         foreach ($data as $field => $value) {
             if ($segment !== '') {
-                $field = $segment . NextForm::SEGMENT_DELIM . $field;
+                $field = $segment . Manager::SEGMENT_DELIM . $field;
             }
             if (!isset($this->objectMap[$field])) {
                 continue;

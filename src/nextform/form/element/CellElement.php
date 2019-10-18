@@ -8,11 +8,6 @@ use Abivia\NextForm\Traits\JsonEncoderTrait;
 /**
  * Representation of a cell, a list of adjacent form elements.
  */
-use Abivia\NextForm;
-
-/**
- *
- */
 class CellElement Extends ContainerElement
 {
     use Configurable;

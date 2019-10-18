@@ -3,7 +3,7 @@ include_once __DIR__ . '/../test-tools/JsonComparison.php';
 include_once __DIR__ . '/../test-tools/NullTranslate.php';
 include_once __DIR__ . '/../test-tools/Page.php';
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
@@ -95,7 +95,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testFormLoad() {
-        NextForm::boot();
+        Manager::boot();
         $obj = new Form();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
@@ -124,12 +124,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGenerateUnpopulated() {
-        NextForm::boot();
+        Manager::boot();
         $form  = Form::fromFile(__DIR__ . '/member-form.json');
         $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
         $render = new FlatRenderer();
 
-        $manager = new NextForm();
+        $manager = new Manager();
         $manager->setForm($form);
         $manager->setSchema($schema);
         $manager->setRenderer($render);
@@ -143,8 +143,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGeneratePopulated() {
-        NextForm::boot();
-        $manager = new NextForm();
+        Manager::boot();
+        $manager = new Manager();
         $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
         $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $data = [
@@ -158,8 +158,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testSimpleHtmlRenderUnpopulated() {
-        NextForm::boot();
-        $manager = new NextForm();
+        Manager::boot();
+        $manager = new Manager();
         $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
         $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $manager->setRenderer(new SimpleHtml());
@@ -171,8 +171,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testBootstrap4RenderUnpopulated() {
-        NextForm::boot();
-        $manager = new NextForm();
+        Manager::boot();
+        $manager = new Manager();
         $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
         $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $manager->setRenderer(new Bootstrap4());

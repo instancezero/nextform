@@ -106,7 +106,7 @@ abstract class Html implements RendererInterface
     /**
      * Generate a hidden element.
      *
-     * @param FieldBinding $binding
+     * @param Binding $binding
      * @param mixed $value
      * @return \Abivia\NextForm\Renderer\Block
      */

@@ -1,12 +1,12 @@
 <?php
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 
 class NextFormTest extends \PHPUnit\Framework\TestCase {
 
     public function testFormInstantiation() {
-        $obj = new NextForm();
-		$this->assertInstanceOf('\Abivia\NextForm', $obj);
+        $obj = new Manager();
+		$this->assertInstanceOf('\Abivia\NextForm\Manager', $obj);
     }
 
 }

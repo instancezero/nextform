@@ -2,7 +2,7 @@
 namespace Abivia\NextForm\Access;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\AccessInterface;
 
 /**
@@ -77,7 +77,7 @@ class BasicAccess implements AccessInterface
         if ($user === null || !isset($this->users[$user])) {
             throw new \LogicException('No valid user has been selected.');
         }
-        $composite = $segment . NextForm::SEGMENT_DELIM . $objectName;
+        $composite = $segment . Manager::SEGMENT_DELIM . $objectName;
         $segAccess = null;
         $objAccess = null;
         // Check the roles for the current user

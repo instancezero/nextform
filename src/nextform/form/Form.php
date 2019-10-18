@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Form;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
@@ -73,7 +73,7 @@ class Form implements \JsonSerializable
     /**
      * Generate a form object from a file
      * @param string $formFile
-     * @return \Abivia\NextForm
+     * @return \Abivia\NextForm\Form
      * @throws RuntimeException
      */
     static public function fromFile($formFile)
@@ -90,7 +90,7 @@ class Form implements \JsonSerializable
 
     static public function expandField($value)
     {
-        $groupParts = explode(NextForm::GROUP_DELIM, $value);
+        $groupParts = explode(Manager::GROUP_DELIM, $value);
         // Convert to a useful class
         $obj = new \stdClass;
         $obj->type = 'field';

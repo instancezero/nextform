@@ -2,9 +2,11 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Renderer\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
@@ -22,9 +24,10 @@ class ContainerBinding Extends Binding
 
     /**
      * Connect data bindings in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
+     *
+     * @param Schema $schema
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
+    public function bindSchema(Schema $schema)
     {
         parent::bindSchema($schema);
         foreach ($this->bindings as $binding) {
@@ -65,15 +68,15 @@ class ContainerBinding Extends Binding
     }
 
     /**
-     * Connect this binding to a form
-     * @param NextForm $form
+     * Connect this binding to a manager
+     * @param Manager $manager
      * @return $this
      */
-    public function setForm(NextForm $form)
+    public function setManager(Manager $manager)
     {
-        parent::setForm($form);
+        parent::setManager($manager);
         foreach ($this->bindings as $binding) {
-            $binding->setForm($form);
+            $binding->setManager($manager);
         }
         return $this;
     }

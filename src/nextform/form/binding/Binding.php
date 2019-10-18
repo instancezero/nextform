@@ -2,10 +2,11 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Renderer\Block;
 use DeepCopy\DeepCopy;
@@ -46,12 +47,6 @@ class Binding
     ];
 
     /**
-     * The form this element belongs to
-     * @var \Abivia\NextForm
-     */
-    protected $form;
-
-    /**
      * Name on the rendered form.
      * @var string
      */
@@ -82,6 +77,12 @@ class Binding
      * @var Labels
      */
     protected $labelsTranslated;
+
+    /**
+     * The form this element belongs to
+     * @var \Abivia\NextForm\Manager
+     */
+    protected $manager;
 
     /**
      * The current value for the bound element.
@@ -206,7 +207,7 @@ class Binding
             return $this->id;
         }
         if ($this->autoId === '') {
-            $this->autoId = NextForm::htmlIdentifier($this->element->getType(), true);
+            $this->autoId = Manager::htmlIdentifier($this->element->getType(), true);
         }
         return $this->autoId;
     }
@@ -250,17 +251,6 @@ class Binding
     }
 
     /**
-     * Connect this binding to a form
-     * @param NextForm $form
-     * @return $this
-     */
-    public function setForm(NextForm $form)
-    {
-        $this->form = $form;
-        return $this;
-    }
-
-    /**
      * Assign or override the current name of this binding on a form.
      * @param string $name
      * @return $this
@@ -293,6 +283,17 @@ class Binding
             $this->labels = new Labels();
         }
         $this->labels->set($labelName, $text);
+    }
+
+    /**
+     * Connect this binding to a Manager
+     * @param Manager $manager
+     * @return $this
+     */
+    public function setManager(Manager $manager)
+    {
+        $this->manager = $manager;
+        return $this;
     }
 
     /**

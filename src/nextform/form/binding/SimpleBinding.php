@@ -2,7 +2,6 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Renderer\Block;

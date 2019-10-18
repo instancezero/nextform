@@ -22,7 +22,7 @@
     },
     "autoload-dev": {
       "classmap": [
-          "src/"
+          "src/nextform/"
         ]
     },
     "minimum-stability": "dev"

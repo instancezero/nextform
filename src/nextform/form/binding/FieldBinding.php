@@ -2,9 +2,9 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm;
-use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Data\Schema;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -34,16 +34,16 @@ class FieldBinding extends Binding
 
     /**
      * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
+     * @param Schema $schema
      * @return \self
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self
+    public function bindSchema(Schema $schema) : self
     {
         $objectName = $this->getElement()->getObject();
-        if (strpos($objectName, NextForm::SEGMENT_DELIM) !== false) {
-            list($segmentName, $objectName) = explode(NextForm::SEGMENT_DELIM, $objectName);
-        } elseif ($this->form) {
-            $segmentName = $this->form->getSegment();
+        if (strpos($objectName, Manager::SEGMENT_DELIM) !== false) {
+            list($segmentName, $objectName) = explode(Manager::SEGMENT_DELIM, $objectName);
+        } elseif ($this->manager) {
+            $segmentName = $this->manager->getSegment();
         }
         $this->dataProperty = $schema->getProperty($segmentName, $objectName);
         if ($this->dataProperty) {
@@ -51,8 +51,8 @@ class FieldBinding extends Binding
 
             // Give the data property the ability to signal us.
             $this->dataProperty->linkBinding($this);
-            if ($this->form) {
-                $this->form->registerBinding($this);
+            if ($this->manager) {
+                $this->manager->registerBinding($this);
             }
 
             // Get default labels from the schema, if any.
@@ -140,7 +140,7 @@ class FieldBinding extends Binding
         if ($this->objectRef === null) {
             return null;
         }
-        return implode(NextForm::SEGMENT_DELIM, $this->objectRef);
+        return implode(Manager::SEGMENT_DELIM, $this->objectRef);
     }
 
     /**

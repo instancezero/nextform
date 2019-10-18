@@ -1,5 +1,5 @@
 <?php
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 
 /**
  * Provides a method that will run a set of test cases
@@ -32,7 +32,7 @@ trait RendererCaseRunner {
                 $missingExpect[] = $key;
                 continue;
             }
-            NextForm::boot();
+            Manager::boot();
             $data = $this->testObj->render($info[0], $info[1]);
             $this->logResult($data, $info[2]);
             if ($expect[$key] != $data) {

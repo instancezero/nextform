@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Renderer\Attributes;
@@ -42,7 +42,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     }
 
     protected function setUp() : void {
-        NextForm::boot();
+        Manager::boot();
         $this->testObj = new SimpleHtml();
     }
 
