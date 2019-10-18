@@ -30,7 +30,7 @@ class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
         $result = new Block();
         $type = $binding->getElement()->getType();
         $result->body = $type;
-        $name = $binding->getName();
+        $name = $binding->getFormName();
         if ($name) {
             $result->body .= ' (' . $name . ')';
         }
@@ -96,7 +96,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testFormLoad() {
         NextForm::boot();
-        $obj = new NextForm();
+        $obj = new Form();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
         $this->assertTrue(false != $config, 'Error JSON decoding form.');
@@ -144,29 +144,27 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testGeneratePopulated() {
         NextForm::boot();
-        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
-        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form->bindSchema($schema);
+        $manager = new NextForm();
+        $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
+        $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $data = [
             'id' => 0,
         ];
-        $form->populate($data, 'members');
-        $render = new FlatRenderer();
-        $form->setRenderer($render);
-        $form->setTranslator(new NullTranslate());
-        $form->generate(['action' => 'myform.php']);
+        $manager->populate($data, 'members');
+        $manager->setRenderer(new FlatRenderer());
+        $manager->setTranslator(new NullTranslate());
+        $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
     }
 
     public function testSimpleHtmlRenderUnpopulated() {
         NextForm::boot();
-        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
-        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form->bindSchema($schema);
-        $render = new SimpleHtml();
-        $form->setRenderer($render);
-        $form->setTranslator(new NullTranslate());
-        $html = $form->generate(['action' => 'http://localhost/nextform/post.php']);
+        $manager = new NextForm();
+        $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
+        $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
+        $manager->setRenderer(new SimpleHtml());
+        $manager->setTranslator(new NullTranslate());
+        $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
         $this->assertTrue(true);
@@ -174,13 +172,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
     public function testBootstrap4RenderUnpopulated() {
         NextForm::boot();
-        $form  = NextForm::fromFile(__DIR__ . '/member-form.json');
-        $schema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        $form->bindSchema($schema);
-        $render = new Bootstrap4();
-        $form->setRenderer($render);
-        $form->setTranslator(new NullTranslate());
-        $html = $form->generate(['action' => 'http://localhost/nextform/post.php']);
+        $manager = new NextForm();
+        $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
+        $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
+        $manager->setRenderer(new Bootstrap4());
+        $manager->setTranslator(new NullTranslate());
+        $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
         $this->assertTrue(true);

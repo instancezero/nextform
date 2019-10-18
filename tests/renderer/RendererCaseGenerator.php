@@ -16,69 +16,69 @@ class RendererCaseGenerator {
 
     /**
      * Iterate through various label permutations
-     * @param Element $eBase Base element used to generate cases
+     * @param Binding $bBase Base element used to generate cases
      * @param string $prefix Test case prefix
      * @param string $namePrefix Test label prefix
      * @return array label-none|label-inner|label-before|label-after|label-head|label-help|label-all
      */
-    static protected function addLabels($eBase, $prefix = '', $namePrefix = '', $skip = []) {
+    static protected function addLabels(Binding $bBase, $prefix = '', $namePrefix = '', $skip = []) {
         $cases = [];
 
         // No changes
-        $cases[$prefix . 'label-none'] = [Binding::fromElement($eBase), [], $namePrefix . 'label none'];
+        $cases[$prefix . 'label-none'] = [$bBase, [], $namePrefix . 'label none'];
 
         if (!in_array('inner', $skip)) {
-            $e1 = $eBase->copy();
-            $e1->setLabel('inner', 'inner');
-            $cases[$prefix . 'label-inner'] = [Binding::fromElement($e1), [], $namePrefix . 'label inner'];
+            $b1 = $bBase->copy();
+            $b1->setLabel('inner', 'inner');
+            $cases[$prefix . 'label-inner'] = [$b1, [], $namePrefix . 'label inner'];
         }
 
         // A before label
         if (!in_array('before', $skip)) {
-            $e2 = $eBase->copy();
-            $e2->setLabel('before', 'prefix');
-            $cases[$prefix . 'label-before'] = [Binding::fromElement($e2), [], $namePrefix . 'label before'];
+            $b2 = $bBase->copy();
+            $b2->setLabel('before', 'prefix');
+            $cases[$prefix . 'label-before'] = [$b2, [], $namePrefix . 'label before'];
         }
 
         // Some text after
         if (!in_array('after', $skip)) {
-            $e3 = $eBase->copy();
-            $e3->setLabel('after', 'suffix');
-            $cases[$prefix . 'label-after'] = [Binding::fromElement($e3), [], $namePrefix . 'label after'];
+            $b3 = $bBase->copy();
+            $b3->setLabel('after', 'suffix');
+            $cases[$prefix . 'label-after'] = [$b3, [], $namePrefix . 'label after'];
         }
 
         // A heading
         if (!in_array('heading', $skip)) {
-            $e4 = $eBase->copy();
-            $e4->setLabel('heading', 'Header');
-            $cases[$prefix . 'label-head'] = [Binding::fromElement($e4), [], $namePrefix . 'label heading'];
+            $b4 = $bBase->copy();
+            $b4->setLabel('heading', 'Header');
+            $cases[$prefix . 'label-head'] = [$b4, [], $namePrefix . 'label heading'];
         }
 
         // Help
         if (!in_array('help', $skip)) {
-            $e5 = $eBase->copy();
-            $e5->setLabel('help', 'Helpful');
-            $cases[$prefix . 'label-help'] = [Binding::fromElement($e5), [], $namePrefix . 'label help'];
+            $b5 = $bBase->copy();
+            $b5->setLabel('help', 'Helpful');
+            $cases[$prefix . 'label-help'] = [$b5, [], $namePrefix . 'label help'];
         }
 
         // All the labels
-        $e6 = $eBase->copy();
+        $b6 = $bBase->copy();
         if (!in_array('inner', $skip)) {
-            $e6->setLabel('inner', 'inner');
+            $b6->setLabel('inner', 'inner');
         }
         if (!in_array('heading', $skip)) {
-            $e6->setLabel('heading', 'Header');
+            $b6->setLabel('heading', 'Header');
         }
         if (!in_array('help', $skip)) {
-            $e6->setLabel('help', 'Helpful');
+            $b6->setLabel('help', 'Helpful');
         }
         if (!in_array('before', $skip)) {
-            $e6->setLabel('before', 'prefix');
+            $b6->setLabel('before', 'prefix');
         }
         if (!in_array('after', $skip)) {
-            $e6->setLabel('after', 'suffix');
+            $b6->setLabel('after', 'suffix');
         }
-        $cases[$prefix . 'label-all'] = [Binding::fromElement($e6), [], $namePrefix . 'all labels'];
+        $cases[$prefix . 'label-all'] = [$b6, [], $namePrefix . 'all labels'];
 
         return $cases;
     }
@@ -154,14 +154,16 @@ class RendererCaseGenerator {
         $config = json_decode('{"type":"button"}');
         $eBase = new ButtonElement();
         $eBase->configure($config);
-        $cases = self::addLabels($eBase, '', 'Button ');
+        $bBase = Binding::fromElement($eBase);
+        $cases = self::addLabels($bBase, '', 'Button ');
         return $cases;
     }
 
     static public function html_Cell() {
         $cases = [];
         $element = new CellElement();
-        $cases['basic'] = $element;
+        $binding = Binding::fromElement($element);
+        $cases['basic'] = $binding;
         return $cases;
     }
 
@@ -216,48 +218,48 @@ class RendererCaseGenerator {
         $binding = Binding::fromElement($element);
         $binding->bindSchema($schema);
         //
-        // Give the element a label
+        // Give the binding a label
         //
-        $element->setLabel('inner', '<Stand-alone> checkbox');
+        $binding->setLabel('inner', '<Stand-alone> checkbox');
 
         // No access specification assumes write access
-        $cases['basic'] = [$element];
+        $cases['basic'] = [$binding];
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         // Set a value (e2 gets used below)
-        $e2 = $element->copy();
-        $e2->setValue(3);
-        $e2b = $e2->copy();
-        $e2b->getDataProperty()->getPopulation()->sidecar = 'foo';
-        $cases['value'] = [$e2b];
-        $cases['value-view'] = [$e2b, ['access' => 'view']];
-        $cases['value-hide'] = [$e2b, ['access' => 'hide']];
+        $b2 = $binding->copy();
+        $b2->setValue(3);
+        $b2b = $b2->copy();
+        $b2b->getDataProperty()->getPopulation()->sidecar = 'foo';
+        $cases['value'] = [$b2b];
+        $cases['value-view'] = [$b2b, ['access' => 'view']];
+        $cases['value-hide'] = [$b2b, ['access' => 'hide']];
 
         // Set the default to the same as the value to render it as checked
-        $e2c = $e2->copy();
-        $e2c->setDefault(3);
-        $cases['checked'] = [$e2c];
+        $b2c = $b2->copy();
+        $b2c->getElement()->setDefault(3);
+        $cases['checked'] = [$b2c];
 
         // Render inline
-        $e3 = $element->copy();
-        $e3->addShow('layout:inline');
-        $cases['inline'] = [$e3];
+        $b3 = $binding->copy();
+        $b3->getElement()->addShow('layout:inline');
+        $cases['inline'] = [$b3];
 
         // Render inline with no labels
-        $e4 = $e3->copy();
-        $e4->addShow('appearance:no-label');
-        $cases['inline-nolabel'] = [$e4];
+        $b4 = $b3->copy();
+        $b4->getElement()->addShow('appearance:no-label');
+        $cases['inline-nolabel'] = [$b4];
 
         // Test headings
-        $cases = array_merge($cases, self::addLabels($e2));
+        $cases = array_merge($cases, self::addLabels($b2));
 
         return $cases;
     }
@@ -273,16 +275,17 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
-        // Give the element a label
-        $element->setLabel('inner', 'CheckButton!');
+        // Give the binding a label
+        $binding->setLabel('inner', 'CheckButton!');
 
         // Make one show as a toggle
-        $e1 = $element->copy();
-        $e1->addShow('appearance:toggle');
-        $cases['toggle'] = $e1;
-        $cases = array_merge($cases, self::addLabels($e1, '', '', ['inner']));
+        $b1 = $binding->copy();
+        $b1->getElement()->addShow('appearance:toggle');
+        $cases['toggle'] = $b1;
+        $cases = array_merge($cases, self::addLabels($b1, '', '', ['inner']));
 
         return $cases;
     }
@@ -297,9 +300,10 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
-        $list = $element->getList(true);
+        $list = $binding->getList(true);
 
         // Disable the second item
         $list[1]->setEnabled(false);
@@ -307,11 +311,11 @@ class RendererCaseGenerator {
         // Set appearance on the last list item
         $list[3]->setShow('purpose:danger');
         // Make the list show as a toggle
-        $e2 = $element->copy();
-        $e2->addShow('appearance:toggle');
-        $cases['toggle-list'] = $e2;
+        $b2 = $binding->copy();
+        $b2->getElement()->addShow('appearance:toggle');
+        $cases['toggle-list'] = $b2;
 
-        $cases = array_merge($cases, self::addLabels($e2, 'list-', 'list-', ['inner']));
+        $cases = array_merge($cases, self::addLabels($b2, 'list-', 'list-', ['inner']));
 
         return $cases;
     }
@@ -327,51 +331,52 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
-        $list = $element->getList(true);
+        $list = $binding->getList(true);
 
         // Disable the second item
         $list[1]->setEnabled(false);
 
         // No access specification assumes write access
-        $cases['basic'] = [$element];
+        $cases['basic'] = [$binding];
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         // Set a value to trigger the checked option
-        $e2 = $element->copy()->setValue('textlist 4');
-        $cases['single-value'] = [$e2];
+        $b2 = $binding->copy()->setValue('textlist 4');
+        $cases['single-value'] = [$b2];
 
         // Test hidden access
-        $cases['single-value-hide'] = [$e2, ['access' => 'hide']];
+        $cases['single-value-hide'] = [$b2, ['access' => 'hide']];
 
         // Set a second value to trigger the checked option
-        $e3 = $element->copy()->setValue(['textlist 1', 'textlist 4']);
-        $cases['dual-value'] = [$e3];
+        $b3 = $binding->copy()->setValue(['textlist 1', 'textlist 4']);
+        $cases['dual-value'] = [$b3];
 
         // Test hidden access
-        $cases['dual-value-view'] = [$e3, ['access' => 'view']];
+        $cases['dual-value-view'] = [$b3, ['access' => 'view']];
 
         // Test hidden access
-        $cases['dual-value-hide'] = [$e3, ['access' => 'hide']];
+        $cases['dual-value-hide'] = [$b3, ['access' => 'hide']];
 
         // Render inline
-        $e4 = $element->copy();
-        $e4->addShow('layout:inline');
-        $cases['inline'] = [$e4];
+        $b4 = $binding->copy();
+        $b4->getElement()->addShow('layout:inline');
+        $cases['inline'] = [$b4];
 
         // Render inline with no labels
-        $e5 = $e4->copy();
-        $e5->addShow('appearance:no-label');
-        $cases['inline-nolabel'] = [$e5];
+        $b5 = $b4->copy();
+        $b5->getElement()->addShow('appearance:no-label');
+        $cases['inline-nolabel'] = [$b5];
 
         return $cases;
     }
@@ -385,25 +390,26 @@ class RendererCaseGenerator {
 
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
-        $cases['default'] = $element;
+        $cases['default'] = $binding;
 
         // Set a value
         //
-        $e1 = $element->copy();
-        $e1->setValue('#F0F0F0');
-        $cases['value'] = $e1;
+        $b1 = $binding->copy();
+        $b1->setValue('#F0F0F0');
+        $cases['value'] = $b1;
 
         // Same result with explicit write access
-        $cases['value-write'] = [$e1, ['access' => 'write']];
+        $cases['value-write'] = [$b1, ['access' => 'write']];
 
         // Now with view access
-        $cases['value-view'] = [$e1, ['access' => 'view']];
+        $cases['value-view'] = [$b1, ['access' => 'view']];
 
         //
         // Hidden access
-        $cases['value-hide'] = [$e1, ['access' => 'hide']];
+        $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -416,33 +422,34 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Set a value
-        $e1 = $element->copy();
-        $e1->setValue('2010-10-10');
-        $cases['value'] = $e1;
+        $b1 = $binding->copy();
+        $b1->setValue('2010-10-10');
+        $cases['value'] = $b1;
 
         // Same result with explicit write access
         //
-        $cases['write'] = [$e1, ['access' => 'write']];
+        $cases['write'] = [$b1, ['access' => 'write']];
 
         // Now test validation
-        $e2 = $e1->copy();
-        $validation = $e2->getDataProperty()->getValidation();
+        $b2 = $b1->copy();
+        $validation = $b2->getDataProperty()->getValidation();
         $validation->set('minValue', '1957-10-08');
         $validation->set('maxValue', 'Nov 6th 2099');
-        $cases['minmax'] = $e2;
+        $cases['minmax'] = $b2;
 
         // Now with view access
-        $cases['view'] = [$e2, ['access' => 'view']];
+        $cases['view'] = [$b2, ['access' => 'view']];
 
         // Convert to hidden access
         //
-        $cases['hide'] = [$e2, ['access' => 'hide']];
+        $cases['hide'] = [$b2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -456,31 +463,32 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Set a value
-        $e1 = $element->copy();
-        $e1->setValue('2010-10-10');
-        $cases['value'] = $e1;
+        $b1 = $binding->copy();
+        $b1->setValue('2010-10-10');
+        $cases['value'] = $b1;
 
         // Same result with explicit write access
-        $cases['write'] = [$e1, ['access' => 'write']];
+        $cases['write'] = [$b1, ['access' => 'write']];
 
         // Now test validation
-        $e2 = $e1->copy();
-        $validation = $e2->getDataProperty()->getValidation();
+        $b2 = $b1->copy();
+        $validation = $b2->getDataProperty()->getValidation();
         $validation->set('minValue', '1957-10-08');
         $validation->set('maxValue', '2:15 pm Nov 6th 2099');
-        $cases['minmax'] = $e2;
+        $cases['minmax'] = $b2;
 
         // Now with view access
-        $cases['view'] = [$e2, ['access' => 'view']];
+        $cases['view'] = [$b2, ['access' => 'view']];
 
         // Convert to hidden access
-        $cases['hide'] = [$e2, ['access' => 'hide']];
+        $cases['hide'] = [$b2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -495,34 +503,36 @@ class RendererCaseGenerator {
 
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Now test validation
-        $e1 = $element->copy();
-        $validation = $e1->getDataProperty()->getValidation();
+        $b1 = $binding->copy();
+        $validation = $b1->getDataProperty()->getValidation();
         $validation->set('multiple', true);
-        $cases['multiple'] = $e1;
+        $cases['multiple'] = $b1;
 
         // Turn confirmation on and set some test labels
         $s2 = $schema->copy();
         $e2 = new FieldElement();
         $e2->configure($config);
-        $e2->bindSchema($s2);
+        $b2 = Binding::fromElement($e2);
+        $b2->bindSchema($s2);
         $s2->getProperty('test/text')->getPresentation()->setConfirm(true);
-        $e2->setLabel('heading', 'Yer email');
-        $e2->setLabel('confirm', 'Confirm yer email');
-        $cases['confirm'] = $e2;
+        $b2->setLabel('heading', 'Yer email');
+        $b2->setLabel('confirm', 'Confirm yer email');
+        $cases['confirm'] = $b2;
 
         // Test view access
-        $e3 = $e2->copy();
-        $e3->setValue('snafu@fub.ar');
-        $cases['view'] = [$e3, ['access' => 'view']];
+        $b3 = $b2->copy();
+        $b3->setValue('snafu@fub.ar');
+        $cases['view'] = [$b3, ['access' => 'view']];
 
         // Hidden access
-        $cases['hide'] = [$e3, ['access' => 'hide']];
+        $cases['hide'] = [$b3, ['access' => 'hide']];
 
         return $cases;
     }
@@ -536,29 +546,30 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Now test validation
         //
-        $e1 = $element->copy();
-        $validation = $e1->getDataProperty()->getValidation();
+        $b1 = $binding->copy();
+        $validation = $b1->getDataProperty()->getValidation();
         $validation->set('accept', '*.png,*.jpg');
         $validation->set('multiple', true);
-        $cases['valid'] = $e1;
+        $cases['valid'] = $b1;
 
         // Test view access
-        $cases['view'] = [$e1, ['access' => 'view']];
+        $cases['view'] = [$b1, ['access' => 'view']];
 
         // Test view with a value
-        $e2 = $e1->copy();
-        $e2->setValue(['file1.png', 'file2.jpg']);
-        $cases['value-view'] = [$e2, ['access' => 'view']];
+        $b2 = $b1->copy();
+        $b2->setValue(['file1.png', 'file2.jpg']);
+        $cases['value-view'] = [$b2, ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$e2, ['access' => 'hide']];
+        $cases['value-hide'] = [$b2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -572,19 +583,20 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Same result with view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Same result for hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -596,10 +608,11 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
-        $element->setValue('the value');
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
+        $binding->setValue('the value');
 
-        $cases = self::addLabels($element);
+        $cases = self::addLabels($binding);
 
         return $cases;
     }
@@ -613,31 +626,32 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Set a value
-        $e1 = $element->copy();
-        $e1->setValue('2010-10');
-        $cases['value'] = $e1;
+        $b1 = $binding->copy();
+        $b1->setValue('2010-10');
+        $cases['value'] = $b1;
 
         // Same result with explicit write access
-        $cases['value-write'] = [$e1, ['access' => 'write']];
+        $cases['value-write'] = [$b1, ['access' => 'write']];
 
         // Now test validation
-        $e2 = $e1->copy();
-        $validation = $e2->getDataProperty()->getValidation();
+        $b2 = $b1->copy();
+        $validation = $b2->getDataProperty()->getValidation();
         $validation->set('minValue', '1957-10');
         $validation->set('maxValue', 'Nov 2099');
-        $cases['minmax'] = $e2;
+        $cases['minmax'] = $b2;
 
         // Now with view access
-        $cases['minmax-view'] = [$e2, ['access' => 'view']];
+        $cases['minmax-view'] = [$b2, ['access' => 'view']];
 
         // Convert to hidden access
-        $cases['hide'] = [$e2, ['access' => 'hide']];
+        $cases['hide'] = [$b2, ['access' => 'hide']];
 
         return $cases;
     }
@@ -654,32 +668,33 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
-        $element->setValue('200');
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
+        $binding->setValue('200');
 
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Make the field required
-        $e1 = $element->copy();
-        $validation = $e1->getDataProperty()->getValidation();
+        $b1 = $binding->copy();
+        $validation = $b1->getDataProperty()->getValidation();
         $validation->set('required', true);
-        $cases['required'] = $e1->copy();
+        $cases['required'] = $b1->copy();
 
         // Set minimum/maximum values
         $validation->set('minValue', -1000);
         $validation->set('maxValue', 999.45);
-        $cases['minmax'] = $e1->copy();
+        $cases['minmax'] = $b1->copy();
 
         // Add a step
         $validation->set('step', 1.23);
-        $cases['step'] = $e1->copy();
+        $cases['step'] = $b1->copy();
 
         // Settng a pattern should have no effect!
         $validation->set('pattern', '/[+\-]?[0-9]+/');
-        $cases['pattern'] = $e1;
+        $cases['pattern'] = $b1;
 
         // Test view access
-        $cases['view'] = [$e1, ['access' => 'view']];
+        $cases['view'] = [$b1, ['access' => 'view']];
 
         return $cases;
     }
@@ -695,24 +710,25 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test view with a value
-        $e1 = $element->copy();
-        $e1->setValue('secret');
-        $cases['value-view'] = [$e1, ['access' => 'view']];
+        $b1 = $binding->copy();
+        $b1->setValue('secret');
+        $cases['value-view'] = [$b1, ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$e1, ['access' => 'hide']];
+        $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -728,27 +744,28 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // Give the element a label
-        $element->setLabel('inner', '<Stand-alone> radio');
+        $binding->setLabel('inner', '<Stand-alone> radio');
         //
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Set a value
-        $e1 = $element->copy();
-        $e1->setValue(3);
-        $cases['value'] = $e1;
+        $b1 = $binding->copy();
+        $b1->setValue(3);
+        $cases['value'] = $b1;
 
         // Test view access
-        $cases['value-view'] = [$e1, ['access' => 'view']];
+        $cases['value-view'] = [$b1, ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$e1, ['access' => 'hide']];
+        $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
         return $cases;
     }
@@ -764,21 +781,22 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // Give the element some labels and a value
-        $element->setLabel('before', 'No need to fear');
-        $element->setLabel('heading', 'Very Important Choice');
-        $element->setLabel('inner', '<Stand-alone> radio');
-        $element->setLabel('after', 'See? No problem!');
-        $element->setValue(3);
-        $cases['labels-value'] = $element;
+        $binding->setLabel('before', 'No need to fear');
+        $binding->setLabel('heading', 'Very Important Choice');
+        $binding->setLabel('inner', '<Stand-alone> radio');
+        $binding->setLabel('after', 'See? No problem!');
+        $binding->setValue(3);
+        $cases['labels-value'] = $binding;
 
         // Test view access
-        $cases['labels-value-view'] = [$element, ['access' => 'view']];
+        $cases['labels-value-view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['labels-value-hide'] = [$element, ['access' => 'hide']];
+        $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -793,24 +811,25 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Same result with explicit write access
-        $cases['write'] = [$element->copy(), ['access' => 'write']];
+        $cases['write'] = [$binding->copy(), ['access' => 'write']];
 
         // Set a value to trigger the checked option
-        $element->setValue('textlist 3');
-        $cases['value'] = $element->copy();
+        $binding->setValue('textlist 3');
+        $cases['value'] = $binding->copy();
 
         //
         // Test view access
-        $cases['value-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['value-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -826,22 +845,23 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
         //
         // Give the element some labels and a value
         //
-        $element->setLabel('before', 'No need to fear');
-        $element->setLabel('heading', 'Very Important Choice');
-        $element->setLabel('inner', '<Stand-alone> radio');
-        $element->setLabel('after', 'See? No problem!');
-        $element->setValue('textlist 3');
-        $cases['labels-value'] = $element;
+        $binding->setLabel('before', 'No need to fear');
+        $binding->setLabel('heading', 'Very Important Choice');
+        $binding->setLabel('inner', '<Stand-alone> radio');
+        $binding->setLabel('after', 'See? No problem!');
+        $binding->setValue('textlist 3');
+        $cases['labels-value'] = $binding;
 
         // Test view access
-        $cases['labels-value-view'] = [$element, ['access' => 'view']];
+        $cases['labels-value-view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['labels-value-hide'] = [$element, ['access' => 'hide']];
+        $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -858,32 +878,33 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
-        $element->setValue('200');
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
+        $binding->setValue('200');
 
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Making the field required should have no effect
-        $validation = $element->getDataProperty()->getValidation();
+        $validation = $binding->getDataProperty()->getValidation();
         $validation->set('required', true);
-        $cases['required'] = $element->copy();
+        $cases['required'] = $binding->copy();
 
         // Set minimum/maximum values
         $validation->set('minValue', -1000);
         $validation->set('maxValue', 999.45);
-        $cases['minmax'] = $element->copy();
+        $cases['minmax'] = $binding->copy();
 
         // Add a step
         //
         $validation->set('step', 20);
-        $cases['step'] = $element->copy();
+        $cases['step'] = $binding->copy();
 
         // Setting a pattern should have no effect!
         $validation->set('pattern', '/[+\-]?[0-9]+/');
-        $cases['pattern'] = $element->copy();
+        $cases['pattern'] = $binding->copy();
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         return $cases;
     }
@@ -899,19 +920,20 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -927,49 +949,52 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Same result with explicit write access
         $cases['write'] = $cases['basic'];
 
         // Test view access
-        $cases['view'] = [$element->copy(), ['access' => 'view']];
+        $cases['view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Now let's give it a value...
-        $element->setValue('textlist 2');
-        $cases['value'] = $element->copy();
+        $binding->setValue('textlist 2');
+        $cases['value'] = $binding->copy();
 
         // Test view access
-        $cases['value-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['value-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Test the BS custom presentation
-        $cases['value-bs4custom'] = $element->copy()->setShow('appearance:custom');
+        $b2 = $binding->copy();
+        $b2->getElement()->setShow('appearance:custom');
+        $cases['value-bs4custom'] = $b2;
 
         // Set multiple and give it two values
-        $validation = $element->getDataProperty()->getValidation();
+        $validation = $binding->getDataProperty()->getValidation();
         $validation->set('multiple', true);
-        $element->setValue(['textlist 2', 'textlist 4']);
-        $cases['multivalue'] = $element->copy();
+        $binding->setValue(['textlist 2', 'textlist 4']);
+        $cases['multivalue'] = $binding->copy();
 
 
         // Test view access
-        $cases['multivalue-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['multivalue-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['multivalue-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['multivalue-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Set the presentation to six rows
         $presentation->setRows(6);
-        $cases['sixrow'] = $element;
+        $cases['sixrow'] = $binding;
 
         return $cases;
     }
@@ -985,44 +1010,47 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Same result with explicit write access
-        $cases['write'] = [$element->copy(), ['access' => 'write']];
+        $cases['write'] = [$binding->copy(), ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element->copy(), ['access' => 'view']];
+        $cases['view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Now let's give it a value...
-        $element->setValue('S2I1');
-        $cases['value'] = $element->copy();
+        $binding->setValue('S2I1');
+        $cases['value'] = $binding->copy();
 
         // Test the BS custom presentation
-        $cases['value-bs4custom'] = $element->copy()->setShow('appearance:custom');
+        $b2 = $binding->copy();
+        $b2->getElement()->setShow('appearance:custom');
+        $cases['value-bs4custom'] = $b2;
 
         // Test view access
-        $cases['value-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['value-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Set multiple and give it two values
-        $validation = $element->getDataProperty()->getValidation();
+        $validation = $binding->getDataProperty()->getValidation();
         $validation->set('multiple', true);
-        $element->setValue(['S2I1', 'Sub One Item One']);
-        $cases['multivalue'] = $element->copy();
+        $binding->setValue(['S2I1', 'Sub One Item One']);
+        $cases['multivalue'] = $binding->copy();
 
         // Test view access
-        $cases['multivalue-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['multivalue-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['multivalue-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['multivalue-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -1038,19 +1066,20 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1062,12 +1091,13 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
-        $cases['default'] = [$element, [], 'default access'];
-        $cases['write'] = [$element, ['access' => 'write'], 'explicit write access'];
-        $cases['view'] = [$element, ['access' => 'view'], 'explicit view access'];
-        $cases['hide'] = [$element, ['access' => 'hide'], 'explicit hidden access'];
+        $cases['default'] = [$binding, [], 'default access'];
+        $cases['write'] = [$binding, ['access' => 'write'], 'explicit write access'];
+        $cases['view'] = [$binding, ['access' => 'view'], 'explicit view access'];
+        $cases['hide'] = [$binding, ['access' => 'hide'], 'explicit hidden access'];
 
         return $cases;
     }
@@ -1079,16 +1109,17 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Test view access: No list is required
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test read  access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1102,9 +1133,10 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
-        $element->setValue('the value');
-        $cases = self::addLabels($element, '', 'Text ');
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
+        $binding->setValue('the value');
+        $cases = self::addLabels($binding, '', 'Text ');
 
         return $cases;
     }
@@ -1116,24 +1148,25 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
-        $validation = $element->getDataProperty()->getValidation();
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
+        $validation = $binding->getDataProperty()->getValidation();
 
         // Make the field required
         $validation->set('required', true);
-        $cases['required'] = $element->copy();
+        $cases['required'] = $binding->copy();
 
         // Set a maximum length
         $validation->set('maxLength', 10);
-        $cases['max'] = $element->copy();
+        $cases['max'] = $binding->copy();
 
         // Set a minimum length
         $validation->set('minLength', 3);
-        $cases['minmax'] = $element->copy();
+        $cases['minmax'] = $binding->copy();
 
         // Make it match a postal code
         $validation->set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
-        $cases['pattern'] = $element->copy();
+        $cases['pattern'] = $binding->copy();
 
         return $cases;
     }
@@ -1149,20 +1182,21 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
         //
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1176,30 +1210,31 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Set a value
-        $element->setValue('20:10');
-        $cases['value'] = $element->copy();
+        $binding->setValue('20:10');
+        $cases['value'] = $binding->copy();
 
         // Same result with explicit write access
         //
-        $cases['value-write'] = [$element->copy(), ['access' => 'write']];
+        $cases['value-write'] = [$binding->copy(), ['access' => 'write']];
 
         // Now test validation
-        $validation = $element->getDataProperty()->getValidation();
+        $validation = $binding->getDataProperty()->getValidation();
         $validation->set('minValue', '19:57');
         $validation->set('maxValue', '20:19');
-        $cases['minmax'] = $element->copy();
+        $cases['minmax'] = $binding->copy();
 
         // Now with view access
-        $cases['minmax-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['minmax-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Convert to hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1214,19 +1249,20 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1240,29 +1276,30 @@ class RendererCaseGenerator {
         $config = json_decode('{"type": "field","object": "test/text"}');
         $element = new FieldElement();
         $element->configure($config);
-        $element->bindSchema($schema);
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($schema);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Set a value
-        $element->setValue('2010-W37');
-        $cases['value'] = $element->copy();
+        $binding->setValue('2010-W37');
+        $cases['value'] = $binding->copy();
 
         // Same result with explicit write access
-        $cases['value-write'] = [$element->copy(), ['access' => 'write']];
+        $cases['value-write'] = [$binding->copy(), ['access' => 'write']];
 
         // Now test validation
-        $validation = $element->getDataProperty()->getValidation();
+        $validation = $binding->getDataProperty()->getValidation();
         $validation->set('minValue', '1957-W30');
         $validation->set('maxValue', '2099-W42');
-        $cases['minmax'] = $element->copy();
+        $cases['minmax'] = $binding->copy();
 
         // Now with view access
-        $cases['minmax-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['minmax-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Convert to hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1273,18 +1310,19 @@ class RendererCaseGenerator {
         $config = json_decode('{"type":"html","value":"<p>This is some raw html &amp;<\/p>"}');
         $element = new HtmlElement();
         $element->configure($config);
+        $binding = Binding::fromElement($element);
 
         // No access specification assumes write access
-        $cases['basic'] = $element;
+        $cases['basic'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         return $cases;
     }
@@ -1293,19 +1331,20 @@ class RendererCaseGenerator {
         $cases = [];
 
         $element = new SectionElement();
+        $binding = Binding::fromElement($element);
 
         // Start with an empty section
-        $cases['empty'] = $element->copy();
+        $cases['empty'] = $binding->copy();
 
         // Add a label
-        $element->setLabel('heading', 'This is legendary');
-        $cases['label'] = $element->copy();
+        $binding->setLabel('heading', 'This is legendary');
+        $cases['label'] = $binding->copy();
 
         // Same for view access
-        $cases['label-view'] = [$element->copy(), ['access' => 'view']];
+        $cases['label-view'] = [$binding->copy(), ['access' => 'view']];
 
         // Same for hidden access
-        $cases['label-hide'] = [$element->copy(), ['access' => 'hide']];
+        $cases['label-hide'] = [$binding->copy(), ['access' => 'hide']];
 
         return $cases;
     }
@@ -1316,33 +1355,35 @@ class RendererCaseGenerator {
         $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
         $element = new StaticElement();
         $element->configure($config);
+        $binding = Binding::fromElement($element);
 
         // No access specification assumes write access
-        $cases['basic'] = $element->copy();
+        $cases['basic'] = $binding->copy();
 
         // Add a heading
-        $element->setLabel('heading', 'Header');
-        $cases['head'] = $element;
+        $binding->setLabel('heading', 'Header');
+        $cases['head'] = $binding;
 
         // Same result with explicit write access
-        $cases['write'] = [$element, ['access' => 'write']];
+        $cases['write'] = [$binding, ['access' => 'write']];
 
         // Test view access
-        $cases['view'] = [$element, ['access' => 'view']];
+        $cases['view'] = [$binding, ['access' => 'view']];
 
         // Test hidden access
-        $cases['hide'] = [$element, ['access' => 'hide']];
+        $cases['hide'] = [$binding, ['access' => 'hide']];
 
         // Now with raw HTML
         $config = json_decode('{"type":"static","value":"This is <strong>raw html</strong>!","html":true}');
         $element = new StaticElement();
         $element->configure($config);
+        $binding = Binding::fromElement($element);
 
-        $cases['raw'] = $element->copy();
+        $cases['raw'] = $binding->copy();
 
         // Add a heading
-        $element->setLabel('heading', 'Header');
-        $cases['raw-head'] = $element;
+        $binding->setLabel('heading', 'Header');
+        $cases['raw-head'] = $binding;
 
         return $cases;
     }

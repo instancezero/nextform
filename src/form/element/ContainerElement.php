@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Renderer\Block;
@@ -94,7 +94,7 @@ abstract class ContainerElement Extends NamedElement
             foreach ($config->elements as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
-                    $value = NextForm::expandField($value);
+                    $value = Form::expandField($value);
                 }
             }
         }

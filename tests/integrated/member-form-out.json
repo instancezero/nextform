@@ -18,11 +18,11 @@
                                 "enable",
                                 "visible"
                             ],
+                            "value": false,
                             "target": [
                                 "family",
                                 "business"
-                            ],
-                            "value": false
+                            ]
                         }
                     ]
                 },
@@ -34,16 +34,16 @@
                                 "enable",
                                 "visible"
                             ],
-                            "target": "family",
-                            "value": true
+                            "value": true,
+                            "target": "family"
                         },
                         {
                             "change": [
                                 "enable",
                                 "visible"
                             ],
-                            "target": "business",
-                            "value": false
+                            "value": false,
+                            "target": "business"
                         }
                     ]
                 },
@@ -58,16 +58,16 @@
                                 "enable",
                                 "visible"
                             ],
-                            "target": "family",
-                            "value": false
+                            "value": false,
+                            "target": "family"
                         },
                         {
                             "change": [
                                 "enable",
                                 "visible"
                             ],
-                            "target": "business",
-                            "value": true
+                            "value": true,
+                            "target": "business"
                         }
                     ]
                 },
@@ -82,22 +82,21 @@
                                 "enable",
                                 "visible"
                             ],
-                            "target": "family",
-                            "value": false
+                            "value": false,
+                            "target": "family"
                         },
                         {
                             "change": [
                                 "enable",
                                 "visible"
                             ],
-                            "target": "business",
-                            "value": true
+                            "value": true,
+                            "target": "business"
                         }
                     ]
                 },
                 {
                     "event": "onchange",
-                    "value": null,
                     "actions": [
                         {
                             "change": "script",
@@ -144,10 +143,10 @@
         "businessName:business",
         {
             "type": "button",
-            "show": "purpose:primary",
             "labels": {
                 "inner": "Join"
             },
+            "show": "purpose:primary",
             "function": "submit"
         }
     ]

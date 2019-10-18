@@ -283,6 +283,19 @@ class Binding
     }
 
     /**
+     * Set the value for a label.
+     * @param string $labelName Name of the text to be set.
+     * @param string $text
+     */
+    public function setLabel($labelName, $text)
+    {
+        if ($this->labels === null) {
+            $this->labels = new Labels();
+        }
+        $this->labels->set($labelName, $text);
+    }
+
+    /**
      * Set the current value for the bound element.
      * @param mixed $value The new value.
      * @return \self
@@ -296,11 +309,12 @@ class Binding
     /**
      * Translate the texts in this element.
      * @param Translator $translate
-     * @return \Abivia\NextForm\Form\Element\Element
+     * @return \self
      */
-    public function translate(Translator $translate) : Binding
+    public function translate(Translator $translate) : self
     {
         // Stuff here
+        return $this;
     }
 
 }

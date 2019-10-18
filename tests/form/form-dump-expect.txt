@@ -167,14 +167,58 @@ Abivia\NextForm\Form\Form Object
                         )
 
                     [id:protected] =>
-                    [labels:protected] => stdClass Object
+                    [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
-                            [tooltip] => overidden!
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] => overidden!
+                            [inner] =>
+                            [schema:protected] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                    [strict] => 1
+                                    [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Form\Element\FieldElement Object
+ *RECURSION*
+                                )
+
                         )
 
-                    [labelsMerged:protected] => stdClass Object
+                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                         (
-                            [tooltip] => overidden!
+                            [after] =>
+                            [before] =>
+                            [confirm] =>
+                            [error] =>
+                            [heading] =>
+                            [help] => overidden!
+                            [inner] =>
+                            [schema:protected] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                    [strict] => 1
+                                    [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Form\Element\FieldElement Object
+ *RECURSION*
+                                )
+
                         )
 
                     [name:protected] =>

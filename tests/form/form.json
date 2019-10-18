@@ -18,7 +18,7 @@
             "object": "name",
             "memberOf": "groupname",
             "labels": {
-                "tooltip": "overidden!"
+                "help": "overidden!"
             },
             "triggers": [
                 {

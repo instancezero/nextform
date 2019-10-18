@@ -118,16 +118,6 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
-     * @codeCoverageIgnore
-     */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
-    {
-        // Non-data elements do nothing. This just simplifies walking the tree
-    }
-
-    /**
      * Generate a class name based on the element type.
      * @param stdClass $obj The object being configured.
      * @return string

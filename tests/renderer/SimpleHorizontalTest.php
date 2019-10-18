@@ -1,14 +1,8 @@
 <?php
 
 use Abivia\NextForm;
-use Abivia\NextForm\Data\Property;
-use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Form\Element\FieldElement;
-use Abivia\NextForm\Form\Element\HtmlElement;
-use Abivia\NextForm\Form\Element\SectionElement;
-use Abivia\NextForm\Form\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
@@ -323,8 +317,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 	public function testCellContext() {
         $this->logMethod(__METHOD__);
         $element = new CellElement();
+        $binding = Binding::fromElement($element);
         $this->assertFalse($this->testObj->queryContext('inCell'));
-        $this->testObj->render($element);
+        $this->testObj->render($binding);
         $this->assertTrue($this->testObj->queryContext('inCell'));
     }
 

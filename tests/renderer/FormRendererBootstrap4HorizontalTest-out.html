@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="be0b083d22e1a56734a7f2d4909a03f9cd163a1de58ad87ae4a72ae2928e0bc7">
+<input id="nf_token" name="nf_token" type="hidden" value="c8cfae3dbb94a1f8286de3df622725941fa7ac0bf2da2cd37fb9d0de84777c49">
 <h3>FormRendererBootstrap4HorizontalTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button-1-container" class="form-group row" data-nf-for="button-1">
@@ -98,7 +98,7 @@
 </div>
 <hr/>
 <h4>invisible</h4>
-<div id="button-1-container" class="form-group row nf-hidden" data-nf-for="button-1">
+<div id="button-1-container" class="nf-hidden form-group row" data-nf-for="button-1">
 <label for="button-1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
 <input id="button-1" name="button-1" type="button" class="btn btn-primary" value="I am Button!"/>
@@ -198,7 +198,7 @@
 <h3>FormRendererBootstrap4HorizontalTest::testFieldCheckbox</h3>
 <h4>basic</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
@@ -209,7 +209,7 @@
 <hr/>
 <h4>write</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
@@ -234,7 +234,7 @@
 <hr/>
 <h4>value</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" data-sidecar="&quot;foo&quot;"/>
@@ -259,7 +259,7 @@
 <hr/>
 <h4>checked</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" checked/>
@@ -270,7 +270,7 @@
 <hr/>
 <h4>inline</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check form-check-inline">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input"/>
@@ -281,7 +281,7 @@
 <hr/>
 <h4>inline-nolabel</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check form-check-inline">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>
@@ -291,7 +291,7 @@
 <hr/>
 <h4>label none</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -302,7 +302,7 @@
 <hr/>
 <h4>label inner</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -313,7 +313,7 @@
 <hr/>
 <h4>label before</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <span class="mr-1">prefix</span><div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -324,7 +324,7 @@
 <hr/>
 <h4>label after</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -336,7 +336,7 @@
 <hr/>
 <h4>label heading</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">Header</div>
+<div class="pt-0 col-sm-2 col-form-label">Header</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3"/>
@@ -347,7 +347,7 @@
 <hr/>
 <h4>label help</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>
@@ -359,7 +359,7 @@
 <hr/>
 <h4>all labels</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">Header</div>
+<div class="pt-0 col-sm-2 col-form-label">Header</div>
 <div class="col-sm-10">
 <span class="mr-1">prefix</span><div class="form-check">
 <input id="field-1" name="field-1" type="checkbox" class="form-check-input" value="3" aria-describedby="field-1-formhelp"/>
@@ -629,7 +629,7 @@ textlist 4</label>
 <h4>basic</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
@@ -654,7 +654,7 @@ textlist 4</label>
 <h4>write</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
@@ -707,7 +707,7 @@ textlist 4</label>
 <h4>single-value</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
@@ -735,7 +735,7 @@ textlist 4</label>
 <h4>dual-value</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" checked/>
@@ -789,7 +789,7 @@ textlist 4</label>
 <h4>inline</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check form-check-inline">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1"/>
@@ -814,7 +814,7 @@ textlist 4</label>
 <h4>inline-nolabel</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check form-check-inline">
 <input id="field-1-opt0" name="field-1[]" type="checkbox" class="form-check-input" value="textlist 1" aria-label="textlist 1"/>
@@ -1202,7 +1202,7 @@ textlist 4</label>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadio</h3>
 <h4>basic</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input"/>
@@ -1213,7 +1213,7 @@ textlist 4</label>
 <hr/>
 <h4>write</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input"/>
@@ -1224,7 +1224,7 @@ textlist 4</label>
 <hr/>
 <h4>value</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">&nbsp;</div>
+<div class="pt-0 col-sm-2 col-form-label">&nbsp;</div>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
@@ -1250,7 +1250,7 @@ textlist 4</label>
 <h3>FormRendererBootstrap4HorizontalTest::testFieldRadioLabels</h3>
 <h4>labels-value</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
-<div class="col-sm-2 col-form-label pt-0">Very Important Choice</div>
+<div class="pt-0 col-sm-2 col-form-label">Very Important Choice</div>
 <div class="col-sm-10">
 <span class="mr-1">No need to fear</span><div class="form-check">
 <input id="field-1" name="field-1" type="radio" class="form-check-input" value="3"/>
@@ -1279,7 +1279,7 @@ textlist 4</label>
 <h4>basic</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
@@ -1304,7 +1304,7 @@ textlist 4</label>
 <h4>write</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
@@ -1329,7 +1329,7 @@ textlist 4</label>
 <h4>value</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">&nbsp;</legend>
+<legend class="pt-0 col-sm-2 col-form-label">&nbsp;</legend>
 <div class="col-sm-10">
 <div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
@@ -1383,7 +1383,7 @@ textlist 4</label>
 <h4>labels-value</h4>
 <fieldset id="field-1-container" class="form-group" data-nf-for="field-1">
 <div class="row">
-<legend class="col-sm-2 col-form-label pt-0">Very Important Choice</legend>
+<legend class="pt-0 col-sm-2 col-form-label">Very Important Choice</legend>
 <div class="col-sm-10">
 <div>No need to fear</div><div class="form-check">
 <input id="field-1-opt0" name="field-1" type="radio" class="form-check-input" value="textlist 1"/>
@@ -1860,7 +1860,7 @@ textlist 4</label>
 <h4>Text label before</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
 <label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10 input-group">
+<div class="input-group col-sm-10">
 <div class="input-group-prepend">
 <span class="input-group-text">prefix</span>
 </div>
@@ -1871,7 +1871,7 @@ textlist 4</label>
 <h4>Text label after</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
 <label for="field-1" class="col-sm-2 col-form-label">&nbsp;</label>
-<div class="col-sm-10 input-group">
+<div class="input-group col-sm-10">
 <input id="field-1" name="field-1" type="text" class="form-control" value="the value"/>
 <div class="input-group-append">
 <span class="input-group-text">suffix</span>
@@ -1899,7 +1899,7 @@ textlist 4</label>
 <h4>Text all labels</h4>
 <div id="field-1-container" class="form-group row" data-nf-for="field-1">
 <label for="field-1" class="col-sm-2 col-form-label">Header</label>
-<div class="col-sm-10 input-group">
+<div class="input-group col-sm-10">
 <div class="input-group-prepend">
 <span class="input-group-text">prefix</span>
 </div>

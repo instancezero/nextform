@@ -145,8 +145,9 @@ class FieldBinding extends Binding
 
     /**
      * Translate the texts in this element.
+     *
      * @param Translator $translate
-     * @return \Abivia\NextForm\Form\Element\Element
+     * @return \Abivia\NextForm\Form\Binding\Binding
      */
     public function translate(Translator $translate) : Binding
     {

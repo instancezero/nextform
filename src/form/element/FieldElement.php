@@ -90,33 +90,6 @@ class FieldElement extends NamedElement
         $this->type = 'field';
     }
 
-    /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
-     * @return \self
-     */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema) : self
-    {
-        $this->dataProperty = $schema->getProperty($this->object);
-        if ($this->dataProperty) {
-            // Give the data property the ability to signal us.
-            $this->dataProperty->linkElement($this);
-            if ($this->form) {
-                $this->form->registerObject($this);
-            }
-
-            // Merge a copy of the data labels so we can use them with translation
-            $this->labelsMerged = $this->dataProperty->getLabels()
-                ->merge($this->labels);
-
-            // Make a copy of the data list so we can translate labels
-            $this->dataList = $this->dataProperty->getPopulation()
-                ->getList();
-            $this->dataListTranslated = $this->dataList;
-        }
-        return $this;
-    }
-
     protected function configureClassMap($property, $value)
     {
         static $classMap = [
@@ -245,14 +218,6 @@ class FieldElement extends NamedElement
     }
 
     /**
-     * Get the current value of the field.
-     * @return mixed
-     */
-    public function getValue() {
-        return $this->value;
-    }
-
-    /**
      * If we can represent this field in JSON as a string, return a string otherwise $this.
      */
     public function jsonCollapse()
@@ -305,17 +270,6 @@ class FieldElement extends NamedElement
     public function setDefault($value) : self
     {
         $this->default = $value;
-        return $this;
-    }
-
-    /**
-     * Set the current value for this field
-     * @param $value The new default value.
-     * @return \self
-     */
-    public function setValue($value) : self
-    {
-        $this->value = $value;
         return $this;
     }
 

@@ -6,9 +6,9 @@ use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface as RendererInterface;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Form\Element\ContainerElement;
+use Abivia\NextForm\Form\Binding\ContainerBinding;
+use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
@@ -67,6 +67,7 @@ class NextForm
     protected $objectMap;
     protected $renderer;
     protected $schema;
+    protected $schemaIsLinked = false;
     protected $translate;
     protected $useSegment = '';
 
@@ -80,9 +81,9 @@ class NextForm
     {
         $this->nameMap = [];
         $containerCount = 0;
-        foreach ($this->allElements as $element) {
-            if ($element instanceof FieldElement) {
-                $baseName = str_replace('/', '_', $element->getObject());
+        foreach ($this->bindings as $binding) {
+            if ($binding instanceof FieldBinding) {
+                $baseName = str_replace('/', '_', $binding->getObject());
                 $name = $baseName;
                 $confirmName = $baseName . '_confirm';
                 $append = 0;
@@ -90,16 +91,16 @@ class NextForm
                     $name = $baseName . '_' . ++$append;
                     $confirmName = $name . '_' . $append . '_confirm';
                 }
-                $this->nameMap[$name] = $element;
-                $element->setFormName($name);
-            } elseif ($element instanceof ContainerElement) {
+                $this->nameMap[$name] = $binding;
+                $binding->setFormName($name);
+            } elseif ($binding instanceof ContainerBinding) {
                 $baseName = 'container_';
                 $name = $baseName;
                 while (isset($this->nameMap[$name])) {
                     $name = $baseName . ++$containerCount;
                 }
-                $this->nameMap[$name] = $element;
-                $element->setFormName($name);
+                $this->nameMap[$name] = $binding;
+                $binding->setFormName($name);
             }
         }
         $this->schemaIsLinked = true;
@@ -160,7 +161,9 @@ class NextForm
         // Start the form, write all the elements, close the form, return.
         $pageData = $this->renderer->start($options);
         foreach ($this->bindings as $binding) {
-            $pageData->merge($binding->generate($this->renderer, $this->access));
+            $pageData->merge(
+                $binding->generate($this->renderer, $this->access, $this->translate)
+            );
         }
         $pageData->close();
         return $pageData;
@@ -257,7 +260,7 @@ class NextForm
     public function populate($data, $segment = '')
     {
         if (!$this->schemaIsLinked) {
-            throw new LogicException('Form not linked to schema.');
+            throw new \LogicException('Form not linked to schema.');
         }
         foreach ($data as $field => $value) {
             if ($segment !== '') {

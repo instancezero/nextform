@@ -9,3 +9,4 @@ To Do List
 - Cell spacing; inline spacing... needs work.
 - When labels get configured in a schema, they need to know what the schema defaults are. <-- done, needs a test.
 - Restructure translation so everything gets updated right before generation.
+- Binding::setLabel() should be able to use the current translator.

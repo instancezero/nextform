@@ -1,6 +1,7 @@
 <?php
 
 use Abivia\NextForm;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
@@ -295,8 +296,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 	public function testCellContext() {
         $this->logMethod(__METHOD__);
         $element = new CellElement();
+        $binding = Binding::fromElement($element);
         $this->assertFalse($this->testObj->queryContext('inCell'));
-        $this->testObj->render($element);
+        $this->testObj->render($binding);
         $this->assertTrue($this->testObj->queryContext('inCell'));
     }
 

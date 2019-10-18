@@ -4,8 +4,8 @@ namespace Abivia\NextForm\Renderer;
 use Abivia\NextForm;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Traits\ShowableTrait;
 
 /**
@@ -103,16 +103,23 @@ abstract class Html implements RendererInterface
         self::$showDefaultScope = 'form';
     }
 
-    protected function elementHidden($element, $value)
+    /**
+     * Generate a hidden element.
+     *
+     * @param FieldBinding $binding
+     * @param mixed $value
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    protected function elementHidden($binding, $value)
     {
         $block = new Block();
-        $baseId = $element->getId();
-        $formName = $element->getFormName();
+        $baseId = $binding->getId();
+        $formName = $binding->getFormName();
         $attrs = new Attributes('type', 'hidden');
-        if ($element instanceof FieldElement) {
+        if ($binding instanceof NextForm\Form\Binding\FieldBinding) {
             $attrs->setIfNotNull(
                 '*data-sidecar',
-                $element->getDataProperty()->getPopulation()->sidecar
+                $binding->getDataProperty()->getPopulation()->sidecar
             );
         }
         if (is_array($value)) {
@@ -135,20 +142,20 @@ abstract class Html implements RendererInterface
 
     /**
      * Generate hidden elements for an option list.
-     * @param FieldElement $element The element we're generating for.
+     * @param FieldBinding $binding The binding we're generating for.
      * @return \Abivia\NextForm\Renderer\Block The output block.
      */
-    protected function elementHiddenList(FieldElement $element)
+    protected function elementHiddenList(FieldBinding $binding)
     {
         $needEmpty = true;
         $block = new Block();
-        $baseId = $element->getId();
-        $select = $element->getValue();
-        $list = $element->getList(true);
+        $baseId = $binding->getId();
+        $select = $binding->getValue();
+        $list = $binding->getList(true);
         $attrs = new Attributes('type', 'hidden');
-        $attrs->set('name', $element->getFormName() . (empty($list) ? '' : '[]'));
+        $attrs->set('name', $binding->getFormName() . (empty($list) ? '' : '[]'));
         if ($select === null) {
-            $select = $element->getDefault();
+            $select = $binding->getElement()->getDefault();
         }
         foreach ($list as $optId => $radio) {
             $optAttrs = $attrs->copy();
@@ -168,7 +175,7 @@ abstract class Html implements RendererInterface
             }
         }
         if ($needEmpty) {
-            $block = $this->elementHidden($element, $select);
+            $block = $this->elementHidden($binding, $select);
         }
         return $block;
     }
@@ -437,7 +444,7 @@ abstract class Html implements RendererInterface
     protected function writeElement($tag, $options = [])
     {
         $hasPost = false;
-        $attrs = $options['attrs'] ?? null;
+        $attrs = $options['attrs'] ?? new Attributes();
         if (isset($options['show'])) {
             list($scope, $setting) = self::showGetSetting($options['show']);
         } else {
@@ -448,7 +455,7 @@ abstract class Html implements RendererInterface
             $attrs = $attrs->merge($this->showState[$scope][$setting]);
             $block->body = $this->writeTag($tag, $attrs) . "\n";
             $hasPost = true;
-        } elseif ($attrs !== null && !$attrs->isEmpty()) {
+        } elseif (!$attrs->isEmpty()) {
             $block->body = $this->writeTag($tag, $attrs) . "\n";
             $hasPost = true;
         } elseif ($options['force'] ?? false) {
@@ -487,7 +494,8 @@ abstract class Html implements RendererInterface
             $text = htmlspecialchars($text);
         }
         if (isset($this->showState['form'][$purpose])) {
-            $attrs = $this->showState['form'][$purpose]->merge($attrs);
+            $attrs = $attrs ?? new Attributes();
+            $attrs = $attrs->merge($this->showState['form'][$purpose]);
         }
         $breakTag = $options['break'] ?? false;
         $html = $this->writeTag($tag, $attrs)

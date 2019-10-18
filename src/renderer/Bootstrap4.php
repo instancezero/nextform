@@ -4,12 +4,9 @@ namespace Abivia\NextForm\Renderer;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
-use Abivia\NextForm\Form\Element\ButtonElement;
-use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Form\Element\FieldElement;
-use Abivia\NextForm\Form\Element\SectionElement;
-use Abivia\NextForm\Form\Element\StaticElement;
+use Abivia\NextForm\Form\Binding\SimpleBinding;
 
 /**
  * Renderer for Bootstrap4
@@ -55,10 +52,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     protected function checkList(FieldBinding $binding, Attributes $attrs)
     {
         $baseId = $binding->getId();
-        $type = $element->getDataProperty()->getPresentation()->getType();
-        $select = $element->getValue();
+        $type = $binding->getDataProperty()->getPresentation()->getType();
+        $select = $binding->getValue();
         if ($select === null) {
-            $select = $element->getDefault();
+            $select = $binding->getElement()->getDefault();
         }
         $appearance = $this->showGet('check', 'appearance');
         $checkLayout = $this->showGet('check', 'layout');
@@ -118,10 +115,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     protected function checkListButtons(FieldBinding $binding, Attributes $attrs)
     {
         $baseId = $binding->getId();
-        $type = $element->getDataProperty()->getPresentation()->getType();
+        $type = $binding->getDataProperty()->getPresentation()->getType();
         $select = $binding->getValue();
         if ($select === null) {
-            $select = $element->getDefault();
+            $select = $binding->getElement()->getDefault();
         }
         // We know the appearance is going to be button or toggle
         //$appearance = $this->showGet('check', 'appearance');
@@ -224,13 +221,14 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
         $labelAttrs = new Attributes();
         $buttonClass = $this->getButtonClass('radio');
-        $checked = $binding->getValue() === $element->getDefault()
-            && $element->getValue() !== null;
+        $checked = $binding->getValue() === $binding->getElement()->getDefault()
+            && $binding->getValue() !== null;
         $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
         $block->merge($this->writeElement('label', ['attrs' => $labelAttrs]));
         $block->body .= $this->writeTag('input', $attrs) . "\n";
         $block->body .= $labels->inner;
         $block->close();
+
         return $block;
     }
 
@@ -404,7 +402,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderCellElement(CellBinding $binding, $options = [])
+    protected function renderCellElement(ContainerBinding $binding, $options = [])
     {
         $block = $this->writeElement('div', ['show' => 'cellElementAttributes', 'force' => true]);
         $block->onCloseDone = [$this, 'popContext'];
@@ -426,7 +424,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
-        $show = $element->getShow();
+        $show = $binding->getElement()->getShow();
         if ($show !== '') {
             $this->pushContext();
             $this->setShow($show, 'check');
@@ -454,7 +452,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block = new Block();
         $baseId = $binding->getId();
         $labels = $binding->getLabels(true);
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
 
@@ -570,7 +568,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs = new Attributes();
         $block = new Block();
         $labels = $binding->getLabels(true);
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
 
@@ -760,7 +758,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     protected function renderFieldFile(FieldBinding $binding, $options = [])
     {
         $attrs = new Attributes();
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         $block = new Block();
@@ -780,7 +778,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
-        $show = $element->getShow();
+        $show = $binding->getElement()->getShow();
         if ($show !== '') {
             $this->pushContext();
             $this->setShow($show, 'file');
@@ -846,6 +844,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
+        $element = $binding->getElement();
         $show = $element->getShow();
         if ($show) {
             $this->pushContext();
@@ -864,7 +863,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         );
 
         $labels = $binding->getLabels(true);
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
 
         // Link the label if we're not in view mode
         $multiple = $data->getValidation()->get('multiple');
@@ -964,7 +963,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     protected function renderFieldSelectView($binding)
     {
         $baseId = $binding->getId();
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $multiple = $data->getValidation()->get('multiple');
 
         $attrs = new Attributes();
@@ -1013,7 +1012,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     {
 
         // Get the type. We also use the data and presentation below.
-        $data = $element->getDataProperty();
+        $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         $value = $binding->getValue();
@@ -1025,7 +1024,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
-        $show = $element->getShow();
+        $show = $binding->getElement()->getShow();
         if ($show !== '') {
             $this->pushContext();
             $this->setShow($show, 'textarea');
@@ -1102,7 +1101,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderSectionElement(SectionBinding $binding, $options = [])
+    protected function renderSectionElement(ContainerBinding $binding, $options = [])
     {
         $labels = $binding->getLabels(true);
         $block = $this->writeElement(
@@ -1120,7 +1119,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderStaticElement(StaticBinding $binding, $options = [])
+    protected function renderStaticElement(SimpleBinding $binding, $options = [])
     {
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] === 'hide') {
@@ -1128,6 +1127,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
+        $element = $binding->getElement();
         $show = $element->getShow();
         if ($show !== '') {
             $this->pushContext();

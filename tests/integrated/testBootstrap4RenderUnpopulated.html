@@ -11,93 +11,51 @@
   </head>
 <body>
 <div class="container">
-<form id="registrationForm" name="registrationForm" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="1784b5eb97bfe9e6f870033da42bdfc9330299a56c765c197f4fd026be9428b9">
-<fieldset id="field-1-container" class="form-group col-sm-12" data-nf-for="field-1">
-<div>Membership Type (tslt)</div>
+<form id="form1" name="" action="http://localhost/nextform/post.php" method="post">
+<input id="nf_token" name="nf_token" type="hidden" value="f625e04054cf3e278558233210f0f3d9399ceb45d6a2f6255a99dd0a1c00e947">
+<fieldset id="field-2-container" class="form-group col-sm-12" data-nf-for="field-2">
+<div>Membership Type</div>
 <div class="form-check">
-<input id="field-1-opt0" name="members_membershipType" type="radio" class="form-check-input" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
-<label for="field-1-opt0" class="form-check-label">Individual $30 (tslt)</label>
+<input id="field-2-opt0" name="members_membershipType" type="radio" class="form-check-input" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
+<label for="field-2-opt0" class="form-check-label">Individual $30 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt1" name="members_membershipType" type="radio" class="form-check-input" value="FAM" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
-<label for="field-1-opt1" class="form-check-label">Family $50 (tslt)</label>
+<input id="field-2-opt1" name="members_membershipType" type="radio" class="form-check-input" value="FAM" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
+<label for="field-2-opt1" class="form-check-label">Family $50 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt2" name="members_membershipType" type="radio" class="form-check-input" value="STU" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
-<label for="field-1-opt2" class="form-check-label">Student $15 (tslt)</label>
+<input id="field-2-opt2" name="members_membershipType" type="radio" class="form-check-input" value="STU" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
+<label for="field-2-opt2" class="form-check-label">Student $15 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt3" name="members_membershipType" type="radio" class="form-check-input" value="FEL" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
-<label for="field-1-opt3" class="form-check-label">Fellow Association $40 (tslt)</label>
+<input id="field-2-opt3" name="members_membershipType" type="radio" class="form-check-input" value="FEL" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
+<label for="field-2-opt3" class="form-check-label">Fellow Association $40 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt4" name="members_membershipType" type="radio" class="form-check-input" value="BUS" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
-<label for="field-1-opt4" class="form-check-label">Business $75 (tslt)</label>
+<input id="field-2-opt4" name="members_membershipType" type="radio" class="form-check-input" value="BUS" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
+<label for="field-2-opt4" class="form-check-label">Business $75 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt5" name="members_membershipType" type="radio" class="form-check-input" value="PAT" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
-<label for="field-1-opt5" class="form-check-label">Patron $100-$299 (tslt)</label>
+<input id="field-2-opt5" name="members_membershipType" type="radio" class="form-check-input" value="PAT" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<label for="field-2-opt5" class="form-check-label">Patron $100-$299 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field-1-opt6" name="members_membershipType" type="radio" class="form-check-input" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
-<label for="field-1-opt6" class="form-check-label">Sponsor $300+ (tslt)</label>
+<input id="field-2-opt6" name="members_membershipType" type="radio" class="form-check-input" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<label for="field-2-opt6" class="form-check-label">Sponsor $300+ (tslt)</label>
 </div>
 </fieldset>
-<fieldset id="section-2-container" class="form-group col-sm-12" data-nf-for="section-2">
-<legend>Primary Member (tslt)</legend>
-<div class="form-row col-sm-12">
-<div id="field-3-container" class="form-group" data-nf-for="field-3">
-<label for="field-3">Legal First Name (tslt)</label>
-<input id="field-3" name="members_primaryFirstName" type="text" class="form-control" required aria-describedby="field-3-help"/>
-<small id="field-3-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
-</div>
-<div id="field-4-container" class="form-group" data-nf-for="field-4">
-<label for="field-4">Legal Last Name (tslt)</label>
-<input id="field-4" name="members_primaryLastName" type="text" class="form-control" required aria-describedby="field-4-help"/>
-<small id="field-4-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
-</div>
-</div>
-<div id="field-5-container" class="form-group col-sm-12" data-nf-for="field-5">
-<label for="field-5">Email (tslt)</label>
-<input id="field-5" name="members_primaryEmail" type="email" class="form-control" required/>
-</div>
-<div id="field-5-container" class="form-group col-sm-12" data-nf-for="field-5">
-<label for="field-5-confirmation">Repeat email (tslt)</label>
-<input id="field-5-confirmation" name="members_primaryEmail-confirmation" type="email" class="form-control" required/>
-</div>
-<div id="field-6-container" class="form-group col-sm-12" data-nf-for="field-6">
-<label for="field-6">Artist Name (tslt)</label>
-<input id="field-6" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field-6-help"/>
-<small id="field-6-help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
-</div>
+<fieldset id="section-3-container" class="form-group col-sm-12" data-nf-for="section-3">
+<legend>Primary Member</legend>
 </fieldset>
-<fieldset id="section-7-container" class="form-group col-sm-12" data-nf-for="section-7" data-nf-group="[&quot;family&quot;]">
-<legend>Second Member (tslt)</legend>
-<div class="form-row col-sm-12">
-<div id="field-8-container" class="form-group" data-nf-for="field-8">
-<label for="field-8">Legal First Name (tslt)</label>
-<input id="field-8" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field-8-help"/>
-<small id="field-8-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
-</div>
-<div id="field-9-container" class="form-group" data-nf-for="field-9">
-<label for="field-9">Legal Last Name (tslt)</label>
-<input id="field-9" name="members_secondaryLastName" type="text" class="form-control" required aria-describedby="field-9-help"/>
-<small id="field-9-help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
-</div>
-</div>
-<div id="field-10-container" class="form-group col-sm-12" data-nf-for="field-10" data-nf-group="[&quot;family&quot;]">
-<label for="field-10">Artist Name (tslt)</label>
-<input id="field-10" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field-10-help"/>
-<small id="field-10-help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
-</div>
+<fieldset id="section-4-container" class="form-group col-sm-12" data-nf-for="section-4" data-nf-group="[&quot;family&quot;]">
+<legend>Second Member</legend>
 </fieldset>
-<div id="field-11-container" class="form-group col-sm-12" data-nf-for="field-11" data-nf-group="[&quot;business&quot;]">
-<label for="field-11">Business Name (tslt)</label>
-<input id="field-11" name="members_businessName" type="text" class="form-control"/>
+<div id="field-5-container" class="form-group col-sm-12" data-nf-for="field-5" data-nf-group="[&quot;business&quot;]">
+<label for="field-5">Business Name</label>
+<input id="field-5" name="members_businessName" type="text" class="form-control"/>
 </div>
-<div id="button-12-container" class="form-group col-sm-12" data-nf-for="button-12">
-<input id="button-12" name="button-12" type="submit" class="btn btn-primary" value="Join (tslt)"/>
+<div id="button-6-container" class="form-group col-sm-12" data-nf-for="button-6">
+<input id="button-6" name="button-6" type="submit" class="btn btn-primary" value="Join"/>
 </div>
 </form>
 

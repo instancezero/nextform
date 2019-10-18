@@ -68,7 +68,6 @@ class ButtonElement Extends NamedElement
     {
         if (isset($this->configureOptions['_form'])) {
             $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
         }
     }
 

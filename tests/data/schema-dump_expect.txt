@@ -67,7 +67,7 @@ Abivia\NextForm\Data\Schema Object
 
                                         )
 
-                                    [linkedElements:protected] => Array
+                                    [linkedBindings:protected] => Array
                                         (
                                         )
 
@@ -153,7 +153,7 @@ Abivia\NextForm\Data\Schema Object
                                             [configureOptions:Abivia\NextForm\Data\Labels:private] =>
                                         )
 
-                                    [linkedElements:protected] => Array
+                                    [linkedBindings:protected] => Array
                                         (
                                         )
 

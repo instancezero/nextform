@@ -2,13 +2,8 @@
 
 use Abivia\NextForm;
 //use Abivia\NextForm\Data\Property;
-use Abivia\NextForm\Data\Schema;
-use Abivia\NextForm\Form\Element\ButtonElement;
+use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Form\Element\FieldElement;
-use Abivia\NextForm\Form\Element\HtmlElement;
-use Abivia\NextForm\Form\Element\SectionElement;
-use Abivia\NextForm\Form\Element\StaticElement;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Bootstrap4;
 
@@ -30,7 +25,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         if ($for !== '') {
             $for = ' for="' . $for . '"';
         }
-        $tagClass = trim('col-sm-2 col-form-label ' . $moreClass);
+        $tagClass = trim($moreClass . ' col-sm-2 col-form-label');
         $text = '<' . $tag
             . ($tag == 'label' ? $for : '')
             . ' class="' . $tagClass . '">'
@@ -39,7 +34,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
     }
 
     protected function column2($text, $moreClass = ''){
-        $divClass = trim('col-sm-10 ' . $moreClass);
+        $divClass = trim($moreClass . ' col-sm-10');
         $text = '<div class="' . $divClass. '">' . "\n"
             . $text . '</div>' . "\n";
         return $text;
@@ -234,7 +229,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="button-1" name="button-1" type="button"'
                     . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
+                ['id' => 'button-1', 'classPrepend' => 'nf-hidden']
             )
         );
 
@@ -360,8 +355,9 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 	public function testCellContext() {
         $this->logMethod(__METHOD__);
         $element = new CellElement();
+        $binding = Binding::fromElement($element);
         $this->assertFalse($this->testObj->queryContext('inCell'));
-        $this->testObj->render($element);
+        $this->testObj->render($binding);
         $this->assertTrue($this->testObj->queryContext('inCell'));
     }
 
