@@ -116,29 +116,6 @@ abstract class ContainerElement Extends NamedElement
     }
 
     /**
-     * Use a renderer to turn this element into part of the form.
-     * @param RendererInterface $renderer Any Renderer object.
-     * @param AccessInterface $access Any access control object
-     * @param Translator $translator Any translation object.
-     * @return Block
-     */
-    public function generate(
-        RendererInterface $renderer,
-        AccessInterface $access,
-        Translator $translator
-    ) : Block {
-        $this->translate($translator);
-        $options = false; // $access->hasAccess(...)
-        $options = ['access' => 'write'];
-        $containerData = $renderer->render($this, $options);
-        foreach ($this->elements as $element) {
-            $containerData->merge($element->generate($renderer, $access, $translator));
-        }
-        $containerData->close();
-        return $containerData;
-    }
-
-    /**
      * Get the elements in this container.
      * @return Element[]
      */

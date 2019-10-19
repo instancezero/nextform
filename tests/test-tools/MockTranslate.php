@@ -7,10 +7,13 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  */
 class MockTranslate implements Translator {
 
+    public $append = ' (tslt)';
+    public $prepend = '';
+
     public function trans($key, array $replace = [], $locale = null) {
         $replace = $replace;
         $locale = $locale;
-        return $key . ' (tslt)';
+        return $this->prepend . $key . $this->append;
     }
 
     public function transChoice($key, $number, array $replace = [], $locale = null) {

@@ -166,9 +166,8 @@ class Binding
      * @param Translator $translator Any translation object.
      * @return Block
      */
-    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translator) : Block
+    public function generate(RendererInterface $renderer, AccessInterface $access) : Block
     {
-        $this->translate($translator);
         //$readOnly = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $pageData = $renderer->render($this, $options);

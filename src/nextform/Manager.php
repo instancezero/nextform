@@ -171,11 +171,16 @@ class Manager
         $this->assignNames();
         $this->renderer->setShow($this->show);
 
+        // Run the translations.
+        foreach ($this->allBindings as $binding) {
+            $binding->translate($this->translator);
+        }
+
         // Start the form, write all the bindings, close the form, return.
         $pageData = $this->renderer->start($options);
         foreach ($this->bindings as $binding) {
             $pageData->merge(
-                $binding->generate($this->renderer, $this->access, $this->translator)
+                $binding->generate($this->renderer, $this->access)
             );
         }
         $pageData->close();
@@ -300,7 +305,6 @@ class Manager
     {
         if (!in_array($binding, $this->allBindings, true)) {
             $this->allBindings[] = $binding;
-            $binding->translate($this->translator);
         }
         $objectRef = $binding->getObject();
         if ($objectRef !== null) {
@@ -340,13 +344,8 @@ class Manager
 
     public function setTranslator(Translator $translator) : self
     {
-        $reTrans = $this->translator !== $translator && $this->schemaIsLinked;
         $this->translator = $translator;
-        if ($reTrans) {
-            foreach ($this->allBindings as $binding) {
-                $binding->translate($this->translator);
-            }
-        }
+
         return $this;
     }
 

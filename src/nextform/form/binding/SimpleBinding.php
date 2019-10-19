@@ -22,10 +22,8 @@ class SimpleBinding Extends Binding
      */
     public function generate(
         RendererInterface $renderer,
-        AccessInterface $access,
-        Translator $translator
+        AccessInterface $access
     ) : Block {
-        $this->translate($translator);
         $options = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $containerData = $renderer->render($this, $options);
