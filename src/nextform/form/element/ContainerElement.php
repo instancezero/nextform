@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Form\Form;
+use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Renderer\Block;
@@ -94,7 +94,7 @@ abstract class ContainerElement Extends NamedElement
             foreach ($config->elements as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
-                    $value = Form::expandField($value);
+                    $value = FieldElement::expandString($value);
                 }
             }
         }
@@ -119,20 +119,20 @@ abstract class ContainerElement Extends NamedElement
      * Use a renderer to turn this element into part of the form.
      * @param RendererInterface $renderer Any Renderer object.
      * @param AccessInterface $access Any access control object
-     * @param Translator $translate Any translation object.
+     * @param Translator $translator Any translation object.
      * @return Block
      */
     public function generate(
         RendererInterface $renderer,
         AccessInterface $access,
-        Translator $translate
+        Translator $translator
     ) : Block {
-        $this->translate($translate);
+        $this->translate($translator);
         $options = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $containerData = $renderer->render($this, $options);
         foreach ($this->elements as $element) {
-            $containerData->merge($element->generate($renderer, $access, $translate));
+            $containerData->merge($element->generate($renderer, $access, $translator));
         }
         $containerData->close();
         return $containerData;

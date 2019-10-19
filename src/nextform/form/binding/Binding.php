@@ -53,12 +53,6 @@ class Binding
     protected $formName;
 
     /**
-     * Set if there's a translation. This might go away as we revise translation handling.
-     * @var bool
-     */
-    protected $hasTranslation;
-
-    /**
      * User-specified element id, overrides auto ID
      * @var string
      */
@@ -83,6 +77,13 @@ class Binding
      * @var \Abivia\NextForm\Manager
      */
     protected $manager;
+
+    /**
+     * The current translation object.
+     *
+     * @var Translator
+     */
+    protected $translator;
 
     /**
      * The current value for the bound element.
@@ -156,19 +157,18 @@ class Binding
         }
 
         return $binding;
-
     }
 
     /**
      * Use a renderer to turn this element into part of the form.
      * @param RendererInterface $renderer Any Renderer object.
      * @param AccessInterface $access Any access control object
-     * @param Translator $translate Any translation object.
+     * @param Translator $translator Any translation object.
      * @return Block
      */
-    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translate) : Block
+    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translator) : Block
     {
-        $this->translate($translate);
+        $this->translate($translator);
         //$readOnly = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $pageData = $renderer->render($this, $options);
@@ -226,10 +226,11 @@ class Binding
      */
     public function getLabels($translated = false) : Labels
     {
-        if ($translated && $this->hasTranslation) {
+        if ($translated) {
             return $this->labelsTranslated;
         } elseif ($this->labels === null) {
             $this->labels = new Labels();
+            $this->labelsTranslated = new Labels();
         }
         return $this->labels;
     }
@@ -263,7 +264,8 @@ class Binding
     {
         $this->element = $element;
         $this->id = $element->getId();
-        $this->labels = $element->getLabels();
+        $this->labels = $element->getLabels() ?? new Labels();
+        $this->labelsTranslated = clone $this->labels;
         return $this;
     }
 
@@ -300,6 +302,7 @@ class Binding
             $this->labels = new Labels();
         }
         $this->labels->set($labelName, $text);
+        $this->labelsTranslated = $this->labels->translate($this->translator);
     }
 
     /**
@@ -326,12 +329,13 @@ class Binding
 
     /**
      * Translate the texts in this element.
-     * @param Translator $translate
-     * @return \self
+     * @param Translator $translator
+     * @return $this
      */
-    public function translate(Translator $translate) : self
+    public function translate(Translator $translator = null) : Binding
     {
-        // Stuff here
+        $this->translator = $translator;
+        $this->labelsTranslated = $this->labels->translate($translator);
         return $this;
     }
 

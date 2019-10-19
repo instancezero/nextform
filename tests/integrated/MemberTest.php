@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../test-tools/JsonComparison.php';
-include_once __DIR__ . '/../test-tools/NullTranslate.php';
+include_once __DIR__ . '/../test-tools/MockTranslate.php';
 include_once __DIR__ . '/../test-tools/Page.php';
 
 use Abivia\NextForm\Manager;
@@ -133,7 +133,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager->setForm($form);
         $manager->setSchema($schema);
         $manager->setRenderer($render);
-        $manager->setTranslator(new NullTranslate());
+        $manager->setTranslator(new MockTranslate());
         $page = $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
     }
@@ -154,7 +154,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         ];
         $manager->populate($data, 'members');
         $manager->setRenderer(new FlatRenderer());
-        $manager->setTranslator(new NullTranslate());
+        $manager->setTranslator(new MockTranslate());
         $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
     }
@@ -165,7 +165,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
         $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $manager->setRenderer(new SimpleHtml());
-        $manager->setTranslator(new NullTranslate());
+        $manager->setTranslator(new MockTranslate());
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
@@ -178,7 +178,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager->setForm(Form::fromFile(__DIR__ . '/member-form.json'));
         $manager->setSchema(Schema::fromFile(__DIR__ . '/member-schema.json'));
         $manager->setRenderer(new Bootstrap4());
-        $manager->setTranslator(new NullTranslate());
+        $manager->setTranslator(new MockTranslate());
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
 
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));

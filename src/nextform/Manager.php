@@ -8,7 +8,6 @@ use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
-use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
@@ -68,12 +67,12 @@ class Manager
     protected $renderer;
     protected $schema;
     protected $schemaIsLinked = false;
-    protected $translate;
+    protected $translator;
     protected $useSegment = '';
 
     public function __construct()
     {
-        $this->access = new \Abivia\NextForm\Access\BasicAccess;
+        $this->access = new Access\BasicAccess();
         $this->show = '';
     }
 
@@ -176,7 +175,7 @@ class Manager
         $pageData = $this->renderer->start($options);
         foreach ($this->bindings as $binding) {
             $pageData->merge(
-                $binding->generate($this->renderer, $this->access, $this->translate)
+                $binding->generate($this->renderer, $this->access, $this->translator)
             );
         }
         $pageData->close();
@@ -301,6 +300,7 @@ class Manager
     {
         if (!in_array($binding, $this->allBindings, true)) {
             $this->allBindings[] = $binding;
+            $binding->translate($this->translator);
         }
         $objectRef = $binding->getObject();
         if ($objectRef !== null) {
@@ -338,9 +338,15 @@ class Manager
         return $this;
     }
 
-    public function setTranslator(Translator $translate) : self
+    public function setTranslator(Translator $translator) : self
     {
-        $this->translate = $translate;
+        $reTrans = $this->translator !== $translator && $this->schemaIsLinked;
+        $this->translator = $translator;
+        if ($reTrans) {
+            foreach ($this->allBindings as $binding) {
+                $binding->translate($this->translator);
+            }
+        }
         return $this;
     }
 

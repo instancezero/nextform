@@ -5,7 +5,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 /**
  * An (almost) null translator
  */
-class NullTranslate implements Translator {
+class MockTranslate implements Translator {
 
     public function trans($key, array $replace = [], $locale = null) {
         $replace = $replace;

@@ -25,12 +25,12 @@ trait LabelsTrait
 
     /**
      * Translate the labels.
-     * @param Translator $translate
+     * @param Translator $translator
      * @return \Abivia\NextForm\Form\Element\Element
      */
-    public function translate(Translator $translate) : Element
+    public function translate(Translator $translator = null) : Element
     {
-        $this->labelsTranslated = $this->labelsMerged->translate($translate);
+        $this->labelsTranslated = $this->labelsMerged->translate($translator);
         $this->hasTranslation = true;
         return $this;
     }

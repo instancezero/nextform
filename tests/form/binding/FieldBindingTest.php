@@ -1,11 +1,9 @@
 <?php
 
-use Abivia\NextForm\Manager;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
-
 use Abivia\NextForm\Form\Element\FieldElement;
 
 
@@ -14,19 +12,65 @@ use Abivia\NextForm\Form\Element\FieldElement;
  */
 class FieldBindingTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInstantiation() {
-        $this->assertTrue(true);
-    }
     /**
-     * This test belongs somewhere else
+     *
+     * @var Form
      */
-    public function debug_testBinding()
-    {
-       $schema = Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json');
-       $form = Form::fromFile(__DIR__ . '/../../test-data/newform.json');
-       $manager = new Manager();
-       $manager->bind($form, $schema);
-       $data = $manager->getData();
-       $this->assertTrue(true);
+    public $simpleForm;
+
+    /**
+     *
+     * @var Schema
+     */
+    public $simpleSchema;
+
+    public function setUp() : void {
+        $simpleSchema = '{'
+            . '"segments": ['
+                . '{'
+                    . '"name": "test",'
+                    . '"objects": ['
+                        . '{'
+                            . '"name": "text",'
+                            . '"presentation": {"type": "text"}'
+                        . '}'
+                    . ']'
+                . '}'
+            . ']'
+        . '}';
+        $this->simpleSchema = Schema::fromJson($simpleSchema);
+
+        $simpleForm = '{'
+            . '"name":"registrationForm",'
+            . '"elements":['
+                . '"test/text",'
+                . '"test/not-defined",'
+                . '{'
+                    . '"name": "intro",'
+                    . '"type": "static",'
+                    . '"value": "static text",'
+                    . '"visible": true'
+                . '}'
+            . ']'
+        . '}';
+        $this->simpleForm = Form::fromJson($simpleForm);
     }
+
+    public function testBinding() {
+        $element = new FieldElement();
+        $element->configure('test/text');
+        $binding = Binding::fromElement($element);
+        $binding->bindSchema($this->simpleSchema);
+        $prop = $this->simpleSchema->getProperty('test/text');
+        $this->assertEquals($prop, $binding->getDataProperty());
+    }
+
+    public function testBindingNotDefined() {
+        $element = new FieldElement();
+        $element->configure('test/undefinedProperty');
+        $binding = Binding::fromElement($element);
+        $this->expectException('\RuntimeException');
+        $binding->bindSchema($this->simpleSchema);
+    }
+
 }

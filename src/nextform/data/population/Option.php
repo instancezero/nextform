@@ -198,9 +198,13 @@ class Option implements \JsonSerializable
         return $this;
     }
 
-    public function translate(Translator $translate)
+    public function translate(Translator $translator = null) : Option
     {
-        $this->label = $translate->trans($this->label);
+        $translated = clone $this;
+        if ($translator !== null) {
+            $translated->setLabel($translator->trans($this->label));
+        }
+        return $translated;
     }
 
 }

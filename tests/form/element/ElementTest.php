@@ -9,7 +9,7 @@ class ConcreteElement extends Element {
         parent::__construct();
     }
 
-    public function translate(Translator $translate) : Element {
+    public function translate(Translator $translator) : Element {
         return $this;
     }
 }

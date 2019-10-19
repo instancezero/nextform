@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../test-tools/NullTranslate.php';
+require_once __DIR__ . '/../../test-tools/MockTranslate.php';
 
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Form\Element\SimpleElement;
@@ -67,8 +67,8 @@ class FormSimpleElementTest extends \PHPUnit\Framework\TestCase
 	public function testValueTranslated() {
         $obj = new ConcreteSimpleElement();
         $obj->setValue('hello');
-        $translate = new NullTranslate();
-        $obj-> translate($translate);
+        $translator = new MockTranslate();
+        $obj-> translate($translator);
         $this->assertEquals('hello (tslt)', $obj->getValue());
     }
 

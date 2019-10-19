@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../test-tools/NullTranslate.php';
+include_once __DIR__ . '/../test-tools/MockTranslate.php';
 
 use \Abivia\NextForm\Data\Labels;
 
@@ -107,7 +107,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $obj->help = 'help';
         $obj->inner = 'placeholder';
         $obj->translate = false;
-        $trans = new NullTranslate();
+        $trans = new MockTranslate();
         $translated = $obj->translate($trans);
         $this->assertEquals('after', $translated->after);
         $this->assertEquals('before', $translated->before);

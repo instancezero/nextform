@@ -113,6 +113,7 @@ class Schema implements \JsonSerializable
 
     /**
      * Load a schema from a file.
+     *
      * @param string $schemaFile Path to the schema file.
      * @param string $format Format of the source file (json or yaml). If blank,
      *      files ending in .yaml or .yml are processed as YAML. Anything else is
@@ -158,6 +159,34 @@ class Schema implements \JsonSerializable
         if (!$schema->configure($rawConfig, true)) {
             throw new \RuntimeException(
                 'Failed to load ' . $schemaFile . "\n"
+                . implode("\n", $schema->configureErrors)
+            );
+        }
+
+        return $schema;
+    }
+
+    /**
+     * Load a schema from a JSON string.
+     *
+     * @param string $json JSON encoded string
+     * @return \Abivia\NextForm\Data\Schema
+     * @throws \RuntimeException
+     */
+    static public function fromJson($json)
+    {
+        $schema = new Schema();
+        $rawConfig = json_decode($json);
+        if ($rawConfig === false) {
+            throw new \RuntimeException(
+                json_last_error_msg() .  ' decoding JSON string.' . "\n"
+            );
+        }
+
+        // Convert the configuration into our data structures.
+        if (!$schema->configure($rawConfig, true)) {
+            throw new \RuntimeException(
+                'Failed to load JSON' . "\n"
                 . implode("\n", $schema->configureErrors)
             );
         }

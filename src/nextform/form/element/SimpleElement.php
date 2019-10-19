@@ -146,12 +146,16 @@ abstract class SimpleElement Extends Element
 
     /**
      * Generate a translated version of this element.
-     * @param \Abivia\NextForm\Form\Element\Translator $translate
+     * @param \Abivia\NextForm\Form\Element\Translator $translator
      * @return \Abivia\NextForm\Form\Element\Element
      */
-    public function translate(Translator $translate) : Element
+    public function translate(Translator $translator = null) : Element
     {
-        $this->valueTranslated = $translate->trans($this->value);
+        if ($translator !== null) {
+            $this->valueTranslated = $translator->trans($this->value);
+        } else {
+            $this->valueTranslated = $this->value;
+        }
         $this->hasTranslation = true;
         return $this;
     }

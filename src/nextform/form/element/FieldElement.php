@@ -118,6 +118,10 @@ class FieldElement extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
+        if (is_string($config)) {
+            // Convert to a useful class
+            $config = self::expandString($config);
+        }
     }
 
     protected function configurePropertyIgnore($property)
@@ -145,6 +149,25 @@ class FieldElement extends NamedElement
     }
 
     /**
+     * Convert a string of the form property:group:group to a configurable stdClass.
+     *
+     * @param string $value
+     * @return \stdClass
+     */
+    static public function expandString(string $value)
+    {
+        $groupParts = explode(Manager::GROUP_DELIM, $value);
+        // Convert to a useful class
+        $obj = new \stdClass;
+        $obj->type = 'field';
+        $obj->object = array_shift($groupParts);
+        if (!empty($groupParts)) {
+            $obj->memberOf = $groupParts;
+        }
+        return $obj;
+    }
+
+    /**
      * Get the connected schema object, if any
      * @return Abivia\NextForm\Data\Property
      */
@@ -165,47 +188,6 @@ class FieldElement extends NamedElement
     public function getDefault()
     {
         return $this->default;
-    }
-
-    /**
-     * Get the of Population/Option objects associated with the field with no hierarchy.
-     * @param bool $translated Returns the translated texts, if available
-     * @return \Abivia\NextForm\Data\Population\Option[]
-     */
-    public function getFlatList($translated = false)
-    {
-        if ($translated && $this->hasTranslation) {
-            $source = $this->dataListTranslated;
-        } else {
-            $source = $this->dataList;
-        }
-        // Lists can only nest one level deep, so this is straightforward.
-        $list = [];
-        foreach ($source as $option) {
-            if ($option->isNested()) {
-                foreach ($option->getList() as $item) {
-                    $list[] = $item;
-                }
-            } else {
-                $list[] = $option;
-            }
-        }
-        return $list;
-    }
-
-    /**
-     * Get a hierarchical list of Population/Option objects associated with the field
-     * @param bool $translated Returns the translated texts, if available
-     * @return Abivia\NextForm\Data\Population\Option[]
-     */
-    public function getList($translated = false)
-    {
-        if ($translated && $this->hasTranslation) {
-            $list = $this->dataListTranslated;
-        } else {
-            $list = $this->dataList;
-        }
-        return $list;
     }
 
     /**
@@ -274,22 +256,22 @@ class FieldElement extends NamedElement
 
     /**
      * Translate the texts in this element.
-     * @param Translator $translate
+     * @param Translator $translator
      * @return \Abivia\NextForm\Form\Element\Element
      */
-    public function translate(Translator $translate) : Element
+    public function translate(Translator $translator = null) : Element
     {
         // Translate the data list, if any
         if ($this->dataProperty) {
             $this->dataListTranslated = $this->dataList;
             if ($this->dataProperty->getPopulation()->getTranslate()) {
                 foreach ($this->dataListTranslated as $option) {
-                    $option->translate($translate);
+                    $option->translate($translator);
                 }
             }
         }
         // Translate the labels.
-        return parent::translate($translate);
+        return parent::translate($translator);
     }
 
 }

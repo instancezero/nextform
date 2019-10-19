@@ -149,15 +149,17 @@ class Labels implements \JsonSerializable
      * @param \Abivia\NextForm\Data\Labels $merge
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function merge(Labels $merge)
+    public function merge(Labels $merge = null)
     {
         $newLabels = clone $this;
-        foreach (self::$textProperties as $prop) {
-            if ($merge->$prop !== null) {
-                $newLabels->$prop = $merge->$prop;
+        if ($merge !== null) {
+            foreach (self::$textProperties as $prop) {
+                if ($merge->$prop !== null) {
+                    $newLabels->$prop = $merge->$prop;
+                }
             }
+            $newLabels->translate = $newLabels->translate || $merge->translate;
         }
-        $newLabels->translate = $newLabels->translate || $merge->translate;
         return $newLabels;
     }
 
@@ -180,27 +182,24 @@ class Labels implements \JsonSerializable
 
     /**
      * Create a translated version of the labels.
-     * @param Translator $translate The translation facility.
+     * @param Translator $translator The translation facility.
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function translate(Translator $translate) : Labels
+    public function translate(Translator $translator = null) : Labels
     {
         // Create a copy for the translated strings
         $newLabels = clone $this;
 
         // Merge in any schema defaults
         if ($this->schema) {
-            $defaults = $this->schema->getDefault('labels');
-            if ($defaults !== null) {
-                $newLabels = $defaults->combine($newLabels);
-            }
+            $newLabels = $newLabels->merge($this->schema->getDefault('labels'));
         }
 
         // Perform the translation
-        if ($newLabels->translate) {
+        if ($newLabels->translate && $translator !== null) {
             foreach (self::$textProperties as $prop) {
                 if ($newLabels->$prop !== null) {
-                    $newLabels->$prop = $translate->trans($this->$prop);
+                    $newLabels->$prop = $translator->trans($this->$prop);
                 }
             }
         }

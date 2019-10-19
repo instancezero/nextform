@@ -39,20 +39,7 @@
         },
         {
             "type": "cell",
-            "elements": [
-                {
-                    "type": "field",
-                    "object": "user-areaCode"
-                },
-                {
-                    "type": "field",
-                    "object": "user-phoneNumber"
-                },
-                {
-                    "type": "field",
-                    "object": "user-phoneExtension"
-                }
-            ]
+            "elements": ["text", "text"]
         },
         {
             "type": "section",
@@ -62,15 +49,15 @@
                     "elements": [
                         {
                             "type": "field",
-                            "object": "user2-areaCode"
+                            "object": "text"
                         },
                         {
                             "type": "field",
-                            "object": "user2-phoneNumber"
+                            "object": "text"
                         },
                         {
                             "type": "field",
-                            "object": "user2-phoneExtension"
+                            "object": "text"
                         }
                     ]
                 },

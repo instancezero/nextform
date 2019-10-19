@@ -235,12 +235,12 @@ abstract class Element implements \JsonSerializable
      * Use a renderer to turn this element into part of the form.
      * @param RendererInterface $renderer Any Renderer object.
      * @param AccessInterface $access Any access control object
-     * @param Translator $translate Any translation object.
+     * @param Translator $translator Any translation object.
      * @return Block
      */
-    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translate) : Block
+    public function generate(RendererInterface $renderer, AccessInterface $access, Translator $translator) : Block
     {
-        $this->translate($translate);
+        $this->translate($translator);
         //$readOnly = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];
         $pageData = $renderer->render($this, $options);

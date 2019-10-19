@@ -3,8 +3,8 @@
 namespace Abivia\NextForm\Form;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
 
@@ -39,6 +39,17 @@ class Form implements \JsonSerializable
         $this->show = '';
     }
 
+    protected function configureClassMap($property, $value)
+    {
+        $result = false;
+        if ($property == 'elements') {
+            $result = new \stdClass;
+            $result->key = '';
+            $result->className = [Element::class, 'classFromType'];
+        }
+        return $result;
+    }
+
     /**
      * Sets up options and converts string-valued elements into field objects.
      * @param \stdClass $config
@@ -53,21 +64,10 @@ class Form implements \JsonSerializable
         if (isset($config->elements) && is_array($config->elements)) {
             foreach ($config->elements as &$value) {
                 if (is_string($value)) {
-                    $value = self::expandField($value);
+                    $value = FieldElement::expandString($value);
                 }
             }
         }
-    }
-
-    protected function configureClassMap($property, $value)
-    {
-        $result = false;
-        if ($property == 'elements') {
-            $result = new \stdClass;
-            $result->key = '';
-            $result->className = [Element::class, 'classFromType'];
-        }
-        return $result;
     }
 
     /**
@@ -88,17 +88,23 @@ class Form implements \JsonSerializable
         return $form;
     }
 
-    static public function expandField($value)
+    /**
+     * Generate a form object from a JSON string.
+     *
+     * @param string $json
+     * @return \Abivia\NextForm\Form
+     * @throws RuntimeException
+     */
+    static public function fromJson($json)
     {
-        $groupParts = explode(Manager::GROUP_DELIM, $value);
-        // Convert to a useful class
-        $obj = new \stdClass;
-        $obj->type = 'field';
-        $obj->object = array_shift($groupParts);
-        if (!empty($groupParts)) {
-            $obj->memberOf = $groupParts;
+        $form = new Form();
+        if (!$form->configure(json_decode($json), true)) {
+            throw new \RuntimeException(
+                'Failed to load JSON' . "\n"
+                . implode("\n", $form->configureErrors)
+            );
         }
-        return $obj;
+        return $form;
     }
 
     /**
