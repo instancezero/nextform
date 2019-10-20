@@ -408,6 +408,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block->onCloseDone = [$this, 'popContext'];
         $this->pushContext();
         $this->context['inCell'] = true;
+        $this->context['cellFirstElement'] = true;
         $this->showDoLayout('form', 'inline');
         return $block;
     }
@@ -851,7 +852,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $this->setShow($show, 'select');
         }
 
-        // This element is visible
+        // This element is displayed
         $block = new Block();
 
         // Create a form group.
@@ -1164,6 +1165,57 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         return $block;
+    }
+
+    /**
+     * Process cell spacing options, called from show().
+     *
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    protected function showDoCellspacing($scope, $choice, $values = [])
+    {
+        // Expecting choice to be "a" or "b".
+        // For "a", one or more space delimited single digits from 0 to 5,
+        // optionally prefixed with rr-
+        //
+        // For "b" one or more space-delimited sets of [rr-]xx-n where ss is a
+        // renderer selector (bs for Bootstrap), xx is a size specifier,
+        // and n is 0 to 5.
+        //
+        // Specifiers other than bs are ignored the result is a list of
+        // classes to be used when spacing between the second and subsequent
+        // elements in a cell.
+
+        $classList = [];
+        if ($choice == 'a') {
+            foreach ($values as $value) {
+                \preg_match(
+                    '/(?<prefix>[a-z][a-z0-9]-)?(?<size>sm|md|lg|xl)\-(?<weight>[0-5])/',
+                    $value, $match
+                );
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                    continue;
+                }
+                $classList[] = 'ml-' . $match['size'] . '-' . $match['weight'];
+            }
+        } else {
+            foreach ($values as $value) {
+                \preg_match(
+                    '/(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
+                    $value, $match
+                );
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                    continue;
+                }
+                $classList[] = 'ml-' . $match['weight'];
+            }
+        }
+        if (!empty($classList)) {
+            $this->showState[$scope]['cellspacing']
+                = new Attributes('class', $classList);
+        }
     }
 
     /**

@@ -24,7 +24,7 @@ class FormHtmlElementTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($obj->configure($config, true));
 		$this->assertEquals('html', $obj->getType());
 		$this->assertEquals('', $obj->getName());
-		$this->assertEquals(true, $obj->getVisible());
+		$this->assertEquals(true, $obj->getDisplay());
     }
 
 }

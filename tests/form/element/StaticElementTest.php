@@ -23,7 +23,7 @@ class FormStaticElementTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($obj->configure($config));
 		$this->assertEquals('static', $obj->getType());
 		$this->assertEquals('', $obj->getName());
-		$this->assertEquals(true, $obj->getVisible());
+		$this->assertEquals(true, $obj->getDisplay());
     }
 
 }

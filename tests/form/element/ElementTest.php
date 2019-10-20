@@ -86,13 +86,13 @@ class FormConcreteElementTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test the access methods for visible
+     * Test the access methods for display
      */
-	public function testFormConcreteElementVisible() {
+	public function testFormConcreteElementDisplay() {
         $obj = new ConcreteElement();
-        $this->assertTrue($obj->getVisible());
-		$this->assertTrue($obj === $obj->setVisible(false));
-        $this->assertFalse($obj->getVisible());
+        $this->assertTrue($obj->getDisplay());
+		$this->assertTrue($obj === $obj->setDisplay(false));
+        $this->assertFalse($obj->getDisplay());
     }
 
 }

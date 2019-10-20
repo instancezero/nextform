@@ -135,8 +135,7 @@
                     "name": "primaryLastName",
                     "description": "Last name of the primary member",
                     "labels": {
-                        "heading": "Legal Last Name",
-                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
+                        "heading": "Legal Last Name"
                     },
                     "presentation": {
                         "type": "text",
@@ -227,8 +226,7 @@
                     "name": "secondaryLastName",
                     "description": "Last name of the second member",
                     "labels": {
-                        "heading": "Legal Last Name",
-                        "help": "If you use a public pseudonym, enter it under \"Artist Name\"."
+                        "heading": "Legal Last Name"
                     },
                     "presentation": {
                         "type": "text",

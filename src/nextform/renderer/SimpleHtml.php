@@ -139,6 +139,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->onCloseDone = [$this, 'popContext'];
         $this->pushContext();
         $this->context['inCell'] = true;
+        $this->context['cellFirstElement'] = true;
         $this->showDoLayout('form', 'inline');
         return $block;
     }
@@ -390,7 +391,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             // Hide: generate one or more hidden input elements
             return $this->elementHidden($binding, $value);
         }
-        // This element is visible
+        // This element is displayed
         $attrs = new Attributes();
         $block = new Block();
         $baseId = $binding->getId();
@@ -602,6 +603,49 @@ class SimpleHtml extends CommonHtml implements RendererInterface
     public function setOptions($options = [])
     {
 
+    }
+
+    /**
+     * Process cell spacing options, called from show().
+     *
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    protected function showDoCellspacing($scope, $choice, $values = [])
+    {
+        // Expecting choice to be "a" or "b".
+        // For "a", one or more space delimited single digits from 0 to 5,
+        // optionally prefixed with rr-
+        //
+        // For "b" one or more space-delimited sets of [rr-]xx-n where ss is a
+        // renderer selector (bs for Bootstrap), xx is a size specifier,
+        // and n is 0 to 5.
+        //
+        // Specifiers other than bs are ignored the result is a list of
+        // classes to be used when spacing between the second and subsequent
+        // elements in a cell.
+
+        $styleList = ['display' => 'inline-block', 'padding' => '0.5rem'];
+        if ($choice == 'a') {
+            $styleList['padding-left'] = '1rem';
+        } else {
+            foreach ($values as $value) {
+                \preg_match(
+                    '/(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
+                    $value, $match
+                );
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                    continue;
+                }
+                $weight = (int) $match['weight'];
+            }
+            $styleList['padding-left'] = round(2 * $weight / 5, 2) . 'rem';
+        }
+        if (!empty($styleList)) {
+            $this->showState[$scope]['cellspacing']
+                = new Attributes('style', $styleList);
+        }
     }
 
     /**

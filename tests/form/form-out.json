@@ -10,8 +10,8 @@
             "type": "html",
             "name": "completeHeader",
             "memberOf": "success",
-            "value": "<p>This is an initially invisible html element.<\/p>",
-            "visible": false
+            "value": "<p>This is an initially hidden html element.<\/p>",
+            "display": false
         },
         {
             "type": "field",

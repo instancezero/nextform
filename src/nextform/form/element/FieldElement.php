@@ -209,7 +209,7 @@ class FieldElement extends NamedElement
         if (!empty($this->triggers)) {
             return $this;
         }
-        if (!$this->enabled || $this->readonly || !$this->visible) {
+        if (!$this->enabled || $this->readonly || !$this->display) {
             return $this;
         }
         if ($this->show !== '') {

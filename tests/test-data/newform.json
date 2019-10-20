@@ -6,14 +6,14 @@
             "name": "intro",
             "type": "static",
             "value": "Some plain text where <, &, etc. gets escaped.",
-            "visible": true
+            "display": true
         },
         {
             "type": "html",
             "memberOf": "success",
             "name": "completeHeader",
-            "value": "<p>This is an initially invisible html element.</p>",
-            "visible": false
+            "value": "<p>This is an initially hidden html element.</p>",
+            "display": false
         },
         {
             "type": "field",
@@ -28,14 +28,14 @@
                     "event": "onValid",
                     "actions": [
                         {
-                            "change": "visible",
+                            "change": "display",
                             "value": "enable",
                             "target": ["completeHeader"]
                         }
                     ]
                 }
             ],
-            "visible": true
+            "display": true
         },
         {
             "type": "cell",

@@ -49,7 +49,7 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
                     . '"name": "intro",'
                     . '"type": "static",'
                     . '"value": "static text",'
-                    . '"visible": true'
+                    . '"display": true'
                 . '}'
             . ']'
         . '}';

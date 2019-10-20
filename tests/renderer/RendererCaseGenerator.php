@@ -138,9 +138,9 @@ class RendererCaseGenerator {
             $baseButton->copy()->setEnabled(false)
         );
 
-        // Invisible button
-        $cases['invisible'] = Binding::fromElement(
-            $baseButton->copy()->setVisible(false)
+        // Hidden button
+        $cases['hidden'] = Binding::fromElement(
+            $baseButton->copy()->setDisplay(false)
         );
 
         return $cases;

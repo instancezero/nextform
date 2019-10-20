@@ -232,7 +232,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         );
 
         // Not visible
-        $expect['invisible'] = Block::fromString(
+        $expect['hidden'] = Block::fromString(
             $this->formGroup(
                 '<input id="button-1" name="button-1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",

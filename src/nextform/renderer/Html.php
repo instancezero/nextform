@@ -39,7 +39,13 @@ abstract class Html implements RendererInterface
     static $selfClose = ['input' => 1, 'option' => 2];
 
     /**
-     * Default values and validation rules for show settings
+     * Default values and validation rules for show settings. Validation
+     * rules are organized by scope. Options are a list of valid strings,
+     * each prefixed with |, an array indexed by integers with each element
+     * being an array of [regex, replace], or an array indexed with the formal
+     * value with a regex for that value being the array content. Rules are
+     * evaluated sequentially, the first match is used.
+     *
      * @var array
      */
     static public $showRules = [
@@ -58,13 +64,25 @@ abstract class Html implements RendererInterface
                 ],
             ],
         ],
+        'cellspacing' => [
+            'default' => '3',
+            'validate' => [
+                'form' => [
+                    // Optional prefix "rr-" allows applications to provide
+                    // renderer-specific settings.
+                    'a' => '/(([a-z][a-z0-9]-)?(sm|md|lg|xl)\-[0-5]:?)+/',
+                    'b' => '/(([a-z][a-z0-9]-)?([0-5]):?)+/',
+                ],
+            ],
+            'validateMode' => 'pack',
+        ],
         'fill' => [
             'default' => 'solid',
             'validate' => [
                 'form' => '|outline|solid',
             ],
         ],
-        'invisible' => [
+        'hidden' => [
             'default' => 'nf_hidden',
         ],
         'layout' => [
@@ -122,12 +140,12 @@ abstract class Html implements RendererInterface
                 $binding->getDataProperty()->getPopulation()->sidecar
             );
         }
-        if (is_array($value)) {
+        if (\is_array($value)) {
             $optId = 0;
             foreach ($value as $key => $entry) {
                 $attrs->set('id', $baseId . '-opt' . $optId);
                 ++$optId;
-                $attrs->set('name', $formName . '[' . htmlspecialchars($key) . ']');
+                $attrs->set('name', $formName . '[' . \htmlspecialchars($key) . ']');
                 $attrs->set('value', $entry);
                 $block->body .= $this->writeTag('input', $attrs) . "\n";
             }
@@ -182,10 +200,10 @@ abstract class Html implements RendererInterface
 
     protected function getRenderMethod(Element $element)
     {
-        $classPath = get_class($element);
+        $classPath = \get_class($element);
         if (!isset(self::$renderMethodCache[$classPath])) {
-            $classParts = explode('\\', $classPath);
-            self::$renderMethodCache[$classPath] = 'render' . array_pop($classParts);
+            $classParts = \explode('\\', $classPath);
+            self::$renderMethodCache[$classPath] = 'render' . \array_pop($classParts);
         }
         return self::$renderMethodCache[$classPath];
     }
@@ -200,9 +218,16 @@ abstract class Html implements RendererInterface
         $id = $options['id'] ?? $binding->getId();
         $element = $binding->getElement();
         $container = new Attributes('id', $id . '-container');
-        if (!$element->getVisible()) {
+        if (!$element->getDisplay()) {
             //$container->set('style', 'display:none');
-            $container->merge($this->showGet('form', 'invisible'));
+            $container->merge($this->showGet('form', 'hidden'));
+        }
+        if ($this->context['inCell']) {
+            if ($this->context['cellFirstElement']) {
+                $this->context['cellFirstElement'] = false;
+            } else {
+                $container->merge($this->showGet('form', 'cellspacing'));
+            }
         }
         $groups = $element->getGroups();
         if (!empty($groups)) {
@@ -223,8 +248,8 @@ abstract class Html implements RendererInterface
     public function popContext()
     {
         if (count($this->contextStack)) {
-            $this->context = array_pop($this->contextStack);
-            $this->showState = array_pop($this->showStack);
+            $this->context = \array_pop($this->contextStack);
+            $this->showState = \array_pop($this->showStack);
         }
     }
 
@@ -233,14 +258,14 @@ abstract class Html implements RendererInterface
      */
     public function pushContext()
     {
-        array_push($this->contextStack, $this->context);
-        array_push($this->showStack, $this->showState);
+        \array_push($this->contextStack, $this->context);
+        \array_push($this->showStack, $this->showState);
     }
 
     public function queryContext($selector)
     {
         if (!isset($this->context[$selector])) {
-            throw new RuntimeException($selector . ' is not valid in current context.');
+            throw new \RuntimeException($selector . ' is not valid in current context.');
         }
         return $this->context[$selector];
     }
@@ -293,69 +318,50 @@ abstract class Html implements RendererInterface
                 'Invalid show: ' . $key . ' is not recognized.'
             );
         }
-        if (empty($args) && isset(self::$showRules[$key]['default'])) {
-            $args[0] = self::$showRules[$key]['default'];
+        $keyRules = self::$showRules[$key];
+        if (empty($args) && isset($keyRules['default'])) {
+            $args[0] = $keyRules['default'];
         }
-        if (isset(self::$showRules[$key]['validate'][$scope])) {
-            $rules = self::$showRules[$key]['validate'][$scope];
-        } elseif (isset(self::$showRules[$key]['validate']['form'])) {
-            $rules = self::$showRules[$key]['validate']['form'];
+        if (isset($keyRules['validate'][$scope])) {
+            $rules = $keyRules['validate'][$scope];
+            $validateMode = $keyRules['validateMode'] ?? 'choice';
+        } elseif (isset($keyRules['validate']['form'])) {
+            $rules = $keyRules['validate']['form'];
+            $validateMode = $keyRules['validateMode'] ?? 'choice';
         } else {
             $rules = null;
         }
         if ($rules) {
-            $valid = false;
-            if (is_array($rules)) {
-                // Keyword selection. Match the minimal unique subset for each option.
-                foreach ($rules as $choice => $match) {
-                    $matchParts = explode(':', $match);
-                    if (preg_match($matchParts[0], $args[0])) {
-                        $valid = true;
-                        break;
-                    }
-                }
-            } else {
-                // Plain string match
-                $choice = $args[0];
-                $valid = strpos($rules, '|' . $choice) !== false;
-            }
-            if (!$valid) {
-                throw new \RuntimeException(
-                    'Invalid show setting: ' . $args[0] . ' is not valid for ' . $key
-                );
-            }
+            $choice = $this->showValidate($args, $validateMode, $rules, $key);
         } else {
             $choice = $args[0];
-            $valid = true;
         }
-        if ($valid) {
-            // See if there's a method to process subsequent arguments,
-            // if not, just store the setting in $choice
-            $method = 'showDo' . ucfirst($key);
-            if (method_exists($this, $method)) {
-                $this->$method($scope, $choice, $args);
-            } else {
-                if (!isset($this->showState[$scope])) {
-                    $this->showState[$scope] = [];
-                }
-                $this->showState[$scope][$key] = $choice;
+        // See if there's a method to process subsequent arguments,
+        // if not, just store the setting in $choice
+        $method = 'showDo' . ucfirst($key);
+        if (\method_exists($this, $method)) {
+            $this->$method($scope, $choice, $args);
+        } else {
+            if (!isset($this->showState[$scope])) {
+                $this->showState[$scope] = [];
             }
+            $this->showState[$scope][$key] = $choice;
         }
     }
 
     /**
-     * Process invisible options, called from show()
+     * Process hidden options, called from show()
      * @param string $scope Names the settings scope/element this applies to.
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoInvisible($scope, $choice, $values = [])
+    protected function showDoHidden($scope, $choice, $values = [])
     {
         if (!isset($this->showState[$scope])) {
             $this->showState[$scope] = [];
         }
         // Use the choice as a class name
-        $this->showState[$scope]['invisible'] = new Attributes('class', $choice);
+        $this->showState[$scope]['hidden'] = new Attributes('class', $choice);
     }
 
     /**
@@ -400,6 +406,36 @@ abstract class Html implements RendererInterface
         return $this->showState[$scope][$key];
     }
 
+    protected function showValidate($setting, $mode, $rules, $key) {
+        if ($mode == 'pack') {
+            $setting = implode(':', $setting);
+        } else {
+            $setting = $setting[0];
+        }
+        $valid = false;
+        if (\is_array($rules)) {
+            // Keyword selection or match/replace, depending on the value.
+            // Scalar $match is keyword mode, Array $match is [match, replace],
+            // return the key ($choice)
+            foreach ($rules as $choice => $match) {
+                if (\preg_match($match, $setting)) {
+                    $valid = true;
+                    break;
+                }
+            }
+        } else {
+            // Plain string match
+            $choice = $setting;
+            $valid = \strpos($rules, '|' . $choice) !== false;
+        }
+        if (!$valid) {
+            throw new \RuntimeException(
+                'Invalid show setting: ' . $setting . ' is not valid for ' . $key
+            );
+        }
+        return $choice;
+    }
+
     /**
      * Start form generation
      * @param array $options @see NextForm
@@ -423,7 +459,7 @@ abstract class Html implements RendererInterface
         if (isset($options['token'])) {
             $pageData->token = $options['token'];
         } else {
-            $pageData->token = bin2hex(random_bytes(32));
+            $pageData->token = \bin2hex(random_bytes(32));
         }
         $nfToken = $options['tokenName'] ?? 'nf_token';
         if ($pageData->token !== '') {
@@ -491,7 +527,7 @@ abstract class Html implements RendererInterface
                 return '';
             }
         } else {
-            $text = htmlspecialchars($text);
+            $text = \htmlspecialchars($text);
         }
         if (isset($this->showState['form'][$purpose])) {
             $attrs = $attrs ?? new Attributes();
@@ -521,7 +557,7 @@ abstract class Html implements RendererInterface
         if (isset(self::$selfClose[$tag]) && $text === null) {
             $html .= '/>';
         } elseif ($text !== null) {
-            $html .= '>' . htmlentities($text) . '</' . $tag . '>';
+            $html .= '>' . \htmlentities($text) . '</' . $tag . '>';
         } else {
             $html .= '>';
         }

@@ -54,7 +54,7 @@ abstract class Element implements \JsonSerializable
         'labels' => ['drop:empty', 'drop:null', 'order:400'],
         'enabled' => ['drop:true', 'order:1000'],
         'readonly' => ['drop:false', 'drop:null', 'order:1100'],
-        'visible' => ['drop:true', 'order:1200'],
+        'display' => ['drop:true', 'order:1200'],
         'show' => ['drop:blank', 'order:2000'],
     ];
 
@@ -95,7 +95,7 @@ abstract class Element implements \JsonSerializable
      * The visibility state for this element.
      * @var bool
      */
-    protected $visible = true;
+    protected $display = true;
 
     public function __construct()
     {
@@ -300,12 +300,12 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
-     * Get the visible state of this element.
+     * Get the display state of this element.
      * @return bool
      */
-    public function getVisible()
+    public function getDisplay()
     {
-        return $this->visible;
+        return $this->display;
     }
 
     /**
@@ -390,13 +390,13 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
-     * Set this element's visible state.
-     * @param bool $visible
+     * Set this element's display state.
+     * @param bool $display
      * @return \self
      */
-    public function setVisible($visible) : self
+    public function setDisplay($display) : self
     {
-        $this->visible = $visible;
+        $this->display = $display;
         return $this;
     }
 

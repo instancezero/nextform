@@ -173,7 +173,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         );
 
         // Not visible
-        $expect['invisible'] = Block::fromString(
+        $expect['hidden'] = Block::fromString(
             $this->formGroup(
                 $this->column1('', 'label', 'button-1')
                 . $this->column2(

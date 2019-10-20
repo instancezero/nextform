@@ -11,7 +11,7 @@
                     "value": ["IND", "STU"],
                     "actions": [
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": ["family", "business"],
                             "value": false
                         }
@@ -21,12 +21,12 @@
                     "value": "FAM",
                     "actions": [
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "family",
                             "value": true
                         },
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "business",
                             "value": false
                         }
@@ -36,12 +36,12 @@
                     "value": ["BUS", "FEL"],
                     "actions": [
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "family",
                             "value": false
                         },
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "business",
                             "value": true
                         }
@@ -51,12 +51,12 @@
                     "value": ["PAT", "SPO"],
                     "actions": [
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "family",
                             "value": false
                         },
                         {
-                            "change": ["enable", "visible"],
+                            "change": ["enable", "display"],
                             "target": "business",
                             "value": true
                         }
