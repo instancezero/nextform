@@ -149,7 +149,11 @@ class Manager
      * Generate a form.
      * @param array $options Generation options, optional unless stated otherwise:
      *  $options = [
-     *      'attrs' => (Renderer\Attributes) Attributes to be added to the form element.
+     *      'attributes' => (Renderer\Attributes) Attributes to be added to the form element.
+     *      'id' => The HTML id for the form. If not provided, one is generated.
+     *              May also be passed through in 'attributes'.
+     *      'name' => The HTML name for the form. If not provided, the id is used.
+     *              May also be passed through in 'attributes'.
      *      'token' => (string) Form submission token. If provided and empty, no token is used.
      *      'tokenName' => (string) Name/ID to use for the token. Default is "nf_token".
      *  ]
@@ -159,13 +163,40 @@ class Manager
     {
         $this->options($options);
         $this->bind();
-        if (!isset($options['attrs'])) {
-            $options['attrs'] = new Attributes();
+
+        // Make sure we have attributes
+        if (!isset($options['attributes'])) {
+            $options['attributes'] = new Attributes();
+        }
+        $attrs = $options['attributes'];
+
+        // If we were passed an ID, clean it up and add to attributes
+        if (isset($options['id'])) {
+            $attrs->set('id', $options['id']);
         }
 
-        // Set the name and ID if not passed in to us.
-        $options['attrs']->default('id', $this->id);
-        $options['attrs']->default('name', $this->name);
+        // Pick up the ID or auto-generate one
+        if ($attrs->has('id')) {
+            $this->id = $attrs->get('id');
+        } else {
+            $this->id = Manager::htmlIdentifier('form', true);
+            $attrs->set('id', $this->id);
+        }
+
+        // If we have been passed a name, use it
+        if (isset($options['name'])) {
+            $this->name = $options['name'];
+            $attrs->set('name', $this->name);
+        }
+
+        // If there is no name, use the ID
+        if (!$attrs->has('name')) {
+            $this->name = $this->id;
+            $attrs->set('name', $this->id);
+        }
+
+        //Pass the ID to the form
+        $options['id'] = $this->id;
 
         // Assign field names
         $this->assignNames();
@@ -224,11 +255,11 @@ class Manager
     public function getSegmentData($segment)
     {
         $prefix = $segment . Manager::SEGMENT_DELIM;
-        $prefixLen = strlen($segment . Manager::SEGMENT_DELIM);
+        $prefixLen = \strlen($segment . Manager::SEGMENT_DELIM);
         $data = [];
         // The first element should have the value... there should only be one value.
         foreach ($this->objectMap as $objectName => $list) {
-            if (substr($objectName, 0, $prefixLen) == $prefix) {
+            if (\substr($objectName, 0, $prefixLen) == $prefix) {
                 $data[substr($objectName, $prefixLen)] = $list[0]->getValue();
             }
         }
@@ -243,29 +274,22 @@ class Manager
     static public function htmlIdentifier($name = '', $appendId = false)
     {
         if ($name == '') {
-            $name = 'nf-' . ++self::$htmlId;
+            $name = 'nf_' . ++self::$htmlId;
         } else {
             if ($appendId) {
-                $name .= '-' . ++self::$htmlId;
+                $name .= '_' . ++self::$htmlId;
             }
-            $name = preg_replace('/[^a-z0-9\-]/i', '-', $name);
-            $name = preg_replace('/^[^a-z0-9\-]/i', 'nf-\1', $name);
+            // Turn anything risky into a dash
+            // @todo escape the set of valid but odd characters.
+            $name = \preg_replace('/[^a-z0-9\_]/i', '_', $name);
+            // If the first character isn't alpha, prefix with nf-
+            $name = \preg_replace('/^[^a-z]/i', 'nf_\1', $name);
         }
         return $name;
     }
 
     protected function options($options)
     {
-        if (isset($options['name'])) {
-            $this->name = $options['name'];
-        }
-        if (isset($options['id'])) {
-            $this->id = $options['id'];
-        } elseif ($this->name != '') {
-            $this->id = self::htmlIdentifier($this->name);
-        } else {
-            $this->id = 'form' . ++self::$htmlId;
-        }
         return $this;
     }
 

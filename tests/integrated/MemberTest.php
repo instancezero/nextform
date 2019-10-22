@@ -122,7 +122,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
         // Stock JSON to stdClass for comparison; reload the config
         $result = json_decode($resultJson);
-        $jsonFile = __DIR__ . '/member-form.json';
+        $jsonFile = __DIR__ . '/member-form-baseline.json';
         $config = json_decode(file_get_contents($jsonFile));
         $this->assertTrue($this->jsonCompare($config, $result));
     }

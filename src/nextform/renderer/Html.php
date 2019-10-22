@@ -1,7 +1,7 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
-use Abivia\NextForm;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -134,7 +134,7 @@ abstract class Html implements RendererInterface
         $baseId = $binding->getId();
         $formName = $binding->getFormName();
         $attrs = new Attributes('type', 'hidden');
-        if ($binding instanceof NextForm\Form\Binding\FieldBinding) {
+        if ($binding instanceof \Abivia\NextForm\Form\Binding\FieldBinding) {
             $attrs->setIfNotNull(
                 '*data-sidecar',
                 $binding->getDataProperty()->getPopulation()->sidecar
@@ -143,7 +143,7 @@ abstract class Html implements RendererInterface
         if (\is_array($value)) {
             $optId = 0;
             foreach ($value as $key => $entry) {
-                $attrs->set('id', $baseId . '-opt' . $optId);
+                $attrs->set('id', $baseId . '_opt' . $optId);
                 ++$optId;
                 $attrs->set('name', $formName . '[' . \htmlspecialchars($key) . ']');
                 $attrs->set('value', $entry);
@@ -177,7 +177,7 @@ abstract class Html implements RendererInterface
         }
         foreach ($list as $optId => $radio) {
             $optAttrs = $attrs->copy();
-            $id = $baseId . '-opt' . $optId;
+            $id = $baseId . '_opt' . $optId;
             $optAttrs->set('id', $id);
             $value = $radio->getValue();
             $optAttrs->set('value', $value);
@@ -217,7 +217,7 @@ abstract class Html implements RendererInterface
     {
         $id = $options['id'] ?? $binding->getId();
         $element = $binding->getElement();
-        $container = new Attributes('id', $id . '-container');
+        $container = new Attributes('id', $id . '_container');
         if (!$element->getDisplay()) {
             //$container->set('style', 'display:none');
             $container->merge($this->showGet('form', 'hidden'));
@@ -279,11 +279,10 @@ abstract class Html implements RendererInterface
             return new Block();
         }
         $method = $this->getRenderMethod($binding->getElement());
-        if (method_exists($this, $method)) {
-            $result = $this->$method($binding, $options);
-        } else {
+        if (!method_exists($this, $method)) {
             throw new \RuntimeException('Unable to render element ' . get_class($binding->getElement()));
         }
+        $result = $this->$method($binding, $options);
         return $result;
     }
 
@@ -438,16 +437,19 @@ abstract class Html implements RendererInterface
 
     /**
      * Start form generation
-     * @param array $options @see NextForm
+     * @param array $options @see Manager
      * @return \Abivia\NextForm\Renderer\Block
      */
     public function start($options = []) : Block
     {
         $this->initialize();
-        if (isset($options['attrs'])) {
-            $attrs = $options['attrs'];
+        if (isset($options['attributes'])) {
+            $attrs = $options['attributes'];
         } else {
             $attrs = new Attributes();
+        }
+        if (!$attrs->has('id') || !$attrs->has('name')) {
+            throw new \RuntimeException('Form must have name and id attributes');
         }
         $attrs->set('method', isset($options['method']) ? $options['method'] : 'post');
         $attrs->setIfSet('action', $options);
@@ -480,7 +482,7 @@ abstract class Html implements RendererInterface
     protected function writeElement($tag, $options = [])
     {
         $hasPost = false;
-        $attrs = $options['attrs'] ?? new Attributes();
+        $attrs = $options['attributes'] ?? new Attributes();
         if (isset($options['show'])) {
             list($scope, $setting) = self::showGetSetting($options['show']);
         } else {

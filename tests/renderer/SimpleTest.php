@@ -23,8 +23,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
     protected function formGroup($body, $options = []) {
         $attr = '';
-        $id = $options['id'] ?? 'field-1';
-        $attr .= ' id="' . $id . '-container' . '"';
+        $id = $options['id'] ?? 'field_1';
+        $attr .= ' id="' . $id . '_container' . '"';
         $class = isset($options['class']) ? $options['class'] : '';
         $class = trim(
             ($options['classPrepend'] ?? '')
@@ -51,8 +51,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
     }
 
     public static function tearDownAfterClass() : void {
+        $attrs = new Attributes();
+        $attrs->set('id', 'nfTestForm');
+        $attrs->set('name', 'form_1');
         $obj = new SimpleHtml();
-        $data = $obj->start(['action' => 'http://localhost/nextform/post.php']);
+        $data = $obj->start(
+            ['action' => 'http://localhost/nextform/post.php', 'attributes' => $attrs]
+        );
+
         $data->body .= self::$allHtml;
         $data->close();
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
@@ -63,44 +69,43 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testStart() {
-        $data = $this->testObj->start(['token' => '']);
-        $this->assertEquals("<form method=\"post\">\n", $data->body);
+        $attrs = new Attributes();
+        $attrs->set('id', 'form_1');
+        $attrs->set('name', 'form_1');
+        $data = $this->testObj->start(['attributes' => $attrs, 'token' => '']);
+        $this->assertEquals("<form id=\"form_1\" name=\"form_1\" method=\"post\">\n", $data->body);
         $this->assertEquals("</form>\n", $data->post);
 
-        $data = $this->testObj->start(['token' => 'foo']);
+        $data = $this->testObj->start(['attributes' => $attrs, 'token' => 'foo']);
         $this->assertEquals(
-            "<form method=\"post\">\n"
+            "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
             . '<input id="nf_token" name="nf_token" type="hidden" value="foo">' . "\n",
             $data->body
         );
 
-        $data = $this->testObj->start(['token' => 'foo', 'tokenName' => 'george']);
+        $data = $this->testObj->start(['attributes' => $attrs, 'token' => 'foo', 'tokenName' => 'george']);
         $this->assertEquals(
-            "<form method=\"post\">\n"
+            "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
             . '<input id="george" name="george" type="hidden" value="foo">' . "\n",
             $data->body
         );
 
-        $data = $this->testObj->start(['method' => 'put', 'token' => '']);
-        $this->assertEquals("<form method=\"put\">\n", $data->body);
+        $data = $this->testObj->start(['attributes' => $attrs, 'method' => 'put', 'token' => '']);
+        $this->assertEquals("<form id=\"form_1\" name=\"form_1\" method=\"put\">\n", $data->body);
 
         $data = $this->testObj->start(
-            ['action' => 'https://localhost/some file.php', 'token' => '']
+            ['action' => 'https://localhost/some file.php', 'attributes' => $attrs, 'token' => '']
         );
         $this->assertEquals(
-            "<form action=\"https://localhost/some file.php\" method=\"post\">\n",
+            "<form id=\"form_1\" name=\"form_1\" action=\"https://localhost/some file.php\" method=\"post\">\n",
             $data->body
         );
 
+        $attrs->set('name', 'bad<name');
         $data = $this->testObj->start(
-            ['attrs' => new Attributes('name', 'bad<name'), 'token' => '']
+            ['attributes' => $attrs, 'token' => '']
         );
-        $this->assertEquals("<form name=\"bad&lt;name\" method=\"post\">\n", $data->body);
-
-        $data = $this->testObj->start(
-            ['attrs' => new Attributes('id','bad<name'), 'token' => '']
-        );
-        $this->assertEquals("<form id=\"bad&lt;name\" method=\"post\">\n", $data->body);
+        $this->assertEquals("<form id=\"form_1\" name=\"bad&lt;name\" action=\"https://localhost/some file.php\" method=\"post\">\n", $data->body);
 
     }
 
@@ -115,9 +120,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Default access
         $expect['bda'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
+                '<input id="button_1" name="button_1" type="button"'
                 . ' value="I am Button!"/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -128,9 +133,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Reset button default access
         $expect['rbda'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="reset"'
+                '<input id="button_1" name="button_1" type="reset"'
                 . ' value="I am Button!"/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -138,9 +143,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Submit button default access
         $expect['sbda'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="submit"'
+                '<input id="button_1" name="button_1" type="submit"'
                 . ' value="I am Button!"/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -151,16 +156,16 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // View access
         $expect['bva'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
+                '<input id="button_1" name="button_1" type="button"'
                 . ' value="I am Button!" disabled/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
 
         // Hidden access
         $expect['bra'] = new Block();
-        $expect['bra']->body = '<input id="button-1" name="button-1" type="hidden"'
+        $expect['bra']->body = '<input id="button_1" name="button_1" type="hidden"'
             . ' value="I am Button!"/>' . "\n";
 
         // Small... same as bda
@@ -175,9 +180,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Disabled
         $expect['disabled'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
+                '<input id="button_1" name="button_1" type="button"'
                 . ' value="I am Button!" disabled/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -185,9 +190,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Not visible
         $expect['hidden'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
+                '<input id="button_1" name="button_1" type="button"'
                 . ' value="I am Button!"/>' . "\n",
-                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
+                ['id' => 'button_1', 'classAppend' => 'nf-hidden']
             )
             . '<br/>' . "\n"
         );
@@ -206,8 +211,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // no labels
         $expect['label-none'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"/>' . "\n",
-                ['id' => 'button-1']
+                '<input id="button_1" name="button_1" type="button"/>' . "\n",
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -216,8 +221,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['label-before'] = Block::fromString(
             $this->formGroup(
                 '<span>prefix</span>'
-                . '<input id="button-1" name="button-1" type="button"/>' . "\n",
-                ['id' => 'button-1']
+                . '<input id="button_1" name="button_1" type="button"/>' . "\n",
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -225,9 +230,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // After
         $expect['label-after'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"/>'
+                '<input id="button_1" name="button_1" type="button"/>'
                 . '<span>suffix</span>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -235,9 +240,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Heading
         $expect['label-head'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1">Header</label>' . "\n"
-                . '<input id="button-1" name="button-1" type="button"/>' . "\n",
-                ['id' => 'button-1']
+                '<label for="button_1">Header</label>' . "\n"
+                . '<input id="button_1" name="button_1" type="button"/>' . "\n",
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -245,11 +250,11 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Help
         $expect['label-help'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
-                . ' aria-describedby="button-1-formhelp"/>' . "\n"
+                '<input id="button_1" name="button_1" type="button"'
+                . ' aria-describedby="button_1_formhelp"/>' . "\n"
                 . '<br/>' . "\n"
-                . '<small id="button-1-formhelp">Helpful</small>' . "\n",
-                ['id' => 'button-1']
+                . '<small id="button_1_formhelp">Helpful</small>' . "\n",
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -257,9 +262,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Inner
         $expect['label-inner'] = Block::fromString(
             $this->formGroup(
-                '<input id="button-1" name="button-1" type="button"'
+                '<input id="button_1" name="button_1" type="button"'
                 . ' value="inner"/>' . "\n",
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -267,12 +272,12 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // All
         $expect['label-all'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1">Header</label>' . "\n"
-                . '<span>prefix</span><input id="button-1" name="button-1" type="button"'
-                . ' value="inner" aria-describedby="button-1-formhelp"/>'
+                '<label for="button_1">Header</label>' . "\n"
+                . '<span>prefix</span><input id="button_1" name="button_1" type="button"'
+                . ' value="inner" aria-describedby="button_1_formhelp"/>'
                 . '<span>suffix</span>' . "\n" . '<br/>' . "\n"
-                . '<small id="button-1-formhelp">Helpful</small>' . "\n",
-                ['id' => 'button-1']
+                . '<small id="button_1_formhelp">Helpful</small>' . "\n",
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -321,21 +326,21 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['value'] = Block::fromString(
             $this->formGroup(
-            '<input id="field-1" name="field-1" type="button" value="Ok Bob"/>' . "\n"
+            '<input id="field_1" name="field_1" type="button" value="Ok Bob"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['reset'] = Block::fromString(
             $this->formGroup(
-            '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/>' . "\n"
+            '<input id="field_1" name="field_1" type="reset" value="Ok Bob"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['submit'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/>' . "\n"
+                '<input id="field_1" name="field_1" type="submit" value="Ok Bob"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -354,8 +359,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="checkbox"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -366,9 +371,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                '<input id="field_1" name="field_1" type="checkbox" value="3"'
                 . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -376,46 +381,46 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['checked'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="checkbox" value="3" checked/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                '<input id="field_1" name="field_1" type="checkbox" value="3" checked/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                '<input id="field_1" name="field_1" type="checkbox" value="3"'
                 . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"'
+            '<input id="field_1" name="field_1" type="hidden" value="3"'
             . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="checkbox" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                '<input id="field_1" name="field_1" type="checkbox" readonly/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // no labels
         $expect['label-none'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -424,8 +429,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['label-before'] = Block::fromString(
             $this->formGroup(
                 '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -433,9 +438,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // After
         $expect['label-after'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 . '<span>suffix</span>'
             )
             . '<br/>' . "\n"
@@ -445,8 +450,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['label-head'] = Block::fromString(
             $this->formGroup(
                 '<div>Header</div>' . "\n"
-                . '<input id="field-1" name="field-1" type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="checkbox" value="3"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -457,9 +462,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Inner
         $expect['label-inner'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="checkbox" value="3"/>' . "\n"
-                . '<label for="field-1">inner</label>' . "\n"
+                . '<label for="field_1">inner</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -468,9 +473,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['label-all'] = Block::fromString(
             $this->formGroup(
                 '<div>Header</div>' . "\n"
-                . '<span>prefix</span><input id="field-1" name="field-1" type="checkbox"'
+                . '<span>prefix</span><input id="field_1" name="field_1" type="checkbox"'
                 . ' value="3"/>' . "\n"
-                . '<label for="field-1">inner</label>' . "\n"
+                . '<label for="field_1">inner</label>' . "\n"
                 . '<span>suffix</span>'
             )
             . '<br/>' . "\n"
@@ -497,20 +502,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -523,20 +528,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1" readonly/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -544,28 +549,28 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Set a value to trigger the checked option
         $expect['single-value'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" checked'
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked'
                 . ' data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -573,7 +578,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Check hidden access with a single value
         $expect['single-value-hide'] = Block::fromString(
-            '<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4"'
+            '<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4"'
             . ' data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
@@ -581,21 +586,21 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['dual-value'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1" checked/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4"'
                 . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -605,21 +610,21 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['dual-value-view'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked readonly/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1" checked readonly/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4"'
                 . ' checked readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -627,8 +632,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['dual-value-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field-1-opt3" name="field-1[]" type="hidden" value="textlist 4"'
+            '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>' . "\n"
+            . '<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4"'
             . ' data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
@@ -652,7 +657,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['default'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="color"/>' . "\n"
+                '<input id="field_1" name="field_1" type="color"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -660,7 +665,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="color" value="#F0F0F0"/>' . "\n"
+                '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -672,14 +677,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="color" value="#F0F0F0" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="color" value="#F0F0F0" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Convert to hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -696,7 +701,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="date"/>' . "\n"
+                '<input id="field_1" name="field_1" type="date"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -704,7 +709,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"/>' . "\n"
+                '<input id="field_1" name="field_1" type="date" value="2010-10-10"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -715,7 +720,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+                '<input id="field_1" name="field_1" type="date" value="2010-10-10"'
                 . ' min="1957-10-08" max="2099-11-06"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -724,7 +729,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+                '<input id="field_1" name="field_1" type="date" value="2010-10-10"'
                 . ' readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -732,7 +737,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -750,7 +755,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="datetime-local"/>' . "\n"
+                '<input id="field_1" name="field_1" type="datetime-local"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -758,7 +763,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="datetime-local"'
+                '<input id="field_1" name="field_1" type="datetime-local"'
                 . ' value="2010-10-10"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -770,7 +775,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+                '<input id="field_1" name="field_1" type="datetime-local" value="2010-10-10"'
                 . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -779,7 +784,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+                '<input id="field_1" name="field_1" type="datetime-local" value="2010-10-10"'
                 . ' readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -787,7 +792,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -801,14 +806,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="email"/>' . "\n"
+                '<input id="field_1" name="field_1" type="email"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
         // Now test validation
         $expect['multiple'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="email" multiple/>' . "\n"
+                '<input id="field_1" name="field_1" type="email" multiple/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -816,15 +821,15 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Turn confirmation on and set some test labels
         $expect['confirm'] = Block::fromString(
             $this->formGroup(
-                '<label for="field-1">Yer email</label>' . "\n"
-                . '<input id="field-1" name="field-1" type="email"/>' . "\n"
+                '<label for="field_1">Yer email</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="email"/>' . "\n"
                 )
             . '<br/>' . "\n"
             . $this->formGroup(
-                '<label for="field-1-confirmation">Confirm yer email</label>' . "\n"
-                . '<input id="field-1-confirmation" name="field-1-confirmation"'
+                '<label for="field_1_confirmation">Confirm yer email</label>' . "\n"
+                . '<input id="field_1_confirmation" name="field_1_confirmation"'
                 . ' type="email"/>' . "\n",
-                ['id' => 'field-1-confirmation']
+                ['id' => 'field_1_confirmation']
             )
             . '<br/>' . "\n"
         );
@@ -833,8 +838,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         //
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<label for="field-1">Yer email</label>' . "\n"
-                . '<input id="field-1" name="field-1" type="email"'
+                '<label for="field_1">Yer email</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="email"'
                 . ' value="snafu@fub.ar" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -842,7 +847,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="snafu@fub.ar"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -857,7 +862,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="file"/>' . "\n"
+                '<input id="field_1" name="field_1" type="file"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -865,7 +870,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['valid'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1[]" type="file"'
+                '<input id="field_1" name="field_1[]" type="file"'
                 . ' accept="*.png,*.jpg" multiple/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -874,7 +879,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -882,7 +887,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -891,8 +896,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test hidden access
         //
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n"
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="file1.png"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -909,7 +914,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Same result with explicit write access
@@ -934,7 +939,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['label-none'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"'
+            '<input id="field_1" name="field_1" type="hidden"'
             . ' value="the value"/>' . "\n"
         );
 
@@ -959,14 +964,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="month"/>' . "\n"
+                '<input id="field_1" name="field_1" type="month"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="month" value="2010-10"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -978,7 +983,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="month" value="2010-10"'
+                '<input id="field_1" name="field_1" type="month" value="2010-10"'
                 . ' min="1957-10" max="2099-11"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -987,7 +992,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="month" value="2010-10"'
                 . ' readonly/>' . "\n"
             )
@@ -996,7 +1001,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Read access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1014,7 +1019,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="number" value="200"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1023,9 +1028,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Make the field required
         $expect['required'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="number"'
+                '<input id="field_1" name="field_1" type="number"'
                 . ' value="200"'
-                . ' required/>' . "\n"
+                . ' required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1033,9 +1038,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set minimum/maximum values
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="number"'
+                '<input id="field_1" name="field_1" type="number"'
                 . ' value="200"'
-                . ' min="-1000" max="999.45" required/>' . "\n"
+                . ' min="-1000" max="999.45" required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1043,9 +1048,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Add a step
         $expect['step'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="number"'
+                '<input id="field_1" name="field_1" type="number"'
                 . ' value="200"'
-                . ' min="-1000" max="999.45" required step="1.23"/>' . "\n"
+                . ' min="-1000" max="999.45" required step="1.23" data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1056,7 +1061,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="number"'
+                '<input id="field_1" name="field_1" type="number"'
                 . ' value="200" readonly/>' . "\n"
             )
             . $tail
@@ -1073,7 +1078,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="password"/>' . "\n"
+                '<input id="field_1" name="field_1" type="password"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1084,7 +1089,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="password" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1093,7 +1098,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="password" value="secret" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1101,7 +1106,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="secret"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="secret"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1118,8 +1123,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="radio"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                '<input id="field_1" name="field_1" type="radio"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1130,8 +1135,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                '<input id="field_1" name="field_1" type="radio" value="3"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1139,15 +1144,15 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                '<input id="field_1" name="field_1" type="radio" value="3" readonly/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1166,8 +1171,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<div>Very Important Choice</div>' . "\n"
                 . '<span>No need to fear</span>'
-                . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="radio" value="3"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 . '<span>See? No problem!</span>'
             )
             . '<br/>' . "\n"
@@ -1178,8 +1183,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<div>Very Important Choice</div>' . "\n"
                 . '<span>No need to fear</span>'
-                . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="radio" value="3" readonly/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 . '<span>See? No problem!</span>'
             )
             . '<br/>' . "\n"
@@ -1187,7 +1192,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1204,21 +1209,21 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                 . ' data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1231,22 +1236,22 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['value'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                 . ' checked/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                 . ' data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1256,24 +1261,24 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
                 '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"'
                 . ' readonly/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
                 . ' readonly/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                 . ' checked readonly/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                 . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1281,7 +1286,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1301,20 +1306,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 '<div>Very Important Choice</div>' . "\n"
                 . '<div>No need to fear</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked/>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>See? No problem!</div>' . "\n"
             )
@@ -1327,24 +1332,24 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 '<div>Very Important Choice</div>' . "\n"
                 . '<div>No need to fear</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"'
                 . ' readonly/>' . "\n"
-                . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
                 . ' readonly/>' . "\n"
-                . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                 . ' checked readonly/>' . "\n"
-                . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                 . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>See? No problem!</div>' . "\n"
             )
@@ -1353,7 +1358,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1371,7 +1376,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="range" value="200"/>' . "\n"
+                '<input id="field_1" name="field_1" type="range" value="200"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1382,7 +1387,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set minimum/maximum values
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="range"'
+                '<input id="field_1" name="field_1" type="range"'
                 . ' value="200"'
                 . ' min="-1000" max="999.45"/>' . "\n"
             )
@@ -1392,7 +1397,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Add a step
         $expect['step'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="range"'
+                '<input id="field_1" name="field_1" type="range"'
                 . ' value="200"'
                 . ' min="-1000" max="999.45" step="20"/>' . "\n"
             )
@@ -1406,7 +1411,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' value="200" readonly/>' . "\n"
             )
             . $tail
@@ -1426,7 +1431,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="search"/>' . "\n"
+                '<input id="field_1" name="field_1" type="search"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1437,14 +1442,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="search" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="search" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1461,7 +1466,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1">' . "\n"
+                '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2">textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1477,20 +1482,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+                '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1">' . "\n"
+                '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1506,7 +1511,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+                '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
                 . '<span>textlist 2</span>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1514,13 +1519,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
         );
 
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                '<select id="field_1" name="field_1[]" multiple>' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1533,9 +1538,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+                '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>' . "\n"
                 . '<span>textlist 2</span><br/>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="textlist 4"/>' . "\n"
                 . '<span>textlist 4</span><br/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1543,14 +1548,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['multivalue-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="textlist 4"/>' . "\n"
         );
 
         // Set the presentation to six rows
         $expect['sixrow'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1[]" multiple size="6">' . "\n"
+                '<select id="field_1" name="field_1[]" multiple size="6">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
                 . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                 . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1574,7 +1579,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1">' . "\n"
+                '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="General">General</option>' . "\n"
                 . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -1595,20 +1600,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+                '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1">' . "\n"
+                '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="General">General</option>' . "\n"
                 . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -1629,7 +1634,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+                '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
                 . '<span>Sub Two Item One</span>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1637,13 +1642,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
         );
 
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                '<select id="field_1" name="field_1[]" multiple>' . "\n"
                 . '<option value="General">General</option>' . "\n"
                 . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
@@ -1661,9 +1666,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
+                '<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>' . "\n"
                 . '<span>Sub One Item One</span><br/>' . "\n"
-                . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="S2I1"/>' . "\n"
                 . '<span>Sub Two Item One</span><br/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1671,8 +1676,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['multivalue-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden"'
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="S2I1"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden"'
             . ' value="Sub One Item One"/>' . "\n"
         );
 
@@ -1690,7 +1695,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="tel"/>' . "\n"
+                '<input id="field_1" name="field_1" type="tel"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1701,14 +1706,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="tel" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="tel" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1723,7 +1728,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // No access specification assumes write access
         $expect['default'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"/>' . "\n"
+                '<input id="field_1" name="field_1" type="text"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1734,7 +1739,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="text" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1742,7 +1747,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1758,9 +1763,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' list="field-1-list"/>' . "\n"
-                . '<datalist id="field-1-list">' . "\n"
+                '<input id="field_1" name="field_1" type="text"'
+                . ' list="field_1_list"/>' . "\n"
+                . '<datalist id="field_1_list">' . "\n"
                 . '<option value="textlist 1"/>' . "\n"
                 . '<option value="textlist 2"/>' . "\n"
                 . '<option value="textlist 3"/>' . "\n"
@@ -1773,14 +1778,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access: No list is required
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1798,7 +1803,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // no labels
         $expect['label-none'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value"/>' . "\n"
             )
             . $tail
@@ -1808,7 +1813,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['label-before'] = Block::fromString(
             $this->formGroup(
                 '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
+                . '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value"/>' . "\n"
             )
             . $tail
@@ -1817,7 +1822,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // After
         $expect['label-after'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value"/>'
                 . '<span>suffix</span>' . "\n"
             )
@@ -1827,8 +1832,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Heading
         $expect['label-head'] = Block::fromString(
             $this->formGroup(
-                '<label for="field-1">Header</label>' . "\n"
-                . '<input id="field-1" name="field-1" type="text"'
+                '<label for="field_1">Header</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value"/>' . "\n"
             )
             . $tail
@@ -1840,7 +1845,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Inner
         $expect['label-inner'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value"'
                 . ' placeholder="inner"/>' . "\n"
             )
@@ -1850,9 +1855,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // All
         $expect['label-all'] = Block::fromString(
             $this->formGroup(
-                '<label for="field-1">Header</label>' . "\n"
+                '<label for="field_1">Header</label>' . "\n"
                 . '<span>prefix</span>'
-                . '<input id="field-1" name="field-1" type="text"'
+                . '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value" placeholder="inner"/>'
                 . '<span>suffix</span>' . "\n"
             )
@@ -1872,9 +1877,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $tail = "<br/>\n";
         $expect['required'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="text"'
-                . ' required/>' . "\n"
+                . ' required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1882,8 +1887,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a maximum length
         $expect['max'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' maxlength="10" required/>' . "\n"
+                '<input id="field_1" name="field_1" type="text"'
+                . ' maxlength="10" required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1891,8 +1896,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a minimum length
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
-                . ' maxlength="10" minlength="3" required/>' . "\n"
+                '<input id="field_1" name="field_1" type="text"'
+                . ' maxlength="10" minlength="3" required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1900,9 +1905,9 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Make it match a postal code
         $expect['pattern'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="text"'
+                '<input id="field_1" name="field_1" type="text"'
                 . ' maxlength="10" minlength="3"'
-                . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . "\n"
+                . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required data-nf-req="1"/>' . "\n"
             )
             . $tail
         );
@@ -1917,7 +1922,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<textarea id="field-1" name="field-1"></textarea>' . "\n"
+                '<textarea id="field_1" name="field_1"></textarea>' . "\n"
             )
 
         );
@@ -1928,13 +1933,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<textarea id="field-1" name="field-1" readonly></textarea>' . "\n"
+                '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
             )
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1950,7 +1955,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="time"/>' . "\n"
+                '<input id="field_1" name="field_1" type="time"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1958,7 +1963,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="time" value="20:10"/>' . "\n"
+                '<input id="field_1" name="field_1" type="time" value="20:10"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -1969,7 +1974,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="time" value="20:10"'
+                '<input id="field_1" name="field_1" type="time" value="20:10"'
                 . ' min="19:57" max="20:19"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1978,7 +1983,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="time" value="20:10"'
+                '<input id="field_1" name="field_1" type="time" value="20:10"'
                 . ' readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1986,7 +1991,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="20:10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="20:10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2002,7 +2007,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="url"/>' . "\n"
+                '<input id="field_1" name="field_1" type="url"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -2013,14 +2018,14 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="url" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="url" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2036,7 +2041,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="week"/>' . "\n"
+                '<input id="field_1" name="field_1" type="week"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -2044,7 +2049,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1"'
+                '<input id="field_1" name="field_1"'
                 . ' type="week" value="2010-W37"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -2056,7 +2061,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+                '<input id="field_1" name="field_1" type="week" value="2010-W37"'
                 . ' min="1957-W30" max="2099-W42"/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -2065,7 +2070,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+                '<input id="field_1" name="field_1" type="week" value="2010-W37"'
                 . ' readonly/>' . "\n"
             )
             . '<br/>' . "\n"
@@ -2073,7 +2078,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2138,10 +2143,10 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<div id="static-1">' . "\n"
+                '<div id="static_1">' . "\n"
                 . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
                 . '</div>' . "\n",
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . '<br/>' . "\n"
         );
@@ -2149,10 +2154,10 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['head'] = Block::fromString(
             $this->formGroup(
                 '<div>Header</div>' . "\n"
-                . '<div id="static-1">' . "\n"
+                . '<div id="static_1">' . "\n"
                 . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
                 . '</div>' . "\n",
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . '<br/>' . "\n"
         );
@@ -2168,10 +2173,10 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['raw'] = Block::fromString(
             $this->formGroup(
-                '<div id="static-1">' . "\n"
+                '<div id="static_1">' . "\n"
                 . 'This is <strong>raw html</strong>!' . "\n"
                 . '</div>' . "\n",
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . '<br/>' . "\n"
         );
@@ -2179,10 +2184,10 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['raw-head'] = Block::fromString(
             $this->formGroup(
                 '<div>Header</div>' . "\n"
-                . '<div id="static-1">' . "\n"
+                . '<div id="static_1">' . "\n"
                 . 'This is <strong>raw html</strong>!' . "\n"
                 . '</div>' . "\n",
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . '<br/>' . "\n"
         );

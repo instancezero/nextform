@@ -40,7 +40,7 @@
                     "tabindex": "integer",
                     "triggers": [
                         {
-                            "event": "onValid,onInvalid",
+                            "event": "valid,invalid",
                             "actions": [
                                 {
                                     "change": "enabled|visible|value|class",

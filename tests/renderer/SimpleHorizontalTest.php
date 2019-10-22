@@ -3,6 +3,7 @@
 use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
+use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
@@ -21,7 +22,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     protected $emptyLabel;
     protected $testObj;
 
-    protected function column1($text, $tag = 'label', $for = 'field-1') {
+    protected function column1($text, $tag = 'label', $for = 'field_1') {
         $for = $for === '' ? '' : ' for="' . $for . '"';
         $text = '<' . $tag
             . ($tag === 'label' ? $for : '')
@@ -38,8 +39,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
     protected function formGroup($body, $options = []) {
         $attr = '';
-        $id = $options['id'] ?? 'field-1';
-        $attr .= ' id="' . $id . '-container' . '"';
+        $id = $options['id'] ?? 'field_1';
+        $attr .= ' id="' . $id . '_container' . '"';
         $class = isset($options['class']) ? $options['class'] : '';
         $class = trim(
             ($options['classPrepend'] ?? '')
@@ -67,8 +68,14 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     }
 
     public static function tearDownAfterClass() : void {
+        $attrs = new Attributes();
+        $attrs->set('id', 'nfTestForm');
+        $attrs->set('name', 'form_1');
         $obj = new SimpleHtml();
-        $data = $obj->start(['action' => 'http://localhost/nextform/post.php']);
+        $data = $obj->start(
+            ['action' => 'http://localhost/nextform/post.php', 'attributes' => $attrs]
+        );
+
         $data->body .= self::$allHtml;
         $data->close();
         file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
@@ -89,12 +96,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Default access
         $expect['bda'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"'
+                    '<input id="button_1" name="button_1" type="button"'
                     . ' value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -105,12 +112,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Reset button default access
         $expect['rbda'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="reset"'
+                    '<input id="button_1" name="button_1" type="reset"'
                     . ' value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -118,12 +125,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Submit button default access
         $expect['sbda'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="submit"'
+                    '<input id="button_1" name="button_1" type="submit"'
                     . ' value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -134,19 +141,19 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // View access
         $expect['bva'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"'
+                    '<input id="button_1" name="button_1" type="button"'
                     . ' value="I am Button!" disabled/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
 
         // Hidden access
         $expect['bra'] = Block::fromString(
-            '<input id="button-1" name="button-1" type="hidden"'
+            '<input id="button_1" name="button_1" type="hidden"'
             . ' value="I am Button!"/>' . "\n"
         );
 
@@ -162,12 +169,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Disabled
         $expect['disabled'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"'
+                    '<input id="button_1" name="button_1" type="button"'
                     . ' value="I am Button!" disabled/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . '<br/>' . "\n"
         );
@@ -175,12 +182,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Not visible
         $expect['hidden'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'button-1')
+                $this->column1('', 'label', 'button_1')
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"'
+                    '<input id="button_1" name="button_1" type="button"'
                     . ' value="I am Button!"/>' . "\n"
                 ),
-                ['id' => 'button-1', 'classAppend' => 'nf-hidden']
+                ['id' => 'button_1', 'classAppend' => 'nf-hidden']
             )
             . '<br/>' . "\n"
         );
@@ -200,12 +207,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // no labels
         $expect['label-none'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . '&nbsp;</label>' . "\n"
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"/>' . "\n"
+                    '<input id="button_1" name="button_1" type="button"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -213,13 +220,13 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // before
         $expect['label-before'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . '&nbsp;</label>' . "\n"
                 . $this->column2(
                     '<span>prefix</span>'
-                    . '<input id="button-1" name="button-1" type="button"/>' . "\n"
+                    . '<input id="button_1" name="button_1" type="button"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -227,13 +234,13 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // After
         $expect['label-after'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . '&nbsp;</label>' . "\n"
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"/>'
+                    '<input id="button_1" name="button_1" type="button"/>'
                     . '<span>suffix</span>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -241,12 +248,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Heading
         $expect['label-head'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . 'Header</label>' . "\n"
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"/>' . "\n"
+                    '<input id="button_1" name="button_1" type="button"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -254,15 +261,15 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Help
         $expect['label-help'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . '&nbsp;</label>' . "\n"
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button"'
-                    . ' aria-describedby="button-1-formhelp"/>' . "\n"
+                    '<input id="button_1" name="button_1" type="button"'
+                    . ' aria-describedby="button_1_formhelp"/>' . "\n"
                     . '<br/>' . "\n"
-                    . '<small id="button-1-formhelp">Helpful</small>' . "\n"
+                    . '<small id="button_1_formhelp">Helpful</small>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -270,12 +277,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Inner
         $expect['label-inner'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block;'
+                '<label for="button_1" style="display:inline-block;'
                 . ' vertical-align:top; width:20%">&nbsp;</label>' . "\n"
                 . $this->column2(
-                    '<input id="button-1" name="button-1" type="button" value="inner"/>' . "\n"
+                    '<input id="button_1" name="button_1" type="button" value="inner"/>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -283,17 +290,17 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // All
         $expect['label-all'] = Block::fromString(
             $this->formGroup(
-                '<label for="button-1" style="display:inline-block; vertical-align:top; width:20%">'
+                '<label for="button_1" style="display:inline-block; vertical-align:top; width:20%">'
                 . 'Header</label>' . "\n"
                 . $this->column2(
                     '<span>prefix</span>'
-                    . '<input id="button-1" name="button-1" type="button" value="inner"'
-                    . ' aria-describedby="button-1-formhelp"/>'
+                    . '<input id="button_1" name="button_1" type="button" value="inner"'
+                    . ' aria-describedby="button_1_formhelp"/>'
                     . '<span>suffix</span>' . "\n"
                     . '<br/>' . "\n"
-                    . '<small id="button-1-formhelp">Helpful</small>' . "\n"
+                    . '<small id="button_1_formhelp">Helpful</small>' . "\n"
                 ),
-                ['id' => 'button-1']
+                ['id' => 'button_1']
             )
             . $tail
         );
@@ -343,7 +350,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="button" value="Ok Bob"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="button" value="Ok Bob"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -353,7 +360,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="reset" value="Ok Bob"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="reset" value="Ok Bob"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -363,7 +370,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="submit" value="Ok Bob"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="submit" value="Ok Bob"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -384,8 +391,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -399,9 +406,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                    '<input id="field_1" name="field_1" type="checkbox" value="3"'
                     . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -412,9 +419,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                    '<input id="field_1" name="field_1" type="checkbox" value="3"'
                     . ' checked/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -424,16 +431,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox" value="3"'
+                    '<input id="field_1" name="field_1" type="checkbox" value="3"'
                     . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
         );
 
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"'
+            '<input id="field_1" name="field_1" type="hidden" value="3"'
             . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
@@ -442,8 +449,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox" readonly/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="checkbox" readonly/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -451,16 +458,16 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = new Block();
-        $expect['hide']->body = '<input id="field-1" name="field-1" type="hidden"/>' . "\n";
+        $expect['hide']->body = '<input id="field_1" name="field_1" type="hidden"/>' . "\n";
 
         // no labels
         $expect['label-none'] = Block::fromString(
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="checkbox" value="3"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -472,8 +479,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<span>prefix</span>'
-                    . '<input id="field-1" name="field-1" type="checkbox" value="3"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<input id="field_1" name="field_1" type="checkbox" value="3"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -484,9 +491,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="checkbox" value="3"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                     . '<span>suffix</span>'
                 )
             )
@@ -498,8 +505,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Header', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="checkbox" value="3"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="checkbox" value="3"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -513,9 +520,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="checkbox" value="3"/>' . "\n"
-                    . '<label for="field-1">inner</label>' . "\n"
+                    . '<label for="field_1">inner</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -526,9 +533,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Header', 'div')
                 . $this->column2(
-                    '<span>prefix</span><input id="field-1" name="field-1" type="checkbox"'
+                    '<span>prefix</span><input id="field_1" name="field_1" type="checkbox"'
                     . ' value="3"/>' . "\n"
-                    . '<label for="field-1">inner</label>' . "\n"
+                    . '<label for="field_1">inner</label>' . "\n"
                     . '<span>suffix</span>'
                 )
             )
@@ -558,20 +565,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -587,20 +594,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" readonly/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1" readonly/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -609,7 +616,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Set a value to trigger the checked option
@@ -618,21 +625,21 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1"/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                     . ' value="textlist 4" checked data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -641,7 +648,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Check hidden access with a single value
         $expect['single-value-hide'] = Block::fromString(
-            '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            '<input id="field_1_opt3" name="field_1[]" type="hidden"'
             . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
@@ -651,22 +658,22 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1[]" type="checkbox"'
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
                     . ' value="textlist 1" checked/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3"/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                     . ' value="textlist 4" checked data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -679,21 +686,21 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1[]" type="checkbox" value="textlist 1" checked readonly/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1" checked readonly/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1[]" type="checkbox"'
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                     . ' value="textlist 4" checked readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -702,8 +709,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['dual-value-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field-1-opt3" name="field-1[]" type="hidden"'
+            '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>' . "\n"
+            . '<input id="field_1_opt3" name="field_1[]" type="hidden"'
             . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
@@ -728,7 +735,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['default'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . $this->column2('<input id="field-1" name="field-1" type="color"/>' . "\n")
+                . $this->column2('<input id="field_1" name="field_1" type="color"/>' . "\n")
             )
             . "<br/>\n"
         );
@@ -738,7 +745,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="color" value="#F0F0F0"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -753,7 +760,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="color"'
+                    '<input id="field_1" name="field_1" type="color"'
                     . ' value="#F0F0F0" readonly/>' . "\n"
                 )
             )
@@ -762,7 +769,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden for read access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="#F0F0F0"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -781,7 +788,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="date"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="date"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -792,7 +799,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="date" value="2010-10-10"/>'
+                    '<input id="field_1" name="field_1" type="date" value="2010-10-10"/>'
                     . "\n"
                 )
             )
@@ -807,7 +814,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+                    '<input id="field_1" name="field_1" type="date" value="2010-10-10"'
                     . ' min="1957-10-08" max="2099-11-06"/>' . "\n"
                 )
             )
@@ -819,7 +826,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="date" value="2010-10-10"'
+                    '<input id="field_1" name="field_1" type="date" value="2010-10-10"'
                     . ' readonly/>' . "\n"
                 )
             )
@@ -828,7 +835,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -848,7 +855,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="datetime-local"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="datetime-local"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -859,7 +866,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="datetime-local"'
+                    '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' value="2010-10-10"/>' . "\n"
                 )
             )
@@ -874,7 +881,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+                    '<input id="field_1" name="field_1" type="datetime-local" value="2010-10-10"'
                     . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/>' . "\n"
                 )
             )
@@ -886,7 +893,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="datetime-local" value="2010-10-10"'
+                    '<input id="field_1" name="field_1" type="datetime-local" value="2010-10-10"'
                     . ' readonly/>' . "\n"
                 )
             )
@@ -895,7 +902,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -911,7 +918,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="email"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="email"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -921,7 +928,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="email" multiple/>' . "\n"
+                    '<input id="field_1" name="field_1" type="email" multiple/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -932,19 +939,19 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Yer email')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="email"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="email"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
             . $this->formGroup(
-                '<label for="field-1-confirmation"'
+                '<label for="field_1_confirmation"'
                 . ' style="display:inline-block; vertical-align:top; width:20%">'
                 . 'Confirm yer email</label>' . "\n"
                 . $this->column2(
-                    '<input id="field-1-confirmation" name="field-1-confirmation"'
+                    '<input id="field_1_confirmation" name="field_1_confirmation"'
                     . ' type="email"/>' . "\n"
                 ),
-                ['id' => 'field-1-confirmation']
+                ['id' => 'field_1_confirmation']
             )
             . '<br/>' . "\n"
         );
@@ -954,7 +961,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Yer email')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="email"'
+                    '<input id="field_1" name="field_1" type="email"'
                     . ' value="snafu@fub.ar" readonly/>' . "\n"
                 )
             )
@@ -963,7 +970,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="snafu@fub.ar"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="snafu@fub.ar"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -980,7 +987,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="file"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="file"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -991,7 +998,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1[]" type="file"'
+                    '<input id="field_1" name="field_1[]" type="file"'
                     . ' accept="*.png,*.jpg" multiple/>' . "\n"
                 )
             )
@@ -1003,7 +1010,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -1014,7 +1021,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
                 )
             )
@@ -1023,8 +1030,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="file1.png"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="file2.jpg"/>' . "\n"
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="file1.png"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1041,7 +1048,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Same result with explicit write access
@@ -1066,7 +1073,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['label-none'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"'
+            '<input id="field_1" name="field_1" type="hidden"'
             . ' value="the value"/>' . "\n"
         );
 
@@ -1092,7 +1099,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . $this->column2('<input id="field-1" name="field-1" type="month"/>' . "\n")
+                . $this->column2('<input id="field_1" name="field_1" type="month"/>' . "\n")
             )
             . "<br/>\n"
         );
@@ -1101,7 +1108,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="month" value="2010-10"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="month" value="2010-10"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -1115,7 +1122,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="month" value="2010-10"'
+                    '<input id="field_1" name="field_1" type="month" value="2010-10"'
                     . ' min="1957-10" max="2099-11"/>' . "\n"
                 )
             )
@@ -1127,7 +1134,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="month" value="2010-10"'
+                    '<input id="field_1" name="field_1" type="month" value="2010-10"'
                     . ' readonly/>' . "\n"
                 )
             )
@@ -1136,7 +1143,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1156,7 +1163,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="number" value="200"/>' . "\n"
                 )
             )
@@ -1168,9 +1175,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="number"'
+                    '<input id="field_1" name="field_1" type="number"'
                     . ' value="200"'
-                    . ' required/>' . "\n"
+                    . ' required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -1181,9 +1188,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="number"'
+                    '<input id="field_1" name="field_1" type="number"'
                     . ' value="200"'
-                    . ' min="-1000" max="999.45" required/>' . "\n"
+                    . ' min="-1000" max="999.45" required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -1194,9 +1201,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="number"'
+                    '<input id="field_1" name="field_1" type="number"'
                     . ' value="200"'
-                    . ' min="-1000" max="999.45" required step="1.23"/>' . "\n"
+                    . ' min="-1000" max="999.45" required step="1.23" data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -1210,7 +1217,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="number"'
+                    '<input id="field_1" name="field_1" type="number"'
                     . ' value="200" readonly/>' . "\n"
                 )
             )
@@ -1230,7 +1237,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="password"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="password"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1244,7 +1251,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="password" readonly/>' . "\n"
                 )
             )
@@ -1256,7 +1263,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="password" value="secret" readonly/>' . "\n"
                 )
             )
@@ -1265,7 +1272,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="secret"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="secret"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1284,8 +1291,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div', '')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="radio"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="radio"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1299,8 +1306,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div', '')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="radio" value="3"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1311,8 +1318,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div', '')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-                    . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                    '<input id="field_1" name="field_1" type="radio" value="3" readonly/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1320,7 +1327,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1338,8 +1345,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Very Important Choice', 'div')
                 . $this->column2('<span>No need to fear</span>'
-                . '<input id="field-1" name="field-1" type="radio" value="3"/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="radio" value="3"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 . '<span>See? No problem!</span>')
             )
             . '<br/>' . "\n"
@@ -1350,8 +1357,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Very Important Choice', 'div')
                 . $this->column2('<span>No need to fear</span>'
-                . '<input id="field-1" name="field-1" type="radio" value="3" readonly/>' . "\n"
-                . '<label for="field-1">&lt;Stand-alone&gt; radio</label>' . "\n"
+                . '<input id="field_1" name="field_1" type="radio" value="3" readonly/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; radio</label>' . "\n"
                 . '<span>See? No problem!</span>')
             )
             . '<br/>' . "\n"
@@ -1359,7 +1366,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="3"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1378,21 +1385,21 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                    . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -1408,22 +1415,22 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                    . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                     . ' checked/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                    . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                     . ' data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -1436,24 +1443,24 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('', 'div')
                 . $this->column2(
                     '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                    . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"'
                     . ' readonly/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                    . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
                     . ' readonly/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                    . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                     . ' checked readonly/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                    . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                     . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                 )
             )
@@ -1462,7 +1469,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1483,20 +1490,20 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<div>No need to fear</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3" checked/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked/>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>See? No problem!</div>' . "\n"
                 )
@@ -1511,24 +1518,24 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<div>No need to fear</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt0" name="field-1" type="radio" value="textlist 1"'
+                    . '<input id="field_1_opt0" name="field_1" type="radio" value="textlist 1"'
                     . ' readonly/>' . "\n"
-                    . '<label for="field-1-opt0">textlist 1</label>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1" type="radio" value="textlist 2"'
+                    . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
                     . ' readonly/>' . "\n"
-                    . '<label for="field-1-opt1">textlist 2</label>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt2" name="field-1" type="radio" value="textlist 3"'
+                    . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
                     . ' checked readonly/>' . "\n"
-                    . '<label for="field-1-opt2">textlist 3</label>' . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>' . "\n"
-                    . '<input id="field-1-opt3" name="field-1" type="radio" value="textlist 4"'
+                    . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
                     . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
-                    . '<label for="field-1-opt3">textlist 4</label>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                     . '</div>' . "\n"
                     . '<div>See? No problem!</div>' . "\n"
                 )
@@ -1538,7 +1545,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
-            '<input id="field-1-opt2" name="field-1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1558,7 +1565,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="range" value="200"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="range" value="200"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1572,7 +1579,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="range"'
+                    '<input id="field_1" name="field_1" type="range"'
                     . ' value="200"'
                     . ' min="-1000" max="999.45"/>' . "\n"
                 )
@@ -1585,7 +1592,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="range"'
+                    '<input id="field_1" name="field_1" type="range"'
                     . ' value="200"'
                     . ' min="-1000" max="999.45" step="20"/>' . "\n"
                 )
@@ -1602,7 +1609,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' value="200" readonly/>' . "\n"
                 )
             )
@@ -1624,7 +1631,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="search"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="search"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1638,7 +1645,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="search" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="search" readonly/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1646,7 +1653,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1664,7 +1671,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1">' . "\n"
+                    '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2">textlist 2</option>' . "\n"
                     . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1683,7 +1690,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+                    '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1691,7 +1698,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Now let's give it a value...
@@ -1699,7 +1706,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1">' . "\n"
+                    '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                     . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1717,7 +1724,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span>' . "\n"
                 )
             )
@@ -1726,7 +1733,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="textlist 2"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
         );
 
         // Set multiple and give it two values
@@ -1734,7 +1741,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                    '<select id="field_1" name="field_1[]" multiple>' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                     . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1750,9 +1757,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1-opt0" name="field-1[]" type="hidden" value="textlist 2"/>' . "\n"
+                    '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span><br/>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="textlist 4"/>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="textlist 4"/>' . "\n"
                     . '<span>textlist 4</span><br/>' . "\n"
                 )
             )
@@ -1761,8 +1768,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['multivalue-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="textlist 2"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden" value="textlist 4"/>' . "\n"
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="textlist 2"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="textlist 4"/>' . "\n"
         );
 
         // Set the presentation to six rows
@@ -1770,7 +1777,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1[]" multiple size="6">' . "\n"
+                    '<select id="field_1" name="field_1[]" multiple size="6">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
                     . '<option value="textlist 3">textlist 3</option>' . "\n"
@@ -1796,7 +1803,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1">' . "\n"
+                    '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -1820,7 +1827,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="hidden" value=""/>' . "\n"
+                    '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1828,7 +1835,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         // Now let's give it a value...
@@ -1836,7 +1843,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1">' . "\n"
+                    '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
@@ -1860,7 +1867,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
                     . '<span>Sub Two Item One</span>' . "\n"
                 )
             )
@@ -1869,7 +1876,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="S2I1"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
         );
 
         // Set multiple and give it two values
@@ -1877,7 +1884,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<select id="field-1" name="field-1[]" multiple>' . "\n"
+                    '<select id="field_1" name="field_1[]" multiple>' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
@@ -1898,9 +1905,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div')
                 . $this->column2(
-                    '<input id="field-1-opt0" name="field-1[]" type="hidden" value="Sub One Item One"/>' . "\n"
+                    '<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>' . "\n"
                     . '<span>Sub One Item One</span><br/>' . "\n"
-                    . '<input id="field-1-opt1" name="field-1[]" type="hidden" value="S2I1"/>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="S2I1"/>' . "\n"
                     . '<span>Sub Two Item One</span><br/>' . "\n"
                 )
             )
@@ -1909,8 +1916,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['multivalue-hide'] = Block::fromString(
-            '<input id="field-1-opt0" name="field-1[0]" type="hidden" value="S2I1"/>' . "\n"
-            . '<input id="field-1-opt1" name="field-1[1]" type="hidden"'
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="S2I1"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden"'
             . ' value="Sub One Item One"/>' . "\n"
         );
 
@@ -1929,7 +1936,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="tel"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="tel"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1943,7 +1950,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="tel" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="tel" readonly/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1951,7 +1958,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1966,7 +1973,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['default'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . $this->column2('<input id="field-1" name="field-1" type="text"/>' . "\n")
+                . $this->column2('<input id="field_1" name="field_1" type="text"/>' . "\n")
             )
             . '<br/>' . "\n"
         );
@@ -1979,7 +1986,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1987,7 +1994,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2002,9 +2009,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
-                    . ' list="field-1-list"/>' . "\n"
-                    . "<datalist id=\"field-1-list\">\n"
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' list="field_1_list"/>' . "\n"
+                    . "<datalist id=\"field_1_list\">\n"
                     . "<option value=\"textlist 1\"/>\n"
                     . "<option value=\"textlist 2\"/>\n"
                     . "<option value=\"textlist 3\"/>\n"
@@ -2020,7 +2027,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2028,7 +2035,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2048,7 +2055,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value"/>' . "\n"
                 )
             )
@@ -2061,7 +2068,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('')
                 . $this->column2(
                     '<span>prefix</span>'
-                    . '<input id="field-1" name="field-1" type="text"'
+                    . '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value"/>' . "\n"
                 )
             )
@@ -2073,7 +2080,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value"/>'
                     . '<span>suffix</span>' . "\n"
                 )
@@ -2086,7 +2093,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Header')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value"/>' . "\n"
                 )
             )
@@ -2101,7 +2108,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value"'
                     . ' placeholder="inner"/>' . "\n"
                 )
@@ -2115,7 +2122,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
                 $this->column1('Header')
                 . $this->column2(
                     '<span>prefix</span>'
-                    . '<input id="field-1" name="field-1" type="text"'
+                    . '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value" placeholder="inner"/>'
                     . '<span>suffix</span>' . "\n"
                 )
@@ -2138,9 +2145,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="text"'
-                    . ' required/>' . "\n"
+                    . ' required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -2151,8 +2158,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
-                    . ' maxlength="10" required/>' . "\n"
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' maxlength="10" required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -2163,8 +2170,8 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
-                    . ' maxlength="10" minlength="3" required/>' . "\n"
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' maxlength="10" minlength="3" required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -2175,9 +2182,9 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="text"'
+                    '<input id="field_1" name="field_1" type="text"'
                     . ' maxlength="10" minlength="3"'
-                    . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required/>' . "\n"
+                    . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required data-nf-req="1"/>' . "\n"
                 )
             )
             . $tail
@@ -2195,7 +2202,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . '<textarea id="field-1" name="field-1"></textarea>' . "\n"
+                . '<textarea id="field_1" name="field_1"></textarea>' . "\n"
             )
         );
 
@@ -2206,13 +2213,13 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . '<textarea id="field-1" name="field-1" readonly></textarea>' . "\n"
+                . '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
             )
         );
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2230,7 +2237,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="time"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="time"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2241,7 +2248,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="time" value="20:10"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="time" value="20:10"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2255,7 +2262,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="time" value="20:10"'
+                    '<input id="field_1" name="field_1" type="time" value="20:10"'
                     . ' min="19:57" max="20:19"/>' . "\n"
                 )
             )
@@ -2267,7 +2274,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="time" value="20:10"'
+                    '<input id="field_1" name="field_1" type="time" value="20:10"'
                     . ' readonly/>' . "\n"
                 )
             )
@@ -2276,7 +2283,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="20:10"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="20:10"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2294,7 +2301,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="url"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="url"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2308,7 +2315,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="url" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="url" readonly/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2316,7 +2323,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2334,7 +2341,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="week"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="week"/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -2345,7 +2352,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1"'
+                    '<input id="field_1" name="field_1"'
                     . ' type="week" value="2010-W37"/>' . "\n"
                 )
             )
@@ -2360,7 +2367,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+                    '<input id="field_1" name="field_1" type="week" value="2010-W37"'
                     . ' min="1957-W30" max="2099-W42"/>' . "\n"
                 )
             )
@@ -2372,7 +2379,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field-1" name="field-1" type="week" value="2010-W37"'
+                    '<input id="field_1" name="field_1" type="week" value="2010-W37"'
                     . ' readonly/>' . "\n"
                 )
             )
@@ -2381,7 +2388,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
-            '<input id="field-1" name="field-1" type="hidden" value="2010-W37"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2448,11 +2455,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div', '')
                 . $this->column2(
-                    '<div id="static-1">' . "\n"
+                    '<div id="static_1">' . "\n"
                     . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
                     . '</div>' . "\n"
                 ),
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . "<br/>\n"
         );
@@ -2461,11 +2468,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Header', 'div', '')
                 . $this->column2(
-                    '<div id="static-1">' . "\n"
+                    '<div id="static_1">' . "\n"
                     . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
                     . '</div>' . "\n"
                 ),
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . "<br/>\n"
         );
@@ -2483,11 +2490,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'div', '')
                 . $this->column2(
-                    '<div id="static-1">' . "\n"
+                    '<div id="static_1">' . "\n"
                     . 'This is <strong>raw html</strong>!' . "\n"
                     . '</div>' . "\n"
                 ),
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . "<br/>\n"
         );
@@ -2496,11 +2503,11 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('Header', 'div', '')
                 . $this->column2(
-                    '<div id="static-1">' . "\n"
+                    '<div id="static_1">' . "\n"
                     . 'This is <strong>raw html</strong>!' . "\n"
                     . '</div>' . "\n"
                 ),
-                ['id' => 'static-1']
+                ['id' => 'static_1']
             )
             . "<br/>\n"
         );

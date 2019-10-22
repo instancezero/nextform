@@ -6,7 +6,4 @@ To Do List
 - Add a composite construct to assemble multiple items (texts, selects) into an input group
 - Need checkboxes as switches (custom-control custom-switch)
 - Create an input group when help/error labels exist and put the text inside the group
-- Cell spacing; inline spacing... needs work.
-- When labels get configured in a schema, they need to know what the schema defaults are. <-- done, needs a test.
-- Restructure translation so everything gets updated right before generation.
-- Binding::setLabel() should be able to use the current translator.
+

@@ -169,7 +169,8 @@ class Attributes
     }
 
     /**
-     * Add validation elements to an attributes list
+     * Add validation attributes to the list.
+     *
      * @param string $type The input type we're generating
      * @param \Abivia\NextForm\Data\Validation $validation
      */
@@ -177,8 +178,12 @@ class Attributes
     {
         foreach (self::$validationMap as $attrName => $specs) {
             list($lookup) = $this->parseName($attrName);
+
+            // If this attribute is valid for the element we're generating
             if (self::$inputAttributes[$type][$lookup]) {
                 $setting = $validation->get($specs[0]);
+
+                // Skip if the setting is the default
                 if ($setting === $specs[1]) {
                     continue;
                 }
@@ -189,6 +194,10 @@ class Attributes
                     && isset(self::$inputDateTime[$type])
                 ){
                     $this->attrs[$attrName] = date(self::$inputDateTime[$type], strtotime($setting));
+                } elseif ($lookup === 'required') {
+                    $this->attrs[$attrName] = $setting;
+                    // Add our own required default setting
+                    $this->attrs['data-nf-req'] = 1;
                 } else {
                     $this->attrs[$attrName] = $setting;
                 }

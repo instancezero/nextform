@@ -235,6 +235,16 @@ class Binding
     }
 
     /**
+     * Get the form manager.
+     *
+     * @return ?Manager
+     */
+    public function getManager() : ?Manager
+    {
+        return $this->manager;
+    }
+
+    /**
      * Get the name of a bound object, null when not a FieldBinding.
      *
      * @return ?string

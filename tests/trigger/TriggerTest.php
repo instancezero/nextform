@@ -15,7 +15,7 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
 	public function testFormTriggerConfigurationEvent() {
         $config = json_decode('
             {
-                "event": "onValid",
+                "event": "valid",
                 "actions": []
             }'
         );
@@ -23,7 +23,7 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
         $obj = new Trigger();
         $this->assertTrue($obj->configure($config));
 		$this->assertEquals('event', $obj->getType());
-		$this->assertEquals('onvalid', $obj->getEvent());
+		$this->assertEquals('valid', $obj->getEvent());
     }
 
     /**
@@ -32,7 +32,7 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
 	public function testFormTriggerConfigurationActions() {
         $config = json_decode('
             {
-                "event": "onValid",
+                "event": "valid",
                 "actions": [
                     {
                         "change": "visible",

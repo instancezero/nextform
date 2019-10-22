@@ -30,7 +30,7 @@ class ButtonElement Extends NamedElement
      * @var array
      */
     static protected $jsonLocalMethod = [
-        'function' => ['drop:false'],
+        'function' => ['drop:false', 'order:250'],
     ];
 
     /**

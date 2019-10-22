@@ -109,11 +109,7 @@ Abivia\NextForm\Form\Form Object
                                         (
                                             [0] => Abivia\NextForm\Trigger\Action Object
                                                 (
-                                                    [change:protected] => Array
-                                                        (
-                                                            [0] => visible
-                                                        )
-
+                                                    [subject:protected] => visible
                                                     [target:protected] => Array
                                                         (
                                                             [0] => completeHeader
@@ -138,7 +134,7 @@ Abivia\NextForm\Form\Form Object
 
                                         )
 
-                                    [event:protected] => onvalid
+                                    [event:protected] => valid
                                     [type:protected] => event
                                     [value:protected] =>
                                     [configureErrors:Abivia\NextForm\Trigger\Trigger:private] => Array

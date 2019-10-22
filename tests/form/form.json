@@ -22,10 +22,10 @@
             },
             "triggers": [
                 {
-                    "event": "onvalid",
+                    "event": "valid",
                     "actions": [
                         {
-                            "change": "visible",
+                            "subject": "visible",
                             "value": "enable",
                             "target": "completeHeader"
                         }

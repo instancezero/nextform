@@ -118,7 +118,7 @@ class FieldElement extends NamedElement
      */
     protected function configureInitialize(&$config)
     {
-        if (is_string($config)) {
+        if (\is_string($config)) {
             // Convert to a useful class
             $config = self::expandString($config);
         }
@@ -192,10 +192,20 @@ class FieldElement extends NamedElement
 
     /**
      * Get the name of an associated schema object.
+     *
      * @return string
      */
     public function getObject() {
         return $this->object;
+    }
+
+    /**
+     * Get the element triggers
+     *
+     * @return Trigger[]
+     */
+    public function getTriggers() {
+        return $this->triggers;
     }
 
     /**

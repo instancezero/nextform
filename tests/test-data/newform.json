@@ -25,7 +25,7 @@
             },
             "triggers": [
                 {
-                    "event": "onValid",
+                    "event": "valid",
                     "actions": [
                         {
                             "change": "display",

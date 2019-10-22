@@ -39,7 +39,7 @@ abstract class CommonHtml extends Html implements RendererInterface
         $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
             ? $binding->getList(true) : [];
         if (!empty($list)) {
-            $attrs->set('list', $attrs->get('id') . '-list');
+            $attrs->set('list', $attrs->get('id') . '_list');
             $block->post = '<datalist id="' . $attrs->get('list') . "\">\n";
             $optAttrs = new Attributes();
             foreach ($list as $option) {
@@ -105,6 +105,8 @@ abstract class CommonHtml extends Html implements RendererInterface
             }
             $result->merge($block);
         }
+        $result->merge($this->renderTriggers($binding));
+
         return $result;
     }
 
@@ -134,6 +136,8 @@ abstract class CommonHtml extends Html implements RendererInterface
         }
         return $block;
     }
+
+    abstract protected function renderTriggers(FieldBinding $binding) : Block;
 
     public function setOptions($options = [])
     {

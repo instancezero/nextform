@@ -8,66 +8,66 @@
             "default": "IND",
             "triggers": [
                 {
+                    "event": "change",
                     "value": ["IND", "STU"],
                     "actions": [
-                        {
-                            "change": ["enable", "display"],
-                            "target": ["family", "business"],
-                            "value": false
-                        }
+                        "family,business:display:false"
                     ]
                 },
                 {
+                    "event": "change",
                     "value": "FAM",
                     "actions": [
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "family",
                             "value": true
                         },
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "business",
                             "value": false
                         }
                     ]
                 },
                 {
+                    "event": "change",
                     "value": ["BUS", "FEL"],
                     "actions": [
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "family",
                             "value": false
                         },
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "business",
                             "value": true
                         }
                     ]
                 },
                 {
+                    "event": "change",
                     "value": ["PAT", "SPO"],
                     "actions": [
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "family",
                             "value": false
                         },
                         {
-                            "change": ["enable", "display"],
+                            "subject": "display",
                             "target": "business",
                             "value": true
                         }
                     ]
                 },
                 {
-                    "event": "onchange",
+                    "event": "change",
                     "value": null,
                     "actions": [
                         {
-                            "change": "script",
+                            "subject": "script",
                             "value": "form.membershipFee.validation.minValue=this.sidecar.fee.minValue;"
                         }
                     ]
@@ -102,7 +102,13 @@
                 "secondaryPublicName:family"
             ]
         },
-        "businessName:business",
+        {
+            "type": "field",
+            "id": "foo22",
+            "object": "businessName",
+            "memberOf": "business",
+            "display": false
+        },
         {
             "type": "button",
             "function": "submit",

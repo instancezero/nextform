@@ -22,7 +22,7 @@
             },
             "triggers": [
                 {
-                    "event": "onvalid",
+                    "event": "valid",
                     "actions": [
                         {
                             "change": "visible",

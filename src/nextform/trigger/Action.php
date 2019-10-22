@@ -3,6 +3,7 @@
 namespace Abivia\NextForm\Trigger;
 
 use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -13,41 +14,49 @@ class Action implements \JsonSerializable
     use Configurable;
     use JsonEncoderTrait;
 
-    protected $change = [];
-    static protected $changeValidation = [
-        'display', 'enable', 'enabled', 'readonly', 'script', 'value', 'visible'
-    ];
     static protected $jsonEncodeMethod = [
-        'change' => ['scalarize'],
-        'value' => [],
         'target' => ['drop:empty', 'drop:null', 'scalarize'],
+        'subject' => [],
+        'value' => [],
+    ];
+    protected $subject;
+    static protected $subjectValidation = [
+        'display', 'enable', 'enabled', 'readonly', 'script', 'value', 'visible'
     ];
     protected $target = [];
     protected $value;
 
+    protected function configureInitialize(&$config)
+    {
+        if (\is_string($config)) {
+            $expanded = new \stdClass;
+            $parts = \explode(Manager::GROUP_DELIM, $config);
+            \array_push($parts, null);
+            \array_push($parts, null);
+            $expanded->target = \explode(',', $parts[0]);
+            \array_walk($expanded->target, 'trim');
+            $expanded->subject = $parts[1];
+            $expanded->value = $parts[2];
+            $config = $expanded;
+        }
+    }
+
     protected function configureValidate($property, &$value)
     {
         switch ($property) {
-            case 'change':
-                if (!is_array($value)) {
-                    $value = [$value];
+            case 'subject':
+                if (!($result = \in_array($value, self::$subjectValidation))) {
+                    $this->configureLogError(
+                        '"' . (\is_scalar($value) ? $value : \gettype($value))
+                        . '" is not a valid value for "' . $property . '".'
+                    );
                 }
-                $result = true;
-                foreach ($value as &$element) {
-                    if (!($valid = in_array($element, self::$changeValidation))) {
-                        $result = false;
-                        $this->configureLogError(
-                            '"' . $element . '" is not a valid value for "' . $property . '".'
-                        );
-                    }
-                    if ($element == 'enabled') {
-                        $element = 'enable';
-                    }
+                if ($value == 'enabled') {
+                    $value = 'enable';
                 }
-                $value = array_unique($value);
                 break;
             case 'target':
-                if (!is_array($value)) {
+                if (!\is_array($value)) {
                     $value = [$value];
                 }
                 $result = true;
@@ -58,9 +67,9 @@ class Action implements \JsonSerializable
         return $result;
     }
 
-    public function getChange()
+    public function getSubject()
     {
-        return $this->change;
+        return $this->subject;
     }
 
     public function getTarget()
@@ -73,14 +82,14 @@ class Action implements \JsonSerializable
         return $this->value;
     }
 
-    public function setChange($value)
+    public function setSubject($value)
     {
-        if (!$this->configureValidate('change', $value)) {
+        if (!$this->configureValidate('subject', $value)) {
             throw new \UnexpectedValueException(
-                'Valid values for change are: ' . implode('|', self::$changeValidation)
+                'Valid values for subject are: ' . implode('|', self::$subjectValidation)
             );
         }
-        $this->change = $value;
+        $this->subject = $value;
         return $this;
     }
 

@@ -39,7 +39,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             $select = $binding->getElement()->getDefault();
         }
         foreach ($list as $optId => $radio) {
-            $id = $baseId . '-opt' . $optId;
+            $id = $baseId . '_opt' . $optId;
             $attrs->set('id', $id);
             $value = $radio->getValue();
             $attrs->set('value', $value);
@@ -106,7 +106,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
         // We can see or change the data
         $block->merge(
-            $this->writeElement('div', ['attrs' => $this->groupAttributes($binding)])
+            $this->writeElement('div', ['attributes' => $this->groupAttributes($binding)])
         );
         $block->body .= $this->writeLabel(
                 'headingAttributes', $labels->heading, 'label',
@@ -115,7 +115,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
         $attrs->set('type', $binding->getElement()->getFunction());
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '-formhelp');
+            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
         }
         $block->body .= $this->writeLabel('before', $labels->before, 'span')
             . $this->writeTag('input', $attrs)
@@ -152,9 +152,9 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         $block = new Block();
-        $attrs->set('id', $binding->getId() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('id', $binding->getId() . ($confirm ? '_confirmation' : ''));
         $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
-        $attrs->set('name', $binding->getFormName() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('name', $binding->getFormName() . ($confirm ? '_confirmation' : ''));
         $value = $binding->getValue();
         if ($options['access'] === 'hide' || $type === 'hidden') {
 
@@ -168,7 +168,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             $block->merge(
                 $this->writeElement(
                     'div', [
-                        'attrs' => $this->groupAttributes(
+                        'attributes' => $this->groupAttributes(
                             $binding, ['id' => $attrs->get('id')]
                         )
                     ]
@@ -237,7 +237,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         // Start generating output
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding)
+                'attributes' => $this->groupAttributes($binding)
             ]
         );
         $block->body .= $this->writeLabel(
@@ -296,7 +296,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $labels = $binding->getLabels(true);
 
         $block = $this->writeElement(
-            'div', ['attrs' => $this->groupAttributes($binding)]
+            'div', ['attributes' => $this->groupAttributes($binding)]
         );
         $block->body .= $this->writeLabel(
             'headingAttributes', $labels->heading, 'label',
@@ -402,7 +402,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $attrs->set('name', $binding->getFormName() . ($multiple ? '[]' : ''));
 
         $block = $this->writeElement(
-            'div', ['attrs' => $this->groupAttributes($binding)]
+            'div', ['attributes' => $this->groupAttributes($binding)]
         );
         $block->body .= $this->writeLabel(
             'headingAttributes', $labels->heading, 'div', null, ['break' => true]
@@ -424,7 +424,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                 foreach ($list as $option) {
                     $slot = array_search($option->getValue(), $value);
                     if ($slot !== false) {
-                        $id = $baseId . '-opt' . $optId;
+                        $id = $baseId . '_opt' . $optId;
                         $attrs->set('id', $id);
                         $attrs->set('value', $value[$slot]);
                         $block->body .= $this->writeTag('input', $attrs) . "\n";
@@ -521,7 +521,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $attrs->set('name', $binding->getFormName());
 
         $block = $this->writeElement(
-            'div', ['attrs' => $this->groupAttributes($binding)]
+            'div', ['attributes' => $this->groupAttributes($binding)]
         );
         $labels = $binding->getLabels(true);
         $block->body .= $this->writeLabel(
@@ -577,7 +577,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         }
 
         $block = $this->writeElement(
-            'div', ['attrs' => $this->groupAttributes($binding)]
+            'div', ['attributes' => $this->groupAttributes($binding)]
         );
 
         // Write a heading if there is one
@@ -590,7 +590,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
 
         $attrs = new Attributes('id', $binding->getId());
-        $block->merge($this->writeElement('div', ['attrs' => $attrs]));
+        $block->merge($this->writeElement('div', ['attributes' => $attrs]));
         // Escape the value if it's not listed as HTML
         $value = $binding->getValue() . "\n";
         $block->body .= $binding->getElement()->getHtml() ? $value : htmlspecialchars($value);
@@ -598,6 +598,11 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->body .= "<br/>\n";
 
         return $block;
+    }
+
+    protected function renderTriggers(FieldBinding $binding) : Block
+    {
+        return new Block;
     }
 
     public function setOptions($options = [])

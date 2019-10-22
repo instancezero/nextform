@@ -65,7 +65,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block = new Block();
         foreach ($binding->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
-            $id = $baseId . '-opt' . $optId;
+            $id = $baseId . '_opt' . $optId;
             $optAttrs->set('id', $id);
             $value = $radio->getValue();
             $optAttrs->setFlag('disabled', !$radio->getEnabled());
@@ -85,7 +85,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
             $block->merge(
                 $this->writeElement(
-                    'div', ['attrs' => new Attributes('class', $groupClass)]
+                    'div', ['attributes' => new Attributes('class', $groupClass)]
                 )
             );
             $optAttrs->set('class', 'form-check-input');
@@ -127,7 +127,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block = new Block();
         foreach ($binding->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
-            $id = $baseId . '-opt' . $optId;
+            $id = $baseId . '_opt' . $optId;
             $optAttrs->set('id', $id);
             $value = $radio->getValue();
             $optAttrs->set('value', $value);
@@ -152,7 +152,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             }
             $buttonClass = $this->getButtonClass('radio');
             $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
-            $block->merge($this->writeElement('label', ['attrs' => $labelAttrs]));
+            $block->merge($this->writeElement('label', ['attributes' => $labelAttrs]));
             $block->body .= $this->writeTag('input', $optAttrs) . "\n";
             $block->body .= $radio->getLabel();
             $block->close();
@@ -178,9 +178,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $baseId = $binding->getId();
         $labels = $binding->getLabels(true);
         $appearance = $this->showGet('check', 'appearance');
-        $block = $this->writeElement('div', ['attrs' => $groupAttrs]);
+        $block = $this->writeElement('div', ['attributes' => $groupAttrs]);
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $baseId . '-formhelp');
+            $attrs->set('aria-describedby', $baseId . '_formhelp');
         }
         $attrs->set('class', 'form-check-input');
         if ($appearance === 'no-label') {
@@ -215,16 +215,16 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $baseId = $binding->getId();
         $attrs->set('id', $baseId);
         $labels = $binding->getLabels(true);
-        $block = $this->writeElement('div', ['attrs' => $groupAttrs]);
+        $block = $this->writeElement('div', ['attributes' => $groupAttrs]);
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $baseId . '-formhelp');
+            $attrs->set('aria-describedby', $baseId . '_formhelp');
         }
         $labelAttrs = new Attributes();
         $buttonClass = $this->getButtonClass('radio');
         $checked = $binding->getValue() === $binding->getElement()->getDefault()
             && $binding->getValue() !== null;
         $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
-        $block->merge($this->writeElement('label', ['attrs' => $labelAttrs]));
+        $block->merge($this->writeElement('label', ['attributes' => $labelAttrs]));
         $block->body .= $this->writeTag('input', $attrs) . "\n";
         $block->body .= $labels->inner;
         $block->close();
@@ -272,13 +272,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         if ($labels->has('before') || $labels->has('after')) {
             // We have before/after elements to attach, we need to create an input group
             $input = $this->writeElement(
-                'div', ['attrs' => new Attributes('class', 'input-group'), 'show' => 'inputWrapperAttributes']
+                'div', ['attributes' => new Attributes('class', 'input-group'), 'show' => 'inputWrapperAttributes']
             );
 
             if ($labels->has('before')) {
                 // Write a prepend group for the before label
                 $group = $this->writeElement(
-                    'div', ['attrs' => new Attributes('class', ['input-group-prepend'])]
+                    'div', ['attributes' => new Attributes('class', ['input-group-prepend'])]
                 );
                 // Write the before label in the prepend group
                 $group->body .= $this->writeLabel(
@@ -295,7 +295,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             if ($labels->has('after')) {
                 // Write an append group for the after label
                 $group = $this->writeElement(
-                    'div', ['attrs' => new Attributes('class', ['input-group-append'])]
+                    'div', ['attributes' => new Attributes('class', ['input-group-append'])]
                 );
                 // Write the after label in the append group
                 $group->body .= $this->writeLabel(
@@ -359,7 +359,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -372,7 +372,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         $attrs->set('type', $element->getFunction());
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '-formhelp');
+            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
         }
 
         // Generate the input wrapper, if required for a horizontal layout.
@@ -492,7 +492,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         if ($layout === 'vertical') {
             $rowBlock = $this->writeElement(
                 'fieldset', [
-                    'attrs' => $this->groupAttributes($binding),
+                    'attributes' => $this->groupAttributes($binding),
                     'show' => 'formGroupAttributes'
                 ]
             );
@@ -502,11 +502,11 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $rowAttrs = new Attributes('class', 'form-group');
             $rowAttrs->merge($this->groupAttributes($binding));
             $rowBlock = $this->writeElement(
-                'fieldset', ['attrs' => $rowAttrs]
+                'fieldset', ['attributes' => $rowAttrs]
             );
             // Horizontal layouts have another div for the row
             $rowBlock->merge($this->writeElement(
-                'div', ['attrs' => new Attributes('class', 'row')])
+                'div', ['attributes' => new Attributes('class', 'row')])
             );
             $headerElement = 'legend';
             if (!$asButtons && $options['access'] == 'write') {
@@ -530,10 +530,10 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             'before' . $labelElement, $labels->before, $labelElement
         );
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $baseId . '-formhelp');
+            $attrs->set('aria-describedby', $baseId . '_formhelp');
         }
         if ($asButtons) {
-            $input->merge($this->writeElement('div', ['attrs' => $groupAttrs]));
+            $input->merge($this->writeElement('div', ['attributes' => $groupAttrs]));
             $input->merge($this->checkListButtons($binding, clone $attrs));
         } else {
             $input->merge($this->checkList($binding, clone $attrs));
@@ -607,7 +607,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $headerAttrs = new Attributes();
         $rowBlock = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -684,18 +684,18 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
 
         // Get attributes for the input element
         $attrs = new Attributes();
-        $attrs->set('id', $binding->getId() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('id', $binding->getId() . ($confirm ? '_confirmation' : ''));
         if ($options['access'] == 'view') {
             $attrs->setFlag('readonly');
         }
-        $attrs->set('name', $binding->getFormName() . ($confirm ? '-confirmation' : ''));
+        $attrs->set('name', $binding->getFormName() . ($confirm ? '_confirmation' : ''));
         $attrs->set('class', 'form-control');
         $value = $binding->getValue();
         $attrs->setIfNotNull('value', $value);
@@ -718,7 +718,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $type = 'text';
         }
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '-help');
+            $attrs->set('aria-describedby', $attrs->get('id') . '_help');
         }
         if (in_array($type, ['button', 'reset', 'submit'])) {
             $attrs->set('class', $this->getButtonClass());
@@ -793,7 +793,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Start the form group
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -858,7 +858,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -902,7 +902,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 $attrs->set('class', 'form-control');
             }
 
-            $select = $this->writeElement('select', ['attrs' => $attrs]);
+            $select = $this->writeElement('select', ['attributes' => $attrs]);
 
             // Add the options
             // If there's no value set, see if there's a default
@@ -985,7 +985,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             foreach ($list as $option) {
                 $slot = array_search($option->getValue(), $value);
                 if ($slot !== false) {
-                    $id = $baseId . '-opt' . $optId;
+                    $id = $baseId . '_opt' . $optId;
                     $attrs->set('id', $id);
                     $attrs->set('value', $value[$slot]);
                     $block->body .= $this->writeTag('input', $attrs) . "\n";
@@ -1034,7 +1034,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -1063,7 +1063,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         // Link to help if available
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '-help');
+            $attrs->set('aria-describedby', $attrs->get('id') . '_help');
         }
 
         // Sidecar data
@@ -1107,7 +1107,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $labels = $binding->getLabels(true);
         $block = $this->writeElement(
             'fieldset', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -1138,7 +1138,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // We can see or change the data. Create a form group.
         $block = $this->writeElement(
             'div', [
-                'attrs' => $this->groupAttributes($binding),
+                'attributes' => $this->groupAttributes($binding),
                 'show' => 'formGroupAttributes'
             ]
         );
@@ -1153,7 +1153,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
 
         $attrs = new Attributes('id', $binding->getId());
-        $block->merge($this->writeElement('div', ['attrs' => $attrs]));
+        $block->merge($this->writeElement('div', ['attributes' => $attrs]));
         // Escape the value if it's not listed as HTML
         $value = $binding->getValue() . "\n";
         $block->body .= $element->getHtml() ? $value : htmlspecialchars($value);
@@ -1165,6 +1165,37 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         return $block;
+    }
+
+    protected function renderTriggers(FieldBinding $binding) : Block
+    {
+        $result = new Block;
+        $triggers = $binding->getElement()->getTriggers();
+        if (empty($triggers)) {
+            return $result;
+        }
+        $formId = $binding->getManager()->getId();
+        $script = "$('#" . $formId . "[name=" . $binding->getFormName()
+            . "').change(function () {\n";
+        foreach ($triggers as $trigger) {
+            if ($trigger->getEvent() !== 'change') {
+                continue;
+            }
+            $value = $trigger->getValue();
+            if (is_array($value)) {
+                $script .= " if (" . json_encode($value) . ".includes(this.value)) {\n";
+            } else {
+                $script .= " if (this.value === " . json_encode($value) . ") {\n";
+            }
+            foreach ($trigger->getActions() as $action) {
+                $script .= "  // action here\n";
+            }
+            $script .= " }\n";
+        }
+        $script .= "});\n";
+        $result->script = $script;
+
+        return $result;
     }
 
     /**
@@ -1402,6 +1433,12 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $this->showState[$scope]['purpose'] = $choice;
     }
 
+    /**
+     * Start rendering a form.
+     *
+     * @param type $options The 'attributes' option isn't really optional.
+     * @return \Abivia\NextForm\Renderer\Block
+     */
     public function start($options = []) : Block {
         $pageData = parent::start($options);
         $pageData->styleFiles[] = '<link rel="stylesheet"'
@@ -1419,6 +1456,14 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $pageData->scriptFiles[] = '<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"'
             . ' integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"'
             . ' crossorigin="anonymous"></script>';
+        if (isset($options['scriptpath'])) {
+            $pageData->scriptFiles[] = '<script src="' . $options['scriptpath'] . '></script>';
+        } else {
+            $pageData->script .= file_get_contents(__DIR__ . '/js/nf-bootstrap4.js')
+                . "\n";
+        }
+        $id = $options['attributes']->get('id');
+        $pageData->script .= 'var ' . $id . " = new NextForm($('#" . $id . "'));\n";
         return $pageData;
     }
 

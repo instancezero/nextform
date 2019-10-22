@@ -25,7 +25,7 @@ class Trigger implements \JsonSerializable
      * @var array A list of valid event types
      */
     static protected $eventValidation = [
-        'onchange', 'oninvalid', 'onvalid',
+        'change', 'invalid', 'valid',
     ];
     /**
      * @var array Rules for converting properties to JSON
