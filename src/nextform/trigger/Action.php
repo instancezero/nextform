@@ -82,6 +82,20 @@ class Action implements \JsonSerializable
         return $this->value;
     }
 
+    public function jsonCollapse() {
+        if ($this->subject === 'script') {
+            return $this;
+        }
+        if (\strpos($this->value, Manager::GROUP_DELIM) !== false) {
+            return $this;
+        }
+        $result = implode(',', $this->target)
+            . Manager::GROUP_DELIM . $this->subject
+            . Manager::GROUP_DELIM
+            . (\is_bool($this->value) ? (int) $this->value : $this->value);
+        return $result;
+    }
+
     public function setSubject($value)
     {
         if (!$this->configureValidate('subject', $value)) {

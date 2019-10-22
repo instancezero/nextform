@@ -14,30 +14,15 @@
                         "STU"
                     ],
                     "actions": [
-                        {
-                            "target": [
-                                "family",
-                                "business"
-                            ],
-                            "subject": "display",
-                            "value": "false"
-                        }
+                        "family,business:display:false"
                     ]
                 },
                 {
                     "event": "change",
                     "value": "FAM",
                     "actions": [
-                        {
-                            "target": "family",
-                            "subject": "display",
-                            "value": true
-                        },
-                        {
-                            "target": "business",
-                            "subject": "display",
-                            "value": false
-                        }
+                        "family:display:1",
+                        "business:display:0"
                     ]
                 },
                 {
@@ -47,16 +32,8 @@
                         "FEL"
                     ],
                     "actions": [
-                        {
-                            "target": "family",
-                            "subject": "display",
-                            "value": false
-                        },
-                        {
-                            "target": "business",
-                            "subject": "display",
-                            "value": true
-                        }
+                        "family:display:0",
+                        "business:display:1"
                     ]
                 },
                 {
@@ -66,16 +43,8 @@
                         "SPO"
                     ],
                     "actions": [
-                        {
-                            "target": "family",
-                            "subject": "display",
-                            "value": false
-                        },
-                        {
-                            "target": "business",
-                            "subject": "display",
-                            "value": true
-                        }
+                        "family:display:0",
+                        "business:display:1"
                     ]
                 },
                 {

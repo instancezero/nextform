@@ -24,8 +24,17 @@ trait JsonEncoderTrait
 
     //static protected $jsonEncodeMethod = [];
 
+    public function jsonCollapse()
+    {
+        return $this;
+    }
+
     public function jsonSerialize()
     {
+        $collapse = $this->jsonCollapse();
+        if (\is_string($collapse)) {
+            return $collapse;
+        }
         $ordered = self::jsonSerializeSort();
         $result = new \stdClass;
         foreach ($ordered as $prop => $encoding) {

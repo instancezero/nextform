@@ -39,7 +39,7 @@ abstract class ContainerElement Extends NamedElement
         if (empty(self::$jsonEncodeMethod)) {
             self::$jsonEncodeMethod = parent::$jsonEncodeMethod;
             self::$jsonEncodeMethod['labels'] = ['drop:empty', 'drop:null'];
-            self::$jsonEncodeMethod['elements'] = ['method:jsonCollapseElements'];
+            self::$jsonEncodeMethod['elements'] = [];
         }
     }
 
@@ -122,18 +122,6 @@ abstract class ContainerElement Extends NamedElement
     public function getElements()
     {
         return $this->elements;
-    }
-
-    /**
-     * See if any of the contained elements can be represented as a shorthand string.
-     * @param array $elementList
-     */
-    protected function jsonCollapseElements($elementList)
-    {
-        foreach ($elementList as &$element) {
-            $element = $element->jsonCollapse();
-        }
-        return $elementList;
     }
 
 }

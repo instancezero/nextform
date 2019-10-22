@@ -24,11 +24,7 @@
                 {
                     "event": "valid",
                     "actions": [
-                        {
-                            "subject": "visible",
-                            "value": "enable",
-                            "target": "completeHeader"
-                        }
+                        "completeHeader:visible:true"
                     ]
                 }
             ]

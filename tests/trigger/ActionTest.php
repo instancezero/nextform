@@ -14,7 +14,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerActionConfiguration() {
         $config = json_decode(
-            '{"change":"enable","value":true,"target":["field1","group1","group2"]}'
+            '{"subject":"enable","value":true,"target":["field1","group1","group2"]}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
@@ -26,7 +26,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerActionTargetCastToArray() {
         $config = json_decode(
-            '{"change":"enabled","value":true,"target":"field1"}'
+            '{"subject":"enabled","value":true,"target":"field1"}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
@@ -39,16 +39,16 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
             'enable', 'value', 'visible'
         ];
         $config = json_decode(
-            '{"change":"enabled","value":"enable","target":"field1"}'
+            '{"subject":"enabled","value":"enable","target":"field1"}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
         foreach ($knownChange as $type) {
-            $config->change = $type;
+            $config->subject = $type;
             $this->assertTrue($obj->configure($config));
             $this->assertEquals($type, $obj->getSubject());
         }
-        $config->change = '&^%* this will never be valid!!';
+        $config->subject = '&^%* this will never be valid!!';
         $this->assertFalse($obj->configure($config));
     }
 
@@ -66,7 +66,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
     }
 
 	public function testFormTriggerActionJsonEncode() {
-        $jsonOriginal = '{"change":"enable","value":true,"target":["field1","group1","group2"]}';
+        $jsonOriginal = '{"subject":"enable","value":true,"target":["field1","group1","group2"]}';
         $config = json_decode($jsonOriginal);
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
@@ -76,7 +76,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue(false != $vanilla, 'vanilla: JSON error!');
         $actual = json_decode(json_encode($obj));
         $this->assertTrue(false != $actual, 'actual: JSON error!');
-		$this->assertEquals($vanilla, $actual);
+		$this->assertEquals('field1,group1,group2:enable:1', $actual);
     }
 
     public function testFormTriggerActionTargetGetSet() {

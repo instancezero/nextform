@@ -27,7 +27,7 @@ class Form implements \JsonSerializable
         'name' => ['drop:blank', 'drop:null'],
         'useSegment' => ['drop:blank'],
         'show' => ['drop:blank'],
-        'elements' => ['method:jsonCollapseElements'],
+        'elements' => [],
     ];
 
     protected $name;
@@ -123,18 +123,6 @@ class Form implements \JsonSerializable
     public function getSegment()
     {
         return $this->useSegment;
-    }
-
-    /**
-     * See if any of the contained elements can be represented as a shorthand string.
-     * @param type $elementList
-     */
-    protected function jsonCollapseElements($elementList)
-    {
-        foreach ($elementList as &$element) {
-            $element = $element->jsonCollapse();
-        }
-        return $elementList;
     }
 
     protected function options($options)

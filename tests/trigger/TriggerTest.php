@@ -35,12 +35,12 @@ class FormTriggerTest extends \PHPUnit\Framework\TestCase {
                 "event": "valid",
                 "actions": [
                     {
-                        "change": "visible",
+                        "subject": "visible",
                         "value": false,
                         "target": "field1"
                     },
                     {
-                        "change": "enable",
+                        "subject": "enable",
                         "value": true,
                         "target": "field2"
                     }

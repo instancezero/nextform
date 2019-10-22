@@ -28,7 +28,7 @@
                     "event": "valid",
                     "actions": [
                         {
-                            "change": "display",
+                            "subject": "display",
                             "value": "enable",
                             "target": ["completeHeader"]
                         }
