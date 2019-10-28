@@ -136,7 +136,7 @@ abstract class Html implements RendererInterface
         $attrs = new Attributes('type', 'hidden');
         if ($binding instanceof \Abivia\NextForm\Form\Binding\FieldBinding) {
             $attrs->setIfNotNull(
-                '*data-sidecar',
+                '*data-nf-sidecar',
                 $binding->getDataProperty()->getPopulation()->sidecar
             );
         }
@@ -181,7 +181,7 @@ abstract class Html implements RendererInterface
             $optAttrs->set('id', $id);
             $value = $radio->getValue();
             $optAttrs->set('value', $value);
-            $optAttrs->setIfNotNull('*data-sidecar', $radio->sidecar);
+            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
             if (is_array($select)) {
                 $checked = in_array($value, $select);
             } else {
@@ -229,10 +229,7 @@ abstract class Html implements RendererInterface
                 $container->merge($this->showGet('form', 'cellspacing'));
             }
         }
-        $groups = $element->getGroups();
-        if (!empty($groups)) {
-            $container->set('*data-nf-group', $groups);
-        }
+        $container->setIfNotEmpty('*data-nf-group', $element->getGroups());
         $container->set('data-nf-for', $id);
         return $container;
     }

@@ -115,7 +115,7 @@ Abivia\NextForm\Form\Form Object
                                                             [0] => completeHeader
                                                         )
 
-                                                    [value:protected] => true
+                                                    [value:protected] => 1
                                                     [configureErrors:Abivia\NextForm\Trigger\Action:private] => Array
                                                         (
                                                         )

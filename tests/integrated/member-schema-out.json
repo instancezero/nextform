@@ -25,11 +25,11 @@
                     }
                 },
                 {
-                    "name": "membershipType",
+                    "name": "membershipLevel",
                     "description": "Which kind of member this application is for",
                     "labels": {
                         "error": "Please select from one of the available options.",
-                        "heading": "Membership Type"
+                        "heading": "Membership Level"
                     },
                     "population": {
                         "source": "fixed",
@@ -204,6 +204,104 @@
                     }
                 },
                 {
+                    "name": "primaryMemberType",
+                    "description": "Type of member",
+                    "labels": {
+                        "error": "Please select from the available options.",
+                        "heading": "Membership Type"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            {
+                                "label": "Artisan\/Craftsperson",
+                                "value": "AC",
+                                "memberOf": "person-enable"
+                            },
+                            {
+                                "label": "Performer",
+                                "value": "PF",
+                                "memberOf": "person-enable"
+                            },
+                            {
+                                "label": "Visual Arts",
+                                "value": "VA",
+                                "memberOf": "person-enable"
+                            },
+                            {
+                                "label": "Business",
+                                "value": "BU",
+                                "memberOf": "business-enable"
+                            },
+                            {
+                                "label": "Fellow Association",
+                                "value": "FA",
+                                "memberOf": "business-enable"
+                            },
+                            {
+                                "label": "Other",
+                                "value": "XX"
+                            }
+                        ]
+                    },
+                    "presentation": {
+                        "type": "checkbox",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 2
+                    }
+                },
+                {
+                    "name": "primaryTypeOther",
+                    "description": "Member type other detail, primary member",
+                    "labels": {
+                        "heading": "Other Membership Type"
+                    },
+                    "presentation": {
+                        "type": "text",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "primaryVisualArtsMedia",
+                    "labels": {
+                        "heading": "Other Media"
+                    },
+                    "presentation": {
+                        "type": "text",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "primaryVolunteer",
+                    "labels": {
+                        "heading": "Are you be willing to help with SOTH events in your area?"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            {
+                                "label": "Yes",
+                                "value": "Yes"
+                            },
+                            {
+                                "label": "No",
+                                "value": "No"
+                            }
+                        ]
+                    }
+                },
+                {
                     "name": "secondaryFirstName",
                     "description": "First name of the second member",
                     "labels": {
@@ -291,6 +389,72 @@
                     }
                 },
                 {
+                    "name": "secondaryMemberType",
+                    "description": "Secondary member type",
+                    "labels": {
+                        "error": "Please select from the available options.",
+                        "heading": "Membership Type"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            {
+                                "label": "Artisan\/Craftsperson",
+                                "value": "AC"
+                            },
+                            {
+                                "label": "Performer",
+                                "value": "PF"
+                            },
+                            {
+                                "label": "Visual Arts",
+                                "value": "VA"
+                            },
+                            {
+                                "label": "Other",
+                                "value": "XX"
+                            }
+                        ]
+                    },
+                    "presentation": {
+                        "type": "checkbox",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 2
+                    }
+                },
+                {
+                    "name": "secondaryTypeOther",
+                    "description": "Member type other detail, secondary member",
+                    "labels": {
+                        "heading": "Other Membership Type"
+                    },
+                    "presentation": {
+                        "type": "text",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "secondaryVisualArtsMedia",
+                    "labels": {
+                        "heading": "Other Media"
+                    },
+                    "presentation": {
+                        "type": "text",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
                     "name": "businessName",
                     "description": "Name for business memberships",
                     "labels": {
@@ -367,6 +531,24 @@
                         "size": 63
                     },
                     "validation": {
+                        "required": true
+                    }
+                },
+                {
+                    "name": "postal",
+                    "labels": {
+                        "heading": "Postal Code"
+                    },
+                    "presentation": {
+                        "type": "text",
+                        "cols": 1
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 31
+                    },
+                    "validation": {
+                        "pattern": "\/[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]\/",
                         "required": true
                     }
                 },

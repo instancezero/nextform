@@ -4,7 +4,7 @@
     "elements": [
         {
             "type": "field",
-            "object": "membershipType",
+            "object": "membershipLevel",
             "default": "IND",
             "triggers": [
                 {
@@ -14,15 +14,19 @@
                         "STU"
                     ],
                     "actions": [
-                        "family,business:display:false"
+                        "{family},{business}:display:0",
+                        "{business-enable}:enable:0",
+                        "{person-enable}:enable:1"
                     ]
                 },
                 {
                     "event": "change",
                     "value": "FAM",
                     "actions": [
-                        "family:display:1",
-                        "business:display:0"
+                        "{family}:display:1",
+                        "{business}:display:0",
+                        "{business-enable}:enable:0",
+                        "{person-enable}:enable:1"
                     ]
                 },
                 {
@@ -32,8 +36,10 @@
                         "FEL"
                     ],
                     "actions": [
-                        "family:display:0",
-                        "business:display:1"
+                        "{family}:display:0",
+                        "{business}:display:1",
+                        "{business-enable}:enable:1",
+                        "{person-enable}:enable:0"
                     ]
                 },
                 {
@@ -43,8 +49,10 @@
                         "SPO"
                     ],
                     "actions": [
-                        "family:display:0",
-                        "business:display:1"
+                        "{family}:display:0",
+                        "{business}:display:1",
+                        "{business-enable}:enable:1",
+                        "{person-enable}:enable:1"
                     ]
                 },
                 {
@@ -72,7 +80,8 @@
                     ]
                 },
                 "primaryEmail",
-                "primaryPublicName"
+                "primaryPublicName",
+                "primaryMemberType"
             ]
         },
         {
@@ -89,7 +98,8 @@
                         "secondaryLastName"
                     ]
                 },
-                "secondaryPublicName:family"
+                "secondaryPublicName",
+                "secondaryMemberType"
             ]
         },
         {

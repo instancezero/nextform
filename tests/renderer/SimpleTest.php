@@ -372,7 +372,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['value'] = Block::fromString(
             $this->formGroup(
                 '<input id="field_1" name="field_1" type="checkbox" value="3"'
-                . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+                . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
                 . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
@@ -390,7 +390,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
                 '<input id="field_1" name="field_1" type="checkbox" value="3"'
-                . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
+                . ' readonly data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
                 . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
             )
             . '<br/>' . "\n"
@@ -398,7 +398,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
 
         $expect['value-hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="3"'
-            . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+            . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
         // Test view access
@@ -506,15 +506,19 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' value="textlist 2" disabled'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -532,15 +536,19 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' value="textlist 2" disabled readonly'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' value="textlist 3" readonly'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -560,16 +568,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' value="textlist 2" disabled'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked'
-                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -579,7 +591,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Check hidden access with a single value
         $expect['single-value-hide'] = Block::fromString(
             '<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4"'
-            . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Set a second value to trigger the checked option
@@ -590,16 +602,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' value="textlist 2" disabled'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4"'
-                . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' checked data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -614,16 +630,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' value="textlist 2" disabled readonly'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' value="textlist 3" readonly'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4"'
-                . ' checked readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' checked readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -634,7 +654,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['dual-value-hide'] = Block::fromString(
             '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4"'
-            . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Inline mode, not used in simple renderer
@@ -1213,16 +1233,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio"'
+                . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>'
+                . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio"'
+                . ' value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
-                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -1240,17 +1264,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio"'
+                . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>'
+                . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
-                . ' checked/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio"'
+                . ' value="textlist 3" checked'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
-                . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -1266,18 +1293,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
-                . ' readonly/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio"'
+                . ' value="textlist 2" readonly'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
-                . ' checked readonly/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio"'
+                . ' value="textlist 3" checked readonly'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
-                . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
             )
@@ -1310,15 +1339,19 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio"'
+                . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>'
+                . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio"'
+                . ' value="textlist 3" checked'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>See? No problem!</div>' . "\n"
@@ -1337,18 +1370,20 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . '<label for="field_1_opt0">textlist 1</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"'
-                . ' readonly/>' . "\n"
+                . '<input id="field_1_opt1" name="field_1" type="radio"'
+                . ' value="textlist 2" readonly'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                 . '<label for="field_1_opt1">textlist 2</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
-                . '<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"'
-                . ' checked readonly/>' . "\n"
+                . '<input id="field_1_opt2" name="field_1" type="radio"'
+                . ' value="textlist 3" checked readonly'
+                . ' data-nf-name="tl3"/>' . "\n"
                 . '<label for="field_1_opt2">textlist 3</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>' . "\n"
                 . '<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4"'
-                . ' readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                . ' readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '<label for="field_1_opt3">textlist 4</label>' . "\n"
                 . '</div>' . "\n"
                 . '<div>See? No problem!</div>' . "\n"
@@ -1468,9 +1503,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
-                . '<option value="textlist 2">textlist 2</option>' . "\n"
-                . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1497,9 +1536,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
-                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '<option value="textlist 2" selected'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1527,9 +1570,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1[]" multiple>' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
-                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '<option value="textlist 2" selected'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1538,7 +1585,8 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>' . "\n"
+                '<input id="field_1_opt0" name="field_1[]" type="hidden"'
+                . ' value="textlist 2"/>' . "\n"
                 . '<span>textlist 2</span><br/>' . "\n"
                 . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="textlist 4"/>' . "\n"
                 . '<span>textlist 4</span><br/>' . "\n"
@@ -1557,9 +1605,12 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1[]" multiple size="6">' . "\n"
                 . '<option value="textlist 1">textlist 1</option>' . "\n"
-                . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                . '<option value="textlist 3">textlist 3</option>' . "\n"
-                . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '<option value="textlist 2" selected'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>' . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                 . '</select>' . "\n"
             )
             . '<br/>' . "\n"
@@ -1581,13 +1632,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="General">General</option>' . "\n"
-                . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
                 . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '<optgroup label="Subgroup Two">' . "\n"
-                . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '</select>' . "\n"
             )
@@ -1615,13 +1666,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1">' . "\n"
                 . '<option value="General">General</option>' . "\n"
-                . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
                 . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '<optgroup label="Subgroup Two">' . "\n"
-                . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '</select>' . "\n"
             )
@@ -1650,13 +1701,13 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 '<select id="field_1" name="field_1[]" multiple>' . "\n"
                 . '<option value="General">General</option>' . "\n"
-                . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                 . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
                 . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '<optgroup label="Subgroup Two">' . "\n"
-                . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                 . '</optgroup>' . "\n"
                 . '</select>' . "\n"
             )
@@ -1767,9 +1818,11 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
                 . ' list="field_1_list"/>' . "\n"
                 . '<datalist id="field_1_list">' . "\n"
                 . '<option value="textlist 1"/>' . "\n"
-                . '<option value="textlist 2"/>' . "\n"
-                . '<option value="textlist 3"/>' . "\n"
-                . '<option value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3"/>' . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '</datalist>' . "\n"
             )
             . '<br/>' . "\n"

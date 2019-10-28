@@ -4,14 +4,16 @@
     "elements": [
         {
             "type": "field",
-            "object": "membershipType",
+            "object": "membershipLevel",
             "default": "IND",
             "triggers": [
                 {
                     "event": "change",
                     "value": ["IND", "STU"],
                     "actions": [
-                        "family,business:display:false"
+                        "{family},{business}:display:false",
+                        "{business-enable}:enable:false",
+                        "{person-enable}:enable:true"
                     ]
                 },
                 {
@@ -20,14 +22,20 @@
                     "actions": [
                         {
                             "subject": "display",
-                            "target": "family",
+                            "target": "{family}",
                             "value": true
                         },
                         {
                             "subject": "display",
-                            "target": "business",
+                            "target": "{business}",
                             "value": false
-                        }
+                        },
+                        {
+                            "subject": "enable",
+                            "target": "{business-enable}",
+                            "value": false
+                        },
+                        "{person-enable}:enable:true"
                     ]
                 },
                 {
@@ -36,14 +44,20 @@
                     "actions": [
                         {
                             "subject": "display",
-                            "target": "family",
+                            "target": "{family}",
                             "value": false
                         },
                         {
                             "subject": "display",
-                            "target": "business",
+                            "target": "{business}",
                             "value": true
-                        }
+                        },
+                        {
+                            "subject": "enable",
+                            "target": "{business-enable}",
+                            "value": true
+                        },
+                        "{person-enable}:enable:false"
                     ]
                 },
                 {
@@ -52,14 +66,20 @@
                     "actions": [
                         {
                             "subject": "display",
-                            "target": "family",
+                            "target": "{family}",
                             "value": false
                         },
                         {
                             "subject": "display",
-                            "target": "business",
+                            "target": "{business}",
                             "value": true
-                        }
+                        },
+                        {
+                            "subject": "enable",
+                            "target": "{business-enable}",
+                            "value": true
+                        },
+                        "{person-enable}:enable:true"
                     ]
                 },
                 {
@@ -85,7 +105,8 @@
                     "elements": ["primaryFirstName", "primaryLastName"]
                 },
                 "primaryEmail",
-                "primaryPublicName"
+                "primaryPublicName",
+                "primaryMemberType"
             ]
         },
         {
@@ -99,7 +120,8 @@
                     "type": "cell",
                     "elements": ["secondaryFirstName", "secondaryLastName"]
                 },
-                "secondaryPublicName:family"
+                "secondaryPublicName",
+                "secondaryMemberType"
             ]
         },
         {

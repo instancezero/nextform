@@ -3,6 +3,7 @@
 namespace Abivia\NextForm\Data\Population;
 
 use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
 
@@ -22,9 +23,17 @@ class Option implements \JsonSerializable
      * @var bool
      */
     protected $enabled = true;
+
+    /**
+     * A list of groups that this option belongs to.
+     * @var string[]
+     */
+    protected $groups = [];
+
     static protected $jsonEncodeMethod = [
         'label' => [],
         'value' => ['drop:null'],
+        'groups' => ['drop:null', 'drop:empty', 'scalarize', 'map:memberOf'],
         'enabled' => ['drop:true'],
         'name' => ['drop:blank','drop:null'],
         'sidecar' => ['drop:null'],
@@ -50,6 +59,20 @@ class Option implements \JsonSerializable
         self::$showDefaultScope = 'option';
     }
 
+    /**
+     * Add this option to the named group.
+     * @param type $groupName Name of the group to be added.
+     * @return \self
+     */
+    public function addGroup($groupName) : self
+    {
+        if (!in_array($groupName, $this->groups)) {
+            $this->groups[] = $groupName;
+            $this->configureValidate('groups', $this->groups);
+        }
+        return $this;
+    }
+
     protected function configureClassMap($property, $value)
     {
         $result = false;
@@ -61,9 +84,9 @@ class Option implements \JsonSerializable
 
     protected function configureComplete(): bool
     {
-        if (is_array($this->value)) {
+        if (\is_array($this->value)) {
             foreach($this->value as $option) {
-                if (is_array($option->getList())) {
+                if (\is_array($option->getList())) {
                     throw new \OutOfBoundsException('Options can\'t be nested more than two levels deep.');
                 }
             }
@@ -79,12 +102,23 @@ class Option implements \JsonSerializable
 
     protected function configureInitialize(&$config)
     {
-        // if the value is an array convert any strings to a class
-        if (isset($config->value) && is_array($config->value)) {
+        // If the configuration is a string, treat it as label[:value]
+        if (\is_string($config)) {
+            $obj = new \stdClass();
+            if (($posn = \strrpos($config, Manager::GROUP_DELIM)) !== false) {
+                $obj->label = \substr($config, 0, $posn);
+                $obj->value = \substr($config, $posn + 1);
+
+            } else {
+                $obj->label = $config;
+            }
+            $config = $obj;
+        } elseif (isset($config->value) && \is_array($config->value)) {
+            // plain string labels are converted to objects with a label property
             foreach ($config->value as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
-                    $obj = new \Stdclass;
+                    $obj = new \stdClass();
                     $obj->label = $value;
                     $value = $obj;
                 }
@@ -92,9 +126,68 @@ class Option implements \JsonSerializable
         }
     }
 
+    /**
+     * Map the config file's "memberOf" to "groups".
+     * @param string $property Name of the property.
+     * @return string
+     */
+    protected function configurePropertyMap($property)
+    {
+        if ($property == 'memberOf') {
+            $property = 'groups';
+        }
+        return $property;
+    }
+
+    /**
+     * Ensure groups is an array of valid names.
+     * @param string $property Name of the property.
+     * @param type $value Current value of the property.
+     * @return boolean True when the property is valid.
+     */
+    protected function configureValidate($property, &$value)
+    {
+        if ($property === 'groups') {
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            foreach ($value as $key => &$item) {
+                $item = trim($item);
+                if (!preg_match('/^[a-z0-9\-_]+$/i', $item)) {
+                    unset($value[$key]);
+                }
+            }
+            $value = array_values(array_unique($value));
+        }
+        return true;
+    }
+
+    /**
+     * Delete this element from the named group.
+     * @param type $groupName Name of the group to be added.
+     * @return \self
+     */
+    public function deleteGroup($groupName) : self
+    {
+        if (($key = array_search($groupName, $this->groups)) !== false) {
+            unset($this->groups[$key]);
+            $this->groups = array_values($this->groups);
+        }
+        return $this;
+    }
+
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get the list of groups this element is a member of.
+     * @return string[]
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 
     public function getLabel()
@@ -165,6 +258,18 @@ class Option implements \JsonSerializable
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * Set the groups this element is a member of
+     * @param string|string[] $groups The group or groups.
+     * @return \self
+     */
+    public function setGroups($groups) : self
+    {
+        $this->configureValidate('groups', $groups);
+        $this->groups = $groups;
         return $this;
     }
 

@@ -24,7 +24,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     }
 
     /**
-     * Generate a simple input element.
+     * Generate a simple input element for a single-valued checkbox.
      * @param FieldBinding $binding
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @return \Abivia\NextForm\Renderer\Block $block The output block.
@@ -81,7 +81,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 $checked = false;
             }
             $optAttrs->setFlag('checked', $checked);
-            $optAttrs->setIfNotNull('*data-sidecar', $radio->sidecar);
+            $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
+            $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
+            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
 
             $block->merge(
                 $this->writeElement(
@@ -131,7 +133,9 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $optAttrs->set('id', $id);
             $value = $radio->getValue();
             $optAttrs->set('value', $value);
-            $optAttrs->setIfNotNull('*data-sidecar', $radio->sidecar);
+            $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
+            $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
+            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
             if (
                 $type == 'checkbox'
                 && is_array($select) && in_array($value, $select)
@@ -461,7 +465,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs->set('type', $type);
         $attrs->set('name', $binding->getFormName()
             . ($type == 'checkbox' ? '[]' : ''));
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
 
         if ($options['access'] == 'view') {
             $attrs->setFlag('readonly');
@@ -576,7 +580,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Set up basic attributes for the input element
         $attrs->set('type', $type);
         $attrs->set('name', $binding->getFormName());
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
 
         // Generate hidden elements and return.
         if ($options['access'] === 'hide') {
@@ -724,7 +728,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             $attrs->set('class', $this->getButtonClass());
         }
         $attrs->set('type', $type);
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
 
         // Render the data list if there is one
         $block->merge($this->dataList($attrs, $binding, $type, $options));
@@ -807,7 +811,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         // Start the input group
         $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
         $block->body .= $this->writeLabel('beforespan', $labels->before, 'span');
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
             $attrs->addValidation($type, $data->getValidation());
@@ -931,36 +935,6 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldSelectOption($option, $value)
-    {
-        $block = new Block();
-        $attrs = new Attributes();
-        $attrs->set('value', $option->getValue());
-        $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
-        if (in_array($attrs->get('value'), $value)) {
-            $attrs->setFlag('selected');
-        }
-        $block->body .= $this->writeTag('option', $attrs, $option->getLabel()) . "\n";
-        return $block;
-    }
-
-    protected function renderFieldSelectOptions($list, $value) {
-        $block = new Block();
-        foreach ($list as $option) {
-            if ($option->isNested()) {
-                $attrs = new Attributes();
-                $attrs->set('label', $option->getLabel());
-                $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
-                $block->body .= $this->writeTag('optgroup', $attrs) . "\n";
-                $block->merge($this->renderFieldSelectOptions($option->getList(), $value));
-                $block->body .= '</optgroup>' . "\n";
-            } else {
-                $block->merge($this->renderFieldSelectOption($option, $value));
-            }
-        }
-        return $block;
-    }
-
     protected function renderFieldSelectView($binding)
     {
         $baseId = $binding->getId();
@@ -1067,7 +1041,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Sidecar data
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
 
         // Write access: Add in any validation
         if ($options['access'] === 'write') {
@@ -1175,27 +1149,78 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             return $result;
         }
         $formId = $binding->getManager()->getId();
-        $script = "$('#" . $formId . "[name=" . $binding->getFormName()
-            . "').change(function () {\n";
+        $script = "$('#" . $formId . " [name=" . $binding->getFormName()
+            . "]').change(function () {\n";
         foreach ($triggers as $trigger) {
             if ($trigger->getEvent() !== 'change') {
                 continue;
             }
             $value = $trigger->getValue();
+            $closing = " }\n";
             if (is_array($value)) {
                 $script .= " if (" . json_encode($value) . ".includes(this.value)) {\n";
+            } elseif ($value === null) {
+                // Null implies no conditions.
+                $closing = '';
             } else {
                 $script .= " if (this.value === " . json_encode($value) . ") {\n";
             }
             foreach ($trigger->getActions() as $action) {
-                $script .= "  // action here\n";
+                $script .= $this->renderAction($formId, $binding, $action);
             }
-            $script .= " }\n";
+            $script .= $closing;
         }
         $script .= "});\n";
         $result->script = $script;
 
         return $result;
+    }
+
+    protected function renderAction($formId, $binding, $action)
+    {
+        $script = '';
+        switch ($action->getSubject()) {
+            case 'display':
+                $value = $action->getValue() ? 'true' : 'false';
+                foreach ($action->getTarget() as $target) {
+                    if (preg_match('/{(.*)}/', $target, $match)) {
+                        $target = $match[1];
+                        $script .= "   " . $formId .
+                            ".displayGroup('" . $target . "', " . $value . ");\n";
+                    } elseif ($target[0] === '#') {
+                        $script .= "$('" . $target . "').toggle(" . $value . ");\n";
+                    } elseif ($target[0] === '&') {
+                        "$('#" . $formId . " [data-nf-name=" . $target . "]')"
+                            . ".toggle(" . $value . ");\n";
+                    } else {
+                        "$('#" . $formId . " [name=" . $target . "]')"
+                            . ".toggle(" . $value . ");\n";
+                    }
+                }
+                break;
+
+            case 'enable':
+                $value = $action->getValue() ? 'false' : 'true';
+                foreach ($action->getTarget() as $target) {
+                    if (preg_match('/{(.*)}/', $target, $match)) {
+                        $target = $match[1];
+                        $script .= "   " . $formId .
+                            ".disableGroup('" . $target . "', "
+                            . $value . ");\n";
+                    } elseif ($target[0] === '#') {
+                        $script .= "$('" . $target . "').prop('disabled', "
+                            . $value . ");\n";
+                    } elseif ($target[0] === '&') {
+                        "$('#" . $formId . " [data-nf-name=" . $target . "]')"
+                            . ".prop('disabled', " . $value . ");\n";
+                    } else {
+                        "$('#" . $formId . " [name=" . $target . "]')"
+                            . ".prop('disabled', " . $value . ");\n";
+                    }
+                }
+                break;
+        }
+        return $script;
     }
 
     /**

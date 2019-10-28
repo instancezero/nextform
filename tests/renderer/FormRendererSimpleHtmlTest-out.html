@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="8011e14e29516c73160ad6cba5dc9afe7722290cec18277f870bea2b222ec72c">
+<input id="nf_token" name="nf_token" type="hidden" value="3d8a38ddf926bb73fdb6b1c21dd6bedd147695259432d78556a22843cd7c00fc">
 <h3>FormRendererSimpleHtmlTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" data-nf-for="button_1">
@@ -184,20 +184,20 @@
 <hr/>
 <h4>value</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="checkbox" value="3" data-sidecar="&quot;foo&quot;"/>
+<input id="field_1" name="field_1" type="checkbox" value="3" data-nf-sidecar="&quot;foo&quot;"/>
 <label for="field_1">&lt;Stand-alone&gt; checkbox</label>
 </div>
 <br/>
 <hr/>
 <h4>value-view</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="checkbox" value="3" readonly data-sidecar="&quot;foo&quot;"/>
+<input id="field_1" name="field_1" type="checkbox" value="3" readonly data-nf-sidecar="&quot;foo&quot;"/>
 <label for="field_1">&lt;Stand-alone&gt; checkbox</label>
 </div>
 <br/>
 <hr/>
 <h4>value-hide</h4>
-<input id="field_1" name="field_1" type="hidden" value="3" data-sidecar="&quot;foo&quot;"/>
+<input id="field_1" name="field_1" type="hidden" value="3" data-nf-sidecar="&quot;foo&quot;"/>
 <hr/>
 <h4>checked</h4>
 <div id="field_1_container" data-nf-for="field_1">
@@ -279,15 +279,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -300,15 +300,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -321,15 +321,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -345,22 +345,22 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
 <br/>
 <hr/>
 <h4>single-value-hide</h4>
-<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>dual-value</h4>
 <div id="field_1_container" data-nf-for="field_1">
@@ -369,15 +369,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -390,15 +390,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled readonly data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" readonly data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked readonly data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" checked readonly data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -406,7 +406,7 @@
 <hr/>
 <h4>dual-value-hide</h4>
 <input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>
-<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="hidden" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <hr/>
 <h4>inline</h4>
 <div id="field_1_container" data-nf-for="field_1">
@@ -415,15 +415,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -436,15 +436,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled/>
+<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2" disabled data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1[]" type="checkbox" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -804,15 +804,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -825,15 +825,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3"/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -846,15 +846,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -867,15 +867,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" readonly/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" readonly data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked readonly/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked readonly data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 </div>
@@ -894,15 +894,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2"/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 <div>See? No problem!</div>
@@ -918,15 +918,15 @@
 <label for="field_1_opt0">textlist 1</label>
 </div>
 <div>
-<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" readonly/>
+<input id="field_1_opt1" name="field_1" type="radio" value="textlist 2" readonly data-nf-group="[&quot;grpX&quot;]"/>
 <label for="field_1_opt1">textlist 2</label>
 </div>
 <div>
-<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked readonly/>
+<input id="field_1_opt2" name="field_1" type="radio" value="textlist 3" checked readonly data-nf-name="tl3"/>
 <label for="field_1_opt2">textlist 3</label>
 </div>
 <div>
-<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>
+<input id="field_1_opt3" name="field_1" type="radio" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>
 <label for="field_1_opt3">textlist 4</label>
 </div>
 <div>See? No problem!</div>
@@ -1000,9 +1000,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2">textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1011,9 +1011,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2">textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1031,9 +1031,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2" selected>textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1052,9 +1052,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2" selected>textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1063,9 +1063,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1[]" multiple>
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2" selected>textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1087,9 +1087,9 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1[]" multiple size="6">
 <option value="textlist 1">textlist 1</option>
-<option value="textlist 2" selected>textlist 2</option>
-<option value="textlist 3">textlist 3</option>
-<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>
 </select>
 </div>
 <br/>
@@ -1099,13 +1099,13 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="General">General</option>
-<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
 <option value="Sub One Item One">Sub One Item One</option>
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
-<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
 </div>
@@ -1115,13 +1115,13 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="General">General</option>
-<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
 <option value="Sub One Item One">Sub One Item One</option>
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
-<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
 </div>
@@ -1140,13 +1140,13 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="General">General</option>
-<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
 <option value="Sub One Item One">Sub One Item One</option>
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
-<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
 </div>
@@ -1156,13 +1156,13 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1">
 <option value="General">General</option>
-<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
 <option value="Sub One Item One">Sub One Item One</option>
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
-<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
 </div>
@@ -1182,13 +1182,13 @@
 <div id="field_1_container" data-nf-for="field_1">
 <select id="field_1" name="field_1[]" multiple>
 <option value="General">General</option>
-<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
 <option value="Sub One Item One" selected>Sub One Item One</option>
 <option value="Sub One Item Two">Sub One Item Two</option>
 </optgroup>
 <optgroup label="Subgroup Two">
-<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
-<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
 </optgroup>
 </select>
 </div>
@@ -1257,9 +1257,9 @@
 <input id="field_1" name="field_1" type="text" list="field_1_list"/>
 <datalist id="field_1_list">
 <option value="textlist 1"/>
-<option value="textlist 2"/>
-<option value="textlist 3"/>
-<option value="textlist 4" data-sidecar="[1,2,3,4]"/>
+<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
+<option value="textlist 3" data-nf-name="tl3"/>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 </datalist>
 </div>
 <br/>

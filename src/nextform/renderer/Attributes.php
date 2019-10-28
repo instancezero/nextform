@@ -526,7 +526,21 @@ class Attributes
     }
 
     /**
-     * Set a flag-valued attribute if the value is not null.
+     * Set an attribute if the value is not empty.
+     * @param string $name Name of the attribute to set.
+     * @param mixed $value Value to set the attribute to.
+     * @return \self
+     */
+    public function setIfNotEmpty($name, $value) : self
+    {
+        if (!empty($value)) {
+            $this->attrs[$name] = $value;
+        }
+        return $this;
+    }
+
+    /**
+     * Set an attribute if the value is not null.
      * @param string $name Name of the attribute to set.
      * @param mixed $value Value to set the attribute to.
      * @return \self

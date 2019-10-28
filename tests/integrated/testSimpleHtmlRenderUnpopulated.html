@@ -12,35 +12,35 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="90f0cfaaf21598aaeca934de9ee89dd29942c1e1dc66d14fd417292cfdec5811">
+<input id="nf_token" name="nf_token" type="hidden" value="471abdc0f0a6443c8c6b5d21097e120c512b59c4ac09bac25974e098005c0d15">
 <div id="field_2_container" data-nf-for="field_2">
-<div>Membership Type (tslt)</div>
+<div>Membership Level (tslt)</div>
 <div>
-<input id="field_2_opt0" name="members_membershipType" type="radio" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
+<input id="field_2_opt0" name="members_membershipLevel" type="radio" value="IND" checked data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
 <label for="field_2_opt0">Individual $30 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt1" name="members_membershipType" type="radio" value="FAM" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
+<input id="field_2_opt1" name="members_membershipLevel" type="radio" value="FAM" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
 <label for="field_2_opt1">Family $50 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt2" name="members_membershipType" type="radio" value="STU" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
+<input id="field_2_opt2" name="members_membershipLevel" type="radio" value="STU" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
 <label for="field_2_opt2">Student $15 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt3" name="members_membershipType" type="radio" value="FEL" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
+<input id="field_2_opt3" name="members_membershipLevel" type="radio" value="FEL" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
 <label for="field_2_opt3">Fellow Association $40 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt4" name="members_membershipType" type="radio" value="BUS" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
+<input id="field_2_opt4" name="members_membershipLevel" type="radio" value="BUS" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
 <label for="field_2_opt4">Business $75 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt5" name="members_membershipType" type="radio" value="PAT" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<input id="field_2_opt5" name="members_membershipLevel" type="radio" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
 <label for="field_2_opt5">Patron $100-$299 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt6" name="members_membershipType" type="radio" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<input id="field_2_opt6" name="members_membershipLevel" type="radio" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field_2_opt6">Sponsor $300+ (tslt)</label>
 </div>
 </div>
@@ -72,22 +72,70 @@
 <input id="field_6" name="members_primaryPublicName" type="text"/>
 </div>
 <br/>
+<div id="field_7_container" data-nf-for="field_7">
+<div>Membership Type (tslt)</div>
+<div>
+<input id="field_7_opt0" name="members_primaryMemberType[]" type="checkbox" value="AC" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_7_opt0">Artisan/Craftsperson (tslt)</label>
+</div>
+<div>
+<input id="field_7_opt1" name="members_primaryMemberType[]" type="checkbox" value="PF" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_7_opt1">Performer (tslt)</label>
+</div>
+<div>
+<input id="field_7_opt2" name="members_primaryMemberType[]" type="checkbox" value="VA" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_7_opt2">Visual Arts (tslt)</label>
+</div>
+<div>
+<input id="field_7_opt3" name="members_primaryMemberType[]" type="checkbox" value="BU" data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_7_opt3">Business (tslt)</label>
+</div>
+<div>
+<input id="field_7_opt4" name="members_primaryMemberType[]" type="checkbox" value="FA" data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_7_opt4">Fellow Association (tslt)</label>
+</div>
+<div>
+<input id="field_7_opt5" name="members_primaryMemberType[]" type="checkbox" value="XX"/>
+<label for="field_7_opt5">Other (tslt)</label>
+</div>
+</div>
+<br/>
 </fieldset>
 <fieldset>
 <legend>Second Member (tslt)</legend>
 <div>
-<div id="field_7_container" data-nf-for="field_7">
-<label for="field_7">Legal First Name (tslt)</label>
-<input id="field_7" name="members_secondaryFirstName" type="text" required data-nf-req="1"/>
+<div id="field_8_container" data-nf-for="field_8">
+<label for="field_8">Legal First Name (tslt)</label>
+<input id="field_8" name="members_secondaryFirstName" type="text" required data-nf-req="1"/>
 </div>
-&nbsp;<div id="field_8_container" style="display:inline-block; padding:0.5rem; padding-left:1.2rem" data-nf-for="field_8">
-<label for="field_8">Legal Last Name (tslt)</label>
-<input id="field_8" name="members_secondaryLastName" type="text" required data-nf-req="1"/>
+&nbsp;<div id="field_9_container" style="display:inline-block; padding:0.5rem; padding-left:1.2rem" data-nf-for="field_9">
+<label for="field_9">Legal Last Name (tslt)</label>
+<input id="field_9" name="members_secondaryLastName" type="text" required data-nf-req="1"/>
 </div>
 &nbsp;</div>
-<div id="field_9_container" data-nf-for="field_9" data-nf-group="[&quot;family&quot;]">
-<label for="field_9">Artist Name (tslt)</label>
-<input id="field_9" name="members_secondaryPublicName" type="text"/>
+<div id="field_10_container" data-nf-for="field_10">
+<label for="field_10">Artist Name (tslt)</label>
+<input id="field_10" name="members_secondaryPublicName" type="text"/>
+</div>
+<br/>
+<div id="field_11_container" data-nf-for="field_11">
+<div>Membership Type (tslt)</div>
+<div>
+<input id="field_11_opt0" name="members_secondaryMemberType[]" type="checkbox" value="AC"/>
+<label for="field_11_opt0">Artisan/Craftsperson (tslt)</label>
+</div>
+<div>
+<input id="field_11_opt1" name="members_secondaryMemberType[]" type="checkbox" value="PF"/>
+<label for="field_11_opt1">Performer (tslt)</label>
+</div>
+<div>
+<input id="field_11_opt2" name="members_secondaryMemberType[]" type="checkbox" value="VA"/>
+<label for="field_11_opt2">Visual Arts (tslt)</label>
+</div>
+<div>
+<input id="field_11_opt3" name="members_secondaryMemberType[]" type="checkbox" value="XX"/>
+<label for="field_11_opt3">Other (tslt)</label>
+</div>
 </div>
 <br/>
 </fieldset>
@@ -96,8 +144,8 @@
 <input id="foo22" name="members_businessName" type="text"/>
 </div>
 <br/>
-<div id="button_10_container" data-nf-for="button_10">
-<input id="button_10" name="button_10" type="submit" value="Join (tslt)"/>
+<div id="button_12_container" data-nf-for="button_12">
+<input id="button_12" name="button_12" type="submit" value="Join (tslt)"/>
 </div>
 <br/>
 </form>

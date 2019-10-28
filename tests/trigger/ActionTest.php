@@ -26,7 +26,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
 
 	public function testFormTriggerActionTargetCastToArray() {
         $config = json_decode(
-            '{"subject":"enabled","value":true,"target":"field1"}'
+            '{"subject":"enable","value":true,"target":"field1"}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
@@ -39,7 +39,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
             'enable', 'value', 'visible'
         ];
         $config = json_decode(
-            '{"subject":"enabled","value":"enable","target":"field1"}'
+            '{"subject":"enable","value":"enable","target":"field1"}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Action();
@@ -55,9 +55,6 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
     public function testFormTriggerActionChangeGetSet() {
         $obj = new Action();
         $this->assertEquals(null, $obj->getSubject());
-        $return = $obj->setSubject('enabled');
-        $this->assertTrue($obj === $return);
-        $this->assertEquals('enable', $obj->getSubject());
         $return = $obj->setSubject('enable');
         $this->assertTrue($obj === $return);
         $this->assertEquals('enable', $obj->getSubject());
@@ -95,12 +92,6 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
         $return = $obj->setValue(6);
         $this->assertTrue($obj === $return);
         $this->assertEquals(6, $obj->getValue());
-    }
-
-	public function testFormTriggerActionEnableMap() {
-        $obj = new Action();
-        $obj->setSubject('enabled');
-		$this->assertEquals('enable', $obj->getSubject());
     }
 
 }

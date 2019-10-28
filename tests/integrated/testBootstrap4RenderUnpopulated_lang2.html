@@ -11,36 +11,36 @@
   </head>
 <body>
 <div class="container">
-<form id="form_13" name="form_13" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="2d010eee7d09e11a4b1626f19416547c5fac8ee92d4ad9dd590450339f334cbe">
+<form id="form_15" name="form_15" action="http://localhost/nextform/post.php" method="post">
+<input id="nf_token" name="nf_token" type="hidden" value="9f477d23533f445d2c5f1501c54ee337575a6bbf1328f4d870bf57fd2d56f609">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
-<div>Membership Type (lang2)</div>
+<div>Membership Level (lang2)</div>
 <div class="form-check">
-<input id="field_2_opt0" name="members_membershipType" type="radio" class="form-check-input" value="IND" checked data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
+<input id="field_2_opt0" name="members_membershipLevel" type="radio" class="form-check-input" value="IND" checked data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:30}}"/>
 <label for="field_2_opt0" class="form-check-label">Individual $30 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt1" name="members_membershipType" type="radio" class="form-check-input" value="FAM" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
+<input id="field_2_opt1" name="members_membershipLevel" type="radio" class="form-check-input" value="FAM" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:50}}"/>
 <label for="field_2_opt1" class="form-check-label">Family $50 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt2" name="members_membershipType" type="radio" class="form-check-input" value="STU" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
+<input id="field_2_opt2" name="members_membershipLevel" type="radio" class="form-check-input" value="STU" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:15}}"/>
 <label for="field_2_opt2" class="form-check-label">Student $15 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt3" name="members_membershipType" type="radio" class="form-check-input" value="FEL" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
+<input id="field_2_opt3" name="members_membershipLevel" type="radio" class="form-check-input" value="FEL" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:40}}"/>
 <label for="field_2_opt3" class="form-check-label">Fellow Association $40 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt4" name="members_membershipType" type="radio" class="form-check-input" value="BUS" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
+<input id="field_2_opt4" name="members_membershipLevel" type="radio" class="form-check-input" value="BUS" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:75}}"/>
 <label for="field_2_opt4" class="form-check-label">Business $75 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt5" name="members_membershipType" type="radio" class="form-check-input" value="PAT" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<input id="field_2_opt5" name="members_membershipLevel" type="radio" class="form-check-input" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
 <label for="field_2_opt5" class="form-check-label">Patron $100-$299 (lang2)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt6" name="members_membershipType" type="radio" class="form-check-input" value="SPO" data-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<input id="field_2_opt6" name="members_membershipLevel" type="radio" class="form-check-input" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field_2_opt6" class="form-check-label">Sponsor $300+ (lang2)</label>
 </div>
 </fieldset>
@@ -70,32 +70,78 @@
 <input id="field_7" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field_7_help"/>
 <small id="field_7_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (lang2)</small>
 </div>
+<fieldset id="field_8_container" class="form-group col-sm-12" data-nf-for="field_8">
+<div>Membership Type (lang2)</div>
+<div class="form-check">
+<input id="field_8_opt0" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AC" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt0" class="form-check-label">Artisan/Craftsperson (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_8_opt1" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="PF" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt1" class="form-check-label">Performer (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_8_opt2" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="VA" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt2" class="form-check-label">Visual Arts (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_8_opt3" class="form-check-label">Business (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_8_opt4" class="form-check-label">Fellow Association (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_8_opt5" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_8_opt5" class="form-check-label">Other (lang2)</label>
+</div>
 </fieldset>
-<fieldset id="section_8_container" class="form-group col-sm-12" data-nf-for="section_8" data-nf-group="[&quot;family&quot;]">
+</fieldset>
+<fieldset id="section_9_container" class="form-group col-sm-12" data-nf-for="section_9" data-nf-group="[&quot;family&quot;]">
 <legend>Second Member (lang2)</legend>
 <div class="form-row col-sm-12">
-<div id="field_9_container" class="form-group" data-nf-for="field_9">
-<label for="field_9">Legal First Name (lang2)</label>
-<input id="field_9" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_9_help" data-nf-req="1"/>
-<small id="field_9_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (lang2)</small>
+<div id="field_10_container" class="form-group" data-nf-for="field_10">
+<label for="field_10">Legal First Name (lang2)</label>
+<input id="field_10" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_10_help" data-nf-req="1"/>
+<small id="field_10_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (lang2)</small>
 </div>
-<div id="field_10_container" class="ml-3 form-group" data-nf-for="field_10">
-<label for="field_10">Legal Last Name (lang2)</label>
-<input id="field_10" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
+<div id="field_11_container" class="ml-3 form-group" data-nf-for="field_11">
+<label for="field_11">Legal Last Name (lang2)</label>
+<input id="field_11" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
 </div>
 </div>
-<div id="field_11_container" class="form-group col-sm-12" data-nf-for="field_11" data-nf-group="[&quot;family&quot;]">
-<label for="field_11">Artist Name (lang2)</label>
-<input id="field_11" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_11_help"/>
-<small id="field_11_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (lang2)</small>
+<div id="field_12_container" class="form-group col-sm-12" data-nf-for="field_12">
+<label for="field_12">Artist Name (lang2)</label>
+<input id="field_12" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_12_help"/>
+<small id="field_12_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (lang2)</small>
 </div>
+<fieldset id="field_13_container" class="form-group col-sm-12" data-nf-for="field_13">
+<div>Membership Type (lang2)</div>
+<div class="form-check">
+<input id="field_13_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
+<label for="field_13_opt0" class="form-check-label">Artisan/Craftsperson (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_13_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
+<label for="field_13_opt1" class="form-check-label">Performer (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_13_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
+<label for="field_13_opt2" class="form-check-label">Visual Arts (lang2)</label>
+</div>
+<div class="form-check">
+<input id="field_13_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_13_opt3" class="form-check-label">Other (lang2)</label>
+</div>
+</fieldset>
 </fieldset>
 <div id="foo22_container" class="nf-hidden form-group col-sm-12" data-nf-for="foo22" data-nf-group="[&quot;business&quot;]">
 <label for="foo22">Business Name (lang2)</label>
 <input id="foo22" name="members_businessName" type="text" class="form-control"/>
 </div>
-<div id="button_12_container" class="form-group col-sm-12" data-nf-for="button_12">
-<input id="button_12" name="button_12" type="submit" class="btn btn-primary" value="Join (lang2)"/>
+<div id="button_14_container" class="form-group col-sm-12" data-nf-for="button_14">
+<input id="button_14" name="button_14" type="submit" class="btn btn-primary" value="Join (lang2)"/>
 </div>
 </form>
 
@@ -114,6 +160,20 @@ class NextForm {
     constructor(form) {
         this.form = form;
         this.groupCollector();
+    }
+
+    disableGroup(group, disable) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            jqElement.prop('disabled', disable);
+        });
+    }
+
+    displayGroup(group, show) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            jqElement.toggle(show);
+        });
     }
 
     /**
@@ -135,55 +195,34 @@ class NextForm {
         return true;
     }
 
-    groupDisplay(group, show) {
-        if (this.groupList[group] === undefined) return;
-        this.groupList[group].forEach(function (jqElement) {
-            jqElement.toggle(show);
-        });
-    }
 }
 
-/* example code below
-var form_1 = new NextForm($('#form_1'));
-$('[name=members_membershipType]').change(function () {
-    if (this.value === 'IND' || this.value === 'STU') {
-        form_1.groupDisplay('family', false);
-        form_1.groupDisplay('business', false);
-    }
-    if (this.value === 'FAM') {
-        form_1.groupDisplay('family', true);
-        form_1.groupDisplay('business', false);
-    }
-    if (['BUS', 'FEL'].includes(this.value)) {
-        form_1.groupDisplay('family', false);
-        form_1.groupDisplay('business', true);
-    }
-    if (['PAT', 'SPO'].includes(this.value)) {
-        form_1.groupDisplay('family', false);
-        form_1.groupDisplay('business', true);
-    }
-});
-*/
 
-var form_13 = new NextForm($('#form_13'));
-$('#form_13[name=members_membershipType').change(function () {
+var form_15 = new NextForm($('#form_15'));
+$('#form_15 [name=members_membershipLevel]').change(function () {
  if (["IND","STU"].includes(this.value)) {
-  // action here
+   form_15.displayGroup('family', false);
+   form_15.displayGroup('business', false);
+   form_15.disableGroup('business-enable', true);
+   form_15.disableGroup('person-enable', false);
  }
  if (this.value === "FAM") {
-  // action here
-  // action here
+   form_15.displayGroup('family', true);
+   form_15.displayGroup('business', false);
+   form_15.disableGroup('business-enable', true);
+   form_15.disableGroup('person-enable', false);
  }
  if (["BUS","FEL"].includes(this.value)) {
-  // action here
-  // action here
+   form_15.displayGroup('family', false);
+   form_15.displayGroup('business', true);
+   form_15.disableGroup('business-enable', false);
+   form_15.disableGroup('person-enable', true);
  }
  if (["PAT","SPO"].includes(this.value)) {
-  // action here
-  // action here
- }
- if (this.value === null) {
-  // action here
+   form_15.displayGroup('family', false);
+   form_15.displayGroup('business', true);
+   form_15.disableGroup('business-enable', false);
+   form_15.disableGroup('person-enable', false);
  }
 });
 </script>

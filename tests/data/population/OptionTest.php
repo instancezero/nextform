@@ -7,7 +7,7 @@ use Abivia\NextForm\Data\Population\Option;
  */
 class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
 
-	public function testPopulationOptionInstantiation() {
+	public function testInstantiation() {
         $obj = new Option();
 		$this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $obj);
 	}
@@ -15,7 +15,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check that a minimalist option has the right default values.
      */
-    public function testPopulationOptionSimpleDefault() {
+    public function testSimpleDefault() {
         $json = '{"label": "Something"}';
         $config = json_decode($json);
         $this->assertTrue(false != $config, 'JSON error!');
@@ -32,7 +32,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
     /**
      * Check an option with a label and a value.
      */
-    public function testPopulationOptionSimpleValued() {
+    public function testSimpleValued() {
         $json = '{"label": "Something", "value": 5}';
         $config = json_decode($json);
         $this->assertTrue(false != $config, 'JSON error!');
@@ -43,13 +43,25 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(5, $obj->getValue());
         $this->assertTrue($obj->getEnabled());
         $this->assertFalse($obj->getSelected());
-        $this->assertTrue($obj->configure($config));
+    }
+
+    /**
+     * Check an option with a label and a value.
+     */
+    public function testStringValued() {
+        $obj = new Option();
+        $this->assertTrue($obj->configure('Something:5'));
+        $this->assertEquals('Something', $obj->getLabel());
+        $this->assertEquals('', $obj->getName());
+        $this->assertEquals(5, $obj->getValue());
+        $this->assertTrue($obj->getEnabled());
+        $this->assertFalse($obj->getSelected());
     }
 
     /**
      * Check that an option with a label and a value.
      */
-    public function testPopulationOptionSimpleNoLabel() {
+    public function testSimpleNoLabel() {
         $json = '{"value": 5}';
         $config = json_decode($json);
         $this->assertTrue(false != $config, 'JSON error!');
@@ -58,7 +70,7 @@ class DataPopulationOptionTest extends \PHPUnit\Framework\TestCase {
         $obj->configure($config);
     }
 
-    public function testPopulationOptionNested() {
+    public function testNested() {
         $json = <<<'jsonend'
 {
     "name": "id",
@@ -80,7 +92,7 @@ jsonend;
         $this->assertTrue($obj->configure($config));
     }
 
-    public function testPopulationOptionNestedTooDeep() {
+    public function testNestedTooDeep() {
         $json = <<<'jsonend'
 {
     "name": "id",
@@ -113,7 +125,7 @@ jsonend;
     /**
      * Check that a minimalist option has the right default values.
      */
-    public function testPopulationOptionSidecar() {
+    public function testSidecar() {
         $json = '{"label": "Something","sidecar":{"prop":"foo"}}';
         $config = json_decode($json);
         $this->assertTrue(false != $config, 'JSON error!');

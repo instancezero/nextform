@@ -39,31 +39,34 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             $select = $binding->getElement()->getDefault();
         }
         foreach ($list as $optId => $radio) {
+            $optAttrs = $attrs->copy();
             $id = $baseId . '_opt' . $optId;
-            $attrs->set('id', $id);
+            $optAttrs->set('id', $id);
             $value = $radio->getValue();
-            $attrs->set('value', $value);
-            $attrs->setFlag('disabled', !$radio->getEnabled());
+            $optAttrs->set('value', $value);
+            $optAttrs->setFlag('disabled', !$radio->getEnabled());
             if (
                 $type == 'checkbox'
                 && is_array($select) && in_array($value, $select)
             ) {
-                $attrs->setFlag('checked');
+                $optAttrs->setFlag('checked');
                 $checked = true;
             } elseif ($value === $select) {
-                $attrs->setFlag('checked');
+                $optAttrs->setFlag('checked');
                 $checked = true;
             } else {
-                $attrs->setFlag('checked', false);
+                $optAttrs->setFlag('checked', false);
                 $checked = false;
             }
-            $attrs->setIfNotNull('*data-sidecar', $radio->sidecar);
+            $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
+            $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
+            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
             if ($checked) {
-                $attrs->setFlag('checked');
+                $optAttrs->setFlag('checked');
             } else {
-                $attrs->setFlag('checked', false);
+                $optAttrs->setFlag('checked', false);
             }
-            $block->body .= "<div>\n" . $this->writeTag('input', $attrs) . "\n"
+            $block->body .= "<div>\n" . $this->writeTag('input', $optAttrs) . "\n"
                 . $this->writeLabel(
                     '', $radio->getLabel(), 'label',
                     new Attributes('!for',  $id), ['break' => true]
@@ -230,7 +233,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $attrs = new Attributes('type', $type);
         $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
         $list = $binding->getList(true);
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         $attrs->set('name', $binding->getFormName()
             . ($type == 'checkbox' && !empty($list) ? '[]' : ''));
 
@@ -306,7 +309,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $attrs->set('type', $type);
         $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
         $block->body .= $this->writeLabel('before', $labels->before, 'span');
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         // Render the data list if there is one
         $block->merge($this->dataList($attrs, $binding, $type, $options));
         if ($options['access'] === 'write') {
@@ -364,10 +367,8 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             }
             $attrs['type'] = $type;
             $block->body .= $this->writeLabel('before', $labels->before, 'span');
-            $sidecar = $data->getPopulation()->sidecar;
-            if ($sidecar !== null) {
-                $attrs['*data-sidecar'] = $sidecar;
-            }
+            $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
+
             // Render the data list if there is one
             $block->merge($this->dataList($attrs, $binding, $type, $options));
             if ($options['access'] === 'write') {
@@ -471,37 +472,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldSelectOption($option, $value)
-    {
-        $block = new Block();
-        $attrs = new Attributes();
-        $attrs->set('value', $option->getValue());
-        $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
-        if (in_array($attrs->get('value'), $value)) {
-            $attrs->setFlag('selected');
-        }
-        $block->body .= $this->writeTag('option', $attrs, $option->getLabel()) . "\n";
-        return $block;
-    }
-
-    protected function renderFieldSelectOptions($list, $value)
-    {
-        $block = new Block();
-        foreach ($list as $option) {
-            if ($option->isNested()) {
-                $attrs = new Attributes();
-                $attrs->set('label', $option->getLabel());
-                $attrs->setIfNotNull('*data-sidecar', $option->getSidecar());
-                $block->body .= $this->writeTag('optgroup', $attrs) . "\n";
-                $block->merge($this->renderFieldSelectOptions($option->getList(), $value));
-                $block->body .= '</optgroup>' . "\n";
-            } else {
-                $block->merge($this->renderFieldSelectOption($option, $value));
-            }
-        }
-        return $block;
-    }
-
     protected function renderFieldTextarea(FieldBinding $binding, $options = [])
     {
         $value = $binding->getValue();
@@ -534,7 +504,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->body .= $this->writeLabel(
             'before', $labels->before, 'div', null, ['break' => true]
         );
-        $attrs->setIfNotNull('*data-sidecar', $data->getPopulation()->sidecar);
+        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
             $attrs->addValidation($type, $data->getValidation());

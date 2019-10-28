@@ -463,7 +463,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     $this->formCheck(
                         '<input id="field_1" name="field_1" type="checkbox"'
                         . ' class="form-check-input" value="3"'
-                        . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+                        . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
                         . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                     )
@@ -492,7 +492,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     $this->formCheck(
                         '<input id="field_1" name="field_1" type="checkbox"'
                         . ' class="form-check-input" value="3"'
-                        . ' readonly data-sidecar="&quot;foo&quot;"/>' . "\n"
+                        . ' readonly data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
                         . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
                     )
@@ -503,7 +503,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['value-hide'] = Block::fromString(
             '<input id="field_1" name="field_1"'
             . ' type="hidden" value="3"'
-            . ' data-sidecar="&quot;foo&quot;"/>' . "\n"
+            . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
         // Test view access
@@ -774,14 +774,16 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
             . 'textlist 1</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt1" name="field_1[]" type="checkbox" value="textlist 2"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+            . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
             . 'textlist 2</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt2" name="field_1[]" type="checkbox" value="textlist 3"/>' . "\n"
+            . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+            . ' value="textlist 3" data-nf-name="tl3"/>' . "\n"
             . 'textlist 3</label>' . "\n"
             . '<label class="btn btn-danger">' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
             . 'textlist 4</label>' . "\n"
             . '</div>' . "\n";
         $listHelp = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
@@ -791,16 +793,18 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             . 'textlist 1</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-            . ' value="textlist 2" aria-describedby="field_1_formhelp"/>' . "\n"
+            . ' value="textlist 2" aria-describedby="field_1_formhelp"'
+            . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
             . 'textlist 2</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-            . ' value="textlist 3" aria-describedby="field_1_formhelp"/>' . "\n"
+            . ' value="textlist 3" aria-describedby="field_1_formhelp"'
+            . ' data-nf-name="tl3"/>' . "\n"
             . 'textlist 3</label>' . "\n"
             . '<label class="btn btn-danger">' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
             . ' value="textlist 4" aria-describedby="field_1_formhelp"'
-            . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
             . 'textlist 4</label>' . "\n"
             . '</div>' . "\n";
 
@@ -903,19 +907,21 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -940,19 +946,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled readonly'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3" readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3" readonly'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" readonly data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -981,20 +990,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                         . ' class="form-check-input" value="textlist 4"'
-                        . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' checked data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1007,7 +1018,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test hidden access
         $expect['single-value-hide'] = Block::fromString(
             '<input id="field_1_opt3" name="field_1[]" type="hidden"'
-            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         // Two options set
@@ -1024,20 +1035,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                         . ' class="form-check-input" value="textlist 4"'
-                        . ' checked data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' checked data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1061,20 +1074,23 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled readonly'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3" readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3" readonly'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                         . ' class="form-check-input" value="textlist 4" checked readonly'
-                        . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1088,7 +1104,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['dual-value-hide'] = Block::fromString(
             '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="hidden"'
-            . ' value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
         );
 
         $inlineClasses = 'form-check form-check-inline';
@@ -1106,21 +1122,23 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n",
                         $inlineClasses
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n",
                         $inlineClasses
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n",
                         $inlineClasses
@@ -1143,19 +1161,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2" disabled aria-label="textlist 2"/>' . "\n",
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled aria-label="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n",
                         $inlineClasses
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3" aria-label="textlist 3"/>' . "\n",
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' aria-label="textlist 3" data-nf-name="tl3"/>' . "\n",
                         $inlineClasses
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
                         . ' class="form-check-input" value="textlist 4"'
                         . ' aria-label="textlist 4"'
-                        . ' data-sidecar="[1,2,3,4]"'
+                        . ' data-nf-sidecar="[1,2,3,4]"'
                         . '/>' . "\n",
                         $inlineClasses
                     )
@@ -1846,20 +1867,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 3"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4"'
-                        . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1886,20 +1909,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3" checked'
+                        . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4"'
-                        . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1923,21 +1948,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 2" readonly/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' readonly data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3"'
-                        . ' checked readonly/>' . "\n"
+                        . ' checked readonly data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4" readonly'
-                        . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
                         . 'textlist 4</label>' . "\n"
                     )
@@ -1949,7 +1975,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden"'
+            . ' value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -1978,19 +2005,21 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 2"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
                         . 'textlist 2</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 3" checked/>' . "\n"
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
                         . 'textlist 3</label>' . "\n"
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
-                        . ' class="form-check-input" value="textlist 4" data-sidecar="[1,2,3,4]"/>' . "\n"
+                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
                     )
                     . '<div>See? No problem!</div>' . "\n"
@@ -2017,21 +2046,22 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                         . $this->formCheck(
                             '<input id="field_1_opt1" name="field_1" type="radio"'
                             . ' class="form-check-input" value="textlist 2"'
-                            . ' readonly/>' . "\n"
+                            . ' readonly'
+                            . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                             . '<label for="field_1_opt1" class="form-check-label">'
                             . 'textlist 2</label>' . "\n"
                         )
                         . $this->formCheck(
                             '<input id="field_1_opt2" name="field_1" type="radio"'
                             . ' class="form-check-input" value="textlist 3"'
-                            . ' checked readonly/>' . "\n"
+                            . ' checked readonly data-nf-name="tl3"/>' . "\n"
                             . '<label for="field_1_opt2" class="form-check-label">'
                             . 'textlist 3</label>' . "\n"
                         )
                         . $this->formCheck(
                             '<input id="field_1_opt3" name="field_1" type="radio"'
                             . ' class="form-check-input" value="textlist 4" readonly'
-                            . ' data-sidecar="[1,2,3,4]"/>' . "\n"
+                            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                             . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
                         )
                     . '<div>See? No problem!</div>' . "\n"
@@ -2043,7 +2073,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
-            '<input id="field_1_opt2" name="field_1[]" type="hidden" value="textlist 3"/>' . "\n"
+            '<input id="field_1_opt2" name="field_1[]" type="hidden"'
+            . ' value="textlist 3"/>' . "\n"
         );
 
         $this->runCases($cases, $expect);
@@ -2167,9 +2198,12 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
-                    . '<option value="textlist 2">textlist 2</option>' . "\n"
-                    . '<option value="textlist 3">textlist 3</option>' . "\n"
-                    . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]">'
+                    . 'textlist 2</option>' . "\n"
+                    . '<option value="textlist 3" data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
+                    . 'textlist 4</option>' . "\n"
                     . '</select>' . "\n"
                 )
             )
@@ -2200,9 +2234,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
-                    . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                    . '<option value="textlist 3">textlist 3</option>' . "\n"
-                    . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '<option value="textlist 2" selected'
+                    . ' data-nf-group="[&quot;grpX&quot;]">'
+                    . 'textlist 2</option>' . "\n"
+                    . '<option value="textlist 3" data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
+                    . 'textlist 4</option>' . "\n"
                     . '</select>' . "\n"
                 )
             )
@@ -2215,9 +2253,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="custom-select">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
-                    . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                    . '<option value="textlist 3">textlist 3</option>' . "\n"
-                    . '<option value="textlist 4" data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '<option value="textlist 2" selected'
+                    . ' data-nf-group="[&quot;grpX&quot;]">'
+                    . 'textlist 2</option>' . "\n"
+                    . '<option value="textlist 3" data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
+                    . 'textlist 4</option>' . "\n"
                     . '</select>' . "\n"
                 )
             )
@@ -2228,7 +2270,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label', '')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="hidden"'
+                    . ' value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span>' . "\n"
                 )
             )
@@ -2244,11 +2287,16 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label', 'field_1[]')
                 . $this->column2(
-                    '<select id="field_1" name="field_1[]" class="form-control" multiple>' . "\n"
+                    '<select id="field_1" name="field_1[]" class="form-control"'
+                    . ' multiple>' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
-                    . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                    . '<option value="textlist 3">textlist 3</option>' . "\n"
-                    . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '<option value="textlist 2" selected'
+                    . ' data-nf-group="[&quot;grpX&quot;]">'
+                    . 'textlist 2</option>' . "\n"
+                    . '<option value="textlist 3" data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" selected'
+                    . ' data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                     . '</select>' . "\n"
                 )
             )
@@ -2259,9 +2307,11 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label', '')
                 . $this->column2(
-                    '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>' . "\n"
+                    '<input id="field_1_opt0" name="field_1[]"'
+                    . ' type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span><br/>' . "\n"
-                    . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="textlist 4"/>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]"'
+                    . ' type="hidden" value="textlist 4"/>' . "\n"
                     . '<span>textlist 4</span><br/>' . "\n"
                 )
             )
@@ -2269,8 +2319,10 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Test hidden access
         $expect['multivalue-hide'] = Block::fromString(
-            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="textlist 2"/>' . "\n"
-            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="textlist 4"/>' . "\n"
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden"'
+            . ' value="textlist 2"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden"'
+            . ' value="textlist 4"/>' . "\n"
         );
 
         // Set the presentation to six rows
@@ -2278,11 +2330,16 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label', 'field_1[]')
                 . $this->column2(
-                    '<select id="field_1" name="field_1[]" class="form-control" multiple size="6">' . "\n"
+                    '<select id="field_1" name="field_1[]" class="form-control"'
+                    . ' multiple size="6">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
-                    . '<option value="textlist 2" selected>textlist 2</option>' . "\n"
-                    . '<option value="textlist 3">textlist 3</option>' . "\n"
-                    . '<option value="textlist 4" selected data-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '<option value="textlist 2" selected'
+                    . ' data-nf-group="[&quot;grpX&quot;]">'
+                    . 'textlist 2</option>' . "\n"
+                    . '<option value="textlist 3" data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" selected'
+                    . ' data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
                     . '</select>' . "\n"
                 )
             )
@@ -2305,13 +2362,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="General">General</option>' . "\n"
-                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
                     . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '<optgroup label="Subgroup Two">' . "\n"
-                    . '<option value="S2I1" data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '</select>' . "\n"
                 )
@@ -2343,13 +2400,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="General">General</option>' . "\n"
-                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
                     . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '<optgroup label="Subgroup Two">' . "\n"
-                    . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '</select>' . "\n"
                 )
@@ -2363,13 +2420,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1" class="custom-select">' . "\n"
                     . '<option value="General">General</option>' . "\n"
-                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
                     . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '<optgroup label="Subgroup Two">' . "\n"
-                    . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '</select>' . "\n"
                 )
@@ -2399,13 +2456,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<select id="field_1" name="field_1[]" class="form-control" multiple>' . "\n"
                     . '<option value="General">General</option>' . "\n"
-                    . '<optgroup label="Subgroup One" data-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
                     . '<option value="Sub One Item One" selected>Sub One Item One</option>' . "\n"
                     . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '<optgroup label="Subgroup Two">' . "\n"
-                    . '<option value="S2I1" selected data-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
-                    . '<option value="S2I2" data-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
                     . '</select>' . "\n"
                 )
@@ -2524,9 +2581,9 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 )
                 . "<datalist id=\"field_1_list\">\n"
                 . "<option value=\"textlist 1\"/>\n"
-                . "<option value=\"textlist 2\"/>\n"
-                . "<option value=\"textlist 3\"/>\n"
-                . "<option value=\"textlist 4\" data-sidecar=\"[1,2,3,4]\"/>\n"
+                . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
                 . "</datalist>\n"
             )
         );

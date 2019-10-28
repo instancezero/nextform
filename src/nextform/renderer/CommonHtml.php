@@ -41,13 +41,12 @@ abstract class CommonHtml extends Html implements RendererInterface
         if (!empty($list)) {
             $attrs->set('list', $attrs->get('id') . '_list');
             $block->post = '<datalist id="' . $attrs->get('list') . "\">\n";
-            $optAttrs = new Attributes();
             foreach ($list as $option) {
+                $optAttrs = new Attributes();
                 $optAttrs->set('value', $option->getValue());
-                $sidecar = $option->sidecar;
-                if ($sidecar !== null) {
-                    $optAttrs->set('*data-sidecar', $sidecar);
-                }
+                $optAttrs->setIfNotNull('data-nf-name', $option->getName());
+                $optAttrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+                $optAttrs->setIfNotNull('*data-nf-sidecar', $option->sidecar);
                 $block->post .= $this->writeTag('option', $optAttrs) . "\n";
             }
             $block->post .= "</datalist>\n";
@@ -119,6 +118,40 @@ abstract class CommonHtml extends Html implements RendererInterface
      * @return Block
      */
     abstract protected function renderFieldCheckbox(FieldBinding $binding, $options = []);
+
+    protected function renderFieldSelectOption($option, $value)
+    {
+        $block = new Block();
+        $attrs = new Attributes();
+        $attrs->set('value', $option->getValue());
+        $attrs->setIfNotNull('data-nf-name', $option->getName());
+        $attrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+        $attrs->setIfNotNull('*data-nf-sidecar', $option->getSidecar());
+        if (in_array($attrs->get('value'), $value)) {
+            $attrs->setFlag('selected');
+        }
+        $block->body .= $this->writeTag('option', $attrs, $option->getLabel()) . "\n";
+        return $block;
+    }
+
+    protected function renderFieldSelectOptions($list, $value) {
+        $block = new Block();
+        foreach ($list as $option) {
+            if ($option->isNested()) {
+                $attrs = new Attributes();
+                $attrs->set('label', $option->getLabel());
+                $attrs->setIfNotNull('data-nf-name', $option->getName());
+                $attrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+                $attrs->setIfNotNull('*data-nf-sidecar', $option->getSidecar());
+                $block->body .= $this->writeTag('optgroup', $attrs) . "\n";
+                $block->merge($this->renderFieldSelectOptions($option->getList(), $value));
+                $block->body .= '</optgroup>' . "\n";
+            } else {
+                $block->merge($this->renderFieldSelectOption($option, $value));
+            }
+        }
+        return $block;
+    }
 
     /**
      * Insert a raw HTML element into the form.

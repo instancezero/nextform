@@ -21,7 +21,7 @@ class Action implements \JsonSerializable
     ];
     protected $subject;
     static protected $subjectValidation = [
-        'display', 'enable', 'enabled', 'readonly', 'script', 'value', 'visible'
+        'display', 'enable', 'readonly', 'script', 'value', 'visible'
     ];
     protected $target = [];
     protected $value;
@@ -41,6 +41,19 @@ class Action implements \JsonSerializable
         }
     }
 
+    protected function configureComplete()
+    {
+        // if the subject is boolean valued, convert strings to boolean.
+        if (!\in_array($this->subject, ['script', 'value'])) {
+            if (\strtolower($this->value) === 'true') {
+                $this->value = true;
+            } elseif (\strtolower($this->value) === 'false') {
+                $this->value = false;
+            }
+        }
+        return true;
+    }
+
     protected function configureValidate($property, &$value)
     {
         switch ($property) {
@@ -50,9 +63,6 @@ class Action implements \JsonSerializable
                         '"' . (\is_scalar($value) ? $value : \gettype($value))
                         . '" is not a valid value for "' . $property . '".'
                     );
-                }
-                if ($value == 'enabled') {
-                    $value = 'enable';
                 }
                 break;
             case 'target':

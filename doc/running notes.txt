@@ -6,4 +6,5 @@ To Do List
 - Add a composite construct to assemble multiple items (texts, selects) into an input group
 - Need checkboxes as switches (custom-control custom-switch)
 - Create an input group when help/error labels exist and put the text inside the group
+- working on simplifying options by allowing "label[:value]", this will simplify option lists.
 
