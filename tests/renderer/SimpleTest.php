@@ -833,7 +833,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['multiple'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="email" multiple/>' . "\n"
+                '<input id="field_1" name="field_1[]" type="email" multiple/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -899,7 +899,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
+                '<input id="field_1" name="field_1[]" type="text" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -907,7 +907,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text"'
+                '<input id="field_1" name="field_1[]" type="text"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
             )
             . '<br/>' . "\n"

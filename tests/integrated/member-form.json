@@ -9,86 +9,58 @@
             "triggers": [
                 {
                     "event": "change",
+                    "value": ["IND", "STU", "FAM"],
+                    "actions": [
+                        "{business-enable}:enable:false",
+                        "{business-enable}:checked:false",
+                        "{business}:display:false",
+                        "{person-enable}:enable:true",
+                        "scratch_feeSelect:display:false"
+                    ]
+                },
+                {
+                    "event": "change",
                     "value": ["IND", "STU"],
                     "actions": [
-                        "{family},{business}:display:false",
-                        "{business-enable}:enable:false",
-                        "{person-enable}:enable:true"
+                        "{family}:display:false"
                     ]
                 },
                 {
                     "event": "change",
                     "value": "FAM",
                     "actions": [
-                        {
-                            "subject": "display",
-                            "target": "{family}",
-                            "value": true
-                        },
-                        {
-                            "subject": "display",
-                            "target": "{business}",
-                            "value": false
-                        },
-                        {
-                            "subject": "enable",
-                            "target": "{business-enable}",
-                            "value": false
-                        },
-                        "{person-enable}:enable:true"
+                        "{family}:display:true"
                     ]
                 },
                 {
                     "event": "change",
                     "value": ["BUS", "FEL"],
                     "actions": [
-                        {
-                            "subject": "display",
-                            "target": "{family}",
-                            "value": false
-                        },
-                        {
-                            "subject": "display",
-                            "target": "{business}",
-                            "value": true
-                        },
-                        {
-                            "subject": "enable",
-                            "target": "{business-enable}",
-                            "value": true
-                        },
-                        "{person-enable}:enable:false"
+                        "{family}:display:false",
+                        "{business}:display:true",
+                        "{business-enable}:enable:true",
+                        "{person-enable}:enable:false",
+                        "{person-enable}:checked:false",
+                        "scratch_feeSelect:display:false"
                     ]
                 },
                 {
                     "event": "change",
                     "value": ["PAT", "SPO"],
                     "actions": [
-                        {
-                            "subject": "display",
-                            "target": "{family}",
-                            "value": false
-                        },
-                        {
-                            "subject": "display",
-                            "target": "{business}",
-                            "value": true
-                        },
-                        {
-                            "subject": "enable",
-                            "target": "{business-enable}",
-                            "value": true
-                        },
-                        "{person-enable}:enable:true"
+                        "{family}:display:false",
+                        "{business}:display:true",
+                        "{business-enable}:enable:true",
+                        "{person-enable}:enable:true",
+                        "scratch_feeSelect:display:true"
                     ]
                 },
                 {
                     "event": "change",
-                    "value": null,
                     "actions": [
                         {
                             "subject": "script",
-                            "value": "form.membershipFee.validation.minValue=this.sidecar.fee.minValue;"
+                            "value": "setFeeAttributes(this);"
                         }
                     ]
                 }
@@ -106,7 +78,26 @@
                 },
                 "primaryEmail",
                 "primaryPublicName",
-                "primaryMemberType"
+                {
+                    "type": "field",
+                    "object": "primaryMemberType",
+                    "triggers": [
+                        {
+                            "event": "change",
+                            "value": "VA",
+                            "actions": [
+                                "{firstVA}:display:checked"
+                            ]
+                        }
+                    ]
+                },
+                "primaryTypeOther",
+                {
+                    "type": "field",
+                    "object": "primaryVisualArtsMedia",
+                    "memberOf": "firstVA",
+                    "display": false
+                }
             ]
         },
         {
@@ -115,21 +106,53 @@
             "labels": {
                 "heading": "Second Member"
             },
+            "display": false,
             "elements": [
                 {
                     "type": "cell",
                     "elements": ["secondaryFirstName", "secondaryLastName"]
                 },
                 "secondaryPublicName",
-                "secondaryMemberType"
+                "secondaryMemberType",
+                "secondaryTypeOther",
+                {
+                    "type": "field",
+                    "object": "secondaryVisualArtsMedia",
+                    "memberOf": "secondVA",
+                    "display": false
+                }
             ]
         },
         {
             "type": "field",
-            "id": "foo22",
             "object": "businessName",
             "memberOf": "business",
             "display": false
+        },
+        {
+            "type": "field",
+            "object": "scratch\/feeSelect",
+            "labels": {
+                "help": "."
+            },
+            "display": false,
+            "triggers": [
+                {
+                    "event": "change",
+                    "actions": [
+                        {
+                            "subject": "script",
+                            "value": "updateFee(this);"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "field",
+            "object": "membershipFee",
+            "enabled": false,
+            "default": 30
         },
         {
             "type": "button",

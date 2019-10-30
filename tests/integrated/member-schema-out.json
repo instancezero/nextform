@@ -231,17 +231,16 @@
                             {
                                 "label": "Business",
                                 "value": "BU",
-                                "memberOf": "business-enable"
+                                "memberOf": "business-enable",
+                                "enabled": false
                             },
                             {
                                 "label": "Fellow Association",
                                 "value": "FA",
-                                "memberOf": "business-enable"
+                                "memberOf": "business-enable",
+                                "enabled": false
                             },
-                            {
-                                "label": "Other",
-                                "value": "XX"
-                            }
+                            "Other:XX"
                         ]
                     },
                     "presentation": {
@@ -271,6 +270,34 @@
                 {
                     "name": "primaryVisualArtsMedia",
                     "labels": {
+                        "heading": "Visual Artists Select Media"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            "Acrylics:ACR",
+                            "Fibre Art:FBR",
+                            "Glass:GLS",
+                            "Mixed Media:MIX",
+                            "Oils:OIL",
+                            "Photography:PHO",
+                            "Pottery:POT",
+                            "Sculpture \/ 3D:SCU",
+                            "Watercolours:WAT",
+                            "Other:XXX"
+                        ]
+                    },
+                    "presentation": {
+                        "type": "checkbox"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 3
+                    }
+                },
+                {
+                    "name": "primaryVisualArtsMediaOther",
+                    "labels": {
                         "heading": "Other Media"
                     },
                     "presentation": {
@@ -290,14 +317,8 @@
                     "population": {
                         "source": "fixed",
                         "list": [
-                            {
-                                "label": "Yes",
-                                "value": "Yes"
-                            },
-                            {
-                                "label": "No",
-                                "value": "No"
-                            }
+                            "Yes",
+                            "No"
                         ]
                     }
                 },
@@ -398,22 +419,10 @@
                     "population": {
                         "source": "fixed",
                         "list": [
-                            {
-                                "label": "Artisan\/Craftsperson",
-                                "value": "AC"
-                            },
-                            {
-                                "label": "Performer",
-                                "value": "PF"
-                            },
-                            {
-                                "label": "Visual Arts",
-                                "value": "VA"
-                            },
-                            {
-                                "label": "Other",
-                                "value": "XX"
-                            }
+                            "Artisan\/Craftsperson:AC",
+                            "Performer:PF",
+                            "Visual Arts:VA",
+                            "Other:XX"
                         ]
                     },
                     "presentation": {
@@ -443,6 +452,34 @@
                 {
                     "name": "secondaryVisualArtsMedia",
                     "labels": {
+                        "heading": "Visual Artists Select Media"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            "Acrylics:ACR",
+                            "Fibre Art:FBR",
+                            "Glass:GLS",
+                            "Mixed Media:MIX",
+                            "Oils:OIL",
+                            "Photography:PHO",
+                            "Pottery:POT",
+                            "Sculpture \/ 3D:SCU",
+                            "Watercolours:WAT",
+                            "Other:XXX"
+                        ]
+                    },
+                    "presentation": {
+                        "type": "checkbox"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 3
+                    }
+                },
+                {
+                    "name": "secondaryVisualArtsMediaOther",
+                    "labels": {
                         "heading": "Other Media"
                     },
                     "presentation": {
@@ -455,10 +492,23 @@
                     }
                 },
                 {
+                    "name": "secondaryVolunteer",
+                    "labels": {
+                        "heading": "Are you be willing to help with SOTH events in your area?"
+                    },
+                    "population": {
+                        "source": "fixed",
+                        "list": [
+                            "Yes",
+                            "No"
+                        ]
+                    }
+                },
+                {
                     "name": "businessName",
                     "description": "Name for business memberships",
                     "labels": {
-                        "heading": "Business Name"
+                        "heading": "Business\/Association Name"
                     },
                     "presentation": {
                         "type": "text",
@@ -565,6 +615,21 @@
                     "store": {
                         "type": "decimal",
                         "size": "10,2"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "scratch",
+            "objects": [
+                {
+                    "name": "feeSelect",
+                    "labels": {
+                        "heading": "Enter Desired Contribution"
+                    },
+                    "presentation": {
+                        "type": "number",
+                        "cols": 1
                     }
                 }
             ]

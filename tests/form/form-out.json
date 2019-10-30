@@ -24,7 +24,7 @@
                 {
                     "event": "valid",
                     "actions": [
-                        "completeHeader:visible:1"
+                        "completeHeader:visible:true"
                     ]
                 }
             ]

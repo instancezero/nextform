@@ -1393,7 +1393,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="email"'
+                    '<input id="field_1" name="field_1[]" type="email"'
                     . ' class="form-control" multiple/>' . "\n"
                 )
             )
@@ -1472,7 +1472,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="text"'
+                    '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file" readonly/>' . "\n"
                 )
             )
@@ -1483,7 +1483,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('', 'label')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="text"'
+                    '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file"'
                     . ' value="file1.png,file2.jpg" readonly/>' . "\n"
                 )

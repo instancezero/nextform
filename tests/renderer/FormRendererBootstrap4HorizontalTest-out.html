@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="168529b8c5e3fe9a6cd377bd916513e73be0a1aa05de0fc65449dab9c4398593">
+<input id="nf_token" name="nf_token" type="hidden" value="636e436b973b687cdabe8ddc2b56f2bab1ec1cccf9160d10421892b28e090058">
 <h3>FormRendererBootstrap4HorizontalTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" class="form-group row" data-nf-for="button_1">
@@ -969,7 +969,7 @@ textlist 4</label>
 <div id="field_1_container" class="form-group row" data-nf-for="field_1">
 <label for="field_1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
-<input id="field_1" name="field_1" type="email" class="form-control" multiple/>
+<input id="field_1" name="field_1[]" type="email" class="form-control" multiple/>
 </div>
 </div>
 <hr/>
@@ -1019,7 +1019,7 @@ textlist 4</label>
 <div id="field_1_container" class="form-group row" data-nf-for="field_1">
 <label for="field_1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
-<input id="field_1" name="field_1" type="text" class="form-control-file" readonly/>
+<input id="field_1" name="field_1[]" type="text" class="form-control-file" readonly/>
 </div>
 </div>
 <hr/>
@@ -1027,7 +1027,7 @@ textlist 4</label>
 <div id="field_1_container" class="form-group row" data-nf-for="field_1">
 <label for="field_1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
-<input id="field_1" name="field_1" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
+<input id="field_1" name="field_1[]" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
 </div>
 </div>
 <hr/>
@@ -2200,6 +2200,30 @@ class NextForm {
         this.groupCollector();
     }
 
+    checkGroup(group, checked) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            var type = jqElement.prop('type');
+            if (type === 'checkbox' || type === 'radio') {
+                jqElement.prop('checked', checked);
+                jqElement.change();
+            }
+        });
+    }
+
+    check(element, checked) {
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = checked;
+            $(element).change();
+        }
+    }
+
+    disableContainer(name, disable) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.prop('disabled', disable);
+    }
+
     disableGroup(group, disable) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
@@ -2207,11 +2231,24 @@ class NextForm {
         });
     }
 
+    displayContainer(name, show) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.toggle(show);
+    }
+
     displayGroup(group, show) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
             jqElement.toggle(show);
         });
+    }
+
+    getContainer(name) {
+        var element = $('[name=' + name + ']', this.form);
+        if (element === undefined) return undefined;
+        var container = $('#' + element.attr('id') + '_container');
+        return container;
     }
 
     /**

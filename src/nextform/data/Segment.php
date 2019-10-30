@@ -22,7 +22,7 @@ class Segment implements \JsonSerializable
      */
     static protected $jsonEncodeMethod = [
         'name' => [],
-        'primary' => ['scalarize'],
+        'primary' => ['drop:empty', 'scalarize'],
         'properties' => ['map:objects','array'],
     ];
 

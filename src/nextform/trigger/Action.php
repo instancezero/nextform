@@ -21,7 +21,7 @@ class Action implements \JsonSerializable
     ];
     protected $subject;
     static protected $subjectValidation = [
-        'display', 'enable', 'readonly', 'script', 'value', 'visible'
+        'checked', 'display', 'enable', 'readonly', 'script', 'value', 'visible'
     ];
     protected $target = [];
     protected $value;
@@ -99,10 +99,14 @@ class Action implements \JsonSerializable
         if (\strpos($this->value, Manager::GROUP_DELIM) !== false) {
             return $this;
         }
+        if (\is_bool($this->value)) {
+            $strVal = $this->value ? 'true' : 'false';
+        } else {
+            $strVal = $this->value;
+        }
         $result = implode(',', $this->target)
             . Manager::GROUP_DELIM . $this->subject
-            . Manager::GROUP_DELIM
-            . (\is_bool($this->value) ? (int) $this->value : $this->value);
+            . Manager::GROUP_DELIM . $strVal;
         return $result;
     }
 

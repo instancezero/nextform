@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="dd970c68ab4d107aea1c3cd3e66a762dded1a5c07d4c7abc0d28338b7d2d0681">
+<input id="nf_token" name="nf_token" type="hidden" value="5361fa79a330f3da1997505604ff1213d8a9de600f3a713b3f4a18ea0af00af3">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
 <div>Membership Level (tslt)</div>
 <div class="form-check">
@@ -85,11 +85,11 @@
 <label for="field_8_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" data-nf-group="[&quot;business-enable&quot;]"/>
+<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
 <label for="field_8_opt3" class="form-check-label">Business (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" data-nf-group="[&quot;business-enable&quot;]"/>
+<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
 <label for="field_8_opt4" class="form-check-label">Fellow Association (tslt)</label>
 </div>
 <div class="form-check">
@@ -97,51 +97,154 @@
 <label for="field_8_opt5" class="form-check-label">Other (tslt)</label>
 </div>
 </fieldset>
+<div id="field_9_container" class="form-group col-sm-12" data-nf-for="field_9">
+<label for="field_9">Other Membership Type (tslt)</label>
+<input id="field_9" name="members_primaryTypeOther" type="text" class="form-control"/>
+</div>
+<fieldset id="field_10_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_10" data-nf-group="[&quot;firstVA&quot;]">
+<div>Visual Artists Select Media (tslt)</div>
+<div class="form-check">
+<input id="field_10_opt0" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
+<label for="field_10_opt0" class="form-check-label">Acrylics (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt1" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
+<label for="field_10_opt1" class="form-check-label">Fibre Art (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt2" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
+<label for="field_10_opt2" class="form-check-label">Glass (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt3" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
+<label for="field_10_opt3" class="form-check-label">Mixed Media (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt4" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
+<label for="field_10_opt4" class="form-check-label">Oils (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt5" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
+<label for="field_10_opt5" class="form-check-label">Photography (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt6" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
+<label for="field_10_opt6" class="form-check-label">Pottery (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt7" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
+<label for="field_10_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt8" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
+<label for="field_10_opt8" class="form-check-label">Watercolours (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_10_opt9" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
+<label for="field_10_opt9" class="form-check-label">Other (tslt)</label>
+</div>
 </fieldset>
-<fieldset id="section_9_container" class="form-group col-sm-12" data-nf-for="section_9" data-nf-group="[&quot;family&quot;]">
+</fieldset>
+<fieldset id="section_11_container" class="nf-hidden form-group col-sm-12" data-nf-for="section_11" data-nf-group="[&quot;family&quot;]">
 <legend>Second Member (tslt)</legend>
 <div class="form-row col-sm-12">
-<div id="field_10_container" class="form-group" data-nf-for="field_10">
-<label for="field_10">Legal First Name (tslt)</label>
-<input id="field_10" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_10_help" data-nf-req="1"/>
-<small id="field_10_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+<div id="field_12_container" class="form-group" data-nf-for="field_12">
+<label for="field_12">Legal First Name (tslt)</label>
+<input id="field_12" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_12_help" data-nf-req="1"/>
+<small id="field_12_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
 </div>
-<div id="field_11_container" class="ml-3 form-group" data-nf-for="field_11">
-<label for="field_11">Legal Last Name (tslt)</label>
-<input id="field_11" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
+<div id="field_13_container" class="ml-3 form-group" data-nf-for="field_13">
+<label for="field_13">Legal Last Name (tslt)</label>
+<input id="field_13" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
 </div>
 </div>
-<div id="field_12_container" class="form-group col-sm-12" data-nf-for="field_12">
-<label for="field_12">Artist Name (tslt)</label>
-<input id="field_12" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_12_help"/>
-<small id="field_12_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
+<div id="field_14_container" class="form-group col-sm-12" data-nf-for="field_14">
+<label for="field_14">Artist Name (tslt)</label>
+<input id="field_14" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_14_help"/>
+<small id="field_14_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
 </div>
-<fieldset id="field_13_container" class="form-group col-sm-12" data-nf-for="field_13">
+<fieldset id="field_15_container" class="form-group col-sm-12" data-nf-for="field_15">
 <div>Membership Type (tslt)</div>
 <div class="form-check">
-<input id="field_13_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
-<label for="field_13_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
+<input id="field_15_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
+<label for="field_15_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_13_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
-<label for="field_13_opt1" class="form-check-label">Performer (tslt)</label>
+<input id="field_15_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
+<label for="field_15_opt1" class="form-check-label">Performer (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_13_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
-<label for="field_13_opt2" class="form-check-label">Visual Arts (tslt)</label>
+<input id="field_15_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
+<label for="field_15_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_13_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
-<label for="field_13_opt3" class="form-check-label">Other (tslt)</label>
+<input id="field_15_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_15_opt3" class="form-check-label">Other (tslt)</label>
+</div>
+</fieldset>
+<div id="field_16_container" class="form-group col-sm-12" data-nf-for="field_16">
+<label for="field_16">Other Membership Type (tslt)</label>
+<input id="field_16" name="members_secondaryTypeOther" type="text" class="form-control"/>
+</div>
+<fieldset id="field_17_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_17" data-nf-group="[&quot;secondVA&quot;]">
+<div>Visual Artists Select Media (tslt)</div>
+<div class="form-check">
+<input id="field_17_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
+<label for="field_17_opt0" class="form-check-label">Acrylics (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
+<label for="field_17_opt1" class="form-check-label">Fibre Art (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
+<label for="field_17_opt2" class="form-check-label">Glass (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
+<label for="field_17_opt3" class="form-check-label">Mixed Media (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
+<label for="field_17_opt4" class="form-check-label">Oils (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
+<label for="field_17_opt5" class="form-check-label">Photography (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
+<label for="field_17_opt6" class="form-check-label">Pottery (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
+<label for="field_17_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
+<label for="field_17_opt8" class="form-check-label">Watercolours (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_17_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
+<label for="field_17_opt9" class="form-check-label">Other (tslt)</label>
 </div>
 </fieldset>
 </fieldset>
-<div id="foo22_container" class="nf-hidden form-group col-sm-12" data-nf-for="foo22" data-nf-group="[&quot;business&quot;]">
-<label for="foo22">Business Name (tslt)</label>
-<input id="foo22" name="members_businessName" type="text" class="form-control"/>
+<div id="field_18_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_18" data-nf-group="[&quot;business&quot;]">
+<label for="field_18">Business/Association Name (tslt)</label>
+<input id="field_18" name="members_businessName" type="text" class="form-control"/>
 </div>
-<div id="button_14_container" class="form-group col-sm-12" data-nf-for="button_14">
-<input id="button_14" name="button_14" type="submit" class="btn btn-primary" value="Join (tslt)"/>
+<div id="field_19_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_19">
+<label for="field_19">Enter Desired Contribution (tslt)</label>
+<input id="field_19" name="scratch_feeSelect" type="number" class="form-control" aria-describedby="field_19_help"/>
+<small id="field_19_help" class="form-text text-muted">. (tslt)</small>
+</div>
+<div id="field_20_container" class="form-group col-sm-12" data-nf-for="field_20">
+<label for="field_20">Annual fee (tslt)</label>
+<input id="field_20" name="members_membershipFee" type="number" class="form-control" value="30" disabled/>
+</div>
+<div id="button_21_container" class="form-group col-sm-12" data-nf-for="button_21">
+<input id="button_21" name="button_21" type="submit" class="btn btn-primary" value="Join (tslt)"/>
 </div>
 </form>
 
@@ -162,6 +265,30 @@ class NextForm {
         this.groupCollector();
     }
 
+    checkGroup(group, checked) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            var type = jqElement.prop('type');
+            if (type === 'checkbox' || type === 'radio') {
+                jqElement.prop('checked', checked);
+                jqElement.change();
+            }
+        });
+    }
+
+    check(element, checked) {
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = checked;
+            $(element).change();
+        }
+    }
+
+    disableContainer(name, disable) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.prop('disabled', disable);
+    }
+
     disableGroup(group, disable) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
@@ -169,11 +296,24 @@ class NextForm {
         });
     }
 
+    displayContainer(name, show) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.toggle(show);
+    }
+
     displayGroup(group, show) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
             jqElement.toggle(show);
         });
+    }
+
+    getContainer(name) {
+        var element = $('[name=' + name + ']', this.form);
+        if (element === undefined) return undefined;
+        var container = $('#' + element.attr('id') + '_container');
+        return container;
     }
 
     /**
@@ -199,31 +339,86 @@ class NextForm {
 
 
 var form_1 = new NextForm($('#form_1'));
-$('#form_1 [name=members_membershipLevel]').change(function () {
- if (["IND","STU"].includes(this.value)) {
-   form_1.displayGroup('family', false);
-   form_1.displayGroup('business', false);
-   form_1.disableGroup('business-enable', true);
-   form_1.disableGroup('person-enable', false);
- }
- if (this.value === "FAM") {
-   form_1.displayGroup('family', true);
-   form_1.displayGroup('business', false);
-   form_1.disableGroup('business-enable', true);
-   form_1.disableGroup('person-enable', false);
- }
- if (["BUS","FEL"].includes(this.value)) {
-   form_1.displayGroup('family', false);
-   form_1.displayGroup('business', true);
-   form_1.disableGroup('business-enable', false);
-   form_1.disableGroup('person-enable', true);
- }
- if (["PAT","SPO"].includes(this.value)) {
-   form_1.displayGroup('family', false);
-   form_1.displayGroup('business', true);
-   form_1.disableGroup('business-enable', false);
-   form_1.disableGroup('person-enable', false);
- }
+$('#form_1 [name^="members_membershipLevel"]').change(function () {
+  if (["IND","STU","FAM"].includes(this.value)) {
+    form_1.disableGroup('business-enable', true);
+    form_1.checkGroup('business-enable', false);
+    form_1.displayGroup('business', false);
+    form_1.disableGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', false);
+  }
+  if (["IND","STU"].includes(this.value)) {
+    form_1.displayGroup('family', false);
+  }
+  if (this.value === "FAM") {
+    form_1.displayGroup('family', true);
+  }
+  if (["BUS","FEL"].includes(this.value)) {
+    form_1.displayGroup('family', false);
+    form_1.displayGroup('business', true);
+    form_1.disableGroup('business-enable', false);
+    form_1.disableGroup('person-enable', true);
+    form_1.checkGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', false);
+  }
+  if (["PAT","SPO"].includes(this.value)) {
+    form_1.displayGroup('family', false);
+    form_1.displayGroup('business', true);
+    form_1.disableGroup('business-enable', false);
+    form_1.disableGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', true);
+  }
+  setFeeAttributes(this);
 });
+$('#form_1 [name^="members_primaryMemberType"]').change(function () {
+  if (this.value === "VA") {
+    form_1.displayGroup('firstVA', this.checked);
+  }
+});
+$('#form_1 [name^="scratch_feeSelect"]').change(function () {
+  updateFee(this);
+});
+/*
+ * Custom support for the member form
+ */
+
+/**
+ * Update limits on user-entered fees based on a membership level change.
+ * 
+ * @param {HtmlElement} element
+ * @returns {undefined}
+ */
+function setFeeAttributes(element) {
+    var form = element.form;
+    var fees = $(element).data('nf-sidecar').fee;
+    var target = $('[name=scratch_feeSelect]', form);
+    if (fees.minValue === undefined) {
+        target.attr('min', 15);
+    } else {
+        target.attr('min', fees.minValue);
+    }
+    if (fees.maxValue === undefined) {
+        target.removeAttr('max');
+    } else {
+        target.attr('max', fees.maxValue);
+    }
+    target.val(fees.default);
+    $('[name=members_membershipFee]', form).val(fees.default);
+    var help = $('#' + target.attr('id') + '_help');
+    if (help !== undefined) {
+        help.text($('[for=' + element.id + ']', form).text());
+    }
+}
+
+function updateFee(element) {
+    var jqe = $(element);
+    var value = Number.parseInt(jqe.val());
+    var test = jqe.attr('min');
+    if (test !== undefined && value < test) return;
+    var test = jqe.attr('max');
+    if (test !== undefined && value > test) return;
+    $('[name=members_membershipFee]', element.form).val(value);
+}
+
 </script>
 </html>

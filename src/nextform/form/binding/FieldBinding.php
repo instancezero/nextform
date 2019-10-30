@@ -125,6 +125,30 @@ class FieldBinding extends Binding
     }
 
     /**
+     * Get this element's name on the form. If not assigned, a name is generated.
+     *
+     * @param $baseOnly If set, brackets are omitted.
+     * @return string
+     */
+    public function getFormName($baseOnly = false)
+    {
+        $result = parent::getFormName($baseOnly);
+        if ($baseOnly) {
+            return $result;
+        }
+        $data = $this->getDataProperty();
+        $type = $data->getPresentation()->getType();
+        if ($type == 'checkbox') {
+            if (!empty($this->dataList)) {
+                $result .= '[]';
+            }
+        } elseif ($data->getValidation()->get('multiple')) {
+            $result .= '[]';
+        }
+        return $result;
+    }
+
+    /**
      * Get a hierarchical list of Population/Option objects associated with the field
      * @param bool $translated Returns the translated texts, if available
      * @return Abivia\NextForm\Data\Population\Option[]

@@ -234,8 +234,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
         $list = $binding->getList(true);
         $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-        $attrs->set('name', $binding->getFormName()
-            . ($type == 'checkbox' && !empty($list) ? '[]' : ''));
+        $attrs->set('name', $binding->getFormName());
 
         // Start generating output
         $block = $this->writeElement(
@@ -315,9 +314,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         if ($options['access'] === 'write') {
             // Write access: Add in any validation
             $attrs->addValidation($type, $data->getValidation());
-            if ($type === 'file' && $attrs->has('=multiple')) {
-                $attrs->set('name', $binding->getFormName() . '[]');
-            }
             $attrs->setFlag('readonly', $binding->getElement()->getReadonly());
         } else {
             // View Access
@@ -400,7 +396,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $data = $binding->getDataProperty();
         $multiple = $data->getValidation()->get('multiple');
 
-        $attrs->set('name', $binding->getFormName() . ($multiple ? '[]' : ''));
+        $attrs->set('name', $binding->getFormName());
 
         $block = $this->writeElement(
             'div', ['attributes' => $this->groupAttributes($binding)]

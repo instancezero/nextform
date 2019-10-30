@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="9846836e7023dfd9e9cc29edb69fc019ee7bcde7e8591811b00b602e5e8b05c6">
+<input id="nf_token" name="nf_token" type="hidden" value="0c4ab17d59b7621290290fe16bf3c45e8237a19ec78b82d721ae6e9bfb2cfeff">
 <h3>FormRendererBootstrap4Test::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" class="form-group col-sm-10" data-nf-for="button_1">
@@ -726,7 +726,7 @@ textlist 4</label>
 <hr/>
 <h4>multiple</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="email" class="form-control" multiple/>
+<input id="field_1" name="field_1[]" type="email" class="form-control" multiple/>
 </div>
 <hr/>
 <h4>confirm</h4>
@@ -761,12 +761,12 @@ textlist 4</label>
 <hr/>
 <h4>view</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="text" class="form-control-file" readonly/>
+<input id="field_1" name="field_1[]" type="text" class="form-control-file" readonly/>
 </div>
 <hr/>
 <h4>value-view</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
+<input id="field_1" name="field_1[]" type="text" class="form-control-file" value="file1.png,file2.jpg" readonly/>
 </div>
 <hr/>
 <h4>value-hide</h4>
@@ -1660,6 +1660,30 @@ class NextForm {
         this.groupCollector();
     }
 
+    checkGroup(group, checked) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            var type = jqElement.prop('type');
+            if (type === 'checkbox' || type === 'radio') {
+                jqElement.prop('checked', checked);
+                jqElement.change();
+            }
+        });
+    }
+
+    check(element, checked) {
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = checked;
+            $(element).change();
+        }
+    }
+
+    disableContainer(name, disable) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.prop('disabled', disable);
+    }
+
     disableGroup(group, disable) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
@@ -1667,11 +1691,24 @@ class NextForm {
         });
     }
 
+    displayContainer(name, show) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.toggle(show);
+    }
+
     displayGroup(group, show) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
             jqElement.toggle(show);
         });
+    }
+
+    getContainer(name) {
+        var element = $('[name=' + name + ']', this.form);
+        if (element === undefined) return undefined;
+        var container = $('#' + element.attr('id') + '_container');
+        return container;
     }
 
     /**

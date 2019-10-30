@@ -48,7 +48,11 @@ class Schema implements \JsonSerializable
     protected function configureClassMap($property, $value)
     {
         static $classMap = [
-            'segments' => ['className' => '\Abivia\NextForm\Data\Segment', 'key' => 'getName', 'keyIsMethod' => true],
+            'segments' => [
+                'className' => '\Abivia\NextForm\Data\Segment',
+                'key' => 'getName',
+                'keyIsMethod' => true
+            ],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];

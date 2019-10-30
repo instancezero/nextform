@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="3d8a38ddf926bb73fdb6b1c21dd6bedd147695259432d78556a22843cd7c00fc">
+<input id="nf_token" name="nf_token" type="hidden" value="35794b8e9d890abfd2dc3b189375309d91d0ebd25b420303bb66da1e34a86e71">
 <h3>FormRendererSimpleHtmlTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" data-nf-for="button_1">
@@ -555,7 +555,7 @@
 <hr/>
 <h4>multiple</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="email" multiple/>
+<input id="field_1" name="field_1[]" type="email" multiple/>
 </div>
 <br/>
 <hr/>
@@ -596,13 +596,13 @@
 <hr/>
 <h4>view</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="text" readonly/>
+<input id="field_1" name="field_1[]" type="text" readonly/>
 </div>
 <br/>
 <hr/>
 <h4>value-view</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="text" value="file1.png,file2.jpg" readonly/>
+<input id="field_1" name="field_1[]" type="text" value="file1.png,file2.jpg" readonly/>
 </div>
 <br/>
 <hr/>

@@ -950,7 +950,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="email" multiple/>' . "\n"
+                    '<input id="field_1" name="field_1[]" type="email" multiple/>' . "\n"
                 )
             )
             . '<br/>' . "\n"
@@ -1032,7 +1032,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="text" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1[]" type="text" readonly/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -1043,7 +1043,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="text"'
+                    '<input id="field_1" name="field_1[]" type="text"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
                 )
             )

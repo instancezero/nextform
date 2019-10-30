@@ -95,6 +95,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         // Stock JSON to stdClass for comparison
         $result = json_decode($resultJson);
         // Reload the original configuration
+        $config = json_decode(file_get_contents($jsonFile));
         $this->assertTrue($this->jsonCompare($config, $result));
     }
 
@@ -186,10 +187,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager->setTranslator($translator);
 
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
+        $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
 
         $translator->append = ' (lang2)';
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
+        $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(__DIR__ . '/' . __FUNCTION__ . '_lang2.html', Page::write(__FUNCTION__, $html));
 
         $this->assertTrue(true);

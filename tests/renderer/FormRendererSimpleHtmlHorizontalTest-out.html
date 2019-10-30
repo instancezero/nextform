@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="c02589ee1ec4aa1d99d6f5aa39924f148f5c1b2e6aa49a256d480ba6f4fd6767">
+<input id="nf_token" name="nf_token" type="hidden" value="4650df3e91e0fbd8aead488bf301e554074b446304811dd4faa0958d270bfcb5">
 <h3>FormRendererSimpleHtmlHorizontalTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" data-nf-for="button_1">
@@ -730,7 +730,7 @@
 <div id="field_1_container" data-nf-for="field_1">
 <label for="field_1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
-<input id="field_1" name="field_1" type="email" multiple/>
+<input id="field_1" name="field_1[]" type="email" multiple/>
 </div>
 </div>
 <br/>
@@ -786,7 +786,7 @@
 <div id="field_1_container" data-nf-for="field_1">
 <label for="field_1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
-<input id="field_1" name="field_1" type="text" readonly/>
+<input id="field_1" name="field_1[]" type="text" readonly/>
 </div>
 </div>
 <br/>
@@ -795,7 +795,7 @@
 <div id="field_1_container" data-nf-for="field_1">
 <label for="field_1" style="display:inline-block; vertical-align:top; width:20%">&nbsp;</label>
 <div style="display:inline-block; vertical-align:top; width:40%">
-<input id="field_1" name="field_1" type="text" value="file1.png,file2.jpg" readonly/>
+<input id="field_1" name="field_1[]" type="text" value="file1.png,file2.jpg" readonly/>
 </div>
 </div>
 <br/>

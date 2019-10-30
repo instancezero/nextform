@@ -463,8 +463,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
 
         // Set up basic attributes for the input element
         $attrs->set('type', $type);
-        $attrs->set('name', $binding->getFormName()
-            . ($type == 'checkbox' ? '[]' : ''));
+        $attrs->set('name', $binding->getFormName());
         $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
 
         if ($options['access'] == 'view') {
@@ -665,6 +664,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     protected function renderFieldCommon(FieldBinding $binding, $options = [])
     {
         $confirm = $options['confirm'];
+        $element = $binding->getElement();
         $data = $binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
@@ -679,7 +679,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         }
 
         // Push and update the show context
-        $show = $binding->getElement()->getShow();
+        $show = $element->getShow();
         if ($show !== '') {
             $this->pushContext();
             $this->setShow($show, $type);
@@ -702,7 +702,14 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $attrs->set('name', $binding->getFormName() . ($confirm ? '_confirmation' : ''));
         $attrs->set('class', 'form-control');
         $value = $binding->getValue();
-        $attrs->setIfNotNull('value', $value);
+        if ($value === null) {
+            $attrs->setIfNotNull('value', $element->getDefault());
+        } else {
+            $attrs->set('value', $value);
+        }
+        if (!$element->getEnabled()) {
+            $attrs->setFlag('disabled');
+        }
 
         // Get any labels associated with this element
         $labels = $binding->getLabels(true);
@@ -816,10 +823,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             // Write access: Add in any validation
             $attrs->addValidation($type, $data->getValidation());
 
-            // If we allow multiple files, make the name an array
-            if ($attrs->has('=multiple')) {
-                $attrs->set('name', $binding->getFormName() . '[]');
-            }
+            $attrs->set('name', $binding->getFormName());
         } else {
             // View Access
             $attrs->set('type', 'text');
@@ -871,8 +875,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $data = $binding->getDataProperty();
 
         // Link the label if we're not in view mode
-        $multiple = $data->getValidation()->get('multiple');
-        $fieldName = $binding->getFormName() . ($multiple ? '[]' : '');
+        $fieldName = $binding->getFormName();
         $headAttr = new Attributes();
         if ($options['access'] != 'view') {
             $headAttr->set('for', $fieldName);
@@ -942,7 +945,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $multiple = $data->getValidation()->get('multiple');
 
         $attrs = new Attributes();
-        $attrs->set('name', $binding->getFormName() . ($multiple ? '[]' : ''));
+        $attrs->set('name', $binding->getFormName());
 
         $list = $binding->getFlatList(true);
         // render as hidden with text
@@ -1149,21 +1152,21 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
             return $result;
         }
         $formId = $binding->getManager()->getId();
-        $script = "$('#" . $formId . " [name=" . $binding->getFormName()
-            . "]').change(function () {\n";
+        $script = "$('#" . $formId . " [name^=\"" . $binding->getFormName(true)
+            . "\"]').change(function () {\n";
         foreach ($triggers as $trigger) {
             if ($trigger->getEvent() !== 'change') {
                 continue;
             }
             $value = $trigger->getValue();
-            $closing = " }\n";
+            $closing = "  }\n";
             if (is_array($value)) {
-                $script .= " if (" . json_encode($value) . ".includes(this.value)) {\n";
+                $script .= "  if (" . json_encode($value) . ".includes(this.value)) {\n";
             } elseif ($value === null) {
                 // Null implies no conditions.
                 $closing = '';
             } else {
-                $script .= " if (this.value === " . json_encode($value) . ") {\n";
+                $script .= "  if (this.value === " . json_encode($value) . ") {\n";
             }
             foreach ($trigger->getActions() as $action) {
                 $script .= $this->renderAction($formId, $binding, $action);
@@ -1180,21 +1183,58 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     {
         $script = '';
         switch ($action->getSubject()) {
-            case 'display':
-                $value = $action->getValue() ? 'true' : 'false';
+            case 'checked':
+                $value = $action->getValue();
+                if (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                } elseif ($value === 'checked') {
+                    $value = 'true';
+                } elseif ($value === 'unchecked') {
+                    $value = 'false';
+                }
                 foreach ($action->getTarget() as $target) {
                     if (preg_match('/{(.*)}/', $target, $match)) {
                         $target = $match[1];
-                        $script .= "   " . $formId .
+                        $script .= "    " . $formId . ".checkGroup("
+                            . "'" . $target . "', " . $value . ");\n";
+                    } elseif ($target[0] === '#') {
+                        $script .= "    " . $formId . ".check("
+                            . "$('" . $target . "'), " . $value . ");\n";
+                    } elseif ($target[0] === '&') {
+                        $script .= "    " . $formId . ".check("
+                            . "$('#" . $formId . " [data-nf-name^=\"" . $target . "\"]'),"
+                            . " " . $value . ");\n";
+                    } else {
+                        $script .= "    " . $formId . ".check("
+                            . "$('" . $target . "'),"
+                            . " " . $value . ");\n";
+                    }
+                }
+                break;
+
+            case 'display':
+                $value = $action->getValue();
+                if (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                } elseif ($value === 'checked') {
+                    $value = 'this.checked';
+                } elseif ($value === 'unchecked') {
+                    $value = '!this.checked';
+                }
+                foreach ($action->getTarget() as $target) {
+                    if (preg_match('/{(.*)}/', $target, $match)) {
+                        $target = $match[1];
+                        $script .= "    " . $formId .
                             ".displayGroup('" . $target . "', " . $value . ");\n";
                     } elseif ($target[0] === '#') {
-                        $script .= "$('" . $target . "').toggle(" . $value . ");\n";
+                        $script .= "    $('" . $target . "').toggle(" . $value . ");\n";
                     } elseif ($target[0] === '&') {
-                        "$('#" . $formId . " [data-nf-name=" . $target . "]')"
+                        $script .= "    $('#" . $formId . " [data-nf-name^=\"" . $target . "\"]')"
                             . ".toggle(" . $value . ");\n";
                     } else {
-                        "$('#" . $formId . " [name=" . $target . "]')"
-                            . ".toggle(" . $value . ");\n";
+                        $script .= "    " . $formId
+                            . ".displayContainer('" . $target . "',"
+                            . " " . $value . ");\n";
                     }
                 }
                 break;
@@ -1204,20 +1244,25 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 foreach ($action->getTarget() as $target) {
                     if (preg_match('/{(.*)}/', $target, $match)) {
                         $target = $match[1];
-                        $script .= "   " . $formId .
+                        $script .= "    " . $formId .
                             ".disableGroup('" . $target . "', "
                             . $value . ");\n";
                     } elseif ($target[0] === '#') {
-                        $script .= "$('" . $target . "').prop('disabled', "
+                        $script .= "    $('" . $target . "').prop('disabled', "
                             . $value . ");\n";
                     } elseif ($target[0] === '&') {
-                        "$('#" . $formId . " [data-nf-name=" . $target . "]')"
+                        $script .= "    $('#" . $formId . " [data-nf-name^=\"" . $target . "\"]')"
                             . ".prop('disabled', " . $value . ");\n";
                     } else {
-                        "$('#" . $formId . " [name=" . $target . "]')"
-                            . ".prop('disabled', " . $value . ");\n";
+                        $script .= "    " . $formId
+                            . ".disableContainer('" . $target . "',"
+                            . " " . $value . ");\n";
                     }
                 }
+                break;
+
+            case 'script':
+                $script .= "  " . $action->getValue() . "\n";
                 break;
         }
         return $script;

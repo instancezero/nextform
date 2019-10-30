@@ -87,26 +87,6 @@ class Population implements \JsonSerializable, \IteratorAggregate
     }
 
     /**
-     * Facilitates the use of simple string values in the configuration by
-     * converting them to classes with a label property.
-     * @param \stdClass $config
-     */
-    protected function configureInitialize(&$config)
-    {
-        // if the list is an array of strings, convert it
-        if (isset($config->list) && is_array($config->list)) {
-            foreach ($config->list as &$value) {
-                if (is_string($value)) {
-                    // Convert to a useful class
-                    $obj = new \stdClass;
-                    $obj->label = $value;
-                    $value = $obj;
-                }
-            }
-        }
-    }
-
-    /**
      * Ensures the setting for source is a known value.
      * @param string $property
      * @param mixed $value

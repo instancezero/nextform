@@ -73,7 +73,7 @@ class FormTriggerActionTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue(false != $vanilla, 'vanilla: JSON error!');
         $actual = json_decode(json_encode($obj));
         $this->assertTrue(false != $actual, 'actual: JSON error!');
-		$this->assertEquals('field1,group1,group2:enable:1', $actual);
+		$this->assertEquals('field1,group1,group2:enable:true', $actual);
     }
 
     public function testFormTriggerActionTargetGetSet() {

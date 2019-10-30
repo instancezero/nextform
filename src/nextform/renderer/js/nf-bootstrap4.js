@@ -10,6 +10,30 @@ class NextForm {
         this.groupCollector();
     }
 
+    checkGroup(group, checked) {
+        if (this.groupList[group] === undefined) return;
+        this.groupList[group].forEach(function (jqElement) {
+            var type = jqElement.prop('type');
+            if (type === 'checkbox' || type === 'radio') {
+                jqElement.prop('checked', checked);
+                jqElement.change();
+            }
+        });
+    }
+
+    check(element, checked) {
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = checked;
+            $(element).change();
+        }
+    }
+
+    disableContainer(name, disable) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.prop('disabled', disable);
+    }
+
     disableGroup(group, disable) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
@@ -17,11 +41,24 @@ class NextForm {
         });
     }
 
+    displayContainer(name, show) {
+        var element = this.getContainer(name);
+        if (element === undefined) return;
+        element.toggle(show);
+    }
+
     displayGroup(group, show) {
         if (this.groupList[group] === undefined) return;
         this.groupList[group].forEach(function (jqElement) {
             jqElement.toggle(show);
         });
+    }
+
+    getContainer(name) {
+        var element = $('[name=' + name + ']', this.form);
+        if (element === undefined) return undefined;
+        var container = $('#' + element.attr('id') + '_container');
+        return container;
     }
 
     /**

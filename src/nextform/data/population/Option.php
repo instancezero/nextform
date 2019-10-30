@@ -100,6 +100,12 @@ class Option implements \JsonSerializable
         return true;
     }
 
+    /**
+     * Facilitates the use of simple string values of the form "label[:value]"
+     * in the configuration by converting them to classes.
+     *
+     * @param \stdClass $config
+     */
     protected function configureInitialize(&$config)
     {
         // If the configuration is a string, treat it as label[:value]
@@ -235,6 +241,9 @@ class Option implements \JsonSerializable
         if ($this->enabled === false) {
             return false;
         }
+        if (!empty($this->groups)) {
+            return false;
+        }
         if ($this->label !== null && $this->label !== '') {
             return false;
         }
@@ -253,6 +262,32 @@ class Option implements \JsonSerializable
     public function isNested()
     {
         return is_array($this->value);
+    }
+
+    public function jsonCollapse() {
+        if ($this->enabled === false) {
+            return $this;
+        }
+        if ($this->name !== null && $this->name !== '') {
+            return $this;
+        }
+        if ($this->sidecar !== null) {
+            return $this;
+        }
+        if (!empty($this->groups)) {
+            return $this;
+        }
+        if ($this->label === $this->value) {
+            $result = $this->label;
+        } else {
+            if (\is_bool($this->value)) {
+                $strVal = $this->value ? 'true' : 'false';
+            } else {
+                $strVal = $this->value;
+            }
+            $result = $this->label . Manager::GROUP_DELIM . $strVal;
+        }
+        return $result;
     }
 
     public function setEnabled($enabled)

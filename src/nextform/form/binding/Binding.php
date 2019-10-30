@@ -185,9 +185,12 @@ class Binding
 
     /**
      * Get this element's name on the form. If not assigned, a name is generated.
+     *
+     * @param $baseOnly If set, brackets are omitted. Only useful with
+     *                  FieldBindings.
      * @return string
      */
-    public function getFormName()
+    public function getFormName($baseOnly = false)
     {
         if ($this->formName === null) {
             $name = $this->element->getName();

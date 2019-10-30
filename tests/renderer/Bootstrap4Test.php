@@ -1245,7 +1245,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Now test validation
         $expect['multiple'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="email"'
+                '<input id="field_1" name="field_1[]" type="email"'
                 . ' class="form-control" multiple/>' . "\n"
             )
         );
@@ -1307,7 +1307,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text"'
+                '<input id="field_1" name="field_1[]" type="text"'
                 . ' class="form-control-file" readonly/>' . "\n"
             )
         );
@@ -1315,7 +1315,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text" class="form-control-file"'
+                '<input id="field_1" name="field_1[]" type="text" class="form-control-file"'
                 . ' value="file1.png,file2.jpg" readonly/>' . "\n"
             )
         );

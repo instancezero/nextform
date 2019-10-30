@@ -132,7 +132,7 @@ abstract class Html implements RendererInterface
     {
         $block = new Block();
         $baseId = $binding->getId();
-        $formName = $binding->getFormName();
+        $formName = $binding->getFormName(true);
         $attrs = new Attributes('type', 'hidden');
         if ($binding instanceof \Abivia\NextForm\Form\Binding\FieldBinding) {
             $attrs->setIfNotNull(
@@ -171,7 +171,7 @@ abstract class Html implements RendererInterface
         $select = $binding->getValue();
         $list = $binding->getList(true);
         $attrs = new Attributes('type', 'hidden');
-        $attrs->set('name', $binding->getFormName() . (empty($list) ? '' : '[]'));
+        $attrs->set('name', $binding->getFormName(true) . (empty($list) ? '' : '[]'));
         if ($select === null) {
             $select = $binding->getElement()->getDefault();
         }
