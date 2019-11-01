@@ -147,68 +147,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldCommon(FieldBinding $binding, $options = [])
-    {
-        $attrs = new Attributes();
-        $confirm = $options['confirm'];
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        $block = new Block();
-        $attrs->set('id', $binding->getId() . ($confirm ? '_confirmation' : ''));
-        $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
-        $attrs->set('name', $binding->getFormName() . ($confirm ? '_confirmation' : ''));
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide' || $type === 'hidden') {
-
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            if (!$confirm) {
-                $block->merge($this->elementHidden($binding, $value));
-            }
-        } else {
-
-            // We can see or change the data
-            $block->merge(
-                $this->writeElement(
-                    'div', [
-                        'attributes' => $this->groupAttributes(
-                            $binding, ['id' => $attrs->get('id')]
-                        )
-                    ]
-                )
-            );
-
-            if ($value !== null) {
-                $attrs->set('value', $value);
-            }
-            $labels = $binding->getLabels(true);
-            $block->body .= $this->writeLabel(
-                    'headingAttributes',
-                    $confirm && $labels->confirm != '' ? $labels->confirm : $labels->heading,
-                    'label', new Attributes('!for', $attrs->get('id')), ['break' => true]
-                );
-            $attrs->setIfNotNull('placeholder', $labels->inner);
-            if ($type === 'range' && $options['access'] === 'view') {
-                $type = 'text';
-            }
-            $attrs->set('type', $type);
-            $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
-            $block->body .= $this->writeLabel('before', $labels->before, 'span');
-            // Render the data list if there is one
-            $block->merge($this->dataList($attrs, $binding, $type, $options));
-            if ($options['access'] === 'write') {
-                // Write access: Add in any validation
-                $attrs->addValidation($type, $data->getValidation());
-            }
-            // Generate the input element
-            $block->body .= $this->writeTag('input', $attrs)
-                . $this->writeLabel('after', $labels->after, 'span') . "\n";
-            $block->close();
-            $block->body .= ($this->context['inCell'] ? '&nbsp;' : "<br/>\n");
-        }
-        return $block;
-    }
-
     /**
      * Render Field elements for checkbox and radio types.
      * @param FieldBinding $binding

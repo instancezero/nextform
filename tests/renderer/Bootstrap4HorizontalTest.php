@@ -1414,7 +1414,8 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="field_1_confirmation" name="field_1_confirmation"'
                     . ' type="email" class="form-control"/>'
                    . "\n"
-                )
+                ),
+                ['id' => 'field_1_confirmation']
             )
         );
 
@@ -2578,13 +2579,13 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" list="field_1_list"/>' . "\n"
+                    . "<datalist id=\"field_1_list\">\n"
+                    . "<option value=\"textlist 1\"/>\n"
+                    . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                    . "</datalist>\n"
                 )
-                . "<datalist id=\"field_1_list\">\n"
-                . "<option value=\"textlist 1\"/>\n"
-                . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                . "</datalist>\n"
             )
         );
 

@@ -32,7 +32,7 @@ abstract class CommonHtml extends Html implements RendererInterface
      * @param array $options Options, specifically access rights.
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function dataList(Attributes $attrs, Binding $binding, $type, $options)
+    public function dataList(Attributes $attrs, Binding $binding, $type, $options)
     {
         $block = new Block();
         // Check for a data list, if there is write access.
@@ -40,16 +40,16 @@ abstract class CommonHtml extends Html implements RendererInterface
             ? $binding->getList(true) : [];
         if (!empty($list)) {
             $attrs->set('list', $attrs->get('id') . '_list');
-            $block->post = '<datalist id="' . $attrs->get('list') . "\">\n";
+            $block->body = '<datalist id="' . $attrs->get('list') . "\">\n";
             foreach ($list as $option) {
                 $optAttrs = new Attributes();
                 $optAttrs->set('value', $option->getValue());
                 $optAttrs->setIfNotNull('data-nf-name', $option->getName());
                 $optAttrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
                 $optAttrs->setIfNotNull('*data-nf-sidecar', $option->sidecar);
-                $block->post .= $this->writeTag('option', $optAttrs) . "\n";
+                $block->body .= $this->writeTag('option', $optAttrs) . "\n";
             }
-            $block->post .= "</datalist>\n";
+            $block->body .= "</datalist>\n";
         }
         return $block;
     }
@@ -80,14 +80,30 @@ abstract class CommonHtml extends Html implements RendererInterface
             switch ($type) {
                 case 'checkbox':
                 case 'radio':
-                    $block = $this->renderFieldCheckbox($binding, $options);
+                    // Temporary code while we start to break up the renderers
+                    $renderClass = \get_class($this) . '\\FieldCheckbox';
+                    if (\class_exists($renderClass)) {
+                        $test = new $renderClass($this, $binding);
+                        $block = $test->render($options);
+                    } else {
+                        $block = $this->renderFieldCheckbox($binding, $options);
+                    }
                     break;
                 default:
-                    $method = 'renderField' . \ucfirst($type);
-                    if (method_exists($this, $method)) {
-                        $block = $this->$method($binding, $options);
+                    // Temporary code while we start to break up the renderers
+                    $renderClass = \get_class($this) . '\\Field' . \ucfirst($type);
+                    if (\class_exists($renderClass)) {
+                        $test = new $renderClass($this, $binding);
+                        $block = $test->render($options);
                     } else {
-                        $block = $this->renderFieldCommon($binding, $options);
+                        $method = 'renderField' . \ucfirst($type);
+                        if (method_exists($this, $method)) {
+                            $block = $this->$method($binding, $options);
+                        } else {
+                            $renderClass = \get_class($this) . '\\FieldCommon';
+                            $test = new $renderClass($this, $binding);
+                            $block = $test->render($options);
+                        }
                     }
                     break;
             }
@@ -108,8 +124,6 @@ abstract class CommonHtml extends Html implements RendererInterface
 
         return $result;
     }
-
-    abstract protected function renderFieldCommon(FieldBinding $binding, $options = []);
 
     /**
      * Render Field elements for checkbox and radio types.

@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="nfTestForm" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="636e436b973b687cdabe8ddc2b56f2bab1ec1cccf9160d10421892b28e090058">
+<input id="nf_token" name="nf_token" type="hidden" value="90e0771f9dbdfc05e877edf66c2a0b8e92244694b2b46311e1445a149b827c4c">
 <h3>FormRendererBootstrap4HorizontalTest::testButton</h3>
 <h4>button default access</h4>
 <div id="button_1_container" class="form-group row" data-nf-for="button_1">
@@ -980,7 +980,7 @@ textlist 4</label>
 <input id="field_1" name="field_1" type="email" class="form-control"/>
 </div>
 </div>
-<div id="field_1_container" class="form-group row" data-nf-for="field_1">
+<div id="field_1_confirmation_container" class="form-group row" data-nf-for="field_1_confirmation">
 <label for="field_1_confirmation" class="col-sm-2 col-form-label">Confirm yer email</label>
 <div class="col-sm-10">
 <input id="field_1_confirmation" name="field_1_confirmation" type="email" class="form-control"/>
@@ -1820,13 +1820,13 @@ textlist 4</label>
 <label for="field_1" class="col-sm-2 col-form-label">&nbsp;</label>
 <div class="col-sm-10">
 <input id="field_1" name="field_1" type="text" class="form-control" list="field_1_list"/>
-</div>
 <datalist id="field_1_list">
 <option value="textlist 1"/>
 <option value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>
 <option value="textlist 3" data-nf-name="tl3"/>
 <option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>
 </datalist>
+</div>
 </div>
 <hr/>
 <h4>view</h4>

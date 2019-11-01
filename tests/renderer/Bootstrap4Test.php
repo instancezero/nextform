@@ -1261,7 +1261,8 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
                 '<label for="field_1_confirmation">Confirm yer email</label>' . "\n"
                . '<input id="field_1_confirmation" name="field_1_confirmation"'
                 . ' type="email" class="form-control"/>'
-               . "\n"
+               . "\n",
+                ['id' => 'field_1_confirmation']
             )
         );
 

@@ -240,7 +240,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * Use current show settings to build the button class
      * @return string
      */
-    protected function getButtonClass($scope = 'button') : string
+    public function getButtonClass($scope = 'button') : string
     {
         $buttonClass = 'btn btn'
             . ($this->showGet($scope, 'fill') === 'outline' ? '-outline' : '')
@@ -270,7 +270,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param Attributes $attrs
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function inputGroup(Labels $labels, Attributes $attrs)
+    public function inputGroup(Labels $labels, Attributes $attrs)
     {
         // Generate the actual input element, with labels if provided.
         if ($labels->has('before') || $labels->has('after')) {
@@ -659,112 +659,6 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         $rowBlock->close();
 
         return $rowBlock;
-    }
-
-    protected function renderFieldCommon(FieldBinding $binding, $options = [])
-    {
-        $confirm = $options['confirm'];
-        $element = $binding->getElement();
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        if ($options['access'] === 'hide' || $type === 'hidden') {
-
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            $block = new Block();
-            if (!$confirm) {
-                $block = $this->elementHidden($binding, $binding->getValue());
-            }
-            return $block;
-        }
-
-        // Push and update the show context
-        $show = $element->getShow();
-        if ($show !== '') {
-            $this->pushContext();
-            $this->setShow($show, $type);
-        }
-
-        // We can see or change the data. Create a form group.
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding),
-                'show' => 'formGroupAttributes'
-            ]
-        );
-
-        // Get attributes for the input element
-        $attrs = new Attributes();
-        $attrs->set('id', $binding->getId() . ($confirm ? '_confirmation' : ''));
-        if ($options['access'] == 'view') {
-            $attrs->setFlag('readonly');
-        }
-        $attrs->set('name', $binding->getFormName() . ($confirm ? '_confirmation' : ''));
-        $attrs->set('class', 'form-control');
-        $value = $binding->getValue();
-        if ($value === null) {
-            $attrs->setIfNotNull('value', $element->getDefault());
-        } else {
-            $attrs->set('value', $value);
-        }
-        if (!$element->getEnabled()) {
-            $attrs->setFlag('disabled');
-        }
-
-        // Get any labels associated with this element
-        $labels = $binding->getLabels(true);
-
-        // Write the heading
-        // If we're generating a confirmation and there's a confirm heading, use that
-        // otherwise just use the usual heading
-        $fieldHeading = $confirm && $labels->confirm != '' ? $labels->confirm : $labels->heading;
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $fieldHeading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
-        );
-
-        // If there's an inner label, use it as a placeholder
-        $attrs->setIfNotNull('placeholder', $labels->inner);
-        if ($type === 'range' && $options['access'] === 'view') {
-            $type = 'text';
-        }
-        if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_help');
-        }
-        if (in_array($type, ['button', 'reset', 'submit'])) {
-            $attrs->set('class', $this->getButtonClass());
-        }
-        $attrs->set('type', $type);
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-
-        // Render the data list if there is one
-        $block->merge($this->dataList($attrs, $binding, $type, $options));
-
-        if ($options['access'] === 'write') {
-            // Write access: Add in any validation
-            $attrs->addValidation($type, $data->getValidation());
-        }
-
-        // Generate the actual input element, with labels if provided.
-        $input = $this->inputGroup($labels, $attrs);
-
-        // Generate help text, if any
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $input->body .= $this->writeTag('small', $helpAttrs, $labels->help) . "\n";
-        }
-        //$input->close();
-        $block->merge($input);
-        $block->close();
-
-        // Restore show context and return.
-        if ($show !== '') {
-            $this->popContext();
-        }
-
-        return $block;
     }
 
     protected function renderFieldFile(FieldBinding $binding, $options = [])

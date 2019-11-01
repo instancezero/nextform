@@ -128,7 +128,7 @@ abstract class Html implements RendererInterface
      * @param mixed $value
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function elementHidden($binding, $value)
+    public function elementHidden($binding, $value)
     {
         $block = new Block();
         $baseId = $binding->getId();
@@ -163,7 +163,7 @@ abstract class Html implements RendererInterface
      * @param FieldBinding $binding The binding we're generating for.
      * @return \Abivia\NextForm\Renderer\Block The output block.
      */
-    protected function elementHiddenList(FieldBinding $binding)
+    public function elementHiddenList(FieldBinding $binding)
     {
         $needEmpty = true;
         $block = new Block();
@@ -213,7 +213,7 @@ abstract class Html implements RendererInterface
      * @param Binding $binding
      * @return \Abivia\NextForm\Renderer\Attributes
      */
-    protected function groupAttributes(Binding $binding, $options = []) : Attributes
+    public function groupAttributes(Binding $binding, $options = []) : Attributes
     {
         $id = $options['id'] ?? $binding->getId();
         $element = $binding->getElement();
@@ -476,7 +476,7 @@ abstract class Html implements RendererInterface
      *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function writeElement($tag, $options = [])
+    public function writeElement($tag, $options = [])
     {
         $hasPost = false;
         $attrs = $options['attributes'] ?? new Attributes();
@@ -513,7 +513,7 @@ abstract class Html implements RendererInterface
      * @param type $options break(bool,''), div(string,classes)
      * @return string
      */
-    protected function writeLabel($purpose, $text, $tag, $attrs = null, $options = [])
+    public function writeLabel($purpose, $text, $tag, $attrs = null, $options = [])
     {
         if ($text === null) {
             // In horizontal layouts we always generate an element
@@ -550,7 +550,7 @@ abstract class Html implements RendererInterface
      * @param \Abivia\NextForm\Renderer\Attributes $attrs
      * @return string
      */
-    protected function writeTag($tag, $attrs = null, $text = null)
+    public function writeTag($tag, $attrs = null, $text = null)
     {
         $html = '<' . $tag . ($attrs ? $attrs->write($tag) : '');
         if (isset(self::$selfClose[$tag]) && $text === null) {
