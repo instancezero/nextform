@@ -69,7 +69,11 @@ class Segment implements \JsonSerializable
     protected function configureClassMap($property, $value)
     {
         static $classMap = [
-            'properties' => ['className' => '\Abivia\NextForm\Data\Property', 'key' => 'getName', 'keyIsMethod' => true],
+            'properties' => [
+                'className' => '\Abivia\NextForm\Data\Property',
+                'key' => 'getName',
+                'keyIsMethod' => true
+            ],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];
