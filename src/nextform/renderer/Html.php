@@ -27,6 +27,12 @@ abstract class Html implements RendererInterface
     ];
 
     /**
+     * Maps element types to render classes.
+     * @var array
+     */
+    protected $renderClassCache = [];
+
+    /**
      * Maps element types to render methods.
      * @var array
      */
@@ -198,6 +204,18 @@ abstract class Html implements RendererInterface
         return $block;
     }
 
+    protected function getRenderClass(Element $element)
+    {
+        $engineClass = \get_class($this);
+        $classPath = \get_class($element);
+        if (!isset($this->renderClassCache[$classPath])) {
+            $classParts = \explode('\\', $classPath);
+            $this->renderClassCache[$classPath] = $engineClass
+                . '\\' . \array_pop($classParts);
+        }
+        return $this->renderClassCache[$classPath];
+    }
+
     protected function getRenderMethod(Element $element)
     {
         $classPath = \get_class($element);
@@ -275,12 +293,19 @@ abstract class Html implements RendererInterface
         if ($options['access'] === 'none') {
             return new Block();
         }
-        $method = $this->getRenderMethod($binding->getElement());
-        if (!method_exists($this, $method)) {
-            throw new \RuntimeException('Unable to render element ' . get_class($binding->getElement()));
+        // Temporary code for conversion to rendering subclasses
+        $renderClass = $this->getRenderClass($binding->getElement());
+        if (\class_exists($renderClass)) {
+            $test = new $renderClass($this, $binding);
+            $block = $test->render($options);
+        } else {
+            $method = $this->getRenderMethod($binding->getElement());
+            if (!method_exists($this, $method)) {
+                throw new \RuntimeException('Unable to render element ' . get_class($binding->getElement()));
+            }
+            $block = $this->$method($binding, $options);
         }
-        $result = $this->$method($binding, $options);
-        return $result;
+        return $block;
     }
 
     public function setOptions($options = []) {

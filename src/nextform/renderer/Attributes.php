@@ -40,7 +40,7 @@ class Attributes
             'spellcheck' => true, 'style' => true, 'tabindex' => true, 'title' => true,
             'translate' => true,
         ],
-        'button' => [],
+        'button' => ['readonly' => false],
         'checkbox' => ['checked' => true, 'required' => true, ],
         'color' => [],
         'date' => ['max' => true, 'min' => true, 'pattern' => true, 'step' => true, ],

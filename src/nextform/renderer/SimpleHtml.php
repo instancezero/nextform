@@ -86,59 +86,59 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $this->setShow('layout:vertical');
     }
 
-    protected function renderButtonElement(Binding $binding, $options = [])
+    protected function dep_renderButtonElement(Binding $binding, $options = [])
     {
-        $attrs = new Attributes();
-        $attrs->set('id', $binding->getId());
-        if ($options['access'] == 'view' || !$binding->getElement()->getEnabled()) {
-            $attrs->setFlag('disabled');
-        }
-        $attrs->set('name', $binding->getFormName());
-        $labels = $binding->getLabels(true);
-        $attrs->setIfNotNull('value', $labels->inner);
+//        $attrs = new Attributes();
+//        $attrs->set('id', $binding->getId());
+//        if ($options['access'] == 'view' || !$binding->getElement()->getEnabled()) {
+//            $attrs->setFlag('disabled');
+//        }
+//        $attrs->set('name', $binding->getFormName());
+//        $labels = $binding->getLabels(true);
+//        $attrs->setIfNotNull('value', $labels->inner);
 
-        $block = new Block();
-        if ($options['access'] === 'hide') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $attrs->set('type', 'hidden');
-            $block->body .= $this->writeTag('input', $attrs) . "\n";
-            return $block;
-        }
+//        $block = new Block();
+//        if ($options['access'] === 'hide') {
+//            //
+//            // No write/view permissions, the field is hidden, we don't need labels, etc.
+//            //
+//            $attrs->set('type', 'hidden');
+//            $block->body .= $this->writeTag('input', $attrs) . "\n";
+//            return $block;
+//        }
 
-        // We can see or change the data
-        $block->merge(
-            $this->writeElement('div', ['attributes' => $this->groupAttributes($binding)])
-        );
-        $block->body .= $this->writeLabel(
-                'headingAttributes', $labels->heading, 'label',
-                new Attributes('!for', $binding->getId()), ['break' => true]
-            );
-        $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
-        $attrs->set('type', $binding->getElement()->getFunction());
-        if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
-        }
-        $block->body .= $this->writeLabel('before', $labels->before, 'span')
-            . $this->writeTag('input', $attrs)
-            . $this->writeLabel('after', $labels->after, 'span') . "\n";
-        if ($labels->has('help')) {
-            $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-            $block->body .= $this->writeLabel(
-                'help', $labels->help, 'small',
-                new Attributes('id', $attrs->get('aria-describedby')),
-                ['break' => true]
-            );
-        }
+//        // We can see or change the data
+//        $block->merge(
+//            $this->writeElement('div', ['attributes' => $this->groupAttributes($binding)])
+//        );
+//        $block->body .= $this->writeLabel(
+//                'headingAttributes', $labels->heading, 'label',
+//                new Attributes('!for', $binding->getId()), ['break' => true]
+//            );
+//        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
+//        $attrs->set('type', $binding->getElement()->getFunction());
+//        if ($labels->has('help')) {
+//            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
+//        }
+//        $block->body .= $this->writeLabel('before', $labels->before, 'span')
+//            . $this->writeTag('input', $attrs)
+//            . $this->writeLabel('after', $labels->after, 'span') . "\n";
+//        if ($labels->has('help')) {
+//            $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+//            $block->body .= $this->writeLabel(
+//                'help', $labels->help, 'small',
+//                new Attributes('id', $attrs->get('aria-describedby')),
+//                ['break' => true]
+//            );
+//        }
         $block->close();
-        $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
+//        $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
         return $block;
     }
 
     protected function renderCellElement(ContainerBinding $binding, $options = [])
     {
-        $block = $this->writeElement('div', ['force' => true, 'show' => 'input-wrapper']);
+        $block = $this->writeElement('div', ['force' => true, 'show' => 'inputWrapperAttributes']);
         $block->onCloseDone = [$this, 'popContext'];
         $this->pushContext();
         $this->context['inCell'] = true;
@@ -183,7 +183,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->body .= $this->writeLabel(
             'headingAttributes', $labels->heading, 'div', null, ['break' => true]
         );
-        $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
+        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
         $bracketTag = empty($list) ? 'span' : 'div';
         $block->body .= $this->writeLabel(
             'before', $labels->before, $bracketTag, null, ['break' => !empty($list)]
@@ -244,7 +244,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         );
         $attrs->setIfNotNull('placeholder', $labels->inner);
         $attrs->set('type', $type);
-        $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
+        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
         $block->body .= $this->writeLabel('before', $labels->before, 'span');
         $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         // Render the data list if there is one
@@ -342,7 +342,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->body .= $this->writeLabel(
             'headingAttributes', $labels->heading, 'div', null, ['break' => true]
         );
-        $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
+        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
         $block->body .= $this->writeLabel(
             'before', $labels->before, 'div', null, ['break' => true]
         );
@@ -491,7 +491,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             $labels ? $labels->heading : null,
             'div', null, ['break' => true]
         );
-        $block->merge($this->writeElement('div', ['show' => 'input-wrapper']));
+        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
 
         $attrs = new Attributes('id', $binding->getId());
         $block->merge($this->writeElement('div', ['attributes' => $attrs]));
@@ -570,7 +570,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         }
         // Clear out anything that might have been set by previous commands.
         unset($this->showState[$scope]['headingAttributes']);
-        unset($this->showState[$scope]['input-wrapper']);
+        unset($this->showState[$scope]['inputWrapperAttributes']);
         $this->showState[$scope]['layout'] = $choice;
         if ($choice === 'horizontal') {
             $this->showDoLayoutAnyHorizontal($scope, $values);
@@ -606,7 +606,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                         'width' => '25%'
                     ]
                 );
-                $apply['input-wrapper'] = new Attributes(
+                $apply['inputWrapperAttributes'] = new Attributes(
                     'style',
                     [
                         'display' => 'inline-block',
@@ -635,7 +635,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                 if ($values[1][0] == '.') {
                     // Dual class specification
                     $apply['headingAttributes'] = new Attributes('class', [substr($values[1], 1)]);
-                    $apply['input-wrapper'] = new Attributes('class', [substr($values[2], 1)]);
+                    $apply['inputWrapperAttributes'] = new Attributes('class', [substr($values[2], 1)]);
                 } elseif (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
                     // ratio
                     $part1 = (float) $values[1];
@@ -654,7 +654,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                             'width' => round(100.0 * $part1 / $sum, 3) . '%'
                         ]
                     );
-                    $apply['input-wrapper'] = new Attributes(
+                    $apply['inputWrapperAttributes'] = new Attributes(
                         'style',
                         [
                             'display' => 'inline-block',
@@ -672,7 +672,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                             'width' => $values[1]
                         ]
                     );
-                    $apply['input-wrapper'] = new Attributes(
+                    $apply['inputWrapperAttributes'] = new Attributes(
                         'style',
                         [
                             'display' => 'inline-block',
@@ -707,12 +707,12 @@ class SimpleHtml extends CommonHtml implements RendererInterface
             case 2:
                 if ($values[1][0] == '.') {
                     // Single class specification
-                    $apply['input-wrapper'] = [
+                    $apply['inputWrapperAttributes'] = [
                         'class' => [substr($values[1], 1)],
                     ];
                 } else {
                     // Single CSS units
-                    $apply['input-wrapper'] = [
+                    $apply['inputWrapperAttributes'] = [
                         'style' => [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
@@ -731,7 +731,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                         );
                     }
                     $sum = isset($values[2]) ? $values[2] : $part1;
-                    $apply['input-wrapper'] = [
+                    $apply['inputWrapperAttributes'] = [
                         'style' => [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',

@@ -12,6 +12,12 @@ use Abivia\Nextform\Renderer\CommonHtml\FieldCommon as BaseCommon;
 
 class FieldCommon extends BaseCommon {
 
+    /**
+     * Get common attributes for the input element and add BS4 specifics.
+     *
+     * @param Labels $labels
+     * @return Attributes
+     */
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = parent::inputAttributes($labels);
@@ -26,6 +32,13 @@ class FieldCommon extends BaseCommon {
         return $attrs;
     }
 
+    /**
+     * Generate the input element and any wrapping/supporting code.
+     *
+     * @param Labels $labels
+     * @param Attributes $attrs
+     * @return Block
+     */
     protected function inputGroup(Labels $labels, Attributes $attrs) : Block
     {
         $input = $this->engine->inputGroup($labels, $attrs);

@@ -332,70 +332,70 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param type $options
      * @return \Abivia\NextForm\Renderer\Block
      */
-    protected function renderButtonElement(Binding $binding, $options = [])
+    protected function dep_renderButtonElement(Binding $binding, $options = [])
     {
-        $labels = $binding->getLabels(true);
-        if ($options['access'] === 'hide') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $block = $this->elementHidden($binding, $labels->inner);
-            return $block;
-        }
-        $element = $binding->getElement();
-        $show = $element->getShow();
-        if ($show) {
-            $this->pushContext();
-            $this->setShow($show, 'button');
-        }
+//        $labels = $binding->getLabels(true);
+//        if ($options['access'] === 'hide') {
+//            //
+//            // No write/view permissions, the field is hidden, we don't need labels, etc.
+//            //
+//            $block = $this->elementHidden($binding, $labels->inner);
+//            return $block;
+//        }
+//        $element = $binding->getElement();
+//        $show = $element->getShow();
+//        if ($show) {
+//            $this->pushContext();
+//            $this->setShow($show, 'button');
+//        }
 
         // Build attributes for the input
-        $attrs = new Attributes();
-        $attrs->set('id', $binding->getId());
-        if ($options['access'] == 'view' || !$element->getEnabled()) {
-            $attrs->setFlag('disabled');
-        }
-        $attrs->set('name', $binding->getFormName());
-        $attrs->setIfNotNull('value', $labels->inner);
+//        $attrs = new Attributes();
+//        $attrs->set('id', $binding->getId());
+//        if ($options['access'] == 'view' || !$element->getEnabled()) {
+//            $attrs->setFlag('disabled');
+//        }
+//        $attrs->set('name', $binding->getFormName());
+//        $attrs->setIfNotNull('value', $labels->inner);
 
-        $attrs->set('class', $this->getButtonClass());
+//        $attrs->set('class', $this->getButtonClass());
 
-        // We can see or change the data. Create a form group.
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding),
-                'show' => 'formGroupAttributes'
-            ]
-        );
+//        // We can see or change the data. Create a form group.
+//        $block = $this->writeElement(
+//            'div', [
+//                'attributes' => $this->groupAttributes($binding),
+//                'show' => 'formGroupAttributes'
+//            ]
+//        );
 
-        // Write the header.
-        $block->body .= $this->writeLabel(
-                'headingAttributes', $labels->heading, 'label',
-                new Attributes('!for', $binding->getId()), ['break' => true]
-            );
+//        // Write the header.
+//        $block->body .= $this->writeLabel(
+//                'headingAttributes', $labels->heading, 'label',
+//                new Attributes('!for', $binding->getId()), ['break' => true]
+//            );
 
-        $attrs->set('type', $element->getFunction());
-        if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
-        }
-
-        // Generate the input wrapper, if required for a horizontal layout.
-        $input = $this->writeElement('div', ['show' => 'inputWrapperAttributes']);
-
-        // Add in the input element and before/after labels
-        $input->body .= $this->writeLabel('beforespan', $labels->before, 'span')
-            . $this->writeTag('input', $attrs)
-            . $this->writeLabel('after', $labels->after, 'span', [])
-            . "\n";
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $input->body .= $this->writeLabel(
-                'help', $labels->help, 'small',
-                $helpAttrs, ['break' => true]
-            );
-        }
+//        $attrs->set('type', $element->getFunction());
+//        if ($labels->has('help')) {
+//            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
+//        }
+//
+//        // Generate the input wrapper, if required for a horizontal layout.
+//        $input = $this->writeElement('div', ['show' => 'inputWrapperAttributes']);
+//
+//        // Add in the input element and before/after labels
+//        $input->body .= $this->writeLabel('beforespan', $labels->before, 'span')
+//            . $this->writeTag('input', $attrs)
+//            . $this->writeLabel('after', $labels->after, 'span', [])
+//            . "\n";
+//        if ($labels->has('help')) {
+//            $helpAttrs = new Attributes();
+//            $helpAttrs->set('id', $attrs->get('aria-describedby'));
+//            $helpAttrs->set('class', 'form-text text-muted');
+//            $input->body .= $this->writeLabel(
+//                'help', $labels->help, 'small',
+//                $helpAttrs, ['break' => true]
+//            );
+//        }
         $block->merge($input);
         $block->close();
 

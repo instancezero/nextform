@@ -24,11 +24,22 @@ abstract class FieldCommon  {
         $this->binding = $binding;
     }
 
+    /**
+     * Generate any additional/delimiting output.
+     *
+     * @return Block
+     */
     protected function epilog()
     {
-        return '';
+        return new Block();
     }
 
+    /**
+     * Get common attributes for the input element.
+     *
+     * @param Labels $labels
+     * @return Attributes
+     */
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = new Attributes();
@@ -59,12 +70,21 @@ abstract class FieldCommon  {
         return $attrs;
     }
 
+    /**
+     * Generate the input element and any wrapping/supporting code.
+     */
     abstract protected function inputGroup(
         Labels $labels,
         Attributes $attrs
     ) : Block;
 
-    public function render($options = [])
+    /**
+     * Render the element.
+     *
+     * @param array $options
+     * @return Block
+     */
+    public function render($options = []) : Block
     {
         $this->access = $options['access'];
         $confirm = $options['confirm'];
@@ -133,7 +153,7 @@ abstract class FieldCommon  {
         $block->merge($input);
         $block->merge($dataList);
         $block->close();
-        $block->body .= $this->epilog();
+        $block->merge($this->epilog());
 
         // Restore show context and return.
         if ($show !== '') {
@@ -143,7 +163,12 @@ abstract class FieldCommon  {
         return $block;
     }
 
-    protected function renderContainer()
+    /**
+     * Generate any field grouping.
+     *
+     * @return Block
+     */
+    protected function renderContainer() : Block
     {
         // We can see or change the data. Create a form group.
         $block = $this->engine->writeElement(
