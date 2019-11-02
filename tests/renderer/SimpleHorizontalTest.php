@@ -316,7 +316,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
             '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n",
             '</div>' . "\n"
         );
-        $expect['basic']->onCloseDone = [$this->testObj, 'popContext'];
 
         $this->runCases($cases, $expect);
     }

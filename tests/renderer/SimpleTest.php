@@ -293,7 +293,6 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
             '<div>' . "\n",
             '</div>' . "\n"
         );
-        $expect['basic']->onCloseDone = [$this->testObj, 'popContext'];
 
         $this->runCases($cases, $expect);
     }

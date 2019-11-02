@@ -1,7 +1,6 @@
 <?php
 namespace Abivia\NextForm\Renderer;
 
-use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -209,9 +208,18 @@ abstract class Html implements RendererInterface
         $engineClass = \get_class($this);
         $classPath = \get_class($element);
         if (!isset($this->renderClassCache[$classPath])) {
-            $classParts = \explode('\\', $classPath);
-            $this->renderClassCache[$classPath] = $engineClass
-                . '\\' . \array_pop($classParts);
+            $lastPos = \strrpos($classPath, '\\');
+            $lastPart = \substr($classPath, $lastPos);
+            $renderClass = $engineClass . $lastPart;
+            if (!\class_exists($renderClass)) {
+                $lastPos = \strrpos($engineClass, '\\');
+                $renderClass = \substr($engineClass, 0, $lastPos + 1)
+                    . 'CommonHtml' . $lastPart;
+                if (!\class_exists($renderClass)) {
+                    $renderClass = false;
+                }
+            }
+            $this->renderClassCache[$classPath] = $renderClass;
         }
         return $this->renderClassCache[$classPath];
     }
@@ -280,7 +288,9 @@ abstract class Html implements RendererInterface
     public function queryContext($selector)
     {
         if (!isset($this->context[$selector])) {
-            throw new \RuntimeException($selector . ' is not valid in current context.');
+            throw new \RuntimeException(
+                $selector . ' is not valid in the current context.'
+            );
         }
         return $this->context[$selector];
     }
@@ -293,19 +303,36 @@ abstract class Html implements RendererInterface
         if ($options['access'] === 'none') {
             return new Block();
         }
-        // Temporary code for conversion to rendering subclasses
+        // Temporary code while converting to rendering subclasses
         $renderClass = $this->getRenderClass($binding->getElement());
-        if (\class_exists($renderClass)) {
+        if ($renderClass) {
             $test = new $renderClass($this, $binding);
             $block = $test->render($options);
         } else {
             $method = $this->getRenderMethod($binding->getElement());
             if (!method_exists($this, $method)) {
-                throw new \RuntimeException('Unable to render element ' . get_class($binding->getElement()));
+                throw new \RuntimeException(
+                    'Unable to render element '
+                    . \get_class($binding->getElement())
+                );
             }
             $block = $this->$method($binding, $options);
         }
         return $block;
+    }
+
+    /**
+     * Modify a setting in the current rendering context.
+     *
+     * @param string $selector The name of the setting to modify.
+     * @param mixed $value The value to assign to the setting.
+     * @return \self
+     * @throws \RuntimeException
+     */
+    public function setContext($selector, $value) : self
+    {
+        $this->context[$selector] = $value;
+        return $this;
     }
 
     public function setOptions($options = []) {

@@ -338,7 +338,6 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
             '<div class="form-row col-sm-10">' . "\n",
             '</div>' . "\n"
         );
-        $expect['basic']->onCloseDone = [$this->testObj, 'popContext'];
 
         $this->runCases($cases, $expect);
     }

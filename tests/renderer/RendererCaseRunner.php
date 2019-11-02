@@ -35,6 +35,7 @@ trait RendererCaseRunner {
             Manager::boot();
             $data = $this->testObj->render($info[0], $info[1]);
             $this->logResult($data, $info[2]);
+            $data->onCloseDone = null;
             if ($expect[$key] != $data) {
                 $this->logResult($expect[$key], 'Expected: ' . $info[2]);
             }

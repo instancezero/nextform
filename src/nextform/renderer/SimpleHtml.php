@@ -86,67 +86,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $this->setShow('layout:vertical');
     }
 
-    protected function dep_renderButtonElement(Binding $binding, $options = [])
-    {
-//        $attrs = new Attributes();
-//        $attrs->set('id', $binding->getId());
-//        if ($options['access'] == 'view' || !$binding->getElement()->getEnabled()) {
-//            $attrs->setFlag('disabled');
-//        }
-//        $attrs->set('name', $binding->getFormName());
-//        $labels = $binding->getLabels(true);
-//        $attrs->setIfNotNull('value', $labels->inner);
-
-//        $block = new Block();
-//        if ($options['access'] === 'hide') {
-//            //
-//            // No write/view permissions, the field is hidden, we don't need labels, etc.
-//            //
-//            $attrs->set('type', 'hidden');
-//            $block->body .= $this->writeTag('input', $attrs) . "\n";
-//            return $block;
-//        }
-
-//        // We can see or change the data
-//        $block->merge(
-//            $this->writeElement('div', ['attributes' => $this->groupAttributes($binding)])
-//        );
-//        $block->body .= $this->writeLabel(
-//                'headingAttributes', $labels->heading, 'label',
-//                new Attributes('!for', $binding->getId()), ['break' => true]
-//            );
-//        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-//        $attrs->set('type', $binding->getElement()->getFunction());
-//        if ($labels->has('help')) {
-//            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
-//        }
-//        $block->body .= $this->writeLabel('before', $labels->before, 'span')
-//            . $this->writeTag('input', $attrs)
-//            . $this->writeLabel('after', $labels->after, 'span') . "\n";
-//        if ($labels->has('help')) {
-//            $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-//            $block->body .= $this->writeLabel(
-//                'help', $labels->help, 'small',
-//                new Attributes('id', $attrs->get('aria-describedby')),
-//                ['break' => true]
-//            );
-//        }
-        $block->close();
-//        $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-        return $block;
-    }
-
-    protected function renderCellElement(ContainerBinding $binding, $options = [])
-    {
-        $block = $this->writeElement('div', ['force' => true, 'show' => 'inputWrapperAttributes']);
-        $block->onCloseDone = [$this, 'popContext'];
-        $this->pushContext();
-        $this->context['inCell'] = true;
-        $this->context['cellFirstElement'] = true;
-        $this->showDoLayout('form', 'inline');
-        return $block;
-    }
-
     /**
      * Render Field elements for checkbox and radio types.
      * @param FieldBinding $binding
@@ -521,7 +460,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoCellspacing($scope, $choice, $values = [])
+    public function showDoCellspacing($scope, $choice, $values = [])
     {
         // Expecting choice to be "a" or "b".
         // For "a", one or more space delimited single digits from 0 to 5,
@@ -563,12 +502,13 @@ class SimpleHtml extends CommonHtml implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($scope, $choice, $values = [])
+    public function showDoLayout($scope, $choice, $values = [])
     {
         if (!isset($this->showState[$scope])) {
             $this->showState[$scope] = [];
         }
         // Clear out anything that might have been set by previous commands.
+        unset($this->showState[$scope]['cellElementAttributes']);
         unset($this->showState[$scope]['headingAttributes']);
         unset($this->showState[$scope]['inputWrapperAttributes']);
         $this->showState[$scope]['layout'] = $choice;
@@ -585,7 +525,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyHorizontal($scope, $values)
+    public function showDoLayoutAnyHorizontal($scope, $values)
     {
         // possible values for arguments:
         // h            - We get to decide
@@ -684,6 +624,9 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                 break;
 
         }
+        if (isset($apply['inputWrapperAttributes'])) {
+            $apply['cellElementAttributes'] = $apply['inputWrapperAttributes'];
+        }
     }
 
     /**
@@ -692,7 +635,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyVertical($scope, $values)
+    public function showDoLayoutAnyVertical($scope, $values)
     {
         // possible values for arguments:
         // v            - Default, nothing to do
@@ -740,6 +683,9 @@ class SimpleHtml extends CommonHtml implements RendererInterface
                     ];
                 }
                 break;
+        }
+        if (isset($apply['inputWrapperAttributes'])) {
+            $apply['cellElementAttributes'] = $apply['inputWrapperAttributes'];
         }
     }
 

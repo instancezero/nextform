@@ -91,7 +91,7 @@ abstract class CommonHtml extends Html implements RendererInterface
                     break;
                 default:
                     // Temporary code while we start to break up the renderers
-                    $renderClass = \get_class($this) . '\\Field' . \ucfirst($type);
+                    $renderClass = \get_class($this) . '\\FieldElement\\' . \ucfirst($type);
                     if (\class_exists($renderClass)) {
                         $test = new $renderClass($this, $binding);
                         $block = $test->render($options);
@@ -100,7 +100,7 @@ abstract class CommonHtml extends Html implements RendererInterface
                         if (method_exists($this, $method)) {
                             $block = $this->$method($binding, $options);
                         } else {
-                            $renderClass = \get_class($this) . '\\FieldCommon';
+                            $renderClass = \get_class($this) . '\\FieldElement\\Common';
                             $test = new $renderClass($this, $binding);
                             $block = $test->render($options);
                         }

@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\Nextform\Renderer\CommonHtml;
+namespace Abivia\Nextform\Renderer\CommonHtml\FieldElement;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
@@ -11,7 +11,7 @@ use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 
-abstract class FieldCommon  {
+abstract class Common  {
     protected $access;
     protected $binding;
     protected $confirmSuffix;

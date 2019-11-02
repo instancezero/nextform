@@ -1155,12 +1155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2bcb7042ce5e88d441225d67a9af53b0d2afed99"
+                "reference": "b93a224842766cd24f3048ddac35325e114a336b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2bcb7042ce5e88d441225d67a9af53b0d2afed99",
-                "reference": "2bcb7042ce5e88d441225d67a9af53b0d2afed99",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b93a224842766cd24f3048ddac35325e114a336b",
+                "reference": "b93a224842766cd24f3048ddac35325e114a336b",
                 "shasum": ""
             },
             "require": {
@@ -1210,7 +1210,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-10-28T09:21:11+00:00"
+            "time": "2019-11-01T13:31:46+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1407,12 +1407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "48eb0fd993257ea5911a75ee0b62bf266092f7c0"
+                "reference": "34932cc0aea6f5254bb6f25a499ae0da0a67892c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/48eb0fd993257ea5911a75ee0b62bf266092f7c0",
-                "reference": "48eb0fd993257ea5911a75ee0b62bf266092f7c0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/34932cc0aea6f5254bb6f25a499ae0da0a67892c",
+                "reference": "34932cc0aea6f5254bb6f25a499ae0da0a67892c",
                 "shasum": ""
             },
             "require": {
@@ -1482,7 +1482,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-10-31T17:00:56+00:00"
+            "time": "2019-11-01T16:40:47+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

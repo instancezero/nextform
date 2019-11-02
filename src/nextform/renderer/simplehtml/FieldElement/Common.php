@@ -3,14 +3,14 @@
 /**
  *
  */
-namespace Abivia\Nextform\Renderer\SimpleHtml;
+namespace Abivia\Nextform\Renderer\SimpleHtml\FieldElement;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\Nextform\Renderer\CommonHtml\FieldCommon as BaseCommon;
+use Abivia\Nextform\Renderer\CommonHtml\FieldElement\Common as BaseCommon;
 
-class FieldCommon extends BaseCommon {
+class Common extends BaseCommon {
 
     /**
      * Generate the input and any associated labels, inside a wrapping div.

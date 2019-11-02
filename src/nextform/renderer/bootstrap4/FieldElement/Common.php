@@ -3,14 +3,14 @@
 /**
  *
  */
-namespace Abivia\Nextform\Renderer\Bootstrap4;
+namespace Abivia\Nextform\Renderer\Bootstrap4\FieldElement;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\Nextform\Renderer\CommonHtml\FieldCommon as BaseCommon;
+use Abivia\Nextform\Renderer\CommonHtml\FieldElement\Common as BaseCommon;
 
-class FieldCommon extends BaseCommon {
+class Common extends BaseCommon {
 
     /**
      * Get common attributes for the input element and add BS4 specifics.

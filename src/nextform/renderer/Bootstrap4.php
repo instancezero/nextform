@@ -326,97 +326,6 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $input;
     }
 
-    /**
-     * Write a button element.
-     * @param Binding $binding
-     * @param type $options
-     * @return \Abivia\NextForm\Renderer\Block
-     */
-    protected function dep_renderButtonElement(Binding $binding, $options = [])
-    {
-//        $labels = $binding->getLabels(true);
-//        if ($options['access'] === 'hide') {
-//            //
-//            // No write/view permissions, the field is hidden, we don't need labels, etc.
-//            //
-//            $block = $this->elementHidden($binding, $labels->inner);
-//            return $block;
-//        }
-//        $element = $binding->getElement();
-//        $show = $element->getShow();
-//        if ($show) {
-//            $this->pushContext();
-//            $this->setShow($show, 'button');
-//        }
-
-        // Build attributes for the input
-//        $attrs = new Attributes();
-//        $attrs->set('id', $binding->getId());
-//        if ($options['access'] == 'view' || !$element->getEnabled()) {
-//            $attrs->setFlag('disabled');
-//        }
-//        $attrs->set('name', $binding->getFormName());
-//        $attrs->setIfNotNull('value', $labels->inner);
-
-//        $attrs->set('class', $this->getButtonClass());
-
-//        // We can see or change the data. Create a form group.
-//        $block = $this->writeElement(
-//            'div', [
-//                'attributes' => $this->groupAttributes($binding),
-//                'show' => 'formGroupAttributes'
-//            ]
-//        );
-
-//        // Write the header.
-//        $block->body .= $this->writeLabel(
-//                'headingAttributes', $labels->heading, 'label',
-//                new Attributes('!for', $binding->getId()), ['break' => true]
-//            );
-
-//        $attrs->set('type', $element->getFunction());
-//        if ($labels->has('help')) {
-//            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
-//        }
-//
-//        // Generate the input wrapper, if required for a horizontal layout.
-//        $input = $this->writeElement('div', ['show' => 'inputWrapperAttributes']);
-//
-//        // Add in the input element and before/after labels
-//        $input->body .= $this->writeLabel('beforespan', $labels->before, 'span')
-//            . $this->writeTag('input', $attrs)
-//            . $this->writeLabel('after', $labels->after, 'span', [])
-//            . "\n";
-//        if ($labels->has('help')) {
-//            $helpAttrs = new Attributes();
-//            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-//            $helpAttrs->set('class', 'form-text text-muted');
-//            $input->body .= $this->writeLabel(
-//                'help', $labels->help, 'small',
-//                $helpAttrs, ['break' => true]
-//            );
-//        }
-        $block->merge($input);
-        $block->close();
-
-        // Restore show context and done.
-        if ($show) {
-            $this->popContext();
-        }
-        return $block;
-    }
-
-    protected function renderCellElement(ContainerBinding $binding, $options = [])
-    {
-        $block = $this->writeElement('div', ['show' => 'cellElementAttributes', 'force' => true]);
-        $block->onCloseDone = [$this, 'popContext'];
-        $this->pushContext();
-        $this->context['inCell'] = true;
-        $this->context['cellFirstElement'] = true;
-        $this->showDoLayout('form', 'inline');
-        return $block;
-    }
-
     protected function renderFieldCheckbox(FieldBinding $binding, $options = []) {
         //  appearance = default|button|toggle (can't be multiple)|no-label
         //  layout = inline|vertical
@@ -1169,7 +1078,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoCellspacing($scope, $choice, $values = [])
+    public function showDoCellspacing($scope, $choice, $values = [])
     {
         // Expecting choice to be "a" or "b".
         // For "a", one or more space delimited single digits from 0 to 5,
@@ -1219,7 +1128,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoLayout($scope, $choice, $values = [])
+    public function showDoLayout($scope, $choice, $values = [])
     {
         //
         // Structure of the layout elements
@@ -1259,7 +1168,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyHorizontal($scope, $values)
+    public function showDoLayoutAnyHorizontal($scope, $values)
     {
         // possible values for arguments:
         // h            - We get to decide
@@ -1330,7 +1239,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param array $values Array of colon-delimited settings including the initial keyword.
      * @throws \RuntimeException
      */
-    protected function showDoLayoutAnyVertical($scope, $values)
+    public function showDoLayoutAnyVertical($scope, $values)
     {
         // possible values for arguments:
         // v            - Default
@@ -1381,7 +1290,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $value Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoPurpose($scope, $choice, $value = [])
+    public function showDoPurpose($scope, $choice, $value = [])
     {
         if (
             strpos(
