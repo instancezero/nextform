@@ -87,7 +87,11 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $attrs->set('name', 'form_1');
         $obj = new Bootstrap4();
         $data = $obj->start(
-            ['action' => 'http://localhost/nextform/post.php', 'attributes' => $attrs]
+            [
+                'action' => 'http://localhost/nextform/post.php',
+                'attributes' => $attrs,
+                'token' => 'notsucharandomtoken',
+            ]
         );
 
         $data->body .= self::$allHtml;
