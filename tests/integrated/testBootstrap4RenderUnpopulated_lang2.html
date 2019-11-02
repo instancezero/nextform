@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_22" name="form_22" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="74afcc4f810569b776cc25132ffca44af2128be489cb9271734bbd591a811317">
+<input id="nf_token" name="nf_token" type="hidden" value="3f18224d9b221f8574d1445a0ad9edc4f0a72e774f0d641fa7c88d01de434bb0">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
 <div>Membership Level (lang2)</div>
 <div class="form-check">
@@ -57,97 +57,101 @@
 <input id="field_5" name="members_primaryLastName" type="text" class="form-control" required data-nf-req="1"/>
 </div>
 </div>
-<div id="field_6_container" class="form-group col-sm-12" data-nf-for="field_6">
+<div id="field_6_container" class="ml-3 form-group" data-nf-for="field_6">
 <label for="field_6">Email (lang2)</label>
 <input id="field_6" name="members_primaryEmail" type="email" class="form-control" required data-nf-req="1"/>
 </div>
-<div id="field_6_confirmation_container" class="form-group col-sm-12" data-nf-for="field_6_confirmation">
+<div id="field_6_confirmation_container" class="ml-3 form-group" data-nf-for="field_6_confirmation">
 <label for="field_6_confirmation">Repeat email (lang2)</label>
 <input id="field_6_confirmation" name="members_primaryEmail_confirmation" type="email" class="form-control" required data-nf-req="1"/>
 </div>
-<div id="field_7_container" class="form-group col-sm-12" data-nf-for="field_7">
+<div id="field_7_container" class="ml-3 form-group" data-nf-for="field_7">
 <label for="field_7">Artist Name (lang2)</label>
 <input id="field_7" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field_7_help"/>
 <small id="field_7_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (lang2)</small>
 </div>
-<fieldset id="field_8_container" class="form-group col-sm-12" data-nf-for="field_8">
-<div>Membership Type (lang2)</div>
-<div class="form-check">
+<fieldset id="field_8_container" class="form-group ml-3" data-nf-for="field_8">
+<div class="row">
+<legend class="pt-0">Membership Type (lang2)</legend>
+<div class="form-check form-check-inline">
 <input id="field_8_opt0" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AC" data-nf-group="[&quot;person-enable&quot;]"/>
 <label for="field_8_opt0" class="form-check-label">Artisan/Craftsperson (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_8_opt1" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="PF" data-nf-group="[&quot;person-enable&quot;]"/>
 <label for="field_8_opt1" class="form-check-label">Performer (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_8_opt2" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="VA" data-nf-group="[&quot;person-enable&quot;]"/>
 <label for="field_8_opt2" class="form-check-label">Visual Arts (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
 <label for="field_8_opt3" class="form-check-label">Business (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
 <label for="field_8_opt4" class="form-check-label">Fellow Association (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_8_opt5" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
 <label for="field_8_opt5" class="form-check-label">Other (lang2)</label>
 </div>
+</div>
 </fieldset>
-<div id="field_9_container" class="form-group col-sm-12" data-nf-for="field_9">
+<div id="field_9_container" class="ml-3 form-group" data-nf-for="field_9">
 <label for="field_9">Other Membership Type (lang2)</label>
 <input id="field_9" name="members_primaryTypeOther" type="text" class="form-control"/>
 </div>
-<fieldset id="field_10_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_10" data-nf-group="[&quot;firstVA&quot;]">
-<div>Visual Artists Select Media (lang2)</div>
-<div class="form-check">
+<fieldset id="field_10_container" class="form-group nf-hidden ml-3" data-nf-for="field_10" data-nf-group="[&quot;firstVA&quot;]">
+<div class="row">
+<legend class="pt-0">Visual Artists Select Media (lang2)</legend>
+<div class="form-check form-check-inline">
 <input id="field_10_opt0" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
 <label for="field_10_opt0" class="form-check-label">Acrylics (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt1" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
 <label for="field_10_opt1" class="form-check-label">Fibre Art (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt2" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
 <label for="field_10_opt2" class="form-check-label">Glass (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt3" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
 <label for="field_10_opt3" class="form-check-label">Mixed Media (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt4" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
 <label for="field_10_opt4" class="form-check-label">Oils (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt5" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
 <label for="field_10_opt5" class="form-check-label">Photography (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt6" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
 <label for="field_10_opt6" class="form-check-label">Pottery (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt7" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
 <label for="field_10_opt7" class="form-check-label">Sculpture / 3D (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt8" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
 <label for="field_10_opt8" class="form-check-label">Watercolours (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_10_opt9" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
 <label for="field_10_opt9" class="form-check-label">Other (lang2)</label>
 </div>
+</div>
 </fieldset>
 </fieldset>
-<fieldset id="section_11_container" class="nf-hidden form-group col-sm-12" data-nf-for="section_11" data-nf-group="[&quot;family&quot;]">
+<fieldset id="section_11_container" class="nf-hidden ml-3 form-group" data-nf-for="section_11" data-nf-group="[&quot;family&quot;]">
 <legend>Second Member (lang2)</legend>
-<div class="form-row col-sm-12">
+<div class="form-row">
 <div id="field_12_container" class="form-group" data-nf-for="field_12">
 <label for="field_12">Legal First Name (lang2)</label>
 <input id="field_12" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_12_help" data-nf-req="1"/>
@@ -158,92 +162,96 @@
 <input id="field_13" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
 </div>
 </div>
-<div id="field_14_container" class="form-group col-sm-12" data-nf-for="field_14">
+<div id="field_14_container" class="ml-3 form-group" data-nf-for="field_14">
 <label for="field_14">Artist Name (lang2)</label>
 <input id="field_14" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_14_help"/>
 <small id="field_14_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (lang2)</small>
 </div>
-<fieldset id="field_15_container" class="form-group col-sm-12" data-nf-for="field_15">
-<div>Membership Type (lang2)</div>
-<div class="form-check">
+<fieldset id="field_15_container" class="form-group ml-3" data-nf-for="field_15">
+<div class="row">
+<legend class="pt-0">Membership Type (lang2)</legend>
+<div class="form-check form-check-inline">
 <input id="field_15_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
 <label for="field_15_opt0" class="form-check-label">Artisan/Craftsperson (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_15_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
 <label for="field_15_opt1" class="form-check-label">Performer (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_15_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
 <label for="field_15_opt2" class="form-check-label">Visual Arts (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_15_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
 <label for="field_15_opt3" class="form-check-label">Other (lang2)</label>
 </div>
+</div>
 </fieldset>
-<div id="field_16_container" class="form-group col-sm-12" data-nf-for="field_16">
+<div id="field_16_container" class="ml-3 form-group" data-nf-for="field_16">
 <label for="field_16">Other Membership Type (lang2)</label>
 <input id="field_16" name="members_secondaryTypeOther" type="text" class="form-control"/>
 </div>
-<fieldset id="field_17_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_17" data-nf-group="[&quot;secondVA&quot;]">
-<div>Visual Artists Select Media (lang2)</div>
-<div class="form-check">
+<fieldset id="field_17_container" class="form-group nf-hidden ml-3" data-nf-for="field_17" data-nf-group="[&quot;secondVA&quot;]">
+<div class="row">
+<legend class="pt-0">Visual Artists Select Media (lang2)</legend>
+<div class="form-check form-check-inline">
 <input id="field_17_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
 <label for="field_17_opt0" class="form-check-label">Acrylics (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
 <label for="field_17_opt1" class="form-check-label">Fibre Art (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
 <label for="field_17_opt2" class="form-check-label">Glass (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
 <label for="field_17_opt3" class="form-check-label">Mixed Media (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
 <label for="field_17_opt4" class="form-check-label">Oils (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
 <label for="field_17_opt5" class="form-check-label">Photography (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
 <label for="field_17_opt6" class="form-check-label">Pottery (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
 <label for="field_17_opt7" class="form-check-label">Sculpture / 3D (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
 <label for="field_17_opt8" class="form-check-label">Watercolours (lang2)</label>
 </div>
-<div class="form-check">
+<div class="form-check form-check-inline">
 <input id="field_17_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
 <label for="field_17_opt9" class="form-check-label">Other (lang2)</label>
 </div>
+</div>
 </fieldset>
 </fieldset>
-<div id="field_18_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_18" data-nf-group="[&quot;business&quot;]">
+<div id="field_18_container" class="nf-hidden ml-3 form-group" data-nf-for="field_18" data-nf-group="[&quot;business&quot;]">
 <label for="field_18">Business/Association Name (lang2)</label>
 <input id="field_18" name="members_businessName" type="text" class="form-control"/>
 </div>
-<div id="field_19_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_19">
+<div id="field_19_container" class="nf-hidden ml-3 form-group" data-nf-for="field_19">
 <label for="field_19">Enter Desired Contribution (lang2)</label>
 <input id="field_19" name="scratch_feeSelect" type="number" class="form-control" aria-describedby="field_19_help"/>
 <small id="field_19_help" class="form-text text-muted">. (lang2)</small>
 </div>
-<div id="field_20_container" class="form-group col-sm-12" data-nf-for="field_20">
+<div id="field_20_container" class="ml-3 form-group" data-nf-for="field_20">
 <label for="field_20">Annual fee (lang2)</label>
 <input id="field_20" name="members_membershipFee" type="number" class="form-control" value="30" disabled/>
 </div>
-<div id="button_21_container" class="form-group col-sm-12" data-nf-for="button_21">
+<div id="button_21_container" class="ml-3 form-group" data-nf-for="button_21">
 <input id="button_21" name="button_21" type="submit" class="btn btn-primary" value="Join (lang2)"/>
 </div>
 </form>
