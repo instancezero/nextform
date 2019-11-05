@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f107a82c3f9093a7e037733f1208ef35",
+    "content-hash": "eba8e2264f66b90a21bf7ddff86f5b7a",
     "packages": [
         {
             "name": "abivia/configurable",
@@ -1155,12 +1155,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "b93a224842766cd24f3048ddac35325e114a336b"
+                "reference": "b85a9205e06bead6f243af7f29812d8a62e50027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b93a224842766cd24f3048ddac35325e114a336b",
-                "reference": "b93a224842766cd24f3048ddac35325e114a336b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b85a9205e06bead6f243af7f29812d8a62e50027",
+                "reference": "b85a9205e06bead6f243af7f29812d8a62e50027",
                 "shasum": ""
             },
             "require": {
@@ -1210,7 +1210,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-11-01T13:31:46+00:00"
+            "time": "2019-11-03T06:15:39+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1407,12 +1407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "34932cc0aea6f5254bb6f25a499ae0da0a67892c"
+                "reference": "32fc69cd393941e2ca1ea81578c508c3a1894751"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/34932cc0aea6f5254bb6f25a499ae0da0a67892c",
-                "reference": "34932cc0aea6f5254bb6f25a499ae0da0a67892c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/32fc69cd393941e2ca1ea81578c508c3a1894751",
+                "reference": "32fc69cd393941e2ca1ea81578c508c3a1894751",
                 "shasum": ""
             },
             "require": {
@@ -1482,7 +1482,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-11-01T16:40:47+00:00"
+            "time": "2019-11-04T08:59:41+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

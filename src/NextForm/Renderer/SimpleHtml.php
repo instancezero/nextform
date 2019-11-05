@@ -26,55 +26,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $this->initialize();
     }
 
-    protected function checkList(
-        Block $block,
-        FieldBinding $binding,
-        $list,
-        $type,
-        Attributes $attrs
-    ) {
-        $baseId = $binding->getId();
-        $select = $binding->getValue();
-        if ($select === null) {
-            $select = $binding->getElement()->getDefault();
-        }
-        foreach ($list as $optId => $radio) {
-            $optAttrs = $attrs->copy();
-            $id = $baseId . '_opt' . $optId;
-            $optAttrs->set('id', $id);
-            $value = $radio->getValue();
-            $optAttrs->set('value', $value);
-            $optAttrs->setFlag('disabled', !$radio->getEnabled());
-            if (
-                $type == 'checkbox'
-                && is_array($select) && in_array($value, $select)
-            ) {
-                $optAttrs->setFlag('checked');
-                $checked = true;
-            } elseif ($value === $select) {
-                $optAttrs->setFlag('checked');
-                $checked = true;
-            } else {
-                $optAttrs->setFlag('checked', false);
-                $checked = false;
-            }
-            $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
-            $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
-            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
-            if ($checked) {
-                $optAttrs->setFlag('checked');
-            } else {
-                $optAttrs->setFlag('checked', false);
-            }
-            $block->body .= "<div>\n" . $this->writeTag('input', $optAttrs) . "\n"
-                . $this->writeLabel(
-                    '', $radio->getLabel(), 'label',
-                    new Attributes('!for',  $id), ['break' => true]
-                )
-                . "</div>\n";
-        }
-    }
-
     protected function initialize()
     {
         parent::initialize();
@@ -84,72 +35,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         ];
         // Initialize custom settings
         $this->setShow('layout:vertical');
-    }
-
-    /**
-     * Render Field elements for checkbox and radio types.
-     * @param FieldBinding $binding
-     * @param array $options
-     * @return Block
-     */
-    protected function renderFieldCheckbox(FieldBinding $binding, $options = [])
-    {
-        if ($options['access'] === 'hide') {
-            // Generate hidden elements and return
-            return $this->elementHiddenList($binding);
-        }
-
-        // Get things we need to generate attributes
-        $baseId = $binding->getId();
-        $labels = $binding->getLabels(true);
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-
-        // Set attributes for the input
-        $attrs = new Attributes('type', $type);
-        $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
-        $list = $binding->getList(true);
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-        $attrs->set('name', $binding->getFormName());
-
-        // Start generating output
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding)
-            ]
-        );
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $labels->heading, 'div', null, ['break' => true]
-        );
-        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-        $bracketTag = empty($list) ? 'span' : 'div';
-        $block->body .= $this->writeLabel(
-            'before', $labels->before, $bracketTag, null, ['break' => !empty($list)]
-        );
-        if (empty($list)) {
-            $attrs->set('id', $baseId);
-            $value = $binding->getValue();
-            if ($value !== null) {
-                $attrs->set('value', $value);
-                if ($value === $binding->getElement()->getDefault()) {
-                    $attrs->setFlag('checked');
-                }
-            }
-            $block->body .= $this->writeTag('input', $attrs) . "\n";
-            $block->body .= $this->writeLabel(
-                'inner', $binding->getLabels(true)->inner,
-                'label', new Attributes('!for', $baseId), ['break' => true]
-            );
-        } else {
-            $this->checkList($block, $binding, $list, $type, clone $attrs);
-        }
-        $block->body .= $this->writeLabel(
-            'after', $labels->after, $bracketTag, null, ['break' => !empty($list)]
-        );
-        $block->close();
-        $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-        return $block;
     }
 
     protected function renderFieldFile(FieldBinding $binding, $options = [])
@@ -398,16 +283,16 @@ class SimpleHtml extends CommonHtml implements RendererInterface
 
     protected function renderSectionElement(ContainerBinding $binding, $options = [])
     {
-        $block = new Block();
-        $labels = $binding->getLabels(true);
-        $block->body = '<fieldset>' . "\n";
-        if ($labels !== null) {
-            $block->body .= $this->writeLabel(
-                '', $labels->heading, 'legend', null, ['break' => true]
-            );
-        }
-        $block->post = '</fieldset>' . "\n";
-        return $block;
+//        $block = new Block();
+//        $labels = $binding->getLabels(true);
+//        $block->body = '<fieldset>' . "\n";
+//        if ($labels !== null) {
+//            $block->body .= $this->writeLabel(
+//                '', $labels->heading, 'legend', null, ['break' => true]
+//            );
+//        }
+//        $block->post = '</fieldset>' . "\n";
+//        return $block;
     }
 
     protected function renderStaticElement(SimpleBinding $binding, $options = [])
@@ -443,7 +328,7 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderTriggers(FieldBinding $binding) : Block
+    public function renderTriggers(FieldBinding $binding) : Block
     {
         return new Block;
     }

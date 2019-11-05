@@ -2159,7 +2159,7 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect['view'] = $expect['basic'];
 
         // Test hidden access
-        $expect['hide'] = new Block();;
+        $expect['hide'] = new Block();
 
         $this->runCases($cases, $expect);
     }
@@ -2170,12 +2170,12 @@ class FormRendererSimpleHtmlTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['empty'] = Block::fromString(
-            '<fieldset>' . "\n",
+            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n",
             '</fieldset>' . "\n"
         );
         // Now add a label
         $expect['label'] = Block::fromString(
-            '<fieldset>' . "\n"
+            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n"
             . '<legend>This is legendary</legend>' . "\n",
             '</fieldset>' . "\n"
         );

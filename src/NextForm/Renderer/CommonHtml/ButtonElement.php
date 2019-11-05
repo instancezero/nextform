@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\Nextform\Renderer\CommonHtml;
+namespace Abivia\NextForm\Renderer\CommonHtml;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;

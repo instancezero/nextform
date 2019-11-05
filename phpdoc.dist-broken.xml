@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdocumentor>
     <parser>
-        <default-package-name>Abivia\Nextform</default-package-name>
+        <default-package-name>Abivia\NextForm</default-package-name>
         <target>build/ding-api-cache</target>
     </parser>
     <transformer>

@@ -207,7 +207,10 @@ abstract class Html implements RendererInterface
     {
         $engineClass = \get_class($this);
         $classPath = \get_class($element);
-        if (!isset($this->renderClassCache[$classPath])) {
+        if (!isset($this->renderClassCache[$engineClass])) {
+            $this->renderClassCache[$engineClass] = [];
+        }
+        if (!isset($this->renderClassCache[$engineClass][$classPath])) {
             $lastPos = \strrpos($classPath, '\\');
             $lastPart = \substr($classPath, $lastPos);
             $renderClass = $engineClass . $lastPart;
@@ -219,9 +222,9 @@ abstract class Html implements RendererInterface
                     $renderClass = false;
                 }
             }
-            $this->renderClassCache[$classPath] = $renderClass;
+            $this->renderClassCache[$engineClass][$classPath] = $renderClass;
         }
-        return $this->renderClassCache[$classPath];
+        return $this->renderClassCache[$engineClass][$classPath];
     }
 
     protected function getRenderMethod(Element $element)
@@ -359,7 +362,7 @@ abstract class Html implements RendererInterface
      * @param array $args A list of arguments
      * @throws \RuntimeError
      */
-    protected function show($scope, $key, $args)
+    public function show($scope, $key, $args)
     {
         if (!isset(self::$showRules[$key])) {
             throw new \RuntimeException(
@@ -403,7 +406,7 @@ abstract class Html implements RendererInterface
      * @param string $choice Primary option selection
      * @param array $values Array of colon-delimited settings including the initial keyword.
      */
-    protected function showDoHidden($scope, $choice, $values = [])
+    public function showDoHidden($scope, $choice, $values = [])
     {
         if (!isset($this->showState[$scope])) {
             $this->showState[$scope] = [];
@@ -418,7 +421,7 @@ abstract class Html implements RendererInterface
      * @param string $key The index of the value we want.
      * @return mixed
      */
-    protected function showGet($scope, $key)
+    public function showGet($scope, $key)
     {
 
         if (($result = $this->showGetLocal($scope, $key)) !== null) {
@@ -443,7 +446,7 @@ abstract class Html implements RendererInterface
      * @param string $key The index of the value we want.
      * @return mixed
      */
-    protected function showGetLocal($scope, $key)
+    public function showGetLocal($scope, $key)
     {
         if (!isset($this->showState[$scope])) {
             return null;
@@ -454,7 +457,7 @@ abstract class Html implements RendererInterface
         return $this->showState[$scope][$key];
     }
 
-    protected function showValidate($setting, $mode, $rules, $key) {
+    public function showValidate($setting, $mode, $rules, $key) {
         if ($mode == 'pack') {
             $setting = implode(':', $setting);
         } else {

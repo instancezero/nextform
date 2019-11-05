@@ -2480,12 +2480,12 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
 
         $expect['empty'] = Block::fromString(
-            '<fieldset>' . "\n",
+            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n",
             '</fieldset>' . "\n"
         );
         // Now add a label
         $expect['label'] = Block::fromString(
-            '<fieldset>' . "\n"
+            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n"
             . '<legend>This is legendary</legend>' . "\n",
             '</fieldset>' . "\n"
         );

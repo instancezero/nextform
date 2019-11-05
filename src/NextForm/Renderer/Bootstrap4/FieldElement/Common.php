@@ -3,12 +3,12 @@
 /**
  *
  */
-namespace Abivia\Nextform\Renderer\Bootstrap4\FieldElement;
+namespace Abivia\NextForm\Renderer\Bootstrap4\FieldElement;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\Nextform\Renderer\CommonHtml\FieldElement\Common as BaseCommon;
+use Abivia\NextForm\Renderer\CommonHtml\FieldElement\Common as BaseCommon;
 
 class Common extends BaseCommon {
 

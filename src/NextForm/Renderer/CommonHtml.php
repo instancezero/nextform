@@ -66,73 +66,6 @@ abstract class CommonHtml extends Html implements RendererInterface
         $this->setShow('layout:vertical');
     }
 
-    protected function renderFieldElement(FieldBinding $binding, $options = [])
-    {
-        /*
-            'image'
-        */
-        $result = new Block();
-        $presentation = $binding->getDataProperty()->getPresentation();
-        $type = $presentation->getType();
-        $options['confirm'] = false;
-        $repeater = true;
-        while ($repeater) {
-            switch ($type) {
-                case 'checkbox':
-                case 'radio':
-                    // Temporary code while we start to break up the renderers
-                    $renderClass = \get_class($this) . '\\FieldCheckbox';
-                    if (\class_exists($renderClass)) {
-                        $test = new $renderClass($this, $binding);
-                        $block = $test->render($options);
-                    } else {
-                        $block = $this->renderFieldCheckbox($binding, $options);
-                    }
-                    break;
-                default:
-                    // Temporary code while we start to break up the renderers
-                    $renderClass = \get_class($this) . '\\FieldElement\\' . \ucfirst($type);
-                    if (\class_exists($renderClass)) {
-                        $test = new $renderClass($this, $binding);
-                        $block = $test->render($options);
-                    } else {
-                        $method = 'renderField' . \ucfirst($type);
-                        if (method_exists($this, $method)) {
-                            $block = $this->$method($binding, $options);
-                        } else {
-                            $renderClass = \get_class($this) . '\\FieldElement\\Common';
-                            $test = new $renderClass($this, $binding);
-                            $block = $test->render($options);
-                        }
-                    }
-                    break;
-            }
-            // Check to see if we need to generate a confirm field, and
-            // haven't already done so...
-            if (
-                in_array($type, self::$inputConfirmable)
-                && $presentation->getConfirm()
-                && $options['access'] === 'write' && !$options['confirm']
-            ) {
-                $options['confirm'] = true;
-            } else {
-                $repeater = false;
-            }
-            $result->merge($block);
-        }
-        $result->merge($this->renderTriggers($binding));
-
-        return $result;
-    }
-
-    /**
-     * Render Field elements for checkbox and radio types.
-     * @param Binding $binding
-     * @param array $options
-     * @return Block
-     */
-    abstract protected function renderFieldCheckbox(FieldBinding $binding, $options = []);
-
     protected function renderFieldSelectOption($option, $value)
     {
         $block = new Block();
@@ -175,13 +108,13 @@ abstract class CommonHtml extends Html implements RendererInterface
      */
     protected function renderHtmlElement(Binding $binding, $options = [])
     {
-        $block = new Block();
-
-        // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($options['access'] !== 'hide') {
-            $block->body = $binding->getElement()->getValue();
-        }
-        return $block;
+//        $block = new Block();
+//
+//        // There's no way to hide this element so if all we have is hidden access, skip it.
+//        if ($options['access'] !== 'hide') {
+//            $block->body = $binding->getElement()->getValue();
+//        }
+//        return $block;
     }
 
     abstract protected function renderTriggers(FieldBinding $binding) : Block;
