@@ -596,15 +596,19 @@
 <hr/>
 <h4>view</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1[]" type="file"/>
-</div>
-<br/>
-<hr/>
-<h4>Expected: view</h4>
-<div id="field_1_container" data-nf-for="field_1">
 <input id="field_1" name="field_1[]" type="text" readonly/>
 </div>
 <br/>
+<hr/>
+<h4>value-view</h4>
+<div id="field_1_container" data-nf-for="field_1">
+<input id="field_1" name="field_1[]" type="text" value="file1.png,file2.jpg" readonly/>
+</div>
+<br/>
+<hr/>
+<h4>value-hide</h4>
+<input id="field_1_opt0" name="field_1[0]" type="hidden" value="file1.png"/>
+<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFieldHidden</h3>
 <h4>basic</h4>
@@ -1171,14 +1175,21 @@
 <h3>FormRendererSimpleHtmlTest::testFieldTextarea</h3>
 <h4>basic</h4>
 <div id="field_1_container" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="textarea"/>
+<textarea id="field_1" name="field_1"></textarea>
 </div>
-<br/>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>write</h4>
 <div id="field_1_container" data-nf-for="field_1">
 <textarea id="field_1" name="field_1"></textarea>
 </div>
+<hr/>
+<h4>view</h4>
+<div id="field_1_container" data-nf-for="field_1">
+<textarea id="field_1" name="field_1" readonly></textarea>
+</div>
+<hr/>
+<h4>hide</h4>
+<input id="field_1" name="field_1" type="hidden"/>
 <hr/>
 <h3>FormRendererSimpleHtmlTest::testFieldTime</h3>
 <h4>basic</h4>

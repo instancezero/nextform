@@ -37,59 +37,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $this->setShow('layout:vertical');
     }
 
-    protected function renderFieldFile(FieldBinding $binding, $options = [])
-    {
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide') {
-
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            return $this->elementHidden($binding, $value);
-        }
-
-        // We can see or change the data
-        $attrs = new Attributes();
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        $attrs->set('id', $binding->getId());
-        if ($options['access'] == 'view') {
-            $type = 'text';
-        }
-        $attrs->set('name', $binding->getFormName());
-        $attrs->setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
-        $labels = $binding->getLabels(true);
-
-        $block = $this->writeElement(
-            'div', ['attributes' => $this->groupAttributes($binding)]
-        );
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $binding->getId()), ['break' => true]
-        );
-        $attrs->setIfNotNull('placeholder', $labels->inner);
-        $attrs->set('type', $type);
-        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-        $block->body .= $this->writeLabel('before', $labels->before, 'span');
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-        // Render the data list if there is one
-        $block->merge($this->dataList($attrs, $binding, $type, $options));
-        if ($options['access'] === 'write') {
-            // Write access: Add in any validation
-            $attrs->addValidation($type, $data->getValidation());
-            $attrs->setFlag('readonly', $binding->getElement()->getReadonly());
-        } else {
-            // View Access
-            $attrs->set('type', 'text');
-            $attrs->setFlag('readonly');
-        }
-        // Generate the input element
-        $block->body .= $this->writeTag('input', $attrs) . "\n"
-            . $this->writeLabel('after', $labels->after, 'span');
-        $block->close();
-        $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-        return $block;
-    }
-
     protected function renderFieldImage(FieldBinding $binding, $options = [])
     {
         $attrs = new Attributes();
@@ -228,71 +175,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
 
         return $block;
-    }
-
-    protected function renderFieldTextarea(FieldBinding $binding, $options = [])
-    {
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide') {
-
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            return $this->elementHidden($binding, $value);
-        }
-
-        // We can see or change the data
-        $attrs = new Attributes();
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        $attrs->set('id', $binding->getId());
-        $attrs->setFlag('readonly', $binding->getElement()->getReadonly() || $options['access'] == 'view');
-        $attrs->set('name', $binding->getFormName());
-
-        $block = $this->writeElement(
-            'div', ['attributes' => $this->groupAttributes($binding)]
-        );
-        $labels = $binding->getLabels(true);
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
-        );
-        $attrs->setIfNotNull('placeholder', $labels->inner);
-        $attrs->setIfNotNull('cols', $presentation->getCols());
-        $attrs->setIfNotNull('rows', $presentation->getRows());
-        $block->body .= $this->writeLabel(
-            'before', $labels->before, 'div', null, ['break' => true]
-        );
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-        if ($options['access'] === 'write') {
-            // Write access: Add in any validation
-            $attrs->addValidation($type, $data->getValidation());
-        }
-        if ($value === null) {
-            $value = '';
-        }
-        // Generate the textarea element
-        $block->body .= $this->writeTag('textarea', $attrs, $value)
-            . $this->writeLabel(
-                'after', $labels->after, 'div', null, ['break' => true]
-            )
-            . "\n";
-
-        $block->close();
-        return $block;
-    }
-
-    protected function renderSectionElement(ContainerBinding $binding, $options = [])
-    {
-//        $block = new Block();
-//        $labels = $binding->getLabels(true);
-//        $block->body = '<fieldset>' . "\n";
-//        if ($labels !== null) {
-//            $block->body .= $this->writeLabel(
-//                '', $labels->heading, 'legend', null, ['break' => true]
-//            );
-//        }
-//        $block->post = '</fieldset>' . "\n";
-//        return $block;
     }
 
     protected function renderStaticElement(SimpleBinding $binding, $options = [])

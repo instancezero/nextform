@@ -2675,6 +2675,7 @@ class FormRendererBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"'
                     . ' aria-describedby="field_1_help"/>' . $tail
+                    . '<span class="w-100"></span>' . "\n"
                     . '<small id="field_1_help" class="form-text text-muted">Helpful</small>'
                     . $tail
                 )

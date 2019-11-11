@@ -60,8 +60,44 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
     public function inputGroup(Labels $labels, Attributes $attrs)
     {
         // Generate the actual input element, with labels if provided.
+        $input = $this->inputGroupPre($labels);
+        // Generate the input element
+        $input->body .= $this->writeTag('input', $attrs) . "\n";
+
+        $input->merge($this->inputGroupPost($labels));
+
+        // If there's help text we need to generate a break.
+        if ($labels->has('help')) {
+            $input->body .= '<span class="w-100"></span>' . "\n";
+        }
+        return $input;
+    }
+
+    public function inputGroupPost(Labels $labels)
+    {
+        if ($labels->has('after')) {
+            // Write an append group for the after label
+            $group = $this->writeElement(
+                'div', ['attributes' => new Attributes('class', ['input-group-append'])]
+            );
+            // Write the after label in the append group
+            $group->body .= $this->writeLabel(
+                'inputAfter', $labels->after, 'span',
+                new Attributes('class', ['input-group-text'])
+            ) . "\n";
+            $group->close();
+        } else {
+            $group = new Block();
+        }
+
+        return $group;
+    }
+
+    public function inputGroupPre(Labels $labels)
+    {
         if ($labels->has('before') || $labels->has('after')) {
-            // We have before/after elements to attach, we need to create an input group
+            // We have before/after elements to attach, we need to create
+            // an input group.
             $input = $this->writeElement(
                 'div', ['attributes' => new Attributes('class', 'input-group'), 'show' => 'inputWrapperAttributes']
             );
@@ -79,112 +115,13 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 $group->close();
                 $input->merge($group);
             }
-
-            // Generate the input element
-            $input->body .= $this->writeTag('input', $attrs) . "\n";
-
-            if ($labels->has('after')) {
-                // Write an append group for the after label
-                $group = $this->writeElement(
-                    'div', ['attributes' => new Attributes('class', ['input-group-append'])]
-                );
-                // Write the after label in the append group
-                $group->body .= $this->writeLabel(
-                    'inputAfter', $labels->after, 'span',
-                    new Attributes('class', ['input-group-text'])
-                ) . "\n";
-                $group->close();
-                $input->merge($group);
-            }
-
-            // If there's help text we need to generate a break.
-            if ($labels->has('help')) {
-                $input->body .= '<span class="w-100"></span>' . "\n";
-            }
         } else {
-            // Generate an input wrapper if we need to
             $input = $this->writeElement(
                 'div', ['show' => 'inputWrapperAttributes']
             );
-
-            // Generate the input element
-            $input->body .= $this->writeTag('input', $attrs) . "\n";
         }
+
         return $input;
-    }
-
-    protected function renderFieldFile(FieldBinding $binding, $options = [])
-    {
-        $attrs = new Attributes();
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        $block = new Block();
-        $attrs->set('id', $binding->getId());
-        if ($options['access'] == 'view') {
-            $type = 'text';
-        }
-        $attrs->set('name', $binding->getFormName());
-        $attrs->set('class', 'form-control-file');
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $block->merge($this->elementHidden($binding, $value));
-            return $block;
-        }
-
-        // Push and update the show context
-        $show = $binding->getElement()->getShow();
-        if ($show !== '') {
-            $this->pushContext();
-            $this->setShow($show, 'file');
-        }
-
-        // We can see or change the data
-        $attrs->setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
-        $labels = $binding->getLabels(true);
-
-        // Start the form group
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding),
-                'show' => 'formGroupAttributes'
-            ]
-        );
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $binding->getId()), ['break' => true]
-        );
-        $attrs->setIfNotNull('placeholder', $labels->inner);
-        $attrs->set('type', $type);
-
-        // Start the input group
-        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-        $block->body .= $this->writeLabel('beforespan', $labels->before, 'span');
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-        if ($options['access'] === 'write') {
-            // Write access: Add in any validation
-            $attrs->addValidation($type, $data->getValidation());
-
-            $attrs->set('name', $binding->getFormName());
-        } else {
-            // View Access
-            $attrs->set('type', 'text');
-            $attrs->setFlag('readonly');
-        }
-        // Generate the input element
-        $block->body .= $this->writeTag('input', $attrs)
-            . $this->writeLabel('after', $labels->after, 'span') . "\n";
-        $block->close();
-
-        // Restore show context and return.
-        if ($show !== '') {
-            $this->popContext();
-        }
-
-        return $block;
     }
 
     protected function renderFieldSelect(FieldBinding $binding, $options = [])
@@ -331,118 +268,7 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
         return $block;
     }
 
-    protected function renderFieldTextarea(FieldBinding $binding, $options = [])
-    {
-
-        // Get the type. We also use the data and presentation below.
-        $data = $binding->getDataProperty();
-        $presentation = $data->getPresentation();
-        $type = $presentation->getType();
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide') {
-
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            $block = $this->elementHidden($binding, $value);
-            return $block;
-        }
-
-        // Push and update the show context
-        $show = $binding->getElement()->getShow();
-        if ($show !== '') {
-            $this->pushContext();
-            $this->setShow($show, 'textarea');
-        }
-
-        // We can see or change the data. Create a form group.
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding),
-                'show' => 'formGroupAttributes'
-            ]
-        );
-
-        // Assemble the textarea attributes
-        $attrs = new Attributes();
-        $attrs->set('id', $binding->getId());
-        $attrs->set('name', $binding->getFormName());
-        if ($options['access'] == 'view') {
-            $attrs->setFlag('readonly');
-        }
-
-        // Get any labels associated with this element
-        $labels = $binding->getLabels(true);
-
-        // Write the heading
-        $block->body .= $this->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
-        );
-
-        // Placeholder label and any size specifiers
-        $attrs->setIfNotNull('placeholder', $labels->inner);
-        $attrs->setIfNotNull('cols', $presentation->getCols());
-        $attrs->setIfNotNull('rows', $presentation->getRows());
-
-        // Link to help if available
-        if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_help');
-        }
-
-        // Sidecar data
-        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-
-        // Write access: Add in any validation
-        if ($options['access'] === 'write') {
-            $attrs->addValidation($type, $data->getValidation());
-        }
-
-        // Generate the input wrapper
-        $input = $this->writeElement('div', ['show' => 'inputWrapperAttributes']);
-
-        $input->body .= $this->writeLabel(
-            'before', $labels->before, 'div', null, ['break' => true]
-        );
-        if ($value === null) {
-            $value = '';
-        }
-        // Generate the textarea element
-        $input->body .= $this->writeTag('textarea', $attrs, $value)
-            . $this->writeLabel(
-                'after', $labels->after, 'div', null, ['break' => true]
-            )
-            . "\n";
-
-        // It's a wrap.
-        $block->merge($input);
-        $block->close();
-
-        // Restore show context and return.
-        if ($show !== '') {
-            $this->popContext();
-        }
-
-        return $block;
-    }
-
-    protected function renderSectionElement(ContainerBinding $binding, $options = [])
-    {
-//        $labels = $binding->getLabels(true);
-//        $block = $this->writeElement(
-//            'fieldset', [
-//                'attributes' => $this->groupAttributes($binding),
-//                'show' => 'formGroupAttributes'
-//            ]
-//        );
-//        if ($labels !== null) {
-//            $block->body .= $this->writeLabel(
-//                '', $labels->heading, 'legend', null, ['break' => true]
-//            );
-//        }
-//
-//        return $block;
-    }
-
-    protected function renderStaticElement(SimpleBinding $binding, $options = [])
+    protected function renderStaticElement_deprecated(SimpleBinding $binding, $options = [])
     {
         // There's no way to hide this element so if all we have is hidden access, skip it.
         if ($options['access'] === 'hide') {
