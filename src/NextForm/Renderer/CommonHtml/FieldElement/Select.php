@@ -3,14 +3,14 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\CommonHtml\FieldElement;
+namespace Abivia\NextForm\Renderer\Html\FieldElement;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\FieldElement;
+use Abivia\NextForm\Renderer\Html\FieldElement;
 
 abstract class Select  {
     protected $access;

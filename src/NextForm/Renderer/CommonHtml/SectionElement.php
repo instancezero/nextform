@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\CommonHtml;
+namespace Abivia\NextForm\Renderer\Html;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;

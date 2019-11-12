@@ -8,7 +8,7 @@ namespace Abivia\NextForm\Renderer\SimpleHtml\FieldElement;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\FieldElement\File as BaseFile;
+use Abivia\NextForm\Renderer\Html\FieldElement\File as BaseFile;
 
 class File extends BaseFile {
 

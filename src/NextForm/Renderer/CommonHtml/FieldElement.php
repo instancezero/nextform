@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\CommonHtml;
+namespace Abivia\NextForm\Renderer\Html;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
@@ -92,7 +92,7 @@ class FieldElement  {
                 // Look for a specific handler in the common renderer
                 $lastPos = \strrpos($engineClass, '\\');
                 $fieldHandler = \substr($engineClass, 0, $lastPos + 1)
-                    . '\\CommonHtml\\FieldElement\\' . $classType;
+                    . '\\Html\\FieldElement\\' . $classType;
                 if (!\class_exists($fieldHandler)) {
 
                     // Fall back to the common handler

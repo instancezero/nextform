@@ -8,7 +8,7 @@ namespace Abivia\NextForm\Renderer\SimpleHtml\FieldElement;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\FieldElement\Select as BaseSelect;
+use Abivia\NextForm\Renderer\Html\FieldElement\Select as BaseSelect;
 
 class Select extends BaseSelect {
 

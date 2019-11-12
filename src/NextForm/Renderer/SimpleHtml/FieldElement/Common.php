@@ -8,7 +8,7 @@ namespace Abivia\NextForm\Renderer\SimpleHtml\FieldElement;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\FieldElement\Common as BaseCommon;
+use Abivia\NextForm\Renderer\Html\FieldElement\Common as BaseCommon;
 
 class Common extends BaseCommon {
 

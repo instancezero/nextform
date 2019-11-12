@@ -8,7 +8,7 @@ namespace Abivia\NextForm\Renderer\SimpleHtml\FieldElement;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\FieldElement\Textarea as BaseTextarea;
+use Abivia\NextForm\Renderer\Html\FieldElement\Textarea as BaseTextarea;
 
 class Textarea extends BaseTextarea {
 

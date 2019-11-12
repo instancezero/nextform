@@ -218,7 +218,7 @@ abstract class Html implements RendererInterface
             if (!\class_exists($renderClass)) {
                 $lastPos = \strrpos($engineClass, '\\');
                 $renderClass = \substr($engineClass, 0, $lastPos + 1)
-                    . 'CommonHtml' . $lastPart;
+                    . 'Html' . $lastPart;
                 if (!\class_exists($renderClass)) {
                     $renderClass = false;
                 }

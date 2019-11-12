@@ -6,7 +6,7 @@
 namespace Abivia\NextForm\Renderer\SimpleHtml;
 
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\CommonHtml\StaticElement as BaseStatic;
+use Abivia\NextForm\Renderer\Html\StaticElement as BaseStatic;
 
 class StaticElement extends BaseStatic {
 
