@@ -7,6 +7,7 @@ namespace Abivia\NextForm\Renderer\CommonHtml;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 
 class FieldElement  {
@@ -36,6 +37,36 @@ class FieldElement  {
     public function __construct(RendererInterface $engine, Binding $binding) {
         $this->engine = $engine;
         $this->binding = $binding;
+    }
+
+    /**
+     * Render a data list, if there is one.
+     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent attributes.
+     * @param Binding $binding The binding for the element we're rendering.
+     * @param string $type The element type
+     * @param array $options Options, specifically access rights.
+     * @return \Abivia\NextForm\Renderer\Block
+     */
+    public function dataList(Attributes $attrs, Binding $binding, $type, $options)
+    {
+        $block = new Block();
+        // Check for a data list, if there is write access.
+        $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
+            ? $binding->getList(true) : [];
+        if (!empty($list)) {
+            $attrs->set('list', $attrs->get('id') . '_list');
+            $block->body = '<datalist id="' . $attrs->get('list') . "\">\n";
+            foreach ($list as $option) {
+                $optAttrs = new Attributes();
+                $optAttrs->set('value', $option->getValue());
+                $optAttrs->setIfNotNull('data-nf-name', $option->getName());
+                $optAttrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+                $optAttrs->setIfNotNull('*data-nf-sidecar', $option->sidecar);
+                $block->body .= $this->engine->writeTag('option', $optAttrs) . "\n";
+            }
+            $block->body .= "</datalist>\n";
+        }
+        return $block;
     }
 
     protected function epilog()
@@ -77,7 +108,7 @@ class FieldElement  {
             }
             self::$handlerCache[$engineClass][$classType] = $fieldHandler;
         }
-        return new $fieldHandler($this->engine, $this->binding);
+        return new $fieldHandler($this, $this->engine, $this->binding);
     }
 
     /**

@@ -10,15 +10,22 @@ use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Renderer\CommonHtml\FieldElement;
 
 abstract class File  {
     protected $access;
     protected $binding;
     protected $element;
     protected $engine;
+    protected $field;
     protected $inputType;
 
-    public function __construct(RendererInterface $engine, FieldBinding $binding) {
+    public function __construct(
+        FieldElement $field,
+        RendererInterface $engine,
+        FieldBinding $binding
+    ) {
+        $this->field = $field;
         $this->engine = $engine;
         $this->binding = $binding;
     }

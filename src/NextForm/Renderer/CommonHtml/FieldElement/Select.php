@@ -12,14 +12,12 @@ use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\CommonHtml\FieldElement;
 
-abstract class Common  {
+abstract class Select  {
     protected $access;
     protected $binding;
-    protected $confirmSuffix;
     protected $element;
     protected $engine;
     protected $field;
-    protected $inputType;
 
     public function __construct(
         FieldElement $field,
@@ -187,6 +185,40 @@ abstract class Common  {
                 'show' => 'formGroupAttributes'
             ]
         );
+        return $block;
+    }
+
+    protected function renderOption($option, $value)
+    {
+        $block = new Block();
+        $attrs = new Attributes();
+        $attrs->set('value', $option->getValue());
+        $attrs->setIfNotNull('data-nf-name', $option->getName());
+        $attrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+        $attrs->setIfNotNull('*data-nf-sidecar', $option->getSidecar());
+        if (in_array($attrs->get('value'), $value)) {
+            $attrs->setFlag('selected');
+        }
+        $block->body .= $this->engine->writeTag('option', $attrs, $option->getLabel()) . "\n";
+        return $block;
+    }
+
+    protected function renderOptions($list, $value) {
+        $block = new Block();
+        foreach ($list as $option) {
+            if ($option->isNested()) {
+                $attrs = new Attributes();
+                $attrs->set('label', $option->getLabel());
+                $attrs->setIfNotNull('data-nf-name', $option->getName());
+                $attrs->setIfNotEmpty('*data-nf-group', $option->getGroups());
+                $attrs->setIfNotNull('*data-nf-sidecar', $option->getSidecar());
+                $block->body .= $this->engine->writeTag('optgroup', $attrs) . "\n";
+                $block->merge($this->renderOptions($option->getList(), $value));
+                $block->body .= '</optgroup>' . "\n";
+            } else {
+                $block->merge($this->renderOption($option, $value));
+            }
+        }
         return $block;
     }
 

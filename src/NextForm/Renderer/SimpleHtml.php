@@ -10,7 +10,7 @@ use Abivia\NextForm\Form\Binding\SimpleBinding;
 /**
  * A skeletal renderer that generates a very basic form.
  */
-class SimpleHtml extends CommonHtml implements RendererInterface
+class SimpleHtml extends Html implements RendererInterface
 {
 
     /**
@@ -45,48 +45,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $type = $presentation->getType();
         $block = new Block();
         return; /// UNIMPLEMENTED
-        $attrs['id'] = $binding->getId();
-        $attrs->setFlag('readonly', $binding->getReadonly() || $options['access'] == 'view');
-        $attrs['name'] = $binding->getFormName();
-        $value = $binding->getValue();
-        if ($options['access'] === 'hide' || $type === 'hidden') {
-            //
-            // No write/view permissions, the field is hidden, we don't need labels, etc.
-            //
-            $block->merge($this->elementHidden($binding, $value));
-        } else {
-            //
-            // We can see or change the data
-            //
-            if ($value !== null) {
-                $attrs['value'] = $value;
-            }
-            $labels = $binding->getLabels(true);
-            $block->body .= $this->writeLabel(
-                'headingAttributes', $labels->heading, 'label',
-                ['!for' => $binding->getId()], ['break' => true]
-            );
-            $labels->insertInnerTo($attrs, 'placeholder');
-            if ($type === 'range' && $options['access'] === 'view') {
-                $type = 'text';
-            }
-            $attrs['type'] = $type;
-            $block->body .= $this->writeLabel('before', $labels->before, 'span');
-            $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-
-            // Render the data list if there is one
-            $block->merge($this->dataList($attrs, $binding, $type, $options));
-            if ($options['access'] === 'write') {
-                // Write access: Add in any validation
-                $this->addValidation($attrs, $type, $data->getValidation());
-            }
-            // Generate the input element
-            $block->body .= $this->writeTag('input', $attrs)
-                . $this->writeLabel('after', $labels->after, 'span')
-                . ($this->context['inCell'] ? '&nbsp;' : '<br/>')
-                . "\n";
-        }
-        return $block;
     }
 
     protected function renderFieldSelect(FieldBinding $binding, $options = [])
@@ -173,39 +131,6 @@ class SimpleHtml extends CommonHtml implements RendererInterface
         $this->writeLabel('after', $labels->after, 'div', null, ['break' => true]);
         $block->close();
         $block->body .= ($this->context['inCell'] ? '&nbsp;' : '<br/>') . "\n";
-
-        return $block;
-    }
-
-    protected function renderStaticElement(SimpleBinding $binding, $options = [])
-    {
-        $block = new Block();
-
-        // There's no way to hide this element so if access is hidden, skip it.
-        if ($options['access'] === 'hide') {
-            return $block;
-        }
-
-        $block = $this->writeElement(
-            'div', ['attributes' => $this->groupAttributes($binding)]
-        );
-
-        // Write a heading if there is one
-        $labels = $binding->getLabels(true);
-        $block->body .= $this->writeLabel(
-            'headingAttributes',
-            $labels ? $labels->heading : null,
-            'div', null, ['break' => true]
-        );
-        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-
-        $attrs = new Attributes('id', $binding->getId());
-        $block->merge($this->writeElement('div', ['attributes' => $attrs]));
-        // Escape the value if it's not listed as HTML
-        $value = $binding->getValue() . "\n";
-        $block->body .= $binding->getElement()->getHtml() ? $value : htmlspecialchars($value);
-        $block->close();
-        $block->body .= "<br/>\n";
 
         return $block;
     }

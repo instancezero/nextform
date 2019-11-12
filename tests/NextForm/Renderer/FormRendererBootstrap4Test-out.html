@@ -1137,7 +1137,7 @@ textlist 4</label>
 <h3>FormRendererBootstrap4Test::testFieldSelect</h3>
 <h4>basic</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="select" class="form-control"/>
+<input id="field_1" name="field_1" type="select"/>
 </div>
 <hr/>
 <h4>Expected: basic</h4>
@@ -1153,7 +1153,7 @@ textlist 4</label>
 <h3>FormRendererBootstrap4Test::testFieldSelectNested</h3>
 <h4>basic</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="select" class="form-control"/>
+<input id="field_1" name="field_1" type="select"/>
 </div>
 <hr/>
 <h4>Expected: basic</h4>
@@ -1273,10 +1273,20 @@ textlist 4</label>
 <small id="field_1_help" class="form-text text-muted">Helpful</small>
 </div>
 <hr/>
-<h4>Expected: Text label help</h4>
+<h4>Text all labels</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="text" class="form-control" value="the value" aria-describedby="field_1_help"/>
+<label for="field_1">Header</label>
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text">prefix</span>
+</div>
+<input id="field_1" name="field_1" type="text" class="form-control" value="the value" placeholder="inner" aria-describedby="field_1_help"/>
+<div class="input-group-append">
+<span class="input-group-text">suffix</span>
+</div>
+<span class="w-100"></span>
 <small id="field_1_help" class="form-text text-muted">Helpful</small>
+</div>
 </div>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTextValidation</h3>

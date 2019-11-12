@@ -11,7 +11,7 @@ use Abivia\NextForm\Form\Binding\SimpleBinding;
 /**
  * Renderer for Bootstrap4
  */
-class Bootstrap4 extends CommonHtml implements RendererInterface
+class Bootstrap4 extends Html implements RendererInterface
 {
 
     static protected $buttonSizeClasses = ['large' => ' btn-lg', 'regular' => '', 'small' => ' btn-sm'];
@@ -265,53 +265,6 @@ class Bootstrap4 extends CommonHtml implements RendererInterface
                 }
             }
         }
-        return $block;
-    }
-
-    protected function renderStaticElement_deprecated(SimpleBinding $binding, $options = [])
-    {
-        // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($options['access'] === 'hide') {
-            return new Block();
-        }
-
-        // Push and update the show context
-        $element = $binding->getElement();
-        $show = $element->getShow();
-        if ($show !== '') {
-            $this->pushContext();
-            $this->setShow($show, 'html');
-        }
-
-        // We can see or change the data. Create a form group.
-        $block = $this->writeElement(
-            'div', [
-                'attributes' => $this->groupAttributes($binding),
-                'show' => 'formGroupAttributes'
-            ]
-        );
-
-        // Write a heading if there is one
-        $labels = $binding->getLabels(true);
-        $block->body .= $this->writeLabel(
-            'headingAttributes',
-            $labels ? $labels->heading : null,
-            'div', null, ['break' => true]
-        );
-        $block->merge($this->writeElement('div', ['show' => 'inputWrapperAttributes']));
-
-        $attrs = new Attributes('id', $binding->getId());
-        $block->merge($this->writeElement('div', ['attributes' => $attrs]));
-        // Escape the value if it's not listed as HTML
-        $value = $binding->getValue() . "\n";
-        $block->body .= $element->getHtml() ? $value : htmlspecialchars($value);
-        $block->close();
-
-        // Restore show context and return.
-        if ($show !== '') {
-            $this->popContext();
-        }
-
         return $block;
     }
 

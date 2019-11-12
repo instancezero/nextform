@@ -124,6 +124,7 @@ abstract class Html implements RendererInterface
     public function __construct($options = [])
     {
         self::$showDefaultScope = 'form';
+        $this->initialize();
     }
 
     /**
@@ -263,9 +264,16 @@ abstract class Html implements RendererInterface
         return $container;
     }
 
-    protected function initialize() {
+    protected function initialize()
+    {
         // Reset the context
-        $this->context = [];
+        $this->context = [
+            'inCell' => false
+        ];
+        // Initialize custom settings
+        $this->setShow('cellspacing:3');
+        $this->setShow('hidden:nf-hidden');
+        $this->setShow('layout:vertical');
     }
 
     /**
@@ -323,6 +331,8 @@ abstract class Html implements RendererInterface
         }
         return $block;
     }
+
+    abstract protected function renderTriggers(FieldBinding $binding) : Block;
 
     /**
      * Modify a setting in the current rendering context.
