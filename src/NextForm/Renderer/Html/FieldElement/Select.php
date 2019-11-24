@@ -15,9 +15,12 @@ use Abivia\NextForm\Renderer\Html\FieldElement;
 abstract class Select  {
     protected $access;
     protected $binding;
+    protected $dataProperty;
     protected $element;
     protected $engine;
     protected $field;
+    protected $multiple;
+    protected $value;
 
     public function __construct(
         FieldElement $field,
@@ -48,29 +51,20 @@ abstract class Select  {
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = new Attributes();
-        $attrs->set('id', $this->binding->getId() . $this->confirmSuffix);
-        $attrs->set('name', $this->binding->getFormName() . $this->confirmSuffix);
-        $attrs->set('type', $this->inputType);
-        $attrs->setFlag(
-            'readonly',
-            $this->element->getReadonly() || $this->access == 'view'
-        );
+        $attrs->set('id', $this->binding->getId());
+        $attrs->set('name', $this->binding->getFormName());
+
         if (!$this->element->getEnabled()) {
             $attrs->setFlag('disabled');
-        }
-        $value = $this->binding->getValue();
-        if ($value === null) {
-            $attrs->setIfNotNull('value', $this->element->getDefault());
-        } else {
-            $attrs->set('value', $value);
         }
         $attrs->setIfNotNull(
             '*data-nf-sidecar',
             $this->binding->getDataProperty()->getPopulation()->sidecar
         );
 
-        // If there's an inner label, use it as a placeholder
-        $attrs->setIfNotNull('placeholder', $labels->inner);
+        if (($rows = $this->dataProperty->getPresentation()->getRows()) !== null) {
+            $attrs->set('size', $rows);
+        }
 
         return $attrs;
     }
@@ -92,36 +86,32 @@ abstract class Select  {
     public function render($options = []) : Block
     {
         $this->access = $options['access'];
-        $confirm = $options['confirm'];
-        $this->confirmSuffix = $confirm ? '_confirmation' : '';
-        $data = $this->binding->getDataProperty();
-        $this->inputType = $data->getPresentation()->getType();
-        if ($this->access === 'hide' || $this->inputType === 'hidden') {
+        $this->dataProperty = $this->binding->getDataProperty();
+        $this->multiple = $this->dataProperty->getValidation()->get('multiple');
+        $this->element = $this->binding->getElement();
+
+        // If there's no value set, see if there's a default
+        $this->value = $this->binding->getValue();
+        if ($this->value === null) {
+            $this->value = $this->element->getDefault();
+        }
+        if (!is_array($this->value)) {
+            $this->value = [$this->value];
+        }
+        if ($this->access === 'hide') {
 
             // No write/view permissions, the field is hidden, we don't need labels, etc.
-            if ($confirm) {
-                // No need to confirm a hidden element.
-                $block = new Block();
-            } else {
-                $block = $this->engine->elementHidden(
-                    $this->binding, $this->binding->getValue()
-                );
-            }
+            $block = $this->engine->elementHidden(
+                $this->binding, $this->binding->getValue()
+            );
             return $block;
         }
-
-        $this->element = $this->binding->getElement();
 
         // Push and update the show context
         $show = $this->element->getShow();
         if ($show !== '') {
             $this->engine->pushContext();
-            $this->engine->setShow($show, $this->inputType);
-        }
-
-        // Convert view-only range elements to text
-        if ($this->inputType === 'range' && $this->access === 'view') {
-            $this->inputType = 'text';
+            $this->engine->setShow($show, 'select');
         }
 
         // Generate any field grouping.
@@ -133,30 +123,21 @@ abstract class Select  {
         // Get attributes for the input element
         $attrs = $this->inputAttributes($labels);
 
-        // Write the heading
-        // If we're generating a confirmation and there's a confirm heading, use that
-        // otherwise just use the usual heading
-        $fieldHeading = $confirm && $labels->confirm != '' ? $labels->confirm : $labels->heading;
-        $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $fieldHeading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
-        );
-
-        // Render the data list if there is one
-        $dataList = $this->field->dataList(
-            $attrs, $this->binding, $this->inputType, $options
-        );
-
-        if ($this->access === 'write') {
-            // Write access: Add in any validation
-            $attrs->addValidation($this->inputType, $data->getValidation());
+        $headAttrs = new Attributes();
+        if ($this->access !== 'view') {
+            $headAttrs->set('!for', $attrs->get('name'));
         }
 
-        // Generate the actual input element, with labels if provided.
-        $input = $this->inputGroup($labels, $attrs);
+        // Write the heading
+        $block->body .= $this->engine->writeLabel(
+            'headingAttributes', $labels->heading, 'label',
+            $headAttrs, ['break' => true]
+        );
 
-        $block->merge($input);
-        $block->merge($dataList);
+        $select = $this->inputGroup($labels, $attrs);
+
+
+        $block->merge($select);
         $block->close();
         $block->merge($this->epilog());
 
@@ -179,8 +160,7 @@ abstract class Select  {
         $block = $this->engine->writeElement(
             'div', [
                 'attributes' => $this->engine->groupAttributes(
-                    $this->binding,
-                    ['id' => $this->binding->getId() . $this->confirmSuffix]
+                    $this->binding
                 ),
                 'show' => 'formGroupAttributes'
             ]
@@ -220,6 +200,48 @@ abstract class Select  {
             }
         }
         return $block;
+    }
+
+    protected function renderView(Attributes $attrs)
+    {
+        $list = $this->binding->getFlatList(true);
+        // render as hidden with text
+        $attrs->set('type', 'hidden');
+
+        $baseId = $this->binding->getId();
+        $value = $this->binding->getValue();
+        $input = new Block();
+        if ($this->multiple) {
+            // step through each possible value, output matches
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            $optId = 0;
+            foreach ($list as $option) {
+                $slot = array_search($option->getValue(), $value);
+                if ($slot !== false) {
+                    $id = $baseId . '_opt' . $optId;
+                    $attrs->set('id', $id);
+                    $attrs->set('value', $value[$slot]);
+                    $input->body .= $this->engine->writeTag('input', $attrs) . "\n";
+                    $input->body .= $this->engine->writeTag('span', [], $option->getLabel())
+                        . "<br/>\n";
+                    ++$optId;
+                }
+            }
+        } else {
+            $attrs->set('id', $baseId);
+            $attrs->set('value', $value);
+            $input->body .= $this->engine->writeTag('input', $attrs) . "\n";
+            foreach ($list as $option) {
+                if ($value == $option->getValue()) {
+                    $input->body .= $this->engine->writeTag('span')
+                        . $option->getLabel() . '</span>'
+                        . "\n";
+                }
+            }
+        }
+        return $input;
     }
 
 }

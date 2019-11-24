@@ -1137,10 +1137,15 @@ textlist 4</label>
 <h3>FormRendererBootstrap4Test::testFieldSelect</h3>
 <h4>basic</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="select"/>
+<select id="field_1" name="field_1" class="form-control">
+<option value="textlist 1">textlist 1</option>
+<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
 </div>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>write</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
 <select id="field_1" name="field_1" class="form-control">
 <option value="textlist 1">textlist 1</option>
@@ -1150,13 +1155,77 @@ textlist 4</label>
 </select>
 </div>
 <hr/>
-<h3>FormRendererBootstrap4Test::testFieldSelectNested</h3>
-<h4>basic</h4>
+<h4>view</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
-<input id="field_1" name="field_1" type="select"/>
+<input id="field_1" name="field_1" type="hidden" value=""/>
 </div>
 <hr/>
-<h4>Expected: basic</h4>
+<h4>hide</h4>
+<input id="field_1" name="field_1" type="hidden"/>
+<hr/>
+<h4>value</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1" class="form-control">
+<option value="textlist 1">textlist 1</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+</div>
+<hr/>
+<h4>value-view</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>
+<span>textlist 2</span>
+</div>
+<hr/>
+<h4>value-hide</h4>
+<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>
+<hr/>
+<h4>value-bs4custom</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1" class="custom-select">
+<option value="textlist 1">textlist 1</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+</div>
+<hr/>
+<h4>multivalue</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1[]" class="form-control" multiple>
+<option value="textlist 1">textlist 1</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+</div>
+<hr/>
+<h4>multivalue-view</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>
+<span>textlist 2</span><br/>
+<input id="field_1_opt1" name="field_1[]" type="hidden" value="textlist 4"/>
+<span>textlist 4</span><br/>
+</div>
+<hr/>
+<h4>multivalue-hide</h4>
+<input id="field_1_opt0" name="field_1[0]" type="hidden" value="textlist 2"/>
+<input id="field_1_opt1" name="field_1[1]" type="hidden" value="textlist 4"/>
+<hr/>
+<h4>sixrow</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1[]" class="form-control" multiple size="6">
+<option value="textlist 1">textlist 1</option>
+<option value="textlist 2" selected data-nf-group="[&quot;grpX&quot;]">textlist 2</option>
+<option value="textlist 3" data-nf-name="tl3">textlist 3</option>
+<option value="textlist 4" selected data-nf-sidecar="[1,2,3,4]">textlist 4</option>
+</select>
+</div>
+<hr/>
+<h3>FormRendererBootstrap4Test::testFieldSelectNested</h3>
+<h4>basic</h4>
 <div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
 <select id="field_1" name="field_1" class="form-control">
 <option value="General">General</option>
@@ -1170,6 +1239,95 @@ textlist 4</label>
 </optgroup>
 </select>
 </div>
+<hr/>
+<h4>write</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1" class="form-control">
+<option value="General">General</option>
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
+<option value="Sub One Item One">Sub One Item One</option>
+<option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+</div>
+<hr/>
+<h4>view</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<input id="field_1" name="field_1" type="hidden" value=""/>
+</div>
+<hr/>
+<h4>hide</h4>
+<input id="field_1" name="field_1" type="hidden"/>
+<hr/>
+<h4>value</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1" class="form-control">
+<option value="General">General</option>
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
+<option value="Sub One Item One">Sub One Item One</option>
+<option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+</div>
+<hr/>
+<h4>value-bs4custom</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1" class="custom-select">
+<option value="General">General</option>
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
+<option value="Sub One Item One">Sub One Item One</option>
+<option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+</div>
+<hr/>
+<h4>value-view</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<input id="field_1" name="field_1" type="hidden" value="S2I1"/>
+<span>Sub Two Item One</span>
+</div>
+<hr/>
+<h4>value-hide</h4>
+<input id="field_1" name="field_1" type="hidden" value="S2I1"/>
+<hr/>
+<h4>multivalue</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<select id="field_1" name="field_1[]" class="form-control" multiple>
+<option value="General">General</option>
+<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">
+<option value="Sub One Item One" selected>Sub One Item One</option>
+<option value="Sub One Item Two">Sub One Item Two</option>
+</optgroup>
+<optgroup label="Subgroup Two">
+<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>
+<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>
+</optgroup>
+</select>
+</div>
+<hr/>
+<h4>multivalue-view</h4>
+<div id="field_1_container" class="form-group col-sm-10" data-nf-for="field_1">
+<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>
+<span>Sub One Item One</span><br/>
+<input id="field_1_opt1" name="field_1[]" type="hidden" value="S2I1"/>
+<span>Sub Two Item One</span><br/>
+</div>
+<hr/>
+<h4>multivalue-hide</h4>
+<input id="field_1_opt0" name="field_1[0]" type="hidden" value="S2I1"/>
+<input id="field_1_opt1" name="field_1[1]" type="hidden" value="Sub One Item One"/>
 <hr/>
 <h3>FormRendererBootstrap4Test::testFieldTel</h3>
 <h4>basic</h4>

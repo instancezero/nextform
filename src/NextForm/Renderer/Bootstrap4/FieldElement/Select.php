@@ -22,6 +22,14 @@ class Select extends BaseSelect {
     {
         $attrs = parent::inputAttributes($labels);
 
+        if ($this->access === 'write') {
+            if ($this->engine->showGet('select', 'appearance') === 'custom') {
+                $attrs->set('class', 'custom-select');
+            } else {
+                $attrs->set('class', 'form-control');
+            }
+        }
+
         return $attrs;
     }
 
@@ -33,17 +41,37 @@ class Select extends BaseSelect {
         Attributes $attrs
     ) : Block
     {
-        $input = $this->engine->inputGroup($labels, $attrs);
+        $select = $this->engine->inputGroupPre($labels);
 
+        if ($this->access === 'view') {
+            $select->merge($this->renderView($attrs));
+        } else {
+            // Write access: Add in any validation
+            $attrs->addValidation('select', $this->dataProperty->getValidation());
+
+            // Generate the actual input element.
+            $select->merge(
+                $this->engine->writeElement('select', ['attributes' => $attrs])
+            );
+
+            // Add the options
+            $select->merge(
+                $this->renderOptions(
+                    $this->binding->getList(true), $this->value
+                )
+            );
+        }
+
+        $select->merge($this->engine->inputGroupPost($labels));
         // Generate help text, if any
         if ($labels->has('help')) {
             $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->set('class', 'form-text text-muted');
-            $input->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
+            $select->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
         }
 
-        return $input;
+        return $select;
     }
 
 }

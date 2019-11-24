@@ -1708,7 +1708,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('')
                 . $this->column2(
                     '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -1731,7 +1731,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
@@ -1747,7 +1747,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('')
                 . $this->column2(
                     '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -1769,7 +1769,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span>' . "\n"
@@ -1786,7 +1786,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', 'field_1[]')
                 . $this->column2(
                     '<select id="field_1" name="field_1[]" multiple>' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -1806,7 +1806,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span><br/>' . "\n"
@@ -1826,7 +1826,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set the presentation to six rows
         $expect['sixrow'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', 'field_1[]')
                 . $this->column2(
                     '<select id="field_1" name="field_1[]" multiple size="6">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -1855,7 +1855,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('')
                 . $this->column2(
                     '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="General">General</option>' . "\n"
@@ -1879,7 +1879,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
@@ -1895,7 +1895,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('')
                 . $this->column2(
                     '<select id="field_1" name="field_1">' . "\n"
                     . '<option value="General">General</option>' . "\n"
@@ -1919,7 +1919,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
                     . '<span>Sub Two Item One</span>' . "\n"
@@ -1936,7 +1936,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', 'field_1[]')
                 . $this->column2(
                     '<select id="field_1" name="field_1[]" multiple>' . "\n"
                     . '<option value="General">General</option>' . "\n"
@@ -1957,7 +1957,7 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
+                $this->column1('', 'label', '')
                 . $this->column2(
                     '<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>' . "\n"
                     . '<span>Sub One Item One</span><br/>' . "\n"
