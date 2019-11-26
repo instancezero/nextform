@@ -80,7 +80,7 @@ class RendererCaseGenerator {
         }
         $cases[$prefix . 'label-all'] = [$b6, [], $namePrefix . 'all labels'];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     /**
@@ -143,7 +143,7 @@ class RendererCaseGenerator {
             $baseButton->copy()->setDisplay(false)
         );
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     /**
@@ -156,7 +156,7 @@ class RendererCaseGenerator {
         $eBase->configure($config);
         $bBase = Binding::fromElement($eBase);
         $cases = self::addLabels($bBase, '', 'Button ');
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_Cell() {
@@ -164,7 +164,7 @@ class RendererCaseGenerator {
         $element = new CellElement();
         $binding = Binding::fromElement($element);
         $cases['basic'] = $binding;
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldButton() {
@@ -201,7 +201,7 @@ class RendererCaseGenerator {
         $s3->getProperty('test/text')->getPresentation()->setType('submit');
         $cases['submit'] = [$b3];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldCheckbox() {
@@ -261,7 +261,7 @@ class RendererCaseGenerator {
         // Test headings
         $cases = array_merge($cases, self::addLabels($b2));
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldCheckboxButton() {
@@ -287,7 +287,7 @@ class RendererCaseGenerator {
         $cases['toggle'] = $b1;
         $cases = array_merge($cases, self::addLabels($b1, '', '', ['inner']));
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldCheckboxButtonList() {
@@ -317,7 +317,7 @@ class RendererCaseGenerator {
 
         $cases = array_merge($cases, self::addLabels($b2, 'list-', 'list-', ['inner']));
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldCheckboxList() {
@@ -378,7 +378,7 @@ class RendererCaseGenerator {
         $b5->getElement()->addShow('appearance:no-label');
         $cases['inline-nolabel'] = [$b5];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldColor() {
@@ -411,7 +411,7 @@ class RendererCaseGenerator {
         // Hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldDate() {
@@ -451,7 +451,7 @@ class RendererCaseGenerator {
         //
         $cases['hide'] = [$b2, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldDatetimeLocal() {
@@ -490,7 +490,7 @@ class RendererCaseGenerator {
         // Convert to hidden access
         $cases['hide'] = [$b2, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldEmail() {
@@ -534,7 +534,7 @@ class RendererCaseGenerator {
         // Hidden access
         $cases['hide'] = [$b3, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldFile() {
@@ -571,7 +571,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$b2, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldHidden() {
@@ -598,7 +598,22 @@ class RendererCaseGenerator {
         // Same result for hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        // Scalar valued
+        $b2 = $binding->copy();
+        $b2->setValue(3);
+        $cases['scalar'] = $b2;
+
+        // Array valued
+        $b3 = $binding->copy();
+        $b3->setValue([3, 4]);
+        $cases['array'] = $b3;
+
+        // Scalar with sidecar
+        $b4 = $b2->copy();
+        $b4->getDataProperty()->getPopulation()->sidecar = 'foo';
+        $cases['sidecar'] = $b4;
+
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldHiddenLabels() {
@@ -614,7 +629,7 @@ class RendererCaseGenerator {
 
         $cases = self::addLabels($binding);
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldMonth() {
@@ -653,7 +668,7 @@ class RendererCaseGenerator {
         // Convert to hidden access
         $cases['hide'] = [$b2, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldNumber() {
@@ -696,7 +711,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$b1, ['access' => 'view']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldPassword() {
@@ -730,7 +745,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldRadio() {
@@ -767,7 +782,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldRadioLabels() {
@@ -798,7 +813,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldRadioList() {
@@ -831,7 +846,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldRadioListLabels() {
@@ -863,7 +878,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldRange() {
@@ -906,7 +921,7 @@ class RendererCaseGenerator {
         // Test view access
         $cases['view'] = [$binding, ['access' => 'view']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldSearch() {
@@ -935,7 +950,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldSelect() {
@@ -996,7 +1011,7 @@ class RendererCaseGenerator {
         $presentation->setRows(6);
         $cases['sixrow'] = $binding;
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldSelectNested() {
@@ -1052,7 +1067,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['multivalue-hide'] = [$binding->copy(), ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldTel() {
@@ -1081,7 +1096,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldText() {
@@ -1099,7 +1114,7 @@ class RendererCaseGenerator {
         $cases['view'] = [$binding, ['access' => 'view'], 'explicit view access'];
         $cases['hide'] = [$binding, ['access' => 'hide'], 'explicit hidden access'];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldTextDataList() {
@@ -1121,7 +1136,7 @@ class RendererCaseGenerator {
         // Test read  access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     /**
@@ -1138,7 +1153,7 @@ class RendererCaseGenerator {
         $binding->setValue('the value');
         $cases = self::addLabels($binding, '', 'Text ');
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldTextValidation() {
@@ -1168,7 +1183,7 @@ class RendererCaseGenerator {
         $validation->set('pattern', '/[a-z][0-9][a-z] ?[0-9][a-z][0-9]/');
         $cases['pattern'] = $binding->copy();
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldTextarea() {
@@ -1198,7 +1213,7 @@ class RendererCaseGenerator {
         //
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldTime() {
@@ -1236,7 +1251,7 @@ class RendererCaseGenerator {
         // Convert to hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldUrl() {
@@ -1264,7 +1279,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_FieldWeek() {
@@ -1301,7 +1316,7 @@ class RendererCaseGenerator {
         // Convert to hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_Html() {
@@ -1324,7 +1339,7 @@ class RendererCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_Section() {
@@ -1346,7 +1361,7 @@ class RendererCaseGenerator {
         // Same for hidden access
         $cases['label-hide'] = [$binding->copy(), ['access' => 'hide']];
 
-        return $cases;
+        return self::normalizeCases($cases);
     }
 
     static public function html_Static() {
@@ -1385,6 +1400,21 @@ class RendererCaseGenerator {
         $binding->setLabel('heading', 'Header');
         $cases['raw-head'] = $binding;
 
+        return self::normalizeCases($cases);
+    }
+
+    public static function normalizeCases($cases) {
+        foreach ($cases as $key => &$info) {
+            if (!is_array($info)) {
+                $info = [$info];
+            }
+            if (!isset($info[1])) {
+                $info[1] = [];
+            }
+            if (!isset($info[2])) {
+                $info[2] = $key;
+            }
+        }
         return $cases;
     }
 

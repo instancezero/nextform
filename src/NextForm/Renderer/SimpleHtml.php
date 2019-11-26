@@ -60,7 +60,7 @@ class SimpleHtml extends Html implements RendererInterface
         // For "a", one or more space delimited single digits from 0 to 5,
         // optionally prefixed with rr-
         //
-        // For "b" one or more space-delimited sets of [rr-]xx-n where ss is a
+        // For "b" one or more space-delimited sets of [rr-]xx-n where rr is a
         // renderer selector (bs for Bootstrap), xx is a size specifier,
         // and n is 0 to 5.
         //

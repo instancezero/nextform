@@ -10,7 +10,7 @@ use Abivia\NextForm\Traits\ShowableTrait;
 /**
  * A base for HTML rendering
  */
-abstract class Html implements RendererInterface
+class Html implements RendererInterface
 {
     use ShowableTrait;
 
@@ -30,12 +30,6 @@ abstract class Html implements RendererInterface
      * @var array
      */
     protected $renderClassCache = [];
-
-    /**
-     * Maps element types to render methods.
-     * @var array
-     */
-    static $renderMethodCache = [];
 
     /**
      * Quick lookup for self-closing elements
@@ -84,7 +78,7 @@ abstract class Html implements RendererInterface
         'fill' => [
             'default' => 'solid',
             'validate' => [
-                'form' => '|outline|solid',
+                'form' => '|outline|solid|',
             ],
         ],
         'hidden' => [
@@ -101,7 +95,7 @@ abstract class Html implements RendererInterface
         'purpose' => [
             'default' => 'primary',
             'validate' => [
-                'form' => '|dark|danger|info|light|link|primary|secondary|success|warning',
+                'form' => '|dark|danger|info|light|link|primary|secondary|success|warning|',
             ],
         ],
         'size' => [
@@ -228,16 +222,6 @@ abstract class Html implements RendererInterface
         return $this->renderClassCache[$engineClass][$classPath];
     }
 
-    protected function getRenderMethod(Element $element)
-    {
-        $classPath = \get_class($element);
-        if (!isset(self::$renderMethodCache[$classPath])) {
-            $classParts = \explode('\\', $classPath);
-            self::$renderMethodCache[$classPath] = 'render' . \array_pop($classParts);
-        }
-        return self::$renderMethodCache[$classPath];
-    }
-
     /**
      * Generate attributes for a group container.
      * @param Binding $binding
@@ -249,7 +233,6 @@ abstract class Html implements RendererInterface
         $element = $binding->getElement();
         $container = new Attributes('id', $id . '_container');
         if (!$element->getDisplay()) {
-            //$container->set('style', 'display:none');
             $container->merge($this->showGet('form', 'hidden'));
         }
         if ($this->context['inCell']) {
@@ -314,25 +297,23 @@ abstract class Html implements RendererInterface
         if ($options['access'] === 'none') {
             return new Block();
         }
-        // Temporary code while converting to rendering subclasses
         $renderClass = $this->getRenderClass($binding->getElement());
         if ($renderClass) {
             $test = new $renderClass($this, $binding);
             $block = $test->render($options);
         } else {
-            $method = $this->getRenderMethod($binding->getElement());
-            if (!method_exists($this, $method)) {
-                throw new \RuntimeException(
-                    'Unable to render element '
-                    . \get_class($binding->getElement())
-                );
-            }
-            $block = $this->$method($binding, $options);
+            throw new \RuntimeException(
+                'Unable to render element '
+                . \get_class($binding->getElement())
+            );
         }
         return $block;
     }
 
-    abstract protected function renderTriggers(FieldBinding $binding) : Block;
+    protected function renderTriggers(FieldBinding $binding) : Block
+    {
+        return new Block;
+    }
 
     /**
      * Modify a setting in the current rendering context.
@@ -470,7 +451,7 @@ abstract class Html implements RendererInterface
     public function showValidate($setting, $mode, $rules, $key) {
         if ($mode == 'pack') {
             $setting = implode(':', $setting);
-        } else {
+        } elseif (is_array($setting)) {
             $setting = $setting[0];
         }
         $valid = false;
@@ -487,7 +468,7 @@ abstract class Html implements RendererInterface
         } else {
             // Plain string match
             $choice = $setting;
-            $valid = \strpos($rules, '|' . $choice) !== false;
+            $valid = \strpos($rules, '|' . $choice . '|') !== false;
         }
         if (!$valid) {
             throw new \RuntimeException(

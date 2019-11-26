@@ -16,15 +16,6 @@ trait RendererCaseRunner {
         $missingExpect = [];
         $notRun = array_combine(array_keys($expect), array_keys($expect));
         foreach ($cases as $key => $info) {
-            if (!is_array($info)) {
-                $info = [$info];
-            }
-            if (!isset($info[1])) {
-                $info[1] = [];
-            }
-            if (!isset($info[2])) {
-                $info[2] = $key;
-            }
             if (in_array($key, $skip)) {
                 continue;
             }

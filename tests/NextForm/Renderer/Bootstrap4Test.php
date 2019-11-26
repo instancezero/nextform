@@ -1357,6 +1357,23 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
         // Same result with hidden access
         $expect['hide'] = $expect['basic'];
 
+        // Scalar valued element
+        $expect['scalar'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
+        );
+
+        // Array valued element
+        $expect['array'] = Block::fromString(
+            '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="3"/>' . "\n"
+            . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="4"/>' . "\n"
+        );
+
+        // Scalar element with sidecar
+        $expect['sidecar'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="3"'
+            . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
+        );
+
         $this->runCases($cases, $expect);
     }
 
