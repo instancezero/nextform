@@ -4,6 +4,7 @@ use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\StaticElement;
+use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\Html;
 
@@ -140,6 +141,7 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase {
             [
                 'id' => 'static_1_container',
                 'data-nf-for' => 'static_1',
+                'class' => ['cellspace']
             ],
             $list
         );
@@ -167,6 +169,25 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($this->testObj->queryContext('unset'));
     }
 
+    public function testShowBad()
+    {
+        $this->expectException('\RuntimeException');
+        $this->testObj->show('form', 'invalid', ['irrelevant']);
+
+    }
+
+    public function testShowDefault()
+    {
+        // Set a value at the form scope
+        $this->testObj->show('form', 'purpose', ['secondary']);
+        $this->assertEquals('secondary', $this->testObj->showGet('form', 'purpose'));
+
+        // Pass null to force a default
+        $this->testObj->show('form', 'purpose', null);
+        $this->assertEquals('primary', $this->testObj->showGet('form', 'purpose'));
+
+    }
+
     public function testShowGet()
     {
         // Check the default value pathway
@@ -186,6 +207,9 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase {
         // Check fallback for an unset scope
         $this->assertEquals('secondary', $this->testObj->showGet('unset', 'purpose'));
 
+        // Check undefined scope
+        $this->assertEquals(null, $this->testObj->showGet('unset', 'invalid'));
+
     }
 
     public function testShowGetBad()
@@ -193,6 +217,103 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase {
         $this->expectException('\RuntimeException');
         $this->testObj->show('form', 'purpose', 'totally-not-valid');
 
+    }
+
+    public function testRender()
+    {
+        $config = json_decode('{"type":"static","value":"This is unescaped text with <stuff>!"}');
+        $element = new StaticElement();
+        $element->configure($config);
+        $binding = Binding::fromElement($element);
+
+        // Simple case of no access
+        $block = $this->testObj->render($binding, ['access' => 'none']);
+        $this->assertEquals('', $block->body);
+
+        // Write access, we don't care much about the result,
+        // short of it being a Block
+        $block = $this->testObj->render($binding);
+        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+    }
+
+    public function testStart()
+    {
+        $attrs = new Attributes();
+        $attrs->set('id', 'formid');
+        $attrs->set('name', 'bob');
+        $block = $this->testObj->start(['attributes' => $attrs]);
+        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+
+        $block = $this->testObj->start(
+            ['attributes' => $attrs, 'token' => 'my-not-random-token']
+        );
+        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+        $this->assertEquals('my-not-random-token', $block->token);
+    }
+
+    public function testStartBad1()
+    {
+        $this->expectException('\RuntimeException');
+        $this->testObj->start();
+    }
+
+    public function testStartBad2()
+    {
+        $this->expectException('\RuntimeException');
+        $this->testObj->start(['attributes' => new Attributes()]);
+    }
+
+    public function testWriteElement()
+    {
+        $block = $this->testObj->writeElement('div');
+        $this->assertEquals('', $block->body, 'empty');
+
+        $block = $this->testObj->writeElement('div', ['force' => true]);
+        $this->assertEquals("<div>\n", $block->body, 'forced');
+
+        $block = $this->testObj->writeElement('div', ['show' => 'cellspacing']);
+        $this->assertEquals(
+            "<div class=\"cellspace\">\n",
+            $block->body,
+            'with show'
+        );
+
+        $block = $this->testObj->writeElement(
+            'div',
+            ['attributes' => new Attributes('id', ['bob'])]
+        );
+        $this->assertEquals(
+            "<div id=\"bob\">\n",
+            $block->body,
+            'with attrs'
+        );
+
+    }
+
+    public function testWriteLabel()
+    {
+        $html = $this->testObj->writeLabel('test', 'a label', 'div');
+        $this->assertEquals('<div>a label</div>', $html, 'basic');
+
+        $html = $this->testObj->writeLabel('test', null, 'div');
+        $this->assertEquals('', $html, 'null');
+
+        $html = $this->testObj->writeLabel(
+            'test', 'a label', 'span', null, ['div' => 'foo']
+        );
+        $this->assertEquals(
+            "<div class=\"foo\">\n<span>a label</span>\n</div>\n",
+            $html,
+            'wrapped in div'
+        );
+
+        $html = $this->testObj->writeLabel('cellspacing', 'a label', 'div');
+        $this->assertEquals('<div class="cellspace">a label</div>', $html, 'with purpose');
+
+        // Keep this last, horizontal layout
+        $this->testObj->setShow('layout:horizontal');
+        $html = $this->testObj->writeLabel('headingAttributes', null, 'div');
+        $this->assertEquals('<div>&nbsp;</div>', $html, 'null horizontal');
     }
 
 }

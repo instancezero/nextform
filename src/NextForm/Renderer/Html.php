@@ -392,6 +392,20 @@ class Html implements RendererInterface
     }
 
     /**
+     * Default cell spacing options, called from show().
+     *
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    public function showDoCellspacing($scope, $choice, $values = [])
+    {
+        $this->showState[$scope]['cellspacing']
+            = new Attributes('class', ['cellspace']);
+    }
+
+
+    /**
      * Process hidden options, called from show()
      * @param string $scope Names the settings scope/element this applies to.
      * @param string $choice Primary option selection
@@ -448,11 +462,21 @@ class Html implements RendererInterface
         return $this->showState[$scope][$key];
     }
 
-    public function showValidate($setting, $mode, $rules, $key) {
+    /**
+     * Validate the arguments for a show setting.
+     *
+     * @param array $args The arguments provided by the user/application.
+     * @param string $mode Validation mode: choice or pack
+     * @param mixed $rules Validation rules (provided by $showRules)
+     * @param string $key The setting name.
+     * @return type
+     * @throws \RuntimeException
+     */
+    public function showValidate($args, $mode, $rules, $key) {
         if ($mode == 'pack') {
-            $setting = implode(':', $setting);
-        } elseif (is_array($setting)) {
-            $setting = $setting[0];
+            $setting = implode(':', $args);
+        } else {
+            $setting = $args[0];
         }
         $valid = false;
         if (\is_array($rules)) {

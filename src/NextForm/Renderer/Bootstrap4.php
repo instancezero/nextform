@@ -267,7 +267,7 @@ class Bootstrap4 extends Html implements RendererInterface
         // optionally prefixed with rr-
         //
         // For "b" one or more space-delimited sets of [rr-]xx-n where ss is a
-        // renderer selector (bs for Bootstrap), xx is a size specifier,
+        // renderer selector (b4 for Bootstrap4), xx is a size specifier,
         // and n is 0 to 5.
         //
         // Specifiers other than bs are ignored the result is a list of
@@ -281,7 +281,7 @@ class Bootstrap4 extends Html implements RendererInterface
                     '/(?<prefix>[a-z][a-z0-9]-)?(?<size>sm|md|lg|xl)\-(?<weight>[0-5])/',
                     $value, $match
                 );
-                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
                     continue;
                 }
                 $classList[] = 'ml-' . $match['size'] . '-' . $match['weight'];
@@ -292,7 +292,7 @@ class Bootstrap4 extends Html implements RendererInterface
                     '/(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
                     $value, $match
                 );
-                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
                     continue;
                 }
                 $classList[] = 'ml-' . $match['weight'];

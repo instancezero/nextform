@@ -71,13 +71,13 @@ class FormRendererBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
         $getProperty = $this->getProperty->bindTo($this->testObj, $this->testObj);
 
         // Change the value
-        $this->testObj->setShow('cellspacing:sm-1:md-3:xx-lg-4:bs-xl-2');
+        $this->testObj->setShow('cellspacing:sm-1:md-3:xx-lg-4:b4-xl-2');
         $showState = $getProperty('showState');
         $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
         $this->assertEquals('ml-sm-1 ml-md-3 ml-xl-2', $classes);
 
         // Test unrecognized value
-        $this->testObj->setShow('cellspacing:bs-xx-3');
+        $this->testObj->setShow('cellspacing:b4-xx-3');
         $showState = $getProperty('showState');
         $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
         $this->assertEquals('ml-sm-1 ml-md-3 ml-xl-2', $classes);

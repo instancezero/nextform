@@ -61,7 +61,7 @@ class SimpleHtml extends Html implements RendererInterface
         // optionally prefixed with rr-
         //
         // For "b" one or more space-delimited sets of [rr-]xx-n where rr is a
-        // renderer selector (bs for Bootstrap), xx is a size specifier,
+        // renderer selector (sh for simpleHtml), xx is a size specifier,
         // and n is 0 to 5.
         //
         // Specifiers other than bs are ignored the result is a list of
@@ -77,7 +77,7 @@ class SimpleHtml extends Html implements RendererInterface
                     '/(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
                     $value, $match
                 );
-                if ($match['prefix'] !== '' && $match['prefix'] !== 'bs-') {
+                if ($match['prefix'] !== '' && $match['prefix'] !== 'sh-') {
                     continue;
                 }
                 $weight = (int) $match['weight'];
