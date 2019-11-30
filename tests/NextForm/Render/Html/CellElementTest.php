@@ -1,22 +1,22 @@
 <?php
 
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Render\Html\CellElement;
+use Abivia\NextForm\Render\Html\CellRender;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html;
 
 include_once __DIR__ . '/../HtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Render\Html\CellElement
+ * @covers \Abivia\NextForm\Render\Html\CellRender
  */
-class NextFormRenderHtmlCellElementTest extends HtmlRenderFrame
+class NextFormRenderHtmlCellRenderTest extends HtmlRenderFrame
 {
     public $testObj;
 
     public function setUp() : void
     {
-        $this->testObj = new CellElement(new Html(), new Binding());
+        $this->testObj = new CellRender(new Html(), new Binding());
     }
 
     public static function setUpBeforeClass() : void {
@@ -31,14 +31,14 @@ class NextFormRenderHtmlCellElementTest extends HtmlRenderFrame
 	public function testInstantiation()
     {
 		$this->assertInstanceOf(
-            '\Abivia\NextForm\Render\Html\CellElement', $this->testObj
+            '\Abivia\NextForm\Render\Html\CellRender', $this->testObj
         );
 	}
 
 	public function testContext() {
         $this->logMethod(__METHOD__);
         $render = new Html();
-        $obj = new CellElement($render, new Binding());
+        $obj = new CellRender($render, new Binding());
         $this->assertFalse($render->queryContext('inCell'));
         $block = $obj->render();
         $this->assertTrue($render->queryContext('inCell'));
@@ -49,7 +49,7 @@ class NextFormRenderHtmlCellElementTest extends HtmlRenderFrame
 	public function testContextHidden() {
         $this->logMethod(__METHOD__);
         $render = new Html();
-        $obj = new CellElement($render, new Binding());
+        $obj = new CellRender($render, new Binding());
         $this->assertFalse($render->queryContext('inCell'));
         $block = $obj->render(['access' => 'hide']);
         $this->assertTrue($render->queryContext('inCell'));
@@ -70,7 +70,7 @@ class NextFormRenderHtmlCellElementTest extends HtmlRenderFrame
         $this->logMethod(__METHOD__);
         $cases = RenderCaseGenerator::html_Cell();
         foreach ($cases as &$case) {
-            $case[0] = new CellElement(new Html(), $case[0]);
+            $case[0] = new CellRender(new Html(), $case[0]);
         }
 
         $expect = [];

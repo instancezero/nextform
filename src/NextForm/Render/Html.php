@@ -231,7 +231,7 @@ class Html implements RenderInterface
         }
         if (!isset($this->renderClassCache[$engineClass][$classPath])) {
             $lastPos = \strrpos($classPath, '\\');
-            $lastPart = \substr($classPath, $lastPos);
+            $lastPart = \substr($classPath, $lastPos) . 'Render';
             $renderClass = $engineClass . $lastPart;
             if (!\class_exists($renderClass)) {
                 $lastPos = \strrpos($engineClass, '\\');

@@ -9,7 +9,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Block;
 
-class HtmlElement  {
+class CellRender  {
 
     /**
      *
@@ -29,18 +29,26 @@ class HtmlElement  {
     }
 
     /**
-     * Write a HTML element.
+     * Write a cell element.
      * @param array $options
      * @return \Abivia\NextForm\Render\Block
      */
     public function render($options = [])
     {
-        $block = new Block();
-
-        // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($this->engine->getAccess($options) !== 'hide') {
-            $block->body = $this->binding->getElement()->getValue();
+        $access = $this->engine->getAccess($options);
+        if ($access === 'hide') {
+            $block = new Block();
+        } else {
+            $block = $this->engine->writeElement(
+                'div', ['show' => 'cellElementAttributes', 'force' => true]
+            );
         }
+        $block->onCloseDone = [$this->engine, 'popContext'];
+        $this->engine->pushContext();
+        $this->engine->setContext('containerAccess', $access);
+        $this->engine->setContext('inCell', true);
+        $this->engine->setContext('cellFirstElement', true);
+        $this->engine->showDoLayout('form', 'inline');
 
         return $block;
     }

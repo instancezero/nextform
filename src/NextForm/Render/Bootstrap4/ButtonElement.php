@@ -8,9 +8,9 @@ namespace Abivia\NextForm\Render\Bootstrap4;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
-use Abivia\NextForm\Render\Html\ButtonElementBase;
+use Abivia\NextForm\Render\Html\ButtonElementRenderBase;
 
-class ButtonElement extends ButtonElementBase {
+class ButtonElement extends ButtonElementRenderBase {
 
     protected function inputAttributes(Labels $labels) : Attributes
     {
