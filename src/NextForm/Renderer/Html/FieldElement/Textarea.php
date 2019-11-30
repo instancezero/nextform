@@ -10,7 +10,7 @@ use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html\FieldElement;
+use Abivia\NextForm\Renderer\Html\FieldElementBase;
 
 abstract class Textarea  {
     protected $access;
@@ -20,7 +20,7 @@ abstract class Textarea  {
     protected $field;
 
     public function __construct(
-        FieldElement $field,
+        FieldElementBase $field,
         RendererInterface $engine,
         FieldBinding $binding
     ) {

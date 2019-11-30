@@ -10,7 +10,8 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 
-class FieldElement  {
+class FieldElementBase
+{
 
     /**
      *

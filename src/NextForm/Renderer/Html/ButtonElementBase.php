@@ -11,14 +11,16 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 
-abstract class ButtonElement  {
+abstract class ButtonElementBase
+{
     protected $access;
     protected $binding;
     protected $element;
     protected $engine;
     protected $inputType;
 
-    public function __construct(RendererInterface $engine, Binding $binding) {
+    public function __construct(RendererInterface $engine, Binding $binding)
+    {
         $this->engine = $engine;
         $this->binding = $binding;
     }
