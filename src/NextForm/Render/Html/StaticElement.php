@@ -3,12 +3,12 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\Html;
+namespace Abivia\NextForm\Render\Html;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
 
 class StaticElement  {
 
@@ -20,11 +20,11 @@ class StaticElement  {
 
     /**
      *
-     * @var RendererInterface
+     * @var RenderInterface
      */
     protected $engine;
 
-    public function __construct(RendererInterface $engine, Binding $binding) {
+    public function __construct(RenderInterface $engine, Binding $binding) {
         $this->engine = $engine;
         $this->binding = $binding;
     }
@@ -32,7 +32,7 @@ class StaticElement  {
     /**
      * Write a HTML element.
      * @param array $options
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function render($options = [])
     {

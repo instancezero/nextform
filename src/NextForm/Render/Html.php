@@ -1,7 +1,7 @@
 <?php
-namespace Abivia\NextForm\Renderer;
+namespace Abivia\NextForm\Render;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -11,7 +11,7 @@ use Abivia\NextForm\Traits\ShowableTrait;
 /**
  * A base for HTML rendering
  */
-class Html implements RendererInterface
+class Html implements RenderInterface
 {
     use ShowableTrait;
 
@@ -127,7 +127,7 @@ class Html implements RendererInterface
      *
      * @param Binding $binding
      * @param mixed $value
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function elementHidden($binding, $value)
     {
@@ -162,7 +162,7 @@ class Html implements RendererInterface
     /**
      * Generate hidden elements for an option list.
      * @param FieldBinding $binding The binding we're generating for.
-     * @return \Abivia\NextForm\Renderer\Block The output block.
+     * @return \Abivia\NextForm\Render\Block The output block.
      */
     public function elementHiddenList(FieldBinding $binding)
     {
@@ -249,7 +249,7 @@ class Html implements RendererInterface
     /**
      * Generate attributes for a group container.
      * @param Binding $binding
-     * @return \Abivia\NextForm\Renderer\Attributes
+     * @return \Abivia\NextForm\Render\Attributes
      */
     public function groupAttributes(Binding $binding, $options = []) : Attributes
     {
@@ -554,7 +554,7 @@ class Html implements RendererInterface
     /**
      * Start form generation
      * @param array $options @see Manager
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function start($options = []) : Block
     {
@@ -593,7 +593,7 @@ class Html implements RendererInterface
      * @param string $tag Name of the element to write (div, span, etc.)
      * @param array $options Name(type,default): append(string,''), force(bool,false),
      *                      show(string,''), attrs(Attributes,null)
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function writeElement($tag, $options = [])
     {
@@ -628,7 +628,7 @@ class Html implements RendererInterface
      * @param string $purpose A string indicating what this label is for.
      * @param string $text The text for the label
      * @param string $tag The kind of HTML tag to wrap the label in.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs HTML attributes to associate with the element
+     * @param \Abivia\NextForm\Render\Attributes $attrs HTML attributes to associate with the element
      * @param type $options break(bool,''), div(string,classes)
      * @return string
      */
@@ -666,7 +666,7 @@ class Html implements RendererInterface
 
     /**
      * Write an element and attributes into escaped HTML
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs
+     * @param \Abivia\NextForm\Render\Attributes $attrs
      * @return string
      */
     public function writeTag($tag, $attrs = null, $text = null)

@@ -1,16 +1,16 @@
 <?php
 
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Renderer\Html\CellElement;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html;
+use Abivia\NextForm\Render\Html\CellElement;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html;
 
 include_once __DIR__ . '/../HtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Renderer\Html\CellElement
+ * @covers \Abivia\NextForm\Render\Html\CellElement
  */
-class NextFormRendererHtmlCellElementTest extends HtmlRenderFrame
+class NextFormRenderHtmlCellElementTest extends HtmlRenderFrame
 {
     public $testObj;
 
@@ -31,7 +31,7 @@ class NextFormRendererHtmlCellElementTest extends HtmlRenderFrame
 	public function testInstantiation()
     {
 		$this->assertInstanceOf(
-            '\Abivia\NextForm\Renderer\Html\CellElement', $this->testObj
+            '\Abivia\NextForm\Render\Html\CellElement', $this->testObj
         );
 	}
 
@@ -68,7 +68,7 @@ class NextFormRendererHtmlCellElementTest extends HtmlRenderFrame
      */
 	public function testCellSuite() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Cell();
+        $cases = RenderCaseGenerator::html_Cell();
         foreach ($cases as &$case) {
             $case[0] = new CellElement(new Html(), $case[0]);
         }

@@ -3,13 +3,13 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\Html;
+namespace Abivia\NextForm\Render\Html;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
 
 abstract class ButtonElementBase
 {
@@ -19,7 +19,7 @@ abstract class ButtonElementBase
     protected $engine;
     protected $inputType;
 
-    public function __construct(RendererInterface $engine, Binding $binding)
+    public function __construct(RenderInterface $engine, Binding $binding)
     {
         $this->engine = $engine;
         $this->binding = $binding;
@@ -52,7 +52,7 @@ abstract class ButtonElementBase
     /**
      * Write a button element.
      * @param type $options
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function render($options = [])
     {

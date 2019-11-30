@@ -3,14 +3,14 @@
 namespace Abivia\NextForm;
 
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RendererInterface as RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface as RenderInterface;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -149,7 +149,7 @@ class Manager
      * Generate a form.
      * @param array $options Generation options, optional unless stated otherwise:
      *  $options = [
-     *      'attributes' => (Renderer\Attributes) Attributes to be added to the form element.
+     *      'attributes' => (Render\Attributes) Attributes to be added to the form element.
      *      'id' => The HTML id for the form. If not provided, one is generated.
      *              May also be passed through in 'attributes'.
      *      'name' => The HTML name for the form. If not provided, the id is used.
@@ -353,7 +353,7 @@ class Manager
         return $this;
     }
 
-    public function setRenderer(RendererInterface $renderer) : self
+    public function setRender(RenderInterface $renderer) : self
     {
         $this->renderer = $renderer;
         return $this;

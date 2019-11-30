@@ -3,8 +3,8 @@
 namespace Abivia\NextForm\Form\Binding;
 
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RendererInterface;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Contracts\RenderInterface;
+use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -15,13 +15,13 @@ class SimpleBinding Extends Binding
 
     /**
      * Use a renderer to turn this element into part of the form.
-     * @param RendererInterface $renderer Any Renderer object.
+     * @param RenderInterface $renderer Any Render object.
      * @param AccessInterface $access Any access control object
      * @param Translator $translator Any translation object.
      * @return Block
      */
     public function generate(
-        RendererInterface $renderer,
+        RenderInterface $renderer,
         AccessInterface $access
     ) : Block {
         $options = false; // $access->hasAccess(...)

@@ -4,7 +4,7 @@ use Abivia\NextForm\Manager;
 /**
  * Provides a method that will run a set of test cases
  */
-trait RendererCaseRunner {
+trait RenderCaseRunner {
 
     /**
      * Run a set of test data against the expected results

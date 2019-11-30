@@ -1,7 +1,7 @@
 <?php
-namespace Abivia\NextForm\Renderer;
+namespace Abivia\NextForm\Render;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -10,7 +10,7 @@ use Abivia\NextForm\Form\Binding\SimpleBinding;
 /**
  * A skeletal renderer that generates a very basic form.
  */
-class SimpleHtml extends Html implements RendererInterface
+class SimpleHtml extends Html implements RenderInterface
 {
 
     /**

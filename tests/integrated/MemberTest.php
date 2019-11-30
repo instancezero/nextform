@@ -9,11 +9,11 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\SimpleHtml;
-use Abivia\NextForm\Renderer\Bootstrap4;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\SimpleHtml;
+use Abivia\NextForm\Render\Bootstrap4;
 
-class FlatRenderer implements Abivia\NextForm\Contracts\RendererInterface {
+class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
 
     public function __construct($options = []) {
 
@@ -134,12 +134,12 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testGenerateUnpopulated() {
         Manager::boot();
-        $render = new FlatRenderer();
+        $render = new FlatRender();
 
         $manager = new Manager();
         $manager->setForm($this->memberForm);
         $manager->setSchema($this->memberSchema);
-        $manager->setRenderer($render);
+        $manager->setRender($render);
         $manager->setTranslator(new MockTranslate());
         $page = $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
@@ -157,7 +157,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
             'id' => 0,
         ];
         $manager->populate($data, 'members');
-        $manager->setRenderer(new FlatRenderer());
+        $manager->setRender(new FlatRender());
         $manager->setTranslator(new MockTranslate());
         $manager->generate(['action' => 'myform.php']);
         $this->assertTrue(true);
@@ -168,7 +168,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager = new Manager();
         $manager->setForm($this->memberForm);
         $manager->setSchema($this->memberSchema);
-        $manager->setRenderer(new SimpleHtml());
+        $manager->setRender(new SimpleHtml());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
@@ -182,7 +182,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $manager = new Manager();
         $manager->setForm($this->memberForm);
         $manager->setSchema($this->memberSchema);
-        $manager->setRenderer(new Bootstrap4());
+        $manager->setRender(new Bootstrap4());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
 

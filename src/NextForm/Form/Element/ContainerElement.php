@@ -5,8 +5,8 @@ namespace Abivia\NextForm\Form\Element;
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RendererInterface;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Contracts\RenderInterface;
+use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Illuminate\Contracts\Translation\Translator as Translator;
 

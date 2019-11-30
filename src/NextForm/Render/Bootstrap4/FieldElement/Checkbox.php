@@ -3,13 +3,13 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\Bootstrap4\FieldElement;
+namespace Abivia\NextForm\Render\Bootstrap4\FieldElement;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html\FieldElement\Checkbox as BaseCheckbox;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html\FieldElement\Checkbox as BaseCheckbox;
 
 class Checkbox extends BaseCheckbox {
     protected $attrs;
@@ -17,8 +17,8 @@ class Checkbox extends BaseCheckbox {
     /**
      * Generate a simple input element for a single-valued checkbox.
      * @param FieldBinding $binding
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs
-     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     * @param \Abivia\NextForm\Render\Attributes $attrs
+     * @return \Abivia\NextForm\Render\Block $block The output block.
      */
     protected function checkInput(FieldBinding $binding, Attributes $attrs)
     {
@@ -37,8 +37,8 @@ class Checkbox extends BaseCheckbox {
     /**
      * Generate check/radio HTML inputs from an element's data list.
      * @param FieldBinding $binding The element we're generating for.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
-     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     * @param \Abivia\NextForm\Render\Attributes $attrs Parent element attributes.
+     * @return \Abivia\NextForm\Render\Block $block The output block.
      */
     protected function checkList(FieldBinding $binding, Attributes $attrs)
     {
@@ -102,8 +102,8 @@ class Checkbox extends BaseCheckbox {
     /**
      * Generate check/radio HTML inputs as buttons from an element's data list.
      * @param FieldBinding $binding The element we're generating for.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs Parent element attributes.
-     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     * @param \Abivia\NextForm\Render\Attributes $attrs Parent element attributes.
+     * @return \Abivia\NextForm\Render\Block $block The output block.
      */
     protected function checkListButtons(FieldBinding $binding, Attributes $attrs)
     {
@@ -161,9 +161,9 @@ class Checkbox extends BaseCheckbox {
     /**
      * Generate a single check box/radio input.
      * @param FieldBinding $binding The element we're generating for.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs
-     * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
-     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     * @param \Abivia\NextForm\Render\Attributes $attrs
+     * @param \Abivia\NextForm\Render\Attributes $groupAttrs
+     * @return \Abivia\NextForm\Render\Block $block The output block.
      */
     protected function checkSingle(
         FieldBinding $binding,
@@ -198,9 +198,9 @@ class Checkbox extends BaseCheckbox {
     /**
      * Render a single-valued checkbox as a button
      * @param FieldBinding $binding The element we're generating for.
-     * @param \Abivia\NextForm\Renderer\Attributes $attrs
-     * @param \Abivia\NextForm\Renderer\Attributes $groupAttrs
-     * @return \Abivia\NextForm\Renderer\Block $block The output block.
+     * @param \Abivia\NextForm\Render\Attributes $attrs
+     * @param \Abivia\NextForm\Render\Attributes $groupAttrs
+     * @return \Abivia\NextForm\Render\Block $block The output block.
      */
     protected function checkSingleButton(
         FieldBinding $binding,

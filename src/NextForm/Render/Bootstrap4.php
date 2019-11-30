@@ -1,7 +1,7 @@
 <?php
-namespace Abivia\NextForm\Renderer;
+namespace Abivia\NextForm\Render;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
@@ -9,9 +9,9 @@ use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Binding\SimpleBinding;
 
 /**
- * Renderer for Bootstrap4
+ * Render for Bootstrap4
  */
-class Bootstrap4 extends Html implements RendererInterface
+class Bootstrap4 extends Html implements RenderInterface
 {
 
     static protected $buttonSizeClasses = ['large' => ' btn-lg', 'regular' => '', 'small' => ' btn-sm'];
@@ -51,7 +51,7 @@ class Bootstrap4 extends Html implements RendererInterface
      * Write a "standard" input element; if there are before/after labels, generate a group.
      * @param Labels $labels
      * @param Attributes $attrs
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function inputGroup(Labels $labels, Attributes $attrs)
     {
@@ -123,7 +123,7 @@ class Bootstrap4 extends Html implements RendererInterface
     /**
      * This method should be reworked to support different JS frameworks...
      * @param FieldBinding $binding
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function renderTriggers(FieldBinding $binding) : Block
     {
@@ -489,7 +489,7 @@ class Bootstrap4 extends Html implements RendererInterface
      * Start rendering a form.
      *
      * @param type $options The 'attributes' option isn't really optional.
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     public function start($options = []) : Block {
         $pageData = parent::start($options);

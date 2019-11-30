@@ -3,14 +3,14 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\Html\FieldElement;
+namespace Abivia\NextForm\Render\Html\FieldElement;
 
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html\FieldElementBase;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html\FieldElementBase;
 
 abstract class Textarea  {
     protected $access;
@@ -21,7 +21,7 @@ abstract class Textarea  {
 
     public function __construct(
         FieldElementBase $field,
-        RendererInterface $engine,
+        RenderInterface $engine,
         FieldBinding $binding
     ) {
         $this->field = $field;

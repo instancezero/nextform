@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Contracts;
 
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Form\Binding\Binding;
 
 
@@ -10,7 +10,7 @@ use Abivia\NextForm\Form\Binding\Binding;
  * Interface for a page renderer.
  * @codeCoverageIgnore
  */
-interface RendererInterface
+interface RenderInterface
 {
 
     /**

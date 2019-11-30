@@ -1,6 +1,6 @@
 <?php
 
-Namespace Abivia\NextForm\Renderer;
+Namespace Abivia\NextForm\Render;
 
 /**
  * Support for attributes that are part of a HTML element.
@@ -207,8 +207,8 @@ class Attributes
 
     /**
      * Combine attributes into this set and return a copy.
-     * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
-     * @return \Abivia\NextForm\Renderer\Attributes New object with merged attributes.
+     * @param \Abivia\NextForm\Render\Attributes $source Application settings.
+     * @return \Abivia\NextForm\Render\Attributes New object with merged attributes.
      */
     public function combine($source = null) : Attributes
     {
@@ -219,7 +219,7 @@ class Attributes
 
     /**
      * Make a (deep) copy of this object
-     * @return \Abivia\NextForm\Renderer\Attributes
+     * @return \Abivia\NextForm\Render\Attributes
      */
     public function copy() : Attributes
     {
@@ -449,7 +449,7 @@ class Attributes
 
     /**
      * Merge attributes into this set.
-     * @param \Abivia\NextForm\Renderer\Attributes $source Application settings.
+     * @param \Abivia\NextForm\Render\Attributes $source Application settings.
      * @return \self
      */
     public function merge($source = null) : self

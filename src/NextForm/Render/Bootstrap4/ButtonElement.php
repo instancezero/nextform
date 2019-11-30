@@ -3,12 +3,12 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\Bootstrap4;
+namespace Abivia\NextForm\Render\Bootstrap4;
 
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html\ButtonElementBase;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html\ButtonElementBase;
 
 class ButtonElement extends ButtonElementBase {
 

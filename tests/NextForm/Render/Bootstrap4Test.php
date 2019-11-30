@@ -4,21 +4,21 @@ use Abivia\NextForm\Manager;
 //use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Bootstrap4;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Bootstrap4;
 
-include_once __DIR__ . '/RendererCaseGenerator.php';
-include_once __DIR__ . '/RendererCaseRunner.php';
+include_once __DIR__ . '/RenderCaseGenerator.php';
+include_once __DIR__ . '/RenderCaseRunner.php';
 include_once __DIR__ . '/../../test-tools/HtmlTestLogger.php';
 include_once __DIR__ . '/../../test-tools/Page.php';
 
 /**
- * @covers \Abivia\NextForm\Renderer\Bootstrap4
+ * @covers \Abivia\NextForm\Render\Bootstrap4
  */
-class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
+class FormRenderBootstrap4Test extends \PHPUnit\Framework\TestCase {
     use HtmlTestLogger;
-    use RendererCaseRunner;
+    use RenderCaseRunner;
 
     protected $testObj;
 
@@ -97,7 +97,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     }
 
 	public function testInstantiation() {
-		$this->assertInstanceOf('\Abivia\NextForm\Renderer\Bootstrap4', $this->testObj);
+		$this->assertInstanceOf('\Abivia\NextForm\Render\Bootstrap4', $this->testObj);
 	}
 
 	public function testStart() {
@@ -146,7 +146,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testButton() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Button();
+        $cases = RenderCaseGenerator::html_Button();
         $expect = [];
 
         // Default access
@@ -256,7 +256,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testButtonLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_ButtonLabels();
+        $cases = RenderCaseGenerator::html_ButtonLabels();
         $expect = [];
 
         // no labels
@@ -336,7 +336,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testCell() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Cell();
+        $cases = RenderCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
             '<div class="form-row col-sm-10">' . "\n",
@@ -368,7 +368,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldButton() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldButton();
+        $cases = RenderCaseGenerator::html_FieldButton();
 
         $expect = [];
         $expect['value'] = Block::fromString(
@@ -400,7 +400,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldCheckbox() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckbox();
+        $cases = RenderCaseGenerator::html_FieldCheckbox();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -611,7 +611,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldCheckboxButton() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckboxButton();
+        $cases = RenderCaseGenerator::html_FieldCheckboxButton();
         $expect = [];
 
         $expect['toggle'] = Block::fromString(
@@ -704,7 +704,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldCheckboxButtonList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckboxButtonList();
+        $cases = RenderCaseGenerator::html_FieldCheckboxButtonList();
         $expect = [];
 
         $listCommon = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
@@ -816,7 +816,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldCheckboxList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckboxList();
+        $cases = RenderCaseGenerator::html_FieldCheckboxList();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -1091,7 +1091,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldColor() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldColor();
 
         $expect = [];
 
@@ -1135,7 +1135,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldDate() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldDate();
+        $cases = RenderCaseGenerator::html_FieldDate();
 
         $expect = [];
 
@@ -1184,7 +1184,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldDatetimeLocal() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldDatetimeLocal();
+        $cases = RenderCaseGenerator::html_FieldDatetimeLocal();
 
         $expect = [];
 
@@ -1235,7 +1235,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldEmail() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldEmail();
+        $cases = RenderCaseGenerator::html_FieldEmail();
 
         $expect = [];
 
@@ -1289,7 +1289,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldFile() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldFile();
+        $cases = RenderCaseGenerator::html_FieldFile();
 
         $expect = [];
 
@@ -1339,7 +1339,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldHidden() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldHidden();
+        $cases = RenderCaseGenerator::html_FieldHidden();
 
         $expect = [];
 
@@ -1382,7 +1382,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldHiddenLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldHiddenLabels();
+        $cases = RenderCaseGenerator::html_FieldHiddenLabels();
 
         $expect = [];
 
@@ -1406,7 +1406,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldMonth() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldMonth();
+        $cases = RenderCaseGenerator::html_FieldMonth();
 
         $expect = [];
 
@@ -1456,7 +1456,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldNumber() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldNumber();
+        $cases = RenderCaseGenerator::html_FieldNumber();
 
         $expect = [];
 
@@ -1510,7 +1510,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldPassword() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldPassword();
+        $cases = RenderCaseGenerator::html_FieldPassword();
 
         $expect = [];
 
@@ -1553,7 +1553,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldRadio() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadio();
+        $cases = RenderCaseGenerator::html_FieldRadio();
 
         $expect = [];
 
@@ -1608,7 +1608,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldRadioLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioLabels();
+        $cases = RenderCaseGenerator::html_FieldRadioLabels();
 
         $expect = [];
         $expect['labels-value'] = Block::fromString(
@@ -1657,7 +1657,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldRadioList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioList();
+        $cases = RenderCaseGenerator::html_FieldRadioList();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1781,7 +1781,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldRadioListLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioListLabels();
+        $cases = RenderCaseGenerator::html_FieldRadioListLabels();
 
         $expect = [];
 
@@ -1875,7 +1875,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldRange() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRange();
+        $cases = RenderCaseGenerator::html_FieldRange();
 
         $expect = [];
 
@@ -1927,7 +1927,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldSearch() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSearch();
+        $cases = RenderCaseGenerator::html_FieldSearch();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1967,7 +1967,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldSelect() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSelect();
+        $cases = RenderCaseGenerator::html_FieldSelect();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -2122,7 +2122,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldSelectNested() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSelectNested();
+        $cases = RenderCaseGenerator::html_FieldSelectNested();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -2266,7 +2266,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldTel() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTel();
+        $cases = RenderCaseGenerator::html_FieldTel();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -2303,7 +2303,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldText() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldText();
+        $cases = RenderCaseGenerator::html_FieldText();
         $expect = [];
 
         // No access specification assumes write access
@@ -2332,7 +2332,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldTextDataList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextDataList();
+        $cases = RenderCaseGenerator::html_FieldTextDataList();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2376,7 +2376,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldTextLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextLabels();
+        $cases = RenderCaseGenerator::html_FieldTextLabels();
         $expect = [];
         $tail = "\n";
 
@@ -2484,7 +2484,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldTextValidation() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextValidation();
+        $cases = RenderCaseGenerator::html_FieldTextValidation();
         $expect = [];
         $expect['required'] = Block::fromString(
             $this->formGroup(
@@ -2536,7 +2536,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testFieldTextarea() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextarea();
+        $cases = RenderCaseGenerator::html_FieldTextarea();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2574,7 +2574,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldTime() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTime();
+        $cases = RenderCaseGenerator::html_FieldTime();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2638,7 +2638,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testFieldUrl() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldUrl();
+        $cases = RenderCaseGenerator::html_FieldUrl();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2678,7 +2678,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
     */
 	public function testFieldWeek() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldWeek();
+        $cases = RenderCaseGenerator::html_FieldWeek();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2742,7 +2742,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
      */
 	public function testHtml() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Html();
+        $cases = RenderCaseGenerator::html_Html();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2763,7 +2763,7 @@ class FormRendererBootstrap4Test extends \PHPUnit\Framework\TestCase {
 
 	public function testSection() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Section();
+        $cases = RenderCaseGenerator::html_Section();
         $expect = [];
 
         $expect['empty'] = Block::fromString(

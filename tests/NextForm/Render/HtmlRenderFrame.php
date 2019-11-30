@@ -2,12 +2,12 @@
 /**
  * Common support / logging for render tests
  */
-use Abivia\NextForm\Renderer\Attributes;
+use Abivia\NextForm\Render\Attributes;
 
 define('NF_TEST_ROOT', dirname(dirname(__DIR__)) . '/');
 
-include_once __DIR__ . '/RendererCaseGenerator.php';
-include_once __DIR__ . '/RendererCaseRunner.php';
+include_once __DIR__ . '/RenderCaseGenerator.php';
+include_once __DIR__ . '/RenderCaseRunner.php';
 include_once NF_TEST_ROOT . 'test-tools/HtmlTestLogger.php';
 include_once NF_TEST_ROOT . 'test-tools/Page.php';
 
@@ -17,7 +17,7 @@ include_once NF_TEST_ROOT . 'test-tools/Page.php';
 class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
 {
     use HtmlTestLogger;
-    use RendererCaseRunner;
+    use RenderCaseRunner;
 
     protected $defaultFormGroupClass = '';
     protected $testObj;

@@ -3,9 +3,9 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\SimpleHtml;
+namespace Abivia\NextForm\Render\SimpleHtml;
 
-use Abivia\NextForm\Renderer\Html\FieldElementBase;
+use Abivia\NextForm\Render\Html\FieldElementBase;
 
 /**
  * Has to exist so we call the correct field type classes.

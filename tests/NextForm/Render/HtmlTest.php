@@ -4,17 +4,17 @@ use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\StaticElement;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html;
 
-include_once __DIR__ . '/RendererCaseGenerator.php';
+include_once __DIR__ . '/RenderCaseGenerator.php';
 
 
 /**
- * @covers \Abivia\NextForm\Renderer\Html
+ * @covers \Abivia\NextForm\Render\Html
  */
-class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
+class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $testObj;
@@ -38,7 +38,7 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
 
 	public function testElementHidden()
     {
-        $cases = RendererCaseGenerator::html_FieldHidden();
+        $cases = RenderCaseGenerator::html_FieldHidden();
 
         $result = $this->testObj->elementHidden($cases['basic'][0], 1);
         $this->assertEquals(
@@ -63,7 +63,7 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
 
 	public function testElementHiddenList()
     {
-        $cases = RendererCaseGenerator::html_FieldCheckboxList();
+        $cases = RenderCaseGenerator::html_FieldCheckboxList();
 
         $result = $this->testObj->elementHiddenList($cases['basic'][0]);
         $this->assertEquals(
@@ -234,7 +234,7 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
         // Write access, we don't care much about the result,
         // short of it being a Block
         $block = $this->testObj->render($binding);
-        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+        $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
     }
 
     public function testStart()
@@ -243,12 +243,12 @@ class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
         $attrs->set('id', 'formid');
         $attrs->set('name', 'bob');
         $block = $this->testObj->start(['attributes' => $attrs]);
-        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+        $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
 
         $block = $this->testObj->start(
             ['attributes' => $attrs, 'token' => 'my-not-random-token']
         );
-        $this->assertInstanceOf('Abivia\NextForm\Renderer\Block', $block);
+        $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
         $this->assertEquals('my-not-random-token', $block->token);
     }
 

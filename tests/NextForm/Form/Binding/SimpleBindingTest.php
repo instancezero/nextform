@@ -2,7 +2,7 @@
 
 use Abivia\NextForm\Access\NullAccess;
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\SimpleBinding;
 use Abivia\NextForm\Form\Element\ButtonElement;
@@ -11,9 +11,9 @@ use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Form\Element\HtmlElement;
 use Abivia\NextForm\Form\Element\SectionElement;
 use Abivia\NextForm\Form\Element\StaticElement;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Block;
 
-class MockRender implements RendererInterface
+class MockRender implements RenderInterface
 {
     /**
      * Pop the rendering context

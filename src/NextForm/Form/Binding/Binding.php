@@ -4,11 +4,11 @@ namespace Abivia\NextForm\Form\Binding;
 
 use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RendererInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Block;
 use DeepCopy\DeepCopy;
 use DeepCopy\Filter\KeepFilter;
 use DeepCopy\Filter\SetNullFilter;
@@ -161,12 +161,12 @@ class Binding
 
     /**
      * Use a renderer to turn this element into part of the form.
-     * @param RendererInterface $renderer Any Renderer object.
+     * @param RenderInterface $renderer Any Render object.
      * @param AccessInterface $access Any access control object
      * @param Translator $translator Any translation object.
      * @return Block
      */
-    public function generate(RendererInterface $renderer, AccessInterface $access) : Block
+    public function generate(RenderInterface $renderer, AccessInterface $access) : Block
     {
         //$readOnly = false; // $access->hasAccess(...)
         $options = ['access' => 'write'];

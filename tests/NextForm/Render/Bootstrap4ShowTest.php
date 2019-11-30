@@ -1,16 +1,16 @@
 <?php
 
 use Abivia\NextForm\Manager;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Bootstrap4;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Bootstrap4;
 
 /**
  * Test functionality related to show settings.
  *
- * @covers \Abivia\NextForm\Renderer\Bootstrap4
+ * @covers \Abivia\NextForm\Render\Bootstrap4
  */
-class FormRendererBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
+class FormRenderBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
 
     protected $testObj;
     protected $getProperty;
@@ -30,7 +30,7 @@ class FormRendererBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
         // First time: make sure default exists and that it contains Attributes
         $this->assertTrue(isset($showState['form']['cellspacing']));
         $this->assertInstanceOf(
-            '\Abivia\NextForm\Renderer\Attributes',
+            '\Abivia\NextForm\Render\Attributes',
             $showState['form']['cellspacing']
         );
 

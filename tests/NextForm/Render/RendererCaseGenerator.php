@@ -12,7 +12,7 @@ use Abivia\NextForm\Form\Element\StaticElement;
 /**
  * Generate standard test cases for use in testing multiple render classes.
  */
-class RendererCaseGenerator {
+class RenderCaseGenerator {
 
     /**
      * Iterate through various label permutations

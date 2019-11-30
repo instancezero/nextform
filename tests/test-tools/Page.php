@@ -1,5 +1,5 @@
 <?php
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Block;
 
 /**
  *

@@ -1,16 +1,16 @@
 <?php
 
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Renderer\Html\StaticElement;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html;
+use Abivia\NextForm\Render\Html\StaticElement;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html;
 
 include_once __DIR__ . '/../HtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Renderer\Html\StaticElement
+ * @covers \Abivia\NextForm\Render\Html\StaticElement
  */
-class NextFormRendererHtmlStaticElementTest extends HtmlRenderFrame
+class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
 {
     public $testObj;
 
@@ -31,7 +31,7 @@ class NextFormRendererHtmlStaticElementTest extends HtmlRenderFrame
 	public function testInstantiation()
     {
 		$this->assertInstanceOf(
-            '\Abivia\NextForm\Renderer\Html\StaticElement', $this->testObj
+            '\Abivia\NextForm\Render\Html\StaticElement', $this->testObj
         );
 	}
 
@@ -66,7 +66,7 @@ class NextFormRendererHtmlStaticElementTest extends HtmlRenderFrame
      */
 	public function testStaticSuite() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Static();
+        $cases = RenderCaseGenerator::html_Static();
         foreach ($cases as &$case) {
             $case[0] = new StaticElement(new Html(), $case[0]);
         }

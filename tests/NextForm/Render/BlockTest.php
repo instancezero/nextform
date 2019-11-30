@@ -1,18 +1,18 @@
 <?php
 
-use Abivia\NextForm\Renderer\Block;
+use Abivia\NextForm\Render\Block;
 
 /**
- * @covers \Abivia\NextForm\Renderer\Block
+ * @covers \Abivia\NextForm\Render\Block
  */
-class FormRendererBlockTest extends \PHPUnit\Framework\TestCase {
+class FormRenderBlockTest extends \PHPUnit\Framework\TestCase {
 
-	public function testFormRendererBlockInstantiation() {
+	public function testFormRenderBlockInstantiation() {
         $obj = new Block();
-		$this->assertInstanceOf('\Abivia\NextForm\Renderer\Block', $obj);
+		$this->assertInstanceOf('\Abivia\NextForm\Render\Block', $obj);
 	}
 
-	public function testFormRendererBlockClose() {
+	public function testFormRenderBlockClose() {
         $obj = new Block();
         $obj->body = 'body';
         $obj->post = 'post';
@@ -21,7 +21,7 @@ class FormRendererBlockTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('', $obj->post);
     }
 
-	public function testFormRendererBlockMerge() {
+	public function testFormRenderBlockMerge() {
         $main = new Block();
         $main->body = 'mainbody';
         $main->post = 'mainpost';

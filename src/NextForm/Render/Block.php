@@ -1,6 +1,6 @@
 <?php
 
-Namespace Abivia\NextForm\Renderer;
+Namespace Abivia\NextForm\Render;
 
 /**
  * Part of an output form that can enclose other blocks, and can contain elements of
@@ -95,7 +95,7 @@ class Block
      * Create a basic block from strings.
      * @param type $body The opening/body of the block.
      * @param type $post Any closing text.
-     * @return \Abivia\NextForm\Renderer\Block
+     * @return \Abivia\NextForm\Render\Block
      */
     static public function fromString($body = '', $post = '') : Block
     {
@@ -107,7 +107,7 @@ class Block
 
     /**
      * Merge the contents of another block into this block.
-     * @param \Abivia\NextForm\Renderer\Block $block
+     * @param \Abivia\NextForm\Render\Block $block
      * @return \self
      */
     public function merge(Block $block) : self {

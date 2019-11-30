@@ -3,12 +3,12 @@
 /**
  *
  */
-namespace Abivia\NextForm\Renderer\SimpleHtml\FieldElement;
+namespace Abivia\NextForm\Render\SimpleHtml\FieldElement;
 
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\Html\FieldElement\Checkbox as BaseCheckbox;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\Html\FieldElement\Checkbox as BaseCheckbox;
 
 class Checkbox extends BaseCheckbox {
 

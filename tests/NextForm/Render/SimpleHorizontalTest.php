@@ -3,16 +3,16 @@
 use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Renderer\Attributes;
-use Abivia\NextForm\Renderer\Block;
-use Abivia\NextForm\Renderer\SimpleHtml;
+use Abivia\NextForm\Render\Attributes;
+use Abivia\NextForm\Render\Block;
+use Abivia\NextForm\Render\SimpleHtml;
 
 include_once __DIR__ . '/HtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Renderer\SimpleHtml
+ * @covers \Abivia\NextForm\Render\SimpleHtml
  */
-class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
+class FormRenderSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     use HtmlTestLogger;
 
     protected $emptyLabel;
@@ -62,7 +62,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     }
 
 	public function testInstantiation() {
-		$this->assertInstanceOf('\Abivia\NextForm\Renderer\SimpleHtml', $this->testObj);
+		$this->assertInstanceOf('\Abivia\NextForm\Render\SimpleHtml', $this->testObj);
 	}
 
     /**
@@ -70,7 +70,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testButton() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Button();
+        $cases = RenderCaseGenerator::html_Button();
         $expect = [];
 
         // Default access
@@ -181,7 +181,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 	public function testButtonLabels() {
         $this->logMethod(__METHOD__);
         $tail = '<br/>' . "\n";
-        $cases = RendererCaseGenerator::html_ButtonLabels();
+        $cases = RenderCaseGenerator::html_ButtonLabels();
         $expect = [];
 
         // no labels
@@ -290,7 +290,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testCell() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Cell();
+        $cases = RenderCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
             '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n",
@@ -322,7 +322,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldButton() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldButton();
+        $cases = RenderCaseGenerator::html_FieldButton();
         // Value reset submit
         $expect = [];
         $expect['value'] = Block::fromString(
@@ -363,7 +363,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldCheckbox() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckbox();
+        $cases = RenderCaseGenerator::html_FieldCheckbox();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -535,7 +535,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldCheckboxList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldCheckboxList();
+        $cases = RenderCaseGenerator::html_FieldCheckboxList();
 
         $expect = [];
 
@@ -729,7 +729,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldColor() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldColor();
 
         $expect = [];
 
@@ -781,7 +781,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldDate() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldDate();
+        $cases = RenderCaseGenerator::html_FieldDate();
 
         $expect = [];
 
@@ -847,7 +847,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldDatetimeLocal() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldDatetimeLocal();
+        $cases = RenderCaseGenerator::html_FieldDatetimeLocal();
 
         $expect = [];
 
@@ -911,7 +911,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldEmail() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldEmail();
+        $cases = RenderCaseGenerator::html_FieldEmail();
 
         $expect = [];
 
@@ -979,7 +979,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldFile() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldFile();
+        $cases = RenderCaseGenerator::html_FieldFile();
 
         $expect = [];
 
@@ -1043,7 +1043,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldHidden() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldHidden();
+        $cases = RenderCaseGenerator::html_FieldHidden();
 
         $expect = [];
 
@@ -1086,7 +1086,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldHiddenLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldHiddenLabels();
+        $cases = RenderCaseGenerator::html_FieldHiddenLabels();
 
         $expect = [];
 
@@ -1110,7 +1110,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldMonth() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldMonth();
+        $cases = RenderCaseGenerator::html_FieldMonth();
 
         $expect = [];
 
@@ -1173,7 +1173,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 	public function testFieldNumber() {
         $this->logMethod(__METHOD__);
         $tail = "<br/>\n";
-        $cases = RendererCaseGenerator::html_FieldNumber();
+        $cases = RenderCaseGenerator::html_FieldNumber();
 
         $expect = [];
 
@@ -1247,7 +1247,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldPassword() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldPassword();
+        $cases = RenderCaseGenerator::html_FieldPassword();
 
         $expect = [];
 
@@ -1301,7 +1301,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldRadio() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadio();
+        $cases = RenderCaseGenerator::html_FieldRadio();
 
         $expect = [];
 
@@ -1356,7 +1356,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldRadioLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioLabels();
+        $cases = RenderCaseGenerator::html_FieldRadioLabels();
 
         $expect = [];
         $expect['labels-value'] = Block::fromString(
@@ -1395,7 +1395,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldRadioList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioList();
+        $cases = RenderCaseGenerator::html_FieldRadioList();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1506,7 +1506,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldRadioListLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldRadioListLabels();
+        $cases = RenderCaseGenerator::html_FieldRadioListLabels();
 
         $expect = [];
 
@@ -1589,7 +1589,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 	public function testFieldRange() {
         $this->logMethod(__METHOD__);
         $tail = "<br/>\n";
-        $cases = RendererCaseGenerator::html_FieldRange();
+        $cases = RenderCaseGenerator::html_FieldRange();
 
         $expect = [];
 
@@ -1656,7 +1656,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldSearch() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSearch();
+        $cases = RenderCaseGenerator::html_FieldSearch();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1696,7 +1696,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldSelect() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSelect();
+        $cases = RenderCaseGenerator::html_FieldSelect();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1843,7 +1843,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldSelectNested() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldSelectNested();
+        $cases = RenderCaseGenerator::html_FieldSelectNested();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -1976,7 +1976,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldTel() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTel();
+        $cases = RenderCaseGenerator::html_FieldTel();
 
         $expect = [];
         $expect['basic'] = Block::fromString(
@@ -2013,7 +2013,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldText() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldText();
+        $cases = RenderCaseGenerator::html_FieldText();
         $expect = [];
 
         // No access specification assumes write access
@@ -2049,7 +2049,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldTextDataList() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextDataList();
+        $cases = RenderCaseGenerator::html_FieldTextDataList();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2095,7 +2095,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldTextLabels() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextLabels();
+        $cases = RenderCaseGenerator::html_FieldTextLabels();
         $expect = [];
         $tail = "<br/>\n";
 
@@ -2187,7 +2187,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldTextValidation() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextValidation();
+        $cases = RenderCaseGenerator::html_FieldTextValidation();
         $expect = [];
         $tail = "<br/>\n";
         $expect['required'] = Block::fromString(
@@ -2244,7 +2244,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testFieldTextarea() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTextarea();
+        $cases = RenderCaseGenerator::html_FieldTextarea();
         $expect = [];
         $tail = "<br/>\n";
 
@@ -2279,7 +2279,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldTime() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldTime();
+        $cases = RenderCaseGenerator::html_FieldTime();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2343,7 +2343,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testFieldUrl() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldUrl();
+        $cases = RenderCaseGenerator::html_FieldUrl();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2383,7 +2383,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     */
 	public function testFieldWeek() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_FieldWeek();
+        $cases = RenderCaseGenerator::html_FieldWeek();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2448,7 +2448,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
      */
 	public function testHtml() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Html();
+        $cases = RenderCaseGenerator::html_Html();
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -2469,7 +2469,7 @@ class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
 
 	public function testSection() {
         $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Section();
+        $cases = RenderCaseGenerator::html_Section();
         $expect = [];
 
         $expect['empty'] = Block::fromString(
