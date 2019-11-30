@@ -29,11 +29,6 @@ class StaticElement  {
         $this->binding = $binding;
     }
 
-    protected function epilog()
-    {
-        return new Block();
-    }
-
     /**
      * Write a HTML element.
      * @param array $options
@@ -44,7 +39,7 @@ class StaticElement  {
         $block = new Block();
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($options['access'] === 'hide') {
+        if ($this->engine->getAccess($options) === 'hide') {
             return $block;
         }
 
@@ -52,8 +47,8 @@ class StaticElement  {
         $element = $this->binding->getElement();
         $show = $element->getShow();
         if ($show !== '') {
-            $this->pushContext();
-            $this->setShow($show, 'html');
+            $this->engine->pushContext();
+            $this->engine->setShow($show, 'html');
         }
 
         // We can see or change the data. Create a form group.
@@ -79,11 +74,11 @@ class StaticElement  {
         $value = $this->binding->getValue() . "\n";
         $block->body .= $element->getHtml() ? $value : htmlspecialchars($value);
         $block->close();
-        $block->merge($this->epilog());
+        $block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {
-            $this->popContext();
+            $this->engine->popContext();
         }
 
         return $block;

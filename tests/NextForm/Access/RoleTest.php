@@ -7,12 +7,12 @@ use Abivia\NextForm\Access\Role;
  */
 class RoleTest extends \PHPUnit\Framework\TestCase {
 
-	public function testRoleInstantiation() {
+	public function testInstantiation() {
         $obj = new Role();
 		$this->assertInstanceOf('\Abivia\NextForm\Access\Role', $obj);
 	}
 
-    public function testRoleResult() {
+    public function testResult() {
         $config = json_decode('{"name": "somerolename",'
             . '"permissions": {"segment.read": true,'
             . '"segment-writable.write": true, "segment-protected.read":false}}'
@@ -34,12 +34,17 @@ class RoleTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($obj->has('segment-assumed', 'read'));
     }
 
-    public function testRoleNames() {
+    public function testNames() {
         $obj = new Role();
         $obj->setName('guest');
         $this->assertEquals('guest', $obj->getName());
         $obj->setName('abcd');
         $this->assertEquals('abcd', $obj->getName());
+    }
+
+    public function testGetPermissions() {
+        $obj = new Role();
+        $this->assertEquals(null, $obj->getPermissions());
     }
 
 }

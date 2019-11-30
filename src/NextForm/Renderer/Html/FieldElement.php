@@ -51,8 +51,8 @@ class FieldElement  {
     {
         $block = new Block();
         // Check for a data list, if there is write access.
-        $list = $options['access'] === 'write' && Attributes::inputHas($type, 'list')
-            ? $binding->getList(true) : [];
+        $list = $this->engine->getAccess($options) === 'write'
+            && Attributes::inputHas($type, 'list') ? $binding->getList(true) : [];
         if (!empty($list)) {
             $attrs->set('list', $attrs->get('id') . '_list');
             $block->body = '<datalist id="' . $attrs->get('list') . "\">\n";
@@ -67,11 +67,6 @@ class FieldElement  {
             $block->body .= "</datalist>\n";
         }
         return $block;
-    }
-
-    protected function epilog()
-    {
-        return new Block();
     }
 
     protected function getFieldHandler($type)
@@ -144,7 +139,8 @@ class FieldElement  {
             if (
                 in_array($type, self::$inputConfirmable)
                 && $presentation->getConfirm()
-                && $options['access'] === 'write' && !$options['confirm']
+                && $this->engine->getAccess($options) === 'write'
+                && !$options['confirm']
             ) {
                 $options['confirm'] = true;
             } else {

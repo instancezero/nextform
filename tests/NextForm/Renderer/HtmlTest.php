@@ -14,7 +14,8 @@ include_once __DIR__ . '/RendererCaseGenerator.php';
 /**
  * @covers \Abivia\NextForm\Renderer\Html
  */
-class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase {
+class NextFormRendererHtmlTest extends \PHPUnit\Framework\TestCase
+{
 
     protected $testObj;
 

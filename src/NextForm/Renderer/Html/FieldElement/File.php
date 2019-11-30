@@ -31,16 +31,6 @@ abstract class File  {
     }
 
     /**
-     * Generate any additional/delimiting output.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        return new Block();
-    }
-
-    /**
      * Get common attributes for the input element.
      *
      * @param Labels $labels
@@ -86,7 +76,7 @@ abstract class File  {
      */
     public function render($options = []) : Block
     {
-        $this->access = $options['access'];
+        $this->access = $this->engine->getAccess($options);
         $data = $this->binding->getDataProperty();
         $this->inputType = $data->getPresentation()->getType();
         $value = $this->binding->getValue();
@@ -140,7 +130,7 @@ abstract class File  {
 
         $block->merge($input);
         $block->close();
-        $block->merge($this->epilog());
+        $block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {

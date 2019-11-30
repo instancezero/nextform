@@ -42,10 +42,6 @@ class Bootstrap4 extends Html implements RendererInterface
     protected function initialize()
     {
         parent::initialize();
-        // Reset the context
-        $this->context = [
-            'inCell' => false
-        ];
         // Initialize custom settings
         $this->setShow('layout:vertical');
         $this->setShow('purpose:primary');
@@ -288,14 +284,15 @@ class Bootstrap4 extends Html implements RendererInterface
             }
         } else {
             foreach ($values as $value) {
-                \preg_match(
-                    '/(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
+                if(\preg_match(
+                    '/^(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
                     $value, $match
-                );
-                if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
-                    continue;
+                )) {
+                    if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
+                        continue;
+                    }
+                    $classList[] = 'ml-' . $match['weight'];
                 }
-                $classList[] = 'ml-' . $match['weight'];
             }
         }
         if (!empty($classList)) {

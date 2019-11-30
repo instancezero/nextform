@@ -28,11 +28,6 @@ class CellElement  {
         $this->binding = $binding;
     }
 
-    protected function epilog()
-    {
-        return new Block();
-    }
-
     /**
      * Write a cell element.
      * @param array $options
@@ -40,9 +35,17 @@ class CellElement  {
      */
     public function render($options = [])
     {
-        $block = $this->engine->writeElement('div', ['show' => 'cellElementAttributes', 'force' => true]);
-        $block->onCloseDone = [$this, 'popContext'];
+        $access = $this->engine->getAccess($options);
+        if ($access === 'hide') {
+            $block = new Block();
+        } else {
+            $block = $this->engine->writeElement(
+                'div', ['show' => 'cellElementAttributes', 'force' => true]
+            );
+        }
+        $block->onCloseDone = [$this->engine, 'popContext'];
         $this->engine->pushContext();
+        $this->engine->setContext('containerAccess', $access);
         $this->engine->setContext('inCell', true);
         $this->engine->setContext('cellFirstElement', true);
         $this->engine->showDoLayout('form', 'inline');

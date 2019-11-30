@@ -23,11 +23,6 @@ abstract class ButtonElement  {
         $this->binding = $binding;
     }
 
-    protected function epilog()
-    {
-        return new Block();
-    }
-
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = new Attributes();
@@ -59,7 +54,7 @@ abstract class ButtonElement  {
      */
     public function render($options = [])
     {
-        $this->access = $options['access'];
+        $this->access = $this->engine->getAccess($options);
 
         // Get any labels associated with this element
         $labels = $this->binding->getLabels(true);
@@ -99,7 +94,7 @@ abstract class ButtonElement  {
 
         $block->merge($input);
         $block->close();
-        $block->merge($this->epilog());
+        $block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {

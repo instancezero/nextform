@@ -7,17 +7,13 @@ use Abivia\NextForm\Renderer\Attributes;
 use Abivia\NextForm\Renderer\Block;
 use Abivia\NextForm\Renderer\SimpleHtml;
 
-include_once __DIR__ . '/RendererCaseGenerator.php';
-include_once __DIR__ . '/RendererCaseRunner.php';
-include_once __DIR__ . '/../../test-tools/HtmlTestLogger.php';
-include_once __DIR__ . '/../../test-tools/Page.php';
+include_once __DIR__ . '/HtmlRenderFrame.php';
 
 /**
  * @covers \Abivia\NextForm\Renderer\SimpleHtml
  */
-class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
+class FormRendererSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     use HtmlTestLogger;
-    use RendererCaseRunner;
 
     protected $emptyLabel;
     protected $testObj;
@@ -34,26 +30,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
     protected function column2($text){
         $text = '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
             . $text . '</div>' . "\n";
-        return $text;
-    }
-
-    protected function formGroup($body, $options = []) {
-        $attr = '';
-        $id = $options['id'] ?? 'field_1';
-        $attr .= ' id="' . $id . '_container' . '"';
-        $class = isset($options['class']) ? $options['class'] : '';
-        $class = trim(
-            ($options['classPrepend'] ?? '')
-            . ' ' . $class
-            . ' ' . ($options['classAppend'] ?? '')
-        );
-        $attr .= $class ? ' class="' . $class . '"' : '';
-        $element = $options['element'] ?? 'div';
-        $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
-        $attr .= ' data-nf-for="' . $id . '"';
-        $text = '<' . $element . $attr . '>' . "\n"
-            . $body
-            . '</' . $element . '>' . "\n";
         return $text;
     }
 
@@ -2512,78 +2488,6 @@ class FormRendererSimpleHtmlHorizontalTest extends \PHPUnit\Framework\TestCase {
 
         // Same for hidden access
         $expect['label-hide'] = $expect['label'];
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Check a static element
-     */
-	public function testStatic() {
-        $this->logMethod(__METHOD__);
-        $cases = RendererCaseGenerator::html_Static();
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '')
-                . $this->column2(
-                    '<div id="static_1">' . "\n"
-                    . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
-                    . '</div>' . "\n"
-                ),
-                ['id' => 'static_1']
-            )
-            . "<br/>\n"
-        );
-
-        $expect['head'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div', '')
-                . $this->column2(
-                    '<div id="static_1">' . "\n"
-                    . 'This is unescaped text with &lt;stuff&gt;!' . "\n"
-                    . '</div>' . "\n"
-                ),
-                ['id' => 'static_1']
-            )
-            . "<br/>\n"
-        );
-
-        // Same result with explicit write access
-        $expect['write'] = $expect['head'];
-
-        // Test view access
-        $expect['view'] = $expect['head'];
-
-        // Test hidden access
-        $expect['hide'] = new Block();
-
-        $expect['raw'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '')
-                . $this->column2(
-                    '<div id="static_1">' . "\n"
-                    . 'This is <strong>raw html</strong>!' . "\n"
-                    . '</div>' . "\n"
-                ),
-                ['id' => 'static_1']
-            )
-            . "<br/>\n"
-        );
-
-        $expect['raw-head'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div', '')
-                . $this->column2(
-                    '<div id="static_1">' . "\n"
-                    . 'This is <strong>raw html</strong>!' . "\n"
-                    . '</div>' . "\n"
-                ),
-                ['id' => 'static_1']
-            )
-            . "<br/>\n"
-        );
 
         $this->runCases($cases, $expect);
     }

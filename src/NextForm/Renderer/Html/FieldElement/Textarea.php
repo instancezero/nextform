@@ -30,16 +30,6 @@ abstract class Textarea  {
     }
 
     /**
-     * Generate any additional/delimiting output.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        return new Block();
-    }
-
-    /**
      * Get common attributes for the input element.
      *
      * @param Labels $labels
@@ -85,7 +75,7 @@ abstract class Textarea  {
      */
     public function render($options = []) : Block
     {
-        $this->access = $options['access'];
+        $this->access = $this->engine->getAccess($options);
         $data = $this->binding->getDataProperty();
         $presentation = $data->getPresentation();
         $value = $this->binding->getValue();
@@ -142,7 +132,7 @@ abstract class Textarea  {
 
         $block->merge($input);
         $block->close();
-        $block->merge($this->epilog());
+        //$block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {

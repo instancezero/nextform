@@ -32,16 +32,6 @@ abstract class Common  {
     }
 
     /**
-     * Generate any additional/delimiting output.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        return new Block();
-    }
-
-    /**
      * Get common attributes for the input element.
      *
      * @param Labels $labels
@@ -93,7 +83,7 @@ abstract class Common  {
      */
     public function render($options = []) : Block
     {
-        $this->access = $options['access'];
+        $this->access = $this->engine->getAccess($options);
         $confirm = $options['confirm'];
         $this->confirmSuffix = $confirm ? '_confirmation' : '';
         $data = $this->binding->getDataProperty();
@@ -160,7 +150,7 @@ abstract class Common  {
         $block->merge($input);
         $block->merge($dataList);
         $block->close();
-        $block->merge($this->epilog());
+        $block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {

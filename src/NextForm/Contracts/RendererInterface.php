@@ -19,7 +19,7 @@ interface RendererInterface
     public function popContext();
 
     /**
-     * Pop the rendering context
+     * Push the rendering context
      */
     public function pushContext();
 

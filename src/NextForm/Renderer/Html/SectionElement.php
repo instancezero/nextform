@@ -28,13 +28,8 @@ class SectionElement  {
         $this->binding = $binding;
     }
 
-    protected function epilog()
-    {
-        return new Block();
-    }
-
     /**
-     * Write a cell element.
+     * Write a section element.
      * @param array $options
      * @return \Abivia\NextForm\Renderer\Block
      */

@@ -26,13 +26,22 @@ class SimpleHtml extends Html implements RendererInterface
         $this->initialize();
     }
 
+    /**
+     * Delimit this element from the next as required.
+     *
+     * @return Block
+     */
+    public function epilog()
+    {
+        $block = Block::fromString(
+            $this->queryContext('inCell') ? '&nbsp;' : "<br/>\n"
+        );
+        return $block;
+    }
+
     protected function initialize()
     {
         parent::initialize();
-        // Reset the context
-        $this->context = [
-            'inCell' => false
-        ];
         // Initialize custom settings
         $this->setShow('layout:vertical');
     }

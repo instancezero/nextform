@@ -50,7 +50,7 @@ class Role
      * Get the permissions object for this role.
      * @return \Abivia\NextForm\Access\Permissions
      */
-    public function getPermissions() : Permissions
+    public function getPermissions() : ?Permissions
     {
         return $this->permissions;
     }

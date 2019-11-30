@@ -29,18 +29,4 @@ class Common extends BaseCommon {
         return $input;
     }
 
-    /**
-     * Delimit this element from the next as required.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        // TODO: put this common code in the rendering engine.
-        $block = Block::fromString(
-            $this->engine->queryContext('inCell') ? '&nbsp;' : "<br/>\n"
-        );
-        return $block;
-    }
-
 }

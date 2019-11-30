@@ -33,16 +33,6 @@ abstract class Select  {
     }
 
     /**
-     * Generate any additional/delimiting output.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        return new Block();
-    }
-
-    /**
      * Get common attributes for the input element.
      *
      * @param Labels $labels
@@ -85,7 +75,7 @@ abstract class Select  {
      */
     public function render($options = []) : Block
     {
-        $this->access = $options['access'];
+        $this->access = $this->engine->getAccess($options);
         $this->dataProperty = $this->binding->getDataProperty();
         $this->multiple = $this->dataProperty->getValidation()->get('multiple');
         $this->element = $this->binding->getElement();
@@ -139,7 +129,7 @@ abstract class Select  {
 
         $block->merge($select);
         $block->close();
-        $block->merge($this->epilog());
+        $block->merge($this->engine->epilog());
 
         // Restore show context and return.
         if ($show !== '') {

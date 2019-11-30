@@ -3,6 +3,7 @@ namespace Abivia\NextForm\Renderer;
 
 use Abivia\NextForm\Contracts\RendererInterface;
 use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Traits\ShowableTrait;
@@ -198,6 +199,29 @@ class Html implements RendererInterface
         return $block;
     }
 
+    public function epilog()
+    {
+        return new Block();
+    }
+
+    /**
+     * Get the current access level. A container can override the option value.
+     *
+     * @param array $options Access is stored under the key "access".
+     * @return string The access permission.
+     */
+    public function getAccess($options)
+    {
+        if ($this->context['containerAccess'] !== false) {
+            $access = $this->context['containerAccess'];
+        } elseif (isset($options['access'])) {
+            $access = $options['access'];
+        } else {
+            $access = 'write';
+        }
+        return $access;
+    }
+
     protected function getRenderClass(Element $element)
     {
         $engineClass = \get_class($this);
@@ -251,6 +275,7 @@ class Html implements RendererInterface
     {
         // Reset the context
         $this->context = [
+            'containerAccess' => false,
             'inCell' => false
         ];
         // Initialize custom settings
@@ -294,8 +319,18 @@ class Html implements RendererInterface
         if (!isset($options['access'])) {
             $options['access'] = 'write';
         }
+        $block = new Block();
+        if ($this->context['containerAccess'] === 'none') {
+            // We're in a no-output container
+            return $block;
+        }
         if ($options['access'] === 'none') {
-            return new Block();
+            if ($binding instanceof ContainerBinding) {
+                $block->onCloseDone = [$this, 'popContext'];
+                $this->pushContext();
+                $this->setContext('containerAccess', 'none');
+            }
+            return $block;
         }
         $renderClass = $this->getRenderClass($binding->getElement());
         if ($renderClass) {
@@ -404,6 +439,20 @@ class Html implements RendererInterface
             = new Attributes('class', ['cellspace']);
     }
 
+
+    /**
+     * Process layout options stub.
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    public function showDoLayout($scope, $choice, $values = [])
+    {
+        if (!isset($this->showState[$scope])) {
+            $this->showState[$scope] = [];
+        }
+        $this->showState[$scope]['layout'] = $choice;
+    }
 
     /**
      * Process hidden options, called from show()

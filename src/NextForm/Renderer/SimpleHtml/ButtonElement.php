@@ -34,12 +34,4 @@ class ButtonElement extends BaseButton {
         return $input;
     }
 
-    protected function epilog()
-    {
-        $block = Block::fromString(
-            $this->engine->queryContext('inCell') ? '&nbsp;' : "<br/>\n"
-        );
-        return $block;
-    }
-
 }

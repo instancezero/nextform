@@ -81,4 +81,15 @@ class BindingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($element, $binding->getElement());
 	}
 
+    /**
+     * Test copy with a field element
+     */
+	public function testCopy()
+    {
+        $element = new FieldElement();
+        $binding = Binding::fromElement($element);
+        $bCopy = $binding->copy();
+        $this->assertEquals($bCopy, $binding);
+	}
+
 }

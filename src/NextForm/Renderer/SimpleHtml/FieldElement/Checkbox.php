@@ -137,20 +137,6 @@ class Checkbox extends BaseCheckbox {
         return $block;
     }
 
-    /**
-     * Delimit this element from the next as required.
-     *
-     * @return Block
-     */
-    protected function epilog()
-    {
-        // TODO: put this common code in the rendering engine.
-        $block = Block::fromString(
-            $this->engine->queryContext('inCell') ? '&nbsp;' : "<br/>\n"
-        );
-        return $block;
-    }
-
     protected function multiple() {
 
     }

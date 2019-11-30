@@ -38,7 +38,7 @@ class HtmlElement  {
         $block = new Block();
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($options['access'] !== 'hide') {
+        if ($this->engine->getAccess($options) !== 'hide') {
             $block->body = $this->binding->getElement()->getValue();
         }
 
