@@ -229,6 +229,9 @@ class Binding
     public function getLabels($translated = false) : Labels
     {
         if ($translated) {
+            if ($this->labels === null) {
+                $this->labelsTranslated = new Labels();
+            }
             return $this->labelsTranslated;
         } elseif ($this->labels === null) {
             $this->labels = new Labels();

@@ -8,98 +8,38 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Bootstrap4;
 
-include_once __DIR__ . '/RenderCaseGenerator.php';
-include_once __DIR__ . '/RenderCaseRunner.php';
-include_once __DIR__ . '/../../test-tools/HtmlTestLogger.php';
-include_once __DIR__ . '/../../test-tools/Page.php';
+include_once __DIR__ . '/Bootstrap4HorizontalRenderFrame.php';
 
 /**
  * @covers \Abivia\NextForm\Render\Bootstrap4
  */
-class FormRenderBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
+class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
+{
     use HtmlTestLogger;
     use RenderCaseRunner;
 
     protected $testObj;
 
-    protected function column1($text, $tag = 'label', $for = 'field_1', $moreClass = '') {
-        if ($for !== '') {
-            $for = ' for="' . $for . '"';
-        }
-        $tagClass = trim($moreClass . ' col-sm-2 col-form-label');
-        $text = '<' . $tag
-            . ($tag == 'label' ? $for : '')
-            . ' class="' . $tagClass . '">'
-            . ($text === '' ? '&nbsp;' : $text) . '</' . $tag . '>' . "\n";
-        return $text;
-    }
-
-    protected function column2($text, $moreClass = ''){
-        $divClass = trim($moreClass . ' col-sm-10');
-        $text = '<div class="' . $divClass. '">' . "\n"
-            . $text . '</div>' . "\n";
-        return $text;
-    }
-
-    protected function formCheck($body, $changeClass = '') {
-        $changeClass = $changeClass === '' ? 'form-check' : $changeClass;
-        $text = '<div class="' . $changeClass . '">' . "\n"
-            . $body
-            . '</div>' . "\n";
-        return $text;
-    }
-
-    protected function formGroup($body, $options = []) {
-        $attr = '';
-        $id = $options['id'] ?? 'field_1';
-        $attr .= ' id="' . $id . '_container' . '"';
-        $class = isset($options['class']) ? $options['class'] : 'form-group row';
-        $class = trim(
-            ($options['classPrepend'] ?? '')
-            . ' ' . $class
-            . ' ' . ($options['classAppend'] ?? '')
-        );
-        $attr .= $class ? ' class="' . $class . '"' : '';
-        $element = $options['element'] ?? 'div';
-        $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
-        $attr .= ' data-nf-for="' . $id . '"';
-        $text = '<' . $element . $attr . '>' . "\n"
-            . $body;
-        if ($options['close'] ?? true) {
-            $text .= '</' . $element . '>' . "\n";
-        }
-        return $text;
-    }
-
-    protected function setUp() : void {
+    protected function setUp() : void
+    {
         Manager::boot();
         $this->testObj = new Bootstrap4();
         $this->testObj->setShow('layout:horizontal:2:10');
     }
 
-    public static function setUpBeforeClass() : void {
-        self::$allHtml = '';
+    public static function setUpBeforeClass() : void
+    {
+        parent::setUpBeforeClass();
+        self::$defaultFormGroupClass = 'form-group row';
     }
 
-    public static function tearDownAfterClass() : void {
-        $attrs = new Attributes();
-        $attrs->set('id', 'nfTestForm');
-        $attrs->set('name', 'form_1');
-        $obj = new Bootstrap4();
-        $data = $obj->start(
-            [
-                'action' => 'http://localhost/nextform/post.php',
-                'attributes' => $attrs,
-                'token' => 'notsucharandomtoken',
-            ]
-        );
-
-        $data->body .= self::$allHtml;
-        $data->close();
-        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
+    public static function tearDownAfterClass() : void
+    {
+        self::generatePage(__FILE__, new Bootstrap4());
     }
 
-	public function testInstantiation() {
+	public function testInstantiation()
+    {
 		$this->assertInstanceOf('\Abivia\NextForm\Render\Bootstrap4', $this->testObj);
 	}
 
@@ -2987,60 +2927,6 @@ class FormRenderBootstrap4HorizontalTest extends \PHPUnit\Framework\TestCase {
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Check a html element
-     */
-	public function testHtml() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Html();
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-            '<p>This is some raw html &amp;</p>'
-        );
-
-        // Same result with explicit write access
-        $expect['write'] = $expect['basic'];
-
-        // Test view access
-        $expect['view'] = $expect['basic'];
-
-        // Test hidden access
-        $expect['hide'] = new Block();
-
-        $this->runCases($cases, $expect);
-    }
-
-	public function testSection() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Section();
-        $expect = [];
-
-        $expect['empty'] = Block::fromString(
-            $this->formGroup(
-                '', ['element' => 'fieldset', 'id' => 'section_1', 'close' => false]
-            ),
-            '</fieldset>' . "\n"
-        );
-
-        // Now add a label
-        $expect['label'] = Block::fromString(
-            $this->formGroup(
-                '<legend>This is legendary</legend>' . "\n",
-                ['element' => 'fieldset', 'id' => 'section_1', 'close' => false]
-            ),
-            '</fieldset>' . "\n"
-        );
-
-        // Same for view access
-        $expect['label-view'] = $expect['label'];
-
-        // Same for hidden access
-        $expect['label-hide'] = $expect['label'];
 
         $this->runCases($cases, $expect);
     }

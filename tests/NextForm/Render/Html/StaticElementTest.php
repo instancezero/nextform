@@ -1,5 +1,6 @@
 <?php
 
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Html\StaticElementRender;
 use Abivia\NextForm\Render\Block;
@@ -16,6 +17,7 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
 
     public function setUp() : void
     {
+        Manager::boot();
         $this->testObj = new StaticElementRender(new Html(), new Binding());
     }
 

@@ -7,31 +7,16 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\SimpleHtml;
 
-include_once __DIR__ . '/HtmlRenderFrame.php';
+include_once __DIR__ . '/SimpleRenderFrame.php';
 
 /**
  * @covers \Abivia\NextForm\Render\SimpleHtml
  */
-class FormRenderSimpleHtmlHorizontalTest extends HtmlRenderFrame {
+class FormRenderSimpleHtmlHorizontalTest extends SimpleRenderFrame {
     use HtmlTestLogger;
 
     protected $emptyLabel;
     protected $testObj;
-
-    protected function column1($text, $tag = 'label', $for = 'field_1') {
-        $for = $for === '' ? '' : ' for="' . $for . '"';
-        $text = '<' . $tag
-            . ($tag === 'label' ? $for : '')
-            . ' style="display:inline-block; vertical-align:top; width:20%">'
-            . ($text === '' ? '&nbsp;' : $text) . '</' . $tag . '>' . "\n";
-        return $text;
-    }
-
-    protected function column2($text){
-        $text = '<div style="display:inline-block; vertical-align:top; width:40%">' . "\n"
-            . $text . '</div>' . "\n";
-        return $text;
-    }
 
     protected function setUp() : void {
         Manager::boot();
@@ -40,25 +25,13 @@ class FormRenderSimpleHtmlHorizontalTest extends HtmlRenderFrame {
     }
 
     public static function setUpBeforeClass() : void {
-        self::$allHtml = '';
+        parent::setUpBeforeClass();
+        self::$defaultFormGroupClass = '';
     }
 
-    public static function tearDownAfterClass() : void {
-        $attrs = new Attributes();
-        $attrs->set('id', 'nfTestForm');
-        $attrs->set('name', 'form_1');
-        $obj = new SimpleHtml();
-        $data = $obj->start(
-            [
-                'action' => 'http://localhost/nextform/post.php',
-                'attributes' => $attrs,
-                'token' => 'notsucharandomtoken',
-            ]
-        );
-
-        $data->body .= self::$allHtml;
-        $data->close();
-        file_put_contents(__DIR__ . '/' . __CLASS__  . '-out.html', Page::write(__CLASS__, $data));
+    public static function tearDownAfterClass() : void
+    {
+        self::generatePage(__FILE__, new SimpleHtml());
     }
 
 	public function testInstantiation() {
@@ -2439,55 +2412,6 @@ class FormRenderSimpleHtmlHorizontalTest extends HtmlRenderFrame {
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Check a html element
-     */
-	public function testHtml() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Html();
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-           '<p>This is some raw html &amp;</p>'
-        );
-
-        // Same result with explicit write access
-        $expect['write'] = $expect['basic'];
-
-        // Test view access
-        $expect['view'] = $expect['basic'];
-
-        // Test hidden access
-        $expect['hide'] = new Block();
-
-        $this->runCases($cases, $expect);
-    }
-
-	public function testSection() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Section();
-        $expect = [];
-
-        $expect['empty'] = Block::fromString(
-            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n",
-            '</fieldset>' . "\n"
-        );
-        // Now add a label
-        $expect['label'] = Block::fromString(
-            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n"
-            . '<legend>This is legendary</legend>' . "\n",
-            '</fieldset>' . "\n"
-        );
-
-        // Same for view access
-        $expect['label-view'] = $expect['label'];
-
-        // Same for hidden access
-        $expect['label-hide'] = $expect['label'];
 
         $this->runCases($cases, $expect);
     }

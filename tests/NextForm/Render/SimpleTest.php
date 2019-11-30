@@ -2,7 +2,6 @@
 
 use Abivia\NextForm\Manager;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\SimpleHtml;
@@ -21,7 +20,8 @@ class FormRenderSimpleHtmlTest extends SimpleRenderFrame {
 
     public static function setUpBeforeClass() : void {
         parent::setUpBeforeClass();
-    }
+         self::$defaultFormGroupClass = '';
+   }
 
     public static function tearDownAfterClass() : void
     {
@@ -2092,55 +2092,6 @@ class FormRenderSimpleHtmlTest extends SimpleRenderFrame {
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Check a html element
-     */
-	public function testHtml() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Html();
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-            '<p>This is some raw html &amp;</p>'
-        );
-
-        // Same result with explicit write access
-        $expect['write'] = $expect['basic'];
-
-        // Test view access
-        $expect['view'] = $expect['basic'];
-
-        // Test hidden access
-        $expect['hide'] = new Block();
-
-        $this->runCases($cases, $expect);
-    }
-
-	public function testSection() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Section();
-        $expect = [];
-
-        $expect['empty'] = Block::fromString(
-            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n",
-            '</fieldset>' . "\n"
-        );
-        // Now add a label
-        $expect['label'] = Block::fromString(
-            '<fieldset id="section_1_container" data-nf-for="section_1">' . "\n"
-            . '<legend>This is legendary</legend>' . "\n",
-            '</fieldset>' . "\n"
-        );
-
-        // Same for view access
-        $expect['label-view'] = $expect['label'];
-
-        // Same for hidden access
-        $expect['label-hide'] = $expect['label'];
 
         $this->runCases($cases, $expect);
     }

@@ -19,7 +19,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
     use HtmlTestLogger;
     use RenderCaseRunner;
 
-    protected $defaultFormGroupClass = '';
+    static protected $defaultFormGroupClass = '';
     protected $testObj;
 
     protected function column1($text, $tag = 'label', $for = 'field_1')
@@ -46,7 +46,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
         $attr .= ' id="' . $id . '_container' . '"';
         $class = isset($options['class'])
             ? $options['class']
-            : $this->defaultFormGroupClass;
+            : self::$defaultFormGroupClass;
         $class = trim(
             ($options['classPrepend'] ?? '')
             . ' ' . $class
@@ -57,8 +57,10 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
         $attr .= ' data-nf-for="' . $id . '"';
         $text = '<' . $element . $attr . '>' . "\n"
-            . $body
-            . '</' . $element . '>' . "\n";
+            . $body;
+        if ($options['close'] ?? true) {
+            $text .= '</' . $element . '>' . "\n";
+        }
         return $text;
     }
 
@@ -81,8 +83,13 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
         $data->close();
         $relDir = substr(dirname($forTestFile), strlen(NF_TEST_ROOT));
         $logFile = NF_TEST_ROOT . 'logs/' . $relDir . '/'
-            . pathinfo($forTestFile, PATHINFO_FILENAME) . '-out.html';
+            . pathinfo($forTestFile, PATHINFO_FILENAME) . '.html';
         self::logPage($logFile, $data);
+    }
+
+    public static function setUpBeforeClass() : void
+    {
+        self::$defaultFormGroupClass = '';
     }
 
     /**
