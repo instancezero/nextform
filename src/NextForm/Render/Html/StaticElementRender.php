@@ -10,7 +10,7 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 
-class StaticElement  {
+class StaticElementRender  {
 
     /**
      *

@@ -3,13 +3,13 @@
 /**
  *
  */
-namespace Abivia\NextForm\Render\SimpleHtml;
+namespace Abivia\NextForm\Render\Bootstrap4;
 
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
 /**
  * Has to exist so we call the correct field type classes.
  */
-class FieldElement extends FieldElementRenderBase {
+class FieldElementRender extends FieldElementRenderBase {
 
 }

@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\NextForm\Render\Html\FieldElement;
+namespace Abivia\NextForm\Render\Html\FieldElementRender;
 
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;

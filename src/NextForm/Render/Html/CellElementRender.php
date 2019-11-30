@@ -9,7 +9,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Block;
 
-class CellRender  {
+class CellElementRender  {
 
     /**
      *

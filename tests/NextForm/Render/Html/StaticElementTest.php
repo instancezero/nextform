@@ -1,7 +1,7 @@
 <?php
 
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Render\Html\StaticElement;
+use Abivia\NextForm\Render\Html\StaticElementRender;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html;
 
@@ -16,7 +16,7 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
 
     public function setUp() : void
     {
-        $this->testObj = new StaticElement(new Html(), new Binding());
+        $this->testObj = new StaticElementRender(new Html(), new Binding());
     }
 
     public static function setUpBeforeClass() : void {
@@ -31,7 +31,7 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
 	public function testInstantiation()
     {
 		$this->assertInstanceOf(
-            '\Abivia\NextForm\Render\Html\StaticElement', $this->testObj
+            '\Abivia\NextForm\Render\Html\StaticElementRender', $this->testObj
         );
 	}
 
@@ -42,7 +42,7 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
         $element->configure($config);
 
         $binding = Binding::fromElement($element);
-        $fieldRender = new StaticElement(new Html(), $binding);
+        $fieldRender = new StaticElementRender(new Html(), $binding);
         $expect = "<div id=\"static_1_container\" data-nf-for=\"static_1\">\n"
             . "<div id=\"static_1\">\n\n"
             . "</div>\n"
@@ -68,7 +68,7 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
         $this->logMethod(__METHOD__);
         $cases = RenderCaseGenerator::html_Static();
         foreach ($cases as &$case) {
-            $case[0] = new StaticElement(new Html(), $case[0]);
+            $case[0] = new StaticElementRender(new Html(), $case[0]);
         }
 
         $expect = [];

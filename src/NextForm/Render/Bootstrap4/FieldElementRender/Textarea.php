@@ -3,14 +3,27 @@
 /**
  *
  */
-namespace Abivia\NextForm\Render\SimpleHtml\FieldElement;
+namespace Abivia\NextForm\Render\Bootstrap4\FieldElementRender;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
-use Abivia\NextForm\Render\Html\FieldElement\Textarea as BaseTextarea;
+use Abivia\NextForm\Render\Html\FieldElementRender\Textarea as BaseTextarea;
 
 class Textarea extends BaseTextarea {
+
+    /**
+     * Get attributes for the input element and add BS4 specifics.
+     *
+     * @param Labels $labels
+     * @return Attributes
+     */
+    protected function inputAttributes(Labels $labels) : Attributes
+    {
+        $attrs = parent::inputAttributes($labels);
+
+        return $attrs;
+    }
 
     /**
      * Generate the input element and any wrapping/supporting code.
@@ -18,16 +31,16 @@ class Textarea extends BaseTextarea {
     protected function inputGroup(
         Labels $labels,
         Attributes $attrs,
-        $text
+        $value
     ) : Block
     {
-        $input = new Block();
+        $input = $this->engine->inputGroupPre($labels);
+
         // Generate the textarea element
-        $input->body .= $this->engine->writeTag('textarea', $attrs, $text)
-            . $this->engine->writeLabel(
-                'after', $labels->after, 'div', null, ['break' => true]
-            )
+        $input->body .= $this->engine->writeTag('textarea', $attrs, $value)
             . "\n";
+
+        $input->merge($this->engine->inputGroupPost($labels));
 
         // Generate help text, if any
         if ($labels->has('help')) {

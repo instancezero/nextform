@@ -13,6 +13,7 @@ use Abivia\NextForm\Render\Block;
 class FieldElementRenderBase
 {
 
+    const FIELD_CLASS = 'FieldElementRender';
     /**
      *
      * @var Binding
@@ -82,21 +83,23 @@ class FieldElementRenderBase
             $fieldHandler = self::$handlerCache[$engineClass][$classType];
         } else {
             // Look for a specific handler under the current renderer
-            $fieldHandler = $engineClass . '\\FieldElement\\' . $classType;
+            $fieldHandler = $engineClass . '\\' . self::FIELD_CLASS
+                . '\\' . $classType;
             if (!\class_exists($fieldHandler)) {
 
                 // Look for a specific handler in the common renderer
                 $lastPos = \strrpos($engineClass, '\\');
                 $fieldHandler = \substr($engineClass, 0, $lastPos + 1)
-                    . '\\Html\\FieldElement\\' . $classType;
+                    . '\\Html\\' . self::FIELD_CLASS . '\\' . $classType;
                 if (!\class_exists($fieldHandler)) {
 
                     // Fall back to the common handler
-                    $fieldHandler = $engineClass . '\\FieldElement\\Common';
+                    $fieldHandler = $engineClass . '\\' . self::FIELD_CLASS
+                        . '\\Common';
 
                     // Give up
                     if (!\class_exists($fieldHandler)) {
-                        throw new RuntimeException(
+                        throw new \RuntimeException(
                             'No render class for field type ' . $type
                         );
                     }

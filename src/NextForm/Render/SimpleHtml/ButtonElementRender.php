@@ -10,7 +10,7 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\ButtonElementRenderBase;
 
-class ButtonElement extends ButtonElementRenderBase {
+class ButtonElementRender extends ButtonElementRenderBase {
 
     protected function inputGroup(Labels $labels, Attributes $attrs) : Block
     {

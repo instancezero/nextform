@@ -3,17 +3,17 @@
 /**
  *
  */
-namespace Abivia\NextForm\Render\Bootstrap4\FieldElement;
+namespace Abivia\NextForm\Render\Bootstrap4\FieldElementRender;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
-use Abivia\NextForm\Render\Html\FieldElement\Common as BaseCommon;
+use Abivia\NextForm\Render\Html\FieldElementRender\File as BaseFile;
 
-class Common extends BaseCommon {
+class File extends BaseFile {
 
     /**
-     * Get common attributes for the input element and add BS4 specifics.
+     * Get attributes for the input element and add BS4 specifics.
      *
      * @param Labels $labels
      * @return Attributes
@@ -21,25 +21,18 @@ class Common extends BaseCommon {
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = parent::inputAttributes($labels);
-        $attrs->set('class', 'form-control');
-        if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_help');
-        }
-        if (in_array($this->inputType, ['button', 'reset', 'submit'])) {
-            $attrs->set('class', $this->engine->getButtonClass());
-        }
+        $attrs->set('class', 'form-control-file');
 
         return $attrs;
     }
 
     /**
      * Generate the input element and any wrapping/supporting code.
-     *
-     * @param Labels $labels
-     * @param Attributes $attrs
-     * @return Block
      */
-    protected function inputGroup(Labels $labels, Attributes $attrs) : Block
+    protected function inputGroup(
+        Labels $labels,
+        Attributes $attrs
+    ) : Block
     {
         $input = $this->engine->inputGroup($labels, $attrs);
 

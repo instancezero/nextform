@@ -3,7 +3,7 @@
 /**
  *
  */
-namespace Abivia\NextForm\Render\Html\FieldElement;
+namespace Abivia\NextForm\Render\Html\FieldElementRender;
 
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
@@ -12,10 +12,9 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class Common  {
+abstract class File  {
     protected $access;
     protected $binding;
-    protected $confirmSuffix;
     protected $element;
     protected $engine;
     protected $field;
@@ -40,8 +39,8 @@ abstract class Common  {
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = new Attributes();
-        $attrs->set('id', $this->binding->getId() . $this->confirmSuffix);
-        $attrs->set('name', $this->binding->getFormName() . $this->confirmSuffix);
+        $attrs->set('id', $this->binding->getId());
+        $attrs->set('name', $this->binding->getFormName());
         $attrs->set('type', $this->inputType);
         $attrs->setFlag(
             'readonly',
@@ -49,12 +48,6 @@ abstract class Common  {
         );
         if (!$this->element->getEnabled()) {
             $attrs->setFlag('disabled');
-        }
-        $value = $this->binding->getValue();
-        if ($value === null) {
-            $attrs->setIfNotNull('value', $this->element->getDefault());
-        } else {
-            $attrs->set('value', $value);
         }
         $attrs->setIfNotNull(
             '*data-nf-sidecar',
@@ -84,21 +77,15 @@ abstract class Common  {
     public function render($options = []) : Block
     {
         $this->access = $this->engine->getAccess($options);
-        $confirm = $options['confirm'];
-        $this->confirmSuffix = $confirm ? '_confirmation' : '';
         $data = $this->binding->getDataProperty();
         $this->inputType = $data->getPresentation()->getType();
+        $value = $this->binding->getValue();
         if ($this->access === 'hide' || $this->inputType === 'hidden') {
 
             // No write/view permissions, the field is hidden, we don't need labels, etc.
-            if ($confirm) {
-                // No need to confirm a hidden element.
-                $block = new Block();
-            } else {
-                $block = $this->engine->elementHidden(
-                    $this->binding, $this->binding->getValue()
-                );
-            }
+            $block = $this->engine->elementHidden(
+                $this->binding, $value
+            );
             return $block;
         }
 
@@ -111,44 +98,37 @@ abstract class Common  {
             $this->engine->setShow($show, $this->inputType);
         }
 
-        // Convert view-only range elements to text
-        if ($this->inputType === 'range' && $this->access === 'view') {
-            $this->inputType = 'text';
-        }
-
-        // Generate any field grouping.
-        $block = $this->renderContainer();
-
         // Get any labels associated with this element
         $labels = $this->binding->getLabels(true);
 
         // Get attributes for the input element
+        if ($this->access === 'view') {
+            $this->inputType = 'text';
+        }
         $attrs = $this->inputAttributes($labels);
-
-        // Write the heading
-        // If we're generating a confirmation and there's a confirm heading, use that
-        // otherwise just use the usual heading
-        $fieldHeading = $confirm && $labels->confirm != '' ? $labels->confirm : $labels->heading;
-        $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $fieldHeading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
-        );
-
-        // Render the data list if there is one
-        $dataList = $this->field->dataList(
-            $attrs, $this->binding, $this->inputType, $options
-        );
 
         if ($this->access === 'write') {
             // Write access: Add in any validation
             $attrs->addValidation($this->inputType, $data->getValidation());
         }
+        $attrs->set('type', $this->inputType);
+
+        // We can see or change the data
+        $attrs->setIfNotNull('value', is_array($value) ? implode(',', $value) : $value);
+
+        // Generate any field grouping.
+        $block = $this->renderContainer();
+
+        // Write the heading
+        $block->body .= $this->engine->writeLabel(
+            'headingAttributes', $labels->heading, 'label',
+            new Attributes('!for', $this->binding->getId()), ['break' => true]
+        );
 
         // Generate the actual input element, with labels if provided.
         $input = $this->inputGroup($labels, $attrs);
 
         $block->merge($input);
-        $block->merge($dataList);
         $block->close();
         $block->merge($this->engine->epilog());
 
@@ -170,10 +150,7 @@ abstract class Common  {
         // We can see or change the data. Create a form group.
         $block = $this->engine->writeElement(
             'div', [
-                'attributes' => $this->engine->groupAttributes(
-                    $this->binding,
-                    ['id' => $this->binding->getId() . $this->confirmSuffix]
-                ),
+                'attributes' => $this->engine->groupAttributes($this->binding),
                 'show' => 'formGroupAttributes'
             ]
         );
