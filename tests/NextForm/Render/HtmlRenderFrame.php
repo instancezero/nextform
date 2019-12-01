@@ -68,6 +68,9 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
         if (!file_exists(NF_TEST_ROOT . 'logs')) {
             return;
         }
+        if (self::$allHtml === '') {
+            return;
+        }
         $attrs = new Attributes();
         $attrs->set('id', 'nfTestForm');
         $attrs->set('name', 'form_1');
@@ -89,6 +92,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
 
     public static function setUpBeforeClass() : void
     {
+        self::$allHtml = '';
         self::$defaultFormGroupClass = '';
     }
 

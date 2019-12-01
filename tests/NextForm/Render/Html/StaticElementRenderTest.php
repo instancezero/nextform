@@ -9,9 +9,9 @@ use Abivia\NextForm\Render\Html;
 include_once __DIR__ . '/../HtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Render\Html\StaticElement
+ * @covers \Abivia\NextForm\Render\Html\StaticElementRender
  */
-class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
+class NextFormRenderHtmlStaticElementRenderTest extends HtmlRenderFrame
 {
     public $testObj;
 
@@ -57,9 +57,9 @@ class NextFormRenderHtmlStaticElementTest extends HtmlRenderFrame
 		$this->assertEquals($expect, $block->body);
     }
 
-	public function testRenderHidden()
+	public function testRenderNone()
     {
-        $block = $this->testObj->render(['access' => 'hide']);
+        $block = $this->testObj->render(['access' => 'none']);
 		$this->assertEquals('', $block->body);
     }
 

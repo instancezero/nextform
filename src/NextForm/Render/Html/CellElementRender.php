@@ -36,7 +36,7 @@ class CellElementRender  {
     public function render($options = [])
     {
         $access = $this->engine->getAccess($options);
-        if ($access === 'hide') {
+        if ($access === 'none') {
             $block = new Block();
         } else {
             $block = $this->engine->writeElement(

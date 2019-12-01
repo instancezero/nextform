@@ -49,12 +49,13 @@ class FieldElementRenderBase
      * @param array $options Options, specifically access rights.
      * @return \Abivia\NextForm\Render\Block
      */
-    public function dataList(Attributes $attrs, Binding $binding, $type, $options)
+    public function dataList(Attributes $attrs, $type, $options)
     {
         $block = new Block();
         // Check for a data list, if there is write access.
         $list = $this->engine->getAccess($options) === 'write'
-            && Attributes::inputHas($type, 'list') ? $binding->getList(true) : [];
+            && Attributes::inputHas($type, 'list')
+            ? $this->binding->getList(true) : [];
         if (!empty($list)) {
             $attrs->set('list', $attrs->get('id') . '_list');
             $block->body = '<datalist id="' . $attrs->get('list') . "\">\n";
@@ -71,13 +72,20 @@ class FieldElementRenderBase
         return $block;
     }
 
+    /**
+     * Get an instance of the class that handles fields of the specified type.
+     *
+     * @param string $type The field type.
+     * @return object An instance of the required handler.
+     * @throws \RuntimeException If an acceptable class doesn't exist.
+     */
     protected function getFieldHandler($type)
     {
         $engineClass = \get_class($this->engine);
         $classType = \ucfirst($type);
 
         if (!isset(self::$handlerCache[$engineClass])) {
-            $fieldHandler = self::$handlerCache[$engineClass] = [];
+            self::$handlerCache[$engineClass] = [];
         }
         if (isset(self::$handlerCache[$engineClass][$classType])) {
             $fieldHandler = self::$handlerCache[$engineClass][$classType];
@@ -156,6 +164,19 @@ class FieldElementRenderBase
         $result->merge($this->engine->renderTriggers($this->binding));
 
         return $result;
+    }
+
+    public function setFieldHandler($type, $className)
+    {
+        $engineClass = \get_class($this->engine);
+        $classType = \ucfirst($type);
+
+        if (!isset(self::$handlerCache[$engineClass])) {
+            self::$handlerCache[$engineClass] = [];
+        }
+        self::$handlerCache[$engineClass][$classType] = $className;
+
+        return $this;
     }
 
 }

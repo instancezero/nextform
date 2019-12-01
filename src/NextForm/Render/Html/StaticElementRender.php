@@ -39,7 +39,8 @@ class StaticElementRender  {
         $block = new Block();
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($this->engine->getAccess($options) === 'hide') {
+        $access = $this->engine->getAccess($options);
+        if ($access === 'hide' || $access === 'none') {
             return $block;
         }
 

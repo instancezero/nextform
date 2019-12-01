@@ -36,9 +36,9 @@ class NextFormRenderHtmlHtmlElementRenderTest extends HtmlRenderFrame
         );
 	}
 
-	public function testRenderHidden()
+	public function testRenderNone()
     {
-        $block = $this->testObj->render(['access' => 'hide']);
+        $block = $this->testObj->render(['access' => 'none']);
 		$this->assertEquals('', $block->body);
     }
 

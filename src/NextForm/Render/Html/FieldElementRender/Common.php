@@ -136,7 +136,7 @@ abstract class Common  {
 
         // Render the data list if there is one
         $dataList = $this->field->dataList(
-            $attrs, $this->binding, $this->inputType, $options
+            $attrs, $this->inputType, $options
         );
 
         if ($this->access === 'write') {

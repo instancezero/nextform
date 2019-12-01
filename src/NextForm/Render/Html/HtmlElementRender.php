@@ -38,9 +38,12 @@ class HtmlElementRender  {
         $block = new Block();
 
         // There's no way to hide this element so if all we have is hidden access, skip it.
-        if ($this->engine->getAccess($options) !== 'hide') {
-            $block->body = $this->binding->getElement()->getValue();
+        $access = $this->engine->getAccess($options);
+        if ($access === 'hide' || $access === 'none') {
+            return $block;
         }
+
+        $block->body = $this->binding->getElement()->getValue();
 
         return $block;
     }

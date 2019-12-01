@@ -8,12 +8,12 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Bootstrap4;
 
-include_once __DIR__ . '/Bootstrap4HorizontalRenderFrame.php';
+include_once __DIR__ . '/Bootstrap4RenderFrame.php';
 
 /**
  * @covers \Abivia\NextForm\Render\Bootstrap4
  */
-class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
+class FormRenderBootstrap4HorizontalTest extends Bootstrap4RenderFrame
 {
     use HtmlTestLogger;
     use RenderCaseRunner;
@@ -42,253 +42,6 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
     {
 		$this->assertInstanceOf('\Abivia\NextForm\Render\Bootstrap4', $this->testObj);
 	}
-
-    /**
-     * Check a button
-     */
-	public function testButton() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_Button();
-        $expect = [];
-
-        // Default access
-        $expect['bda'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-success" value="I am Button!"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Write access same as default
-        $expect['bwa'] = $expect['bda'];
-
-        // Reset button default access
-        $expect['rbda'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="reset"'
-                    . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Submit button default access
-        $expect['sbda'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="submit"'
-                    . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Return to button
-        $expect['bda2'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // View access
-        $expect['bva'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Hidden access
-        $expect['bra'] = Block::fromString(
-            '<input id="button_1" name="button_1" type="hidden"'
-            . ' value="I am Button!"/>' . "\n"
-        );
-
-        // Small button... based on bda
-        $expect['small'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Large button... based on sbda
-        $expect['large'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="submit"'
-                    . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Large warning outline
-        $expect['lg-warn-out'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-outline-warning btn-lg" value="I am Button!"/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Disabled
-        $expect['disabled'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Not visible
-        $expect['hidden'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
-                ),
-                ['id' => 'button_1', 'classPrepend' => 'nf-hidden']
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Test a field with label options
-     */
-	public function testButtonLabels() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_ButtonLabels();
-        $expect = [];
-
-        // no labels
-        $expect['label-none'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // before
-        $expect['label-before'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span>'
-                . '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // After
-        $expect['label-after'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>'
-                . '<span>suffix</span>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Heading
-        $expect['label-head'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Help
-        $expect['label-help'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" aria-describedby="button_1_formhelp"/>'
-                    . "\n"
-                    . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // Inner
-        $expect['label-inner'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label', 'button_1')
-                . $this->column2(
-                    '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="inner"/>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        // All
-        $expect['label-all'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'label', 'button_1')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span><input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="inner" aria-describedby="button_1_formhelp"/>'
-                    . '<span>suffix</span>'
-                    . "\n"
-                    . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                ),
-                ['id' => 'button_1']
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
 
 	public function testCell() {
         $this->logMethod(__METHOD__);
@@ -319,937 +72,6 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $this->testObj->setOptions();
     }
 
-    /**
-     * Check a field as the button types
-     */
-	public function testFieldButton() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldButton();
-
-        $expect = [];
-        $expect['value'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="button"'
-                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
-            )
-        );
-
-        $expect['reset'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="reset"'
-                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
-            )
-        );
-
-        $expect['submit'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="submit"'
-                    . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
-            )
-        );
-
-        $this->runCases($cases, $expect);
-   }
-
-    /**
-     * Test code generation for a checkbox element
-     */
-	public function testFieldCheckbox() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldCheckbox();
-        $expect = [];
-
-        $example = '
-  <div class="form-group row">
-    <div class="col-sm-2">Checkbox</div>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
-      </div>
-    </div>
-  </div>
-';
-        $expect['basic'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // Same result with explicit write access
-        $expect['write']  = $expect['basic'];
-
-        // Set a value
-        $expect['value'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"'
-                        . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        $expect['checked'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3" checked/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        $expect['value-view'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"'
-                        . ' readonly data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1"'
-            . ' type="hidden" value="3"'
-            . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
-        );
-
-        // Test view access
-        $expect['view'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" readonly/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // Test hidden access
-        $expect['hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
-        );
-
-        // Layout inline
-        $expect['inline'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n",
-                        'form-check form-check-inline'
-                    )
-                )
-            )
-        );
-
-        // Layout inline, appear nolabel
-        $expect['inline-nolabel'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" aria-label="&lt;Stand-alone&gt; checkbox"/>' . "\n",
-                        'form-check form-check-inline'
-                    )
-                )
-            )
-        );
-
-        // no labels
-        $expect['label-none'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // before
-        $expect['label-before'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span>'
-                    . $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // After
-        $expect['label-after'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                    . '<span>suffix</span>' . "\n"
-                )
-            )
-        );
-
-        // Heading
-        $expect['label-head'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // Help
-        $expect['label-help'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3" aria-describedby="field_1_formhelp"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
-                    )
-                    . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                )
-            )
-        );
-
-        // Inner
-        $expect['label-inner'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">inner</label>' . "\n"
-                    )
-                )
-            )
-        );
-
-        // All
-        $expect['label-all'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div', '', 'pt-0')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span>'
-                    . $this->formCheck(
-                        '<input id="field_1" name="field_1" type="checkbox"'
-                        . ' class="form-check-input" value="3" aria-describedby="field_1_formhelp"/>' . "\n"
-                        . '<label for="field_1" class="form-check-label">inner</label>' . "\n"
-                    )
-                    . '<span>suffix</span>' . "\n"
-                    . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                )
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Test code generation for a checkbox styled as a button element
-     */
-	public function testFieldCheckboxButton() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldCheckboxButton();
-        $expect = [];
-
-        $expect['toggle'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>'. "\n"
-                )
-            )
-        );
-
-        $expect['label-none'] = $expect['toggle'];
-        $expect['label-before'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>' . "\n"
-                )
-            )
-        );
-        $expect['label-after'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>' . "\n"
-                    . '<span>suffix</span>' . "\n"
-                )
-            )
-        );
-        $expect['label-head'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div')
-                . $this->column2(
-                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>'
-                    . "\n"
-                )
-            )
-        );
-        $expect['label-help'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
-                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox" aria-describedby="field_1_formhelp"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>' . "\n"
-                    . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-                )
-            )
-        );
-        $expect['label-all'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('Header', 'div')
-                . $this->column2(
-                    '<span class="mr-1">prefix</span><div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-                    . '<label class="btn btn-primary">' . "\n"
-                    . '<input id="field_1" name="field_1" type="checkbox" aria-describedby="field_1_formhelp"/>' . "\n"
-                    . 'CheckButton!</label>' . "\n"
-                    . '</div>' . "\n"
-                    . '<span>suffix</span>' . "\n"
-                    . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-                )
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Test code generation for a checkbox list styled as button elements
-     */
-	public function testFieldCheckboxButtonList() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldCheckboxButtonList();
-        $expect = [];
-
-        $listCommon = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
-            . 'textlist 1</label>' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-            . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-            . 'textlist 2</label>' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-            . ' value="textlist 3" data-nf-name="tl3"/>' . "\n"
-            . 'textlist 3</label>' . "\n"
-            . '<label class="btn btn-danger">' . "\n"
-            . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-            . 'textlist 4</label>' . "\n"
-            . '</div>' . "\n";
-        $listHelp = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-            . ' value="textlist 1" aria-describedby="field_1_formhelp"/>' . "\n"
-            . 'textlist 1</label>' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-            . ' value="textlist 2" aria-describedby="field_1_formhelp"'
-            . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-            . 'textlist 2</label>' . "\n"
-            . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-            . ' value="textlist 3" aria-describedby="field_1_formhelp"'
-            . ' data-nf-name="tl3"/>' . "\n"
-            . 'textlist 3</label>' . "\n"
-            . '<label class="btn btn-danger">' . "\n"
-            . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-            . ' value="textlist 4" aria-describedby="field_1_formhelp"'
-            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-            . 'textlist 4</label>' . "\n"
-            . '</div>' . "\n";
-
-        $expect['toggle-list'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . $listCommon
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-
-        $expect['list-label-none'] = $expect['toggle-list'];
-
-        $expect['list-label-before'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . '<span class="mr-1">prefix</span>' . $listCommon
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-
-        $expect['list-label-after'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . $listCommon . '<span>suffix</span>' . "\n"
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-        $expect['list-label-head'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . $listCommon
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-
-        $expect['list-label-help'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . $listHelp
-                . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-
-        $expect['list-label-all'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
-                . '<div class="col-sm-10">' . "\n"
-                . '<span class="mr-1">prefix</span>' . $listHelp . '<span>suffix</span>' . "\n"
-                . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
-                . '</div>' . "\n"
-                . '</div>' . "\n",
-                ['element' => 'fieldset', 'class' => 'form-group']
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-    /**
-     * Test code generation for a checkbox element with a list
-     */
-	public function testFieldCheckboxList() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldCheckboxList();
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        $expect['write'] = $expect['basic'];
-
-        $expect['view'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled readonly'
-                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3" readonly'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" readonly data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        // Test hidden access
-        $expect['hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
-        );
-
-        // One option set
-        $expect['single-value'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4"'
-                        . ' checked data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        // Test hidden access
-        $expect['single-value-hide'] = Block::fromString(
-            '<input id="field_1_opt3" name="field_1[]" type="hidden"'
-            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-        );
-
-        // Two options set
-        $expect['dual-value'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1" checked/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4"'
-                        . ' checked data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        // Two options set, view mode
-        $expect['dual-value-view'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1" checked readonly/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled readonly'
-                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3" readonly'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" checked readonly'
-                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        // Test hidden access
-        $expect['dual-value-hide'] = Block::fromString(
-            '<input id="field_1_opt0" name="field_1[]" type="hidden" value="textlist 1"/>' . "\n"
-            . '<input id="field_1_opt3" name="field_1[]" type="hidden"'
-            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-        );
-
-        $inlineClasses = 'form-check form-check-inline';
-        $expect['inline'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1"/>' . "\n"
-                        . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                        . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"'
-                        . ' data-nf-name="tl3"/>' . "\n"
-                        . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n",
-                        $inlineClasses
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        $expect['inline-nolabel'] = Block::fromString(
-            $this->formGroup(
-                '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
-                    $this->formCheck(
-                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 1" aria-label="textlist 1"/>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 2"'
-                        . ' disabled aria-label="textlist 2"'
-                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 3"'
-                        . ' aria-label="textlist 3" data-nf-name="tl3"/>' . "\n",
-                        $inlineClasses
-                    )
-                    . $this->formCheck(
-                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-                        . ' class="form-check-input" value="textlist 4"'
-                        . ' aria-label="textlist 4"'
-                        . ' data-nf-sidecar="[1,2,3,4]"'
-                        . '/>' . "\n",
-                        $inlineClasses
-                    )
-                )
-                . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
-            )
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-   /**
-    * Check field as a color element
-    */
-	public function testFieldColor() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldColor();
-
-        $expect = [];
-
-        $expect['default'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' class="form-control"/>' . "\n"
-                )
-            )
-        );
-
-        // Set a value
-        $expect['value'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' class="form-control" value="#F0F0F0"/>' . "\n"
-                )
-            )
-        );
-
-        // Same result with explicit write access
-        //
-        $expect['value-write'] = $expect['value'];
-
-        // Now with view access
-        $expect['value-view'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' class="form-control" value="#F0F0F0" readonly/>' . "\n"
-                )
-            )
-        );
-
-        // Convert to hidden access
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
-   /**
-    * Check field as a date element
-    */
-	public function testFieldDate() {
-        $this->logMethod(__METHOD__);
-        $cases = RenderCaseGenerator::html_FieldDate();
-
-        $expect = [];
-
-        $expect['basic'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="date"'
-                    . ' class="form-control"/>' . "\n"
-                )
-            )
-        );
-
-        // Set a value
-        $expect['value'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="date"'
-                    . ' class="form-control" value="2010-10-10"/>' . "\n"
-                )
-            )
-        );
-
-        // Same result with explicit write access
-        $expect['write'] = $expect['value'];
-
-        // Now test validation
-        $expect['minmax'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="date"'
-                    . ' class="form-control" value="2010-10-10"'
-                    . ' min="1957-10-08" max="2099-11-06"/>' . "\n"
-                )
-            )
-        );
-
-        // Now with view access
-        $expect['view'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
-                    '<input id="field_1" name="field_1" type="date"'
-                    . ' class="form-control" value="2010-10-10"'
-                    . ' readonly/>' . "\n"
-                )
-            )
-        );
-
-        // Convert to hidden access
-        $expect['hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
-        );
-
-        $this->runCases($cases, $expect);
-    }
-
    /**
     * Check field as a datetime-local element
     */
@@ -1262,8 +84,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -1273,8 +95,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"/>' . "\n"
                 )
@@ -1287,8 +109,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"'
                     . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/>' . "\n"
@@ -1299,8 +121,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now with view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"'
                     . ' readonly/>' . "\n"
@@ -1324,8 +146,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="email" class="form-control"/>'
                     . "\n"
                 )
@@ -1334,8 +156,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['multiple'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="email"'
                     . ' class="form-control" multiple/>' . "\n"
                 )
@@ -1345,15 +167,15 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Turn confirmation on and set some test labels
         $expect['confirm'] = Block::fromString(
             $this->formGroup(
-                $this->column1('Yer email', 'label')
-                . $this->column2(
+                $this->column1h('Yer email', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="email" class="form-control"/>'
                     . "\n"
                 )
             )
             . $this->formGroup(
-                $this->column1('Confirm yer email', 'label', 'field_1_confirmation')
-                . $this->column2(
+                $this->column1h('Confirm yer email', 'label', 'field_1_confirmation')
+                . $this->column2h(
                     '<input id="field_1_confirmation" name="field_1_confirmation"'
                     . ' type="email" class="form-control"/>'
                    . "\n"
@@ -1365,8 +187,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('Yer email', 'label')
-                . $this->column2(
+                $this->column1h('Yer email', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="email" class="form-control"'
                     . ' value="snafu@fub.ar" readonly/>'
                     . "\n"
@@ -1391,8 +213,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // No access specification assumes write access
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="file"'
                     . ' class="form-control-file"/>' . "\n"
                 )
@@ -1402,8 +224,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['valid'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="file"'
                     . ' class="form-control-file"'
                     . ' accept="*.png,*.jpg" multiple/>' . "\n"
@@ -1414,8 +236,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file" readonly/>' . "\n"
                 )
@@ -1425,8 +247,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file"'
                     . ' value="file1.png,file2.jpg" readonly/>' . "\n"
@@ -1522,8 +344,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"/>' . "\n"
                 )
             )
@@ -1531,8 +353,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10"/>' . "\n"
                 )
@@ -1545,8 +367,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10" min="1957-10" max="2099-11"/>' . "\n"
                 )
@@ -1556,8 +378,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10"'
                     . ' readonly/>' . "\n"
@@ -1584,8 +406,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"/>' . "\n"
                 )
@@ -1595,8 +417,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Make the field required
         $expect['required'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' required data-nf-req="1"/>' . "\n"
@@ -1607,8 +429,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set minimum/maximum values
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45" required data-nf-req="1"/>' . "\n"
@@ -1619,8 +441,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Add a step
         $expect['step'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45" required step="1.23" data-nf-req="1"/>' . "\n"
@@ -1634,8 +456,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200" readonly/>' . "\n"
                 )
@@ -1653,8 +475,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="password"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -1667,8 +489,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="password"'
                     . ' class="form-control" readonly/>' . "\n"
                 )
@@ -1678,8 +500,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label')
-                . $this->column2(
+                $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="password"'
                     . ' class="form-control" value="secret" readonly/>' . "\n"
                 )
@@ -1705,8 +527,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input"/>' . "\n"
@@ -1723,8 +545,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div', '', 'pt-0')
-                . $this->column2(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3"/>' . "\n"
@@ -1738,8 +560,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'div')
-                . $this->column2(
+                $this->column1h('', 'div')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3" readonly/>' . "\n"
@@ -1768,8 +590,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['labels-value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('Very Important Choice', 'div', '', 'pt-0')
-                . $this->column2(
+                $this->column1h('Very Important Choice', 'div', '', 'pt-0')
+                . $this->column2h(
                     '<span class="mr-1">No need to fear</span>'
                     . $this->formCheck(
                         '<input id="field_1" name="field_1" type="radio"'
@@ -1785,8 +607,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['labels-value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('Very Important Choice', 'div')
-                . $this->column2(
+                $this->column1h('Very Important Choice', 'div')
+                . $this->column2h(
                     '<span class="mr-1">No need to fear</span>'
                     . $this->formCheck(
                         '<input id="field_1" name="field_1" type="radio"'
@@ -1818,8 +640,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
@@ -1860,8 +682,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect['value'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . $this->column1('', 'legend', '', 'pt-0')
-                . $this->column2(
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
@@ -1899,8 +721,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . $this->column1('', 'legend')
-                . $this->column2(
+                . $this->column1h('', 'legend')
+                . $this->column2h(
                     $this->formCheck(
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
@@ -1955,8 +777,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect['labels-value'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . $this->column1('Very Important Choice', 'legend', '', 'pt-0')
-                . $this->column2(
+                . $this->column1h('Very Important Choice', 'legend', '', 'pt-0')
+                . $this->column2h(
                     '<div>No need to fear</div>'
                     . $this->formCheck(
                         '<input id="field_1_opt0" name="field_1" type="radio"'
@@ -1994,8 +816,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect['labels-value-view'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . $this->column1('Very Important Choice', 'legend')
-                . $this->column2(
+                . $this->column1h('Very Important Choice', 'legend')
+                . $this->column2h(
                     '<div>No need to fear</div>'
                         . $this->formCheck(
                             '<input id="field_1_opt0" name="field_1" type="radio"'
@@ -2052,8 +874,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="range"'
                     . ' class="form-control" value="200"/>' . "\n"
                 )
@@ -2066,8 +888,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set minimum/maximum values
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="range"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45"/>' . "\n"
@@ -2078,8 +900,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Add a step
         $expect['step'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="range"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45" step="20"/>' . "\n"
@@ -2094,8 +916,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="200" readonly/>' . "\n"
                 )
@@ -2115,8 +937,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="search"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -2129,8 +951,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="search"'
                     . ' class="form-control" readonly/>' . "\n"
                 )
@@ -2155,8 +977,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" data-nf-group="[&quot;grpX&quot;]">'
@@ -2176,8 +998,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', '')
-                . $this->column2(
+                $this->column1h('', 'label', '')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
             )
@@ -2191,8 +1013,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" selected'
@@ -2210,8 +1032,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // BS4 custom
         $expect['value-bs4custom'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="custom-select">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
                     . '<option value="textlist 2" selected'
@@ -2229,8 +1051,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', '')
-                . $this->column2(
+                $this->column1h('', 'label', '')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden"'
                     . ' value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span>' . "\n"
@@ -2246,8 +1068,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'field_1[]')
-                . $this->column2(
+                $this->column1h('', 'label', 'field_1[]')
+                . $this->column2h(
                     '<select id="field_1" name="field_1[]" class="form-control"'
                     . ' multiple>' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -2266,8 +1088,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', '')
-                . $this->column2(
+                $this->column1h('', 'label', '')
+                . $this->column2h(
                     '<input id="field_1_opt0" name="field_1[]"'
                     . ' type="hidden" value="textlist 2"/>' . "\n"
                     . '<span>textlist 2</span><br/>' . "\n"
@@ -2289,8 +1111,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set the presentation to six rows
         $expect['sixrow'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'field_1[]')
-                . $this->column2(
+                $this->column1h('', 'label', 'field_1[]')
+                . $this->column2h(
                     '<select id="field_1" name="field_1[]" class="form-control"'
                     . ' multiple size="6">' . "\n"
                     . '<option value="textlist 1">textlist 1</option>' . "\n"
@@ -2319,8 +1141,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
@@ -2342,8 +1164,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', '')
-                . $this->column2(
+                $this->column1h('', 'label', '')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
                 )
             )
@@ -2357,8 +1179,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now let's give it a value...
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="form-control">' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
@@ -2377,8 +1199,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test the BS custom presentation
         $expect['value-bs4custom'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<select id="field_1" name="field_1" class="custom-select">' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
@@ -2397,8 +1219,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', '')
-                . $this->column2(
+                $this->column1h('', 'label', '')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
                     . '<span>Sub Two Item One</span>' . "\n"
                 )
@@ -2413,8 +1235,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set multiple and give it two values
         $expect['multivalue'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label', 'field_1[]')
-                . $this->column2(
+                $this->column1h('', 'label', 'field_1[]')
+                . $this->column2h(
                     '<select id="field_1" name="field_1[]" class="form-control" multiple>' . "\n"
                     . '<option value="General">General</option>' . "\n"
                     . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
@@ -2433,8 +1255,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['multivalue-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('', 'label','')
-                . $this->column2(
+                $this->column1h('', 'label','')
+                . $this->column2h(
                     '<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>' . "\n"
                     . '<span>Sub One Item One</span><br/>' . "\n"
                     . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="S2I1"/>' . "\n"
@@ -2463,8 +1285,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="tel"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -2477,8 +1299,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="tel"'
                     . ' class="form-control" readonly/>' . "\n"
                 )
@@ -2501,8 +1323,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // No access specification assumes write access
         $expect['default'] = new Block();
         $expect['default']->body = $this->formGroup(
-            $this->column1('', 'label')
-            . $this->column2(
+            $this->column1h('', 'label')
+            . $this->column2h(
                 '<input id="field_1" name="field_1" type="text" class="form-control"/>'
                 . "\n"
             )
@@ -2514,8 +1336,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = new Block();
         $expect['view']->body = $this->formGroup(
-            $this->column1('', 'label')
-            . $this->column2(
+            $this->column1h('', 'label')
+            . $this->column2h(
                 '<input id="field_1" name="field_1" type="text" class="form-control" readonly/>'
                 . "\n"
             )
@@ -2535,8 +1357,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-            $this->column1('', 'label')
-                . $this->column2(
+            $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" list="field_1_list"/>' . "\n"
                     . "<datalist id=\"field_1_list\">\n"
@@ -2552,8 +1374,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access: No list is required
         $expect['view'] = Block::fromString(
             $this->formGroup(
-            $this->column1('', 'label')
-                . $this->column2(
+            $this->column1h('', 'label')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" readonly/>' . "\n"
                 )
@@ -2579,8 +1401,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // no labels
         $expect['label-none'] = new Block();
         $expect['label-none']->body = $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . $tail
                 )
@@ -2589,8 +1411,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // before
         $expect['label-before'] = new Block();
         $expect['label-before']->body = $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<div class="input-group-prepend">' . "\n"
                     . '<span class="input-group-text">prefix</span>' . "\n"
                     . '</div>' . "\n"
@@ -2603,8 +1425,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // After
         $expect['label-after'] = new Block();
         $expect['label-after']->body = $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . "\n"
                     . '<div class="input-group-append">' . "\n"
@@ -2617,8 +1439,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Heading
         $expect['label-head'] = new Block();
         $expect['label-head']->body = $this->formGroup(
-                $this->column1('Header')
-                . $this->column2(
+                $this->column1h('Header')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . $tail
                 )
@@ -2627,8 +1449,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Help
         $expect['label-help'] = new Block();
         $expect['label-help']->body = $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"'
                     . ' aria-describedby="field_1_help"/>' . $tail
@@ -2641,8 +1463,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Inner
         $expect['label-inner'] = new Block();
         $expect['label-inner']->body = $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"'
                     . ' placeholder="inner"/>' . $tail
@@ -2652,8 +1474,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // All
         $expect['label-all'] = new Block();
         $expect['label-all']->body = $this->formGroup(
-                $this->column1('Header')
-                . $this->column2(
+                $this->column1h('Header')
+                . $this->column2h(
                     '<div class="input-group-prepend">' . "\n"
                     . '<span class="input-group-text">prefix</span>' . "\n"
                     . '</div>' . "\n"
@@ -2682,8 +1504,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         $expect = [];
         $expect['required'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1"'
                     . ' type="text" class="form-control"'
                     . ' required data-nf-req="1"/>' . "\n"
@@ -2694,8 +1516,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a maximum length
         $expect['max'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" required data-nf-req="1"/>' . "\n"
                 )
@@ -2705,8 +1527,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a minimum length
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" minlength="3" required data-nf-req="1"/>' . "\n"
                 )
@@ -2716,8 +1538,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Make it match a postal code
         $expect['pattern'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" minlength="3"'
                     . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required data-nf-req="1"/>' . "\n"
@@ -2735,8 +1557,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<textarea id="field_1" name="field_1"></textarea>' . "\n"
                 )
             )
@@ -2748,8 +1570,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
                 )
             )
@@ -2773,8 +1595,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="time"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -2784,8 +1606,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="time"'
                     . ' class="form-control" value="20:10"/>' . "\n"
                 )
@@ -2798,8 +1620,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="time"'
                     . ' class="form-control" value="20:10"'
                     . ' min="19:57" max="20:19"/>' . "\n"
@@ -2810,8 +1632,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="time"'
                     . ' class="form-control" value="20:10"'
                     . ' readonly/>' . "\n"
@@ -2837,8 +1659,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -2851,8 +1673,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Test view access
         $expect['view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control" readonly/>' . "\n"
                 )
@@ -2877,8 +1699,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control"/>' . "\n"
                 )
@@ -2888,8 +1710,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"/>' . "\n"
                 )
@@ -2902,8 +1724,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now test validation
         $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"'
                     . ' min="1957-W30" max="2099-W42"/>' . "\n"
@@ -2914,8 +1736,8 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4HorizontalRenderFrame
         // Now with view access
         $expect['minmax-view'] = Block::fromString(
             $this->formGroup(
-                $this->column1('')
-                . $this->column2(
+                $this->column1h('')
+                . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"'
                     . ' readonly/>' . "\n"

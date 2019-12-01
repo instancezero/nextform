@@ -345,7 +345,7 @@ class Html implements RenderInterface
         return $block;
     }
 
-    protected function renderTriggers(FieldBinding $binding) : Block
+    public function renderTriggers(FieldBinding $binding) : Block
     {
         return new Block;
     }
