@@ -10,7 +10,7 @@ include_once __DIR__ . '/../../SimpleHtmlRenderFrame.php';
  * @covers \Abivia\NextForm\Render\SimpleHtml\FieldElementRender\Common
  * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Common
  */
-class NextFormRenderSimpleHtmlFieldElementRenderColorTest
+class NextFormRenderSimpleHtmlFieldElementRenderPasswordTest
 extends SimpleHtmlRenderFrame
 {
     public $render;
@@ -30,106 +30,111 @@ extends SimpleHtmlRenderFrame
     }
 
     /**
-     * Check color element, Horizontal layout
+     * Check password element, Horizontal layout
      */
-	public function testColorSuiteHorizontal()
+	public function testPasswordSuiteHorizontal()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('h');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldPassword();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
-            $this->formGroup(
-                $this->column1('')
-                . $this->column2('<input id="field_1" name="field_1" type="color"/>' . "\n")
-            )
-            . "<br/>\n"
-        );
-
-        // Set a value
-        $expect['value'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="password"/>' . "\n"
                 )
             )
-            . "<br/>\n"
+            . '<br/>' . "\n"
         );
 
         // Same result with explicit write access
-        $expect['value-write'] = $expect['value'];
+        $expect['write'] = $expect['basic'];
 
-        // Now with view access
+        // Test view access
+        $expect['view'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1"'
+                    . ' type="password" readonly/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test view with a value
         $expect['value-view'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' value="#F0F0F0" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1"'
+                    . ' type="password" value="secret" readonly/>' . "\n"
                 )
             )
-            . "<br/>\n"
+            . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
+        // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="secret"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
     }
 
     /**
-     * Check color element, Vertical layout
+     * Check password element, Vertical layout
      */
-	public function testColorSuiteVertical()
+	public function testPasswordSuiteVertical()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('v');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldPassword();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color"/>' . "\n"
-            )
-            . '<br/>' . "\n"
-        );
-
-        // Set a value
-        $expect['value'] = Block::fromString(
-            $this->formGroup(
-                '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
+                '<input id="field_1" name="field_1" type="password"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Same result with explicit write access
-        $expect['value-write'] = $expect['value'];
+        $expect['write'] = $expect['basic'];
 
-        // Now with view access
-        $expect['value-view'] = Block::fromString(
+        // Test view access
+        $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color" value="#F0F0F0" readonly/>' . "\n"
+                '<input id="field_1" name="field_1"'
+                . ' type="password" readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
-        // Convert to hidden access
+        // Test view with a value
+        $expect['value-view'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1"'
+                . ' type="password" value="secret" readonly/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Test hidden access
         $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+            '<input id="field_1" name="field_1" type="hidden" value="secret"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);

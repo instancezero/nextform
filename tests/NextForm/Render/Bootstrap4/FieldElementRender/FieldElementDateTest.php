@@ -10,7 +10,7 @@ include_once __DIR__ . '/../../Bootstrap4RenderFrame.php';
  * @covers \Abivia\NextForm\Render\Bootstrap4\FieldElementRender\Common
  * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Common
  */
-class NextFormRenderBootstrap4FieldElementRenderColorTest
+class NextFormRenderBootstrap4FieldElementRenderDateTest
 extends Bootstrap4RenderFrame
 {
     public $render;
@@ -32,23 +32,23 @@ extends Bootstrap4RenderFrame
     /**
      * Check checkbox element, Horizontal layout
      */
-	public function testColorSuiteHorizontal()
+	public function testDateSuiteHorizontal()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('h');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldDate();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1h('', 'label')
                 . $this->column2h(
-                    '<input id="field_1" name="field_1" type="color"'
+                    '<input id="field_1" name="field_1" type="date"'
                     . ' class="form-control"/>' . "\n"
                 )
             )
@@ -59,30 +59,42 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('', 'label')
                 . $this->column2h(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' class="form-control" value="#F0F0F0"/>' . "\n"
+                    '<input id="field_1" name="field_1" type="date"'
+                    . ' class="form-control" value="2010-10-10"/>' . "\n"
                 )
             )
         );
 
         // Same result with explicit write access
-        //
-        $expect['value-write'] = $expect['value'];
+        $expect['write'] = $expect['value'];
 
-        // Now with view access
-        $expect['value-view'] = Block::fromString(
+        // Now test validation
+        $expect['minmax'] = Block::fromString(
             $this->formGroup(
                 $this->column1h('', 'label')
                 . $this->column2h(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' class="form-control" value="#F0F0F0" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="date"'
+                    . ' class="form-control" value="2010-10-10"'
+                    . ' min="1957-10-08" max="2099-11-06"/>' . "\n"
+                )
+            )
+        );
+
+        // Now with view access
+        $expect['view'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="date"'
+                    . ' class="form-control" value="2010-10-10"'
+                    . ' readonly/>' . "\n"
                 )
             )
         );
 
         // Convert to hidden access
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+        $expect['hide'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
@@ -91,48 +103,53 @@ extends Bootstrap4RenderFrame
     /**
      * Check checkbox element, Vertical layout
      */
-	public function testColorSuiteVertical()
+	public function testDateSuiteVertical()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('v');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldDate();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color"'
-                . ' class="form-control"/>' . "\n"
+                '<input id="field_1" name="field_1" type="date" class="form-control"/>' . "\n"
             )
         );
 
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color"'
-                . ' class="form-control" value="#F0F0F0"/>' . "\n"
+                '<input id="field_1" name="field_1" type="date" class="form-control" value="2010-10-10"/>' . "\n"
             )
         );
 
         // Same result with explicit write access
-        //
-        $expect['value-write'] = $expect['value'];
+        $expect['write'] = $expect['value'];
+
+        // Now test validation
+        $expect['minmax'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="date" class="form-control" value="2010-10-10"'
+                . ' min="1957-10-08" max="2099-11-06"/>' . "\n"
+            )
+        );
 
         // Now with view access
-        $expect['value-view'] = Block::fromString(
+        $expect['view'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color"'
-                . ' class="form-control" value="#F0F0F0" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="date" class="form-control" value="2010-10-10"'
+                . ' readonly/>' . "\n"
             )
         );
 
         // Convert to hidden access
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+        $expect['hide'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);

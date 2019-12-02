@@ -10,7 +10,7 @@ include_once __DIR__ . '/../../SimpleHtmlRenderFrame.php';
  * @covers \Abivia\NextForm\Render\SimpleHtml\FieldElementRender\Common
  * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Common
  */
-class NextFormRenderSimpleHtmlFieldElementRenderColorTest
+class NextFormRenderSimpleHtmlFieldElementRenderWeekTest
 extends SimpleHtmlRenderFrame
 {
     public $render;
@@ -30,26 +30,28 @@ extends SimpleHtmlRenderFrame
     }
 
     /**
-     * Check color element, Horizontal layout
+     * Check week element, Horizontal layout
      */
-	public function testColorSuiteHorizontal()
+	public function testWeekSuiteHorizontal()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('h');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldWeek();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
-                . $this->column2('<input id="field_1" name="field_1" type="color"/>' . "\n")
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="week"/>' . "\n"
+                )
             )
-            . "<br/>\n"
+            . '<br/>' . "\n"
         );
 
         // Set a value
@@ -57,53 +59,66 @@ extends SimpleHtmlRenderFrame
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
+                    '<input id="field_1" name="field_1"'
+                    . ' type="week" value="2010-W37"/>' . "\n"
                 )
             )
-            . "<br/>\n"
+            . '<br/>' . "\n"
         );
 
         // Same result with explicit write access
         $expect['value-write'] = $expect['value'];
 
-        // Now with view access
-        $expect['value-view'] = Block::fromString(
+        // Now test validation
+        $expect['minmax'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<input id="field_1" name="field_1" type="color"'
-                    . ' value="#F0F0F0" readonly/>' . "\n"
+                    '<input id="field_1" name="field_1" type="week" value="2010-W37"'
+                    . ' min="1957-W30" max="2099-W42"/>' . "\n"
                 )
             )
-            . "<br/>\n"
+            . '<br/>' . "\n"
         );
 
-        // Convert to hidden for read access
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+        // Now with view access
+        $expect['minmax-view'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="week" value="2010-W37"'
+                    . ' readonly/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Convert to hidden access
+        $expect['hide'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
     }
 
     /**
-     * Check color element, Vertical layout
+     * Check week element, Vertical layout
      */
-	public function testColorSuiteVertical()
+	public function testWeekSuiteVertical()
     {
         $this->logMethod(__METHOD__);
         $this->setMode('v');
 
-        $cases = RenderCaseGenerator::html_FieldColor();
+        $cases = RenderCaseGenerator::html_FieldWeek();
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
         $expect = [];
 
-        $expect['default'] = Block::fromString(
+        $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color"/>' . "\n"
+                '<input id="field_1" name="field_1" type="week"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -111,7 +126,8 @@ extends SimpleHtmlRenderFrame
         // Set a value
         $expect['value'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color" value="#F0F0F0"/>' . "\n"
+                '<input id="field_1" name="field_1"'
+                . ' type="week" value="2010-W37"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -119,17 +135,27 @@ extends SimpleHtmlRenderFrame
         // Same result with explicit write access
         $expect['value-write'] = $expect['value'];
 
-        // Now with view access
-        $expect['value-view'] = Block::fromString(
+        // Now test validation
+        $expect['minmax'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="color" value="#F0F0F0" readonly/>' . "\n"
+                '<input id="field_1" name="field_1" type="week" value="2010-W37"'
+                . ' min="1957-W30" max="2099-W42"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        // Now with view access
+        $expect['minmax-view'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="week" value="2010-W37"'
+                . ' readonly/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         // Convert to hidden access
-        $expect['value-hide'] = Block::fromString(
-            '<input id="field_1" name="field_1" type="hidden" value="#F0F0F0"/>' . "\n"
+        $expect['hide'] = Block::fromString(
+            '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
