@@ -229,6 +229,12 @@
                                 "memberOf": "person-enable"
                             },
                             {
+                                "label": "Individual Arts Supporter",
+                                "value": "IN",
+                                "memberOf": "person-enable",
+                                "enabled": false
+                            },
+                            {
                                 "label": "Business",
                                 "value": "BU",
                                 "memberOf": "business-enable",

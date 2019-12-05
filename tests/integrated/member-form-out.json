@@ -113,6 +113,12 @@
                     "object": "primaryVisualArtsMedia",
                     "memberOf": "firstVA",
                     "display": false
+                },
+                {
+                    "type": "field",
+                    "object": "primaryVisualArtsMediaOther",
+                    "memberOf": "firstVA",
+                    "display": false
                 }
             ]
         },
@@ -132,11 +138,29 @@
                     ]
                 },
                 "secondaryPublicName",
-                "secondaryMemberType",
+                {
+                    "type": "field",
+                    "object": "secondaryMemberType",
+                    "triggers": [
+                        {
+                            "event": "change",
+                            "value": "VA",
+                            "actions": [
+                                "{secondVA}:display:checked"
+                            ]
+                        }
+                    ]
+                },
                 "secondaryTypeOther",
                 {
                     "type": "field",
                     "object": "secondaryVisualArtsMedia",
+                    "memberOf": "secondVA",
+                    "display": false
+                },
+                {
+                    "type": "field",
+                    "object": "secondaryVisualArtsMediaOther",
                     "memberOf": "secondVA",
                     "display": false
                 }

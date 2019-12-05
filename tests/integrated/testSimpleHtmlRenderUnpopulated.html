@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="33a8e3a507f71cd338ceb7a9aa3b6279c173963a749996ac21cba7e7f3d9c271">
+<input id="nf_token" name="nf_token" type="hidden" value="15cd8da45580909ce2a11d2095c00130306066ff96d04877f28b37d7b3188246">
 <div id="field_2_container" data-nf-for="field_2">
 <div>Membership Level (tslt)</div>
 <div>
@@ -87,16 +87,20 @@
 <label for="field_8_opt2">Visual Arts (tslt)</label>
 </div>
 <div>
-<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
-<label for="field_8_opt3">Business (tslt)</label>
+<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" value="IN" disabled data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt3">Individual Arts Supporter (tslt)</label>
 </div>
 <div>
-<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
-<label for="field_8_opt4">Fellow Association (tslt)</label>
+<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_8_opt4">Business (tslt)</label>
 </div>
 <div>
-<input id="field_8_opt5" name="members_primaryMemberType[]" type="checkbox" value="XX"/>
-<label for="field_8_opt5">Other (tslt)</label>
+<input id="field_8_opt5" name="members_primaryMemberType[]" type="checkbox" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_8_opt5">Fellow Association (tslt)</label>
+</div>
+<div>
+<input id="field_8_opt6" name="members_primaryMemberType[]" type="checkbox" value="XX"/>
+<label for="field_8_opt6">Other (tslt)</label>
 </div>
 </div>
 <br/>
@@ -149,111 +153,121 @@
 </div>
 </div>
 <br/>
-</fieldset>
-<fieldset id="section_11_container" class="nf-hidden" data-nf-for="section_11" data-nf-group="[&quot;family&quot;]">
-<legend>Second Member (tslt)</legend>
-<div>
-<div id="field_12_container" data-nf-for="field_12">
-<label for="field_12">Legal First Name (tslt)</label>
-<input id="field_12" name="members_secondaryFirstName" type="text" required data-nf-req="1"/>
-</div>
-&nbsp;<div id="field_13_container" style="display:inline-block; padding:0.5rem; padding-left:1.2rem" data-nf-for="field_13">
-<label for="field_13">Legal Last Name (tslt)</label>
-<input id="field_13" name="members_secondaryLastName" type="text" required data-nf-req="1"/>
-</div>
-&nbsp;</div>
-<div id="field_14_container" data-nf-for="field_14">
-<label for="field_14">Artist Name (tslt)</label>
-<input id="field_14" name="members_secondaryPublicName" type="text"/>
+<div id="field_11_container" class="nf-hidden" data-nf-for="field_11" data-nf-group="[&quot;firstVA&quot;]">
+<label for="field_11">Other Media (tslt)</label>
+<input id="field_11" name="members_primaryVisualArtsMediaOther" type="text"/>
 </div>
 <br/>
+</fieldset>
+<fieldset id="section_12_container" class="nf-hidden" data-nf-for="section_12" data-nf-group="[&quot;family&quot;]">
+<legend>Second Member (tslt)</legend>
+<div>
+<div id="field_13_container" data-nf-for="field_13">
+<label for="field_13">Legal First Name (tslt)</label>
+<input id="field_13" name="members_secondaryFirstName" type="text" required data-nf-req="1"/>
+</div>
+&nbsp;<div id="field_14_container" style="display:inline-block; padding:0.5rem; padding-left:1.2rem" data-nf-for="field_14">
+<label for="field_14">Legal Last Name (tslt)</label>
+<input id="field_14" name="members_secondaryLastName" type="text" required data-nf-req="1"/>
+</div>
+&nbsp;</div>
 <div id="field_15_container" data-nf-for="field_15">
-<div>Membership Type (tslt)</div>
-<div>
-<input id="field_15_opt0" name="members_secondaryMemberType[]" type="checkbox" value="AC"/>
-<label for="field_15_opt0">Artisan/Craftsperson (tslt)</label>
-</div>
-<div>
-<input id="field_15_opt1" name="members_secondaryMemberType[]" type="checkbox" value="PF"/>
-<label for="field_15_opt1">Performer (tslt)</label>
-</div>
-<div>
-<input id="field_15_opt2" name="members_secondaryMemberType[]" type="checkbox" value="VA"/>
-<label for="field_15_opt2">Visual Arts (tslt)</label>
-</div>
-<div>
-<input id="field_15_opt3" name="members_secondaryMemberType[]" type="checkbox" value="XX"/>
-<label for="field_15_opt3">Other (tslt)</label>
-</div>
+<label for="field_15">Artist Name (tslt)</label>
+<input id="field_15" name="members_secondaryPublicName" type="text"/>
 </div>
 <br/>
 <div id="field_16_container" data-nf-for="field_16">
-<label for="field_16">Other Membership Type (tslt)</label>
-<input id="field_16" name="members_secondaryTypeOther" type="text"/>
+<div>Membership Type (tslt)</div>
+<div>
+<input id="field_16_opt0" name="members_secondaryMemberType[]" type="checkbox" value="AC"/>
+<label for="field_16_opt0">Artisan/Craftsperson (tslt)</label>
+</div>
+<div>
+<input id="field_16_opt1" name="members_secondaryMemberType[]" type="checkbox" value="PF"/>
+<label for="field_16_opt1">Performer (tslt)</label>
+</div>
+<div>
+<input id="field_16_opt2" name="members_secondaryMemberType[]" type="checkbox" value="VA"/>
+<label for="field_16_opt2">Visual Arts (tslt)</label>
+</div>
+<div>
+<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" value="XX"/>
+<label for="field_16_opt3">Other (tslt)</label>
+</div>
 </div>
 <br/>
-<div id="field_17_container" class="nf-hidden" data-nf-for="field_17" data-nf-group="[&quot;secondVA&quot;]">
+<div id="field_17_container" data-nf-for="field_17">
+<label for="field_17">Other Membership Type (tslt)</label>
+<input id="field_17" name="members_secondaryTypeOther" type="text"/>
+</div>
+<br/>
+<div id="field_18_container" class="nf-hidden" data-nf-for="field_18" data-nf-group="[&quot;secondVA&quot;]">
 <div>Visual Artists Select Media (tslt)</div>
 <div>
-<input id="field_17_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="ACR"/>
-<label for="field_17_opt0">Acrylics (tslt)</label>
+<input id="field_18_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="ACR"/>
+<label for="field_18_opt0">Acrylics (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="FBR"/>
-<label for="field_17_opt1">Fibre Art (tslt)</label>
+<input id="field_18_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="FBR"/>
+<label for="field_18_opt1">Fibre Art (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="GLS"/>
-<label for="field_17_opt2">Glass (tslt)</label>
+<input id="field_18_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="GLS"/>
+<label for="field_18_opt2">Glass (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="MIX"/>
-<label for="field_17_opt3">Mixed Media (tslt)</label>
+<input id="field_18_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="MIX"/>
+<label for="field_18_opt3">Mixed Media (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="OIL"/>
-<label for="field_17_opt4">Oils (tslt)</label>
+<input id="field_18_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="OIL"/>
+<label for="field_18_opt4">Oils (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="PHO"/>
-<label for="field_17_opt5">Photography (tslt)</label>
+<input id="field_18_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="PHO"/>
+<label for="field_18_opt5">Photography (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="POT"/>
-<label for="field_17_opt6">Pottery (tslt)</label>
+<input id="field_18_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="POT"/>
+<label for="field_18_opt6">Pottery (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="SCU"/>
-<label for="field_17_opt7">Sculpture / 3D (tslt)</label>
+<input id="field_18_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="SCU"/>
+<label for="field_18_opt7">Sculpture / 3D (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="WAT"/>
-<label for="field_17_opt8">Watercolours (tslt)</label>
+<input id="field_18_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="WAT"/>
+<label for="field_18_opt8">Watercolours (tslt)</label>
 </div>
 <div>
-<input id="field_17_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="XXX"/>
-<label for="field_17_opt9">Other (tslt)</label>
+<input id="field_18_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" value="XXX"/>
+<label for="field_18_opt9">Other (tslt)</label>
 </div>
+</div>
+<br/>
+<div id="field_19_container" class="nf-hidden" data-nf-for="field_19" data-nf-group="[&quot;secondVA&quot;]">
+<label for="field_19">Other Media (tslt)</label>
+<input id="field_19" name="members_secondaryVisualArtsMediaOther" type="text"/>
 </div>
 <br/>
 </fieldset>
-<div id="field_18_container" class="nf-hidden" data-nf-for="field_18" data-nf-group="[&quot;business&quot;]">
-<label for="field_18">Business/Association Name (tslt)</label>
-<input id="field_18" name="members_businessName" type="text"/>
+<div id="field_20_container" class="nf-hidden" data-nf-for="field_20" data-nf-group="[&quot;business&quot;]">
+<label for="field_20">Business/Association Name (tslt)</label>
+<input id="field_20" name="members_businessName" type="text"/>
 </div>
 <br/>
-<div id="field_19_container" class="nf-hidden" data-nf-for="field_19">
-<label for="field_19">Enter Desired Contribution (tslt)</label>
-<input id="field_19" name="scratch_feeSelect" type="number"/>
+<div id="field_21_container" class="nf-hidden" data-nf-for="field_21">
+<label for="field_21">Enter Desired Contribution (tslt)</label>
+<input id="field_21" name="scratch_feeSelect" type="number"/>
 </div>
 <br/>
-<div id="field_20_container" data-nf-for="field_20">
-<label for="field_20">Annual fee (tslt)</label>
-<input id="field_20" name="members_membershipFee" type="number" value="30" disabled/>
+<div id="field_22_container" data-nf-for="field_22">
+<label for="field_22">Annual fee (tslt)</label>
+<input id="field_22" name="members_membershipFee" type="number" value="30" disabled/>
 </div>
 <br/>
-<div id="button_21_container" data-nf-for="button_21">
-<input id="button_21" name="button_21" type="submit" value="Join (tslt)"/>
+<div id="button_23_container" data-nf-for="button_23">
+<input id="button_23" name="button_23" type="submit" value="Join (tslt)"/>
 </div>
 <br/>
 </form>
