@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="f03b20bed559e082950b674e4c363f767e3623ea08bf0d94262f73d9d810c04d">
+<input id="nf_token" name="nf_token" type="hidden" value="4f78be49880f717e8b4611a40a35e738299141c3e6c0a7cba590504c65052486">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
 <div>Membership Level (tslt)</div>
 <div class="form-check">
@@ -36,11 +36,11 @@
 <label for="field_2_opt4" class="form-check-label">Business $75 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt5" name="members_membershipLevel" type="radio" class="form-check-input" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<input id="field_2_opt5" name="members_membershipLevel" type="radio" class="form-check-input" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:299,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
 <label for="field_2_opt5" class="form-check-label">Patron $100-$299 (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_2_opt6" name="members_membershipLevel" type="radio" class="form-check-input" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<input id="field_2_opt6" name="members_membershipLevel" type="radio" class="form-check-input" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:500,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field_2_opt6" class="form-check-label">Sponsor $300+ (tslt)</label>
 </div>
 </fieldset>
@@ -87,8 +87,8 @@
 <label for="field_8_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="IN" disabled data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt3" class="form-check-label">Individual Arts Supporter (tslt)</label>
+<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AS" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt3" class="form-check-label">Arts Supporter (tslt)</label>
 </div>
 <div class="form-check">
 <input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
@@ -103,7 +103,7 @@
 <label for="field_8_opt6" class="form-check-label">Other (tslt)</label>
 </div>
 </fieldset>
-<div id="field_9_container" class="form-group col-sm-12" data-nf-for="field_9">
+<div id="field_9_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_9" data-nf-group="[&quot;firstXX&quot;]">
 <label for="field_9">Other Membership Type (tslt)</label>
 <input id="field_9" name="members_primaryTypeOther" type="text" class="form-control"/>
 </div>
@@ -190,11 +190,15 @@
 <label for="field_16_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
-<label for="field_16_opt3" class="form-check-label">Other (tslt)</label>
+<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AS"/>
+<label for="field_16_opt3" class="form-check-label">Arts Supporter (tslt)</label>
+</div>
+<div class="form-check">
+<input id="field_16_opt4" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_16_opt4" class="form-check-label">Other (tslt)</label>
 </div>
 </fieldset>
-<div id="field_17_container" class="form-group col-sm-12" data-nf-for="field_17">
+<div id="field_17_container" class="nf-hidden form-group col-sm-12" data-nf-for="field_17" data-nf-group="[&quot;secondXX&quot;]">
 <label for="field_17">Other Membership Type (tslt)</label>
 <input id="field_17" name="members_secondaryTypeOther" type="text" class="form-control"/>
 </div>
@@ -391,10 +395,16 @@ $('#form_1 [name^="members_primaryMemberType"]').change(function () {
   if (this.value === "VA") {
     form_1.displayGroup('firstVA', this.checked);
   }
+  if (this.value === "XX") {
+    form_1.displayGroup('firstXX', this.checked);
+  }
 });
 $('#form_1 [name^="members_secondaryMemberType"]').change(function () {
   if (this.value === "VA") {
     form_1.displayGroup('secondVA', this.checked);
+  }
+  if (this.value === "XX") {
+    form_1.displayGroup('secondXX', this.checked);
   }
 });
 $('#form_1 [name^="scratch_feeSelect"]').change(function () {

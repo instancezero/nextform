@@ -84,7 +84,7 @@
                                 "value": "PAT",
                                 "sidecar": {
                                     "fee": {
-                                        "default": 100,
+                                        "default": 299,
                                         "minValue": 100,
                                         "maxValue": 299
                                     }
@@ -95,7 +95,7 @@
                                 "value": "SPO",
                                 "sidecar": {
                                     "fee": {
-                                        "default": 300,
+                                        "default": 500,
                                         "minValue": 300,
                                         "maxValue": 99999
                                     }
@@ -229,10 +229,9 @@
                                 "memberOf": "person-enable"
                             },
                             {
-                                "label": "Individual Arts Supporter",
-                                "value": "IN",
-                                "memberOf": "person-enable",
-                                "enabled": false
+                                "label": "Arts Supporter",
+                                "value": "AS",
+                                "memberOf": "person-enable"
                             },
                             {
                                 "label": "Business",
@@ -428,6 +427,7 @@
                             "Artisan\/Craftsperson:AC",
                             "Performer:PF",
                             "Visual Arts:VA",
+                            "Arts Supporter:AS",
                             "Other:XX"
                         ]
                     },

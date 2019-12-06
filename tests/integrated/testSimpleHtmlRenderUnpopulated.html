@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="15cd8da45580909ce2a11d2095c00130306066ff96d04877f28b37d7b3188246">
+<input id="nf_token" name="nf_token" type="hidden" value="1926cffb3e5a339a20a51382cc04867233bcbac7c1bd7448bad9f063ebae0e86">
 <div id="field_2_container" data-nf-for="field_2">
 <div>Membership Level (tslt)</div>
 <div>
@@ -36,11 +36,11 @@
 <label for="field_2_opt4">Business $75 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt5" name="members_membershipLevel" type="radio" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:100,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
+<input id="field_2_opt5" name="members_membershipLevel" type="radio" value="PAT" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:299,&quot;minValue&quot;:100,&quot;maxValue&quot;:299}}"/>
 <label for="field_2_opt5">Patron $100-$299 (tslt)</label>
 </div>
 <div>
-<input id="field_2_opt6" name="members_membershipLevel" type="radio" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:300,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
+<input id="field_2_opt6" name="members_membershipLevel" type="radio" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:500,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field_2_opt6">Sponsor $300+ (tslt)</label>
 </div>
 </div>
@@ -87,8 +87,8 @@
 <label for="field_8_opt2">Visual Arts (tslt)</label>
 </div>
 <div>
-<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" value="IN" disabled data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt3">Individual Arts Supporter (tslt)</label>
+<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" value="AS" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_8_opt3">Arts Supporter (tslt)</label>
 </div>
 <div>
 <input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
@@ -104,7 +104,7 @@
 </div>
 </div>
 <br/>
-<div id="field_9_container" data-nf-for="field_9">
+<div id="field_9_container" class="nf-hidden" data-nf-for="field_9" data-nf-group="[&quot;firstXX&quot;]">
 <label for="field_9">Other Membership Type (tslt)</label>
 <input id="field_9" name="members_primaryTypeOther" type="text"/>
 </div>
@@ -191,12 +191,16 @@
 <label for="field_16_opt2">Visual Arts (tslt)</label>
 </div>
 <div>
-<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" value="XX"/>
-<label for="field_16_opt3">Other (tslt)</label>
+<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" value="AS"/>
+<label for="field_16_opt3">Arts Supporter (tslt)</label>
+</div>
+<div>
+<input id="field_16_opt4" name="members_secondaryMemberType[]" type="checkbox" value="XX"/>
+<label for="field_16_opt4">Other (tslt)</label>
 </div>
 </div>
 <br/>
-<div id="field_17_container" data-nf-for="field_17">
+<div id="field_17_container" class="nf-hidden" data-nf-for="field_17" data-nf-group="[&quot;secondXX&quot;]">
 <label for="field_17">Other Membership Type (tslt)</label>
 <input id="field_17" name="members_secondaryTypeOther" type="text"/>
 </div>

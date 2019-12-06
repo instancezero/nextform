@@ -104,10 +104,22 @@
                             "actions": [
                                 "{firstVA}:display:checked"
                             ]
+                        },
+                        {
+                            "event": "change",
+                            "value": "XX",
+                            "actions": [
+                                "{firstXX}:display:checked"
+                            ]
                         }
                     ]
                 },
-                "primaryTypeOther",
+                {
+                    "type": "field",
+                    "object": "primaryTypeOther",
+                    "memberOf": "firstXX",
+                    "display": false
+                },
                 {
                     "type": "field",
                     "object": "primaryVisualArtsMedia",
@@ -148,10 +160,22 @@
                             "actions": [
                                 "{secondVA}:display:checked"
                             ]
+                        },
+                        {
+                            "event": "change",
+                            "value": "XX",
+                            "actions": [
+                                "{secondXX}:display:checked"
+                            ]
                         }
                     ]
                 },
-                "secondaryTypeOther",
+                {
+                    "type": "field",
+                    "object": "secondaryTypeOther",
+                    "memberOf": "secondXX",
+                    "display": false
+                },
                 {
                     "type": "field",
                     "object": "secondaryVisualArtsMedia",
