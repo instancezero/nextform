@@ -123,6 +123,18 @@ class Html implements RenderInterface
     }
 
     /**
+     * Ensure we have a slot for the requested scope.
+     *
+     * @param string $scope
+     */
+    protected function checkShowState($scope)
+    {
+        if (!isset($this->showState[$scope])) {
+            $this->showState[$scope] = [];
+        }
+    }
+
+    /**
      * Generate a hidden element.
      *
      * @param Binding $binding

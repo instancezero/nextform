@@ -1,0 +1,29 @@
+{
+    "name": "ObjectOne",
+    "primary": "bob",
+    "objects": [
+        {
+            "name": "id",
+            "description": "The first object",
+            "store": {
+                "type": "int",
+                "size": "10"
+            },
+            "presentation": {
+                "cols": "1",
+                "type": "text"
+            }
+        },
+        {
+            "name": "id2",
+            "store": {
+                "type": "int",
+                "size": "10"
+            },
+            "presentation": {
+                "cols": "1",
+                "type": "text"
+            }
+        }
+    ]
+}

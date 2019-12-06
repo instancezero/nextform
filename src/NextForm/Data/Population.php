@@ -3,6 +3,7 @@
 namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Data\Population\Option;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -46,7 +47,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * Parameters associated with a query.
      * @var array
      */
-    protected $parameters;
+    protected $parameters = [];
 
     /**
      * The query used to obtain values.
@@ -70,6 +71,18 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * @var bool
      */
     protected $translate = true;
+
+    /**
+     * Add an option to the population.
+     *
+     * @param Option $option
+     * @return \self
+     */
+    public function addOption(Option $option) : self
+    {
+        $this->list[] = $option;
+        return $this;
+    }
 
     /**
      * {@inheritDoc}
@@ -126,12 +139,31 @@ class Population implements \JsonSerializable, \IteratorAggregate
     }
 
     /**
+     * Get the query parameters.
+     * @return string
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
      * Get the data list query.
      * @return string
      */
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * Get the sidecar data
+     *
+     * @return mixed
+     */
+    public function getSidecar()
+    {
+        return $this->sidecar;
     }
 
     /**
@@ -180,6 +212,18 @@ class Population implements \JsonSerializable, \IteratorAggregate
     }
 
     /**
+     * Set the query parameters.
+     *
+     * @param array $params
+     * @return \self
+     */
+    public function setParameters($params) : self
+    {
+        $this->parameters = $params;
+        return $this;
+    }
+
+    /**
      * Set the query for getting a data list.
      * @param string $query
      * @return \self
@@ -191,7 +235,20 @@ class Population implements \JsonSerializable, \IteratorAggregate
     }
 
     /**
+     * Set the sidecar data.
+     *
+     * @param mixed $data
+     * @return $this
+     */
+    public function setSidecar($data) : self
+    {
+        $this->sidecar = $data;
+        return $this;
+    }
+
+    /**
      * Set the data source type.
+     *
      * @param string $source
      * @return \self
      * @throws \LogicException
@@ -201,11 +258,13 @@ class Population implements \JsonSerializable, \IteratorAggregate
         if (!$this->configureValidate('source', $source)) {
             throw new \LogicException('Invalid value for source: ' . $source);
         }
+        $this->source = $source;
         return $this;
     }
 
     /**
      * Set the translation status.
+     *
      * @param bool $mustTranslate True if the text in the options list need to be translated.
      * @return \self
      */

@@ -116,7 +116,7 @@ class Segment implements \JsonSerializable
      */
     protected function configureValidate($property, &$value)
     {
-        if ($property == 'primary' && !is_array($value)) {
+        if ($property == 'primary' && !\is_array($value)) {
             $value = [$value];
         }
         return $value;
@@ -147,7 +147,8 @@ class Segment implements \JsonSerializable
      */
     public function getProperty($propName) : ?Property
     {
-        return isset($this->properties[$propName]) ? $this->properties[$propName] : null;
+        return isset($this->properties[$propName])
+            ? $this->properties[$propName] : null;
     }
 
     /**
@@ -163,7 +164,7 @@ class Segment implements \JsonSerializable
 
     /**
      * Set the primary key properties for this segment.
-     * @param type $keyList
+     * @param string|array $keyList
      * @return \self
      */
     public function setPrimary($keyList) : self
@@ -174,7 +175,7 @@ class Segment implements \JsonSerializable
         // Make sure all the properties are defined.
         $badPropName = $this->checkPrimary($keyList);
         if ($badPropName !== '') {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 $badPropName . ' is not a valid primary key in segment'
                 . $this->name . '.'
             );
@@ -191,6 +192,12 @@ class Segment implements \JsonSerializable
     public function setProperty(Property $prop) : self
     {
         $propName = $prop->getName();
+        if ($propName === null || $propName === '') {
+            throw new \RuntimeException(
+                'Cannot assign unnamed property to segment '
+                . $this->name . '.'
+            );
+        }
         $this->properties[$propName] = $prop;
         return $this;
     }

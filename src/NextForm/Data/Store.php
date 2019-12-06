@@ -50,7 +50,7 @@ class Store implements \JsonSerializable
     {
         $result = true;
         if ($property === 'type') {
-            if (!($result = in_array($value, self::$knownTypes))) {
+            if (!($result = \in_array($value, self::$knownTypes))) {
                 $this->configureLogError(
                     'Invalid value "'. $value . '" for property "' . $property . '".'
                 );
@@ -113,7 +113,7 @@ class Store implements \JsonSerializable
     public function setType($type) : self
     {
         if (!$this->configureValidate('type', $type)) {
-            throw new RuntimeException($type . ' is not a valid value for type.');
+            throw new \RuntimeException($type . ' is not a valid value for type.');
         }
         $this->type = $type;
         return $this;

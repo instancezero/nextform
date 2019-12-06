@@ -7,8 +7,8 @@ use Abivia\NextForm\Render\SimpleHtml;
 include_once __DIR__ . '/../../SimpleHtmlRenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Render\SimpleHtml\FieldElementRender\Common
- * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Common
+ * @covers \Abivia\NextForm\Render\SimpleHtml\FieldElementRender\Textarea
+ * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Textarea
  */
 class NextFormRenderSimpleHtmlFieldElementRenderTextareaTest
 extends SimpleHtmlRenderFrame

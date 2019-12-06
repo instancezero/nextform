@@ -1,6 +1,7 @@
 <?php
 
 use Abivia\NextForm\Data\Population;
+use Abivia\NextForm\Data\Population\Option;
 
 /**
  * @covers Abivia\NextForm\Data\Population
@@ -40,7 +41,7 @@ class DataPopulationTest extends \PHPUnit\Framework\TestCase {
     /**
      * A population with a fixed lookup list
      */
-    public function testPopulationFixed() {
+    public function testFixed() {
         $json = <<<'jsonend'
 {
     "source": "fixed",
@@ -64,13 +65,18 @@ jsonend;
         $this->assertTrue(isset($list[0]));
         $this->assertTrue(isset($list[1]));
         $this->assertEquals(2, count($list));
-		$this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $list[1]);
+
+        foreach ($obj->getIterator() as $key => $item) {
+            $this->assertInstanceOf('\Abivia\NextForm\Data\Population\Option', $item);
+            $this->assertEquals($config->list[$key]->value, $item->getValue());
+            $this->assertEquals($config->list[$key]->label, $item->getLabel());
+        }
     }
 
     /**
      * A population with a simplified fixed lookup list
      */
-    public function testPopulationFixedSimple() {
+    public function testFixedSimple() {
         $json = <<<'jsonend'
 {
     "source": "fixed",
@@ -94,7 +100,7 @@ jsonend;
     /**
      * A population with a fixed nested lookup list
      */
-    public function testPopulationFixedNested() {
+    public function testFixedNested() {
         $json = <<<'jsonend'
 {
     "source": "fixed",
@@ -127,7 +133,7 @@ jsonend;
     /**
      * A population object with both options and a lookup
      */
-    public function testPopulationOptionsLookup() {
+    public function testOptionsLookup() {
         $json = <<<'jsonend'
 {
     "source": "static",
@@ -147,9 +153,74 @@ jsonend;
         $this->assertTrue($obj->configure($config, true));
     }
 
-    public function testPopulationEmptyList() {
+    public function testEmptyList() {
         $obj = new Population();
         $this->assertEquals([], $obj->getList());
+    }
+
+    public function testParameters() {
+        $obj = new Population();
+        $this->assertEquals([], $obj->getParameters());
+        $obj->setParameters(['foo', 'bar']);
+        $this->assertEquals(['foo', 'bar'], $obj->getParameters());
+    }
+
+    public function testQuery() {
+        $obj = new Population();
+        $this->assertEquals(null, $obj->getQuery());
+        $obj->setQuery('select foo from bar');
+        $this->assertEquals('select foo from bar', $obj->getQuery());
+    }
+
+    public function testSidecar() {
+        $obj = new Population();
+        $this->assertEquals(null, $obj->getSidecar());
+        $obj->setSidecar('foo');
+        $this->assertEquals('foo', $obj->getSidecar());
+    }
+
+    public function testSource() {
+        $obj = new Population();
+        $this->assertEquals(null, $obj->getSource());
+        $obj->setSource('fixed');
+        $this->assertEquals('fixed', $obj->getSource());
+
+        $this->expectException('\LogicException');
+        $obj->setSource('foo');
+    }
+
+    public function testTranslate() {
+        $obj = new Population();
+        $this->assertTrue($obj->getTranslate());
+        $obj->setTranslate(false);
+        $this->assertFalse($obj->getTranslate());
+    }
+
+    public function testEmpty() {
+        $obj = new Population();
+        $this->assertTrue($obj->isEmpty());
+        $obj->setTranslate(false);
+        $this->assertFalse($obj->isEmpty());
+
+        $obj = new Population();
+        $obj->setSource('fixed');
+        $this->assertFalse($obj->isEmpty());
+
+        $obj = new Population();
+        $obj->setSidecar('foo');
+        $this->assertFalse($obj->isEmpty());
+
+        $obj = new Population();
+        $obj->setQuery('foo');
+        $this->assertFalse($obj->isEmpty());
+
+        $obj = new Population();
+        $obj->setParameters(['foo']);
+        $this->assertFalse($obj->isEmpty());
+
+        $obj = new Population();
+        $obj->addOption(new Option);
+        $this->assertFalse($obj->isEmpty());
     }
 
 }

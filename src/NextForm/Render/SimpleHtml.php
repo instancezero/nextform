@@ -76,6 +76,7 @@ class SimpleHtml extends Html implements RenderInterface
         // Specifiers other than bs are ignored the result is a list of
         // classes to be used when spacing between the second and subsequent
         // elements in a cell.
+        $this->checkShowState($scope);
 
         $styleList = ['display' => 'inline-block', 'padding' => '0.5rem'];
         if ($choice == 'a') {
@@ -107,9 +108,7 @@ class SimpleHtml extends Html implements RenderInterface
      */
     public function showDoLayout($scope, $choice, $values = [])
     {
-        if (!isset($this->showState[$scope])) {
-            $this->showState[$scope] = [];
-        }
+        $this->checkShowState($scope);
         // Clear out anything that might have been set by previous commands.
         unset($this->showState[$scope]['cellElementAttributes']);
         unset($this->showState[$scope]['headingAttributes']);
@@ -133,10 +132,12 @@ class SimpleHtml extends Html implements RenderInterface
         // possible values for arguments:
         // h            - We get to decide
         // h:nxx        - First column width in CSS units
-        // h:nxx/mxx    - CSS units for headers / input elements
+        // h:nxx:mxx    - CSS units for headers / input elements
         // h:n:m:t      - ratio of headers to inputs over space t. If no t, t=n+m
         // h:.c1        - Class for headers
         // h:.c1:.c2    - Class for headers / input elements
+        $this->checkShowState($scope);
+
         $apply = &$this->showState[$scope];
         switch (count($values)) {
             case 1:
@@ -245,7 +246,8 @@ class SimpleHtml extends Html implements RenderInterface
         // v:mxx        - CSS units for input elements
         // v:.c2        - Class for input elements
         // v:m:t        - ratio of inputs over space t.
-        $apply = $this->showState[$scope];
+        $this->checkShowState($scope);
+        $apply = &$this->showState[$scope];
         switch (count($values)) {
             case 1:
                 // No specification, nothing to do
@@ -253,37 +255,39 @@ class SimpleHtml extends Html implements RenderInterface
             case 2:
                 if ($values[1][0] == '.') {
                     // Single class specification
-                    $apply['inputWrapperAttributes'] = [
-                        'class' => [substr($values[1], 1)],
-                    ];
+                    $apply['inputWrapperAttributes'] = new Attributes(
+                        'class', [substr($values[1], 1)]
+                    );
                 } else {
                     // Single CSS units
-                    $apply['inputWrapperAttributes'] = [
-                        'style' => [
+                    $apply['inputWrapperAttributes'] = new Attributes(
+                        'style',
+                        [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
                             'width' => $values[1],
-                        ],
-                    ];
+                        ]
+                    );
                 }
                 break;
             default:
                 if (preg_match('/^[+\-]?[0-9](\.[0-9]*)?$/', $values[1])) {
                     // ratio
                     $part1 = (float) $values[1];
-                    if (!$part1) {
+                    $part2 = isset($values[2]) ? (float) $values[2] : $part1;
+                    if (!$part1 || !$part2) {
                         throw new \RuntimeException(
                             'Zero is invalid in a ratio.'
                         );
                     }
-                    $sum = isset($values[2]) ? $values[2] : $part1;
-                    $apply['inputWrapperAttributes'] = [
-                        'style' => [
+                    $apply['inputWrapperAttributes'] = new Attributes(
+                        'style',
+                        [
                             'display' => 'inline-block',
                             'vertical-align' => 'top',
-                            'width' => round(100.0 * $part1 / $sum, 3) . '%'
-                        ],
-                    ];
+                            'width' => round(100.0 * $part1 / $part2, 3) . '%'
+                        ]
+                    );
                 }
                 break;
         }

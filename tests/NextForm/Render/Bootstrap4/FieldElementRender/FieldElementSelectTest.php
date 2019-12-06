@@ -7,8 +7,8 @@ use Abivia\NextForm\Render\Bootstrap4;
 include_once __DIR__ . '/../../Bootstrap4RenderFrame.php';
 
 /**
- * @covers \Abivia\NextForm\Render\Bootstrap4\FieldElementRender\Common
- * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Common
+ * @covers \Abivia\NextForm\Render\Bootstrap4\FieldElementRender\Select
+ * @covers \Abivia\NextForm\Render\Html\FieldElementRender\Select
  */
 class NextFormRenderBootstrap4FieldElementRenderSelectTest
 extends Bootstrap4RenderFrame

@@ -269,6 +269,7 @@ class Bootstrap4 extends Html implements RenderInterface
         // Specifiers other than bs are ignored the result is a list of
         // classes to be used when spacing between the second and subsequent
         // elements in a cell.
+        $this->checkShowState($scope);
 
         $classList = [];
         if ($choice == 'a') {
@@ -315,9 +316,7 @@ class Bootstrap4 extends Html implements RenderInterface
         // headingAttributes - Set in horizontal layouts to set heading widths
         // inputWrapperAttributes - Set in horizontal layouts for giving an input element width
         //
-        if (!isset($this->showState[$scope])) {
-            $this->showState[$scope] = [];
-        }
+        $this->checkShowState($scope);
         $this->showState[$scope]['layout'] = $choice;
         if ($scope === 'form') {
 
@@ -364,6 +363,7 @@ class Bootstrap4 extends Html implements RenderInterface
         // Creates an attribute set for:
         // headingAttributes -- to be used for input element headings
         //
+        $this->checkShowState($scope);
         $apply = &$this->showState[$scope];
         $default = true;
         $apply['formGroupAttributes']->itemAppend('class', 'row');
@@ -430,6 +430,7 @@ class Bootstrap4 extends Html implements RenderInterface
         // cellElementAttributes - Add the input column class
         // formGroupAttributes - add the form width
         //
+        $this->checkShowState($scope);
         $default = true;
         $apply = &$this->showState[$scope];
         if (count($values) >= 2) {
@@ -479,9 +480,7 @@ class Bootstrap4 extends Html implements RenderInterface
         ) {
             throw new RuntimeException($choice . ' is an invalid value for purpose.');
         }
-        if (!isset($this->showState[$scope])) {
-            $this->showState[$scope] = [];
-        }
+        $this->checkShowState($scope);
         $this->showState[$scope]['purpose'] = $choice;
     }
 

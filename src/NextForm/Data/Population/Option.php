@@ -219,6 +219,11 @@ class Option implements \JsonSerializable
         return $this->selected;
     }
 
+    /**
+     * Get the sidecar data
+     *
+     * @return mixed
+     */
     public function getSidecar()
     {
         return $this->sidecar;
@@ -326,7 +331,13 @@ class Option implements \JsonSerializable
         return $this;
     }
 
-    public function setSidecar($data)
+    /**
+     * Set the sidecar data.
+     *
+     * @param mixed $data
+     * @return $this
+     */
+    public function setSidecar($data) : self
     {
         $this->sidecar = $data;
         return $this;

@@ -1,5 +1,6 @@
 <?php
 
+use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Segment;
 
 /**
@@ -15,12 +16,12 @@ class DataSegmentTest extends \PHPUnit\Framework\TestCase {
         return $reflectorProperty->getValue($instance);
     }
 
-	public function testDataSegmentInstantiation() {
+	public function testInstantiation() {
         $obj = new Segment();
 		$this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj);
 	}
 
-    public function testDataSegmentLoad() {
+    public function testLoad() {
         $obj = new Segment();
         $config = json_decode(file_get_contents(dirname(__FILE__) . '/data-segment.json'));
         $this->assertTrue(false != $config, 'JSON error!');
@@ -41,6 +42,61 @@ class DataSegmentTest extends \PHPUnit\Framework\TestCase {
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(dirname(__FILE__) . '/segment-dump_actual.txt', $dump);
         $this->assertStringEqualsFile(dirname(__FILE__) . '/segment-dump_expect.txt', $dump);
+    }
+
+    public function testLoadBadPrimary()
+    {
+        $obj = new Segment();
+        $config = json_decode(
+            file_get_contents(
+                dirname(__FILE__) . '/data-segment-bad-primary.json'
+            )
+        );
+        $this->assertTrue(false != $config, 'JSON error!');
+        $this->assertFalse($obj->configure($config, true));
+
+    }
+
+    public function testName()
+    {
+        $obj = new Segment();
+        $config = json_decode(file_get_contents(dirname(__FILE__) . '/data-segment.json'));
+        $this->assertTrue(false != $config, 'JSON error!');
+        $obj->configure($config, true);
+
+        $this->assertEquals('ObjectOne', $obj->getName());
+
+        $obj->setName('foo');
+        $this->assertEquals('foo', $obj->getName());
+    }
+
+    public function testPrimary()
+    {
+        $obj = new Segment();
+        $config = json_decode(file_get_contents(dirname(__FILE__) . '/data-segment.json'));
+        $this->assertTrue(false != $config, 'JSON error!');
+        $obj->configure($config, true);
+        $obj->setPrimary('id');
+        $this->assertEquals(['id'], $obj->getPrimary());
+
+        $this->expectException('\RuntimeException');
+        $obj->setPrimary('nonexistent');
+    }
+
+    public function testProperty()
+    {
+        $obj = new Segment();
+        $config = json_decode(file_get_contents(dirname(__FILE__) . '/data-segment.json'));
+        $this->assertTrue(false != $config, 'JSON error!');
+        $obj->configure($config, true);
+
+        $prop = new Property();
+        $prop->setName('someprop');
+        $obj->setProperty($prop);
+
+        $prop = new Property();
+        $this->expectException('\RuntimeException');
+        $obj->setProperty($prop);
     }
 
 }
