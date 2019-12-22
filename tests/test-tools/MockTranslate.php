@@ -10,13 +10,13 @@ class MockTranslate implements Translator {
     public $append = ' (tslt)';
     public $prepend = '';
 
-    public function trans($key, array $replace = [], $locale = null) {
+    public function get($key, array $replace = [], $locale = null) {
         $replace = $replace;
         $locale = $locale;
         return $this->prepend . $key . $this->append;
     }
 
-    public function transChoice($key, $number, array $replace = [], $locale = null) {
+    public function choice($key, $number, array $replace = [], $locale = null) {
         return $key;
     }
 

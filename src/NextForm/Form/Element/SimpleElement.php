@@ -152,7 +152,7 @@ abstract class SimpleElement Extends Element
     public function translate(Translator $translator = null) : Element
     {
         if ($translator !== null) {
-            $this->valueTranslated = $translator->trans($this->value);
+            $this->valueTranslated = $translator->get($this->value);
         } else {
             $this->valueTranslated = $this->value;
         }

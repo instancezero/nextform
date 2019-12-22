@@ -353,7 +353,7 @@ class Option implements \JsonSerializable
     {
         $translated = clone $this;
         if ($translator !== null) {
-            $translated->setLabel($translator->trans($this->label));
+            $translated->setLabel($translator->get($this->label));
         }
         return $translated;
     }
