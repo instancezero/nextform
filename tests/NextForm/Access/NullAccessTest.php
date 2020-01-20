@@ -17,7 +17,7 @@ class NullAccessTest extends \PHPUnit\Framework\TestCase {
      */
     public function testNullAccessResult() {
         $obj = new NullAccess();
-        $this->assertTrue($obj->hasAccess('foo', 'bar', 'bat'));
+        $this->assertTrue($obj->allows('foo', 'bar', 'bat'));
     }
 
     /**

@@ -1061,6 +1061,7 @@ Abivia\NextForm\Form\Form Object
         )
 
     [name:protected] =>
+    [show:protected] =>
     [useSegment:protected] => user
     [configureErrors:Abivia\NextForm\Form\Form:private] => Array
         (
@@ -1073,5 +1074,4 @@ Abivia\NextForm\Form\Form Object
  *RECURSION*
         )
 
-    [show:protected] =>
 )

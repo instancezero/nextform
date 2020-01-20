@@ -32,11 +32,13 @@ class Form implements \JsonSerializable
 
     protected $name;
 
+    protected $show = '';
+
     protected $useSegment = '';
 
     public function __construct()
     {
-        $this->show = '';
+        $this->initialize();
     }
 
     protected function configureClassMap($property, $value)
@@ -74,18 +76,11 @@ class Form implements \JsonSerializable
      * Generate a form object from a file
      * @param string $formFile
      * @return \Abivia\NextForm\Form
-     * @throws RuntimeException
      */
     static public function fromFile($formFile)
     {
         $form = new Form();
-        if (!$form->configure(json_decode(file_get_contents($formFile)), true)) {
-            throw new \RuntimeException(
-                'Failed to load ' . $formFile . "\n"
-                . implode("\n", $form->configureErrors)
-            );
-        }
-        return $form;
+        return $form->loadFile($formFile);
     }
 
     /**
@@ -98,13 +93,7 @@ class Form implements \JsonSerializable
     static public function fromJson($json)
     {
         $form = new Form();
-        if (!$form->configure(json_decode($json), true)) {
-            throw new \RuntimeException(
-                'Failed to load JSON' . "\n"
-                . implode("\n", $form->configureErrors)
-            );
-        }
-        return $form;
+        return $form->loadJson($json);
     }
 
     /**
@@ -123,6 +112,52 @@ class Form implements \JsonSerializable
     public function getSegment()
     {
         return $this->useSegment;
+    }
+
+    /**
+     * Initialize the object.
+     */
+    protected function initialize() {
+        $this->elements = null;
+        $this->name = null;
+        $this->show = '';
+        $this->useSegment = '';
+    }
+
+    /**
+     * Load form definition from file.
+     *
+     * @param string $formFile Path to the form definition.
+     * @return \self
+     * @throws \RuntimeException
+     */
+    public function loadFile($formFile) : self {
+        $json = \file_get_contents($formFile);
+        if ($json === false) {
+            throw new \RuntimeException(
+                'Unable to read ' . $formFile . "\n"
+            );
+        }
+        try {
+            $this->loadJson($json);
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException(
+                $e->getMessage() . 'While reading ' . $formFile . "\n"
+            );
+        }
+
+        return $this;
+    }
+
+    public function loadJson($json) : self {
+        $this-> initialize();
+        if (!$this->configure(\json_decode($json), true)) {
+            throw new \RuntimeException(
+                'Failed to load JSON' . "\n"
+                . \implode("\n", $this->configureErrors)
+            );
+        }
+        return $this;
     }
 
     protected function options($options)

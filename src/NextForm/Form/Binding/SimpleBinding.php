@@ -14,24 +14,6 @@ class SimpleBinding Extends Binding
 {
 
     /**
-     * Use a renderer to turn this element into part of the form.
-     * @param RenderInterface $renderer Any Render object.
-     * @param AccessInterface $access Any access control object
-     * @param Translator $translator Any translation object.
-     * @return Block
-     */
-    public function generate(
-        RenderInterface $renderer,
-        AccessInterface $access
-    ) : Block {
-        $options = false; // $access->hasAccess(...)
-        $options = ['access' => 'write'];
-        $containerData = $renderer->render($this, $options);
-        $containerData->close();
-        return $containerData;
-    }
-
-    /**
      * Get the current value for the bound element.
      * @return mixed
      */

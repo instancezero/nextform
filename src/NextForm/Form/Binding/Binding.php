@@ -109,6 +109,41 @@ class Binding
     }
 
     /**
+     * Check the access level for this binding.
+     *
+     * @param AccessInterface $access Any access control object.
+     * @param type $segment The data segment to check, empty for a form name.
+     * @param type $objectName The data object name or form name.
+     * @param array $options Options, accessOverride is relevant
+     * @return array Options with access, accessOverride elements set.
+     */
+    protected function checkAccess(
+        AccessInterface $access,
+        $segment,
+        $objectName,
+        $options
+    ) {
+        if (isset($options['accessOverride'])) {
+            $level = $options['accessOverride'];
+        } else {
+            $level = 'none';
+            if ($access->allows($segment, $objectName, 'write')) {
+                $level = 'write';
+            } elseif ($access->allows($segment, $objectName, 'view')) {
+                $level = 'view';
+            } elseif ($access->allows($segment, $objectName, 'hide')) {
+                $level = 'hide';
+            }
+            if ($level != 'write') {
+                // Anyting less than write access overrides contained elements.
+                $options['accessOverride'] = $level;
+            }
+        }
+        $options['access'] = $level;
+        return $options;
+    }
+
+    /**
      * Make a copy of this element, cloning/preserving selected properties
      * @return \self
      */
@@ -161,15 +196,20 @@ class Binding
 
     /**
      * Use a renderer to turn this element into part of the form.
+     *
      * @param RenderInterface $renderer Any Render object.
-     * @param AccessInterface $access Any access control object
-     * @param Translator $translator Any translation object.
+     * @param AccessInterface $access Any access control object.
+     * @param array $options Options: accessOverride to override default access.
      * @return Block
      */
-    public function generate(RenderInterface $renderer, AccessInterface $access) : Block
-    {
-        //$readOnly = false; // $access->hasAccess(...)
-        $options = ['access' => 'write'];
+    public function generate(
+        RenderInterface $renderer,
+        AccessInterface $access,
+        $options = []
+    ) : Block {
+        $options = $this->checkAccess(
+            $access, '', $this->element->getName(), $options
+        );
         $pageData = $renderer->render($this, $options);
         return $pageData;
     }

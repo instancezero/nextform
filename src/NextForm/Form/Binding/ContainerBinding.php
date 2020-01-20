@@ -43,20 +43,26 @@ class ContainerBinding Extends Binding
 
     /**
      * Use a renderer to turn this element into part of the form.
+     *
      * @param RenderInterface $renderer Any Render object.
-     * @param AccessInterface $access Any access control object
-     * @param Translator $translator Any translation object.
+     * @param AccessInterface $access Any access control object.
+     * @param array $options Options: accessOverride to override default access.
      * @return Block
      */
     public function generate(
         RenderInterface $renderer,
-        AccessInterface $access
+        AccessInterface $access,
+        $options = []
     ) : Block {
-        $options = false; // $access->hasAccess(...)
-        $options = ['access' => 'write'];
+        // Container access: use an empty segment and the element name
+        $options = $this->checkAccess(
+            $access, '', $this->element->getName(), $options
+        );
         $containerData = $renderer->render($this, $options);
         foreach ($this->bindings as $binding) {
-            $containerData->merge($binding->generate($renderer, $access));
+            $containerData->merge(
+                $binding->generate($renderer, $access, $options)
+            );
         }
         $containerData->close();
         return $containerData;

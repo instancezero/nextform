@@ -13,7 +13,7 @@ class BasicAccess implements AccessInterface
     use Configurable;
 
     /**
-     * The default user to check when no explicit user identifier is passed to hasAccess().
+     * The default user to check when no explicit user identifier is passed to allows().
      * @var string
      */
     protected $currentUser = null;
@@ -31,45 +31,15 @@ class BasicAccess implements AccessInterface
     protected $users;
 
     /**
-     * Map a property to a class.
-     * @staticvar array $classMap Maps property names to a set of instantiation rules
-     * @param string $property The name of the property to check.
-     * @param mixed $value The current value of the named property.
-     * @return mixed An instantiation rule object or false if no rule applies.
-     */
-    protected function configureClassMap($property, $value)
-    {
-        static $classMap = [
-            'roles' => ['className' => '\Abivia\NextForm\Access\Role', 'key' => 'getName', 'keyIsMethod' => true],
-            'users' => ['className' => '\Abivia\NextForm\Access\User', 'key' => 'getId', 'keyIsMethod' => true],
-        ];
-        if (isset($classMap[$property])) {
-            return (object) $classMap[$property];
-        }
-        // @codeCoverageIgnoreStart
-        return false;
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * Check if the property can be loaded from configuration.
-     * @param string $property
-     * @return boolean true if the property is allowed.
-     */
-    protected function configurePropertyAllow($property)
-    {
-        return in_array($property, ['roles', 'users']);
-    }
-
-    /**
-     * Determine if the a user has access to an object.
+     * Determine if the a user is allowed to perform an operation on an object.
+     *
      * @param string $segment The segment that the requested object belongs to.
      * @param string $objectName The name of the object.
      * @param string $operation The operation we're asking permission for (read|write).
      * @param mixed $user User to query, uses current user if null
      * @return bool True if access is granted.
      */
-    public function hasAccess($segment, $objectName, $operation, $user = null) : bool
+    public function allows($segment, $objectName, $operation, $user = null) : bool
     {
         if ($user === null) {
             $user = $this->currentUser;
@@ -105,6 +75,38 @@ class BasicAccess implements AccessInterface
             $access = $segAccess === true;
         }
         return $access;
+    }
+
+    /**
+     * Map a property to a class.
+     *
+     * @staticvar array $classMap Maps property names to a set of instantiation rules
+     * @param string $property The name of the property to check.
+     * @param mixed $value The current value of the named property.
+     * @return mixed An instantiation rule object or false if no rule applies.
+     */
+    protected function configureClassMap($property, $value)
+    {
+        static $classMap = [
+            'roles' => ['className' => '\Abivia\NextForm\Access\Role', 'key' => 'getName', 'keyIsMethod' => true],
+            'users' => ['className' => '\Abivia\NextForm\Access\User', 'key' => 'getId', 'keyIsMethod' => true],
+        ];
+        if (isset($classMap[$property])) {
+            return (object) $classMap[$property];
+        }
+        // @codeCoverageIgnoreStart
+        return false;
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * Check if the property can be loaded from configuration.
+     * @param string $property
+     * @return boolean true if the property is allowed.
+     */
+    protected function configurePropertyAllow($property)
+    {
+        return in_array($property, ['roles', 'users']);
     }
 
     /**

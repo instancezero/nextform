@@ -72,7 +72,7 @@ class Manager
 
     public function __construct()
     {
-        $this->access = new Access\BasicAccess();
+        $this->access = new Access\NullAccess();
         $this->show = '';
     }
 

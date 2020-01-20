@@ -16,7 +16,7 @@ class NullAccess implements AccessInterface
      * @param string $operation The operation we're asking permission for (read|write).
      * @return bool True if access is granted. Always true.
      */
-    public function hasAccess($segment, $objectName, $operation, $user = null) : bool
+    public function allows($segment, $objectName, $operation, $user = null) : bool
     {
         return true;
     }

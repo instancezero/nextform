@@ -62,28 +62,28 @@ class BasicAccessTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($obj->configure($config));
         // Administrator tests
         $obj->setUser(1);
-        $this->assertTrue($obj->hasAccess('event', 'arbitrary', 'write'));
-        $this->assertTrue($obj->hasAccess('event', 'id', 'read'));
-        $this->assertFalse($obj->hasAccess('event', 'id', 'write'));
-        $this->assertFalse($obj->hasAccess('undef', 'any', 'thing'));
+        $this->assertTrue($obj->allows('event', 'arbitrary', 'write'));
+        $this->assertTrue($obj->allows('event', 'id', 'read'));
+        $this->assertFalse($obj->allows('event', 'id', 'write'));
+        $this->assertFalse($obj->allows('undef', 'any', 'thing'));
         // Moderator tests using user argument
-        $this->assertTrue($obj->hasAccess('event', 'arbitrary', 'read', 2));
-        $this->assertTrue($obj->hasAccess('event', 'name', 'write', 2));
-        $this->assertFalse($obj->hasAccess('event', 'arbitrary', 'write', 2));
-        $this->assertFalse($obj->hasAccess('event', 'id', 'write', 2));
-        $this->assertFalse($obj->hasAccess('event', 'profit', 'read', 2));
-        $this->assertFalse($obj->hasAccess('undef', 'any', 'thing', 2));
+        $this->assertTrue($obj->allows('event', 'arbitrary', 'read', 2));
+        $this->assertTrue($obj->allows('event', 'name', 'write', 2));
+        $this->assertFalse($obj->allows('event', 'arbitrary', 'write', 2));
+        $this->assertFalse($obj->allows('event', 'id', 'write', 2));
+        $this->assertFalse($obj->allows('event', 'profit', 'read', 2));
+        $this->assertFalse($obj->allows('undef', 'any', 'thing', 2));
         // Make sure default admin user still gets the same result
-        $this->assertTrue($obj->hasAccess('event', 'id', 'read'));
+        $this->assertTrue($obj->allows('event', 'id', 'read'));
         // Then switch to a guest
         $obj->setUser(3);
-        $this->assertTrue($obj->hasAccess('event', 'name', 'read'));
-        $this->assertFalse($obj->hasAccess('event', 'name', 'write'));
-        $this->assertFalse($obj->hasAccess('event', 'id', 'read'));
-        $this->assertFalse($obj->hasAccess('users', 'any', 'read'));
+        $this->assertTrue($obj->allows('event', 'name', 'read'));
+        $this->assertFalse($obj->allows('event', 'name', 'write'));
+        $this->assertFalse($obj->allows('event', 'id', 'read'));
+        $this->assertFalse($obj->allows('users', 'any', 'read'));
         // Finally pass an invalid user
         $this->expectException('LogicException');
-        $obj->hasAccess('undef', 'any', 'thing', 2487631);
+        $obj->allows('undef', 'any', 'thing', 2487631);
     }
 
 }

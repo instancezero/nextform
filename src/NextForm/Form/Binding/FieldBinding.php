@@ -3,8 +3,11 @@
 namespace Abivia\NextForm\Form\Binding;
 
 use Abivia\NextForm\Manager;
+use Abivia\NextForm\Contracts\AccessInterface;
+use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
@@ -85,6 +88,26 @@ class FieldBinding extends Binding
             $this->manager->registerBinding($this);
         }
         return $this;
+    }
+
+    /**
+     * Use a renderer to turn this element into part of the form.
+     *
+     * @param RenderInterface $renderer Any Render object.
+     * @param AccessInterface $access Any access control object.
+     * @param array $options Options: accessOverride to override default access.
+     * @return Block
+     */
+    public function generate(
+        RenderInterface $renderer,
+        AccessInterface $access,
+        $options = []
+    ) : Block {
+        $options = $this->checkAccess(
+            $access, $this->objectRef[0], $this->objectRef[1], $options
+        );
+        $pageData = $renderer->render($this, $options);
+        return $pageData;
     }
 
     /**
