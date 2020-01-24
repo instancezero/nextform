@@ -1,0 +1,74 @@
+{
+    "name": "elementTestForm",
+    "useSegment": "elementTest",
+    "elements": [
+        {
+            "name": "button",
+            "type": "button",
+            "function": "submit"
+        },
+        {
+            "name": "simpleCell",
+            "type": "cell",
+            "elements": [
+                {
+                    "type": "field",
+                    "name": "cellFieldOne",
+                    "object": "cellOne"
+                },
+                {
+                    "type": "field",
+                    "name": "cellFieldTwo",
+                    "object": "cellTwo"
+                }
+            ]
+        },
+        {
+            "type": "field",
+            "name": "textOne",
+            "object": "textOne"
+        },
+        {
+            "type": "html",
+            "name": "htmlOne",
+            "value": "<p>This is a html element.</p>"
+        },
+        {
+            "type": "section",
+            "name": "SectionOne",
+            "elements": [
+                {
+                    "type": "field",
+                    "name": "textInSectionOne",
+                    "object": "textSectionOne"
+                },
+                {
+                    "type": "cell",
+                    "name": "cellInSectionOne",
+                    "elements": [
+                        {
+                            "type": "field",
+                            "name": "cellFieldThree",
+                            "object": "cellThree"
+                        },
+                        {
+                            "type": "field",
+                            "name": "cellFieldFour",
+                            "object": "cellFour"
+                        },
+                        {
+                            "type": "field",
+                            "name": "cellFieldFive",
+                            "object": "cellFive"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "static",
+            "name": "staticOne",
+            "value": "This text is static."
+        }
+    ]
+}

@@ -79,7 +79,7 @@ class Manager
     protected function assignNames()
     {
         $this->nameMap = [];
-        $containerCount = 0;
+        $containerCount = 1;
         foreach ($this->allBindings as $binding) {
             if ($binding instanceof FieldBinding) {
                 $baseName = str_replace('/', '_', $binding->getObject());
@@ -94,7 +94,7 @@ class Manager
                 $binding->setFormName($name);
             } elseif ($binding instanceof ContainerBinding) {
                 $baseName = 'container_';
-                $name = $baseName;
+                $name = $baseName . $containerCount;
                 while (isset($this->nameMap[$name])) {
                     $name = $baseName . ++$containerCount;
                 }

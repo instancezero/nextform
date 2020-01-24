@@ -101,7 +101,7 @@ class Binding
      * @param \Abivia\NextForm\Data\Schema $schema
      * @codeCoverageIgnore
      */
-    public function bindSchema(\Abivia\NextForm\Data\Schema $schema)
+    public function bindSchema(?\Abivia\NextForm\Data\Schema $schema)
     {
         if ($this->manager) {
             $this->manager->registerBinding($this);
@@ -112,8 +112,8 @@ class Binding
      * Check the access level for this binding.
      *
      * @param AccessInterface $access Any access control object.
-     * @param type $segment The data segment to check, empty for a form name.
-     * @param type $objectName The data object name or form name.
+     * @param string $segment The data segment to check, empty for a form name.
+     * @param string $objectName The data object name or form name.
      * @param array $options Options, accessOverride is relevant
      * @return array Options with access, accessOverride elements set.
      */
@@ -125,6 +125,9 @@ class Binding
     ) {
         if (isset($options['accessOverride'])) {
             $level = $options['accessOverride'];
+        } elseif ($segment === '' && $objectName === '') {
+            // Objects with no name are writable.
+            $level = 'write';
         } else {
             $level = 'none';
             if ($access->allows($segment, $objectName, 'write')) {
@@ -135,7 +138,7 @@ class Binding
                 $level = 'hide';
             }
             if ($level != 'write') {
-                // Anyting less than write access overrides contained elements.
+                // Anything less than write access overrides contained elements.
                 $options['accessOverride'] = $level;
             }
         }

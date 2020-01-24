@@ -33,7 +33,7 @@ class ContainerBinding Extends Binding
      *
      * @param Schema $schema
      */
-    public function bindSchema(Schema $schema)
+    public function bindSchema(?Schema $schema)
     {
         parent::bindSchema($schema);
         foreach ($this->bindings as $binding) {

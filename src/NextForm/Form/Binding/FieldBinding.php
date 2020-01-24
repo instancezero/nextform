@@ -70,7 +70,7 @@ class FieldBinding extends Binding
      * @param Schema $schema
      * @return \self
      */
-    public function bindSchema(Schema $schema) : self
+    public function bindSchema(?Schema $schema) : self
     {
         // Get the object from the element and add any default segment.
         $objectName = $this->getElement()->getObject();
@@ -81,7 +81,7 @@ class FieldBinding extends Binding
         }
 
         // Connect to the requested property in the schema.
-        if ($objectName !== '') {
+        if ($schema !== null && $objectName !== '') {
             $this->bindProperty($schema, $segmentName, $objectName);
         }
         if ($this->manager) {

@@ -1,0 +1,84 @@
+{
+    "default": {
+        "labels": {
+            "error": "This error provided by default."
+        }
+    },
+    "segments": [
+        {
+            "name": "elementTest",
+            "objects": [
+                {
+                    "name": "cellOne",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "cellTwo",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "cellThree",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "cellFour",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "cellFive",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "textOne",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                },
+                {
+                    "name": "textSectionOne",
+                    "presentation": {
+                        "type": "text"
+                    },
+                    "store": {
+                        "type": "string",
+                        "size": 63
+                    }
+                }
+            ]
+        }
+    ]
+}

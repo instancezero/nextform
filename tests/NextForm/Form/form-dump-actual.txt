@@ -551,7 +551,7 @@ Abivia\NextForm\Form\Form Object
                             [configureOptions:Abivia\NextForm\Data\Labels:private] =>
                         )
 
-                    [name:protected] =>
+                    [name:protected] => phone
                     [readonly:protected] =>
                     [type:protected] => cell
                     [display:protected] => 1
