@@ -14,7 +14,7 @@ interface AccessInterface
      * @param string $segment The segment that the requested object belongs to.
      * @param string $objectName The name of the object.
      * @param string $operation The operation we're asking permission for
-     * (read, write...).
+     * (typically write, view, or hide).
      * @param string $user Overrides the current user to get another user's access.
      * @return bool
      */

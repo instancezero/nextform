@@ -1,6 +1,7 @@
 <?php
 
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
@@ -20,7 +21,7 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
 
     /**
      *
-     * @var Schema
+     * @var SchemaCollection
      */
     public $simpleSchema;
 
@@ -38,7 +39,7 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
                 . '}'
             . ']'
         . '}';
-        $this->simpleSchema = Schema::fromJson($simpleSchema);
+        $this->simpleSchema = new SchemaCollection(Schema::fromJson($simpleSchema));
 
         $simpleForm = '{'
             . '"name":"registrationForm",'

@@ -7,6 +7,7 @@ namespace Abivia\NextForm\Render\Bootstrap4\FieldElementRender;
 
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRender\Checkbox as BaseCheckbox;
@@ -175,7 +176,10 @@ class Checkbox extends BaseCheckbox {
         $appearance = $this->engine->showGet('check', 'appearance');
         $block = $this->engine->writeElement('div', ['attributes' => $groupAttrs]);
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $baseId . '_formhelp');
+            $attrs->set(
+                'aria-describedby',
+                $baseId . Manager::HELP_LABEL
+            );
         }
         $attrs->set('class', 'form-check-input');
         if ($appearance === 'no-label') {
@@ -212,7 +216,10 @@ class Checkbox extends BaseCheckbox {
         $labels = $binding->getLabels(true);
         $block = $this->engine->writeElement('div', ['attributes' => $groupAttrs]);
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $baseId . '_formhelp');
+            $attrs->set(
+                'aria-describedby',
+                $baseId . Manager::HELP_LABEL
+            );
         }
         $labelAttrs = new Attributes();
         $buttonClass = $this->engine->getButtonClass('radio');
@@ -338,7 +345,10 @@ class Checkbox extends BaseCheckbox {
             'before' . $labelElement, $labels->before, $labelElement
         );
         if ($labels->has('help')) {
-            $this->attrs->set('aria-describedby', $baseId . '_formhelp');
+            $this->attrs->set(
+                'aria-describedby',
+                $baseId . Manager::HELP_LABEL
+            );
         }
         if ($asButtons) {
             $input->merge($this->engine->writeElement('div', ['attributes' => $groupAttrs]));

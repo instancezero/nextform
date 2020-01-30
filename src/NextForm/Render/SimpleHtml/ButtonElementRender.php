@@ -9,13 +9,16 @@ use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\ButtonElementRenderBase;
+use Abivia\NextForm\Manager;
 
 class ButtonElementRender extends ButtonElementRenderBase {
 
     protected function inputGroup(Labels $labels, Attributes $attrs) : Block
     {
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
+            $attrs->set('aria-describedby',
+                $attrs->get('id') . Manager::HELP_LABEL
+            );
         }
         $input = $this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']);
         $input->body .= $this->engine->writeLabel('before', $labels->before, 'span')

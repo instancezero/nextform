@@ -74,13 +74,13 @@ extends Bootstrap4RenderFrame
                 )
             )
             . $this->formGroup(
-                $this->column1h('Confirm yer email', 'label', 'field_1_confirmation')
+                $this->column1h('Confirm yer email', 'label', 'field_1_confirm')
                 . $this->column2h(
-                    '<input id="field_1_confirmation" name="field_1_confirmation"'
+                    '<input id="field_1_confirm" name="field_1_confirm"'
                     . ' type="email" class="form-control"/>'
                    . "\n"
                 ),
-                ['id' => 'field_1_confirmation']
+                ['id' => 'field_1_confirm']
             )
         );
 
@@ -141,11 +141,11 @@ extends Bootstrap4RenderFrame
                 . "\n"
             )
             . $this->formGroup(
-                '<label for="field_1_confirmation">Confirm yer email</label>' . "\n"
-               . '<input id="field_1_confirmation" name="field_1_confirmation"'
+                '<label for="field_1_confirm">Confirm yer email</label>' . "\n"
+               . '<input id="field_1_confirm" name="field_1_confirm"'
                 . ' type="email" class="form-control"/>'
                . "\n",
-                ['id' => 'field_1_confirmation']
+                ['id' => 'field_1_confirm']
             )
         );
 

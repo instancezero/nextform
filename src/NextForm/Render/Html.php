@@ -6,6 +6,7 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Traits\ShowableTrait;
 
 /**
@@ -267,7 +268,7 @@ class Html implements RenderInterface
     {
         $id = $options['id'] ?? $binding->getId();
         $element = $binding->getElement();
-        $container = new Attributes('id', $id . '_container');
+        $container = new Attributes('id', $id . Manager::CONTAINER_LABEL);
         if (!$element->getDisplay()) {
             $container->merge($this->showGet('form', 'hidden'));
         }

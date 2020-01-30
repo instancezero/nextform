@@ -2,6 +2,7 @@
 /**
  * Common support / logging for render tests
  */
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Render\Attributes;
 
 define('NF_TEST_ROOT', dirname(dirname(__DIR__)) . '/');
@@ -43,7 +44,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
     protected function formGroup($body, $options = []) {
         $attr = '';
         $id = $options['id'] ?? 'field_1';
-        $attr .= ' id="' . $id . '_container' . '"';
+        $attr .= ' id="' . $id . Manager::CONTAINER_LABEL . '"';
         $class = isset($options['class'])
             ? $options['class']
             : self::$defaultFormGroupClass;

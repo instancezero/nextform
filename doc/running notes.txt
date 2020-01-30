@@ -9,6 +9,4 @@ To Do List
 - Create an input group when help/error labels exist and put the text inside the group
 - working on simplifying options by allowing "label[:value]", this will simplify option lists.
 - Rendering tests not testing default value
-- make the name decorations _formhelp, _confirmation, etc constants.
-- Done, needs tests: If a cell is hidden/view only, elements within the cell need to inherit this.
 - Consider adding Bulma

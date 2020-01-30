@@ -97,11 +97,11 @@ class Binding
     }
 
     /**
-     * Connect data elements in a schema
-     * @param \Abivia\NextForm\Data\Schema $schema
+     * Connect data elements in the schemas
+     * @param \Abivia\NextForm\Data\SchemaCollection $schemas
      * @codeCoverageIgnore
      */
-    public function bindSchema(?\Abivia\NextForm\Data\Schema $schema)
+    public function bindSchema(?\Abivia\NextForm\Data\SchemaCollection $schemas)
     {
         if ($this->manager) {
             $this->manager->registerBinding($this);

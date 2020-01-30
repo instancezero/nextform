@@ -74,14 +74,14 @@ extends SimpleHtmlRenderFrame
             )
             . '<br/>' . "\n"
             . $this->formGroup(
-                '<label for="field_1_confirmation"'
+                '<label for="field_1_confirm"'
                 . ' style="display:inline-block; vertical-align:top; width:20%">'
                 . 'Confirm yer email</label>' . "\n"
                 . $this->column2(
-                    '<input id="field_1_confirmation" name="field_1_confirmation"'
+                    '<input id="field_1_confirm" name="field_1_confirm"'
                     . ' type="email"/>' . "\n"
                 ),
-                ['id' => 'field_1_confirmation']
+                ['id' => 'field_1_confirm']
             )
             . '<br/>' . "\n"
         );
@@ -143,10 +143,10 @@ extends SimpleHtmlRenderFrame
                 )
             . '<br/>' . "\n"
             . $this->formGroup(
-                '<label for="field_1_confirmation">Confirm yer email</label>' . "\n"
-                . '<input id="field_1_confirmation" name="field_1_confirmation"'
+                '<label for="field_1_confirm">Confirm yer email</label>' . "\n"
+                . '<input id="field_1_confirm" name="field_1_confirm"'
                 . ' type="email"/>' . "\n",
-                ['id' => 'field_1_confirmation']
+                ['id' => 'field_1_confirm']
             )
             . '<br/>' . "\n"
         );

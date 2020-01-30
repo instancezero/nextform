@@ -2,9 +2,9 @@
 
 namespace Abivia\NextForm\Data;
 
-use Abivia\NextForm\Manager;
-
 use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Contracts\SchemaInterface;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 use function DeepCopy\deep_copy;
@@ -12,7 +12,7 @@ use function DeepCopy\deep_copy;
 /**
  * Describes the schema of a data set.
  */
-class Schema implements \JsonSerializable
+class Schema implements SchemaInterface, \JsonSerializable
 {
     use Configurable;
     use JsonEncoderTrait;
@@ -250,12 +250,21 @@ class Schema implements \JsonSerializable
     }
 
     /**
+     * Get a list of segment names.
+     * @return array A list of defined segment names.
+     */
+    public function getSegmentNames()
+    {
+        return array_keys($this->segments);
+    }
+
+    /**
      * Set a segment in the schema.
      * @param string $segName Name of the segment.
      * @param \Abivia\NextForm\Data\Segment $segment Segment contents.
      * @return \self
      */
-    public function setSegment($segName, Segment $segment) : self
+    public function setSegment($segName, Segment $segment) : Segment
     {
         $this->segments[$segName] = $segment;
         return $this;

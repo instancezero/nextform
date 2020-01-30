@@ -5,6 +5,7 @@ namespace Abivia\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface as RenderInterface;
 use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -19,6 +20,9 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 class Manager
 {
 
+    public const CONFIRM_LABEL = '_confirm';
+    public const CONTAINER_LABEL = '_container';
+    public const HELP_LABEL = '_formhelp';
     public const GROUP_DELIM = ':';
     public const SEGMENT_DELIM = '/';
 
@@ -65,8 +69,8 @@ class Manager
      */
     protected $objectMap;
     protected $renderer;
-    protected $schema;
-    protected $schemaIsLinked = false;
+    protected $schemas;
+    protected $schemasLinked = false;
     protected $translator;
     protected $useSegment = '';
 
@@ -74,6 +78,16 @@ class Manager
     {
         $this->access = new Access\NullAccess();
         $this->show = '';
+    }
+
+    public function addSchema(Schema $schema) : self
+    {
+        if ($this->schemas === null) {
+            $this->schemas = new SchemaCollection();
+        }
+        $this->schemas->addSchema($schema);
+        $this->schemasLinked = false;
+        return $this;
     }
 
     protected function assignNames()
@@ -84,11 +98,11 @@ class Manager
             if ($binding instanceof FieldBinding) {
                 $baseName = str_replace('/', '_', $binding->getObject());
                 $name = $baseName;
-                $confirmName = $baseName . '_confirm';
+                $confirmName = $baseName . self::CONFIRM_LABEL;
                 $append = 0;
                 while (isset($this->nameMap[$name]) || isset($this->nameMap[$confirmName])) {
                     $name = $baseName . '_' . ++$append;
-                    $confirmName = $name . '_' . $append . '_confirm';
+                    $confirmName = $name . '_' . $append . self::CONFIRM_LABEL;
                 }
                 $this->nameMap[$name] = $binding;
                 $binding->setFormName($name);
@@ -102,7 +116,7 @@ class Manager
                 $binding->setFormName($name);
             }
         }
-        $this->schemaIsLinked = true;
+        $this->schemasLinked = true;
         return $this;
     }
 
@@ -110,19 +124,16 @@ class Manager
      * Connect all the components into something we can generate
      * @return \self
      */
-    public function bind(Form $form = null, Schema $schema = null) : self
+    public function bind(Form $form = null) : self
     {
-        if ($this->schemaIsLinked) {
-            return $this;
-        }
         if ($form !== null) {
             $this->setForm($form);
         }
-        if ($schema !== null) {
-            $this->setSchema($schema);
-        }
         if ($this->form === null) {
             throw new RuntimeException('Unable to bind to a null form.');
+        }
+        if ($this->schemasLinked) {
+            return $this;
         }
         $this->objectMap = [];
         $this->allBindings = [];
@@ -130,10 +141,10 @@ class Manager
         foreach ($this->form->getElements() as $element) {
             $binding = Binding::fromElement($element);
             $binding->setManager($this);
-            $binding->bindSchema($this->schema);
+            $binding->bindSchema($this->schemas);
             $this->bindings[] = $binding;
         }
-        $this->schemaIsLinked = true;
+        $this->schemasLinked = true;
         return $this;
     }
 
@@ -303,7 +314,7 @@ class Manager
      */
     public function populate($data, $segment = '') : self
     {
-        if (!$this->schemaIsLinked) {
+        if (!$this->schemasLinked) {
             throw new \LogicException('Form not linked to schema.');
         }
         foreach ($data as $field => $value) {
@@ -349,20 +360,13 @@ class Manager
     public function setForm(Form $form) : self
     {
         $this->form = $form;
-        $this->schemaIsLinked = false;
+        $this->schemasLinked = false;
         return $this;
     }
 
     public function setRender(RenderInterface $renderer) : self
     {
         $this->renderer = $renderer;
-        return $this;
-    }
-
-    public function setSchema(Schema $schema) : self
-    {
-        $this->schema = $schema;
-        $this->schemaIsLinked = false;
         return $this;
     }
 

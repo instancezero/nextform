@@ -8,6 +8,7 @@ namespace Abivia\NextForm\Render\Html\FieldElementRender;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\FieldBinding;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
@@ -85,7 +86,7 @@ abstract class Common  {
     {
         $this->access = $this->engine->getAccess($options);
         $confirm = $options['confirm'];
-        $this->confirmSuffix = $confirm ? '_confirmation' : '';
+        $this->confirmSuffix = $confirm ? Manager::CONFIRM_LABEL : '';
         $data = $this->binding->getDataProperty();
         $this->inputType = $data->getPresentation()->getType();
         if ($this->access === 'hide' || $this->inputType === 'hidden') {

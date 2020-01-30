@@ -6,6 +6,7 @@
 namespace Abivia\NextForm\Render\Bootstrap4;
 
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Manager;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\ButtonElementRenderBase;
@@ -26,7 +27,10 @@ class ButtonElementRender extends ButtonElementRenderBase {
     protected function inputGroup(Labels $labels, Attributes $attrs) : Block
     {
         if ($labels->has('help')) {
-            $attrs->set('aria-describedby', $attrs->get('id') . '_formhelp');
+            $attrs->set(
+                'aria-describedby',
+                $attrs->get('id') . Manager::HELP_LABEL
+            );
         }
 
         // Generate the input wrapper, if required for a horizontal layout.

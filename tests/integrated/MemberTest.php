@@ -138,7 +138,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
         $manager = new Manager();
         $manager->setForm($this->memberForm);
-        $manager->setSchema($this->memberSchema);
+        $manager->addSchema($this->memberSchema);
         $manager->setRender($render);
         $manager->setTranslator(new MockTranslate());
         $page = $manager->generate(['action' => 'myform.php']);
@@ -152,7 +152,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function testGeneratePopulated() {
         Manager::boot();
         $manager = new Manager();
-        $manager->bind($this->memberForm, $this->memberSchema);
+        $manager->addSchema($this->memberSchema);
+        $manager->bind($this->memberForm);
         $data = [
             'id' => 0,
         ];
@@ -167,7 +168,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         Manager::boot();
         $manager = new Manager();
         $manager->setForm($this->memberForm);
-        $manager->setSchema($this->memberSchema);
+        $manager->addSchema($this->memberSchema);
         $manager->setRender(new SimpleHtml());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
@@ -181,7 +182,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         Manager::boot();
         $manager = new Manager();
         $manager->setForm($this->memberForm);
-        $manager->setSchema($this->memberSchema);
+        $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);

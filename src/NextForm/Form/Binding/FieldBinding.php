@@ -6,7 +6,7 @@ use Abivia\NextForm\Manager;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Property;
-use Abivia\NextForm\Data\Schema;
+use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
@@ -28,16 +28,16 @@ class FieldBinding extends Binding
     protected $dataListTranslated;
 
     /**
-     * A data property in the form's schema.
+     * A data property in the form's schemas.
      * @var \Abivia\NextForm\Data\Property
      */
     protected $dataProperty;
 
     protected $objectRef;
 
-    protected function bindProperty(Schema $schema, $segmentName, $objectName) {
+    protected function bindProperty(SchemaCollection $schemas, $segmentName, $objectName) {
         $resolvedName = $segmentName . Manager::SEGMENT_DELIM . $objectName;
-        $this->dataProperty = $schema->getProperty($segmentName, $objectName);
+        $this->dataProperty = $schemas->getProperty($segmentName, $objectName);
         if ($this->dataProperty === null) {
             throw new \RuntimeException('Unable to bind '. $resolvedName .', property not found.');
         }
@@ -46,8 +46,8 @@ class FieldBinding extends Binding
         // Give the data property the ability to signal us.
         $this->dataProperty->linkBinding($this);
 
-        // Get default labels from the schema, if any.
-        $labels = $schema->getDefault('labels');
+        // Get default labels from the schemas, if any.
+        $labels = $schemas->getDefault($segmentName, 'labels');
 
         // Merge or get the labels from the property.
         if ($labels) {
@@ -66,11 +66,11 @@ class FieldBinding extends Binding
     }
 
     /**
-     * Connect data elements in a schema
-     * @param Schema $schema
+     * Connect data elements in the schemas
+     * @param SchemaCollection $schemas
      * @return \self
      */
-    public function bindSchema(?Schema $schema) : self
+    public function bindSchema(?SchemaCollection $schemas) : self
     {
         // Get the object from the element and add any default segment.
         $objectName = $this->getElement()->getObject();
@@ -80,9 +80,9 @@ class FieldBinding extends Binding
             $segmentName = $this->manager->getSegment();
         }
 
-        // Connect to the requested property in the schema.
-        if ($schema !== null && $objectName !== '') {
-            $this->bindProperty($schema, $segmentName, $objectName);
+        // Connect to the requested property in the schemas.
+        if ($schemas !== null && $objectName !== '') {
+            $this->bindProperty($schemas, $segmentName, $objectName);
         }
         if ($this->manager) {
             $this->manager->registerBinding($this);
@@ -117,8 +117,11 @@ class FieldBinding extends Binding
     public function getDataProperty() : Property
     {
         if ($this->dataProperty === null) {
+            $objectName = $this->getObject() ?: '{null}';
+            $elementName = $this->getElement()->getName();
             throw new \RuntimeException(
-                'Attempt to get missing schema information, object ' . $this->getObject()
+                "Attempt to get missing schema information for object"
+                . " $objectName, element $elementName."
             );
         }
         return $this->dataProperty;

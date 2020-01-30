@@ -12,7 +12,7 @@
 <body>
 <div class="container">
 <form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
-<input id="nf_token" name="nf_token" type="hidden" value="6838221900630366d97feed77357569de4bb6f05abb878110b3cdb377a77aef7">
+<input id="nf_token" name="nf_token" type="hidden" value="c881b61ac067267688dfc6f623c1a81aa050283812649c349c4671567a6ff269">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
 <div>Membership Level (tslt)</div>
 <div class="form-check">
@@ -62,9 +62,9 @@
 <label for="field_6">Email (tslt)</label>
 <input id="field_6" name="members_primaryEmail" type="email" class="form-control" required data-nf-req="1"/>
 </div>
-<div id="field_6_confirmation_container" class="form-group col-sm-12" data-nf-for="field_6_confirmation">
-<label for="field_6_confirmation">Repeat email (tslt)</label>
-<input id="field_6_confirmation" name="members_primaryEmail_confirmation" type="email" class="form-control" required data-nf-req="1"/>
+<div id="field_6_confirm_container" class="form-group col-sm-12" data-nf-for="field_6_confirm">
+<label for="field_6_confirm">Repeat email (tslt)</label>
+<input id="field_6_confirm" name="members_primaryEmail_confirm" type="email" class="form-control" required data-nf-req="1"/>
 </div>
 <div id="field_7_container" class="form-group col-sm-12" data-nf-for="field_7">
 <label for="field_7">Artist Name (tslt)</label>
@@ -333,7 +333,7 @@ class NextForm {
     getContainer(name) {
         var element = $('[name=' + name + ']', this.form);
         if (element === undefined) return undefined;
-        var container = $('#' + element.attr('id') + '_container');
+        var container = $('#' + element.attr('id') + Manager::CONTAINER_LABEL);
         return container;
     }
 

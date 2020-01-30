@@ -57,7 +57,7 @@ class NextForm {
     getContainer(name) {
         var element = $('[name=' + name + ']', this.form);
         if (element === undefined) return undefined;
-        var container = $('#' + element.attr('id') + '_container');
+        var container = $('#' + element.attr('id') + Manager::CONTAINER_LABEL);
         return container;
     }
 
