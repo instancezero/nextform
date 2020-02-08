@@ -6,6 +6,7 @@
 namespace Abivia\NextForm\Render\Bootstrap4\FieldElementRender;
 
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Data\Population\Option;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Manager;
 use Abivia\NextForm\Render\Attributes;
@@ -13,7 +14,48 @@ use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRender\Checkbox as BaseCheckbox;
 
 class Checkbox extends BaseCheckbox {
+
+    /**
+     * The show setting that determines how the element is displayed.
+     * @var string
+     */
+    protected $appearance;
+
+    /**
+     * Attributes for the main rendered element
+     * @var Attributes
+     */
     protected $attrs;
+
+    /**
+     * Attributes used for option labels.
+     * @var Attributes
+     */
+    protected $labelAttrs;
+
+    /**
+     * Attributes used for each option.
+     * @var Attributes
+     */
+    protected $listAttrs;
+
+    /**
+     * Additional classes for each list item.
+     * @var string
+     */
+    protected $listClass;
+
+    /**
+     * The type of element we're rendering, checkbox or element.
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * Value of the current binding.
+     * @var string|array
+     */
+    protected $value;
 
     /**
      * Generate a simple input element for a single-valued checkbox.
@@ -38,65 +80,74 @@ class Checkbox extends BaseCheckbox {
     /**
      * Generate check/radio HTML inputs from an element's data list.
      * @param FieldBinding $binding The element we're generating for.
-     * @param \Abivia\NextForm\Render\Attributes $attrs Parent element attributes.
-     * @return \Abivia\NextForm\Render\Block $block The output block.
+     * @return \Abivia\NextForm\Render\Block The output block.
      */
-    protected function checkList(FieldBinding $binding, Attributes $attrs)
+    protected function checkList()
     {
-        $baseId = $binding->getId();
-        $type = $binding->getDataProperty()->getPresentation()->getType();
-        $select = $binding->getValue();
-        if ($select === null) {
-            $select = $binding->getElement()->getDefault();
+        $this->listAttrs = $this->attrs->copy();
+        $baseId = $this->binding->getId();
+        $this->type = $this->binding->getDataProperty()->getPresentation()->getType();
+        $this->value = $this->binding->getValue();
+        if ($this->value === null) {
+            $this->value = $this->binding->getElement()->getDefault();
         }
-        $appearance = $this->engine->showGet('check', 'appearance');
-        $checkLayout = $this->engine->showGet('check', 'layout');
-        $groupClass = 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '');
-        $labelAttrs = new Attributes();
-        $labelAttrs->set('class', 'form-check-label');
-        $block = new Block();
-        foreach ($binding->getList(true) as $optId => $radio) {
-            $optAttrs = $attrs->copy();
-            $id = $baseId . '_opt' . $optId;
-            $optAttrs->set('id', $id);
-            $value = $radio->getValue();
-            $optAttrs->setFlag('disabled', !$radio->getEnabled());
-            $optAttrs->set('value', $value);
-            if (
-                $type == 'checkbox'
-                && is_array($select) && in_array($value, $select)
-            ) {
-                $checked = true;
-            } elseif ($value === $select) {
-                $checked = true;
-            } else {
-                $checked = false;
-            }
-            $optAttrs->setFlag('checked', $checked);
-            $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
-            $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
-            $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
-
-            $block->merge(
-                $this->engine->writeElement(
-                    'div', ['attributes' => new Attributes('class', $groupClass)]
-                )
+        $this->appearance = $this->engine->showGet('check', 'appearance');
+        $optionWidth = $this->engine->showGet('check', 'option-width');
+        $this->listClass = 'form-check'
+            . ($this->engine->showGet('check', 'layout') === 'inline'
+                ? ' form-check-inline' : ''
             );
-            $optAttrs->set('class', 'form-check-input');
-            if ($appearance === 'no-label') {
-                $optAttrs->set('aria-label', $radio->getLabel());
-            }
-            $block->body .= $this->engine->writeTag('input', $optAttrs) . "\n";
-            if ($appearance !== 'no-label') {
-                $labelAttrs->set('!for', $id);
-                $block->body .= $this->engine->writeLabel(
-                    '', $radio->getLabel(), 'label',
-                    $labelAttrs, ['break' => true]
-                )
-                ;
-            }
-            $block->close();
+        $this->labelAttrs = new Attributes();
+        $this->labelAttrs->set('class', 'form-check-label');
+        $block = new Block();
+        foreach ($this->binding->getList(true) as $optId => $radio) {
+            $block -> merge(
+                $this->checkListItem("{$baseId}_opt{$optId}", $radio)
+            );
         }
+        return $block;
+    }
+
+    /**
+     * Generate a single item in a check/radio list.
+     *
+     * @param string $id The id for the HTML element
+     * @param Option $radio The list item.
+     * @return Block
+     */
+    protected function checkListItem($id, Option $radio) : Block
+    {
+        $block = new Block();
+        $optAttrs = $this->listAttrs->copy();
+        $optAttrs->set('id', $id);
+        $value = $radio->getValue();
+        $optAttrs->setFlag('disabled', !$radio->getEnabled());
+        $optAttrs->set('value', $value);
+        $optAttrs->setFlag('checked', $this->isChecked($value));
+        $optAttrs->setIfNotNull('data-nf-name', $radio->getName());
+        $optAttrs->setIfNotEmpty('*data-nf-group', $radio->getGroups());
+        $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
+
+        $block->merge(
+            $this->engine->writeElement(
+                'div', ['attributes' => new Attributes('class', $this->listClass)]
+            )
+        );
+        $optAttrs->set('class', 'form-check-input');
+        if ($this->appearance === 'no-label') {
+            $optAttrs->set('aria-label', $radio->getLabel());
+        }
+        $block->body .= $this->engine->writeTag('input', $optAttrs) . "\n";
+        if ($this->appearance !== 'no-label') {
+            $this->labelAttrs->set('!for', $id);
+            $block->body .= $this->engine->writeLabel(
+                '', $radio->getLabel(), 'label',
+                $this->labelAttrs, ['break' => true]
+            )
+            ;
+        }
+        $block->close();
+
         return $block;
     }
 
@@ -110,14 +161,14 @@ class Checkbox extends BaseCheckbox {
     {
         $baseId = $binding->getId();
         $type = $binding->getDataProperty()->getPresentation()->getType();
-        $select = $binding->getValue();
-        if ($select === null) {
-            $select = $binding->getElement()->getDefault();
+        $this->value = $binding->getValue();
+        if ($this->value === null) {
+            $this->value = $binding->getElement()->getDefault();
         }
         // We know the appearance is going to be button or toggle
-        //$appearance = $this->showGet('check', 'appearance');
+        //$this->appearance = $this->showGet('check', 'appearance');
         //$checkLayout = $this->showGet('check', 'layout');
-        $labelAttrs = new Attributes();
+        $this->labelAttrs = new Attributes();
         $block = new Block();
         foreach ($binding->getList(true) as $optId => $radio) {
             $optAttrs = $attrs->copy();
@@ -130,10 +181,10 @@ class Checkbox extends BaseCheckbox {
             $optAttrs->setIfNotNull('*data-nf-sidecar', $radio->sidecar);
             if (
                 $type == 'checkbox'
-                && is_array($select) && in_array($value, $select)
+                && is_array($this->value) && in_array($value, $this->value)
             ) {
                 $checked = true;
-            } elseif ($value === $select) {
+            } elseif ($value === $this->value) {
                 $checked = true;
             } else {
                 $checked = false;
@@ -147,8 +198,8 @@ class Checkbox extends BaseCheckbox {
                 $this->engine->setShow($show, 'radio');
             }
             $buttonClass = $this->engine->getButtonClass('radio');
-            $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
-            $block->merge($this->engine->writeElement('label', ['attributes' => $labelAttrs]));
+            $this->labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
+            $block->merge($this->engine->writeElement('label', ['attributes' => $this->labelAttrs]));
             $block->body .= $this->engine->writeTag('input', $optAttrs) . "\n";
             $block->body .= $radio->getLabel();
             $block->close();
@@ -173,7 +224,7 @@ class Checkbox extends BaseCheckbox {
     ) {
         $baseId = $binding->getId();
         $labels = $binding->getLabels(true);
-        $appearance = $this->engine->showGet('check', 'appearance');
+        $this->appearance = $this->engine->showGet('check', 'appearance');
         $block = $this->engine->writeElement('div', ['attributes' => $groupAttrs]);
         if ($labels->has('help')) {
             $attrs->set(
@@ -182,17 +233,17 @@ class Checkbox extends BaseCheckbox {
             );
         }
         $attrs->set('class', 'form-check-input');
-        if ($appearance === 'no-label') {
+        if ($this->appearance === 'no-label') {
             $attrs->setIfNotNull('aria-label', $labels->inner);
             $block->merge($this->checkInput($binding, $attrs));
         } else {
             $block->merge($this->checkInput($binding, $attrs));
-            $labelAttrs = new Attributes();
-            $labelAttrs->set('!for', $baseId);
-            $labelAttrs->set('class', 'form-check-label');
+            $this->labelAttrs = new Attributes();
+            $this->labelAttrs->set('!for', $baseId);
+            $this->labelAttrs->set('class', 'form-check-label');
             $block->body .= $this->engine->writeLabel(
                 'inner', $labels->inner,
-                'label', $labelAttrs, ['break' => true]
+                'label', $this->labelAttrs, ['break' => true]
             );
         }
         $block->close();
@@ -221,12 +272,12 @@ class Checkbox extends BaseCheckbox {
                 $baseId . Manager::HELP_LABEL
             );
         }
-        $labelAttrs = new Attributes();
+        $this->labelAttrs = new Attributes();
         $buttonClass = $this->engine->getButtonClass('radio');
         $checked = $binding->getValue() === $binding->getElement()->getDefault()
             && $binding->getValue() !== null;
-        $labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
-        $block->merge($this->engine->writeElement('label', ['attributes' => $labelAttrs]));
+        $this->labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
+        $block->merge($this->engine->writeElement('label', ['attributes' => $this->labelAttrs]));
         $block->body .= $this->engine->writeTag('input', $attrs) . "\n";
         $block->body .= $labels->inner;
         $block->close();
@@ -266,8 +317,29 @@ class Checkbox extends BaseCheckbox {
         return $input;
     }
 
+    /**
+     * Determine if a list element is checked/selected.
+     * @param mixed $value The list element value
+     * @return bool True when the element is checked.
+     */
+    protected function isChecked($value) : bool
+    {
+        if (
+            $this->type == 'checkbox'
+            && is_array($this->value)
+            && in_array($value, $this->value)
+        ) {
+            $checked = true;
+        } elseif ($value === $this->value) {
+            $checked = true;
+        } else {
+            $checked = false;
+        }
+        return $checked;
+    }
+
     protected function multiple() {
-        $appearance = $this->engine->showGet('check', 'appearance');
+        $this->appearance = $this->engine->showGet('check', 'appearance');
         $layout = $this->engine->showGet('form', 'layout');
 
         $block = new Block();
@@ -278,7 +350,7 @@ class Checkbox extends BaseCheckbox {
 
         // If this is showing as a row of buttons change the group attributes
         $groupAttrs = new Attributes();
-        if ($appearance === 'toggle') {
+        if ($this->appearance === 'toggle') {
             $asButtons = true;
             $groupAttrs->set('class', 'btn-group btn-group-toggle');
             $groupAttrs->set('data-toggle', 'buttons');
@@ -354,7 +426,7 @@ class Checkbox extends BaseCheckbox {
             $input->merge($this->engine->writeElement('div', ['attributes' => $groupAttrs]));
             $input->merge($this->checkListButtons($this->binding, clone $this->attrs));
         } else {
-            $input->merge($this->checkList($this->binding, clone $this->attrs));
+            $input->merge($this->checkList());
         }
         $input->close();
 
@@ -381,7 +453,7 @@ class Checkbox extends BaseCheckbox {
     }
 
     protected function single() {
-        $appearance = $this->engine->showGet('check', 'appearance');
+        $this->appearance = $this->engine->showGet('check', 'appearance');
         $checkLayout = $this->engine->showGet('check', 'layout');
         $block = new Block();
         $labels = $this->binding->getLabels(true);
@@ -399,7 +471,7 @@ class Checkbox extends BaseCheckbox {
 
         // If this is showing as a row of buttons change the group attributes
         $groupAttrs = new Attributes();
-        if ($appearance === 'toggle') {
+        if ($this->appearance === 'toggle') {
             $asButtons = true;
             $groupAttrs->set('class', 'btn-group btn-group-toggle');
             $groupAttrs->set('data-toggle', 'buttons');
