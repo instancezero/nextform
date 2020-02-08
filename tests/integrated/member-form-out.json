@@ -124,7 +124,8 @@
                     "type": "field",
                     "object": "primaryVisualArtsMedia",
                     "memberOf": "firstVA",
-                    "display": false
+                    "display": false,
+                    "show": "optionwidth:3"
                 },
                 {
                     "type": "field",
@@ -180,7 +181,8 @@
                     "type": "field",
                     "object": "secondaryVisualArtsMedia",
                     "memberOf": "secondVA",
-                    "display": false
+                    "display": false,
+                    "show": "optionwidth:3"
                 },
                 {
                     "type": "field",

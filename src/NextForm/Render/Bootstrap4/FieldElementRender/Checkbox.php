@@ -92,19 +92,38 @@ class Checkbox extends BaseCheckbox {
             $this->value = $this->binding->getElement()->getDefault();
         }
         $this->appearance = $this->engine->showGet('check', 'appearance');
-        $optionWidth = $this->engine->showGet('check', 'option-width');
-        $this->listClass = 'form-check'
-            . ($this->engine->showGet('check', 'layout') === 'inline'
-                ? ' form-check-inline' : ''
-            );
+        $optionWidth = $this->engine->showGet('check', 'optionwidth');
+        $listClasses = ['form-check'];
+        if ($this->engine->showGet('check', 'layout') === 'inline') {
+            $listClasses[] = 'form-check-inline';
+        }
         $this->labelAttrs = new Attributes();
         $this->labelAttrs->set('class', 'form-check-label');
         $block = new Block();
+        if ($optionWidth !== '') {
+            $spans = $this->engine->showParseSpan($optionWidth);
+            foreach ($spans as $span) {
+                if (
+                    $span['match']
+                    && ($span['scheme'] === null || $span['scheme'] === 'b4')
+                ) {
+                    $listClasses[] = "col-{$span['class']}";
+                }
+            }
+            $block->merge(
+                $this->engine->writeElement(
+                    'div',
+                    ['attributes' => new Attributes('class', 'row ml-0')]
+                )
+            );
+        }
+        $this-> listClass = implode(' ', $listClasses);
         foreach ($this->binding->getList(true) as $optId => $radio) {
             $block -> merge(
                 $this->checkListItem("{$baseId}_opt{$optId}", $radio)
             );
         }
+        $block->close();
         return $block;
     }
 
@@ -130,7 +149,8 @@ class Checkbox extends BaseCheckbox {
 
         $block->merge(
             $this->engine->writeElement(
-                'div', ['attributes' => new Attributes('class', $this->listClass)]
+                'div',
+                ['attributes' => new Attributes('class', $this->listClass)]
             )
         );
         $optAttrs->set('class', 'form-check-input');
@@ -345,8 +365,6 @@ class Checkbox extends BaseCheckbox {
         $block = new Block();
         $baseId = $this->binding->getId();
         $labels = $this->binding->getLabels(true);
-
-
 
         // If this is showing as a row of buttons change the group attributes
         $groupAttrs = new Attributes();

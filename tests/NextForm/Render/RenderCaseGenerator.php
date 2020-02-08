@@ -389,6 +389,11 @@ class RenderCaseGenerator {
         $b5->getElement()->addShow('appearance:no-label');
         $cases['inline-nolabel'] = [$b5];
 
+        // Render with smaller items
+        $b5 = $binding->copy();
+        $b5->getElement()->addShow('optionwidth:sm-3:md-4');
+        $cases['optionwidth'] = [$b5];
+
         return self::normalizeCases($cases);
     }
 

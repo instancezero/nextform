@@ -68,12 +68,7 @@ class Html implements RenderInterface
         'cellspacing' => [
             'default' => '3',
             'validate' => [
-                'form' => [
-                    // Optional prefix "rr-" allows applications to provide
-                    // renderer-specific settings.
-                    'a' => '/(([a-z][a-z0-9]-)?(sm|md|lg|xl)\-[0-5]:?)+/',
-                    'b' => '/(([a-z][a-z0-9]-)?([0-5]):?)+/',
-                ],
+                'form' => '@showIsSpan',
             ],
             'validateMode' => 'pack',
         ],
@@ -90,9 +85,18 @@ class Html implements RenderInterface
             'default' => 'vertical',
             'validate' => [
                 'form' => [
-                    'horizontal' => '/^hor/i', 'vertical' => '/^ver/i', 'inline' => '/^in/i'
+                    'horizontal' => '/^hor/i',
+                    'vertical' => '/^ver/i',
+                    'inline' => '/^in/i'
                 ],
             ],
+        ],
+        'optionwidth' => [
+            'default' => '',
+            'validate' => [
+                'check' => '@showIsSpan',
+            ],
+            'validateMode' => 'pack',
         ],
         'purpose' => [
             'default' => 'primary',
@@ -116,6 +120,16 @@ class Html implements RenderInterface
      */
     protected $showState = [];
     protected $showStack = [];
+
+    /**
+     * Patterns used for validating a span show setting.
+     * @var array
+     */
+    static $showSpanPatterns = [
+        '(?<scheme>[a-z][a-z0-9])',
+        '(?<size>sm|md|lg|xl|xs)',
+        '(?<weight>[0-9]+)'
+    ];
 
     public function __construct($options = [])
     {
@@ -525,6 +539,82 @@ class Html implements RenderInterface
     }
 
     /**
+     * Check to see if a string is a valid span.
+     * @param string $value
+     * @return bool
+     */
+    static public function showIsSpan($value) : bool
+    {
+        $segments = explode(':', $value);
+        foreach ($segments as $segment) {
+            $parts = explode('-', $segment);
+            $numParts = count($parts);
+            $pattern = '/' .
+                implode('-', array_slice(self::$showSpanPatterns, 3 - $numParts))
+                . '/';
+            if (preg_match($pattern, $value) !== 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Break a generalized span string xx-ss-nnn down into parts and validate.
+     * @param string $value span settings, multiples delimited by :
+     * @return array[] Array containing arrays of match(bool), size,
+     * weight(int), scheme.
+     */
+    static public function showParseSpan($value) {
+        static $unmatched = [
+            'match' => false, 'scheme' => null, 'size' => null, 'weight' => null,
+            'class' => null
+        ];
+
+        $subValues = explode(':', $value);
+        $results = [];
+        foreach ($subValues as $subValue) {
+            $result = $unmatched;
+            $parts = explode('-', $subValue);
+            $numParts = count($parts);
+            $pattern = '/' .
+                implode('-', array_slice(self::$showSpanPatterns, 3 - $numParts))
+                . '/';
+            if ($numParts === 3) {
+                if (preg_match($pattern, $subValue, $match)) {
+                    $result['match'] = true;
+                    $result['scheme'] = $match['scheme'];
+                    $result['size'] = $match['size'];
+                    $result['weight'] = (int) $match['weight'];
+                }
+            } elseif ($numParts === 2) {
+                if (preg_match($pattern, $subValue, $match)) {
+                    $result['match'] = true;
+                    $result['size'] = $match['size'];
+                    $result['weight'] = (int) $match['weight'];
+                }
+            } elseif ($numParts === 1) {
+                if (preg_match($pattern, $parts[0])) {
+                    $result['match'] = true;
+                    $result['size'] = 'xs';
+                    $result['weight'] = (int) $parts[0];
+                }
+            }
+            if ($result['match']) {
+                if ($result['size'] === 'xs') {
+                    $result['size'] = '';
+                    $result['class'] = $result['weight'];
+                } else {
+                    $result['class'] = $result['size'] . '-'
+                        . $result['weight'];
+                }
+            }
+            $results[] = $result;
+        }
+        return $results;
+    }
+
+    /**
      * Validate the arguments for a show setting.
      *
      * @param array $args The arguments provided by the user/application.
@@ -552,9 +642,15 @@ class Html implements RenderInterface
                 }
             }
         } else {
+            $process = $rules[0];
             // Plain string match
             $choice = $setting;
-            $valid = \strpos($rules, '|' . $choice . '|') !== false;
+            if ($process === '|') {
+                $valid = \strpos($rules, '|' . $choice . '|') !== false;
+            } elseif ($process === '@') {
+                $method =substr($rules, 1);
+                $valid = $this->$method($choice);
+            }
         }
         if (!$valid) {
             throw new \RuntimeException(

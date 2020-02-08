@@ -237,6 +237,58 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
     }
 
+	public function testShowIsSpan() {
+        $this->assertFalse($this->testObj->showIsSpan('foo'));
+        $this->assertTrue($this->testObj->showIsSpan('4'));
+        $this->assertTrue($this->testObj->showIsSpan('rp-xs-9'));
+        $this->assertTrue($this->testObj->showIsSpan('lg-5'));
+        $this->assertFalse($this->testObj->showIsSpan('b4-xx-4'));
+        $this->assertTrue($this->testObj->showIsSpan('b4-xs-34'));
+	}
+
+	public function testShowParseSpan() {
+        $unmatched = [
+            'match' => false, 'scheme' => null, 'size' => null, 'weight' => null,
+            'class' => null
+        ];
+
+        $result = $this->testObj->showParseSpan('foo');
+        $this->assertEquals($unmatched, $result[0]);
+
+        $expect = [
+            'match' => true, 'scheme' => null, 'size' => '', 'weight' => 4,
+            'class' => '4'
+        ];
+        $result = $this->testObj->showParseSpan('4');
+        $this->assertEquals($expect, $result[0]);
+
+        $expect = [
+            'match' => true, 'scheme' => 'rp', 'size' => '', 'weight' => 9,
+            'class' => '9'
+        ];
+        $result = $this->testObj->showParseSpan('rp-xs-9');
+        $this->assertEquals($expect, $result[0]);
+
+        $expect = [
+            'match' => true, 'scheme' => null, 'size' => 'lg', 'weight' => 5,
+            'class' => 'lg-5'
+        ];
+        $result = $this->testObj->showParseSpan('lg-5');
+        $this->assertEquals($expect, $result[0]);
+
+        $result = $this->testObj->showParseSpan('b4-xx-4');
+        $this->assertEquals($unmatched, $result[0]);
+
+        $expect = [
+            ['match' => true, 'scheme' => 'b4', 'size' => '', 'weight' => 34,
+            'class' => '34'],
+            ['match' => true, 'scheme' => null, 'size' => 'lg', 'weight' => 5,
+            'class' => 'lg-5'],
+        ];
+        $result = $this->testObj->showParseSpan('b4-xs-34:lg-5');
+        $this->assertEquals($expect, $result);
+	}
+
     public function testStart()
     {
         $attrs = new Attributes();

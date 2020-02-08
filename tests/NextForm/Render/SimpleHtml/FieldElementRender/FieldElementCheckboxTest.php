@@ -406,6 +406,9 @@ extends SimpleHtmlRenderFrame
         // Inline mode, not used in simple renderer
         $expect['inline-nolabel'] = $expect['basic'];
 
+        // Option width, not used in simple renderer
+        $expect['optionwidth'] = $expect['basic'];
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -735,6 +738,9 @@ extends SimpleHtmlRenderFrame
 
         // Inline mode, not used in simple renderer
         $expect['inline-nolabel'] = $expect['basic'];
+
+        // Option width, not used in simple renderer
+        $expect['optionwidth'] = $expect['basic'];
 
         $this->runElementCases($cases, $expect);
     }

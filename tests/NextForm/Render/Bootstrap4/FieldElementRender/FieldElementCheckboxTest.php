@@ -814,6 +814,50 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $inlineClasses = 'form-check col-sm-3 col-md-4';
+        $expect['optionwidth'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    '<div class="row ml-0">' . "\n"
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input" value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n",
+                        $inlineClasses
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n",
+                        $inlineClasses
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n",
+                        $inlineClasses
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $inlineClasses
+                    )
+                    . '</div>'. "\n"
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -1529,6 +1573,47 @@ extends Bootstrap4RenderFrame
                     . '/>' . "\n",
                     $inlineClasses
                 ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $inlineClasses = 'form-check col-sm-3 col-md-4';
+        $expect['optionwidth'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . '<div class="row ml-0">' . "\n"
+                . $this->formCheck(
+                    '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0" class="form-check-label">'
+                    . 'textlist 1</label>' . "\n",
+                    $inlineClasses
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input" value="textlist 2"'
+                    . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1" class="form-check-label">'
+                    . 'textlist 2</label>' . "\n",
+                    $inlineClasses
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input" value="textlist 3"'
+                    . ' data-nf-name="tl3"/>' . "\n"
+                    . '<label for="field_1_opt2" class="form-check-label">'
+                    . 'textlist 3</label>' . "\n",
+                    $inlineClasses
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3" class="form-check-label">'
+                    . 'textlist 4</label>' . "\n",
+                    $inlineClasses
+                )
+                . '</div>'. "\n"
+                ,
                 ['element' => 'fieldset']
             )
         );

@@ -9,7 +9,11 @@
             "triggers": [
                 {
                     "event": "change",
-                    "value": ["IND", "STU", "FAM"],
+                    "value": [
+                        "IND",
+                        "STU",
+                        "FAM"
+                    ],
                     "actions": [
                         "{business-enable}:enable:false",
                         "{business-enable}:checked:false",
@@ -20,7 +24,10 @@
                 },
                 {
                     "event": "change",
-                    "value": ["IND", "STU"],
+                    "value": [
+                        "IND",
+                        "STU"
+                    ],
                     "actions": [
                         "{family}:display:false"
                     ]
@@ -34,7 +41,10 @@
                 },
                 {
                     "event": "change",
-                    "value": ["BUS", "FEL"],
+                    "value": [
+                        "BUS",
+                        "FEL"
+                    ],
                     "actions": [
                         "{family}:display:false",
                         "{business}:display:true",
@@ -46,7 +56,10 @@
                 },
                 {
                     "event": "change",
-                    "value": ["PAT", "SPO"],
+                    "value": [
+                        "PAT",
+                        "SPO"
+                    ],
                     "actions": [
                         "{family}:display:false",
                         "{business}:display:true",
@@ -74,7 +87,10 @@
             "elements": [
                 {
                     "type": "cell",
-                    "elements": ["primaryFirstName", "primaryLastName"]
+                    "elements": [
+                        "primaryFirstName",
+                        "primaryLastName"
+                    ]
                 },
                 "primaryEmail",
                 "primaryPublicName",
@@ -108,7 +124,8 @@
                     "type": "field",
                     "object": "primaryVisualArtsMedia",
                     "memberOf": "firstVA",
-                    "display": false
+                    "display": false,
+                    "show": "optionwidth:3"
                 },
                 {
                     "type": "field",
@@ -128,7 +145,10 @@
             "elements": [
                 {
                     "type": "cell",
-                    "elements": ["secondaryFirstName", "secondaryLastName"]
+                    "elements": [
+                        "secondaryFirstName",
+                        "secondaryLastName"
+                    ]
                 },
                 "secondaryPublicName",
                 {
@@ -161,7 +181,8 @@
                     "type": "field",
                     "object": "secondaryVisualArtsMedia",
                     "memberOf": "secondVA",
-                    "display": false
+                    "display": false,
+                    "show": "optionwidth:3"
                 },
                 {
                     "type": "field",

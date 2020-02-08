@@ -7,6 +7,7 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Binding\SimpleBinding;
+use Abivia\NextForm\Manager;
 
 /**
  * Render for Bootstrap4
@@ -258,42 +259,24 @@ class Bootstrap4 extends Html implements RenderInterface
      */
     public function showDoCellspacing($scope, $choice, $values = [])
     {
-        // Expecting choice to be "a" or "b".
-        // For "a", one or more space delimited single digits from 0 to 5,
-        // optionally prefixed with rr-
-        //
-        // For "b" one or more space-delimited sets of [rr-]xx-n where ss is a
-        // renderer selector (b4 for Bootstrap4), xx is a size specifier,
-        // and n is 0 to 5.
-        //
-        // Specifiers other than bs are ignored the result is a list of
+        // Schemes other than b4 are ignored the result is a list of
         // classes to be used when spacing between the second and subsequent
         // elements in a cell.
         $this->checkShowState($scope);
 
         $classList = [];
-        if ($choice == 'a') {
-            foreach ($values as $value) {
-                \preg_match(
-                    '/(?<prefix>[a-z][a-z0-9]-)?(?<size>sm|md|lg|xl)\-(?<weight>[0-5])/',
-                    $value, $match
-                );
-                if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
-                    continue;
-                }
-                $classList[] = 'ml-' . $match['size'] . '-' . $match['weight'];
+        foreach ($values as $value) {
+            $parts = self::showParseSpan($value)[0];
+            if (!$parts['match'] || $parts['weight'] > 5) {
+                continue;
             }
-        } else {
-            foreach ($values as $value) {
-                if(\preg_match(
-                    '/^(?<prefix>[a-z][a-z0-9]-)?(?<weight>[0-5])/',
-                    $value, $match
-                )) {
-                    if ($match['prefix'] !== '' && $match['prefix'] !== 'b4-') {
-                        continue;
-                    }
-                    $classList[] = 'ml-' . $match['weight'];
-                }
+            if ($parts['scheme'] !== null && $parts['scheme'] !== 'b4') {
+                continue;
+            }
+            if ($parts['size'] === '') {
+                $classList[] = 'ml-' . $parts['weight'];
+            } else {
+                $classList[] = 'ml-' . $parts['size'] . '-' . $parts['weight'];
             }
         }
         if (!empty($classList)) {
@@ -306,15 +289,20 @@ class Bootstrap4 extends Html implements RenderInterface
      * Process layout options, called from show()
      * @param string $scope Names the settings scope/element this applies to.
      * @param string $choice Primary option selection
-     * @param array $values Array of colon-delimited settings including the initial keyword.
+     * @param array $values Array of colon-delimited settings including the
+     * initial keyword.
      */
     public function showDoLayout($scope, $choice, $values = [])
     {
         //
         // Structure of the layout elements
-        // formGroupAttributes - An Attributes object associated with the element acting as a form group
+        // formGroupAttributes - An Attributes object associated with the
+        //  element acting as a form group
+        //
         // headingAttributes - Set in horizontal layouts to set heading widths
-        // inputWrapperAttributes - Set in horizontal layouts for giving an input element width
+        //
+        // inputWrapperAttributes - Set in horizontal layouts for giving an
+        //  input element width
         //
         $this->checkShowState($scope);
         $this->showState[$scope]['layout'] = $choice;
@@ -514,7 +502,8 @@ class Bootstrap4 extends Html implements RenderInterface
                 . "\n";
         }
         $id = $options['attributes']->get('id');
-        $pageData->script .= 'var ' . $id . " = new NextForm($('#" . $id . "'));\n";
+        $pageData->script .= "var $id = new NextForm($('#$id'), '"
+            . Manager::CONTAINER_LABEL . "');\n";
         return $pageData;
     }
 

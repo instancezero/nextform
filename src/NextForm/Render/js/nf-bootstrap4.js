@@ -5,8 +5,9 @@
 
 class NextForm {
 
-    constructor(form) {
+    constructor(form, containerLabel) {
         this.form = form;
+        this.containerLabel = containerLabel;
         this.groupCollector();
     }
 
@@ -57,7 +58,7 @@ class NextForm {
     getContainer(name) {
         var element = $('[name=' + name + ']', this.form);
         if (element === undefined) return undefined;
-        var container = $('#' + element.attr('id') + Manager::CONTAINER_LABEL);
+        var container = $('#' + element.attr('id') + this.containerLabel);
         return container;
     }
 

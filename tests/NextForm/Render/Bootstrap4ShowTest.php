@@ -56,14 +56,16 @@ class FormRenderBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('ml-4', $classes);
 
         // Make sure a value for a different renderer changes nothing.
-        $this->testObj->setShow('cellspacing:xx-2');
+        $this->testObj->setShow('cellspacing:xx-xs-2');
         $showState = $getProperty('showState');
         $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
         $this->assertEquals('ml-4', $classes);
 
-        // Test out of range value
-        $this->expectException('\RuntimeException');
+        // Test out of range value changes nothing
         $this->testObj->setShow('cellspacing:9');
+        $showState = $getProperty('showState');
+        $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
+        $this->assertEquals('ml-4', $classes);
     }
 
 	public function testCellSpacingResponsive()
@@ -76,11 +78,15 @@ class FormRenderBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
         $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
         $this->assertEquals('ml-sm-1 ml-md-3 ml-xl-2', $classes);
 
-        // Test unrecognized value
-        $this->testObj->setShow('cellspacing:b4-xx-3');
+        // Test unrecognized scheme
+        $this->testObj->setShow('cellspacing:qq-lg-3');
         $showState = $getProperty('showState');
         $classes = implode(' ', $showState['form']['cellspacing']->get('class'));
         $this->assertEquals('ml-sm-1 ml-md-3 ml-xl-2', $classes);
+
+        // Test invalid
+        $this->expectException('RuntimeException');
+        $this->testObj->setShow('cellspacing:b4-xx-3');
     }
 
 }
