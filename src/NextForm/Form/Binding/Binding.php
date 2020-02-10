@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
@@ -74,7 +74,7 @@ class Binding
 
     /**
      * The form this element belongs to
-     * @var \Abivia\NextForm\Manager
+     * @var \Abivia\NextForm\NextForm
      */
     protected $manager;
 
@@ -259,7 +259,7 @@ class Binding
             return $this->id;
         }
         if ($this->autoId === '') {
-            $this->autoId = Manager::htmlIdentifier($this->element->getType(), true);
+            $this->autoId = NextForm::htmlIdentifier($this->element->getType(), true);
         }
         return $this->autoId;
     }
@@ -286,9 +286,9 @@ class Binding
     /**
      * Get the form manager.
      *
-     * @return ?Manager
+     * @return ?NextForm
      */
-    public function getManager() : ?Manager
+    public function getManager() : ?NextForm
     {
         return $this->manager;
     }
@@ -365,10 +365,10 @@ class Binding
 
     /**
      * Connect this binding to a Manager
-     * @param Manager $manager
+     * @param NextForm $manager
      * @return $this
      */
-    public function setManager(Manager $manager)
+    public function setManager(NextForm $manager)
     {
         $this->manager = $manager;
         return $this;

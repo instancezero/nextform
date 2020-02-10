@@ -3,7 +3,7 @@ include_once __DIR__ . '/../test-tools/JsonComparison.php';
 include_once __DIR__ . '/../test-tools/MockTranslate.php';
 include_once __DIR__ . '/../test-tools/Page.php';
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
@@ -104,7 +104,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testFormLoad() {
-        Manager::boot();
+        NextForm::boot();
         $obj = new Form();
         $jsonFile = __DIR__ . '/member-form.json';
         $config = json_decode(file_get_contents($jsonFile));
@@ -133,10 +133,10 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGenerateUnpopulated() {
-        Manager::boot();
+        NextForm::boot();
         $render = new FlatRender();
 
-        $manager = new Manager();
+        $manager = new NextForm();
         $manager->setForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender($render);
@@ -150,8 +150,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      * @coversNothing
      */
     public function testGeneratePopulated() {
-        Manager::boot();
-        $manager = new Manager();
+        NextForm::boot();
+        $manager = new NextForm();
         $manager->addSchema($this->memberSchema);
         $manager->bind($this->memberForm);
         $data = [
@@ -165,8 +165,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testSimpleHtmlRenderUnpopulated() {
-        Manager::boot();
-        $manager = new Manager();
+        NextForm::boot();
+        $manager = new NextForm();
         $manager->setForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new SimpleHtml());
@@ -179,8 +179,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testBootstrap4RenderUnpopulated() {
-        Manager::boot();
-        $manager = new Manager();
+        NextForm::boot();
+        $manager = new NextForm();
         $manager->setForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());

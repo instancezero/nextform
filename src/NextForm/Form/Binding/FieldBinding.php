@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Property;
@@ -36,7 +36,7 @@ class FieldBinding extends Binding
     protected $objectRef;
 
     protected function bindProperty(SchemaCollection $schemas, $segmentName, $objectName) {
-        $resolvedName = $segmentName . Manager::SEGMENT_DELIM . $objectName;
+        $resolvedName = $segmentName . NextForm::SEGMENT_DELIM . $objectName;
         $this->dataProperty = $schemas->getProperty($segmentName, $objectName);
         if ($this->dataProperty === null) {
             throw new \RuntimeException('Unable to bind '. $resolvedName .', property not found.');
@@ -74,8 +74,8 @@ class FieldBinding extends Binding
     {
         // Get the object from the element and add any default segment.
         $objectName = $this->getElement()->getObject();
-        if (strpos($objectName, Manager::SEGMENT_DELIM) !== false) {
-            list($segmentName, $objectName) = explode(Manager::SEGMENT_DELIM, $objectName);
+        if (strpos($objectName, NextForm::SEGMENT_DELIM) !== false) {
+            list($segmentName, $objectName) = explode(NextForm::SEGMENT_DELIM, $objectName);
         } elseif ($this->manager) {
             $segmentName = $this->manager->getSegment();
         }
@@ -198,7 +198,7 @@ class FieldBinding extends Binding
         if ($this->objectRef === null) {
             return null;
         }
-        return implode(Manager::SEGMENT_DELIM, $this->objectRef);
+        return implode(NextForm::SEGMENT_DELIM, $this->objectRef);
     }
 
     /**

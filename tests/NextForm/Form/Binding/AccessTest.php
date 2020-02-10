@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Form;
@@ -55,10 +55,10 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public $sectionParts;
 
     public function setUp() : void {
-        Manager::boot();
+        NextForm::boot();
         $this->render = new LoggingRender();
 
-        $manager = new Manager();
+        $manager = new NextForm();
         $this->access = new MockAccess();
         $manager->setAccess($this->access);
         $manager->setForm(Form::fromFile(__DIR__ . '/element-test-form.json'));

@@ -4,7 +4,7 @@ namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Contracts\SchemaInterface;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 use function DeepCopy\deep_copy;
@@ -225,8 +225,8 @@ class Schema implements SchemaInterface, \JsonSerializable
         if (is_array($segProp)) {
             $name = $segProp[1];
             $segment = $segProp[0];
-        } elseif (strpos($segProp, Manager::SEGMENT_DELIM) !== false) {
-            list($segment, $name) = explode(Manager::SEGMENT_DELIM, $segProp);
+        } elseif (strpos($segProp, NextForm::SEGMENT_DELIM) !== false) {
+            list($segment, $name) = explode(NextForm::SEGMENT_DELIM, $segProp);
         } else {
             $segment = $segProp;
         }

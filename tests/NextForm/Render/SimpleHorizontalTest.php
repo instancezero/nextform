@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
 use Abivia\NextForm\Render\Attributes;
@@ -19,7 +19,7 @@ class FormRenderSimpleHtmlHorizontalTest extends SimpleHtmlRenderFrame {
     protected $testObj;
 
     protected function setUp() : void {
-        Manager::boot();
+        NextForm::boot();
         $this->testObj = new SimpleHtml();
         $this->testObj->setShow('layout:hor:20%:40%');
     }

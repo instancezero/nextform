@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 //use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Element\CellElement;
@@ -22,7 +22,7 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4RenderFrame
 
     protected function setUp() : void
     {
-        Manager::boot();
+        NextForm::boot();
         $this->testObj = new Bootstrap4();
         $this->testObj->setShow('layout:horizontal:2:10');
     }

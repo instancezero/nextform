@@ -7,7 +7,7 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Binding\SimpleBinding;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 
 /**
  * Render for Bootstrap4
@@ -503,7 +503,7 @@ class Bootstrap4 extends Html implements RenderInterface
         }
         $id = $options['attributes']->get('id');
         $pageData->script .= "var $id = new NextForm($('#$id'), '"
-            . Manager::CONTAINER_LABEL . "');\n";
+            . NextForm::CONTAINER_LABEL . "');\n";
         return $pageData;
     }
 

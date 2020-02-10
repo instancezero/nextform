@@ -17,7 +17,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 /**
  *
  */
-class Manager
+class NextForm
 {
 
     public const CONFIRM_LABEL = '_confirm';
@@ -190,7 +190,7 @@ class Manager
         if ($attrs->has('id')) {
             $this->id = $attrs->get('id');
         } else {
-            $this->id = Manager::htmlIdentifier('form', true);
+            $this->id = NextForm::htmlIdentifier('form', true);
             $attrs->set('id', $this->id);
         }
 
@@ -265,8 +265,8 @@ class Manager
      */
     public function getSegmentData($segment)
     {
-        $prefix = $segment . Manager::SEGMENT_DELIM;
-        $prefixLen = \strlen($segment . Manager::SEGMENT_DELIM);
+        $prefix = $segment . NextForm::SEGMENT_DELIM;
+        $prefixLen = \strlen($segment . NextForm::SEGMENT_DELIM);
         $data = [];
         // The first element should have the value... there should only be one value.
         foreach ($this->objectMap as $objectName => $list) {
@@ -319,7 +319,7 @@ class Manager
         }
         foreach ($data as $field => $value) {
             if ($segment !== '') {
-                $field = $segment . Manager::SEGMENT_DELIM . $field;
+                $field = $segment . NextForm::SEGMENT_DELIM . $field;
             }
             if (!isset($this->objectMap[$field])) {
                 continue;

@@ -10,3 +10,4 @@ To Do List
 - working on simplifying options by allowing "label[:value]", this will simplify option lists.
 - Rendering tests not testing default value
 - Consider adding Bulma
+- All the show() stuff is gross. It doesn't belong in Html nor in a trait. Refactor.

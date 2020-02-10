@@ -8,7 +8,7 @@ namespace Abivia\NextForm\Render\Bootstrap4\FieldElementRender;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Data\Population\Option;
 use Abivia\NextForm\Form\Binding\FieldBinding;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRender\Checkbox as BaseCheckbox;
@@ -249,7 +249,7 @@ class Checkbox extends BaseCheckbox {
         if ($labels->has('help')) {
             $attrs->set(
                 'aria-describedby',
-                $baseId . Manager::HELP_LABEL
+                $baseId . NextForm::HELP_LABEL
             );
         }
         $attrs->set('class', 'form-check-input');
@@ -289,7 +289,7 @@ class Checkbox extends BaseCheckbox {
         if ($labels->has('help')) {
             $attrs->set(
                 'aria-describedby',
-                $baseId . Manager::HELP_LABEL
+                $baseId . NextForm::HELP_LABEL
             );
         }
         $this->labelAttrs = new Attributes();
@@ -437,7 +437,7 @@ class Checkbox extends BaseCheckbox {
         if ($labels->has('help')) {
             $this->attrs->set(
                 'aria-describedby',
-                $baseId . Manager::HELP_LABEL
+                $baseId . NextForm::HELP_LABEL
             );
         }
         if ($asButtons) {

@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Trigger;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
@@ -30,7 +30,7 @@ class Action implements \JsonSerializable
     {
         if (\is_string($config)) {
             $expanded = new \stdClass;
-            $parts = \explode(Manager::GROUP_DELIM, $config);
+            $parts = \explode(NextForm::GROUP_DELIM, $config);
             \array_push($parts, null);
             \array_push($parts, null);
             $expanded->target = \explode(',', $parts[0]);
@@ -96,7 +96,7 @@ class Action implements \JsonSerializable
         if ($this->subject === 'script') {
             return $this;
         }
-        if (\strpos($this->value, Manager::GROUP_DELIM) !== false) {
+        if (\strpos($this->value, NextForm::GROUP_DELIM) !== false) {
             return $this;
         }
         if (\is_bool($this->value)) {
@@ -105,8 +105,8 @@ class Action implements \JsonSerializable
             $strVal = $this->value;
         }
         $result = implode(',', $this->target)
-            . Manager::GROUP_DELIM . $this->subject
-            . Manager::GROUP_DELIM . $strVal;
+            . NextForm::GROUP_DELIM . $this->subject
+            . NextForm::GROUP_DELIM . $strVal;
         return $result;
     }
 

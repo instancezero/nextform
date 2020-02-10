@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\StaticElement;
@@ -21,7 +21,7 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp() : void
     {
-        Manager::boot();
+        NextForm::boot();
         $this->testObj = new Html();
         $this->testObj->setShow('layout:vertical:10');
     }

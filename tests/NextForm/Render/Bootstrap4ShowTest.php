@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Bootstrap4;
@@ -17,7 +17,7 @@ class FormRenderBootstrap4ShowTest extends \PHPUnit\Framework\TestCase {
 
     protected function setUp() : void
     {
-        Manager::boot();
+        NextForm::boot();
         $this->testObj = new Bootstrap4();
         $this->getProperty = function($prop) { return $this->$prop; };
     }

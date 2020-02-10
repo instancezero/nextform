@@ -1,6 +1,6 @@
 <?php
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
@@ -14,7 +14,7 @@ include_once __DIR__ . '/SimpleHtmlRenderFrame.php';
 class FormRenderSimpleHtmlTest extends SimpleHtmlRenderFrame {
 
     protected function setUp() : void {
-        Manager::boot();
+        NextForm::boot();
         $this->testObj = new SimpleHtml();
     }
 

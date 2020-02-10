@@ -2,7 +2,7 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\SchemaCollection;
@@ -79,10 +79,10 @@ class ContainerBinding Extends Binding
 
     /**
      * Connect this binding to a manager
-     * @param Manager $manager
+     * @param NextForm $manager
      * @return $this
      */
-    public function setManager(Manager $manager)
+    public function setManager(NextForm $manager)
     {
         parent::setManager($manager);
         foreach ($this->bindings as $binding) {

@@ -6,7 +6,7 @@
 namespace Abivia\NextForm\Render\Bootstrap4;
 
 use Abivia\NextForm\Data\Labels;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\ButtonElementRenderBase;
@@ -29,7 +29,7 @@ class ButtonElementRender extends ButtonElementRenderBase {
         if ($labels->has('help')) {
             $attrs->set(
                 'aria-describedby',
-                $attrs->get('id') . Manager::HELP_LABEL
+                $attrs->get('id') . NextForm::HELP_LABEL
             );
         }
 

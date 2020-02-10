@@ -3,7 +3,7 @@
 namespace Abivia\NextForm\Data\Population;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Manager;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
 
@@ -111,7 +111,7 @@ class Option implements \JsonSerializable
         // If the configuration is a string, treat it as label[:value]
         if (\is_string($config)) {
             $obj = new \stdClass();
-            if (($posn = \strrpos($config, Manager::GROUP_DELIM)) !== false) {
+            if (($posn = \strrpos($config, NextForm::GROUP_DELIM)) !== false) {
                 $obj->label = \substr($config, 0, $posn);
                 $obj->value = \substr($config, $posn + 1);
 
@@ -290,7 +290,7 @@ class Option implements \JsonSerializable
             } else {
                 $strVal = $this->value;
             }
-            $result = $this->label . Manager::GROUP_DELIM . $strVal;
+            $result = $this->label . NextForm::GROUP_DELIM . $strVal;
         }
         return $result;
     }
