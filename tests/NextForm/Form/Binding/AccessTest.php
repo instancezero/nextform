@@ -61,7 +61,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $manager = new NextForm();
         $this->access = new MockAccess();
         $manager->setAccess($this->access);
-        $manager->setForm(Form::fromFile(__DIR__ . '/element-test-form.json'));
+        $manager->addForm(Form::fromFile(__DIR__ . '/element-test-form.json'));
         $manager->addSchema(Schema::fromFile(__DIR__ . '/element-test-schema.json'));
         $manager->setRender($this->render);
         $manager->setTranslator(new MockTranslate());

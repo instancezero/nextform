@@ -13,6 +13,8 @@ class CellElement Extends ContainerElement
     use Configurable;
     use JsonEncoderTrait;
 
+    protected $elements = [];
+
     /**
      * Rules for the JsonEncoder
      * @var array
@@ -53,9 +55,11 @@ class CellElement Extends ContainerElement
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
-        parent::configureInitialize($config);
+        $this->expandElements($config);
+        $this->registerElement($this->configureOptions);
+        return true;
     }
 
     protected function configureComplete()

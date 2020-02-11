@@ -137,7 +137,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new FlatRender();
 
         $manager = new NextForm();
-        $manager->setForm($this->memberForm);
+        $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender($render);
         $manager->setTranslator(new MockTranslate());
@@ -153,7 +153,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $manager = new NextForm();
         $manager->addSchema($this->memberSchema);
-        $manager->bind($this->memberForm);
+        $manager->addForm($this->memberForm);
         $data = [
             'id' => 0,
         ];
@@ -167,13 +167,16 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function testSimpleHtmlRenderUnpopulated() {
         NextForm::boot();
         $manager = new NextForm();
-        $manager->setForm($this->memberForm);
+        $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new SimpleHtml());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
-        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
+        file_put_contents(
+            __DIR__ . '/' . __FUNCTION__ . '.html',
+            Page::write(__FUNCTION__, $html)
+        );
 
         $this->assertTrue(true);
     }
@@ -181,7 +184,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function testBootstrap4RenderUnpopulated() {
         NextForm::boot();
         $manager = new NextForm();
-        $manager->setForm($this->memberForm);
+        $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());
         $translator = new MockTranslate();
@@ -189,12 +192,18 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
-        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '.html', Page::write(__FUNCTION__, $html));
+        file_put_contents(
+            __DIR__ . '/' . __FUNCTION__ . '.html',
+            Page::write(__FUNCTION__, $html)
+        );
 
         $translator->append = ' (lang2)';
         $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
-        file_put_contents(__DIR__ . '/' . __FUNCTION__ . '_lang2.html', Page::write(__FUNCTION__, $html));
+        file_put_contents(
+            __DIR__ . '/' . __FUNCTION__ . '_lang2.html',
+            Page::write(__FUNCTION__, $html)
+        );
 
         $this->assertTrue(true);
     }

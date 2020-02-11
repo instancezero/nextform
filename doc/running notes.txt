@@ -11,3 +11,8 @@ To Do List
 - Rendering tests not testing default value
 - Consider adding Bulma
 - All the show() stuff is gross. It doesn't belong in Html nor in a trait. Refactor.
+- Make token generation/query a callable
+- Multi-form support is kind of halfway there:
+- 1: Bindings need to be separated by form
+- 2: we should return a block with everything from generate
+- 3: need methods to get one form, just the scripts, etc.

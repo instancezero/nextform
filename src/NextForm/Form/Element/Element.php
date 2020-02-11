@@ -6,6 +6,8 @@ use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Form\Form;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
@@ -29,6 +31,12 @@ abstract class Element implements \JsonSerializable
      * @var bool
      */
     protected $enabled = true;
+
+    /**
+     * The form this element is in.
+     * @var Form
+     */
+    protected $form;
 
     /**
      * A list of groups that this element belongs to.
@@ -137,17 +145,6 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
-     * If the element is created as part of a form, register it as such.
-     */
-    protected function configureInitialize(&$config)
-    {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
-    }
-
-    /**
      * Configuration files can't specify the element type.
      * @param string $property Name of the property.
      * @return bool
@@ -232,12 +229,30 @@ abstract class Element implements \JsonSerializable
     }
 
     /**
+     * Get the display state of this element.
+     * @return bool
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
      * Get the enabled state of this element.
      * @return bool
      */
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get the form this element is part of.
+     * @return Form
+     */
+    public function getForm() : ?Form
+    {
+        return $this->form;
     }
 
     /**
@@ -297,15 +312,6 @@ abstract class Element implements \JsonSerializable
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Get the display state of this element.
-     * @return bool
-     */
-    public function getDisplay()
-    {
-        return $this->display;
     }
 
     /**
@@ -387,6 +393,17 @@ abstract class Element implements \JsonSerializable
     {
         $this->readonly = $readonly;
         return $this;
+    }
+
+    /**
+     * Register the element on the form during configuration.
+     * @param array $options
+     */
+    protected function registerElement($options)
+    {
+        if (isset($options['_form'])) {
+            $this->form = $options['_form'];
+        }
     }
 
     /**

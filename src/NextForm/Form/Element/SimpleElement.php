@@ -57,17 +57,6 @@ abstract class SimpleElement Extends Element
         return parent::configureClassMap($property, $value);
     }
 
-    /**
-     * Extract the form if we have one. Not so DRY because we need local options
-     */
-    protected function configureInitialize(&$config)
-    {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
-    }
-
     protected function configurePropertyIgnore($property)
     {
         return parent::configurePropertyIgnore($property);

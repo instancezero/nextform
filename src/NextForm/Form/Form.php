@@ -5,6 +5,7 @@ namespace Abivia\NextForm\Form;
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Traits\ShowableTrait;
 
@@ -56,7 +57,7 @@ class Form implements \JsonSerializable
      * Sets up options and converts string-valued elements into field objects.
      * @param \stdClass $config
      */
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
         // Pass an instance of the form down in Configurable's options so we can
         // access the form directly from deep within the data structures.
@@ -66,10 +67,29 @@ class Form implements \JsonSerializable
         if (isset($config->elements) && is_array($config->elements)) {
             foreach ($config->elements as &$value) {
                 if (is_string($value)) {
-                    $value = FieldElement::expandString($value);
+                    $value = self::expandString($value);
                 }
             }
         }
+    }
+
+    /**
+     * Convert a string of the form property:group:group to a configurable stdClass.
+     *
+     * @param string $value
+     * @return \stdClass
+     */
+    static public function expandString(string $value)
+    {
+        $groupParts = explode(NextForm::GROUP_DELIM, $value);
+        // Convert to a useful class
+        $obj = new \stdClass;
+        $obj->type = 'field';
+        $obj->object = array_shift($groupParts);
+        if (!empty($groupParts)) {
+            $obj->memberOf = $groupParts;
+        }
+        return $obj;
     }
 
     /**
@@ -142,7 +162,7 @@ class Form implements \JsonSerializable
             $this->loadJson($json);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException(
-                $e->getMessage() . 'While reading ' . $formFile . "\n"
+                $e->getMessage() . ' While reading ' . $formFile . "\n"
             );
         }
 

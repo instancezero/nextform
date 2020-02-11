@@ -26,7 +26,7 @@ class Action implements \JsonSerializable
     protected $target = [];
     protected $value;
 
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
         if (\is_string($config)) {
             $expanded = new \stdClass;

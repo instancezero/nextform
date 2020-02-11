@@ -47,7 +47,13 @@ class Binding
     ];
 
     /**
-     * Name on the rendered form.
+     * The form this binding is linked to.
+     * @var Form
+     */
+    protected $form;
+
+    /**
+     * Name of this binding on the rendered form.
      * @var string
      */
     protected $formName;
@@ -321,6 +327,7 @@ class Binding
     public function setElement(Element $element) : self
     {
         $this->element = $element;
+        $this->form = $element->getForm();
         $this->id = $element->getId();
         $this->labels = $element->getLabels() ?? new Labels();
         $this->labelsTranslated = clone $this->labels;

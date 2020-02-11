@@ -77,7 +77,7 @@ class FieldBinding extends Binding
         if (strpos($objectName, NextForm::SEGMENT_DELIM) !== false) {
             list($segmentName, $objectName) = explode(NextForm::SEGMENT_DELIM, $objectName);
         } elseif ($this->manager) {
-            $segmentName = $this->manager->getSegment();
+            $segmentName = $this->form->getSegment();
         }
 
         // Connect to the requested property in the schemas.

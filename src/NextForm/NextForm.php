@@ -33,22 +33,28 @@ class NextForm
     protected $access;
 
     /**
-     * A list of all bindings in the form.
+     * A list of all bindings in the forms.
      * @var Binding[]
      */
     protected $allBindings = [];
 
     /**
-     * A list of top level bindings in the form.
+     * A list of top level bindings in the forms.
      * @var Binding[]
      */
     protected $bindings = [];
 
     /**
-     * The form definition.
-     * @var Form
+     * The form definitions.
+     * @var Form[]
      */
-    protected $form;
+    protected $forms;
+
+    /**
+     * The data we will put into the form, indexed by segment ('' for default)
+     * @var array
+     */
+    protected $formData = [];
 
     /**
      * Counter used to assign HTML identifiers
@@ -68,16 +74,44 @@ class NextForm
      * @var array
      */
     protected $objectMap;
+
+    /**
+     * The form and associated data after generation.
+     * @var Block
+     */
+    protected $pageData;
+
+    /**
+     * The form rendering engine.
+     * @var RenderInterface
+     */
     protected $renderer;
+
+    /**
+     * Data schemas associated with the form.
+     * @var Schema[]
+     */
     protected $schemas;
+
+    // This should not be required after reorg.
     protected $schemasLinked = false;
+
+    /**
+     * A translation service.
+     * @var Translator
+     */
     protected $translator;
-    protected $useSegment = '';
 
     public function __construct()
     {
         $this->access = new Access\NullAccess();
         $this->show = '';
+    }
+
+    public function addForm(Form $form) : self
+    {
+        $this->forms[$form->getName()] = $form;
+        return $this;
     }
 
     public function addSchema(Schema $schema) : self
@@ -124,13 +158,10 @@ class NextForm
      * Connect all the components into something we can generate
      * @return \self
      */
-    public function bind(Form $form = null) : self
+    public function bind() : self
     {
-        if ($form !== null) {
-            $this->setForm($form);
-        }
-        if ($this->form === null) {
-            throw new RuntimeException('Unable to bind to a null form.');
+        if (empty($this->forms)) {
+            throw new \RuntimeException('No forms have been provided.');
         }
         if ($this->schemasLinked) {
             return $this;
@@ -138,13 +169,29 @@ class NextForm
         $this->objectMap = [];
         $this->allBindings = [];
         $this->bindings = [];
-        foreach ($this->form->getElements() as $element) {
-            $binding = Binding::fromElement($element);
-            $binding->setManager($this);
-            $binding->bindSchema($this->schemas);
-            $this->bindings[] = $binding;
+        foreach ($this->forms as $form) {
+            foreach ($form->getElements() as $element) {
+                $binding = Binding::fromElement($element);
+                $binding->setManager($this);
+                $binding->bindSchema($this->schemas);
+                $this->bindings[] = $binding;
+            }
         }
+
         $this->schemasLinked = true;
+        foreach ($this->formData as $segment => $data) {
+            foreach ($data as $field => $value) {
+                if ($segment !== '') {
+                    $field = $segment . NextForm::SEGMENT_DELIM . $field;
+                }
+                if (!isset($this->objectMap[$field])) {
+                    continue;
+                }
+                foreach ($this->objectMap[$field] as $element) {
+                    $element->setValue($value);
+                }
+            }
+        }
         return $this;
     }
 
@@ -157,7 +204,7 @@ class NextForm
     }
 
     /**
-     * Generate a form.
+     * Generate the forms.
      * @param array $options Generation options, optional unless stated otherwise:
      *  $options = [
      *      'attributes' => (Render\Attributes) Attributes to be added to the form element.
@@ -170,7 +217,7 @@ class NextForm
      *  ]
      * @return Block
      */
-    public function generate($options)
+    public function generate($options) : Block
     {
         $this->options($options);
         $this->bind();
@@ -206,7 +253,7 @@ class NextForm
             $attrs->set('name', $this->id);
         }
 
-        //Pass the ID to the form
+        // Pass the ID to the form
         $options['id'] = $this->id;
 
         // Assign field names
@@ -219,14 +266,14 @@ class NextForm
         }
 
         // Start the form, write all the bindings, close the form, return.
-        $pageData = $this->renderer->start($options);
+        $this->pageData = $this->renderer->start($options);
         foreach ($this->bindings as $binding) {
-            $pageData->merge(
+            $this->pageData->merge(
                 $binding->generate($this->renderer, $this->access)
             );
         }
-        $pageData->close();
-        return $pageData;
+        $this->pageData->close();
+        return $this->pageData;
     }
 
     /**
@@ -253,9 +300,9 @@ class NextForm
         return $this->name;
     }
 
-    public function getSegment()
+    public function getSegment($formName)
     {
-        return $this->form->getSegment();
+        return $this->forms[$formName]->getSegment();
     }
 
     /**
@@ -314,20 +361,7 @@ class NextForm
      */
     public function populate($data, $segment = '') : self
     {
-        if (!$this->schemasLinked) {
-            throw new \LogicException('Form not linked to schema.');
-        }
-        foreach ($data as $field => $value) {
-            if ($segment !== '') {
-                $field = $segment . NextForm::SEGMENT_DELIM . $field;
-            }
-            if (!isset($this->objectMap[$field])) {
-                continue;
-            }
-            foreach ($this->objectMap[$field] as $element) {
-                $element->setValue($value);
-            }
-        }
+        $this->formData[$segment] = $data;
         return $this;
     }
 
@@ -354,13 +388,6 @@ class NextForm
     public function setAccess(AccessInterface $access) : self
     {
         $this->access = $access;
-        return $this;
-    }
-
-    public function setForm(Form $form) : self
-    {
-        $this->form = $form;
-        $this->schemasLinked = false;
         return $this;
     }
 

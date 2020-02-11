@@ -3,12 +3,11 @@
 namespace Abivia\NextForm\Form\Element;
 
 use Abivia\Configurable\Configurable;
-use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * Class for any element that contains a list of sub-elements.
@@ -81,20 +80,17 @@ abstract class ContainerElement Extends NamedElement
     }
 
     /**
-     * Extract the form if we have one. Not so DRY because we need local options
+     * Preprocess any shorthand elements.
+     *
+     * @param stdClass $config
      */
-    protected function configureInitialize(&$config)
-    {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
-            $this->form->registerElement($this);
-        }
+    protected function expandElements(&$config) {
         // Any elements that are simply strings are converted to basic field objects
         if (isset($config->elements) && is_array($config->elements)) {
             foreach ($config->elements as &$value) {
                 if (is_string($value)) {
                     // Convert to a useful class
-                    $value = FieldElement::expandString($value);
+                    $value = Form::expandString($value);
                 }
             }
         }

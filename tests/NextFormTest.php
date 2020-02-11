@@ -19,7 +19,8 @@ class NextFormTest extends \PHPUnit\Framework\TestCase {
        $schema = Schema::fromFile(__DIR__ . '/test-data/test-schema.json');
        $form = Form::fromFile(__DIR__ . '/test-data/newform.json');
        $manager = new NextForm();
-       $manager->bind($form, $schema);
+       $manager->addSchema($schema)->addForm($form);
+       $manager->bind();
        $data = $manager->getData();
        $this->assertTrue(true);
     }

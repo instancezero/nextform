@@ -10,6 +10,8 @@ Abivia\NextForm\Form\Form Object
                     [value:protected] => Some plain text where <, &, etc. gets escaped.
                     [valueTranslated:protected] =>
                     [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                     [groups:protected] => Array
                         (
                         )
@@ -55,6 +57,8 @@ Abivia\NextForm\Form\Form Object
                     [value:protected] => <p>This is an initially hidden html element.</p>
                     [valueTranslated:protected] =>
                     [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                     [groups:protected] => Array
                         (
                             [0] => success
@@ -157,6 +161,8 @@ Abivia\NextForm\Form\Form Object
 
                     [value:protected] =>
                     [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                     [groups:protected] => Array
                         (
                             [0] => groupname
@@ -265,6 +271,8 @@ Abivia\NextForm\Form\Form Object
 
                                     [value:protected] =>
                                     [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                     [groups:protected] => Array
                                         (
                                         )
@@ -350,6 +358,8 @@ Abivia\NextForm\Form\Form Object
 
                                     [value:protected] =>
                                     [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                     [groups:protected] => Array
                                         (
                                         )
@@ -435,6 +445,8 @@ Abivia\NextForm\Form\Form Object
 
                                     [value:protected] =>
                                     [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                     [groups:protected] => Array
                                         (
                                         )
@@ -510,6 +522,8 @@ Abivia\NextForm\Form\Form Object
                         )
 
                     [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                     [groups:protected] => Array
                         (
                         )
@@ -610,6 +624,8 @@ Abivia\NextForm\Form\Form Object
 
                                                     [value:protected] =>
                                                     [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                                     [groups:protected] => Array
                                                         (
                                                         )
@@ -695,6 +711,8 @@ Abivia\NextForm\Form\Form Object
 
                                                     [value:protected] =>
                                                     [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                                     [groups:protected] => Array
                                                         (
                                                         )
@@ -780,6 +798,8 @@ Abivia\NextForm\Form\Form Object
 
                                                     [value:protected] =>
                                                     [enabled:protected] => 1
+                                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                                     [groups:protected] => Array
                                                         (
                                                         )
@@ -855,6 +875,8 @@ Abivia\NextForm\Form\Form Object
                                         )
 
                                     [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                     [groups:protected] => Array
                                         (
                                         )
@@ -940,6 +962,8 @@ Abivia\NextForm\Form\Form Object
                                     [value:protected] => This text is part of a section.
                                     [valueTranslated:protected] =>
                                     [enabled:protected] => 1
+                                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                                     [groups:protected] => Array
                                         (
                                         )
@@ -981,6 +1005,8 @@ Abivia\NextForm\Form\Form Object
                         )
 
                     [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
                     [groups:protected] => Array
                         (
                         )

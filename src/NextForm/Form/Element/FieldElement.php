@@ -5,6 +5,7 @@ namespace Abivia\NextForm\Form\Element;
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 use Abivia\NextForm\Trigger\Trigger;
 use Illuminate\Contracts\Translation\Translator as Translator;
@@ -116,12 +117,14 @@ class FieldElement extends NamedElement
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
         if (\is_string($config)) {
-            // Convert to a useful class
-            $config = self::expandString($config);
+            // Convert to a field/object
+            $config = Form::expandString($config);
         }
+        $this->registerElement($this->configureOptions);
+        return true;
     }
 
     protected function configurePropertyIgnore($property)
@@ -146,25 +149,6 @@ class FieldElement extends NamedElement
             return true;
         }
         return parent::configureValidate($property, $value);
-    }
-
-    /**
-     * Convert a string of the form property:group:group to a configurable stdClass.
-     *
-     * @param string $value
-     * @return \stdClass
-     */
-    static public function expandString(string $value)
-    {
-        $groupParts = explode(NextForm::GROUP_DELIM, $value);
-        // Convert to a useful class
-        $obj = new \stdClass;
-        $obj->type = 'field';
-        $obj->object = array_shift($groupParts);
-        if (!empty($groupParts)) {
-            $obj->memberOf = $groupParts;
-        }
-        return $obj;
     }
 
     /**
@@ -240,7 +224,7 @@ class FieldElement extends NamedElement
      */
     protected function removeScope($value)
     {
-            return $value;
+        return $value;
         if (!$this->form) {
             return $value;
         }

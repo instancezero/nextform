@@ -64,11 +64,14 @@ class ButtonElement Extends NamedElement
     /**
      * Extract the form if we have one. Not so DRY because we need local options
      */
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
-        if (isset($this->configureOptions['_form'])) {
-            $this->form = $this->configureOptions['_form'];
+        if (\is_string($config)) {
+            // Convert to a field/object
+            $config = Form::expandString($config);
         }
+        $this->registerElement($this->configureOptions);
+        return true;
     }
 
     protected function configurePropertyIgnore($property)

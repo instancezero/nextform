@@ -106,7 +106,7 @@ class Option implements \JsonSerializable
      *
      * @param \stdClass $config
      */
-    protected function configureInitialize(&$config)
+    protected function configureInitialize(&$config, ...$context)
     {
         // If the configuration is a string, treat it as label[:value]
         if (\is_string($config)) {
