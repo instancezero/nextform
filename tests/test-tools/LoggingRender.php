@@ -42,7 +42,7 @@ class LoggingRender implements RenderInterface {
      */
     public function render(Binding $binding, $options = []) : Block
     {
-        $this->log[$binding->getFormName() . '/'
+        $this->log[$binding->getNameOnForm() . '/'
             . $binding->getElement()->getName()] = $options['access'];
         return new Block();
     }

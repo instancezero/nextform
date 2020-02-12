@@ -30,7 +30,7 @@ class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
         $result = new Block();
         $type = $binding->getElement()->getType();
         $result->body = $type;
-        $name = $binding->getFormName();
+        $name = $binding->getNameOnForm();
         if ($name) {
             $result->body .= ' (' . $name . ')';
         }

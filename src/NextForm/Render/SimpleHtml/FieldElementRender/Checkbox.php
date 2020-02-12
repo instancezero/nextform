@@ -92,7 +92,7 @@ class Checkbox extends BaseCheckbox {
         );
         $list = $this->binding->getList(true);
 //        $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
-//        $attrs->set('name', $binding->getFormName());
+//        $attrs->set('name', $binding->getNameOnForm());
 
         // Start generating output
         $block = $this->engine->writeElement(

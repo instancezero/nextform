@@ -40,7 +40,7 @@ abstract class File  {
     {
         $attrs = new Attributes();
         $attrs->set('id', $this->binding->getId());
-        $attrs->set('name', $this->binding->getFormName());
+        $attrs->set('name', $this->binding->getNameOnForm());
         $attrs->set('type', $this->inputType);
         $attrs->setFlag(
             'readonly',

@@ -33,13 +33,13 @@ class NextForm
     protected $access;
 
     /**
-     * A list of all bindings in the forms.
+     * A list of all bindings in each form.
      * @var Binding[]
      */
     protected $allBindings = [];
 
     /**
-     * A list of top level bindings in the forms.
+     * A list of top level bindings in each form.
      * @var Binding[]
      */
     protected $bindings = [];
@@ -49,6 +49,12 @@ class NextForm
      * @var Form[]
      */
     protected $forms;
+
+    /**
+     * The results of generating each form.
+     * @var Block[]
+     */
+    protected $formBlock = [];
 
     /**
      * The data we will put into the form, indexed by segment ('' for default)
@@ -79,7 +85,7 @@ class NextForm
      * The form and associated data after generation.
      * @var Block
      */
-    protected $pageData;
+    protected $pageBlock;
 
     /**
      * The form rendering engine.
@@ -110,7 +116,8 @@ class NextForm
 
     public function addForm(Form $form) : self
     {
-        $this->forms[$form->getName()] = $form;
+        $formName = $form->getName();
+        $this->forms[$formName] = $form;
         return $this;
     }
 
@@ -128,26 +135,32 @@ class NextForm
     {
         $this->nameMap = [];
         $containerCount = 1;
-        foreach ($this->allBindings as $binding) {
-            if ($binding instanceof FieldBinding) {
-                $baseName = str_replace('/', '_', $binding->getObject());
-                $name = $baseName;
-                $confirmName = $baseName . self::CONFIRM_LABEL;
-                $append = 0;
-                while (isset($this->nameMap[$name]) || isset($this->nameMap[$confirmName])) {
-                    $name = $baseName . '_' . ++$append;
-                    $confirmName = $name . '_' . $append . self::CONFIRM_LABEL;
+
+        foreach ($this->allBindings as $bindings) {
+            foreach ($bindings as $binding) {
+                if ($binding instanceof FieldBinding) {
+                    $baseName = str_replace('/', '_', $binding->getObject());
+                    $name = $baseName;
+                    $confirmName = $baseName . self::CONFIRM_LABEL;
+                    $append = 0;
+                    while (
+                        isset($this->nameMap[$name])
+                        || isset($this->nameMap[$confirmName])
+                    ) {
+                        $name = $baseName . '_' . ++$append;
+                        $confirmName = $name . '_' . $append . self::CONFIRM_LABEL;
+                    }
+                    $this->nameMap[$name] = $binding;
+                    $binding->setNameOnForm($name);
+                } elseif ($binding instanceof ContainerBinding) {
+                    $baseName = 'container_';
+                    $name = $baseName . $containerCount;
+                    while (isset($this->nameMap[$name])) {
+                        $name = $baseName . ++$containerCount;
+                    }
+                    $this->nameMap[$name] = $binding;
+                    $binding->setNameOnForm($name);
                 }
-                $this->nameMap[$name] = $binding;
-                $binding->setFormName($name);
-            } elseif ($binding instanceof ContainerBinding) {
-                $baseName = 'container_';
-                $name = $baseName . $containerCount;
-                while (isset($this->nameMap[$name])) {
-                    $name = $baseName . ++$containerCount;
-                }
-                $this->nameMap[$name] = $binding;
-                $binding->setFormName($name);
             }
         }
         $this->schemasLinked = true;
@@ -170,11 +183,14 @@ class NextForm
         $this->allBindings = [];
         $this->bindings = [];
         foreach ($this->forms as $form) {
+            $formName = $form->getName();
+            $this->allBindings[$formName] = [];
+            $this->bindings[$formName] = [];
             foreach ($form->getElements() as $element) {
                 $binding = Binding::fromElement($element);
                 $binding->setManager($this);
                 $binding->bindSchema($this->schemas);
-                $this->bindings[] = $binding;
+                $this->bindings[$formName][] = $binding;
             }
         }
 
@@ -261,19 +277,25 @@ class NextForm
         $this->renderer->setShow($this->show);
 
         // Run the translations.
-        foreach ($this->allBindings as $binding) {
-            $binding->translate($this->translator);
+        foreach ($this->allBindings as $bindings) {
+            foreach ($bindings as $binding) {
+                $binding->translate($this->translator);
+            }
         }
 
-        // Start the form, write all the bindings, close the form, return.
-        $this->pageData = $this->renderer->start($options);
-        foreach ($this->bindings as $binding) {
-            $this->pageData->merge(
-                $binding->generate($this->renderer, $this->access)
-            );
+        $this->pageBlock = new Block();
+        foreach ($this->forms as $formName => $form) {
+            // Start the form, write all the bindings, close the form, return.
+            $formBlock = $this->renderer->start($options);
+            foreach ($this->bindings[$formName] as $binding) {
+                $formBlock->merge(
+                    $binding->generate($this->renderer, $this->access)
+                );
+            }
+            $this->formBlock[$formName] = $formBlock->close();
+            $this->pageBlock->merge($formBlock);
         }
-        $this->pageData->close();
-        return $this->pageData;
+        return $this->pageBlock;
     }
 
     /**
@@ -372,8 +394,16 @@ class NextForm
      */
     public function registerBinding(Binding $binding) : self
     {
-        if (!in_array($binding, $this->allBindings, true)) {
-            $this->allBindings[] = $binding;
+        try {
+            $nameOnForm = $binding->getForm()->getName();
+        } catch (Error $err) {
+            throw new RuntimeException("Attempt to use an element with no form.");
+        }
+        if (!isset($this->allBindings[$nameOnForm])) {
+            $this->allBindings[$nameOnForm] = [];
+        }
+        if (!in_array($binding, $this->allBindings[$nameOnForm], true)) {
+            $this->allBindings[$nameOnForm][] = $binding;
         }
         $objectRef = $binding->getObject();
         if ($objectRef !== null) {

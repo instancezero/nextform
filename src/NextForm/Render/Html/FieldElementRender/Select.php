@@ -42,7 +42,7 @@ abstract class Select  {
     {
         $attrs = new Attributes();
         $attrs->set('id', $this->binding->getId());
-        $attrs->set('name', $this->binding->getFormName());
+        $attrs->set('name', $this->binding->getNameOnForm());
 
         if (!$this->element->getEnabled()) {
             $attrs->setFlag('disabled');

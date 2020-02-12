@@ -42,7 +42,7 @@ abstract class Checkbox  {
         $presentation = $data->getPresentation();
         $type = $presentation->getType();
         $attrs->set('type', $type);
-        $attrs->set('name', $this->binding->getFormName());
+        $attrs->set('name', $this->binding->getNameOnForm());
         $attrs->setIfNotNull('*data-nf-sidecar', $data->getPopulation()->sidecar);
         if ($this->access == 'view') {
             $attrs->setFlag('readonly');

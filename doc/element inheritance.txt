@@ -1,7 +1,7 @@
 Before bindings:
 
 Element                             (enabled, form, group, name, type, visible)
-    NamedElement            Labels  (formName)
+    NamedElement            Labels  (nameOnForm)
         ButtonElement       Labels  (reset,submit)
         ContainerElement    Labels  (elements)
             CellElement     Labels
@@ -18,7 +18,7 @@ traits
 After bindings:
 ===
 
-Binding                     Labels  (element, form, formName)
+Binding                     Labels  (element, form, nameOnForm)
     ContainerBinding                (bindings)
     FieldBinding                    (dataProperty, dataPropertyTranslated)
 

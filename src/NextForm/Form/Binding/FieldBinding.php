@@ -156,9 +156,9 @@ class FieldBinding extends Binding
      * @param $baseOnly If set, brackets are omitted.
      * @return string
      */
-    public function getFormName($baseOnly = false)
+    public function getNameOnForm($baseOnly = false)
     {
-        $result = parent::getFormName($baseOnly);
+        $result = parent::getNameOnForm($baseOnly);
         if ($baseOnly) {
             return $result;
         }

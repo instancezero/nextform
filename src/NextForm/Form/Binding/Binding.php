@@ -56,7 +56,7 @@ class Binding
      * Name of this binding on the rendered form.
      * @var string
      */
-    protected $formName;
+    protected $nameOnForm;
 
     /**
      * User-specified element id, overrides auto ID
@@ -233,26 +233,36 @@ class Binding
     }
 
     /**
+     * Get this element's form.
+     *
+     * @return Form
+     */
+    public function getForm() : ?Form
+    {
+        return $this->form;
+    }
+
+    /**
      * Get this element's name on the form. If not assigned, a name is generated.
      *
      * @param $baseOnly If set, brackets are omitted. Only useful with
      *                  FieldBindings.
      * @return string
      */
-    public function getFormName($baseOnly = false)
+    public function getNameOnForm($baseOnly = false)
     {
-        if ($this->formName === null) {
+        if ($this->nameOnForm === null) {
             $name = $this->element->getName();
             if ($name != '') {
-                $this->formName = $name;
+                $this->nameOnForm = $name;
             } else {
                 if ($this->autoId == '') {
                     $this->getId();
                 }
-                $this->formName = $this->autoId;
+                $this->nameOnForm = $this->autoId;
             }
         }
-        return $this->formName;
+        return $this->nameOnForm;
     }
 
     /**
@@ -339,9 +349,9 @@ class Binding
      * @param string $name
      * @return $this
      */
-    public function setFormName($name)
+    public function setNameOnForm($name)
     {
-        $this->formName = $name;
+        $this->nameOnForm = $name;
         return $this;
     }
 

@@ -16,3 +16,4 @@ To Do List
 - 1: Bindings need to be separated by form
 - 2: we should return a block with everything from generate
 - 3: need methods to get one form, just the scripts, etc.
+- 4: Embed all this into something like Binding\Collection or Binding\Form

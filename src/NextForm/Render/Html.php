@@ -160,7 +160,7 @@ class Html implements RenderInterface
     {
         $block = new Block();
         $baseId = $binding->getId();
-        $formName = $binding->getFormName(true);
+        $nameOnForm = $binding->getNameOnForm(true);
         $attrs = new Attributes('type', 'hidden');
         if ($binding instanceof \Abivia\NextForm\Form\Binding\FieldBinding) {
             $attrs->setIfNotNull(
@@ -173,13 +173,13 @@ class Html implements RenderInterface
             foreach ($value as $key => $entry) {
                 $attrs->set('id', $baseId . '_opt' . $optId);
                 ++$optId;
-                $attrs->set('name', $formName . '[' . \htmlspecialchars($key) . ']');
+                $attrs->set('name', $nameOnForm . '[' . \htmlspecialchars($key) . ']');
                 $attrs->set('value', $entry);
                 $block->body .= $this->writeTag('input', $attrs) . "\n";
             }
         } else {
             $attrs->set('id', $baseId);
-            $attrs->set('name', $formName);
+            $attrs->set('name', $nameOnForm);
             $attrs->setIfNotNull('value', $value);
             $block->body .= $this->writeTag('input', $attrs) . "\n";
         }
@@ -199,7 +199,7 @@ class Html implements RenderInterface
         $select = $binding->getValue();
         $list = $binding->getList(true);
         $attrs = new Attributes('type', 'hidden');
-        $attrs->set('name', $binding->getFormName(true) . (empty($list) ? '' : '[]'));
+        $attrs->set('name', $binding->getNameOnForm(true) . (empty($list) ? '' : '[]'));
         if ($select === null) {
             $select = $binding->getElement()->getDefault();
         }

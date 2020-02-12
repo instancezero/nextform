@@ -42,7 +42,7 @@ abstract class Common  {
     {
         $attrs = new Attributes();
         $attrs->set('id', $this->binding->getId() . $this->confirmSuffix);
-        $attrs->set('name', $this->binding->getFormName() . $this->confirmSuffix);
+        $attrs->set('name', $this->binding->getNameOnForm() . $this->confirmSuffix);
         $attrs->set('type', $this->inputType);
         $attrs->setFlag(
             'readonly',
