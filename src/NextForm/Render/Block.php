@@ -72,12 +72,6 @@ class Block
     public $styleFiles = [];
 
     /**
-     * A submission verification token; only useful at the form level.
-     * @var string
-     */
-    public $token = '';
-
-    /**
      * Combine the page body with any closing (post) text, execute any close handler.
      * @return \self
      */

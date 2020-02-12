@@ -215,34 +215,51 @@ class FormRenderSimpleHtmlTest extends SimpleHtmlRenderFrame {
         $this->testObj->showDoLayoutAnyVertical('form', ['v', '1', '0']);
     }
 
+    public function emptyToken() {
+        return ['', ''];
+    }
+
+    public function fooToken() {
+        return ['_nf_token', 'foo'];
+    }
+
+    public function georgeToken() {
+        return ['george', 'foo'];
+    }
+
 	public function testStart()
     {
         $attrs = new Attributes();
         $attrs->set('id', 'form_1');
         $attrs->set('name', 'form_1');
-        $data = $this->testObj->start(['attributes' => $attrs, 'token' => '']);
+        NextForm::setCsrfGenerator([$this, 'emptyToken']);
+        $data = $this->testObj->start(['attributes' => $attrs]);
         $this->assertEquals("<form id=\"form_1\" name=\"form_1\" method=\"post\">\n", $data->body);
         $this->assertEquals("</form>\n", $data->post);
 
-        $data = $this->testObj->start(['attributes' => $attrs, 'token' => 'foo']);
+        NextForm::setCsrfGenerator([$this, 'fooToken']);
+        NextForm::generateCsrfToken();
+        $data = $this->testObj->start(['attributes' => $attrs]);
         $this->assertEquals(
             "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
-            . '<input id="nf_token" name="nf_token" type="hidden" value="foo">' . "\n",
+            . '<input id="_nf_token" name="_nf_token" type="hidden" value="foo">' . "\n",
             $data->body
         );
 
-        $data = $this->testObj->start(['attributes' => $attrs, 'token' => 'foo', 'tokenName' => 'george']);
+        NextForm::setCsrfGenerator([$this, 'georgeToken']);
+        $data = $this->testObj->start(['attributes' => $attrs]);
         $this->assertEquals(
             "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
             . '<input id="george" name="george" type="hidden" value="foo">' . "\n",
             $data->body
         );
 
-        $data = $this->testObj->start(['attributes' => $attrs, 'method' => 'put', 'token' => '']);
+        NextForm::setCsrfGenerator([$this, 'emptyToken']);
+        $data = $this->testObj->start(['attributes' => $attrs, 'method' => 'put']);
         $this->assertEquals("<form id=\"form_1\" name=\"form_1\" method=\"put\">\n", $data->body);
 
         $data = $this->testObj->start(
-            ['action' => 'https://localhost/some file.php', 'attributes' => $attrs, 'token' => '']
+            ['action' => 'https://localhost/some file.php', 'attributes' => $attrs]
         );
         $this->assertEquals(
             "<form id=\"form_1\" name=\"form_1\" action=\"https://localhost/some file.php\" method=\"post\">\n",
@@ -250,10 +267,13 @@ class FormRenderSimpleHtmlTest extends SimpleHtmlRenderFrame {
         );
 
         $attrs->set('name', 'bad<name');
-        $data = $this->testObj->start(
-            ['attributes' => $attrs, 'token' => '']
+        $data = $this->testObj->start(['attributes' => $attrs]);
+        $this->assertEquals(
+            "<form id=\"form_1\" name=\"bad&lt;name\""
+            . " action=\"https://localhost/some"
+            . " file.php\" method=\"post\">\n",
+            $data->body
         );
-        $this->assertEquals("<form id=\"form_1\" name=\"bad&lt;name\" action=\"https://localhost/some file.php\" method=\"post\">\n", $data->body);
 
     }
 

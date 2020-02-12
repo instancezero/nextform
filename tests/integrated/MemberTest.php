@@ -67,6 +67,10 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public $memberForm;
     public $memberSchema;
 
+    public function fixedToken() {
+        return ['_nf_token', 'not-so-random'];
+    }
+
     public function setUp() : void {
         $this->memberForm  = Form::fromFile(__DIR__ . '/member-form.json');
         $this->memberSchema = Schema::fromFile(__DIR__ . '/member-schema.json');
@@ -134,6 +138,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testGenerateUnpopulated() {
         NextForm::boot();
+        NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $render = new FlatRender();
 
         $manager = new NextForm();
@@ -151,6 +156,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
      */
     public function testGeneratePopulated() {
         NextForm::boot();
+        NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
         $manager->addSchema($this->memberSchema);
         $manager->addForm($this->memberForm);
@@ -166,13 +172,16 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
     public function testSimpleHtmlRenderUnpopulated() {
         NextForm::boot();
+        NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
         $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new SimpleHtml());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
-        $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
+        $html = $manager->generate(
+            ['action' => 'http://localhost/nextform/post.php']
+        );
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
             Page::write(__FUNCTION__, $html)
@@ -183,6 +192,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
 
     public function testBootstrap4RenderUnpopulated() {
         NextForm::boot();
+        NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
         $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
@@ -190,7 +200,9 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
 
-        $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
+        $html = $manager->generate(
+            ['action' => 'http://localhost/nextform/post.php']
+        );
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
@@ -198,7 +210,9 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         );
 
         $translator->append = ' (lang2)';
-        $html = $manager->generate(['action' => 'http://localhost/nextform/post.php']);
+        $html = $manager->generate(
+            ['action' => 'http://localhost/nextform/post.php']
+        );
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '_lang2.html',

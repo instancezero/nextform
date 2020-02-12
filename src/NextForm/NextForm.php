@@ -45,6 +45,18 @@ class NextForm
     protected $bindings = [];
 
     /**
+     * External for custom token generation (to return [name, value]),
+     * @var Callable
+     */
+    static protected $csrfGenerator;
+
+    /**
+     * The current CSRF token [name, value]
+     * @var array
+     */
+    static protected $csrfToken;
+
+    /**
      * The form definitions.
      * @var Form[]
      */
@@ -114,10 +126,11 @@ class NextForm
         $this->show = '';
     }
 
-    public function addForm(Form $form) : self
+    public function addForm(Form $form, $options = []) : self
     {
         $formName = $form->getName();
         $this->forms[$formName] = $form;
+        //$this->forms[$formName] = new LinkedForm($form, $options);
         return $this;
     }
 
@@ -217,6 +230,7 @@ class NextForm
     static public function boot()
     {
         self::$htmlId = 0;
+        self::generateCsrfToken();
     }
 
     /**
@@ -228,8 +242,6 @@ class NextForm
      *              May also be passed through in 'attributes'.
      *      'name' => The HTML name for the form. If not provided, the id is used.
      *              May also be passed through in 'attributes'.
-     *      'token' => (string) Form submission token. If provided and empty, no token is used.
-     *      'tokenName' => (string) Name/ID to use for the token. Default is "nf_token".
      *  ]
      * @return Block
      */
@@ -242,7 +254,7 @@ class NextForm
         if (!isset($options['attributes'])) {
             $options['attributes'] = new Attributes();
         }
-        $attrs = $options['attributes'];
+        $attrs = &$options['attributes'];
 
         // If we were passed an ID, clean it up and add to attributes
         if (isset($options['id'])) {
@@ -296,6 +308,39 @@ class NextForm
             $this->pageBlock->merge($formBlock);
         }
         return $this->pageBlock;
+    }
+
+    /**
+     * Generate a new CSRF token.
+     *
+     * @return array [token name, token value]
+     */
+    static public function generateCsrfToken() {
+        if (is_callable(self::$csrfGenerator)) {
+            self::$csrfToken = call_user_func(self::$csrfGenerator);
+        } else {
+            self::generateNfToken();
+        }
+        return self::$csrfToken;
+    }
+
+    /**
+     * Native random token generator.
+     *
+     * @return array ['_nf_token, random token value]
+     */
+    static protected function generateNfToken() {
+        self::$csrfToken = ['_nf_token', \bin2hex(random_bytes(32))];
+        return self::$csrfToken;
+    }
+
+    /**
+     * Get the current CSRF token.
+     *
+     * @return array [token name, token value]
+     */
+    static public function getCsrfToken() {
+        return self::$csrfToken;
     }
 
     /**
@@ -419,6 +464,16 @@ class NextForm
     {
         $this->access = $access;
         return $this;
+    }
+
+    /**
+     * Set a custom CSRF token generator.
+     *
+     * @param Callable $gen Must return an array of [token name, token value].
+     */
+    static public function setCsrfGenerator(Callable $gen) {
+        self::$csrfGenerator = $gen;
+        self::generateCsrfToken();
     }
 
     public function setRender(RenderInterface $renderer) : self

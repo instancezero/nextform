@@ -298,10 +298,9 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
 
         $block = $this->testObj->start(
-            ['attributes' => $attrs, 'token' => 'my-not-random-token']
+            ['attributes' => $attrs]
         );
         $this->assertInstanceOf('Abivia\NextForm\Render\Block', $block);
-        $this->assertEquals('my-not-random-token', $block->token);
     }
 
     public function testStartBad1()

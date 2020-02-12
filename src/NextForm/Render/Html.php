@@ -683,16 +683,11 @@ class Html implements RenderInterface
         $pageData->styles = '.nf-hidden {display:none}' . "\n";
         $pageData->body = $this->writeTag('form', $attrs) . "\n";
         $pageData->post = '</form>' . "\n";
-        if (isset($options['token'])) {
-            $pageData->token = $options['token'];
-        } else {
-            $pageData->token = \bin2hex(random_bytes(32));
-        }
-        $nfToken = $options['tokenName'] ?? 'nf_token';
-        if ($pageData->token !== '') {
-            $pageData->body .= '<input id="' . $nfToken . '"'
-                . ' name="' . $nfToken . '" type="hidden"'
-                . ' value="' . $pageData->token . '">' . "\n";
+        $nfToken = NextForm::getCsrfToken();
+        if ($nfToken[0] !== '') {
+            $pageData->body .= '<input id="' . $nfToken[0] . '"'
+                . ' name="' . $nfToken[0] . '" type="hidden"'
+                . ' value="' . $nfToken[1] . '">' . "\n";
         }
         return $pageData;
     }
