@@ -6,6 +6,7 @@ use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Property;
+use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
@@ -35,11 +36,15 @@ class FieldBinding extends Binding
 
     protected $objectRef;
 
-    protected function bindProperty(SchemaCollection $schemas, $segmentName, $objectName) {
-        $resolvedName = $segmentName . NextForm::SEGMENT_DELIM . $objectName;
-        $this->dataProperty = $schemas->getProperty($segmentName, $objectName);
+    protected function bindProperty(
+        Schema $schema,
+        $segmentName,
+        $objectName
+    ) : bool
+    {
+        $this->dataProperty = $schema->getProperty($segmentName, $objectName);
         if ($this->dataProperty === null) {
-            throw new \RuntimeException('Unable to bind '. $resolvedName .', property not found.');
+            return false;
         }
         $this->objectRef = [$segmentName, $objectName];
 
@@ -47,7 +52,7 @@ class FieldBinding extends Binding
         $this->dataProperty->linkBinding($this);
 
         // Get default labels from the schemas, if any.
-        $labels = $schemas->getDefault($segmentName, 'labels');
+        $labels = $schema->getDefault($segmentName, 'labels');
 
         // Merge or get the labels from the property.
         if ($labels) {
@@ -63,31 +68,40 @@ class FieldBinding extends Binding
         // Make a copy of the data list so we can translate labels
         $this->dataList = $this->dataProperty->getPopulation()->getList();
         $this->dataListTranslated = $this->dataList;
+
+        return true;
     }
 
     /**
      * Connect data elements in the schemas
-     * @param SchemaCollection $schemas
-     * @return \self
+     *
+     * @param SchemaCollection|null $schemas The schemas to search.
+     * @return string The data element segment/property.
+     * @throws \RuntimeException
      */
-    public function bindSchema(?SchemaCollection $schemas) : self
+    public function bindSchema(?SchemaCollection $schemas) : string
     {
         // Get the object from the element and add any default segment.
         $objectName = $this->getElement()->getObject();
         if (strpos($objectName, NextForm::SEGMENT_DELIM) !== false) {
             list($segmentName, $objectName) = explode(NextForm::SEGMENT_DELIM, $objectName);
-        } elseif ($this->manager) {
+        } else {
             $segmentName = $this->form->getSegment();
         }
+        $resolvedName = $segmentName . NextForm::SEGMENT_DELIM . $objectName;
 
         // Connect to the requested property in the schemas.
         if ($schemas !== null && $objectName !== '') {
-            $this->bindProperty($schemas, $segmentName, $objectName);
+            foreach ($schemas as $schema) {
+                if ($this->bindProperty($schema, $segmentName, $objectName)) {
+                    return $resolvedName;
+                }
+            }
         }
-        if ($this->manager) {
-            $this->manager->registerBinding($this);
-        }
-        return $this;
+        $resolvedName = $segmentName . NextForm::SEGMENT_DELIM . $objectName;
+        throw new \RuntimeException(
+            'Unable to bind '. $resolvedName .', property not found.'
+        );
     }
 
     /**

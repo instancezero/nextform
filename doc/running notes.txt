@@ -3,17 +3,13 @@ To Do List
 - add tests for disabled, visible settings in the Element
 - ^^^^ disable/visible settings handlers should be common code if possible.
 - "proper" unit tests need attention.
-- There are more test sets to iterate through (eg. large/small forms)... strategy?
+- There are more test sets to iterate through (eg. large/small layouts)... strategy?
 - Add a composite construct to assemble multiple items (texts, selects) into an input group
 - Need checkboxes as switches (custom-control custom-switch)
 - Create an input group when help/error labels exist and put the text inside the group
 - working on simplifying options by allowing "label[:value]", this will simplify option lists.
 - Rendering tests not testing default value
 - Consider adding Bulma
-- All the show() stuff is gross. It doesn't belong in Html nor in a trait. Refactor.
-- Make token generation/query a callable
-- Multi-form support is kind of halfway there:
-- 1: Bindings need to be separated by form
-- 2: we should return a block with everything from generate
-- 3: need methods to get one form, just the scripts, etc.
-- 4: Embed all this into something like Binding\Collection or Binding\Form
+- All the show() stuff is gross. It doesn't belong in Render\Html nor in a trait. Refactor.
+- Add a html presentation type that is always static and not returned in the request.
+- Multi-form support still needs need methods to get one form, just the scripts, etc.

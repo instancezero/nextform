@@ -8,7 +8,8 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
 /**
- * A Property describes a data object in the schema; objects are contained in Segments.
+ * A Property describes a data object in the schema; objects are contained
+ * in Segments.
  */
 class Property implements \JsonSerializable
 {

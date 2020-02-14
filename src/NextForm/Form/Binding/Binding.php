@@ -2,12 +2,13 @@
 
 namespace Abivia\NextForm\Form\Binding;
 
-use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\LinkedForm;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Block;
 use DeepCopy\DeepCopy;
 use DeepCopy\Filter\KeepFilter;
@@ -47,7 +48,7 @@ class Binding
     ];
 
     /**
-     * The form this binding is linked to.
+     * The form the element in this binding is on.
      * @var Form
      */
     protected $form;
@@ -79,10 +80,10 @@ class Binding
     protected $labelsTranslated;
 
     /**
-     * The form this element belongs to
-     * @var \Abivia\NextForm\NextForm
+     *
+     * @var LinkedForm
      */
-    protected $manager;
+    protected $linkedForm;
 
     /**
      * The current translation object.
@@ -103,15 +104,15 @@ class Binding
     }
 
     /**
-     * Connect data elements in the schemas
+     * Connect data elements in the schemas. Only useful for FieldBindings.
+     *
      * @param \Abivia\NextForm\Data\SchemaCollection $schemas
+     * @return null
      * @codeCoverageIgnore
      */
     public function bindSchema(?\Abivia\NextForm\Data\SchemaCollection $schemas)
     {
-        if ($this->manager) {
-            $this->manager->registerBinding($this);
-        }
+        return null;
     }
 
     /**
@@ -177,7 +178,8 @@ class Binding
     }
 
     /**
-     * Create an appropriate binding for the passed Element
+     * Create an appropriate bindings for the passed Element and any
+     * contained elements.
      *
      * @param \Abivia\NextForm\Form\Binding\Element $element
      * @return \Abivia\NextForm\Form\Binding\Binding
@@ -300,13 +302,13 @@ class Binding
     }
 
     /**
-     * Get the form manager.
+     * Get the linked form for this binding.
      *
-     * @return ?NextForm
+     * @return LinkedForm $linkedForm
      */
-    public function getManager() : ?NextForm
+    public function getLinkedForm() : LinkedForm
     {
-        return $this->manager;
+        return $this->linkedForm;
     }
 
     /**
@@ -381,13 +383,13 @@ class Binding
     }
 
     /**
-     * Connect this binding to a Manager
-     * @param NextForm $manager
-     * @return $this
+     * Connect this binding to a linked form
+     * @param LinkedForm $linkedForm
+     * @return \self
      */
-    public function setManager(NextForm $manager)
+    public function setLinkedForm(LinkedForm $linkedForm) :self
     {
-        $this->manager = $manager;
+        $this->linkedForm = $linkedForm;
         return $this;
     }
 

@@ -11,7 +11,7 @@ use function DeepCopy\deep_copy;
 /**
  * Contains a set of schemas.
  */
-class SchemaCollection
+class SchemaCollection implements \IteratorAggregate
 {
 
     /**
@@ -75,6 +75,11 @@ class SchemaCollection
             throw new \RuntimeException("Unknown segment $segmentName");
         }
         return $this->segments[$segmentName]->getDefault($setting);
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->segments);
     }
 
     /**

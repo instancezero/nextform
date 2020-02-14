@@ -3,12 +3,13 @@ include_once __DIR__ . '/../test-tools/JsonComparison.php';
 include_once __DIR__ . '/../test-tools/MockTranslate.php';
 include_once __DIR__ . '/../test-tools/Page.php';
 
-use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
+use Abivia\NextForm\NextForm;
+use Abivia\NextForm\LinkedForm;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\SimpleHtml;
 use Abivia\NextForm\Render\Bootstrap4;
@@ -142,11 +143,11 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new FlatRender();
 
         $manager = new NextForm();
-        $manager->addForm($this->memberForm);
+        $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $manager->addSchema($this->memberSchema);
         $manager->setRender($render);
         $manager->setTranslator(new MockTranslate());
-        $page = $manager->generate(['action' => 'myform.php']);
+        $page = $manager->generate();
         $this->assertTrue(true);
     }
 
@@ -159,14 +160,14 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
         $manager->addSchema($this->memberSchema);
-        $manager->addForm($this->memberForm);
+        $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $data = [
             'id' => 0,
         ];
         $manager->populate($data, 'members');
         $manager->setRender(new FlatRender());
         $manager->setTranslator(new MockTranslate());
-        $manager->generate(['action' => 'myform.php']);
+        $manager->generate();
         $this->assertTrue(true);
     }
 
@@ -174,14 +175,15 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
-        $manager->addForm($this->memberForm);
+        $manager->addForm(
+            $this->memberForm,
+            ['action' => 'http://localhost/nextform/post.php']
+        );
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new SimpleHtml());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
-        $html = $manager->generate(
-            ['action' => 'http://localhost/nextform/post.php']
-        );
+        $html = $manager->generate();
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
             Page::write(__FUNCTION__, $html)
@@ -194,15 +196,16 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
-        $manager->addForm($this->memberForm);
+        $linkedForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
 
-        $html = $manager->generate(
+        $linkedForm->setOptions(
             ['action' => 'http://localhost/nextform/post.php']
         );
+        $html = $manager->generate();
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
@@ -210,9 +213,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         );
 
         $translator->append = ' (lang2)';
-        $html = $manager->generate(
-            ['action' => 'http://localhost/nextform/post.php']
-        );
+        $html = $manager->generate();
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '_lang2.html',

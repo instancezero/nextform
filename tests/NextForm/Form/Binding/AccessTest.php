@@ -61,7 +61,10 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $manager = new NextForm();
         $this->access = new MockAccess();
         $manager->setAccess($this->access);
-        $manager->addForm(Form::fromFile(__DIR__ . '/element-test-form.json'));
+        $manager->addForm(
+            Form::fromFile(__DIR__ . '/element-test-form.json'),
+            ['action' => 'myform.php']
+        );
         $manager->addSchema(Schema::fromFile(__DIR__ . '/element-test-schema.json'));
         $manager->setRender($this->render);
         $manager->setTranslator(new MockTranslate());
@@ -97,7 +100,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
      */
     public function testAllWrite()
     {
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->assertEquals($this->expect, $this->render->getLog());
     }
 

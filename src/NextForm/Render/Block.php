@@ -22,17 +22,23 @@ class Block
     public $body = '';
 
     /**
+     * List of linked files
+     * @var array
+     */
+    public $linkedFiles = [];
+
+    /**
      * Instructions on how properties are handled in a merge, missing properties are ignored.
      * @var array
      */
     static protected $mergeRules = [
         'head' => 'append',
         'body' => 'append',
+        'linkedFiles' => 'merge',
         'post' => 'prepend',
         'script' => 'append',
         'scriptFiles' => 'merge',
         'styles' => 'append',
-        'styleFiles' => 'merge',
     ];
 
     /**
@@ -64,12 +70,6 @@ class Block
      * @var array
      */
     public $styles = '';
-
-    /**
-     * List of style files to link
-     * @var array
-     */
-    public $styleFiles = [];
 
     /**
      * Combine the page body with any closing (post) text, execute any close handler.
@@ -109,7 +109,7 @@ class Block
         {
             switch ($operation) {
                 case 'merge':
-                    // Script and style file lists are merged with no duplicates.
+                    // Script and linked file lists are merged with no duplicates.
                     $this->$prop = array_unique(array_merge($this->$prop, $block->$prop));
                     break;
 

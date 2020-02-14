@@ -11,7 +11,7 @@
   </head>
 <body>
 <div class="container">
-<form id="form_24" name="form_24" action="http://localhost/nextform/post.php" method="post">
+<form id="form_1" name="form_1" action="http://localhost/nextform/post.php" method="post">
 <input id="_nf_token" name="_nf_token" type="hidden" value="not-so-random">
 <fieldset id="field_2_container" class="form-group col-sm-12" data-nf-for="field_2">
 <div>Membership Level (lang2)</div>
@@ -364,55 +364,55 @@ class NextForm {
 }
 
 
-var form_24 = new NextForm($('#form_24'), '_container');
-$('#form_24 [name^="members_membershipLevel"]').change(function () {
+var form_1 = new NextForm($('#form_1'), '_container');
+$('#form_1 [name^="members_membershipLevel"]').change(function () {
   if (["IND","STU","FAM"].includes(this.value)) {
-    form_24.disableGroup('business-enable', true);
-    form_24.checkGroup('business-enable', false);
-    form_24.displayGroup('business', false);
-    form_24.disableGroup('person-enable', false);
-    form_24.displayContainer('scratch_feeSelect', false);
+    form_1.disableGroup('business-enable', true);
+    form_1.checkGroup('business-enable', false);
+    form_1.displayGroup('business', false);
+    form_1.disableGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', false);
   }
   if (["IND","STU"].includes(this.value)) {
-    form_24.displayGroup('family', false);
+    form_1.displayGroup('family', false);
   }
   if (this.value === "FAM") {
-    form_24.displayGroup('family', true);
+    form_1.displayGroup('family', true);
   }
   if (["BUS","FEL"].includes(this.value)) {
-    form_24.displayGroup('family', false);
-    form_24.displayGroup('business', true);
-    form_24.disableGroup('business-enable', false);
-    form_24.disableGroup('person-enable', true);
-    form_24.checkGroup('person-enable', false);
-    form_24.displayContainer('scratch_feeSelect', false);
+    form_1.displayGroup('family', false);
+    form_1.displayGroup('business', true);
+    form_1.disableGroup('business-enable', false);
+    form_1.disableGroup('person-enable', true);
+    form_1.checkGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', false);
   }
   if (["PAT","SPO"].includes(this.value)) {
-    form_24.displayGroup('family', false);
-    form_24.displayGroup('business', true);
-    form_24.disableGroup('business-enable', false);
-    form_24.disableGroup('person-enable', false);
-    form_24.displayContainer('scratch_feeSelect', true);
+    form_1.displayGroup('family', false);
+    form_1.displayGroup('business', true);
+    form_1.disableGroup('business-enable', false);
+    form_1.disableGroup('person-enable', false);
+    form_1.displayContainer('scratch_feeSelect', true);
   }
   setFeeAttributes(this);
 });
-$('#form_24 [name^="members_primaryMemberType"]').change(function () {
+$('#form_1 [name^="members_primaryMemberType"]').change(function () {
   if (this.value === "VA") {
-    form_24.displayGroup('firstVA', this.checked);
+    form_1.displayGroup('firstVA', this.checked);
   }
   if (this.value === "XX") {
-    form_24.displayGroup('firstXX', this.checked);
+    form_1.displayGroup('firstXX', this.checked);
   }
 });
-$('#form_24 [name^="members_secondaryMemberType"]').change(function () {
+$('#form_1 [name^="members_secondaryMemberType"]').change(function () {
   if (this.value === "VA") {
-    form_24.displayGroup('secondVA', this.checked);
+    form_1.displayGroup('secondVA', this.checked);
   }
   if (this.value === "XX") {
-    form_24.displayGroup('secondXX', this.checked);
+    form_1.displayGroup('secondXX', this.checked);
   }
 });
-$('#form_24 [name^="scratch_feeSelect"]').change(function () {
+$('#form_1 [name^="scratch_feeSelect"]').change(function () {
   updateFee(this);
 });
 /*
