@@ -11,5 +11,5 @@ To Do List
 - Rendering tests not testing default value
 - Consider adding Bulma
 - All the show() stuff is gross. It doesn't belong in Render\Html nor in a trait. Refactor.
-- Add a html presentation type that is always static and not returned in the request.
+- Add a presentation type for messages that is always view-only and not returned in the request.
 - Multi-form support still needs need methods to get one form, just the scripts, etc.

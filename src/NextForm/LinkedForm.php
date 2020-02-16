@@ -1,9 +1,5 @@
 <?php
 
-/**
- *
- */
-
 namespace Abivia\NextForm;
 
 use Abivia\NextForm\Form\Form;
@@ -15,6 +11,7 @@ use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
+
 /**
  * LinkedForm
  */
@@ -31,12 +28,6 @@ class LinkedForm
      * @var Binding[]
      */
     protected $bindings = [];
-
-    /**
-     * The data we will put into the form, indexed by segment ('' for default)
-     * @var array
-     */
-    protected $data = [];
 
     /**
      * The form definition.
@@ -115,7 +106,6 @@ class LinkedForm
                 $binding->setNameOnForm($name);
             }
         }
-        $this->schemasLinked = true;
         return $this;
     }
 
@@ -155,6 +145,7 @@ class LinkedForm
 
     /**
      * Generate the form.
+     *
      * @return Block
      */
     public function generate(
@@ -183,11 +174,21 @@ class LinkedForm
         return $this->formBlock;
     }
 
+    /**
+     * Get the HTML id for this form.
+     *
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * Build the link between the binding and this linked form.
+     *
+     * @param Binding $binding
+     */
     protected function linkBinding(Binding $binding)
     {
             $this->allBindings[] = $binding;
@@ -195,6 +196,7 @@ class LinkedForm
     }
 
     /**
+     * Set form options.
      *
      * @param array $options Generation options, optional unless stated otherwise:
      *  $options = [

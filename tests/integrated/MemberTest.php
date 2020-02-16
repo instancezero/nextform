@@ -193,8 +193,8 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testBootstrap4RenderUnpopulated() {
-        NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
+        NextForm::boot();
         $manager = new NextForm();
         $linkedForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
@@ -212,6 +212,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
             Page::write(__FUNCTION__, $html)
         );
 
+        NextForm::boot();
         $translator->append = ' (lang2)';
         $html = $manager->generate();
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');

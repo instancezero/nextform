@@ -31,18 +31,6 @@ class NextForm
      */
     protected $access;
 
-//    /**
-//     * A list of all bindings in each form.
-//     * @var Binding[]
-//     */
-//    protected $allBindings = [];
-//
-//    /**
-//     * A list of top level bindings in each form.
-//     * @var Binding[]
-//     */
-//    protected $bindings = [];
-//
     /**
      * External for custom token generation (to return [name, value]),
      * @var Callable
@@ -79,8 +67,6 @@ class NextForm
      */
     protected $linkedForms = [];
 
-    protected $name;
-
     /**
      * Maps form names to form bindings
      * @var array
@@ -106,13 +92,10 @@ class NextForm
     protected $renderer;
 
     /**
-     * Data schemae associated with the form.
-     * @var Schema[]
+     * Data schemas associated with the form.
+     * @var SchemaCollection
      */
     protected $schemas;
-
-    // This should not be required after reorg.
-    protected $schemasLinked = false;
 
     /**
      * A translation service.
@@ -123,61 +106,42 @@ class NextForm
     public function __construct()
     {
         $this->access = new Access\NullAccess();
+        $this->schemas = new SchemaCollection();
         $this->show = '';
     }
 
-    public function addForm(Form $form, $options = []) : LinkedForm
+    /**
+     * Add a form definition to the form manager.
+     *
+     * @param Form|string $form The name of a form file or a loaded Form.
+     * @param array $options Form configuration options.
+     * @return \Abivia\NextForm\LinkedForm
+     */
+    public function addForm($form, $options = []) : LinkedForm
     {
+        if (is_string($form)) {
+            $form = Form::fromFile($form);
+        }
         $formName = $form->getName();
         $this->linkedForms[$formName] = new LinkedForm($form, $options);
         return $this->linkedForms[$formName];
     }
 
-    public function addSchema(Schema $schema) : self
+    /**
+     * Add a schema definition to the form manager.
+     *
+     * @param Schema|string $schema The name of a schema file or a loaded Schema.
+     * @return \self
+     */
+    public function addSchema($schema) : self
     {
-        if ($this->schemas === null) {
-            $this->schemas = new SchemaCollection();
+        if (is_string($schema)) {
+            $schema = Schema::fromFile($schema);
         }
         $this->schemas->addSchema($schema);
-        $this->schemasLinked = false;
+
         return $this;
     }
-
-//    protected function assignNames()
-//    {
-//        $this->nameMap = [];
-//        $containerCount = 1;
-//
-//        foreach ($this->allBindings as $bindings) {
-//            foreach ($bindings as $binding) {
-//                if ($binding instanceof FieldBinding) {
-//                    $baseName = str_replace('/', '_', $binding->getObject());
-//                    $name = $baseName;
-//                    $confirmName = $baseName . self::CONFIRM_LABEL;
-//                    $append = 0;
-//                    while (
-//                        isset($this->nameMap[$name])
-//                        || isset($this->nameMap[$confirmName])
-//                    ) {
-//                        $name = $baseName . '_' . ++$append;
-//                        $confirmName = $name . '_' . $append . self::CONFIRM_LABEL;
-//                    }
-//                    $this->nameMap[$name] = $binding;
-//                    $binding->setNameOnForm($name);
-//                } elseif ($binding instanceof ContainerBinding) {
-//                    $baseName = 'container_';
-//                    $name = $baseName . $containerCount;
-//                    while (isset($this->nameMap[$name])) {
-//                        $name = $baseName . ++$containerCount;
-//                    }
-//                    $this->nameMap[$name] = $binding;
-//                    $binding->setNameOnForm($name);
-//                }
-//            }
-//        }
-//        $this->schemasLinked = true;
-//        return $this;
-//    }
 
     /**
      * Create bindings for elements in each form and map to the schemas.
@@ -186,30 +150,13 @@ class NextForm
     public function bind() : self
     {
         if (empty($this->linkedForms)) {
-            throw new \RuntimeException('No forms have been provided.');
-        }
-        if ($this->schemasLinked) {
-            return $this;
+            throw new \RuntimeException('No forms available.');
         }
         $this->objectMap = [];
         foreach ($this->linkedForms as $linkedForm) {
             $linkedForm->bind($this);
         }
 
-        $this->schemasLinked = true;
-        foreach ($this->formData as $segment => $data) {
-            foreach ($data as $field => $value) {
-                if ($segment !== '') {
-                    $field = $segment . NextForm::SEGMENT_DELIM . $field;
-                }
-                if (!isset($this->objectMap[$field])) {
-                    continue;
-                }
-                foreach ($this->objectMap[$field] as $binding) {
-                    $binding->setValue($value);
-                }
-            }
-        }
         return $this;
     }
 
@@ -248,6 +195,8 @@ class NextForm
     {
         $this->bind($this);
 
+        $this->populateForms();
+
         $this->renderer->setShow($this->show);
 
         $this->pageBlock = new Block();
@@ -279,7 +228,7 @@ class NextForm
     /**
      * Native random token generator.
      *
-     * @return array ['_nf_token, random token value]
+     * @return array ['_nf_token', random token value]
      */
     static protected function generateNfToken() {
         self::$csrfToken = ['_nf_token', \bin2hex(random_bytes(32))];
@@ -309,20 +258,16 @@ class NextForm
         return $data;
     }
 
-    public function getLinkedForm($formName) : ?Form
+    /**
+     * Retrieve a linked form by name.
+     *
+     * @param string $formName
+     * @return ?LinkedForm
+     */
+    public function getLinkedForm($formName) : ?LinkedForm
     {
         return $this->linkedForms[$formName] ?: null;
     }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-//    public function getSegment($formName)
-//    {
-//        return $this->forms[$formName]->getSegment();
-//    }
 
     /**
      * Get all the data objects in the specified segment from the form.
@@ -371,11 +316,10 @@ class NextForm
     }
 
     /**
-     * Populate form bindings.
+     * Set values for form data.
      *
-     * @param array $data Values indexed by schema object ID.
-     * @param string $segment Optional segment prefix.
-     * @throws LogicException
+     * @param array $data Values indexed by name ([segment/]field).
+     * @param string $segment Optional segment name prefix.
      * @return $this
      */
     public function populate($data, $segment = '') : self
@@ -385,33 +329,34 @@ class NextForm
     }
 
     /**
-     * Add a binding to the all bindings list and the object map.
-     * @param Binding $binding
+     * Populate form bindings.
+     *
      * @return $this
      */
-//    public function registerBinding(Binding $binding) : self
-//    {
-//        try {
-//            $nameOnForm = $binding->getForm()->getName();
-//        } catch (Error $err) {
-//            throw new RuntimeException("Attempt to use an element with no form.");
-//        }
-//        if (!isset($this->allBindings[$nameOnForm])) {
-//            $this->allBindings[$nameOnForm] = [];
-//        }
-//        if (!in_array($binding, $this->allBindings[$nameOnForm], true)) {
-//            $this->allBindings[$nameOnForm][] = $binding;
-//        }
-//        $objectRef = $binding->getObject();
-//        if ($objectRef !== null) {
-//            if (!isset($this->objectMap[$objectRef])) {
-//                $this->objectMap[$objectRef] = [];
-//            }
-//            $this->objectMap[$objectRef][] = $binding;
-//        }
-//        return $this;
-//    }
+    protected function populateForms() : self
+    {
+        foreach ($this->formData as $segment => $data) {
+            foreach ($data as $field => $value) {
+                if ($segment !== '') {
+                    $field = $segment . NextForm::SEGMENT_DELIM . $field;
+                }
+                if (!isset($this->objectMap[$field])) {
+                    continue;
+                }
+                foreach ($this->objectMap[$field] as $binding) {
+                    $binding->setValue($value);
+                }
+            }
+        }
+        return $this;
+    }
 
+    /**
+     * Set the access control object.
+     *
+     * @param AccessInterface $access
+     * @return \self
+     */
     public function setAccess(AccessInterface $access) : self
     {
         $this->access = $access;
@@ -428,19 +373,36 @@ class NextForm
         self::generateCsrfToken();
     }
 
+    /**
+     * Set the form renderer.
+     *
+     * @param RenderInterface $renderer
+     * @return \self
+     */
     public function setRender(RenderInterface $renderer) : self
     {
         $this->renderer = $renderer;
         return $this;
     }
 
+    /**
+     * Set the translation object.
+     *
+     * @param Translator $translator
+     * @return \self
+     */
     public function setTranslator(Translator $translator) : self
     {
         $this->translator = $translator;
-
         return $this;
     }
 
+    /**
+     * Define the current user.
+     *
+     * @param mixed $user
+     * @return \self
+     */
     public function setUser($user) : self
     {
         $this->access->setUser($user);
