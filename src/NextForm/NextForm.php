@@ -308,9 +308,9 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getLinkedFiles($formName = null) {
+    public function getLinks($formName = null) {
         $block = $this->getBlock($formName);
-        return $block ? $block->linkedFiles : null;
+        return $block ? implode("\n", $block->linkedFiles) : null;
     }
 
     /**
@@ -343,7 +343,7 @@ class NextForm
      */
     public function getScriptFiles($formName = null) {
         $block = $this->getBlock($formName);
-        return $block ? $block->scriptFiles : null;
+        return $block ? implode("\n", $block->scriptFiles) : null;
     }
 
     /**
