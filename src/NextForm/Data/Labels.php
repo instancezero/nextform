@@ -185,7 +185,7 @@ class Labels implements \JsonSerializable
      * @param Translator $translator The translation facility.
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function translate(Translator $translator = null) : Labels
+    public function translate(?Translator $translator = null) : Labels
     {
         // Create a copy for the translated strings
         $newLabels = clone $this;

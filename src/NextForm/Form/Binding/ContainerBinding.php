@@ -57,7 +57,7 @@ class ContainerBinding Extends Binding
      */
     public function generate(
         RenderInterface $renderer,
-        AccessInterface $access,
+        ?AccessInterface $access = null,
         $options = []
     ) : Block {
         // Container access: use an empty segment and the element name
@@ -103,7 +103,7 @@ class ContainerBinding Extends Binding
      * @param Translator $translator
      * @return $this
      */
-    public function translate(Translator $translator = null) : Binding
+    public function translate(?Translator $translator = null) : Binding
     {
         parent::translate($translator);
 

@@ -135,6 +135,8 @@ class Binding
         } elseif ($segment === '' && $objectName === '') {
             // Objects with no name are writable.
             $level = 'write';
+        } elseif($access === null) {
+            $level = 'write';
         } else {
             $level = 'none';
             if ($access->allows($segment, $objectName, 'write')) {
@@ -215,7 +217,7 @@ class Binding
      */
     public function generate(
         RenderInterface $renderer,
-        AccessInterface $access,
+        ?AccessInterface $access = null,
         $options = []
     ) : Block {
         $options = $this->checkAccess(
@@ -409,7 +411,7 @@ class Binding
      * @param Translator $translator
      * @return $this
      */
-    public function translate(Translator $translator = null) : Binding
+    public function translate(?Translator $translator = null) : Binding
     {
         $this->translator = $translator;
         $this->labelsTranslated = $this->labels->translate($translator);

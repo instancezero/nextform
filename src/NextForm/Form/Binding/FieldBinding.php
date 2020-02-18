@@ -114,7 +114,7 @@ class FieldBinding extends Binding
      */
     public function generate(
         RenderInterface $renderer,
-        AccessInterface $access,
+        ?AccessInterface $access = null,
         $options = []
     ) : Block {
         $options = $this->checkAccess(
@@ -221,7 +221,7 @@ class FieldBinding extends Binding
      * @param Translator $translator
      * @return $this
      */
-    public function translate(Translator $translator = null) : Binding
+    public function translate(?Translator $translator = null) : Binding
     {
         parent::translate($translator);
 

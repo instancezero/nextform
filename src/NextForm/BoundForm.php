@@ -151,8 +151,8 @@ class BoundForm
      */
     public function generate(
         RenderInterface $renderer,
-        AccessInterface $access,
-        Translator $translator
+        ?AccessInterface $access = null,
+        ?Translator $translator = null
     ) : Block {
 
         // Assign field names
