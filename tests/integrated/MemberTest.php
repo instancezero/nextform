@@ -9,7 +9,7 @@ use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\NextForm;
-use Abivia\NextForm\LinkedForm;
+use Abivia\NextForm\BoundForm;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\SimpleHtml;
 use Abivia\NextForm\Render\Bootstrap4;
@@ -196,13 +196,13 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         NextForm::boot();
         $manager = new NextForm();
-        $linkedForm = $manager->addForm($this->memberForm);
+        $boundForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());
         $translator = new MockTranslate();
         $manager->setTranslator($translator);
 
-        $linkedForm->setOptions(
+        $boundForm->setOptions(
             ['action' => 'http://localhost/nextform/post.php']
         );
         $html = $manager->generate();

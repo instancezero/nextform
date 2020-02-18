@@ -13,9 +13,10 @@ use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
- * LinkedForm
+ * A Bound Form is a renderable connection between a schema definition,
+ * a form definition, and the data to be placed on the form.
  */
-class LinkedForm
+class BoundForm
 {
     /**
      * A list of all bindings in the form.
@@ -37,7 +38,7 @@ class LinkedForm
 
     /**
      * The results of generating the form.
-     * @var Block[]
+     * @var Block
      */
     protected $formBlock;
 
@@ -184,6 +185,10 @@ class LinkedForm
         return $this->id;
     }
 
+    public function getBlock() {
+        return $this->formBlock;
+    }
+
     /**
      * Build the link between the binding and this linked form.
      *
@@ -192,7 +197,7 @@ class LinkedForm
     protected function linkBinding(Binding $binding)
     {
             $this->allBindings[] = $binding;
-            $binding->setLinkedForm($this);
+            $binding->setBoundForm($this);
     }
 
     /**

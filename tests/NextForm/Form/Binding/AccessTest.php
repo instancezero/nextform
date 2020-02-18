@@ -110,7 +110,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testButtonHide()
     {
         $this->access->permissions[':button'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['button/button'] = 'hide';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -122,7 +122,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testButtonNone()
     {
         $this->access->permissions[':button'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['button/button'] = 'none';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -134,7 +134,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testButtonView()
     {
         $this->access->permissions[':button'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['button/button'] = 'view';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -146,7 +146,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testCellHide()
     {
         $this->access->permissions[':simpleCell'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['container_1/simpleCell'] = 'hide';
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'hide';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'hide';
@@ -160,7 +160,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testCellNone()
     {
         $this->access->permissions[':simpleCell'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['container_1/simpleCell'] = 'none';
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'none';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'none';
@@ -174,7 +174,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testCellView()
     {
         $this->access->permissions[':simpleCell'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['container_1/simpleCell'] = 'view';
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'view';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'view';
@@ -188,7 +188,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testFieldHide()
     {
         $this->access->permissions['elementTest:textOne'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'hide';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -200,7 +200,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testFieldNone()
     {
         $this->access->permissions['elementTest:textOne'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'none';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -212,7 +212,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testFieldView()
     {
         $this->access->permissions['elementTest:textOne'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'view';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -224,7 +224,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testHtmlHide()
     {
         $this->access->permissions[':htmlOne'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'hide';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -236,7 +236,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testHtmlNone()
     {
         $this->access->permissions[':htmlOne'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'none';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -248,7 +248,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testHtmlView()
     {
         $this->access->permissions[':htmlOne'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'view';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -260,7 +260,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testNestedFieldHide()
     {
         $this->access->permissions['elementTest:cellTwo'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'hide';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -272,7 +272,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testNestedFieldNone()
     {
         $this->access->permissions['elementTest:cellTwo'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'none';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -284,7 +284,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testNestedFieldView()
     {
         $this->access->permissions['elementTest:cellTwo'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'view';
 
         $this->assertEquals($this->expect, $this->render->getLog());
@@ -296,7 +296,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testSectionHide()
     {
         $this->access->permissions[':SectionOne'] = 'hide';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         foreach ($this->sectionParts as $part) {
             $this->expect[$part] = 'hide';
         }
@@ -310,7 +310,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testSectionNone()
     {
         $this->access->permissions[':SectionOne'] = 'none';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         foreach ($this->sectionParts as $part) {
             $this->expect[$part] = 'none';
         }
@@ -324,7 +324,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testSectionView()
     {
         $this->access->permissions[':SectionOne'] = 'view';
-        $this->manager->generate(['action' => 'myform.php']);
+        $this->manager->generate();
         foreach ($this->sectionParts as $part) {
             $this->expect[$part] = 'view';
         }

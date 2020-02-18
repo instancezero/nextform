@@ -63,9 +63,9 @@ class NextForm
 
     /**
      * The form definitions.
-     * @var LinkedForm[]
+     * @var BoundForm[]
      */
-    protected $linkedForms = [];
+    protected $boundForms = [];
 
     /**
      * Maps form names to form bindings
@@ -115,16 +115,16 @@ class NextForm
      *
      * @param Form|string $form The name of a form file or a loaded Form.
      * @param array $options Form configuration options.
-     * @return \Abivia\NextForm\LinkedForm
+     * @return \Abivia\NextForm\BoundForm
      */
-    public function addForm($form, $options = []) : LinkedForm
+    public function addForm($form, $options = []) : BoundForm
     {
         if (is_string($form)) {
             $form = Form::fromFile($form);
         }
         $formName = $form->getName();
-        $this->linkedForms[$formName] = new LinkedForm($form, $options);
-        return $this->linkedForms[$formName];
+        $this->boundForms[$formName] = new BoundForm($form, $options);
+        return $this->boundForms[$formName];
     }
 
     /**
@@ -149,12 +149,12 @@ class NextForm
      */
     public function bind()
     {
-        if (empty($this->linkedForms)) {
+        if (empty($this->boundForms)) {
             throw new \RuntimeException('No forms available.');
         }
         $this->objectMap = [];
-        foreach ($this->linkedForms as $linkedForm) {
-            $linkedForm->bind($this);
+        foreach ($this->boundForms as $boundForm) {
+            $boundForm->bind($this);
         }
 
         return $this;
@@ -189,10 +189,15 @@ class NextForm
 
     /**
      * Generate the forms.
+     * @param Form|string $oneForm Optional: a form to generate.
+     * @param array $options Optional form settings.
      * @return Block
      */
-    public function generate() : Block
+    public function generate($oneForm = null, $options = []) : Block
     {
+        if ($oneForm !== null) {
+            $this->addForm($oneForm, $options);
+        }
         $this->bind($this);
 
         $this->populateForms();
@@ -200,8 +205,8 @@ class NextForm
         $this->renderer->setShow($this->show);
 
         $this->pageBlock = new Block();
-        foreach ($this->linkedForms as $linkedForm) {
-            $formBlock = $linkedForm->generate(
+        foreach ($this->boundForms as $boundForm) {
+            $formBlock = $boundForm->generate(
                 $this->renderer,
                 $this->access,
                 $this->translator
@@ -245,8 +250,36 @@ class NextForm
     }
 
     /**
-     * Get all the data objects from the form.
-     * @return array Data bindings indexed by object name
+     * Get the rendered body of all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getBody($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->body : null;
+    }
+
+    /**
+     * Get the page data, optionally for a specific form.
+     *
+     * @param string|null $formName
+     * @return ?Block
+     */
+    public function getBlock($formName) : ?Block
+    {
+        if ($formName !== null) {
+            $form = $this->getBoundForm($formName);
+            $block = $form ? $form->getBlock() : null;
+        } else {
+            $block = $this->pageBlock;
+        }
+        return $block;
+    }
+
+    /**
+     * Get all the data objects from the forms.
+     * @return Binding[] Data bindings indexed by object name
      */
     public function getData()
     {
@@ -259,14 +292,58 @@ class NextForm
     }
 
     /**
+     * Get the rendered head section of all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getHead($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->body : null;
+    }
+
+    /**
+     * Get the file links for all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getLinkedFiles($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->linkedFiles : null;
+    }
+
+    /**
      * Retrieve a linked form by name.
      *
      * @param string $formName
-     * @return ?LinkedForm
+     * @return ?BoundForm
      */
-    public function getLinkedForm($formName) : ?LinkedForm
+    public function getBoundForm($formName) : ?BoundForm
     {
-        return $this->linkedForms[$formName] ?: null;
+        return $this->boundForms[$formName] ?: null;
+    }
+
+    /**
+     * Get the script for all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getScript($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->script : null;
+    }
+
+    /**
+     * Get the script files for all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getScriptFiles($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->scriptFiles : null;
     }
 
     /**
@@ -286,6 +363,17 @@ class NextForm
             }
         }
         return $data;
+    }
+
+    /**
+     * Get the inline styles for all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getStyles($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->styles : null;
     }
 
     /**

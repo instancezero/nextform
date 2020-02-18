@@ -7,7 +7,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\LinkedForm;
+use Abivia\NextForm\BoundForm;
 use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Block;
 use DeepCopy\DeepCopy;
@@ -81,9 +81,9 @@ class Binding
 
     /**
      *
-     * @var LinkedForm
+     * @var BoundForm
      */
-    protected $linkedForm;
+    protected $boundForm;
 
     /**
      * The current translation object.
@@ -226,6 +226,16 @@ class Binding
     }
 
     /**
+     * Get the bound form for this binding.
+     *
+     * @return BoundForm $boundForm
+     */
+    public function getBoundForm() : BoundForm
+    {
+        return $this->boundForm;
+    }
+
+    /**
      * Get this binding's element.
      * @return Element
      */
@@ -302,16 +312,6 @@ class Binding
     }
 
     /**
-     * Get the linked form for this binding.
-     *
-     * @return LinkedForm $linkedForm
-     */
-    public function getLinkedForm() : LinkedForm
-    {
-        return $this->linkedForm;
-    }
-
-    /**
      * Get the name of a bound object, null when not a FieldBinding.
      *
      * @return ?string
@@ -331,6 +331,17 @@ class Binding
     }
 
     /**
+     * Connect this binding to a linked form
+     * @param BoundForm $boundForm
+     * @return $this
+     */
+    public function setBoundForm(BoundForm $boundForm) :self
+    {
+        $this->boundForm = $boundForm;
+        return $this;
+    }
+
+    /**
      * Set the element for this binding.
      *
      * @param Element $element
@@ -347,17 +358,6 @@ class Binding
     }
 
     /**
-     * Assign or override the current name of this binding on a form.
-     * @param string $name
-     * @return $this
-     */
-    public function setNameOnForm($name)
-    {
-        $this->nameOnForm = $name;
-        return $this;
-    }
-
-    /**
      * Set the form ID for this binding.
      * @param string $id
      * @return $this
@@ -365,6 +365,17 @@ class Binding
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Assign or override the current name of this binding on a form.
+     * @param string $name
+     * @return $this
+     */
+    public function setNameOnForm($name)
+    {
+        $this->nameOnForm = $name;
         return $this;
     }
 
@@ -380,17 +391,6 @@ class Binding
         }
         $this->labels->set($labelName, $text);
         $this->labelsTranslated = $this->labels->translate($this->translator);
-    }
-
-    /**
-     * Connect this binding to a linked form
-     * @param LinkedForm $linkedForm
-     * @return $this
-     */
-    public function setLinkedForm(LinkedForm $linkedForm) :self
-    {
-        $this->linkedForm = $linkedForm;
-        return $this;
     }
 
     /**
