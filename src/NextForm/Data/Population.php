@@ -76,9 +76,9 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * Add an option to the population.
      *
      * @param Option $option
-     * @return \self
+     * @return $this
      */
-    public function addOption(Option $option) : self
+    public function addOption(Option $option)
     {
         $this->list[] = $option;
         return $this;
@@ -215,9 +215,9 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * Set the query parameters.
      *
      * @param array $params
-     * @return \self
+     * @return $this
      */
-    public function setParameters($params) : self
+    public function setParameters($params)
     {
         $this->parameters = $params;
         return $this;
@@ -226,9 +226,9 @@ class Population implements \JsonSerializable, \IteratorAggregate
     /**
      * Set the query for getting a data list.
      * @param string $query
-     * @return \self
+     * @return $this
      */
-    public function setQuery($query) : self
+    public function setQuery($query)
     {
         $this->query = $query;
         return $this;
@@ -240,7 +240,7 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * @param mixed $data
      * @return $this
      */
-    public function setSidecar($data) : self
+    public function setSidecar($data)
     {
         $this->sidecar = $data;
         return $this;
@@ -250,10 +250,10 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * Set the data source type.
      *
      * @param string $source
-     * @return \self
+     * @return $this
      * @throws \LogicException
      */
-    public function setSource($source) : self
+    public function setSource($source)
     {
         if (!$this->configureValidate('source', $source)) {
             throw new \LogicException('Invalid value for source: ' . $source);
@@ -266,9 +266,9 @@ class Population implements \JsonSerializable, \IteratorAggregate
      * Set the translation status.
      *
      * @param bool $mustTranslate True if the text in the options list need to be translated.
-     * @return \self
+     * @return $this
      */
-    public function setTranslate(bool $mustTranslate) : self
+    public function setTranslate(bool $mustTranslate)
     {
         $this->translate = $mustTranslate;
         return $this;

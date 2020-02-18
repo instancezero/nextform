@@ -165,9 +165,10 @@ class Segment implements \JsonSerializable
     /**
      * Set the primary key properties for this segment.
      * @param string|array $keyList
-     * @return \self
+     * @return $this
+     * @throws \RuntimeException
      */
-    public function setPrimary($keyList) : self
+    public function setPrimary($keyList)
     {
         // Check the format of the values, converting string to array.
         $keyList = $this->configureValidate('primary', $keyList);
@@ -187,9 +188,10 @@ class Segment implements \JsonSerializable
     /**
      * Set/replace a property.
      * @param Property $prop The property to add/replace.
-     * @return Property|null
+     * @return $this
+     * @throws \RuntimeException
      */
-    public function setProperty(Property $prop) : self
+    public function setProperty(Property $prop)
     {
         $propName = $prop->getName();
         if ($propName === null || $propName === '') {

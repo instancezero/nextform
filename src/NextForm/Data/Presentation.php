@@ -135,10 +135,10 @@ class Presentation implements \JsonSerializable
     /**
      * Set the number of display columns.
      * @param int $cols The number of columns.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setCols($cols) : self
+    public function setCols($cols)
     {
         $this->configureErrors = [];
         if (!$this->configureValidate('cols', $cols)) {
@@ -151,10 +151,10 @@ class Presentation implements \JsonSerializable
     /**
      * Set the "confirmation required" flag.
      * @param bool $confirm
-     * @return \self
+     * @return $this
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setConfirm($confirm) : self
+    public function setConfirm($confirm)
     {
         $this->configureErrors = [];
         if (!$this->configureValidate('confirm', $confirm)) {
@@ -167,10 +167,10 @@ class Presentation implements \JsonSerializable
     /**
      * Set the number of display rows.
      * @param int $rows The number of rows.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException if the setting is not a positive integer.
      */
-    public function setRows($rows) : self
+    public function setRows($rows)
     {
         $this->configureErrors = [];
         if (!$this->configureValidate('rows', $rows)) {
@@ -183,10 +183,10 @@ class Presentation implements \JsonSerializable
     /**
      * Set the visual presentation type.
      * @param string $value
-     * @return \self
+     * @return $this
      * @throws \RuntimeException If the type is not recognized.
      */
-    public function setType($value) : self
+    public function setType($value)
     {
         if (!$this->configureValidate('type', $value)) {
             if (is_scalar($value)) {

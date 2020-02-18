@@ -76,7 +76,7 @@ class LinkedForm
      *
      * @return $this
      */
-    protected function assignNames() : self
+    protected function assignNames()
     {
         $this->nameMap = [];
         $containerCount = 1;
@@ -111,9 +111,9 @@ class LinkedForm
 
     /**
      * Create bindings for all elements in the form
-     * @return \self
+     * @return $this
      */
-    public function bind(NextForm $manager) : self
+    public function bind(NextForm $manager)
     {
         $this->allBindings = [];
         $this->bindings = [];
@@ -206,9 +206,9 @@ class LinkedForm
      *      'name' => The HTML name for the form. If not provided, the id is used.
      *              May also be passed through in 'attributes'.
      *  ]
-     *  @return \self
+     *  @return $this
      */
-    public function setOptions($options) : self
+    public function setOptions($options)
     {
         // Make sure we have attributes
         if (!isset($options['attributes'])) {

@@ -131,9 +131,9 @@ class NextForm
      * Add a schema definition to the form manager.
      *
      * @param Schema|string $schema The name of a schema file or a loaded Schema.
-     * @return \self
+     * @return $this
      */
-    public function addSchema($schema) : self
+    public function addSchema($schema)
     {
         if (is_string($schema)) {
             $schema = Schema::fromFile($schema);
@@ -145,9 +145,9 @@ class NextForm
 
     /**
      * Create bindings for elements in each form and map to the schemas.
-     * @return \self
+     * @return $this
      */
-    public function bind() : self
+    public function bind()
     {
         if (empty($this->linkedForms)) {
             throw new \RuntimeException('No forms available.');
@@ -166,7 +166,7 @@ class NextForm
      * @param Binding $binding
      * @return $this
      */
-    public function connectBinding(Binding $binding) : self
+    public function connectBinding(Binding $binding)
     {
         $objectRef = $binding->bindSchema($this->schemas);
         if ($objectRef !== null) {
@@ -322,7 +322,7 @@ class NextForm
      * @param string $segment Optional segment name prefix.
      * @return $this
      */
-    public function populate($data, $segment = '') : self
+    public function populate($data, $segment = '')
     {
         $this->formData[$segment] = $data;
         return $this;
@@ -333,7 +333,7 @@ class NextForm
      *
      * @return $this
      */
-    protected function populateForms() : self
+    protected function populateForms()
     {
         foreach ($this->formData as $segment => $data) {
             foreach ($data as $field => $value) {
@@ -355,9 +355,9 @@ class NextForm
      * Set the access control object.
      *
      * @param AccessInterface $access
-     * @return \self
+     * @return $this
      */
-    public function setAccess(AccessInterface $access) : self
+    public function setAccess(AccessInterface $access)
     {
         $this->access = $access;
         return $this;
@@ -377,9 +377,9 @@ class NextForm
      * Set the form renderer.
      *
      * @param RenderInterface $renderer
-     * @return \self
+     * @return $this
      */
-    public function setRender(RenderInterface $renderer) : self
+    public function setRender(RenderInterface $renderer)
     {
         $this->renderer = $renderer;
         return $this;
@@ -389,9 +389,9 @@ class NextForm
      * Set the translation object.
      *
      * @param Translator $translator
-     * @return \self
+     * @return $this
      */
-    public function setTranslator(Translator $translator) : self
+    public function setTranslator(Translator $translator)
     {
         $this->translator = $translator;
         return $this;
@@ -401,9 +401,9 @@ class NextForm
      * Define the current user.
      *
      * @param mixed $user
-     * @return \self
+     * @return $this
      */
-    public function setUser($user) : self
+    public function setUser($user)
     {
         $this->access->setUser($user);
     }

@@ -22,7 +22,13 @@ class ContainerBinding Extends Binding
      */
     protected $bindings = [];
 
-    public function addBinding(Binding $binding) : self
+    /**
+     * Add a contained binding.
+     *
+     * @param Binding $binding
+     * @return $this
+     */
+    public function addBinding(Binding $binding)
     {
         $this->bindings[] = $binding;
         return $this;

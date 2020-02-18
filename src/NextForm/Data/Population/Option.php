@@ -62,9 +62,9 @@ class Option implements \JsonSerializable
     /**
      * Add this option to the named group.
      * @param type $groupName Name of the group to be added.
-     * @return \self
+     * @return $this
      */
-    public function addGroup($groupName) : self
+    public function addGroup($groupName)
     {
         if (!in_array($groupName, $this->groups)) {
             $this->groups[] = $groupName;
@@ -171,9 +171,9 @@ class Option implements \JsonSerializable
     /**
      * Delete this element from the named group.
      * @param type $groupName Name of the group to be added.
-     * @return \self
+     * @return $this
      */
-    public function deleteGroup($groupName) : self
+    public function deleteGroup($groupName)
     {
         if (($key = array_search($groupName, $this->groups)) !== false) {
             unset($this->groups[$key]);
@@ -304,9 +304,9 @@ class Option implements \JsonSerializable
     /**
      * Set the groups this element is a member of
      * @param string|string[] $groups The group or groups.
-     * @return \self
+     * @return $this
      */
-    public function setGroups($groups) : self
+    public function setGroups($groups)
     {
         $this->configureValidate('groups', $groups);
         $this->groups = $groups;
@@ -337,7 +337,7 @@ class Option implements \JsonSerializable
      * @param mixed $data
      * @return $this
      */
-    public function setSidecar($data) : self
+    public function setSidecar($data)
     {
         $this->sidecar = $data;
         return $this;

@@ -230,9 +230,9 @@ class Attributes
      * Set an attribute if no value is currently set.
      * @param string $name Name of the attribute to set.
      * @param string|array $value The attribute value.
-     * @return \self
+     * @return $this
      */
-    public function default($name, $value) : self
+    public function default($name, $value)
     {
         if (!isset($this->attrs[$name])) {
             $this->attrs[$name] = $value;
@@ -243,9 +243,9 @@ class Attributes
     /**
      * Delete an attribute
      * @param type $name Name of the attribute to be deleted.
-     * @return \self
+     * @return $this
      */
-    public function delete($name) : self
+    public function delete($name)
     {
         unset($this->attrs[$name]);
         return $this;
@@ -364,9 +364,9 @@ class Attributes
      * Add an element to the named attribute.
      * @param string $name Name of the attribute to operate on.
      * @param mixed $value The value to be appended.
-     * @return \self
+     * @return $this
      */
-    public function itemAppend($name, $value) : self
+    public function itemAppend($name, $value)
     {
         if (!isset($this->attrs[$name])) {
             $this->attrs[$name] = [];
@@ -381,9 +381,9 @@ class Attributes
      * Remove one or more items from an attribute.
      * @param string $name Name of the attribute to operate on.
      * @param array $items Items to delete. If associative, keys are used for removal.
-     * @return \self
+     * @return $this
      */
-    public function itemDelete($name, $items) : self
+    public function itemDelete($name, $items)
     {
         if (!isset($this->attrs[$name]) || !is_array($this->attrs[$name])) {
             return $this;
@@ -409,9 +409,9 @@ class Attributes
      * Remove one or more items from an attribute by key.
      * @param string $name Name of the attribute to operate on.
      * @param string|array $keys The array key(s) to be deleted.
-     * @return \self
+     * @return $this
      */
-    public function itemDeleteKey($name, $keys) : self
+    public function itemDeleteKey($name, $keys)
     {
         if (!isset($this->attrs[$name]) || !is_array($this->attrs[$name])) {
             return $this;
@@ -430,9 +430,9 @@ class Attributes
      * Uniquely insert one or more items into the named attribute.
      * @param string $name Name of the attribute to operate on.
      * @param mixed $items One or more items to merge, scalar, array, or associative array.
-     * @return \self
+     * @return $this
      */
-    public function itemInsert($name, $items) : self
+    public function itemInsert($name, $items)
     {
         if (!isset($this->attrs[$name])) {
             $this->attrs[$name] = [];
@@ -450,9 +450,9 @@ class Attributes
     /**
      * Merge attributes into this set.
      * @param \Abivia\NextForm\Render\Attributes $source Application settings.
-     * @return \self
+     * @return $this
      */
-    public function merge($source = null) : self
+    public function merge($source = null)
     {
         if ($source === null) {
             return $this;
@@ -502,9 +502,9 @@ class Attributes
      * Set an attribute value.
      * @param string $name Name of the attribute to set.
      * @param mixed $value Value to set the attribute to.
-     * @return \self
+     * @return $this
      */
-    public function set($name, $value) : self
+    public function set($name, $value)
     {
         $this->attrs[$name] = $value;
         return $this;
@@ -513,9 +513,9 @@ class Attributes
     /**
      * Set a flag-valued attribute.
      * @param string $name Name of the flag to set.
-     * @return \self
+     * @return $this
      */
-    public function setFlag($name, bool $value = true) : self
+    public function setFlag($name, bool $value = true)
     {
         if ($value) {
             $this->attrs['=' . $name] = $name;
@@ -529,9 +529,9 @@ class Attributes
      * Set an attribute if the value is not empty.
      * @param string $name Name of the attribute to set.
      * @param mixed $value Value to set the attribute to.
-     * @return \self
+     * @return $this
      */
-    public function setIfNotEmpty($name, $value) : self
+    public function setIfNotEmpty($name, $value)
     {
         if (!empty($value)) {
             $this->attrs[$name] = $value;
@@ -543,9 +543,9 @@ class Attributes
      * Set an attribute if the value is not null.
      * @param string $name Name of the attribute to set.
      * @param mixed $value Value to set the attribute to.
-     * @return \self
+     * @return $this
      */
-    public function setIfNotNull($name, $value) : self
+    public function setIfNotNull($name, $value)
     {
         if ($value !== null) {
             $this->attrs[$name] = $value;
@@ -558,9 +558,9 @@ class Attributes
      * @param string $name Name of the attribute to set.
      * @param array $source The data source array
      * @param string $key Optional index into source; if omitted, $name is used.
-     * @return \self
+     * @return $this
      */
-    public function setIfSet($name, $source, $key = null) : self
+    public function setIfSet($name, $source, $key = null)
     {
         if ($key === null) {
             $key = $name;

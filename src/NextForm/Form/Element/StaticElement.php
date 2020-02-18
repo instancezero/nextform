@@ -98,9 +98,9 @@ class StaticElement Extends SimpleElement
     /**
      * Set the text is HTML flag.
      * @param bool $isHtml
-     * @return \self
+     * @return $this
      */
-    public function setHtml(bool $isHtml) : self
+    public function setHtml(bool $isHtml)
     {
         $this->html = $isHtml;
         return $this;

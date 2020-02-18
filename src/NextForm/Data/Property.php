@@ -4,6 +4,9 @@ namespace Abivia\NextForm\Data;
 
 use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
+use Abivia\NextForm\Data\Population;
+use Abivia\NextForm\Data\Presentation;
+use Abivia\NextForm\Data\Validation;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
 
@@ -149,35 +152,35 @@ class Property implements \JsonSerializable
 
     /**
      * Get the property's population object.
-     * @return \Abivia\NextForm\Data\Population
+     * @return Population
      */
-    public function getPopulation() : \Abivia\NextForm\Data\Population {
+    public function getPopulation() : Population {
         if ($this->population === null) {
-            $this->population = new \Abivia\NextForm\Data\Population;
+            $this->population = new Population;
         }
         return $this->population;
     }
 
     /**
      * Get the property's presentation object.
-     * @return \Abivia\NextForm\Data\Presentation
+     * @return Presentation
      */
-    public function getPresentation() : \Abivia\NextForm\Data\Presentation
+    public function getPresentation() : Presentation
     {
         if ($this->presentation === null) {
-            $this->presentation = new \Abivia\NextForm\Data\Presentation;
+            $this->presentation = new Presentation;
         }
         return $this->presentation;
     }
 
     /**
      * Get the property's validation object.
-     * @return \Abivia\NextForm\Data\Validation
+     * @return Validation
      */
-    public function getValidation() : \Abivia\NextForm\Data\Validation
+    public function getValidation() : Validation
     {
         if ($this->validation === null) {
-            $this->validation = new \Abivia\NextForm\Data\Validation;
+            $this->validation = new Validation;
         }
         return $this->validation;
     }
@@ -194,9 +197,9 @@ class Property implements \JsonSerializable
     /**
      * Connect a form element to this property.
      * @param Binding $binding The binding to be connected.
-     * @return \self
+     * @return $this
      */
-    public function linkBinding(Binding $binding) : self
+    public function linkBinding(Binding $binding)
     {
         if (!in_array($binding, $this->linkedBindings)) {
             $this->linkedBindings[] = $binding;
@@ -207,9 +210,9 @@ class Property implements \JsonSerializable
     /**
      * Set the description for this property.
      * @param string $text Descriptive text.
-     * @return \self
+     * @return $this
      */
-    public function setDescription($text) : self
+    public function setDescription($text)
     {
         $this->description = $text;
         return $this;
@@ -218,9 +221,9 @@ class Property implements \JsonSerializable
     /**
      * Set the display texts for this Property.
      * @param Labels $labels Object containing displayable labels.
-     * @return \self
+     * @return $this
      */
-    public function setLabels(Labels $labels) : self
+    public function setLabels(Labels $labels)
     {
         $this->labels = $labels;
         return $this;
@@ -239,9 +242,9 @@ class Property implements \JsonSerializable
 
     /**
      * set the property's population object.
-     * @param \Abivia\NextForm\Data\Population $population
+     * @param Population $population
      */
-    public function setPopulation(\Abivia\NextForm\Data\Population $population) : self
+    public function setPopulation(Population $population)
     {
         $this->population = $population;
         return $this;
@@ -249,10 +252,10 @@ class Property implements \JsonSerializable
 
     /**
      * Set the property's presentation object.
-     * @param \Abivia\NextForm\Data\Presentation $presentation Presentation settings.
-     * @return \self
+     * @param Presentation $presentation Presentation settings.
+     * @return $this
      */
-    public function setPresentation(\Abivia\NextForm\Data\Presentation $presentation) : self
+    public function setPresentation(Presentation $presentation)
     {
         $this->presentation = $presentation;
         return $this;
@@ -260,10 +263,10 @@ class Property implements \JsonSerializable
 
     /**
      * Set the property's validation object.
-     * @param \Abivia\NextForm\Data\Validation $validation Validation rules.
-     * @return \self
+     * @param Validation $validation Validation rules.
+     * @return $this
      */
-    public function setValidation(\Abivia\NextForm\Data\Validation $validation) : self
+    public function setValidation(Validation $validation)
     {
         $this->validation = $validation;
         return $this;

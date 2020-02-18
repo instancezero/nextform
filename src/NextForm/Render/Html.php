@@ -382,10 +382,10 @@ class Html implements RenderInterface
      *
      * @param string $selector The name of the setting to modify.
      * @param mixed $value The value to assign to the setting.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException
      */
-    public function setContext($selector, $value) : self
+    public function setContext($selector, $value)
     {
         $this->context[$selector] = $value;
         return $this;

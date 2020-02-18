@@ -70,9 +70,9 @@ class Role
     /**
      * Set the role name
      * @param string $name The name for this role.
-     * @return \self
+     * @return $this
      */
-    public function setName($name) : self
+    public function setName($name)
     {
         $this->name = $name;
         return $this;

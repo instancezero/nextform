@@ -113,9 +113,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Add this element to the named group.
      * @param type $groupName Name of the group to be added.
-     * @return \self
+     * @return $this
      */
-    public function addGroup($groupName) : self
+    public function addGroup($groupName)
     {
         if (!in_array($groupName, $this->groups)) {
             $this->groups[] = $groupName;
@@ -192,9 +192,9 @@ abstract class Element implements \JsonSerializable
 
     /**
      * Make a copy of this element, cloning/preserving selected properties
-     * @return \self
+     * @return Element
      */
-    public function copy() : self
+    public function copy()
     {
         static $cloner = null;
 
@@ -217,9 +217,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Delete this element from the named group.
      * @param type $groupName Name of the group to be added.
-     * @return \self
+     * @return $this
      */
-    public function deleteGroup($groupName) : self
+    public function deleteGroup($groupName)
     {
         if (($key = array_search($groupName, $this->groups)) !== false) {
             unset($this->groups[$key]);
@@ -325,9 +325,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set the enabled state for this element.
      * @param bool $enabled
-     * @return \self
+     * @return $this
      */
-    public function setEnabled($enabled) : self
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
         return $this;
@@ -336,9 +336,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set the groups this element is a member of
      * @param string|string[] $groups The group or groups.
-     * @return \self
+     * @return $this
      */
-    public function setGroups($groups) : self
+    public function setGroups($groups)
     {
         $this->configureValidate('groups', $groups);
         $this->groups = $groups;
@@ -348,9 +348,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set the form ID for this element.
      * @param string $id
-     * @return \self
+     * @return $this
      */
-    public function setId($id) : self
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
@@ -376,9 +376,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set the name of this element.
      * @param string $name
-     * @return \self
+     * @return $this
      */
-    public function setName($name) : self
+    public function setName($name)
     {
         $this->name = $name;
         return $this;
@@ -387,9 +387,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set this element's read-only state.
      * @param bool $readonly
-     * @return \self
+     * @return $this
      */
-    public function setReadonly($readonly) : self
+    public function setReadonly($readonly)
     {
         $this->readonly = $readonly;
         return $this;
@@ -409,9 +409,9 @@ abstract class Element implements \JsonSerializable
     /**
      * Set this element's display state.
      * @param bool $display
-     * @return \self
+     * @return $this
      */
-    public function setDisplay($display) : self
+    public function setDisplay($display)
     {
         $this->display = $display;
         return $this;

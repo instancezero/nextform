@@ -167,10 +167,10 @@ class Labels implements \JsonSerializable
      * Set a label by name
      * @param string $labelName
      * @param string $text
-     * @return \self
+     * @return $this
      * @throws \RuntimeException
      */
-    public function set($labelName, $text) : self
+    public function set($labelName, $text)
     {
         if (in_array($labelName, self::$textProperties)) {
             $this->$labelName = $text;

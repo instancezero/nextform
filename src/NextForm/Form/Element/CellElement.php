@@ -35,10 +35,10 @@ class CellElement Extends ContainerElement
     /**
      * Add (append) an element to this cell
      * @param \Abivia\NextForm\Form\Element\Element $element An element to be added to this cell.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException
      */
-    public function addElement(Element $element) : self
+    public function addElement(Element $element)
     {
         if ($element instanceof ContainerElement) {
             throw new \RuntimeException('Cells can\'t contain containers (sections or cells).');

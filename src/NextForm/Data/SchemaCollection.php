@@ -33,10 +33,10 @@ class SchemaCollection implements \IteratorAggregate
      * are added.
      *
      * @param Schema $schema The schema to be added.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException If there is a name conflict.
      */
-    public function addSchema(SchemaInterface $schema) : self
+    public function addSchema(SchemaInterface $schema)
     {
         $segmentNames = $schema->getSegmentNames();
         foreach ($segmentNames as $segmentName) {

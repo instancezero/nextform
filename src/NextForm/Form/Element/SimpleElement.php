@@ -109,9 +109,9 @@ abstract class SimpleElement Extends Element
     /**
      * Set the "translation required" state.
      * @param bool $translate True if this element's value should be translated.
-     * @return \self
+     * @return $this
      */
-    public function setTranslate(bool $translate) : self
+    public function setTranslate(bool $translate)
     {
         $this->translate = $translate;
         return $this;
@@ -120,9 +120,9 @@ abstract class SimpleElement Extends Element
     /**
      * Set the element value.
      * @param string $value
-     * @return \self
+     * @return $this
      */
-    public function setValue($value) : self
+    public function setValue($value)
     {
         $this->value = $value;
         if ($this->translate) {

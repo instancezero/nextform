@@ -155,9 +155,9 @@ class Binding
 
     /**
      * Make a copy of this element, cloning/preserving selected properties
-     * @return \self
+     * @return Binding
      */
-    public function copy() : self
+    public function copy()
     {
         static $cloner = null;
 
@@ -334,9 +334,9 @@ class Binding
      * Set the element for this binding.
      *
      * @param Element $element
-     * @return \self
+     * @return $this
      */
-    public function setElement(Element $element) : self
+    public function setElement(Element $element)
     {
         $this->element = $element;
         $this->form = $element->getForm();
@@ -360,9 +360,9 @@ class Binding
     /**
      * Set the form ID for this binding.
      * @param string $id
-     * @return \self
+     * @return $this
      */
-    public function setId($id) : self
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
@@ -385,7 +385,7 @@ class Binding
     /**
      * Connect this binding to a linked form
      * @param LinkedForm $linkedForm
-     * @return \self
+     * @return $this
      */
     public function setLinkedForm(LinkedForm $linkedForm) :self
     {
@@ -396,9 +396,9 @@ class Binding
     /**
      * Set the current value for the bound element.
      * @param mixed $value The new value.
-     * @return \self
+     * @return $this
      */
-    public function setValue($value) : self
+    public function setValue($value)
     {
         $this->value = $value;
         return $this;

@@ -12,7 +12,8 @@ trait ShowableTrait
     static protected $showDefaultScope = 'undefined';
 
 
-    public function addShow($show) : self {
+    public function addShow($show)
+    {
         if ($this->show === '') {
             $this->show = trim($show);
         } else {
@@ -26,7 +27,7 @@ trait ShowableTrait
         return $this->show;
     }
 
-    public function setShow($show) : self
+    public function setShow($show)
     {
         $this->show = trim($show === null ? '' : $show);
         return $this;

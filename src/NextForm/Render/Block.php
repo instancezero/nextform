@@ -73,9 +73,9 @@ class Block
 
     /**
      * Combine the page body with any closing (post) text, execute any close handler.
-     * @return \self
+     * @return $this
      */
-    public function close() : self
+    public function close()
     {
         $this->body .= $this->post;
         $this->post = '';
@@ -102,9 +102,10 @@ class Block
     /**
      * Merge the contents of another block into this block.
      * @param \Abivia\NextForm\Render\Block $block
-     * @return \self
+     * @return $this
      */
-    public function merge(Block $block) : self {
+    public function merge(Block $block)
+    {
         foreach (self::$mergeRules as $prop => $operation)
         {
             switch ($operation) {

@@ -112,10 +112,10 @@ class BasicAccess implements AccessInterface
     /**
      * Set a default user for subsequent access requests.
      * @param string $user The user identifier
-     * @return \self
+     * @return $this
      * @throws \LogicException
      */
-    public function setUser($user) : self
+    public function setUser($user) : AccessInterface
     {
         if ($user === null || isset($this->users[$user])) {
             $this->currentUser = $user;

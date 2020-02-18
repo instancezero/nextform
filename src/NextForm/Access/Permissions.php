@@ -18,9 +18,9 @@ class Permissions
      * Add a rule to the permission list.
      * @param string $rule The rule identifier ("object.operation").
      * @param bool $flag True if the permission is granted.
-     * @return self
+     * @return $this
      */
-    public function addRule($rule, $flag) : self
+    public function addRule($rule, $flag)
     {
         $parts = $this->parseRule($rule);
         if (!isset($this->rules[$parts[0]])) {
@@ -53,9 +53,9 @@ class Permissions
     /**
      * Delete a rule from the permission list.
      * @param string $rule The rule identifier ("object.operation").
-     * @return self
+     * @return $this
      */
-    public function deleteRule($rule) : self
+    public function deleteRule($rule)
     {
         $parts = $this->parseRule($rule);
         if (isset($this->rules[$parts[0]])) {

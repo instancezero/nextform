@@ -148,10 +148,11 @@ class Form implements \JsonSerializable
      * Load form definition from file.
      *
      * @param string $formFile Path to the form definition.
-     * @return \self
+     * @return $this
      * @throws \RuntimeException
      */
-    public function loadFile($formFile) : self {
+    public function loadFile($formFile)
+    {
         $json = \file_get_contents($formFile);
         if ($json === false) {
             throw new \RuntimeException(
@@ -169,7 +170,15 @@ class Form implements \JsonSerializable
         return $this;
     }
 
-    public function loadJson($json) : self {
+    /**
+     * Load form definition from JSON string.
+     *
+     * @param string A JSON string.
+     * @return $this
+     * @throws \RuntimeException
+     */
+    public function loadJson($json)
+    {
         $this-> initialize();
         if (!$this->configure(\json_decode($json), true)) {
             throw new \RuntimeException(

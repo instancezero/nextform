@@ -25,9 +25,9 @@ class User
 
     /**
      * Add a role to this user.
-     * @return string[]
+     * @return $this
      */
-    public function addRole($name) : self
+    public function addRole($name)
     {
         if (!in_array($name, $this->roles)) {
             $this->roles[] = $name;
@@ -37,9 +37,9 @@ class User
 
     /**
      * Delete a role from this user.
-     * @return string[]
+     * @return $this
      */
-    public function deleteRole($name) : self
+    public function deleteRole($name)
     {
         if (($key = array_search($name, $this->roles))) {
             unset($this->roles[$key]);
@@ -68,9 +68,9 @@ class User
     /**
      * Set the user ID.
      * @param string $id The user identifier.
-     * @return self
+     * @return $this
      */
-    public function setId($id) : self
+    public function setId($id)
     {
         $this->id = $id;
         return $this;

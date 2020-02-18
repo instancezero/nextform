@@ -240,9 +240,9 @@ class FieldElement extends NamedElement
     /**
      * Set the default value for this field
      * @param $value The new default value.
-     * @return \self
+     * @return $this
      */
-    public function setDefault($value) : self
+    public function setDefault($value)
     {
         $this->default = $value;
         return $this;

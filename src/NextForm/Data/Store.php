@@ -96,9 +96,9 @@ class Store implements \JsonSerializable
     /**
      * Set the storage size.
      * @param string $size The desired storage size.
-     * @return \self
+     * @return $this
      */
-    public function setSize($size) : self
+    public function setSize($size)
     {
         $this->size = (string) $size;
         return $this;
@@ -107,10 +107,10 @@ class Store implements \JsonSerializable
     /**
      * Set the data type.
      * @param string $type The desired data type.
-     * @return \self
+     * @return $this
      * @throws RuntimeException If the type is not valid.
      */
-    public function setType($type) : self
+    public function setType($type)
     {
         if (!$this->configureValidate('type', $type)) {
             throw new \RuntimeException($type . ' is not a valid value for type.');
