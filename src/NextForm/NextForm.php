@@ -457,7 +457,15 @@ class NextForm
     {
         foreach ($this->formData as $segment => $data) {
             foreach ($data as $field => $value) {
-                if ($segment !== '') {
+                if ($segment === '') {
+                    if (
+                        !isset($this->objectMap[$field])
+                        && $this->segmentNameDrop !== null
+                    ) {
+                        $field = $this->segmentNameDrop
+                            . NextForm::SEGMENT_DELIM . $field;
+                    }
+                } else {
                     $field = $segment . NextForm::SEGMENT_DELIM . $field;
                 }
                 if (!isset($this->objectMap[$field])) {
