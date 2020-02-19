@@ -143,6 +143,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         $render = new FlatRender();
 
         $manager = new NextForm();
+        $manager->setOptions(['segmentNameMode' => 'off']);
         $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $manager->addSchema($this->memberSchema);
         $manager->setRender($render);
@@ -159,6 +160,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
+        $manager->setOptions(['segmentNameMode' => 'off']);
         $manager->addSchema($this->memberSchema);
         $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $data = [
@@ -175,6 +177,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
+        $manager->setOptions(['segmentNameMode' => 'off']);
         $manager->addForm(
             $this->memberForm,
             ['action' => 'http://localhost/nextform/post.php']
@@ -196,6 +199,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         NextForm::boot();
         $manager = new NextForm();
+        $manager->setOptions(['segmentNameMode' => 'off']);
         $boundForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
         $manager->setRender(new Bootstrap4());

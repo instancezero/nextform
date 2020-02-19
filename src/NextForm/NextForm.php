@@ -98,6 +98,21 @@ class NextForm
     protected $schemas;
 
     /**
+     * The segment name to drop from form names, when segment naming mode = auto.
+     * @var string
+     */
+    protected $segmentNameDrop;
+
+    /**
+     * How segment naming is handled. 'on' = always generate segment name;
+     * 'off' = Never generate segment name; 'auto' = suppress the segment listed
+     * in $segmentNameDrop.
+     *
+     * @var string
+     */
+    protected $segmentNameMode = 'auto';
+
+    /**
      * A translation service.
      * @var Translator
      */
@@ -139,6 +154,12 @@ class NextForm
             $schema = Schema::fromFile($schema);
         }
         $this->schemas->addSchema($schema);
+        if ($this->segmentNameMode === 'auto' && $this->segmentNameDrop === null) {
+            $segments = $schema->getSegmentNames();
+            if (!empty($segments)) {
+                $this->segmentNameDrop = $segments[0];
+            }
+        }
 
         return $this;
     }
@@ -250,17 +271,6 @@ class NextForm
     }
 
     /**
-     * Get the rendered body of all forms or a single form.
-     *
-     * @param string $formName
-     * @return ?string
-     */
-    public function getBody($formName = null) {
-        $block = $this->getBlock($formName);
-        return $block ? $block->body : null;
-    }
-
-    /**
      * Get the page data, optionally for a specific form.
      *
      * @param string|null $formName
@@ -275,6 +285,28 @@ class NextForm
             $block = $this->pageBlock;
         }
         return $block;
+    }
+
+    /**
+     * Get the rendered body of all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getBody($formName = null) {
+        $block = $this->getBlock($formName);
+        return $block ? $block->body : null;
+    }
+
+    /**
+     * Retrieve a linked form by name.
+     *
+     * @param string $formName
+     * @return ?BoundForm
+     */
+    public function getBoundForm($formName) : ?BoundForm
+    {
+        return $this->boundForms[$formName] ?: null;
     }
 
     /**
@@ -311,17 +343,6 @@ class NextForm
     public function getLinks($formName = null) {
         $block = $this->getBlock($formName);
         return $block ? implode("\n", $block->linkedFiles) : null;
-    }
-
-    /**
-     * Retrieve a linked form by name.
-     *
-     * @param string $formName
-     * @return ?BoundForm
-     */
-    public function getBoundForm($formName) : ?BoundForm
-    {
-        return $this->boundForms[$formName] ?: null;
     }
 
     /**
@@ -363,6 +384,17 @@ class NextForm
             }
         }
         return $data;
+    }
+
+    /**
+     * Get the name of a segment that bound forms can drop when generating
+     * form names.
+     *
+     * @return mixed
+     */
+    public function getSegmentNameDrop()
+    {
+        return $this->segmentNameMode !== 'off' ? $this->segmentNameDrop : null;
     }
 
     /**
@@ -459,6 +491,18 @@ class NextForm
     static public function setCsrfGenerator(Callable $gen) {
         self::$csrfGenerator = $gen;
         self::generateCsrfToken();
+    }
+
+    public function setOptions($options = []) {
+        if (
+            isset($options['segmentNameMode'])
+            && in_array($options['segmentNameMode'], ['auto', 'off', 'on'])
+        ) {
+            $this->segmentNameMode = $options['segmentNameMode'];
+        }
+        if (isset($options['segmentNameDrop'])) {
+            $this->segmentNameDrop = $options['segmentNameDrop'];
+        }
     }
 
     /**

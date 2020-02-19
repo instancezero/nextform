@@ -66,6 +66,12 @@ class BoundForm
      */
     protected $options;
 
+    /**
+     * The name of a schema segment not to use as a prefix in form names.
+     * @var string
+     */
+    protected $segmentNameDrop;
+
     public function __construct(Form $form = null, $options = [])
     {
         $this->form = $form;
@@ -84,7 +90,11 @@ class BoundForm
 
         foreach ($this->allBindings as $binding) {
             if ($binding instanceof FieldBinding) {
-                $baseName = str_replace('/', '_', $binding->getObject());
+                $parts = \explode('/', $binding->getObject());
+                if ($parts[0] === $this->segmentNameDrop) {
+                    unset($parts[0]);
+                }
+                $baseName = \implode('_', $parts);
                 $name = $baseName;
                 $confirmName = $baseName . NextForm::CONFIRM_LABEL;
                 $append = 0;
@@ -118,6 +128,7 @@ class BoundForm
     {
         $this->allBindings = [];
         $this->bindings = [];
+        $this->segmentNameDrop = $manager->getSegmentNameDrop();
         foreach ($this->form->getElements() as $element) {
             $binding = Binding::fromElement($element);
             $this->linkBinding($binding);

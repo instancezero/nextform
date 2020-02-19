@@ -59,6 +59,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->render = new LoggingRender();
 
         $manager = new NextForm();
+        $manager->setOptions(['segmentNameMode' => 'off']);
         $this->access = new MockAccess();
         $manager->setAccess($this->access);
         $manager->addForm(

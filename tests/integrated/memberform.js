@@ -4,7 +4,7 @@
 
 /**
  * Update limits on user-entered fees based on a membership level change.
- * 
+ *
  * @param {HtmlElement} element
  * @returns {undefined}
  */
