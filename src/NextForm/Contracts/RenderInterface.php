@@ -52,4 +52,10 @@ interface RenderInterface
      */
     public function start($options = []) : Block;
 
+    /**
+     * Embed RESTful state data/context into the form.
+     * @param array $state
+     */
+    public function stateData($state) : Block;
+
 }

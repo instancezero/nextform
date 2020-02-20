@@ -693,6 +693,24 @@ class Html implements RenderInterface
     }
 
     /**
+     * Embed RESTful state data/context into the form.
+     * @param array $state
+     */
+    public function stateData($state) : Block
+    {
+        $block = new Block();
+        foreach ($state as $name => $value) {
+            $attrs = new Attributes();
+            $attrs->set('type', 'hidden');
+            $attrs->set('name', $name);
+            $attrs->set('value', $value);
+            $block->body .= $this->writeTag('input', $attrs) . "\n";
+        }
+
+        return $block;
+    }
+
+    /**
      * Conditionally write an element into an open Block suitable for merging.
      * @param string $tag Name of the element to write (div, span, etc.)
      * @param array $options Name(type,default): append(string,''), force(bool,false),

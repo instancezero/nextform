@@ -60,6 +60,19 @@ class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
         return $result;
     }
 
+    /**
+     * Embed RESTful state data/context into the form.
+     * @param array $state
+     */
+    public function stateData($state) : Block
+    {
+        $result = new Block();
+        foreach ($state as $name => $value) {
+            $result->body .= "state: $name = $value\n";
+        }
+        return $result;
+    }
+
 }
 
 class MemberTest extends \PHPUnit\Framework\TestCase {

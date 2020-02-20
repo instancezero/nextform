@@ -174,13 +174,27 @@ class BoundForm
             $binding->translate($translator);
         }
 
-        // Start the form, write all the bindings, close the form, return.
+        // Start the form
         $this->formBlock = $renderer->start($this->options);
+
+        // Inject any hidden elements from the options
+        if (
+            isset($this->options['hidden'])
+            && is_array($this->options['hidden'])
+        ) {
+            $this->formBlock->merge(
+                $renderer->stateData($this->options['hidden'])
+            );
+        }
+
+        // Write all the bindings
         foreach ($this->bindings as $binding) {
             $this->formBlock->merge(
                 $binding->generate($renderer, $access)
             );
         }
+
+        // Close the form and done.
         $this->formBlock->close();
 
         return $this->formBlock;

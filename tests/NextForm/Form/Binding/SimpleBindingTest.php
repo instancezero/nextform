@@ -70,6 +70,15 @@ class MockRender implements RenderInterface
 
     }
 
+    /**
+     * Embed RESTful state data/context into the form.
+     * @param array $state
+     */
+    public function stateData($state) : Block
+    {
+        return new Block();
+    }
+
 }
 
 /**

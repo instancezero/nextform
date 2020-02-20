@@ -74,4 +74,14 @@ class LoggingRender implements RenderInterface {
         $this->log = [];
         return new Block();
     }
+
+    /**
+     * Embed RESTful state data/context into the form.
+     * @param array $state
+     */
+    public function stateData($state) : Block
+    {
+        return new Block();
+    }
+
 }
