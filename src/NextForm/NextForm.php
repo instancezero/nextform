@@ -205,7 +205,7 @@ class NextForm
     static public function boot()
     {
         self::$htmlId = 0;
-        self::generateCsrfToken();
+        self::$csrfToken = null;
     }
 
     /**
@@ -267,6 +267,9 @@ class NextForm
      * @return array [token name, token value]
      */
     static public function getCsrfToken() {
+        if (self::$csrfToken === null) {
+            self::generateCsrfToken();
+        }
         return self::$csrfToken;
     }
 
@@ -498,7 +501,7 @@ class NextForm
      */
     static public function setCsrfGenerator(Callable $gen) {
         self::$csrfGenerator = $gen;
-        self::generateCsrfToken();
+        self::$csrfToken = null;
     }
 
     public function setOptions($options = []) {
