@@ -306,7 +306,7 @@ class NextForm
      */
     public function getBoundForm($formName) : ?BoundForm
     {
-        return $this->boundForms[$formName] ?: null;
+        return $this->boundForms[$formName] ?? null;
     }
 
     /**
