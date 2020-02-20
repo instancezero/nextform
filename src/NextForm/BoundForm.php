@@ -177,13 +177,13 @@ class BoundForm
         // Start the form
         $this->formBlock = $renderer->start($this->options);
 
-        // Inject any hidden elements from the options
+        // Inject any state data from the options
         if (
-            isset($this->options['hidden'])
-            && is_array($this->options['hidden'])
+            isset($this->options['state'])
+            && is_array($this->options['state'])
         ) {
             $this->formBlock->merge(
-                $renderer->stateData($this->options['hidden'])
+                $renderer->stateData($this->options['state'])
             );
         }
 
