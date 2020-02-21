@@ -13,9 +13,9 @@ designed to eliminate other irritants with online forms:
 enclosing application. Since forms frequently transition between HTML,
 template markup, Javascript and PHP several times per form the results can be
 difficult to read, format, and understand.
-- Forms are tightly coupled to a specific HTML/CSS framework. Adapting to framework
-changes is more difficult than it should be, and maintaining multiple frameworks can be
-a major headache.
+- Forms are tightly coupled to a specific HTML/CSS framework. Adapting to
+framework changes is more difficult than it should be, and maintaining
+multiple frameworks can be a major headache.
 - Applications frequently need to present several highly similar forms, each with
 variations depending on the environment or the user viewing the form. If a
 single form accounts for multiple user contexts, it can be riddled with
@@ -32,6 +32,20 @@ Too many forms are brittle, full of duplication, difficult to maintain, and a
 barrier to rapid development. NextForm offers good reusability, concise form
 specifications, fine grained access control, and portability across client-side
 frameworks.
+
+Development Status
+---
+As of this date, NextForm is new and under active development. Tests provide code
+coverage over 85%, but the code is just now being deployed into the application
+that requires it. The API should be stable or at least any changes should be
+backwards compatible, but this isn't guaranteed, and some minor bugs are
+expected.
+
+The next render target for NextForm will be Vue. The current architecture was
+developed with this target in mind, but it is highly likely that actual
+implementation will force changes, some of which might impact existing
+deployments. There is no timeline for this. If you want to help, get in touch
+via Gitlab.
 
 Installation
 ---
