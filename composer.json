@@ -18,11 +18,11 @@
         }
     ],
     "autoload": {
-        "psr-4": {"Abivia\\NextForm\\": "src/nextform/"}
+        "psr-4": {"Abivia\\NextForm\\": "src/NextForm/"}
     },
     "autoload-dev": {
       "classmap": [
-          "src/nextform/"
+          "src/NextForm/"
         ]
     },
     "minimum-stability": "dev"
