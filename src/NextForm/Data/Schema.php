@@ -28,8 +28,8 @@ class Schema implements SchemaInterface, \JsonSerializable
      * @var array
      */
     static protected $jsonEncodeMethod = [
-        'defaultRepo' => 'map:default',
-        'segments' => 'array',
+        'defaultRepo' => ['drop:null', 'map:default'],
+        'segments' => ['drop:null', 'array'],
     ];
 
     /**
@@ -262,9 +262,9 @@ class Schema implements SchemaInterface, \JsonSerializable
      * Set a segment in the schema.
      * @param string $segName Name of the segment.
      * @param \Abivia\NextForm\Data\Segment $segment Segment contents.
-     * @return \self
+     * @return $this
      */
-    public function setSegment($segName, Segment $segment) : Segment
+    public function setSegment($segName, Segment $segment) : SchemaInterface
     {
         $this->segments[$segName] = $segment;
         return $this;

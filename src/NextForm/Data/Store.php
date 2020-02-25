@@ -26,7 +26,10 @@ class Store implements \JsonSerializable
      * A list of recognized storage types.
      * @var string[]
      */
-    static protected $knownTypes = ['blob', 'date', 'decimal', 'float', 'int', 'string', 'text'];
+    static protected $knownTypes = [
+        'blob', 'date', 'datetime', 'decimal', 'float', 'int', 'string', 'text',
+        'time',
+    ];
 
     /**
      * The size in the data store. Can be non-numeric.

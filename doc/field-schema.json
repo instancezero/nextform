@@ -55,8 +55,8 @@
                         "type": "text|radio|select|check|hidden|(html5 type)"
                     },
                     "store": {
-                        "type": "string|int|decimal,float|date|file",
-                        "size": "max size in database: int | number[, decimals] | "
+                        "type": "string|int|decimal|float|date|file",
+                        "size": "max size in database: int | number[, decimals] | long (etc)"
                     },
                     "validation": {
                         "accept": "*.jpg,*.gif,*.etc",

@@ -6,6 +6,7 @@ use Abivia\Configurable\Configurable;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Data\Population;
 use Abivia\NextForm\Data\Presentation;
+use Abivia\NextForm\Data\Store;
 use Abivia\NextForm\Data\Validation;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Traits\JsonEncoderTrait;
@@ -185,11 +186,11 @@ class Property implements \JsonSerializable
         return $this->validation;
     }
 
-/**
+    /**
      * Get the property's data store object.
-     * @return \Abivia\NextForm\Data\Store
+     * @return ?Store
      */
-    public function getStore() : ?\Abivia\NextForm\Data\Store
+    public function getStore() : ?Store
     {
         return $this->store;
     }
@@ -258,6 +259,19 @@ class Property implements \JsonSerializable
     public function setPresentation(Presentation $presentation)
     {
         $this->presentation = $presentation;
+        return $this;
+    }
+
+    /**
+     * Set the property's data store.
+     *
+     * @param Store $store
+     * @return $this
+     */
+
+    public function setStore(Store $store)
+    {
+        $this->store = $store;
         return $this;
     }
 

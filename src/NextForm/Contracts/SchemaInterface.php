@@ -43,8 +43,8 @@ interface SchemaInterface
      * Set a segment in the schema.
      * @param string $segName Name of the segment.
      * @param \Abivia\NextForm\Data\Segment $segment Segment contents.
-     * @return \self
+     * @return $this
      */
-    public function setSegment($segName, Segment $segment) : Segment;
+    public function setSegment($segName, Segment $segment) : SchemaInterface;
 
 }

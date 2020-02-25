@@ -4,3 +4,5 @@
 
 /local/
 /tests/logs/
+/tests/misc/.env.json
+/tests/misc/
