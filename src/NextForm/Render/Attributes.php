@@ -176,6 +176,9 @@ class Attributes
      */
     public function addValidation($type, $validation)
     {
+        if (!isset(self::$inputAttributes[$type])) {
+            throw new RuntimeException("Unknown element type $type.");
+        }
         foreach (self::$validationMap as $attrName => $specs) {
             list($lookup) = $this->parseName($attrName);
 

@@ -68,7 +68,7 @@ class MockSchema implements SchemaInterface
      * @param \Abivia\NextForm\Data\Segment $segment Segment contents.
      * @return \self
      */
-    public function setSegment($segName, Segment $segment) : Segment
+    public function setSegment($segName, Segment $segment) : SchemaInterface
     {
         return $this;
     }
