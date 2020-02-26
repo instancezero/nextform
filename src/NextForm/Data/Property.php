@@ -169,7 +169,7 @@ class Property implements \JsonSerializable
     public function getPresentation() : Presentation
     {
         if ($this->presentation === null) {
-            $this->presentation = new Presentation;
+            $this->presentation = new Presentation();
         }
         return $this->presentation;
     }

@@ -46,6 +46,12 @@ class FieldBinding extends Binding
         if ($this->dataProperty === null) {
             return false;
         }
+        if ($this->dataProperty->getPresentation()->getType() === null) {
+            throw new \RuntimeException(
+                "The property $segmentName, $objectName"
+                . " exists but has no presentation. Unable to bind."
+            );
+        }
         $this->objectRef = [$segmentName, $objectName];
 
         // Give the data property the ability to signal us.
