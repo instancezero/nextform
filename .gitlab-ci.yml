@@ -20,7 +20,7 @@ before_script:
   - docker-php-ext-enable xdebug
   # Install and run Composer
   - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar config discard-changes stash
+  - php composer.phar config discard-changes true
   - php composer.phar -n install
 
 # Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
