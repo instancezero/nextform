@@ -180,6 +180,44 @@ extends SimpleHtmlRenderFrame
             . '<br/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<select id="field_1" name="field_1" class="nf-valid">' . "\n"
+                    . '<option value="textlist 1">textlist 1</option>' . "\n"
+                    . '<option value="textlist 2"'
+                    . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                    . "\n"
+                    . '<option value="textlist 3"'
+                    . ' data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<select id="field_1" name="field_1" class="nf-invalid">' . "\n"
+                    . '<option value="textlist 1">textlist 1</option>' . "\n"
+                    . '<option value="textlist 2"'
+                    . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                    . "\n"
+                    . '<option value="textlist 3"'
+                    . ' data-nf-name="tl3">'
+                    . 'textlist 3</option>' . "\n"
+                    . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -320,6 +358,46 @@ extends SimpleHtmlRenderFrame
             . ' value="Sub One Item One"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<select id="field_1" name="field_1" class="nf-valid">' . "\n"
+                    . '<option value="General">General</option>' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                    . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '<optgroup label="Subgroup Two">' . "\n"
+                    . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<select id="field_1" name="field_1" class="nf-invalid">' . "\n"
+                    . '<option value="General">General</option>' . "\n"
+                    . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                    . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                    . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '<optgroup label="Subgroup Two">' . "\n"
+                    . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                    . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                    . '</optgroup>' . "\n"
+                    . '</select>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -455,6 +533,38 @@ extends SimpleHtmlRenderFrame
             . '<br/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<select id="field_1" name="field_1" class="nf-valid">' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<select id="field_1" name="field_1" class="nf-invalid">' . "\n"
+                . '<option value="textlist 1">textlist 1</option>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]">textlist 2</option>'
+                . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3">textlist 3</option>'
+                . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -575,6 +685,40 @@ extends SimpleHtmlRenderFrame
             '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="S2I1"/>' . "\n"
             . '<input id="field_1_opt1" name="field_1[1]" type="hidden"'
             . ' value="Sub One Item One"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<select id="field_1" name="field_1" class="nf-valid">' . "\n"
+                . '<option value="General">General</option>' . "\n"
+                . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                . '</optgroup>' . "\n"
+                . '<optgroup label="Subgroup Two">' . "\n"
+                . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                . '</optgroup>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<select id="field_1" name="field_1" class="nf-invalid">' . "\n"
+                . '<option value="General">General</option>' . "\n"
+                . '<optgroup label="Subgroup One" data-nf-sidecar="&quot;subgroup 1 sidecar&quot;">' . "\n"
+                . '<option value="Sub One Item One">Sub One Item One</option>' . "\n"
+                . '<option value="Sub One Item Two">Sub One Item Two</option>' . "\n"
+                . '</optgroup>' . "\n"
+                . '<optgroup label="Subgroup Two">' . "\n"
+                . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
+                . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
+                . '</optgroup>' . "\n"
+                . '</select>' . "\n"
+            )
+            . '<br/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);

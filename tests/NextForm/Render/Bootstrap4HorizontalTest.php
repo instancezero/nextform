@@ -48,7 +48,7 @@ class FormRenderBootstrap4HorizontalTest extends Bootstrap4RenderFrame
         $cases = RenderCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
-            '<div class="form-row col-sm-10">' . "\n",
+            '<div class="col-sm-10 form-row">' . "\n",
             '</div>' . "\n"
         );
 

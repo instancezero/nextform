@@ -206,6 +206,30 @@ extends SimpleHtmlRenderFrame
         // inline nolabel
         $expect['inline-nolabel'] = $expect['basic'];
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="nf-valid"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="nf-invalid"/>' . "\n"
+                    . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -409,6 +433,70 @@ extends SimpleHtmlRenderFrame
         // Option width, not used in simple renderer
         $expect['optionwidth'] = $expect['basic'];
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<div>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                    . ' class="nf-valid" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                    . ' class="nf-valid" value="textlist 2" disabled'
+                    . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                    . ' class="nf-valid" value="textlist 3" data-nf-name="tl3"/>'
+                    . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                    . ' class="nf-valid" value="textlist 4"'
+                    . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
+                    . '</div>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<div>' . "\n"
+                    . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                    . ' class="nf-invalid" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0">textlist 1</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                    . ' class="nf-invalid" value="textlist 2" disabled'
+                    . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1">textlist 2</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                    . ' class="nf-invalid" value="textlist 3" data-nf-name="tl3"/>'
+                    . "\n"
+                    . '<label for="field_1_opt2">textlist 3</label>' . "\n"
+                    . '</div>' . "\n"
+                    . '<div>' . "\n"
+                    . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                    . ' class="nf-invalid" value="textlist 4"'
+                    . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3">textlist 4</label>' . "\n"
+                    . '</div>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -556,6 +644,24 @@ extends SimpleHtmlRenderFrame
 
         // inline nolabel
         $expect['inline-nolabel'] = $expect['basic'];
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="checkbox"'
+                . ' class="nf-valid"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="checkbox"'
+                . ' class="nf-invalid"/>' . "\n"
+                . '<label for="field_1">&lt;Stand-alone&gt; checkbox</label>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
 
         $this->runElementCases($cases, $expect);
     }
@@ -741,6 +847,62 @@ extends SimpleHtmlRenderFrame
 
         // Option width, not used in simple renderer
         $expect['optionwidth'] = $expect['basic'];
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<div>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                . ' class="nf-valid" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' class="nf-valid" value="textlist 2" disabled'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' class="nf-valid" value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                . ' class="nf-valid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<div>' . "\n"
+                . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                . ' class="nf-invalid" value="textlist 1"/>' . "\n"
+                . '<label for="field_1_opt0">textlist 1</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                . ' class="nf-invalid" value="textlist 2" disabled'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                . '<label for="field_1_opt1">textlist 2</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                . ' class="nf-invalid" value="textlist 3" data-nf-name="tl3"/>'
+                . "\n"
+                . '<label for="field_1_opt2">textlist 3</label>' . "\n"
+                . '</div>' . "\n"
+                . '<div>' . "\n"
+                . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                . ' class="nf-invalid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                . '<label for="field_1_opt3">textlist 4</label>' . "\n"
+                . '</div>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
 
         $this->runElementCases($cases, $expect);
     }

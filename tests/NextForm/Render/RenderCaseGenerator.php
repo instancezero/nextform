@@ -204,6 +204,10 @@ class RenderCaseGenerator {
         $s3->getProperty('test/text')->getPresentation()->setType('submit');
         $cases['submit'] = [$b3];
 
+        $cases['valid'] = [$b1->copy()->setValid(true)];
+
+        $cases['invalid'] = [$b1->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -266,6 +270,10 @@ class RenderCaseGenerator {
         // Test headings
         $cases = array_merge($cases, self::addLabels($b2));
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -293,6 +301,10 @@ class RenderCaseGenerator {
         $b1->getElement()->addShow('appearance:toggle');
         $cases['toggle'] = $b1;
         $cases = array_merge($cases, self::addLabels($b1, '', '', ['inner']));
+
+        $cases['valid'] = [$b1->copy()->setValid(true)];
+
+        $cases['invalid'] = [$b1->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -325,6 +337,10 @@ class RenderCaseGenerator {
         $cases['toggle-list'] = $b2;
 
         $cases = array_merge($cases, self::addLabels($b2, 'list-', 'list-', ['inner']));
+
+        $cases['valid'] = [$b2->copy()->setValid(true)];
+
+        $cases['invalid'] = [$b2->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -394,6 +410,10 @@ class RenderCaseGenerator {
         $b5->getElement()->addShow('optionwidth:sm-3:md-4');
         $cases['optionwidth'] = [$b5];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -428,6 +448,10 @@ class RenderCaseGenerator {
         //
         // Hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -472,6 +496,10 @@ class RenderCaseGenerator {
         //
         $cases['hide'] = [$b2, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -514,6 +542,10 @@ class RenderCaseGenerator {
         // Convert to hidden access
         $cases['hide'] = [$b2, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -550,7 +582,7 @@ class RenderCaseGenerator {
         $b2->bindSchema($s2);
         $s2->getProperty('test/text')->getPresentation()->setConfirm(true);
         $b2->setLabel('heading', 'Yer email');
-        $b2->setLabel('confirm', 'Confirm yer email');
+        $b2->setLabel('heading', 'Confirm yer email', true);
         $cases['confirm'] = $b2;
 
         // Test view access
@@ -560,6 +592,10 @@ class RenderCaseGenerator {
 
         // Hidden access
         $cases['hide'] = [$b3, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -600,6 +636,10 @@ class RenderCaseGenerator {
 
         // Test hidden access
         $cases['value-hide'] = [$b2, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -646,6 +686,10 @@ class RenderCaseGenerator {
         $b4->getDataProperty()->getPopulation()->sidecar = 'foo';
         $cases['sidecar'] = $b4;
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -664,6 +708,10 @@ class RenderCaseGenerator {
         $binding->setValue('the value');
 
         $cases = self::addLabels($binding);
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -706,6 +754,10 @@ class RenderCaseGenerator {
 
         // Convert to hidden access
         $cases['hide'] = [$b2, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -752,6 +804,10 @@ class RenderCaseGenerator {
         // Test view access
         $cases['view'] = [$b1, ['access' => 'view']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -787,6 +843,10 @@ class RenderCaseGenerator {
 
         // Test hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -827,6 +887,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$b1, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -859,6 +923,10 @@ class RenderCaseGenerator {
 
         // Test hidden access
         $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -895,6 +963,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -929,6 +1001,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['labels-value-hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -951,6 +1027,10 @@ class RenderCaseGenerator {
         $binding->setValue('200');
 
         $cases['basic'] = $binding->copy();
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         // Making the field required should have no effect
         $validation = $binding->getDataProperty()->getValidation();
@@ -1005,6 +1085,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -1016,8 +1100,8 @@ class RenderCaseGenerator {
         );
 
         // Modify the schema to change test/text to a select
-        $presentation = $schema->getProperty('test/textWithList')->getPresentation();
-        $presentation->setType('select');
+        $schema->getProperty('test/textWithList')
+            ->getPresentation()->setType('select');
         $config = json_decode('{"type": "field","object": "test/textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
@@ -1030,6 +1114,11 @@ class RenderCaseGenerator {
         // Same result with explicit write access
         $cases['write'] = $cases['basic'];
 
+        // Set valid/invalid
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         // Test view access
         $cases['view'] = [$binding->copy(), ['access' => 'view']];
 
@@ -1037,36 +1126,46 @@ class RenderCaseGenerator {
         $cases['hide'] = [$binding->copy(), ['access' => 'hide']];
 
         // Now let's give it a value...
-        $binding->setValue('textlist 2');
-        $cases['value'] = $binding->copy();
+        $b1 = $binding->copy();
+        $b1->setValue('textlist 2');
+        $cases['value'] = $b1->copy();
 
         // Test view access
-        $cases['value-view'] = [$binding->copy(), ['access' => 'view']];
+        $cases['value-view'] = [$b1->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['value-hide'] = [$binding->copy(), ['access' => 'hide']];
+        $cases['value-hide'] = [$b1->copy(), ['access' => 'hide']];
 
         // Test the BS custom presentation
-        $b2 = $binding->copy();
+        $b2 = $b1->copy();
         $b2->getElement()->setShow('appearance:custom');
         $cases['value-bs4custom'] = $b2;
 
         // Set multiple and give it two values
-        $validation = $binding->getDataProperty()->getValidation();
+        $validation = $b1->getDataProperty()->getValidation();
         $validation->set('multiple', true);
-        $binding->setValue(['textlist 2', 'textlist 4']);
-        $cases['multivalue'] = $binding->copy();
+        $b1->setValue(['textlist 2', 'textlist 4']);
+        $cases['multivalue'] = $b1->copy();
 
 
         // Test view access
-        $cases['multivalue-view'] = [$binding->copy(), ['access' => 'view']];
+        $cases['multivalue-view'] = [$b1->copy(), ['access' => 'view']];
 
         // Test hidden access
-        $cases['multivalue-hide'] = [$binding->copy(), ['access' => 'hide']];
+        $cases['multivalue-hide'] = [$b1->copy(), ['access' => 'hide']];
 
-        // Set the presentation to six rows
-        $presentation->setRows(6);
-        $cases['sixrow'] = $binding;
+        // Clone the schema and set the presentation to six rows
+        $s2 = $schema->copy();
+        $s2->getProperty('test/textWithList')
+            ->getPresentation()->setRows(6);
+        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $element = new FieldElement();
+        $element->configure($config);
+        $b3 = Binding::fromElement($element);
+        $b3->bindSchema($s2);
+        $b3->getDataProperty()->getValidation()->set('multiple', true);
+        $b3->setValue(['textlist 2', 'textlist 4']);
+        $cases['sixrow'] = $b3;
 
         return self::normalizeCases($cases);
     }
@@ -1092,6 +1191,10 @@ class RenderCaseGenerator {
 
         // Same result with explicit write access
         $cases['write'] = [$binding->copy(), ['access' => 'write']];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         // Test view access
         $cases['view'] = [$binding->copy(), ['access' => 'view']];
@@ -1157,6 +1260,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -1177,6 +1284,10 @@ class RenderCaseGenerator {
         $cases['write'] = [$binding, ['access' => 'write'], 'explicit write access'];
         $cases['view'] = [$binding, ['access' => 'view'], 'explicit view access'];
         $cases['hide'] = [$binding, ['access' => 'hide'], 'explicit hidden access'];
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -1203,11 +1314,15 @@ class RenderCaseGenerator {
         // Test read  access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
     /**
-     * Iterate through labels on a button
+     * Iterate through labels on a text field
      * @return array
      */
 	static public function html_FieldTextLabels() {
@@ -1222,6 +1337,10 @@ class RenderCaseGenerator {
         $binding->bindSchema($schema);
         $binding->setValue('the value');
         $cases = self::addLabels($binding, '', 'Text ');
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         return self::normalizeCases($cases);
     }
@@ -1288,6 +1407,10 @@ class RenderCaseGenerator {
         //
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -1308,6 +1431,10 @@ class RenderCaseGenerator {
 
         // No access specification assumes write access
         $cases['basic'] = $binding->copy();
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         // Set a value
         $binding->setValue('20:10');
@@ -1360,6 +1487,10 @@ class RenderCaseGenerator {
         // Test hidden access
         $cases['hide'] = [$binding, ['access' => 'hide']];
 
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
+
         return self::normalizeCases($cases);
     }
 
@@ -1380,6 +1511,10 @@ class RenderCaseGenerator {
 
         // No access specification assumes write access
         $cases['basic'] = $binding->copy();
+
+        $cases['valid'] = [$binding->copy()->setValid(true)];
+
+        $cases['invalid'] = [$binding->copy()->setValid(false)];
 
         // Set a value
         $binding->setValue('2010-W37');

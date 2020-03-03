@@ -47,6 +47,14 @@ interface RenderInterface
     public function setShow($settings);
 
     /**
+     * Look for a show setting, falling back to the form if required.
+     * @param string $scope The scope to be searched for a value.
+     * @param string $key The index of the value we want.
+     * @return mixed
+     */
+    public function showGet($scope, $key);
+
+    /**
      * Initiate a form.
      * @param array $options Render-specific options.
      */

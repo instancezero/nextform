@@ -16,7 +16,7 @@ class Bootstrap4RenderFrame extends HtmlRenderFrame
         if ($for !== '') {
             $for = ' for="' . $for . '"';
         }
-        $tagClass = trim($moreClass . ' col-sm-2 col-form-label');
+        $tagClass = $this->classBuild('col-sm-2 col-form-label', $moreClass);
         $text = '<' . $tag
             . ($tag == 'label' ? $for : '')
             . ' class="' . $tagClass . '">'
@@ -26,7 +26,7 @@ class Bootstrap4RenderFrame extends HtmlRenderFrame
 
     protected function column2h($text, $moreClass = '')
     {
-        $divClass = trim($moreClass . ' col-sm-10');
+        $divClass = $this->classBuild('col-sm-10', $moreClass);
         $text = '<div class="' . $divClass. '">' . "\n"
             . $text . '</div>' . "\n";
         return $text;
@@ -35,7 +35,7 @@ class Bootstrap4RenderFrame extends HtmlRenderFrame
     protected function formCheck($body, $changeClass = '')
     {
         $changeClass = $changeClass === '' ? 'form-check' : $changeClass;
-        $text = '<div class="' . $changeClass . '">' . "\n"
+        $text = '<div class="' . $this->classBuild($changeClass) . '">' . "\n"
             . $body
             . '</div>' . "\n";
         return $text;

@@ -140,8 +140,8 @@ class FieldBinding extends Binding
             $objectName = $this->getObject() ?: '{null}';
             $elementName = $this->getElement()->getName();
             throw new \RuntimeException(
-                "Attempt to get missing schema information for object"
-                . " $objectName, element $elementName."
+                "Attempt to get missing schema information for schema object"
+                . " $objectName, form element $elementName."
             );
         }
         return $this->dataProperty;

@@ -8,7 +8,8 @@ Namespace Abivia\NextForm\Render;
 class Attributes
 {
     /**
-     * What we need to join elements of some attributes (default is space delimited)
+     * What we need to join elements of some attributes (default
+     * is space delimited)
      * @var array
      */
     static protected $attrJoin = ['style' => ['; ', ":"]];
@@ -41,7 +42,7 @@ class Attributes
             'translate' => true,
         ],
         'button' => ['readonly' => false],
-        'checkbox' => ['checked' => true, 'required' => true, ],
+        'checkbox' => ['checked' => true, 'disabled' => true, 'required' => true, ],
         'color' => [],
         'date' => ['max' => true, 'min' => true, 'pattern' => true, 'step' => true, ],
         'datetime-local' => ['max' => true, 'min' => true, 'required' => true, 'step' => true, ],
@@ -70,7 +71,7 @@ class Attributes
             'maxlength' => true, 'minlength' => true,
             'pattern' => true, 'placeholder' => true, 'required' => true, 'size' => true,
         ],
-        'radio' => ['checked' => true, 'required' => true, ],
+        'radio' => ['checked' => true, 'disabled' => true, 'required' => true, ],
         'range' => ['max' => true, 'min' => true, 'step' => true, ],
         'reset' => [],
         'search' => [
@@ -269,12 +270,15 @@ class Attributes
         if (isset(self::$attrJoin[$attrName])) {
             $glue = self::$attrJoin[$attrName];
             if (isset($glue[1])) {
+                ksort($value);
                 foreach ($value as $key => &$entry) {
                     $entry = $key . $glue[1] . $entry;
                 }
             }
             $result = implode($glue[0], $value);
         } else {
+            $value = array_unique($value);
+            sort($value);
             $result = implode(' ', $value);
         }
         return $result;

@@ -12,22 +12,14 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class Checkbox  {
-    protected $access;
-    protected $binding;
-    protected $element;
-    protected $engine;
-    protected $field;
+abstract class Checkbox extends AbstractFieldElement
+{
 
-    public function __construct(
-        FieldElementRenderBase $field,
-        RenderInterface $engine,
-        FieldBinding $binding
-    ) {
-        $this->field = $field;
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
+    /**
+     * Current access setting.
+     * @var string
+     */
+    protected $access;
 
     /**
      * Get common attributes for the input element.
@@ -37,7 +29,7 @@ abstract class Checkbox  {
      */
     protected function inputAttributes(Labels $labels) : Attributes
     {
-        $attrs = new Attributes();
+        $attrs = parent::inputAttributes($labels);
         $data = $this->binding->getDataProperty();
         $presentation = $data->getPresentation();
         $type = $presentation->getType();

@@ -93,6 +93,12 @@ class Binding
     protected $translator;
 
     /**
+     * Validation status (tri-state: true, false, or null)
+     * @var ?bool
+     */
+    protected $valid;
+
+    /**
      * The current value for the bound element.
      * @var string
      */
@@ -324,6 +330,15 @@ class Binding
     }
 
     /**
+     * Get the current validation state.
+     * @return ?bool
+     */
+    public function getValid() : ?bool
+    {
+        return $this->valid;
+    }
+
+    /**
      * Get the current value for the bound element.
      * @return mixed
      */
@@ -384,15 +399,27 @@ class Binding
     /**
      * Set the value for a label.
      * @param string $labelName Name of the text to be set.
-     * @param string $text
+     * @param string|null $text
+     * @param bool $asConfirm When set, set the "confirm" version.
      */
-    public function setLabel($labelName, $text)
+    public function setLabel($labelName, $text, $asConfirm = false)
     {
         if ($this->labels === null) {
             $this->labels = new Labels();
         }
-        $this->labels->set($labelName, $text);
+        $this->labels->set($labelName, $text, $asConfirm);
         $this->labelsTranslated = $this->labels->translate($this->translator);
+    }
+
+    /**
+     * Set the validation state
+     * @param mixed $state True, false, or null for indeterminate.
+     * @return $this
+     */
+    public function setValid($state)
+    {
+        $this->valid = $state;
+        return $this;
     }
 
     /**

@@ -81,9 +81,7 @@
         },
         {
             "type": "section",
-            "labels": {
-                "heading": "Primary Member"
-            },
+            "labels": "Primary Member",
             "elements": [
                 {
                     "type": "cell",
@@ -138,9 +136,7 @@
         {
             "type": "section",
             "memberOf": "family",
-            "labels": {
-                "heading": "Second Member"
-            },
+            "labels": "Second Member",
             "display": false,
             "elements": [
                 {

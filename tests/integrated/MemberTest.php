@@ -53,6 +53,11 @@ class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
 
     }
 
+    public function showGet($scope, $key)
+    {
+        return null;
+    }
+
     public function start($options = []) : Block {
         $result = new Block();
         $result->body = "Form\n";

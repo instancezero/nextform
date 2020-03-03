@@ -96,6 +96,34 @@ extends Bootstrap4RenderFrame
             '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -150,6 +178,38 @@ extends Bootstrap4RenderFrame
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('Very Important Choice', 'div', '', 'pt-0')
+                . $this->column2h(
+                    '<span class="mr-1">No need to fear</span>'
+                    . $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid" value="3"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                    . '<span>See? No problem!</span>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('Very Important Choice', 'div', '', 'pt-0')
+                . $this->column2h(
+                    '<span class="mr-1">No need to fear</span>'
+                    . $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid" value="3"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                    . '<span>See? No problem!</span>' . "\n"
+                )
+            )
         );
 
         $this->runElementCases($cases, $expect);
@@ -295,6 +355,82 @@ extends Bootstrap4RenderFrame
             . ' value="textlist 3"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid" value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid" value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid" value="textlist 3"'
+                        . ' checked data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid" value="textlist 4"'
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n"
+                    )
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid" value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid" value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid" value="textlist 3"'
+                        . ' checked data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid" value="textlist 4"'
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n"
+                    )
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -399,6 +535,90 @@ extends Bootstrap4RenderFrame
             . ' value="textlist 3"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('Very Important Choice', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    '<div>No need to fear</div>'
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 3"'
+                        . ' checked data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                    )
+                    . '<div>See? No problem!</div>' . "\n"
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('Very Important Choice', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    '<div>No need to fear</div>'
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 3"'
+                        . ' checked data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                    )
+                    . '<div>See? No problem!</div>' . "\n"
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -460,6 +680,28 @@ extends Bootstrap4RenderFrame
             '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->formCheck(
+                    '<input id="field_1" name="field_1" type="radio"'
+                    . ' class="form-check-input is-valid"/>' . "\n"
+                    . '<label for="field_1" class="form-check-label">'
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->formCheck(
+                    '<input id="field_1" name="field_1" type="radio"'
+                    . ' class="form-check-input is-invalid"/>' . "\n"
+                    . '<label for="field_1" class="form-check-label">'
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -514,6 +756,40 @@ extends Bootstrap4RenderFrame
         // Test hidden access
         $expect['labels-value-hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="3"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('Very Important Choice', 'div')
+                . $this->column2(
+                    '<span class="mr-1">No need to fear</span>'
+                    . $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="3"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                    . '<span>See? No problem!</span>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('Very Important Choice', 'div')
+                . $this->column2(
+                    '<span class="mr-1">No need to fear</span>'
+                    . $this->formCheck(
+                        '<input id="field_1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="3"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                    )
+                    . '<span>See? No problem!</span>' . "\n"
+                )
+            )
         );
 
         $this->runElementCases($cases, $expect);
@@ -647,6 +923,82 @@ extends Bootstrap4RenderFrame
             . ' value="textlist 3"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1_opt0" name="field_1" type="radio"'
+                    . ' class="form-check-input is-valid"'
+                    . ' value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0" class="form-check-label">'
+                    . 'textlist 1</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt1" name="field_1" type="radio"'
+                    . ' class="form-check-input is-valid"'
+                    . ' value="textlist 2"'
+                    . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1" class="form-check-label">'
+                    . 'textlist 2</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt2" name="field_1" type="radio"'
+                    . ' class="form-check-input is-valid"'
+                    . ' value="textlist 3" checked'
+                    . ' data-nf-name="tl3"/>' . "\n"
+                    . '<label for="field_1_opt2" class="form-check-label">'
+                    . 'textlist 3</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt3" name="field_1" type="radio"'
+                    . ' class="form-check-input is-valid"'
+                    . ' value="textlist 4"'
+                    . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3" class="form-check-label">'
+                    . 'textlist 4</label>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1_opt0" name="field_1" type="radio"'
+                    . ' class="form-check-input is-invalid"'
+                    . ' value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0" class="form-check-label">'
+                    . 'textlist 1</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt1" name="field_1" type="radio"'
+                    . ' class="form-check-input is-invalid"'
+                    . ' value="textlist 2"'
+                    . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1" class="form-check-label">'
+                    . 'textlist 2</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt2" name="field_1" type="radio"'
+                    . ' class="form-check-input is-invalid"'
+                    . ' value="textlist 3" checked'
+                    . ' data-nf-name="tl3"/>' . "\n"
+                    . '<label for="field_1_opt2" class="form-check-label">'
+                    . 'textlist 3</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt3" name="field_1" type="radio"'
+                    . ' class="form-check-input is-invalid"'
+                    . ' value="textlist 4"'
+                    . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3" class="form-check-label">'
+                    . 'textlist 4</label>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -745,6 +1097,86 @@ extends Bootstrap4RenderFrame
         $expect['labels-value-hide'] = Block::fromString(
             '<input id="field_1_opt2" name="field_1[]" type="hidden"'
             . ' value="textlist 3"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('Very Important Choice', 'div')
+                . $this->column2(
+                    '<div>No need to fear</div>'
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 3" checked'
+                        . ' data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-valid"'
+                        . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                    )
+                    . '<div>See? No problem!</div>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('Very Important Choice', 'div')
+                . $this->column2(
+                    '<div>No need to fear</div>'
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 2"'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 3" checked'
+                        . ' data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input is-invalid"'
+                        . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                    )
+                    . '<div>See? No problem!</div>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
         );
 
         $this->runElementCases($cases, $expect);

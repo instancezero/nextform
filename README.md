@@ -210,15 +210,20 @@ object on the form.
 segments.objects.labels
 ---
 
-Labels have these properties, all of which are optional:
+Labels can be a simple string or an object. If labels is a string, it
+is used as the `heading` property. The object can have these
+properties, all of which are optional:
 
+- `accept` Text to be displayed when a field passes validation.
 - `after` Text that immediately follows the input element. For example, if
 the object is intended to be an amount in whole dollars, this might be '.00'
 to aide the user in entering a whole number.
 - `before` Text that immediately precedes the input element. For example,
 this might be 'https:' to indicate a link, or '@' for a social media handle.
-- `confirm` The heading to be displayed when this is a confirmation field.
-For example 'Confirm password'.
+- `confirm` If this is a string, it is the heading to be displayed when this
+is a confirmation field. For example 'Confirm password'. If it is an object
+then it can have any label property except `confirm`. These strings will
+override the parent strings on a confirmation field.
 - `error` The text to be displayed when a user input fails validation.
 - `heading` A title for the input object.
 - `help` Text to be displayed to assist the user in entering a value.

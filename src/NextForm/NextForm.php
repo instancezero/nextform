@@ -50,10 +50,18 @@ class NextForm
     protected $formBlock = [];
 
     /**
-     * The data we will put into the form, indexed by segment ('' for default)
+     * The data we will put into the form, indexed by segment ('' for default).
+     *
      * @var array
      */
     protected $formData = [];
+
+    /**
+     * Error messages to show on the form, indexed by segment ('' for default).
+     *
+     * @var array
+     */
+    protected $formErrors;
 
     /**
      * Counter used to assign HTML identifiers
@@ -433,6 +441,27 @@ class NextForm
         return $name;
     }
 
+    /**
+     *
+     * @param type $segment
+     * @param type $field
+     * @return string
+     */
+    protected function normalizeField($segment, $field) {
+        if ($segment === '') {
+            if (
+                !isset($this->objectMap[$field])
+                && $this->segmentNameDrop !== null
+            ) {
+                $field = $this->segmentNameDrop
+                    . NextForm::SEGMENT_DELIM . $field;
+            }
+        } else {
+            $field = $segment . NextForm::SEGMENT_DELIM . $field;
+        }
+        return $field;
+    }
+
     protected function options($options)
     {
         return $this;
@@ -452,30 +481,70 @@ class NextForm
     }
 
     /**
+     * Set validation errors for form data.
+     *
+     * @param array $errors Messages indexed by name ([segment/]field).
+     * @param string $segment Optional segment name prefix.
+     * @return $this
+     */
+    public function populateErrors($errors, $segment = '')
+    {
+        $this->errorData[$segment] = $errors;
+        return $this;
+    }
+
+    /**
      * Populate form bindings.
      *
      * @return $this
      */
     protected function populateForms()
     {
+        $this->populateFormData();
+        $this->populateFormValidity($this->formErrors, false);
+    }
+
+    /**
+     * Populate form bindings.
+     *
+     * @return $this
+     */
+    protected function populateFormData()
+    {
         foreach ($this->formData as $segment => $data) {
             foreach ($data as $field => $value) {
-                if ($segment === '') {
-                    if (
-                        !isset($this->objectMap[$field])
-                        && $this->segmentNameDrop !== null
-                    ) {
-                        $field = $this->segmentNameDrop
-                            . NextForm::SEGMENT_DELIM . $field;
-                    }
-                } else {
-                    $field = $segment . NextForm::SEGMENT_DELIM . $field;
-                }
+                $field = $this->normalizeField($segment, $field);
                 if (!isset($this->objectMap[$field])) {
                     continue;
                 }
                 foreach ($this->objectMap[$field] as $binding) {
                     $binding->setValue($value);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Populate form bindings with validation results.
+     *
+     * @return $this
+     */
+    protected function populateFormValidity($list, $valid)
+    {
+        if ($list === null) {
+            return $this;
+        }
+        $label = $valid ? 'accept' : 'error';
+        foreach ($list as $segment => $data) {
+            foreach ($data as $field => $text) {
+                $field = $this->normalizeField($segment, $field);
+                if (!isset($this->objectMap[$field])) {
+                    continue;
+                }
+                foreach ($this->objectMap[$field] as $binding) {
+                    $binding->setLabel($label, $text);
+                    $binding->setValid($valid);
                 }
             }
         }

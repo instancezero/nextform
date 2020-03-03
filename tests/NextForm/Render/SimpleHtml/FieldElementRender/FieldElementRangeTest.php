@@ -99,6 +99,28 @@ extends SimpleHtmlRenderFrame
             . '<br/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="range"'
+                    . ' class="nf-valid" value="200"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="range"'
+                    . ' class="nf-invalid" value="200"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -156,6 +178,22 @@ extends SimpleHtmlRenderFrame
             $this->formGroup(
                 '<input id="field_1" name="field_1" type="text"'
                 . ' value="200" readonly/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="range"'
+                . ' class="nf-valid" value="200"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="range"'
+                . ' class="nf-invalid" value="200"/>' . "\n"
             )
             . '<br/>' . "\n"
         );

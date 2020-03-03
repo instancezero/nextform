@@ -33,7 +33,7 @@ class Textarea extends BaseTextarea {
         if ($labels->has('help')) {
             $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
+            $helpAttrs->itemAppend('class', 'form-text text-muted');
             $input->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
         }
 

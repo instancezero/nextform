@@ -97,6 +97,26 @@ extends Bootstrap4RenderFrame
             . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="file"'
+                    . ' class="form-control-file is-valid"/>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="file"'
+                    . ' class="form-control-file is-invalid"/>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -151,6 +171,20 @@ extends Bootstrap4RenderFrame
         $expect['value-hide'] = Block::fromString(
             '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="file1.png"/>' . "\n"
             . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="file"'
+                . ' class="form-control-file is-valid"/>' . "\n"
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="file"'
+                . ' class="form-control-file is-invalid"/>' . "\n"
+            )
         );
 
         $this->runElementCases($cases, $expect);

@@ -10,21 +10,10 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 
-class FieldElementRenderBase
+class FieldElementRenderBase extends AbstractElementRender
 {
 
     const FIELD_CLASS = 'FieldElementRender';
-    /**
-     *
-     * @var Binding
-     */
-    protected $binding;
-
-    /**
-     *
-     * @var RenderInterface
-     */
-    protected $engine;
 
     static $handlerCache = [];
 
@@ -35,11 +24,6 @@ class FieldElementRenderBase
     static $inputConfirmable = [
         'email', 'number', 'password', 'tel', 'text',
     ];
-
-    public function __construct(RenderInterface $engine, Binding $binding) {
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
 
     /**
      * Render a data list, if there is one.

@@ -12,13 +12,10 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class Select  {
+abstract class Select extends AbstractFieldElement
+{
     protected $access;
-    protected $binding;
     protected $dataProperty;
-    protected $element;
-    protected $engine;
-    protected $field;
     protected $multiple;
     protected $value;
 
@@ -40,7 +37,7 @@ abstract class Select  {
      */
     protected function inputAttributes(Labels $labels) : Attributes
     {
-        $attrs = new Attributes();
+        $attrs = parent::inputAttributes($labels);
         $attrs->set('id', $this->binding->getId());
         $attrs->set('name', $this->binding->getNameOnForm());
 

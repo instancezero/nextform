@@ -12,22 +12,9 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class Textarea  {
+abstract class Textarea extends AbstractFieldElement
+{
     protected $access;
-    protected $binding;
-    protected $element;
-    protected $engine;
-    protected $field;
-
-    public function __construct(
-        FieldElementRenderBase $field,
-        RenderInterface $engine,
-        FieldBinding $binding
-    ) {
-        $this->field = $field;
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
 
     /**
      * Get common attributes for the input element.
@@ -37,7 +24,7 @@ abstract class Textarea  {
      */
     protected function inputAttributes(Labels $labels) : Attributes
     {
-        $attrs = new Attributes();
+        $attrs = parent::inputAttributes($labels);
         $attrs->set('id', $this->binding->getId());
         $attrs->set('name', $this->binding->getNameOnForm());
         $attrs->setFlag(

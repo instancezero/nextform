@@ -71,6 +71,26 @@ extends Bootstrap4RenderFrame
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('')
+                . $this->column2h(
+                    '<textarea id="field_1" name="field_1" class="is-valid">'
+                    . '</textarea>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('')
+                . $this->column2h(
+                    '<textarea id="field_1" name="field_1" class="is-invalid">'
+                    . '</textarea>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -114,6 +134,26 @@ extends Bootstrap4RenderFrame
         // Test hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<textarea id="field_1" name="field_1" class="is-valid">'
+                    . '</textarea>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<textarea id="field_1" name="field_1" class="is-invalid">'
+                    . '</textarea>' . "\n"
+                )
+            )
         );
 
         $this->runElementCases($cases, $expect);

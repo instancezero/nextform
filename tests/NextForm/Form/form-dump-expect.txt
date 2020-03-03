@@ -171,9 +171,10 @@ Abivia\NextForm\Form\Form Object
                     [id:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] => overidden!
@@ -198,9 +199,10 @@ Abivia\NextForm\Form\Form Object
 
                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] => overidden!
@@ -280,9 +282,10 @@ Abivia\NextForm\Form\Form Object
                                     [id:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -298,9 +301,10 @@ Abivia\NextForm\Form\Form Object
 
                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -367,9 +371,10 @@ Abivia\NextForm\Form\Form Object
                                     [id:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -385,9 +390,10 @@ Abivia\NextForm\Form\Form Object
 
                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -454,9 +460,10 @@ Abivia\NextForm\Form\Form Object
                                     [id:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -472,9 +479,10 @@ Abivia\NextForm\Form\Form Object
 
                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -531,9 +539,10 @@ Abivia\NextForm\Form\Form Object
                     [id:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>
@@ -549,9 +558,10 @@ Abivia\NextForm\Form\Form Object
 
                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>
@@ -633,9 +643,10 @@ Abivia\NextForm\Form\Form Object
                                                     [id:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -651,9 +662,10 @@ Abivia\NextForm\Form\Form Object
 
                                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -720,9 +732,10 @@ Abivia\NextForm\Form\Form Object
                                                     [id:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -738,9 +751,10 @@ Abivia\NextForm\Form\Form Object
 
                                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -807,9 +821,10 @@ Abivia\NextForm\Form\Form Object
                                                     [id:protected] =>
                                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -825,9 +840,10 @@ Abivia\NextForm\Form\Form Object
 
                                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                                         (
+                                                            [accept] =>
                                                             [after] =>
                                                             [before] =>
-                                                            [confirm] =>
+                                                            [confirm:protected] =>
                                                             [error] =>
                                                             [heading] =>
                                                             [help] =>
@@ -884,9 +900,10 @@ Abivia\NextForm\Form\Form Object
                                     [id:protected] =>
                                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -902,9 +919,10 @@ Abivia\NextForm\Form\Form Object
 
                                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                                         (
+                                            [accept] =>
                                             [after] =>
                                             [before] =>
-                                            [confirm] =>
+                                            [confirm:protected] =>
                                             [error] =>
                                             [heading] =>
                                             [help] =>
@@ -1014,9 +1032,10 @@ Abivia\NextForm\Form\Form Object
                     [id:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>
@@ -1032,9 +1051,10 @@ Abivia\NextForm\Form\Form Object
 
                     [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>

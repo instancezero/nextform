@@ -98,6 +98,28 @@ extends SimpleHtmlRenderFrame
             '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="week"'
+                    . ' class="nf-valid"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="week"'
+                    . ' class="nf-invalid"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -156,6 +178,22 @@ extends SimpleHtmlRenderFrame
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="2010-W37"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="week"'
+                . ' class="nf-valid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="week"'
+                . ' class="nf-invalid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);

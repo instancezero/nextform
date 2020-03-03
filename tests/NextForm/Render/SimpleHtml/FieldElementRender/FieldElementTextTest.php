@@ -72,6 +72,28 @@ extends SimpleHtmlRenderFrame
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-valid"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-invalid"/>' . "\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -123,6 +145,44 @@ extends SimpleHtmlRenderFrame
         // Test hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-valid" list="field_1_list"/>' . "\n"
+                    . "<datalist id=\"field_1_list\">\n"
+                    . "<option value=\"textlist 1\"/>\n"
+                    . "<option value=\"textlist 2\""
+                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                    . "<option value=\"textlist 3\""
+                    . " data-nf-name=\"tl3\"/>\n"
+                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                    . "</datalist>\n"
+                )
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-invalid" list="field_1_list"/>' . "\n"
+                    . "<datalist id=\"field_1_list\">\n"
+                    . "<option value=\"textlist 1\"/>\n"
+                    . "<option value=\"textlist 2\""
+                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                    . "<option value=\"textlist 3\""
+                    . " data-nf-name=\"tl3\"/>\n"
+                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                    . "</datalist>\n"
+                )
+            )
+            . '<br/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
@@ -218,6 +278,28 @@ extends SimpleHtmlRenderFrame
                     . '<input id="field_1" name="field_1" type="text"'
                     . ' value="the value" placeholder="inner"/>'
                     . '<span>suffix</span>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-valid" value="the value"/>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="text"'
+                    . ' class="nf-invalid" value="the value"/>' . "\n"
                 )
             )
             . "<br/>\n"
@@ -333,6 +415,22 @@ extends SimpleHtmlRenderFrame
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-valid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-invalid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -378,6 +476,38 @@ extends SimpleHtmlRenderFrame
         // Test hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-valid" list="field_1_list"/>' . "\n"
+                . '<datalist id="field_1_list">' . "\n"
+                . '<option value="textlist 1"/>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3"/>' . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                . '</datalist>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-invalid" list="field_1_list"/>' . "\n"
+                . '<datalist id="field_1_list">' . "\n"
+                . '<option value="textlist 1"/>' . "\n"
+                . '<option value="textlist 2"'
+                . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                . '<option value="textlist 3"'
+                . ' data-nf-name="tl3"/>' . "\n"
+                . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                . '</datalist>' . "\n"
+            )
+            . '<br/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);
@@ -458,6 +588,22 @@ extends SimpleHtmlRenderFrame
                 . '<input id="field_1" name="field_1" type="text"'
                 . ' value="the value" placeholder="inner"/>'
                 . '<span>suffix</span>' . "\n"
+            )
+            . "<br/>\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-valid" value="the value"/>' . "\n"
+            )
+            . "<br/>\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-invalid" value="the value"/>' . "\n"
             )
             . "<br/>\n"
         );

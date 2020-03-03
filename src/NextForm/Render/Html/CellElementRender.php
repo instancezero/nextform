@@ -9,24 +9,8 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Block;
 
-class CellElementRender  {
-
-    /**
-     *
-     * @var Binding
-     */
-    protected $binding;
-
-    /**
-     *
-     * @var RenderInterface
-     */
-    protected $engine;
-
-    public function __construct(RenderInterface $engine, Binding $binding) {
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
+class CellElementRender extends AbstractElementRender
+{
 
     /**
      * Write a cell element.

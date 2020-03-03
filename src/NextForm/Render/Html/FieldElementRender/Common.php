@@ -13,24 +13,11 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class Common  {
+abstract class Common extends AbstractFieldElement
+{
     protected $access;
-    protected $binding;
     protected $confirmSuffix;
-    protected $element;
-    protected $engine;
-    protected $field;
     protected $inputType;
-
-    public function __construct(
-        FieldElementRenderBase $field,
-        RenderInterface $engine,
-        FieldBinding $binding
-    ) {
-        $this->field = $field;
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
 
     /**
      * Get common attributes for the input element.
@@ -40,7 +27,7 @@ abstract class Common  {
      */
     protected function inputAttributes(Labels $labels) : Attributes
     {
-        $attrs = new Attributes();
+        $attrs = parent::inputAttributes($labels);
         $attrs->set('id', $this->binding->getId() . $this->confirmSuffix);
         $attrs->set('name', $this->binding->getNameOnForm() . $this->confirmSuffix);
         $attrs->set('type', $this->inputType);
@@ -67,14 +54,6 @@ abstract class Common  {
 
         return $attrs;
     }
-
-    /**
-     * Generate the input element and any wrapping/supporting code.
-     */
-    abstract protected function inputGroup(
-        Labels $labels,
-        Attributes $attrs
-    ) : Block;
 
     /**
      * Render the element.
@@ -123,15 +102,17 @@ abstract class Common  {
         // Get any labels associated with this element
         $labels = $this->binding->getLabels(true);
 
+        // If we're generating a confirmation, use labels with the confirm texts
+        if ($confirm) {
+            $labels = $labels->forConfirm();
+        }
+
         // Get attributes for the input element
         $attrs = $this->inputAttributes($labels);
 
         // Write the heading
-        // If we're generating a confirmation and there's a confirm heading, use that
-        // otherwise just use the usual heading
-        $fieldHeading = $confirm && $labels->confirm != '' ? $labels->confirm : $labels->heading;
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $fieldHeading, 'label',
+            'headingAttributes', $labels->heading, 'label',
             new Attributes('!for', $attrs->get('id')), ['break' => true]
         );
 

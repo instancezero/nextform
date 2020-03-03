@@ -19,6 +19,12 @@ class Labels implements \JsonSerializable
     use JsonEncoderTrait;
 
     /**
+     * Text to display when validation passes.
+     * @var string
+     */
+    public $accept = null;
+
+    /**
      * Text to display after the body of an item.
      * @var string
      */
@@ -31,10 +37,10 @@ class Labels implements \JsonSerializable
     public $before = null;
 
     /**
-     * Heading to use when asking for a confirmation.
-     * @var string
+     * Labels to use when asking for a confirmation.
+     * @var Labels
      */
-    public $confirm = null;
+    protected $confirm = null;
 
     /**
      * Text to display when there is an error.
@@ -66,6 +72,7 @@ class Labels implements \JsonSerializable
      */
     static protected $jsonEncodeMethod = [
         'translate' => ['drop:true'],
+        'accept' => ['drop:null'],
         'after' => ['drop:null'],
         'before' => ['drop:null'],
         'confirm' => ['drop:null'],
@@ -86,7 +93,7 @@ class Labels implements \JsonSerializable
      * @var string[]
      */
     static private $textProperties = [
-        'after', 'before', 'confirm', 'error', 'heading', 'help', 'inner'
+        'accept', 'after', 'before', 'error', 'heading', 'help', 'inner',
     ];
 
     /**
@@ -95,23 +102,84 @@ class Labels implements \JsonSerializable
      */
     public $translate = true;
 
-    protected function configureInitialize()
+    /**
+     * Map a property to a class.
+     * @param string $property The current class property name.
+     * @param mixed $value The value to be stored in the property, made available for inspection.
+     * @return mixed An object containing a class name and key, or false
+     * @codeCoverageIgnore
+     */
+    protected function configureClassMap($property, $value)
+    {
+        static $classMap = [
+            'confirm' => ['className' => self::class],
+        ];
+        if (isset($classMap[$property])) {
+            return (object) $classMap[$property];
+        }
+        return false;
+    }
+
+    protected function configureInitialize(&$config, ...$context)
     {
         if (isset($this->configureOptions['_schema'])) {
             $this->schema = $this->configureOptions['_schema'];
         }
+        if (\is_string($config)) {
+            // Convert to a class with heading
+            $obj = new \stdClass;
+            $obj->heading = $config;
+            $config = $obj;
+        }
+        return true;
+    }
+
+    protected function configureComplete()
+    {
+        if ($this->confirm) {
+            if ($this->confirm->confirm !== null) {
+                $this->configureLogError(
+                    "Label confirm strings can't be nested."
+                );
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
-     * Get a label by name
+     * Get the labels merged for a confirm context.
+     *
+     * @return \Abivia\NextForm\Data\Labels
+     */
+    public function forConfirm() {
+        $newLabels = clone $this;
+        if ($newLabels->confirm !== null) {
+            foreach (self::$textProperties as $prop) {
+                if ($newLabels->confirm->has($prop)) {
+                    $newLabels->$prop = $newLabels->confirm->get($prop);
+                }
+            }
+            $newLabels->confirm = null;
+        }
+        return $newLabels;
+    }
+
+    /**
+     * Get a label by name.
+     *
      * @param string $labelName
-     * @return string
+     * @param bool $asConfirm When set, get the "confirm" version (if any).
+     * @return ?string
      * @throws \RuntimeException
      */
-    public function get($labelName)
+    public function get($labelName, $asConfirm = false)
     {
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
+        }
+        if ($asConfirm && $this->confirm && $this->confirm->$labelName != null) {
+            return $this->confirm->$labelName;
         }
         return $this->$labelName;
     }
@@ -119,13 +187,20 @@ class Labels implements \JsonSerializable
     /**
      * Determine if a label type has been set or not.
      * @param string $labelName
+     * @param bool $asConfirm When set, check the "confirm" version.
      * @return bool
      * @throws \RuntimeException
      */
-    public function has($labelName) : bool
+    public function has($labelName, $asConfirm = false) : bool
     {
         if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
+        }
+        if ($asConfirm) {
+            if (!$this->confirm) {
+                return false;
+            }
+            return $this->confirm->$labelName !== null;
         }
         return $this->$labelName !== null;
     }
@@ -145,6 +220,31 @@ class Labels implements \JsonSerializable
     }
 
     /**
+     * If we can represent this field in JSON as a string, return a string
+     * otherwise $this.
+     */
+    public function jsonCollapse()
+    {
+        if ($this->confirm !== null) {
+            return $this;
+        }
+        $collapsable = true;
+        foreach (self::$textProperties as $prop) {
+            if ($prop === 'heading') {
+                continue;
+            }
+            if ($this->$prop !== null) {
+                $collapsable = false;
+                break;
+            }
+        }
+        if (!$collapsable) {
+            return $this;
+        }
+        return $this->heading;
+    }
+
+    /**
      * Merge another label set into this one and return a new merged object.
      * @param \Abivia\NextForm\Data\Labels $merge
      * @return \Abivia\NextForm\Data\Labels
@@ -158,6 +258,13 @@ class Labels implements \JsonSerializable
                     $newLabels->$prop = $merge->$prop;
                 }
             }
+            if ($newLabels->confirm === null) {
+                $newLabels->confirm = null;
+            } else {
+                $newLabels->confirm = $newLabels->confirm->merge(
+                    $merge->confirm
+                );
+            }
             $newLabels->translate = $newLabels->translate || $merge->translate;
         }
         return $newLabels;
@@ -170,13 +277,20 @@ class Labels implements \JsonSerializable
      * @return $this
      * @throws \RuntimeException
      */
-    public function set($labelName, $text)
+    public function set($labelName, $text, $asConfirm = false)
     {
-        if (in_array($labelName, self::$textProperties)) {
-            $this->$labelName = $text;
-        } else {
+        if (!in_array($labelName, self::$textProperties)) {
             throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
         }
+        if ($asConfirm) {
+            if ($this->confirm === null) {
+                $this->confirm = new Labels();
+            }
+            $this->confirm->set($labelName, $text);
+        } else {
+            $this->$labelName = $text;
+        }
+
         return $this;
     }
 
@@ -199,8 +313,11 @@ class Labels implements \JsonSerializable
         if ($newLabels->translate && $translator !== null) {
             foreach (self::$textProperties as $prop) {
                 if ($newLabels->$prop !== null) {
-                    $newLabels->$prop = $translator->get($this->$prop);
+                    $newLabels->$prop = $translator->get($newLabels->$prop);
                 }
+            }
+            if ($this->confirm) {
+                $newLabels->confirm = $this->confirm->translate($translator);
             }
         }
         $newLabels->translate = false;

@@ -86,7 +86,8 @@ class Checkbox extends BaseCheckbox {
     {
         $this->listAttrs = $this->attrs->copy();
         $baseId = $this->binding->getId();
-        $this->type = $this->binding->getDataProperty()->getPresentation()->getType();
+        $this->type = $this->binding->getDataProperty()->getPresentation()
+            ->getType();
         $this->value = $this->binding->getValue();
         if ($this->value === null) {
             $this->value = $this->binding->getElement()->getDefault();
@@ -98,7 +99,7 @@ class Checkbox extends BaseCheckbox {
             $listClasses[] = 'form-check-inline';
         }
         $this->labelAttrs = new Attributes();
-        $this->labelAttrs->set('class', 'form-check-label');
+        $this->labelAttrs->itemAppend('class', 'form-check-label');
         $block = new Block();
         if ($optionWidth !== '') {
             $spans = $this->engine->showParseSpan($optionWidth);
@@ -117,7 +118,7 @@ class Checkbox extends BaseCheckbox {
                 )
             );
         }
-        $this-> listClass = implode(' ', $listClasses);
+        $this->listClass = $listClasses;
         foreach ($this->binding->getList(true) as $optId => $radio) {
             $block -> merge(
                 $this->checkListItem("{$baseId}_opt{$optId}", $radio)
@@ -153,7 +154,7 @@ class Checkbox extends BaseCheckbox {
                 ['attributes' => new Attributes('class', $this->listClass)]
             )
         );
-        $optAttrs->set('class', 'form-check-input');
+        $optAttrs->itemAppend('class', 'form-check-input');
         if ($this->appearance === 'no-label') {
             $optAttrs->set('aria-label', $radio->getLabel());
         }
@@ -186,11 +187,9 @@ class Checkbox extends BaseCheckbox {
             $this->value = $binding->getElement()->getDefault();
         }
         // We know the appearance is going to be button or toggle
-        //$this->appearance = $this->showGet('check', 'appearance');
-        //$checkLayout = $this->showGet('check', 'layout');
-        $this->labelAttrs = new Attributes();
         $block = new Block();
         foreach ($binding->getList(true) as $optId => $radio) {
+            $this->labelAttrs = new Attributes();
             $optAttrs = $attrs->copy();
             $id = $baseId . '_opt' . $optId;
             $optAttrs->set('id', $id);
@@ -218,7 +217,10 @@ class Checkbox extends BaseCheckbox {
                 $this->engine->setShow($show, 'radio');
             }
             $buttonClass = $this->engine->getButtonClass('radio');
-            $this->labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
+            $this->labelAttrs->itemAppend(
+                'class',
+                $buttonClass . ($checked ? ' active' : '')
+            );
             $block->merge($this->engine->writeElement('label', ['attributes' => $this->labelAttrs]));
             $block->body .= $this->engine->writeTag('input', $optAttrs) . "\n";
             $block->body .= $radio->getLabel();
@@ -252,7 +254,7 @@ class Checkbox extends BaseCheckbox {
                 $baseId . NextForm::HELP_LABEL
             );
         }
-        $attrs->set('class', 'form-check-input');
+        $attrs->itemAppend('class', 'form-check-input');
         if ($this->appearance === 'no-label') {
             $attrs->setIfNotNull('aria-label', $labels->inner);
             $block->merge($this->checkInput($binding, $attrs));
@@ -260,7 +262,7 @@ class Checkbox extends BaseCheckbox {
             $block->merge($this->checkInput($binding, $attrs));
             $this->labelAttrs = new Attributes();
             $this->labelAttrs->set('!for', $baseId);
-            $this->labelAttrs->set('class', 'form-check-label');
+            $this->labelAttrs->itemAppend('class', 'form-check-label');
             $block->body .= $this->engine->writeLabel(
                 'inner', $labels->inner,
                 'label', $this->labelAttrs, ['break' => true]
@@ -296,8 +298,14 @@ class Checkbox extends BaseCheckbox {
         $buttonClass = $this->engine->getButtonClass('radio');
         $checked = $binding->getValue() === $binding->getElement()->getDefault()
             && $binding->getValue() !== null;
-        $this->labelAttrs->set('class', $buttonClass . ($checked ? ' active' : ''));
-        $block->merge($this->engine->writeElement('label', ['attributes' => $this->labelAttrs]));
+        $this->labelAttrs->itemAppend(
+            'class',
+            $buttonClass . ($checked ? ' active' : '')
+        );
+        $block->merge($this->engine->writeElement(
+            'label',
+            ['attributes' => $this->labelAttrs]
+        ));
         $block->body .= $this->engine->writeTag('input', $attrs) . "\n";
         $block->body .= $labels->inner;
         $block->close();
@@ -370,7 +378,7 @@ class Checkbox extends BaseCheckbox {
         $groupAttrs = new Attributes();
         if ($this->appearance === 'toggle') {
             $asButtons = true;
-            $groupAttrs->set('class', 'btn-group btn-group-toggle');
+            $groupAttrs->itemAppend('class', 'btn-group btn-group-toggle');
             $groupAttrs->set('data-toggle', 'buttons');
 
             // For buttons, write before/after labels on the same line
@@ -379,7 +387,7 @@ class Checkbox extends BaseCheckbox {
             $checkLayout = $this->engine->showGet('check', 'layout');
             // Non-buttons can be stacked (default) or inline
             $asButtons = false;
-            $groupAttrs->set(
+            $groupAttrs->itemAppend(
                 'class',
                 'form-check' . ($checkLayout === 'inline' ? ' form-check-inline' : '')
             );
@@ -409,7 +417,7 @@ class Checkbox extends BaseCheckbox {
             );
             $headerElement = 'legend';
             if (!$asButtons && $this->access == 'write') {
-                $headerAttrs->set('class', 'pt-0');
+                $headerAttrs->itemAppend('class', 'pt-0');
             }
         }
 
@@ -455,15 +463,9 @@ class Checkbox extends BaseCheckbox {
 
         $block->merge($input);
 
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $this->attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $block->body .= $this->engine->writeLabel(
-                'help', $labels->help, 'small',
-                $helpAttrs, ['break' => true]
-            );
-        }
+        // Generate supporting messages
+        $block->body .= $this->engine->writeInputSupport($labels, $this->attrs);
+
         $block->close();
         $rowBlock->merge($block);
         $rowBlock->close();
@@ -491,7 +493,7 @@ class Checkbox extends BaseCheckbox {
         $groupAttrs = new Attributes();
         if ($this->appearance === 'toggle') {
             $asButtons = true;
-            $groupAttrs->set('class', 'btn-group btn-group-toggle');
+            $groupAttrs->itemAppend('class', 'btn-group btn-group-toggle');
             $groupAttrs->set('data-toggle', 'buttons');
         } else {
             // Non-buttons can be stacked (default) or inline
@@ -512,7 +514,7 @@ class Checkbox extends BaseCheckbox {
         );
         if ($this->engine->showGet('form', 'layout') !== 'vertical') {
             if (!$asButtons && $this->access == 'write') {
-                $headerAttrs->set('class', 'pt-0');
+                $headerAttrs->itemAppend('class', 'pt-0');
             }
         }
 
@@ -541,16 +543,9 @@ class Checkbox extends BaseCheckbox {
         $input->close();
         $block->merge($input);
 
-        // Write any help text
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $this->attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $block->body .= $this->engine->writeLabel(
-                'help', $labels->help, 'small',
-                $helpAttrs, ['break' => true]
-            );
-        }
+        // Generate supporting messages
+        $block->body .= $this->engine->writeInputSupport($labels, $this->attrs);
+
         $rowBlock->merge($block);
         $rowBlock->close();
 

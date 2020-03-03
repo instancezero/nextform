@@ -23,6 +23,14 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
     static protected $defaultFormGroupClass = '';
     protected $testObj;
 
+    protected function classBuild($base, $moreClass = '')
+    {
+        $list = \array_merge(\explode(' ', $base), \explode(' ', $moreClass));
+        \sort($list);
+
+        return \trim(\implode(' ', $list));
+    }
+
     protected function column1($text, $tag = 'label', $for = 'field_1')
     {
         if ($text === '') {
@@ -53,7 +61,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
             . ' ' . $class
             . ' ' . ($options['classAppend'] ?? '')
         );
-        $attr .= $class ? ' class="' . $class . '"' : '';
+        $attr .= $class ? ' class="' . $this->classBuild($class) . '"' : '';
         $element = $options['element'] ?? 'div';
         $attr .= isset($options['style']) ? ' style="' . $options['style'] . '"' : '';
         $attr .= ' data-nf-for="' . $id . '"';

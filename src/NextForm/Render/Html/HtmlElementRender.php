@@ -9,24 +9,8 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Block;
 
-class HtmlElementRender  {
-
-    /**
-     *
-     * @var Binding
-     */
-    protected $binding;
-
-    /**
-     *
-     * @var RenderInterface
-     */
-    protected $engine;
-
-    public function __construct(RenderInterface $engine, Binding $binding) {
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
+class HtmlElementRender extends AbstractElementRender
+{
 
     /**
      * Write a HTML element.

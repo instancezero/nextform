@@ -44,8 +44,10 @@ class Bootstrap4 extends Html implements RenderInterface
     {
         parent::initialize();
         // Initialize custom settings
+        $this->setShow('valid:is-valid');
         $this->setShow('layout:vertical');
         $this->setShow('purpose:primary');
+        $this->setShow('invalid:is-invalid');
     }
 
     /**
@@ -479,6 +481,8 @@ class Bootstrap4 extends Html implements RenderInterface
      * @return \Abivia\NextForm\Render\Block
      */
     public function start($options = []) : Block {
+        $options['attributes']->setFlag('novalidate');
+        $options['attributes']->itemAppend('class', 'needs-validation');
         $pageData = parent::start($options);
         $pageData->linkedFiles[] = '<link rel="stylesheet"'
             . ' href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"'
@@ -505,6 +509,46 @@ class Bootstrap4 extends Html implements RenderInterface
         $pageData->script .= "var $id = new NextForm($('#$id'), '"
             . NextForm::CONTAINER_LABEL . "');\n";
         return $pageData;
+    }
+
+    public function writeHelpMessage($labels, $attrs)
+    {
+        if ($labels->has('help')) {
+            $helpAttrs = new Attributes();
+            $helpAttrs->set('id', $attrs->get('aria-describedby'));
+            $helpAttrs->itemAppend('class', 'form-text text-muted');
+            $body = $this->writeLabel(
+                'help', $labels->help, 'small',
+                $helpAttrs, ['break' => true]
+            );
+        } else {
+            $body = '';
+        }
+
+        return $body;
+    }
+
+    public function writeInputSupport($labels, $attrs)
+    {
+        $body = $this->writeValidationMessages($labels);
+        $body .= $this->writeHelpMessage($labels, $attrs);
+
+        return $body;
+    }
+
+    public function writeValidationMessages(Labels $labels) {
+        $body = '';
+        foreach (['accept', 'error'] as $property) {
+            $class = ($property === 'error' ? 'in' : '') . 'valid-feedback';
+            if ($labels->has($property)) {
+                $labelAttrs = new Attributes('class', $class);
+                $body .= $this->writeLabel(
+                    $property, $labels->get($property), 'div',
+                    $labelAttrs, ['break' => true]
+                );
+            }
+        }
+        return $body;
     }
 
 }

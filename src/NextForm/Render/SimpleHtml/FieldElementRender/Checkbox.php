@@ -51,6 +51,7 @@ class Checkbox extends BaseCheckbox {
             } else {
                 $optAttrs->setFlag('checked', false);
             }
+
             $block->body .= "<div>\n" . $this->engine->writeTag('input', $optAttrs) . "\n"
                 . $this->engine->writeLabel(
                     '', $radio->getLabel(), 'label',

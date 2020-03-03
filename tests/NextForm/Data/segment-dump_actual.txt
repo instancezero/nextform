@@ -8,9 +8,10 @@ Abivia\NextForm\Data\Segment Object
                     [description:protected] => The first object
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>
@@ -88,9 +89,10 @@ Abivia\NextForm\Data\Segment Object
                     [description:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
+                            [accept] =>
                             [after] =>
                             [before] =>
-                            [confirm] =>
+                            [confirm:protected] =>
                             [error] =>
                             [heading] =>
                             [help] =>

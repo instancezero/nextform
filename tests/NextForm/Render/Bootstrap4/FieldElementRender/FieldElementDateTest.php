@@ -97,6 +97,26 @@ extends Bootstrap4RenderFrame
             '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="date"'
+                    . ' class="form-control is-valid"/>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="date"'
+                    . ' class="form-control is-invalid"/>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -117,7 +137,8 @@ extends Bootstrap4RenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="date" class="form-control"/>' . "\n"
+                '<input id="field_1" name="field_1" type="date"'
+                . ' class="form-control"/>' . "\n"
             )
         );
 
@@ -150,6 +171,20 @@ extends Bootstrap4RenderFrame
         // Convert to hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden" value="2010-10-10"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="date"'
+                . ' class="form-control is-valid"/>' . "\n"
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="date"'
+                . ' class="form-control is-invalid"/>' . "\n"
+            )
         );
 
         $this->runElementCases($cases, $expect);

@@ -274,6 +274,34 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1" name="field_1" type="checkbox"'
+                        . ' class="form-check-input is-valid"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    )
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1" name="field_1" type="checkbox"'
+                        . ' class="form-check-input is-invalid"/>' . "\n"
+                        . '<label for="field_1" class="form-check-label">'
+                        . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                    )
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -372,6 +400,34 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div')
+                . $this->column2h(
+                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    . '<label class="btn btn-primary">' . "\n"
+                    . '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="is-valid"/>' . "\n"
+                    . 'CheckButton!</label>' . "\n"
+                    . '</div>'. "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'div')
+                . $this->column2h(
+                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    . '<label class="btn btn-primary">' . "\n"
+                    . '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="is-invalid"/>' . "\n"
+                    . 'CheckButton!</label>' . "\n"
+                    . '</div>'. "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -390,23 +446,24 @@ extends Bootstrap4RenderFrame
 
         $expect = [];
 
-        $listCommon = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+        $listFlex = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
             . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+            . '<input id="field_1_opt0" name="field_1[]" type="checkbox"{iclass} value="textlist 1"/>' . "\n"
             . 'textlist 1</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-            . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+            . '{iclass} value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
             . 'textlist 2</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-            . ' value="textlist 3" data-nf-name="tl3"/>' . "\n"
+            . '{iclass} value="textlist 3" data-nf-name="tl3"/>' . "\n"
             . 'textlist 3</label>' . "\n"
             . '<label class="btn btn-danger">' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+            . '{iclass} value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
             . 'textlist 4</label>' . "\n"
             . '</div>' . "\n";
+        $listCommon = str_replace('{iclass}', '', $listFlex);
         $listHelp = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
@@ -432,7 +489,7 @@ extends Bootstrap4RenderFrame
         $expect['toggle-list'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . $listCommon
                 . '</div>' . "\n"
@@ -446,7 +503,7 @@ extends Bootstrap4RenderFrame
         $expect['list-label-before'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . '<span class="mr-1">prefix</span>' . $listCommon
                 . '</div>' . "\n"
@@ -458,7 +515,7 @@ extends Bootstrap4RenderFrame
         $expect['list-label-after'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . $listCommon . '<span>suffix</span>' . "\n"
                 . '</div>' . "\n"
@@ -469,7 +526,7 @@ extends Bootstrap4RenderFrame
         $expect['list-label-head'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">Header</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . $listCommon
                 . '</div>' . "\n"
@@ -481,7 +538,7 @@ extends Bootstrap4RenderFrame
         $expect['list-label-help'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">&nbsp;</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . $listHelp
                 . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
@@ -494,10 +551,34 @@ extends Bootstrap4RenderFrame
         $expect['list-label-all'] = Block::fromString(
             $this->formGroup(
                 '<div class="row">' . "\n"
-                . '<legend class="col-sm-2 col-form-label">Header</legend>' . "\n"
+                . '<legend class="col-form-label col-sm-2">Header</legend>' . "\n"
                 . '<div class="col-sm-10">' . "\n"
                 . '<span class="mr-1">prefix</span>' . $listHelp . '<span>suffix</span>' . "\n"
                 . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . str_replace('{iclass}', ' class="is-valid"', $listFlex)
+                . '</div>' . "\n"
+                . '</div>' . "\n",
+                ['element' => 'fieldset', 'class' => 'form-group']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . '<legend class="col-form-label col-sm-2">&nbsp;</legend>' . "\n"
+                . '<div class="col-sm-10">' . "\n"
+                . str_replace('{iclass}', ' class="is-invalid"', $listFlex)
                 . '</div>' . "\n"
                 . '</div>' . "\n",
                 ['element' => 'fieldset', 'class' => 'form-group']
@@ -858,6 +939,80 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-valid" value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-valid" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-valid" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-valid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n"
+                    )
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<div class="row">' . "\n"
+                . $this->column1h('', 'legend', '', 'pt-0')
+                . $this->column2h(
+                    $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-invalid" value="textlist 1"/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-invalid" value="textlist 2"'
+                        . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-invalid" value="textlist 3"'
+                        . ' data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n"
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                        . ' class="form-check-input is-invalid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n"
+                    )
+                )
+                . '</div>'. "\n",
+                ['class' => 'form-group', 'element' => 'fieldset']
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -1076,6 +1231,30 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="form-check-input is-valid"/>' . "\n"
+                    . '<label for="field_1" class="form-check-label">'
+                    . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="form-check-input is-invalid"/>' . "\n"
+                    . '<label for="field_1" class="form-check-label">'
+                    . '&lt;Stand-alone&gt; checkbox</label>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -1176,6 +1355,34 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    . '<label class="btn btn-primary">' . "\n"
+                    . '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="is-valid"/>' . "\n"
+                    . 'CheckButton!</label>' . "\n"
+                    . '</div>'. "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+                    . '<label class="btn btn-primary">' . "\n"
+                    . '<input id="field_1" name="field_1" type="checkbox"'
+                    . ' class="is-invalid"/>' . "\n"
+                    . 'CheckButton!</label>' . "\n"
+                    . '</div>'. "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -1194,23 +1401,25 @@ extends Bootstrap4RenderFrame
 
         $expect = [];
 
-        $listCommon = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
+        $listFlex = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
             . '<label class="btn btn-primary">' . "\n"
-            . '<input id="field_1_opt0" name="field_1[]" type="checkbox" value="textlist 1"/>' . "\n"
+            . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+            . '{iclass} value="textlist 1"/>' . "\n"
             . 'textlist 1</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
-            . ' value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+            . '{iclass} value="textlist 2" data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
             . 'textlist 2</label>' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
-            . ' value="textlist 3" data-nf-name="tl3"/>' . "\n"
+            . '{iclass} value="textlist 3" data-nf-name="tl3"/>' . "\n"
             . 'textlist 3</label>' . "\n"
             . '<label class="btn btn-danger">' . "\n"
             . '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
-            . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+            . '{iclass} value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
             . 'textlist 4</label>' . "\n"
             . '</div>' . "\n";
+        $listCommon = str_replace('{iclass}', '', $listFlex);
         $listHelp = '<div class="btn-group btn-group-toggle" data-toggle="buttons">' . "\n"
             . '<label class="btn btn-primary">' . "\n"
             . '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
@@ -1232,6 +1441,7 @@ extends Bootstrap4RenderFrame
             . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
             . 'textlist 4</label>' . "\n"
             . '</div>' . "\n";
+
         $expect['toggle-list'] = Block::fromString(
             $this->formGroup(
                 $this->column1('', 'div')
@@ -1290,6 +1500,26 @@ extends Bootstrap4RenderFrame
                     . $listHelp
                     . '<span>suffix</span>' . "\n"
                     . '<small id="field_1_formhelp" class="form-text text-muted">Helpful</small>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    str_replace('{iclass}', ' class="is-valid"', $listFlex)
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->column2(
+                    str_replace('{iclass}', ' class="is-invalid"', $listFlex)
                 ),
                 ['element' => 'fieldset']
             )
@@ -1614,6 +1844,72 @@ extends Bootstrap4RenderFrame
                 )
                 . '</div>'. "\n"
                 ,
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-valid" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0" class="form-check-label">'
+                    . 'textlist 1</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-valid" value="textlist 2"'
+                    . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1" class="form-check-label">'
+                    . 'textlist 2</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-valid" value="textlist 3"'
+                    . ' data-nf-name="tl3"/>' . "\n"
+                    . '<label for="field_1_opt2" class="form-check-label">'
+                    . 'textlist 3</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-valid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3" class="form-check-label">'
+                    . 'textlist 4</label>' . "\n"
+                ),
+                ['element' => 'fieldset']
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('', 'div')
+                . $this->formCheck(
+                    '<input id="field_1_opt0" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-invalid" value="textlist 1"/>' . "\n"
+                    . '<label for="field_1_opt0" class="form-check-label">'
+                    . 'textlist 1</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt1" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-invalid" value="textlist 2"'
+                    . ' disabled data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                    . '<label for="field_1_opt1" class="form-check-label">'
+                    . 'textlist 2</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt2" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-invalid" value="textlist 3"'
+                    . ' data-nf-name="tl3"/>' . "\n"
+                    . '<label for="field_1_opt2" class="form-check-label">'
+                    . 'textlist 3</label>' . "\n"
+                )
+                . $this->formCheck(
+                    '<input id="field_1_opt3" name="field_1[]" type="checkbox"'
+                    . ' class="form-check-input is-invalid" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                    . '<label for="field_1_opt3" class="form-check-label">'
+                    . 'textlist 4</label>' . "\n"
+                ),
                 ['element' => 'fieldset']
             )
         );

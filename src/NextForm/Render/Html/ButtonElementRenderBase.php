@@ -11,19 +11,11 @@ use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 
-abstract class ButtonElementRenderBase
+abstract class ButtonElementRenderBase extends AbstractElementRender
 {
     protected $access;
-    protected $binding;
     protected $element;
-    protected $engine;
     protected $inputType;
-
-    public function __construct(RenderInterface $engine, Binding $binding)
-    {
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
 
     protected function inputAttributes(Labels $labels) : Attributes
     {

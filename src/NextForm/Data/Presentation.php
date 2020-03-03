@@ -45,8 +45,6 @@ class Presentation implements \JsonSerializable
         'email', 'file', 'hidden', 'image', 'month', 'number',
         'password', 'radio', 'range', 'reset', 'search', 'select',
         'submit', 'tel', 'text', 'textarea', 'time', 'url', 'week',
-        // Non <input> element types...
-        'select',
     ];
 
     /**

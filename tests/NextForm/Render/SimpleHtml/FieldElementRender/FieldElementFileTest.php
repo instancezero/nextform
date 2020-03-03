@@ -96,6 +96,28 @@ extends SimpleHtmlRenderFrame
             . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="file"'
+                    . ' class="nf-valid"/>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . $this->column2(
+                    '<input id="field_1" name="field_1" type="file"'
+                    . ' class="nf-invalid"/>' . "\n"
+                )
+            )
+            . "<br/>\n"
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -153,6 +175,22 @@ extends SimpleHtmlRenderFrame
         $expect['value-hide'] = Block::fromString(
             '<input id="field_1_opt0" name="field_1[0]" type="hidden" value="file1.png"/>' . "\n"
             . '<input id="field_1_opt1" name="field_1[1]" type="hidden" value="file2.jpg"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="file"'
+                . ' class="nf-valid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="file"'
+                . ' class="nf-invalid"/>' . "\n"
+            )
+            . '<br/>' . "\n"
         );
 
         $this->runElementCases($cases, $expect);

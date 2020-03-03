@@ -9,24 +9,8 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Render\Block;
 
-class SectionElementRender  {
-
-    /**
-     *
-     * @var Binding
-     */
-    protected $binding;
-
-    /**
-     *
-     * @var RenderInterface
-     */
-    protected $engine;
-
-    public function __construct(RenderInterface $engine, Binding $binding) {
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
+class SectionElementRender extends AbstractElementRender
+{
 
     /**
      * Write a section element.

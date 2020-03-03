@@ -12,23 +12,10 @@ use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\Html\FieldElementRenderBase;
 
-abstract class File  {
+abstract class File extends AbstractFieldElement
+{
     protected $access;
-    protected $binding;
-    protected $element;
-    protected $engine;
-    protected $field;
     protected $inputType;
-
-    public function __construct(
-        FieldElementRenderBase $field,
-        RenderInterface $engine,
-        FieldBinding $binding
-    ) {
-        $this->field = $field;
-        $this->engine = $engine;
-        $this->binding = $binding;
-    }
 
     /**
      * Get common attributes for the input element.
@@ -38,7 +25,7 @@ abstract class File  {
      */
     protected function inputAttributes(Labels $labels) : Attributes
     {
-        $attrs = new Attributes();
+        $attrs = parent::inputAttributes($labels);
         $attrs->set('id', $this->binding->getId());
         $attrs->set('name', $this->binding->getNameOnForm());
         $attrs->set('type', $this->inputType);

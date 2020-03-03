@@ -67,6 +67,22 @@ extends SimpleHtmlRenderFrame
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . '<textarea id="field_1" name="field_1"'
+                . ' class="nf-valid"></textarea>' . "\n"
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1('')
+                . '<textarea id="field_1" name="field_1"'
+                . ' class="nf-invalid"></textarea>' . "\n"
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -105,6 +121,22 @@ extends SimpleHtmlRenderFrame
         // Test hidden access
         $expect['hide'] = Block::fromString(
             '<input id="field_1" name="field_1" type="hidden"/>' . "\n"
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<textarea id="field_1" name="field_1"'
+                . ' class="nf-valid"></textarea>' . "\n"
+            )
+
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<textarea id="field_1" name="field_1"'
+                . ' class="nf-invalid"></textarea>' . "\n"
+            )
+
         );
 
         $this->runElementCases($cases, $expect);

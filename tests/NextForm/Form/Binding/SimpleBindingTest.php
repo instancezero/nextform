@@ -61,6 +61,11 @@ class MockRender implements RenderInterface
 
     }
 
+    public function showGet($scope, $key)
+    {
+        return null;
+    }
+
     /**
      * Initiate a form.
      * @param array $options Render-specific options.

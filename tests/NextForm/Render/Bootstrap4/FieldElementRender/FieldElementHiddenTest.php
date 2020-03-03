@@ -54,6 +54,8 @@ extends Bootstrap4RenderFrame
         $expect['label-head'] = $expect['label-none'];
         $expect['label-help'] = $expect['label-none'];
         $expect['label-all'] = $expect['label-none'];
+        $expect['valid'] = $expect['label-none'];
+        $expect['invalid'] = $expect['label-none'];
 
         $this->setMode('h');
         $this->runElementCases($cases, $expect);
@@ -108,6 +110,9 @@ extends Bootstrap4RenderFrame
             . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
         );
 
+        $expect['valid'] = $expect['basic'];
+        $expect['invalid'] = $expect['basic'];
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -156,6 +161,9 @@ extends Bootstrap4RenderFrame
             '<input id="field_1" name="field_1" type="hidden" value="3"'
             . ' data-nf-sidecar="&quot;foo&quot;"/>' . "\n"
         );
+
+        $expect['valid'] = $expect['basic'];
+        $expect['invalid'] = $expect['basic'];
 
         $this->runElementCases($cases, $expect);
     }

@@ -42,13 +42,8 @@ class Textarea extends BaseTextarea {
 
         $input->merge($this->engine->inputGroupPost($labels));
 
-        // Generate help text, if any
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $input->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
-        }
+        // Generate supporting messages
+        $input->body .= $this->engine->writeInputSupport($labels, $attrs);
 
         return $input;
     }

@@ -81,6 +81,9 @@ class Html implements RenderInterface
         'hidden' => [
             'default' => 'nf_hidden',
         ],
+        'invalid' => [
+            'default' => 'nf_isinvalid',
+        ],
         'layout' => [
             'default' => 'vertical',
             'validate' => [
@@ -111,6 +114,9 @@ class Html implements RenderInterface
                     'large' => '/^l/', 'regular' => '/^[mr]/', 'small' => '/^s/'
                 ]
             ],
+        ],
+        'valid' => [
+            'default' => 'nf_isvalid',
         ],
     ];
 
@@ -308,7 +314,9 @@ class Html implements RenderInterface
         // Initialize custom settings
         $this->setShow('cellspacing:3');
         $this->setShow('hidden:nf-hidden');
+        $this->setShow('invalid:nf-invalid');
         $this->setShow('layout:vertical');
+        $this->setShow('valid:nf-valid');
     }
 
     /**
@@ -494,6 +502,36 @@ class Html implements RenderInterface
         }
         // Use the choice as a class name
         $this->showState[$scope]['hidden'] = new Attributes('class', $choice);
+    }
+
+    /**
+     * Process options for invalid, called from show()
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    public function showDoInvalid($scope, $choice, $values = [])
+    {
+        if (!isset($this->showState[$scope])) {
+            $this->showState[$scope] = [];
+        }
+        // Use the choice as a class name
+        $this->showState[$scope]['invalid'] = $choice;
+    }
+
+    /**
+     * Process options for valid, called from show()
+     * @param string $scope Names the settings scope/element this applies to.
+     * @param string $choice Primary option selection
+     * @param array $values Array of colon-delimited settings including the initial keyword.
+     */
+    public function showDoValid($scope, $choice, $values = [])
+    {
+        if (!isset($this->showState[$scope])) {
+            $this->showState[$scope] = [];
+        }
+        // Use the choice as a class name
+        $this->showState[$scope]['valid'] = $choice;
     }
 
     /**

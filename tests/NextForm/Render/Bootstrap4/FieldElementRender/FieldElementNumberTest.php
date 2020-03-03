@@ -104,6 +104,26 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="number"'
+                    . ' class="form-control is-valid" value="200"/>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="number"'
+                    . ' class="form-control is-invalid" value="200"/>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -164,6 +184,20 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="field_1" name="field_1" type="number"'
                 . ' class="form-control" value="200" readonly/>' . "\n"
+            )
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="number"'
+                . ' class="form-control is-valid" value="200"/>' . "\n"
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="number"'
+                . ' class="form-control is-invalid" value="200"/>' . "\n"
             )
         );
 

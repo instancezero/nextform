@@ -74,6 +74,26 @@ extends Bootstrap4RenderFrame
             )
         );
 
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="button"'
+                    . ' class="btn btn-primary is-valid" value="Ok Bob"/>' . "\n"
+                )
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                $this->column1h('', 'label')
+                . $this->column2h(
+                    '<input id="field_1" name="field_1" type="button"'
+                    . ' class="btn btn-primary is-invalid" value="Ok Bob"/>' . "\n"
+                )
+            )
+        );
+
         $this->runElementCases($cases, $expect);
     }
 
@@ -110,6 +130,20 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="field_1" name="field_1" type="submit"'
                 . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
+            )
+        );
+
+        $expect['valid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="button"'
+                . ' class="btn btn-primary is-valid" value="Ok Bob"/>' . "\n"
+            )
+        );
+
+        $expect['invalid'] = Block::fromString(
+            $this->formGroup(
+                '<input id="field_1" name="field_1" type="button"'
+                . ' class="btn btn-primary is-invalid" value="Ok Bob"/>' . "\n"
             )
         );
 

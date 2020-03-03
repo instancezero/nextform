@@ -16,7 +16,7 @@ class ButtonElementRender extends ButtonElementRenderBase {
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = parent::inputAttributes($labels);
-        $attrs->set('class', $this->engine->getButtonClass());
+        $attrs->itemAppend('class', $this->engine->getButtonClass());
         if ($labels->has('help')) {
             $attrs->set('aria-describedby', $attrs->get('id') . '_help');
         }
@@ -42,16 +42,8 @@ class ButtonElementRender extends ButtonElementRenderBase {
             . $this->engine->writeLabel('after', $labels->after, 'span', [])
             . "\n";
 
-        // Generate help text, if any
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $input->body .= $this->engine->writeLabel(
-                'help', $labels->help, 'small',
-                $helpAttrs, ['break' => true]
-            );
-        }
+        // Generate supporting messages
+        $input->body .= $this->engine->writeInputSupport($labels, $attrs);
 
         return $input;
     }

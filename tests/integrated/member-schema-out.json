@@ -12,9 +12,7 @@
                 {
                     "name": "id",
                     "description": "Primary key",
-                    "labels": {
-                        "heading": "Member ID"
-                    },
+                    "labels": "Member ID",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -134,9 +132,7 @@
                 {
                     "name": "primaryLastName",
                     "description": "Last name of the primary member",
-                    "labels": {
-                        "heading": "Legal Last Name"
-                    },
+                    "labels": "Legal Last Name",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -188,9 +184,7 @@
                 {
                     "name": "primaryPhone",
                     "description": "Phone number for the primary member",
-                    "labels": {
-                        "heading": "Tel"
-                    },
+                    "labels": "Tel",
                     "presentation": {
                         "type": "tel",
                         "cols": 1
@@ -255,14 +249,15 @@
                     "store": {
                         "type": "string",
                         "size": 2
+                    },
+                    "validation": {
+                        "required": true
                     }
                 },
                 {
                     "name": "primaryTypeOther",
                     "description": "Member type other detail, primary member",
-                    "labels": {
-                        "heading": "Other Membership Type"
-                    },
+                    "labels": "Other Membership Type",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -274,9 +269,7 @@
                 },
                 {
                     "name": "primaryVisualArtsMedia",
-                    "labels": {
-                        "heading": "Visual Artists Select Media"
-                    },
+                    "labels": "Visual Artists Select Media",
                     "population": {
                         "source": "fixed",
                         "list": [
@@ -302,9 +295,7 @@
                 },
                 {
                     "name": "primaryVisualArtsMediaOther",
-                    "labels": {
-                        "heading": "Other Media"
-                    },
+                    "labels": "Other Media",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -316,9 +307,7 @@
                 },
                 {
                     "name": "primaryVolunteer",
-                    "labels": {
-                        "heading": "Are you be willing to help with SOTH events in your area?"
-                    },
+                    "labels": "Are you be willing to help with SOTH events in your area?",
                     "population": {
                         "source": "fixed",
                         "list": [
@@ -349,9 +338,7 @@
                 {
                     "name": "secondaryLastName",
                     "description": "Last name of the second member",
-                    "labels": {
-                        "heading": "Legal Last Name"
-                    },
+                    "labels": "Legal Last Name",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -383,9 +370,7 @@
                 {
                     "name": "SecondaryEmail",
                     "description": "Email address of the secondary member",
-                    "labels": {
-                        "heading": "Email"
-                    },
+                    "labels": "Email",
                     "presentation": {
                         "confirm": true,
                         "type": "text",
@@ -399,9 +384,7 @@
                 {
                     "name": "secondaryPhone",
                     "description": "Phone number for the secondary member",
-                    "labels": {
-                        "heading": "Tel"
-                    },
+                    "labels": "Tel",
                     "presentation": {
                         "type": "tel",
                         "cols": 1
@@ -438,14 +421,15 @@
                     "store": {
                         "type": "string",
                         "size": 2
+                    },
+                    "validation": {
+                        "required": true
                     }
                 },
                 {
                     "name": "secondaryTypeOther",
                     "description": "Member type other detail, secondary member",
-                    "labels": {
-                        "heading": "Other Membership Type"
-                    },
+                    "labels": "Other Membership Type",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -457,9 +441,7 @@
                 },
                 {
                     "name": "secondaryVisualArtsMedia",
-                    "labels": {
-                        "heading": "Visual Artists Select Media"
-                    },
+                    "labels": "Visual Artists Select Media",
                     "population": {
                         "source": "fixed",
                         "list": [
@@ -485,9 +467,7 @@
                 },
                 {
                     "name": "secondaryVisualArtsMediaOther",
-                    "labels": {
-                        "heading": "Other Media"
-                    },
+                    "labels": "Other Media",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -499,9 +479,7 @@
                 },
                 {
                     "name": "secondaryVolunteer",
-                    "labels": {
-                        "heading": "Are you be willing to help with SOTH events in your area?"
-                    },
+                    "labels": "Are you be willing to help with SOTH events in your area?",
                     "population": {
                         "source": "fixed",
                         "list": [
@@ -513,9 +491,7 @@
                 {
                     "name": "businessName",
                     "description": "Name for business memberships",
-                    "labels": {
-                        "heading": "Business\/Association Name"
-                    },
+                    "labels": "Business\/Association Name",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -527,9 +503,7 @@
                 },
                 {
                     "name": "address1",
-                    "labels": {
-                        "heading": "Street Address"
-                    },
+                    "labels": "Street Address",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -544,9 +518,7 @@
                 },
                 {
                     "name": "address2",
-                    "labels": {
-                        "heading": "Street Address Line 2"
-                    },
+                    "labels": "Street Address Line 2",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -558,9 +530,7 @@
                 },
                 {
                     "name": "city",
-                    "labels": {
-                        "heading": "City"
-                    },
+                    "labels": "City",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -575,9 +545,7 @@
                 },
                 {
                     "name": "province",
-                    "labels": {
-                        "heading": "Province"
-                    },
+                    "labels": "Province",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -592,9 +560,7 @@
                 },
                 {
                     "name": "postal",
-                    "labels": {
-                        "heading": "Postal Code"
-                    },
+                    "labels": "Postal Code",
                     "presentation": {
                         "type": "text",
                         "cols": 1
@@ -611,9 +577,7 @@
                 {
                     "name": "membershipFee",
                     "description": "Fee for annual membership",
-                    "labels": {
-                        "heading": "Annual fee"
-                    },
+                    "labels": "Annual fee",
                     "presentation": {
                         "type": "number",
                         "cols": 1
@@ -630,9 +594,7 @@
             "objects": [
                 {
                     "name": "feeSelect",
-                    "labels": {
-                        "heading": "Enter Desired Contribution"
-                    },
+                    "labels": "Enter Desired Contribution",
                     "presentation": {
                         "type": "number",
                         "cols": 1

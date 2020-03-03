@@ -24,9 +24,9 @@ class Select extends BaseSelect {
 
         if ($this->access === 'write') {
             if ($this->engine->showGet('select', 'appearance') === 'custom') {
-                $attrs->set('class', 'custom-select');
+                $attrs->itemAppend('class', 'custom-select');
             } else {
-                $attrs->set('class', 'form-control');
+                $attrs->itemAppend('class', 'form-control');
             }
         }
 
@@ -63,13 +63,9 @@ class Select extends BaseSelect {
         }
 
         $select->merge($this->engine->inputGroupPost($labels));
-        // Generate help text, if any
-        if ($labels->has('help')) {
-            $helpAttrs = new Attributes();
-            $helpAttrs->set('id', $attrs->get('aria-describedby'));
-            $helpAttrs->set('class', 'form-text text-muted');
-            $select->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
-        }
+
+        // Generate supporting messages
+        $select->body .= $this->engine->writeInputSupport($labels, $attrs);
 
         return $select;
     }

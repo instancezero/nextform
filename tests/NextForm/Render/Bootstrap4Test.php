@@ -56,13 +56,20 @@ class FormRenderBootstrap4Test extends Bootstrap4RenderFrame {
 
         NextForm::setCsrfGenerator([$this, 'emptyToken']);
         $data = $this->testObj->start(['attributes' => $attrs]);
-        $this->assertEquals("<form id=\"form_1\" name=\"form_1\" method=\"post\">\n", $data->body);
+        $this->assertEquals(
+            '<form id="form_1" name="form_1" class="needs-validation"'
+            . ' method="post" novalidate>'
+            . "\n",
+            $data->body
+        );
         $this->assertEquals("</form>\n", $data->post);
 
         NextForm::setCsrfGenerator([$this, 'fooToken']);
         $data = $this->testObj->start(['attributes' => $attrs]);
         $this->assertEquals(
-            "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
+            '<form id="form_1" name="form_1" class="needs-validation"'
+            . ' method="post" novalidate>'
+            . "\n"
             . '<input id="_nf_token" name="_nf_token" type="hidden" value="foo">' . "\n",
             $data->body
         );
@@ -70,7 +77,9 @@ class FormRenderBootstrap4Test extends Bootstrap4RenderFrame {
         NextForm::setCsrfGenerator([$this, 'georgeToken']);
         $data = $this->testObj->start(['attributes' => $attrs]);
         $this->assertEquals(
-            "<form id=\"form_1\" name=\"form_1\" method=\"post\">\n"
+            '<form id="form_1" name="form_1" class="needs-validation"'
+            . ' method="post" novalidate>'
+            . "\n"
             . '<input id="george" name="george" type="hidden" value="foo">' . "\n",
             $data->body
         );
@@ -78,7 +87,9 @@ class FormRenderBootstrap4Test extends Bootstrap4RenderFrame {
         NextForm::setCsrfGenerator([$this, 'emptyToken']);
         $data = $this->testObj->start(['attributes' => $attrs, 'method' => 'put']);
         $this->assertEquals(
-            "<form id=\"form_1\" name=\"form_1\" method=\"put\">\n",
+            '<form id="form_1" name="form_1" class="needs-validation"'
+            . ' method="put" novalidate>'
+            . "\n",
             $data->body
         );
 
@@ -86,15 +97,20 @@ class FormRenderBootstrap4Test extends Bootstrap4RenderFrame {
             ['action' => 'https://localhost/some file.php', 'attributes' => $attrs]
         );
         $this->assertEquals(
-            "<form id=\"form_1\" name=\"form_1\""
+            "<form id=\"form_1\" name=\"form_1\" class=\"needs-validation\""
             . " action=\"https://localhost/some file.php\""
-            . " method=\"post\">\n",
+            . " method=\"post\" novalidate>\n",
             $data->body
         );
 
         $attrs->set('name', 'bad<name');
         $data = $this->testObj->start(['attributes' => $attrs]);
-        $this->assertEquals("<form id=\"form_1\" name=\"bad&lt;name\" action=\"https://localhost/some file.php\" method=\"post\">\n", $data->body);
+        $this->assertEquals(
+            "<form id=\"form_1\" name=\"bad&lt;name\" class=\"needs-validation\""
+            . " action=\"https://localhost/some file.php\""
+            . " method=\"post\" novalidate>\n",
+            $data->body
+        );
 
     }
 
@@ -103,7 +119,7 @@ class FormRenderBootstrap4Test extends Bootstrap4RenderFrame {
         $cases = RenderCaseGenerator::html_Cell();
 
         $expect['basic'] = Block::fromString(
-            '<div class="form-row col-sm-10">' . "\n",
+            '<div class="col-sm-10 form-row">' . "\n",
             '</div>' . "\n"
         );
 

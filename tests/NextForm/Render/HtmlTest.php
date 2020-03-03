@@ -173,8 +173,7 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
     public function testShowBad()
     {
         $this->expectException('\RuntimeException');
-        $this->testObj->show('form', 'invalid', ['irrelevant']);
-
+        $this->testObj->show('form', '$not$defined$', ['irrelevant']);
     }
 
     public function testShowDefault()
@@ -209,7 +208,9 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('secondary', $this->testObj->showGet('unset', 'purpose'));
 
         // Check undefined scope
-        $this->assertEquals(null, $this->testObj->showGet('unset', 'invalid'));
+        $this->assertEquals(
+            null, $this->testObj->showGet('unset', '$not$defined$')
+        );
 
     }
 
