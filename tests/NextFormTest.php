@@ -4,6 +4,9 @@ use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Form\Form;
 
+/**
+ * @covers Abivia\NextForm\NextForm
+ */
 class NextFormTest extends \PHPUnit\Framework\TestCase {
 
     public function testInstantiation() {

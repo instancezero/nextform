@@ -4,6 +4,7 @@ namespace Abivia\NextForm;
 
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Contracts\AccessInterface;
+use Abivia\NextForm\Contracts\RenderableFormInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -16,7 +17,7 @@ use Illuminate\Contracts\Translation\Translator as Translator;
  * A Bound Form is a renderable connection between a schema definition,
  * a form definition, and the data to be placed on the form.
  */
-class BoundForm
+class BoundForm implements RenderableFormInterface
 {
     /**
      * A list of all bindings in the form.
@@ -205,12 +206,13 @@ class BoundForm
      *
      * @return string
      */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    public function getBlock() {
+    public function getBlock() : Block
+    {
         return $this->formBlock;
     }
 
