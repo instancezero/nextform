@@ -58,7 +58,7 @@ class FieldBinding extends Binding
         $this->dataProperty->linkBinding($this);
 
         // Get default labels from the schemas, if any.
-        $labels = $schema->getDefault($segmentName, 'labels');
+        $labels = $schema->getDefault('labels');
 
         // Merge or get the labels from the property.
         if ($labels) {
@@ -67,8 +67,8 @@ class FieldBinding extends Binding
             $labels = $this->dataProperty->getLabels();
         }
 
-        // Merge in any overrides from the element.
-        $this->labels = $labels->merge($this->element->getLabels());
+        // Merge with overrides from the element.
+        $this->labels = $this->element->getLabels()->merge($labels);
         $this->labelsTranslated = $this->labels;
 
         // Make a copy of the data list so we can translate labels

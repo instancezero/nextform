@@ -93,6 +93,7 @@
                     ]
                 },
                 "primaryEmail",
+                "primaryPhone",
                 "primaryPublicName",
                 {
                     "type": "field",

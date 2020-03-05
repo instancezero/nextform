@@ -184,7 +184,10 @@
                 {
                     "name": "primaryPhone",
                     "description": "Phone number for the primary member",
-                    "labels": "Tel",
+                    "labels": {
+                        "error": "A telephone number is required.",
+                        "heading": "Phone Number"
+                    },
                     "presentation": {
                         "type": "tel",
                         "cols": 1

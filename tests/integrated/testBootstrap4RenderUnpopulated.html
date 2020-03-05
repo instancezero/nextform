@@ -43,7 +43,7 @@
 <input id="field_2_opt6" name="members_membershipLevel" type="radio" class="form-check-input" value="SPO" data-nf-sidecar="{&quot;fee&quot;:{&quot;default&quot;:500,&quot;minValue&quot;:300,&quot;maxValue&quot;:99999}}"/>
 <label for="field_2_opt6" class="form-check-label">Sponsor $300+ (tslt)</label>
 </div>
-<div class="invalid-feedback">Invalid value (tslt)</div>
+<div class="invalid-feedback">Please select from one of the available options. (tslt)</div>
 </fieldset>
 <fieldset id="section_3_container" class="col-sm-12 form-group" data-nf-for="section_3">
 <legend>Primary Member (tslt)</legend>
@@ -67,229 +67,234 @@
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
 <div id="field_6_confirm_container" class="col-sm-12 form-group" data-nf-for="field_6_confirm">
-<label for="field_6_confirm">Repeat email (tslt)</label>
+<label for="field_6_confirm">Email (tslt)</label>
 <input id="field_6_confirm" name="members_primaryEmail_confirm" type="email" class="form-control" required data-nf-req="1"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
 <div id="field_7_container" class="col-sm-12 form-group" data-nf-for="field_7">
-<label for="field_7">Artist Name (tslt)</label>
-<input id="field_7" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field_7_help"/>
+<label for="field_7">Phone Number (tslt)</label>
+<input id="field_7" name="members_primaryPhone" type="tel" class="form-control" required data-nf-req="1"/>
+<div class="invalid-feedback">A telephone number is required. (tslt)</div>
+</div>
+<div id="field_8_container" class="col-sm-12 form-group" data-nf-for="field_8">
+<label for="field_8">Artist Name (tslt)</label>
+<input id="field_8" name="members_primaryPublicName" type="text" class="form-control" aria-describedby="field_8_help"/>
 <span class="w-100"></span>
 <div class="invalid-feedback">Invalid value (tslt)</div>
-<small id="field_7_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
+<small id="field_8_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
 </div>
-<fieldset id="field_8_container" class="col-sm-12 form-group" data-nf-for="field_8">
+<fieldset id="field_9_container" class="col-sm-12 form-group" data-nf-for="field_9">
 <div>Membership Type (tslt)</div>
 <div class="form-check">
-<input id="field_8_opt0" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AC" data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
+<input id="field_9_opt0" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AC" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_9_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt1" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="PF" data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt1" class="form-check-label">Performer (tslt)</label>
+<input id="field_9_opt1" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="PF" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_9_opt1" class="form-check-label">Performer (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt2" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="VA" data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt2" class="form-check-label">Visual Arts (tslt)</label>
+<input id="field_9_opt2" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="VA" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_9_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AS" data-nf-group="[&quot;person-enable&quot;]"/>
-<label for="field_8_opt3" class="form-check-label">Arts Supporter (tslt)</label>
+<input id="field_9_opt3" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="AS" data-nf-group="[&quot;person-enable&quot;]"/>
+<label for="field_9_opt3" class="form-check-label">Arts Supporter (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
-<label for="field_8_opt4" class="form-check-label">Business (tslt)</label>
+<input id="field_9_opt4" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="BU" disabled data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_9_opt4" class="form-check-label">Business (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt5" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
-<label for="field_8_opt5" class="form-check-label">Fellow Association (tslt)</label>
+<input id="field_9_opt5" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="FA" disabled data-nf-group="[&quot;business-enable&quot;]"/>
+<label for="field_9_opt5" class="form-check-label">Fellow Association (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_8_opt6" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
-<label for="field_8_opt6" class="form-check-label">Other (tslt)</label>
+<input id="field_9_opt6" name="members_primaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_9_opt6" class="form-check-label">Other (tslt)</label>
 </div>
-<div class="invalid-feedback">Invalid value (tslt)</div>
+<div class="invalid-feedback">Please select from the available options. (tslt)</div>
 </fieldset>
-<div id="field_9_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_9" data-nf-group="[&quot;firstXX&quot;]">
-<label for="field_9">Other Membership Type (tslt)</label>
-<input id="field_9" name="members_primaryTypeOther" type="text" class="form-control"/>
+<div id="field_10_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_10" data-nf-group="[&quot;firstXX&quot;]">
+<label for="field_10">Other Membership Type (tslt)</label>
+<input id="field_10" name="members_primaryTypeOther" type="text" class="form-control"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
-<fieldset id="field_10_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_10" data-nf-group="[&quot;firstVA&quot;]">
+<fieldset id="field_11_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_11" data-nf-group="[&quot;firstVA&quot;]">
 <div>Visual Artists Select Media (tslt)</div>
 <div class="row ml-0">
 <div class="col-3 form-check">
-<input id="field_10_opt0" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
-<label for="field_10_opt0" class="form-check-label">Acrylics (tslt)</label>
+<input id="field_11_opt0" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
+<label for="field_11_opt0" class="form-check-label">Acrylics (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt1" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
-<label for="field_10_opt1" class="form-check-label">Fibre Art (tslt)</label>
+<input id="field_11_opt1" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
+<label for="field_11_opt1" class="form-check-label">Fibre Art (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt2" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
-<label for="field_10_opt2" class="form-check-label">Glass (tslt)</label>
+<input id="field_11_opt2" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
+<label for="field_11_opt2" class="form-check-label">Glass (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt3" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
-<label for="field_10_opt3" class="form-check-label">Mixed Media (tslt)</label>
+<input id="field_11_opt3" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
+<label for="field_11_opt3" class="form-check-label">Mixed Media (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt4" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
-<label for="field_10_opt4" class="form-check-label">Oils (tslt)</label>
+<input id="field_11_opt4" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
+<label for="field_11_opt4" class="form-check-label">Oils (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt5" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
-<label for="field_10_opt5" class="form-check-label">Photography (tslt)</label>
+<input id="field_11_opt5" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
+<label for="field_11_opt5" class="form-check-label">Photography (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt6" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
-<label for="field_10_opt6" class="form-check-label">Pottery (tslt)</label>
+<input id="field_11_opt6" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
+<label for="field_11_opt6" class="form-check-label">Pottery (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt7" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
-<label for="field_10_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
+<input id="field_11_opt7" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
+<label for="field_11_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt8" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
-<label for="field_10_opt8" class="form-check-label">Watercolours (tslt)</label>
+<input id="field_11_opt8" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
+<label for="field_11_opt8" class="form-check-label">Watercolours (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_10_opt9" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
-<label for="field_10_opt9" class="form-check-label">Other (tslt)</label>
+<input id="field_11_opt9" name="members_primaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
+<label for="field_11_opt9" class="form-check-label">Other (tslt)</label>
 </div>
 </div>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </fieldset>
-<div id="field_11_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_11" data-nf-group="[&quot;firstVA&quot;]">
-<label for="field_11">Other Media (tslt)</label>
-<input id="field_11" name="members_primaryVisualArtsMediaOther" type="text" class="form-control"/>
+<div id="field_12_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_12" data-nf-group="[&quot;firstVA&quot;]">
+<label for="field_12">Other Media (tslt)</label>
+<input id="field_12" name="members_primaryVisualArtsMediaOther" type="text" class="form-control"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
 </fieldset>
-<fieldset id="section_12_container" class="col-sm-12 form-group nf-hidden" data-nf-for="section_12" data-nf-group="[&quot;family&quot;]">
+<fieldset id="section_13_container" class="col-sm-12 form-group nf-hidden" data-nf-for="section_13" data-nf-group="[&quot;family&quot;]">
 <legend>Second Member (tslt)</legend>
 <div class="col-sm-12 form-row">
-<div id="field_13_container" class="form-group" data-nf-for="field_13">
-<label for="field_13">Legal First Name (tslt)</label>
-<input id="field_13" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_13_help" data-nf-req="1"/>
+<div id="field_14_container" class="form-group" data-nf-for="field_14">
+<label for="field_14">Legal First Name (tslt)</label>
+<input id="field_14" name="members_secondaryFirstName" type="text" class="form-control" required aria-describedby="field_14_help" data-nf-req="1"/>
 <span class="w-100"></span>
 <div class="invalid-feedback">Invalid value (tslt)</div>
-<small id="field_13_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
+<small id="field_14_help" class="form-text text-muted">If you use a public pseudonym, enter it under &quot;Artist Name&quot;. (tslt)</small>
 </div>
-<div id="field_14_container" class="form-group ml-3" data-nf-for="field_14">
-<label for="field_14">Legal Last Name (tslt)</label>
-<input id="field_14" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
+<div id="field_15_container" class="form-group ml-3" data-nf-for="field_15">
+<label for="field_15">Legal Last Name (tslt)</label>
+<input id="field_15" name="members_secondaryLastName" type="text" class="form-control" required data-nf-req="1"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
 </div>
-<div id="field_15_container" class="col-sm-12 form-group" data-nf-for="field_15">
-<label for="field_15">Artist Name (tslt)</label>
-<input id="field_15" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_15_help"/>
+<div id="field_16_container" class="col-sm-12 form-group" data-nf-for="field_16">
+<label for="field_16">Artist Name (tslt)</label>
+<input id="field_16" name="members_secondaryPublicName" type="text" class="form-control" aria-describedby="field_16_help"/>
 <span class="w-100"></span>
 <div class="invalid-feedback">Invalid value (tslt)</div>
-<small id="field_15_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
+<small id="field_16_help" class="form-text text-muted">Leave blank if your artist name is the same as your legal name. (tslt)</small>
 </div>
-<fieldset id="field_16_container" class="col-sm-12 form-group" data-nf-for="field_16">
+<fieldset id="field_17_container" class="col-sm-12 form-group" data-nf-for="field_17">
 <div>Membership Type (tslt)</div>
 <div class="form-check">
-<input id="field_16_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
-<label for="field_16_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
+<input id="field_17_opt0" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AC"/>
+<label for="field_17_opt0" class="form-check-label">Artisan/Craftsperson (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_16_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
-<label for="field_16_opt1" class="form-check-label">Performer (tslt)</label>
+<input id="field_17_opt1" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="PF"/>
+<label for="field_17_opt1" class="form-check-label">Performer (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_16_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
-<label for="field_16_opt2" class="form-check-label">Visual Arts (tslt)</label>
+<input id="field_17_opt2" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="VA"/>
+<label for="field_17_opt2" class="form-check-label">Visual Arts (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_16_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AS"/>
-<label for="field_16_opt3" class="form-check-label">Arts Supporter (tslt)</label>
+<input id="field_17_opt3" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="AS"/>
+<label for="field_17_opt3" class="form-check-label">Arts Supporter (tslt)</label>
 </div>
 <div class="form-check">
-<input id="field_16_opt4" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
-<label for="field_16_opt4" class="form-check-label">Other (tslt)</label>
+<input id="field_17_opt4" name="members_secondaryMemberType[]" type="checkbox" class="form-check-input" value="XX"/>
+<label for="field_17_opt4" class="form-check-label">Other (tslt)</label>
 </div>
-<div class="invalid-feedback">Invalid value (tslt)</div>
+<div class="invalid-feedback">Please select from the available options. (tslt)</div>
 </fieldset>
-<div id="field_17_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_17" data-nf-group="[&quot;secondXX&quot;]">
-<label for="field_17">Other Membership Type (tslt)</label>
-<input id="field_17" name="members_secondaryTypeOther" type="text" class="form-control"/>
+<div id="field_18_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_18" data-nf-group="[&quot;secondXX&quot;]">
+<label for="field_18">Other Membership Type (tslt)</label>
+<input id="field_18" name="members_secondaryTypeOther" type="text" class="form-control"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
-<fieldset id="field_18_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_18" data-nf-group="[&quot;secondVA&quot;]">
+<fieldset id="field_19_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_19" data-nf-group="[&quot;secondVA&quot;]">
 <div>Visual Artists Select Media (tslt)</div>
 <div class="row ml-0">
 <div class="col-3 form-check">
-<input id="field_18_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
-<label for="field_18_opt0" class="form-check-label">Acrylics (tslt)</label>
+<input id="field_19_opt0" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="ACR"/>
+<label for="field_19_opt0" class="form-check-label">Acrylics (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
-<label for="field_18_opt1" class="form-check-label">Fibre Art (tslt)</label>
+<input id="field_19_opt1" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="FBR"/>
+<label for="field_19_opt1" class="form-check-label">Fibre Art (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
-<label for="field_18_opt2" class="form-check-label">Glass (tslt)</label>
+<input id="field_19_opt2" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="GLS"/>
+<label for="field_19_opt2" class="form-check-label">Glass (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
-<label for="field_18_opt3" class="form-check-label">Mixed Media (tslt)</label>
+<input id="field_19_opt3" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="MIX"/>
+<label for="field_19_opt3" class="form-check-label">Mixed Media (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
-<label for="field_18_opt4" class="form-check-label">Oils (tslt)</label>
+<input id="field_19_opt4" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="OIL"/>
+<label for="field_19_opt4" class="form-check-label">Oils (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
-<label for="field_18_opt5" class="form-check-label">Photography (tslt)</label>
+<input id="field_19_opt5" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="PHO"/>
+<label for="field_19_opt5" class="form-check-label">Photography (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
-<label for="field_18_opt6" class="form-check-label">Pottery (tslt)</label>
+<input id="field_19_opt6" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="POT"/>
+<label for="field_19_opt6" class="form-check-label">Pottery (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
-<label for="field_18_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
+<input id="field_19_opt7" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="SCU"/>
+<label for="field_19_opt7" class="form-check-label">Sculpture / 3D (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
-<label for="field_18_opt8" class="form-check-label">Watercolours (tslt)</label>
+<input id="field_19_opt8" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="WAT"/>
+<label for="field_19_opt8" class="form-check-label">Watercolours (tslt)</label>
 </div>
 <div class="col-3 form-check">
-<input id="field_18_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
-<label for="field_18_opt9" class="form-check-label">Other (tslt)</label>
+<input id="field_19_opt9" name="members_secondaryVisualArtsMedia[]" type="checkbox" class="form-check-input" value="XXX"/>
+<label for="field_19_opt9" class="form-check-label">Other (tslt)</label>
 </div>
 </div>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </fieldset>
-<div id="field_19_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_19" data-nf-group="[&quot;secondVA&quot;]">
-<label for="field_19">Other Media (tslt)</label>
-<input id="field_19" name="members_secondaryVisualArtsMediaOther" type="text" class="form-control"/>
+<div id="field_20_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_20" data-nf-group="[&quot;secondVA&quot;]">
+<label for="field_20">Other Media (tslt)</label>
+<input id="field_20" name="members_secondaryVisualArtsMediaOther" type="text" class="form-control"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
 </fieldset>
-<div id="field_20_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_20" data-nf-group="[&quot;business&quot;]">
-<label for="field_20">Business/Association Name (tslt)</label>
-<input id="field_20" name="members_businessName" type="text" class="form-control"/>
+<div id="field_21_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_21" data-nf-group="[&quot;business&quot;]">
+<label for="field_21">Business/Association Name (tslt)</label>
+<input id="field_21" name="members_businessName" type="text" class="form-control"/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
-<div id="field_21_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_21">
-<label for="field_21">Enter Desired Contribution (tslt)</label>
-<input id="field_21" name="scratch_feeSelect" type="number" class="form-control" aria-describedby="field_21_help"/>
+<div id="field_22_container" class="col-sm-12 form-group nf-hidden" data-nf-for="field_22">
+<label for="field_22">Enter Desired Contribution (tslt)</label>
+<input id="field_22" name="scratch_feeSelect" type="number" class="form-control" aria-describedby="field_22_help"/>
 <span class="w-100"></span>
 <div class="invalid-feedback">Invalid value (tslt)</div>
-<small id="field_21_help" class="form-text text-muted">. (tslt)</small>
+<small id="field_22_help" class="form-text text-muted">. (tslt)</small>
 </div>
-<div id="field_22_container" class="col-sm-12 form-group" data-nf-for="field_22">
-<label for="field_22">Annual fee (tslt)</label>
-<input id="field_22" name="members_membershipFee" type="number" class="form-control" value="30" disabled/>
+<div id="field_23_container" class="col-sm-12 form-group" data-nf-for="field_23">
+<label for="field_23">Annual fee (tslt)</label>
+<input id="field_23" name="members_membershipFee" type="number" class="form-control" value="30" disabled/>
 <div class="invalid-feedback">Invalid value (tslt)</div>
 </div>
-<div id="button_23_container" class="col-sm-12 form-group" data-nf-for="button_23">
-<input id="button_23" name="button_23" type="submit" class="btn btn-primary" value="Join (tslt)"/>
+<div id="button_24_container" class="col-sm-12 form-group" data-nf-for="button_24">
+<input id="button_24" name="button_24" type="submit" class="btn btn-primary" value="Join (tslt)"/>
 </div>
 </form>
 
