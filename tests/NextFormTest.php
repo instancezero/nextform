@@ -97,9 +97,11 @@ class NextForm_MockSchema extends MockBase implements SchemaInterface
 /**
  * @covers Abivia\NextForm\NextForm
  */
-class NextFormTest extends TestCase {
+class NextFormTest extends TestCase
+{
 
-    public function testInstantiation() {
+    public function testInstantiation()
+    {
         $obj = new NextForm();
 		$this->assertInstanceOf('\Abivia\NextForm\NextForm', $obj);
     }

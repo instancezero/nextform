@@ -6,7 +6,7 @@
         "php": ">=7.1",
         "abivia/configurable": "^1.0",
         "doctrine/dbal": "^2.0",
-        "illuminate/translation": "^6.0",
+        "illuminate/translation": "^6.0|^7.0",
         "myclabs/deep-copy": "^1.9"
     },
     "require-dev": {
