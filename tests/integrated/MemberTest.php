@@ -93,7 +93,6 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function setUp() : void {
         $this->memberForm  = Form::fromFile(__DIR__ . '/member-form.json');
         $this->memberSchema = Schema::fromFile(__DIR__ . '/member-schema.json');
-        NextForm::wire(['Translate' => MockTranslate::class]);
     }
 
     /**
@@ -212,6 +211,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
             ['action' => 'http://localhost/nextform/post.php']
         );
         $manager->addSchema($this->memberSchema);
+        $manager->setTranslator(new MockTranslate());
         $html = $manager->generate();
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
@@ -234,6 +234,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         );
         $boundForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
+        $manager->setTranslator(new MockTranslate());
 
         $boundForm->setOptions(
             ['action' => 'http://localhost/nextform/post.php']

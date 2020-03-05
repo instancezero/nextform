@@ -93,6 +93,16 @@ class NextForm_MockSchema extends MockBase implements SchemaInterface
 
 }
 
+class FakeAccess
+{
+    static public $instances = 0;
+
+    public function __construct()
+    {
+        ++self::$instances;
+    }
+}
+
 
 /**
  * @covers Abivia\NextForm\NextForm
@@ -121,6 +131,15 @@ class NextFormTest extends TestCase
 
         $this->expectException('\RuntimeException');
         NextForm::wire(['erroneous service' => 'something']);
+    }
+
+    public function testWiringCallable() {
+        NextForm::wire([
+            'Access' => function () { return new FakeAccess();}
+        ]);
+        $expect = FakeAccess::$instances + 1;
+        new NextForm();
+        $this->assertEquals($expect, FakeAccess::$instances);
     }
 
     public function testAddForm()
@@ -180,6 +199,7 @@ class NextFormTest extends TestCase
         NextForm_MockForm::_MockBase_reset();
         NextForm_MockSchema::_MockBase_reset();
         $obj = new NextForm();
+        $obj->setTranslator(new MockTranslate());
         $obj->setOptions(
             [
                 'wire' => [
@@ -189,9 +209,7 @@ class NextFormTest extends TestCase
             ]
         );
         $obj->addSchema('foo.json');
-        MockTranslate::$instanceCount = 0;
         $page = $obj->generate('foo2.json');
-        $this->assertEquals(0, MockTranslate::$instanceCount);
         $this->assertEquals(
             [
                 ['NextForm_MockSchema::fromFile', ['foo.json']],
@@ -216,35 +234,6 @@ class NextFormTest extends TestCase
         $this->assertEquals($page->script, $obj->getScript());
         $this->assertEquals(\implode("\n", $page->scriptFiles), $obj->getScriptFiles());
         $this->assertEquals($page->styles, $obj->getStyles());
-    }
-
-    public function testGenerateTranslate()
-    {
-        NextForm_MockForm::_MockBase_reset();
-        NextForm_MockSchema::_MockBase_reset();
-        $obj = new NextForm();
-        $obj->setOptions(
-            [
-                'wire' => [
-                    'Form' => NextForm_MockForm::class,
-                    'Schema' => NextForm_MockSchema::class,
-                    'Translate' => MockTranslate::class,
-                ]
-            ]
-        );
-        $obj->addSchema('foo.json');
-        MockTranslate::$instanceCount = 0;
-        $obj->generate('foo2.json');
-        $this->assertEquals(1, MockTranslate::$instanceCount);
-        $this->assertEquals(
-            [
-                ['NextForm_MockSchema::fromFile', ['foo.json']],
-                ['NextForm_MockSchema::__construct', []],
-                ['NextForm_MockSchema::getSegmentNames', []],
-                ['NextForm_MockSchema::getSegmentNames', []],
-            ],
-            NextForm_MockSchema::_MockBase_getLog()
-        );
     }
 
     public function testHtmlIdentifier()

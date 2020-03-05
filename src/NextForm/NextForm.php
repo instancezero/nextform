@@ -11,6 +11,7 @@ use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Render\Block;
+use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  *
@@ -84,7 +85,6 @@ class NextForm
         'Form' => Form::class,
         'Render' => 'Abivia\\NextForm\\Render\\Bootstrap4',
         'Schema' => Schema::class,
-        'Translate' => null
     ];
 
     /**
@@ -134,6 +134,12 @@ class NextForm
     protected $segmentNameMode = 'auto';
 
     /**
+     * A translation service.
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new NextForm.
      *
      * @param array $options See options()
@@ -142,7 +148,7 @@ class NextForm
     {
         $this->diWiring = self::$diWiringStatic;
         $this->setOptions($options);
-        $this->access = new $this->diWiring['Access']();
+        $this->access = $this->diMake('Access');
         $this->schemas = new SchemaCollection();
         $this->show = '';
     }
@@ -204,6 +210,15 @@ class NextForm
     }
 
     /**
+     * Reset the static context
+     */
+    static public function boot()
+    {
+        self::$htmlId = 0;
+        self::$csrfToken = null;
+    }
+
+    /**
      * Connect a binding to the schema and add to the object map.
      *
      * @param Binding $binding
@@ -221,13 +236,16 @@ class NextForm
         return $this;
     }
 
-    /**
-     * Reset the static context
-     */
-    static public function boot()
-    {
-        self::$htmlId = 0;
-        self::$csrfToken = null;
+    protected function diMake($service, ...$args) {
+        $handler = $this->diWiring[$service];
+        if ($handler === null) {
+            $object = null;
+        } elseif (is_callable($handler)) {
+            $object = $handler(...$args);
+        } else {
+            $object = new $handler(...$args);
+        }
+        return $object;
     }
 
     /**
@@ -245,21 +263,15 @@ class NextForm
 
         $this->populateForms();
 
-        $renderer = new $this->diWiring['Render']($options);
+        $renderer = $this->diMake('Render', $options);
         $renderer->setShow($this->show);
-
-        if ($this->diWiring['Translate'] === null) {
-            $translate = null;
-        } else {
-            $translate = new $this->diWiring['Translate']();
-        }
 
         $this->pageBlock = new Block();
         foreach ($this->boundForms as $boundForm) {
             $formBlock = $boundForm->generate(
                 $renderer,
                 $this->access,
-                $translate
+                $this->translator
             );
             $this->pageBlock->merge($formBlock);
         }
@@ -603,6 +615,18 @@ class NextForm
     }
 
     /**
+     * Set the translation object.
+     *
+     * @param Translator $translator
+     * @return $this
+     */
+    public function setTranslator(Translator $translator)
+    {
+        $this->translator = $translator;
+        return $this;
+    }
+
+    /**
      * Define the current user.
      *
      * @param mixed $user
@@ -615,14 +639,14 @@ class NextForm
 
     /**
      * Set static class diWiring.
-     * @param array $services Array of [service => className].
+     * @param array $services Array of [service => handler].
      * @throws RuntimeException
      */
     static function wire($services)
     {
-        foreach ($services as $service => $className) {
+        foreach ($services as $service => $handler) {
             self::wireCheck($service);
-            self::$diWiringStatic[$service] = $className;
+            self::$diWiringStatic[$service] = $handler;
         }
     }
 

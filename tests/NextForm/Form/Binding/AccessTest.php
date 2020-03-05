@@ -62,7 +62,6 @@ class AccessTest extends \PHPUnit\Framework\TestCase
                 'segmentNameMode' => 'off',
                 'wire' => [
                     'Render' => LoggingRender::class,
-                    'Translate' => MockTranslate::class,
                 ]
             ]
         );
