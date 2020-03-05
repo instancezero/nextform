@@ -141,7 +141,7 @@ class NextForm
     public function __construct($options = [])
     {
         $this->diWiring = self::$diWiringStatic;
-        $this->options($options);
+        $this->setOptions($options);
         $this->access = new $this->diWiring['Access']();
         $this->schemas = new SchemaCollection();
         $this->show = '';
@@ -481,17 +481,6 @@ class NextForm
             $field = $segment . NextForm::SEGMENT_DELIM . $field;
         }
         return $field;
-    }
-
-    public function options($options)
-    {
-        if (isset($options['wire'])) {
-            $this->diWiring = array_merge(
-                $this->diWiring,
-                $options['wire']
-            );
-        }
-        return $this;
     }
 
     /**

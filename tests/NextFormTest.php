@@ -126,7 +126,7 @@ class NextFormTest extends TestCase {
         NextForm_MockForm::_MockBase_reset();
         NextForm_MockSchema::_MockBase_reset();
         $obj = new NextForm();
-        $obj->options(['wire' => ['Form' => NextForm_MockForm::class]]);
+        $obj->setOptions(['wire' => ['Form' => NextForm_MockForm::class]]);
         $obj->addForm('foo.json');
         $this->assertEquals(
             [
@@ -142,7 +142,7 @@ class NextFormTest extends TestCase {
         NextForm_MockForm::_MockBase_reset();
         NextForm_MockSchema::_MockBase_reset();
         $obj = new NextForm();
-        $obj->options(['wire' => ['Schema' => NextForm_MockSchema::class]]);
+        $obj->setOptions(['wire' => ['Schema' => NextForm_MockSchema::class]]);
         $obj->addSchema('foo.json');
         $this->assertEquals(
             [
@@ -178,7 +178,7 @@ class NextFormTest extends TestCase {
         NextForm_MockForm::_MockBase_reset();
         NextForm_MockSchema::_MockBase_reset();
         $obj = new NextForm();
-        $obj->options(
+        $obj->setOptions(
             [
                 'wire' => [
                     'Form' => NextForm_MockForm::class,
@@ -221,7 +221,7 @@ class NextFormTest extends TestCase {
         NextForm_MockForm::_MockBase_reset();
         NextForm_MockSchema::_MockBase_reset();
         $obj = new NextForm();
-        $obj->options(
+        $obj->setOptions(
             [
                 'wire' => [
                     'Form' => NextForm_MockForm::class,
