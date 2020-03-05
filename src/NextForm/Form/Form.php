@@ -3,6 +3,7 @@
 namespace Abivia\NextForm\Form;
 
 use Abivia\Configurable\Configurable;
+use Abivia\NextForm\Contracts\FormInterface;
 use Abivia\NextForm\Form\Element\Element;
 use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\NextForm;
@@ -12,7 +13,7 @@ use Abivia\NextForm\Traits\ShowableTrait;
 /**
  *
  */
-class Form implements \JsonSerializable
+class Form implements FormInterface, \JsonSerializable
 {
     use Configurable;
     use JsonEncoderTrait;
@@ -97,7 +98,7 @@ class Form implements \JsonSerializable
      * @param string $formFile
      * @return \Abivia\NextForm\Form
      */
-    static public function fromFile($formFile)
+    static public function fromFile($formFile) : ?FormInterface
     {
         $form = new Form();
         return $form->loadFile($formFile);

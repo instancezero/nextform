@@ -9,7 +9,7 @@ use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\NextForm;
-use Abivia\NextForm\BoundForm;
+use Abivia\NextForm\LinkedForm;
 use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Render\SimpleHtml;
 use Abivia\NextForm\Render\Bootstrap4;
@@ -93,6 +93,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function setUp() : void {
         $this->memberForm  = Form::fromFile(__DIR__ . '/member-form.json');
         $this->memberSchema = Schema::fromFile(__DIR__ . '/member-schema.json');
+        NextForm::wire(['Translate' => MockTranslate::class]);
     }
 
     /**
@@ -158,15 +159,17 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
     public function testGenerateUnpopulated() {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
-        $render = new FlatRender();
 
         $manager = new NextForm();
-        $manager->setOptions(['segmentNameMode' => 'off']);
+        $manager->setOptions(
+            [
+                'segmentNameMode' => 'off',
+                'wire' => ['Render' => FlatRender::class]
+            ]
+        );
         $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $manager->addSchema($this->memberSchema);
-        $manager->setRender($render);
-        $manager->setTranslator(new MockTranslate());
-        $page = $manager->generate();
+        $manager->generate();
         $this->assertTrue(true);
     }
 
@@ -178,15 +181,18 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
-        $manager->setOptions(['segmentNameMode' => 'off']);
+        $manager->setOptions(
+            [
+                'segmentNameMode' => 'off',
+                'wire' => ['Render' => FlatRender::class]
+            ]
+        );
         $manager->addSchema($this->memberSchema);
         $manager->addForm($this->memberForm, ['action' => 'myform.php']);
         $data = [
             'id' => 0,
         ];
         $manager->populate($data, 'members');
-        $manager->setRender(new FlatRender());
-        $manager->setTranslator(new MockTranslate());
         $manager->generate();
         $this->assertTrue(true);
     }
@@ -195,15 +201,17 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         NextForm::setCsrfGenerator([$this, 'fixedToken']);
         $manager = new NextForm();
-        $manager->setOptions(['segmentNameMode' => 'off']);
+        $manager->setOptions(
+            [
+                'segmentNameMode' => 'off',
+                'wire' => ['Render' => SimpleHtml::class]
+            ]
+        );
         $manager->addForm(
             $this->memberForm,
             ['action' => 'http://localhost/nextform/post.php']
         );
         $manager->addSchema($this->memberSchema);
-        $manager->setRender(new SimpleHtml());
-        $translator = new MockTranslate();
-        $manager->setTranslator($translator);
         $html = $manager->generate();
         file_put_contents(
             __DIR__ . '/' . __FUNCTION__ . '.html',
@@ -218,11 +226,14 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         NextForm::boot();
         $manager = new NextForm();
         $manager->setOptions(['segmentNameMode' => 'off']);
+        $manager->setOptions(
+            [
+                'segmentNameMode' => 'off',
+                'wire' => ['Render' => Bootstrap4::class]
+            ]
+        );
         $boundForm = $manager->addForm($this->memberForm);
         $manager->addSchema($this->memberSchema);
-        $manager->setRender(new Bootstrap4());
-        $translator = new MockTranslate();
-        $manager->setTranslator($translator);
 
         $boundForm->setOptions(
             ['action' => 'http://localhost/nextform/post.php']
@@ -235,7 +246,7 @@ class MemberTest extends \PHPUnit\Framework\TestCase {
         );
 
         NextForm::boot();
-        $translator->append = ' (lang2)';
+        MockTranslate::$append = ' (lang2)';
         $html = $manager->generate();
         $html->script .= file_get_contents(__DIR__ . '/memberform.js');
         file_put_contents(

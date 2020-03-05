@@ -10,7 +10,7 @@
         "myclabs/deep-copy": "^1.9"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.1-stable"
+        "phpunit/phpunit": "^9.0-stable"
     },
     "license": "MIT",
     "authors": [

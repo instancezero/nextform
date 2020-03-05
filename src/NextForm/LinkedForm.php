@@ -2,9 +2,8 @@
 
 namespace Abivia\NextForm;
 
-use Abivia\NextForm\Form\Form;
+use Abivia\NextForm\Contracts\FormInterface;
 use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RenderableFormInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
@@ -14,10 +13,10 @@ use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
- * A Bound Form is a renderable connection between a schema definition,
+ * A Linked Form is a renderable connection between a schema definition,
  * a form definition, and the data to be placed on the form.
  */
-class BoundForm implements RenderableFormInterface
+class LinkedForm
 {
     /**
      * A list of all bindings in the form.
@@ -73,7 +72,7 @@ class BoundForm implements RenderableFormInterface
      */
     protected $segmentNameDrop;
 
-    public function __construct(Form $form = null, $options = [])
+    public function __construct(FormInterface $form = null, $options = [])
     {
         $this->form = $form;
         $this->setOptions($options);
@@ -224,7 +223,7 @@ class BoundForm implements RenderableFormInterface
     protected function linkBinding(Binding $binding)
     {
             $this->allBindings[] = $binding;
-            $binding->setBoundForm($this);
+            $binding->setLinkedForm($this);
     }
 
     /**

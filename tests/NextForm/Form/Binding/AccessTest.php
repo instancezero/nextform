@@ -9,7 +9,7 @@ use Abivia\NextForm\Form\Form;
 require_once __DIR__ . '/../../../test-tools/LoggingRender.php';
 require_once __DIR__ . '/../../../test-tools/MockTranslate.php';
 
-class MockAccess implements AccessInterface
+class Access_MockAccess implements AccessInterface
 {
     /**
      * Stock permissions
@@ -51,24 +51,28 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public $access;
     public $expect;
     public $manager;
-    public $render;
     public $sectionParts;
 
     public function setUp() : void {
         NextForm::boot();
-        $this->render = new LoggingRender();
 
         $manager = new NextForm();
-        $manager->setOptions(['segmentNameMode' => 'off']);
-        $this->access = new MockAccess();
+        $manager->setOptions(
+            [
+                'segmentNameMode' => 'off',
+                'wire' => [
+                    'Render' => LoggingRender::class,
+                    'Translate' => MockTranslate::class,
+                ]
+            ]
+        );
+        $this->access = new Access_MockAccess();
         $manager->setAccess($this->access);
         $manager->addForm(
             Form::fromFile(__DIR__ . '/element-test-form.json'),
             ['action' => 'myform.php']
         );
         $manager->addSchema(Schema::fromFile(__DIR__ . '/element-test-schema.json'));
-        $manager->setRender($this->render);
-        $manager->setTranslator(new MockTranslate());
         $this->manager = $manager;
 
         $this->expect = [
@@ -102,7 +106,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
     public function testAllWrite()
     {
         $this->manager->generate();
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -114,7 +118,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['button/button'] = 'hide';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -126,7 +130,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['button/button'] = 'none';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -138,7 +142,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['button/button'] = 'view';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -152,7 +156,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'hide';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'hide';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -166,7 +170,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'none';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'none';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -180,7 +184,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->expect['elementTest_cellOne/cellFieldOne'] = 'view';
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'view';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -192,7 +196,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'hide';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -204,7 +208,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'none';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -216,7 +220,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_textOne/textOne'] = 'view';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -228,7 +232,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'hide';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -240,7 +244,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'none';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -252,7 +256,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['htmlOne/htmlOne'] = 'view';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -264,7 +268,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'hide';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -276,7 +280,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'none';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -288,7 +292,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
         $this->manager->generate();
         $this->expect['elementTest_cellTwo/cellFieldTwo'] = 'view';
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -302,7 +306,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
             $this->expect[$part] = 'hide';
         }
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -316,7 +320,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
             $this->expect[$part] = 'none';
         }
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
     /**
@@ -330,7 +334,7 @@ class AccessTest extends \PHPUnit\Framework\TestCase
             $this->expect[$part] = 'view';
         }
 
-        $this->assertEquals($this->expect, $this->render->getLog());
+        $this->assertEquals($this->expect, LoggingRender::getLog());
     }
 
 }

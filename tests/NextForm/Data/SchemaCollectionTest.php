@@ -5,7 +5,7 @@ use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Data\Segment;
 
-class MockSchema implements SchemaInterface
+class SchemaCollection_MockSchema implements SchemaInterface
 {
     public $segments;
     protected $tag;
@@ -87,15 +87,15 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
 	}
 
     public function testAddOneSchema() {
-        $obj = new SchemaCollection(new MockSchema('one'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_1'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_2'));
         $this->assertNull($obj->getSegment('foo'));
     }
 
     public function testAddTwoSchemas() {
-        $obj = new SchemaCollection(new MockSchema('one'));
-        $obj->addSchema(new MockSchema('two'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
+        $obj->addSchema(new SchemaCollection_MockSchema('two'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_1'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_2'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('two_1'));
@@ -104,14 +104,14 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testAddSchemaConflict() {
-        $obj = new SchemaCollection(new MockSchema('one'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
         $this->expectException('\RuntimeException');
-        $obj->addSchema(new MockSchema('one'));
+        $obj->addSchema(new SchemaCollection_MockSchema('one'));
     }
 
     public function testDefaultTwoSchemas() {
-        $obj = new SchemaCollection(new MockSchema('one'));
-        $obj->addSchema(new MockSchema('two'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
+        $obj->addSchema(new SchemaCollection_MockSchema('two'));
         $this->assertEquals('one', $obj->getDefault('one_1'));
         $this->assertEquals('one', $obj->getDefault('one_2'));
         $this->assertEquals('two', $obj->getDefault('two_2'));
@@ -120,7 +120,7 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testGetProperty() {
-        $obj = new SchemaCollection(new MockSchema('one'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
         $prop = $obj->getProperty('one_1/p1');
         $this->assertInstanceOf('\Abivia\NextForm\Data\Property', $prop);
         $this->assertEquals('one/one_1/p1', $prop->getName());
@@ -128,8 +128,8 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testGetPropertyTwoSchemas() {
-        $obj = new SchemaCollection(new MockSchema('one'));
-        $obj->addSchema(new MockSchema('two'));
+        $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
+        $obj->addSchema(new SchemaCollection_MockSchema('two'));
         $prop = $obj->getProperty('one_1/p1');
         $this->assertInstanceOf('\Abivia\NextForm\Data\Property', $prop);
         $this->assertEquals('one/one_1/p1', $prop->getName());

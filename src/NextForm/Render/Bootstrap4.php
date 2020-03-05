@@ -135,7 +135,7 @@ class Bootstrap4 extends Html implements RenderInterface
         if (empty($triggers)) {
             return $result;
         }
-        $formId = $binding->getBoundForm()->getId();
+        $formId = $binding->getLinkedForm()->getId();
         $script = "$('#" . $formId . " [name^=\"" . $binding->getNameOnForm(true)
             . "\"]').change(function () {\n";
         foreach ($triggers as $trigger) {

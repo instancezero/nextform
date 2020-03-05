@@ -11,7 +11,6 @@ use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Render\Block;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  *
@@ -71,9 +70,29 @@ class NextForm
 
     /**
      * The form definitions.
-     * @var BoundForm[]
+     * @var LinkedForm[]
      */
     protected $boundForms = [];
+
+    /**
+     * Default class mappings in our cheap DI implementation.
+     *
+     * @var array [function => class]
+     */
+    private static $diWiringStatic = [
+        'Access' => Access\NullAccess::class,
+        'Form' => Form::class,
+        'Render' => 'Abivia\\NextForm\\Render\\Bootstrap4',
+        'Schema' => Schema::class,
+        'Translate' => null
+    ];
+
+    /**
+     * Instance specific class mappings for DI, initialized in __construct().
+     *
+     * @var array [function => class]
+     */
+    private $diWiring;
 
     /**
      * Maps form names to form bindings
@@ -94,12 +113,6 @@ class NextForm
     protected $pageBlock;
 
     /**
-     * The form rendering engine.
-     * @var RenderInterface
-     */
-    protected $renderer;
-
-    /**
      * Data schemas associated with the form.
      * @var SchemaCollection
      */
@@ -112,7 +125,7 @@ class NextForm
     protected $segmentNameDrop;
 
     /**
-     * How segment naming is handled. 'on' = always generate segment name;
+     * How segment naming is handled: 'on' = always generate segment name;
      * 'off' = Never generate segment name; 'auto' = suppress the segment listed
      * in $segmentNameDrop.
      *
@@ -121,14 +134,15 @@ class NextForm
     protected $segmentNameMode = 'auto';
 
     /**
-     * A translation service.
-     * @var Translator
+     * Create a new NextForm.
+     *
+     * @param array $options See options()
      */
-    protected $translator;
-
-    public function __construct()
+    public function __construct($options = [])
     {
-        $this->access = new Access\NullAccess();
+        $this->diWiring = self::$diWiringStatic;
+        $this->options($options);
+        $this->access = new $this->diWiring['Access']();
         $this->schemas = new SchemaCollection();
         $this->show = '';
     }
@@ -138,15 +152,15 @@ class NextForm
      *
      * @param Form|string $form The name of a form file or a loaded Form.
      * @param array $options Form configuration options.
-     * @return \Abivia\NextForm\BoundForm
+     * @return \Abivia\NextForm\LinkedForm
      */
-    public function addForm($form, $options = []) : BoundForm
+    public function addForm($form, $options = []) : LinkedForm
     {
         if (is_string($form)) {
-            $form = Form::fromFile($form);
+            $form = $this->diWiring['Form']::fromFile($form);
         }
         $formName = $form->getName();
-        $this->boundForms[$formName] = new BoundForm($form, $options);
+        $this->boundForms[$formName] = new LinkedForm($form, $options);
         return $this->boundForms[$formName];
     }
 
@@ -159,7 +173,7 @@ class NextForm
     public function addSchema($schema)
     {
         if (is_string($schema)) {
-            $schema = Schema::fromFile($schema);
+            $schema = $this->diWiring['Schema']::fromFile($schema);
         }
         $this->schemas->addSchema($schema);
         if ($this->segmentNameMode === 'auto' && $this->segmentNameDrop === null) {
@@ -231,14 +245,21 @@ class NextForm
 
         $this->populateForms();
 
-        $this->renderer->setShow($this->show);
+        $renderer = new $this->diWiring['Render']($options);
+        $renderer->setShow($this->show);
+
+        if ($this->diWiring['Translate'] === null) {
+            $translate = null;
+        } else {
+            $translate = new $this->diWiring['Translate']();
+        }
 
         $this->pageBlock = new Block();
         foreach ($this->boundForms as $boundForm) {
             $formBlock = $boundForm->generate(
-                $this->renderer,
+                $renderer,
                 $this->access,
-                $this->translator
+                $translate
             );
             $this->pageBlock->merge($formBlock);
         }
@@ -287,10 +308,10 @@ class NextForm
      * @param string|null $formName
      * @return ?Block
      */
-    public function getBlock($formName) : ?Block
+    public function getBlock($formName = null) : ?Block
     {
         if ($formName !== null) {
-            $form = $this->getBoundForm($formName);
+            $form = $this->getLinkedForm($formName);
             $block = $form ? $form->getBlock() : null;
         } else {
             $block = $this->pageBlock;
@@ -307,17 +328,6 @@ class NextForm
     public function getBody($formName = null) {
         $block = $this->getBlock($formName);
         return $block ? $block->body : null;
-    }
-
-    /**
-     * Retrieve a linked form by name.
-     *
-     * @param string $formName
-     * @return ?BoundForm
-     */
-    public function getBoundForm($formName) : ?BoundForm
-    {
-        return $this->boundForms[$formName] ?? null;
     }
 
     /**
@@ -342,7 +352,18 @@ class NextForm
      */
     public function getHead($formName = null) {
         $block = $this->getBlock($formName);
-        return $block ? $block->body : null;
+        return $block ? $block->head : null;
+    }
+
+    /**
+     * Retrieve a linked form by name.
+     *
+     * @param string $formName
+     * @return ?LinkedForm
+     */
+    public function getLinkedForm($formName) : ?LinkedForm
+    {
+        return $this->boundForms[$formName] ?? null;
     }
 
     /**
@@ -353,7 +374,7 @@ class NextForm
      */
     public function getLinks($formName = null) {
         $block = $this->getBlock($formName);
-        return $block ? implode("\n", $block->linkedFiles) : null;
+        return $block ? \implode("\n", $block->linkedFiles) : null;
     }
 
     /**
@@ -462,8 +483,14 @@ class NextForm
         return $field;
     }
 
-    protected function options($options)
+    public function options($options)
     {
+        if (isset($options['wire'])) {
+            $this->diWiring = array_merge(
+                $this->diWiring,
+                $options['wire']
+            );
+        }
         return $this;
     }
 
@@ -583,30 +610,7 @@ class NextForm
         if (isset($options['segmentNameDrop'])) {
             $this->segmentNameDrop = $options['segmentNameDrop'];
         }
-    }
-
-    /**
-     * Set the form renderer.
-     *
-     * @param RenderInterface $renderer
-     * @return $this
-     */
-    public function setRender(RenderInterface $renderer)
-    {
-        $this->renderer = $renderer;
-        return $this;
-    }
-
-    /**
-     * Set the translation object.
-     *
-     * @param Translator $translator
-     * @return $this
-     */
-    public function setTranslator(Translator $translator)
-    {
-        $this->translator = $translator;
-        return $this;
+        $this->wireInstance($options['wire'] ?? []);
     }
 
     /**
@@ -618,6 +622,49 @@ class NextForm
     public function setUser($user)
     {
         $this->access->setUser($user);
+    }
+
+    /**
+     * Set static class diWiring.
+     * @param array $services Array of [service => className].
+     * @throws RuntimeException
+     */
+    static function wire($services)
+    {
+        foreach ($services as $service => $className) {
+            self::wireCheck($service);
+            self::$diWiringStatic[$service] = $className;
+        }
+    }
+
+    /**
+     * Set diWiring service name.
+     * @param string $service A service name.
+     * @throws RuntimeException
+     */
+    static protected function wireCheck($service)
+    {
+        if (!array_key_exists($service, self::$diWiringStatic)) {
+            throw new \RuntimeException(
+                "Service $service must be one of "
+                . implode(', ', array_keys(self::$diWiringStatic))
+            );
+        }
+
+    }
+
+    /**
+     * Set diWiring for this instance.
+     *
+     * @param array $services Array of [service => className].
+     * @throws RuntimeException
+     */
+    protected function wireInstance($services)
+    {
+        foreach ($services as $service => $className) {
+            self::wireCheck($service);
+            $this->diWiring[$service] = $className;
+        }
     }
 
 }

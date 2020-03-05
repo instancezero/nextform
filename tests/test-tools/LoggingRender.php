@@ -9,10 +9,10 @@ use Abivia\NextForm\Render\Block;
  */
 class LoggingRender implements RenderInterface {
 
-    protected $log = [];
+    static protected $log = [];
 
-    public function getLog() {
-        return $this->log;
+    static public function getLog() {
+        return self::$log;
     }
 
     /**
@@ -42,7 +42,7 @@ class LoggingRender implements RenderInterface {
      */
     public function render(Binding $binding, $options = []) : Block
     {
-        $this->log[$binding->getNameOnForm() . '/'
+        self::$log[$binding->getNameOnForm() . '/'
             . $binding->getElement()->getName()] = $options['access'];
         return new Block();
     }
@@ -76,7 +76,7 @@ class LoggingRender implements RenderInterface {
      */
     public function start($options = []) : Block
     {
-        $this->log = [];
+        self::$log = [];
         return new Block();
     }
 

@@ -7,7 +7,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Form\Element\Element;
-use Abivia\NextForm\BoundForm;
+use Abivia\NextForm\LinkedForm;
 use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Block;
 use DeepCopy\DeepCopy;
@@ -81,7 +81,7 @@ class Binding
 
     /**
      *
-     * @var BoundForm
+     * @var LinkedForm
      */
     protected $boundForm;
 
@@ -236,9 +236,9 @@ class Binding
     /**
      * Get the bound form for this binding.
      *
-     * @return BoundForm $boundForm
+     * @return LinkedForm $boundForm
      */
-    public function getBoundForm() : BoundForm
+    public function getLinkedForm() : LinkedForm
     {
         return $this->boundForm;
     }
@@ -349,10 +349,10 @@ class Binding
 
     /**
      * Connect this binding to a linked form
-     * @param BoundForm $boundForm
+     * @param LinkedForm $boundForm
      * @return $this
      */
-    public function setBoundForm(BoundForm $boundForm) :self
+    public function setLinkedForm(LinkedForm $boundForm) :self
     {
         $this->boundForm = $boundForm;
         return $this;
