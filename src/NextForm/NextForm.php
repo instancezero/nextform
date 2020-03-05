@@ -263,6 +263,10 @@ class NextForm
 
         $this->populateForms();
 
+        if ($this->access === null) {
+            $this->access = $this->diMake('Access');
+        }
+
         $renderer = $this->diMake('Render', $options);
         $renderer->setShow($this->show);
 

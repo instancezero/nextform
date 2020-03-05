@@ -129,16 +129,23 @@ class NextFormTest extends TestCase
 
         $obj->addSchema('foo.json');
 
+        // Put the global static settings back
+        NextForm::wire([
+            'Form' => Form::class,
+            'Schema' => Schema::class
+        ]);
+
         $this->expectException('\RuntimeException');
         NextForm::wire(['erroneous service' => 'something']);
     }
 
     public function testWiringCallable() {
-        NextForm::wire([
-            'Access' => function () { return new FakeAccess();}
-        ]);
         $expect = FakeAccess::$instances + 1;
-        new NextForm();
+        new NextForm(
+            ['wire' =>
+                ['Access' => function () { return new FakeAccess();}]
+            ]
+        );
         $this->assertEquals($expect, FakeAccess::$instances);
     }
 
