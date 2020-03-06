@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -50,7 +52,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -61,7 +64,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -76,7 +80,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"'
                     . ' min="1957-W30" max="2099-W42"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -88,7 +93,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control" value="2010-W37"'
                     . ' readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -103,7 +109,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control is-valid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -113,7 +120,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="week"'
                     . ' class="form-control is-invalid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

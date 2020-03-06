@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -49,7 +51,8 @@ extends Bootstrap4RenderFrame
                 $this->column1h('')
                 . $this->column2h(
                     '<textarea id="field_1" name="field_1"></textarea>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -62,7 +65,8 @@ extends Bootstrap4RenderFrame
                 $this->column1h('')
                 . $this->column2h(
                     '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -77,7 +81,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<textarea id="field_1" name="field_1" class="is-valid">'
                     . '</textarea>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -87,7 +92,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<textarea id="field_1" name="field_1" class="is-invalid">'
                     . '</textarea>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

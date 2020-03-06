@@ -117,8 +117,8 @@ abstract class Common extends AbstractFieldElement
         );
 
         // Render the data list if there is one
-        $dataList = $this->field->dataList(
-            $attrs, $this->inputType, $options
+        $block->merge(
+            $this->field->dataList($attrs, $this->inputType, $options)
         );
 
         if ($this->access === 'write') {
@@ -130,7 +130,6 @@ abstract class Common extends AbstractFieldElement
         $input = $this->inputGroup($labels, $attrs);
 
         $block->merge($input);
-        $block->merge($dataList);
         $block->close();
         $block->merge($this->engine->epilog());
 

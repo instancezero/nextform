@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         // No access specification assumes write access
@@ -51,7 +53,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -62,7 +65,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -77,7 +81,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"'
                     . ' min="1957-10-08T00:00" max="2099-11-06T14:15"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -89,7 +94,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control" value="2010-10-10"'
                     . ' readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -104,7 +110,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control is-valid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -114,7 +121,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="datetime-local"'
                     . ' class="form-control is-invalid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

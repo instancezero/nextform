@@ -115,17 +115,17 @@ extends SimpleHtmlRenderFrame
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\""
+                . " data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\""
-                    . " data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
             . '<br/>' . "\n"
@@ -150,17 +150,17 @@ extends SimpleHtmlRenderFrame
         $expect['valid'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\""
+                . " data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="nf-valid" list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\""
-                    . " data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
             . '<br/>' . "\n"
@@ -169,17 +169,17 @@ extends SimpleHtmlRenderFrame
         $expect['invalid'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\""
+                . " data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="nf-invalid" list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\""
-                    . " data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
             . '<br/>' . "\n"
@@ -451,9 +451,7 @@ extends SimpleHtmlRenderFrame
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text"'
-                . ' list="field_1_list"/>' . "\n"
-                . '<datalist id="field_1_list">' . "\n"
+                '<datalist id="field_1_list">' . "\n"
                 . '<option value="textlist 1"/>' . "\n"
                 . '<option value="textlist 2"'
                 . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
@@ -461,6 +459,8 @@ extends SimpleHtmlRenderFrame
                 . ' data-nf-name="tl3"/>' . "\n"
                 . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '</datalist>' . "\n"
+                . '<input id="field_1" name="field_1" type="text"'
+                . ' list="field_1_list"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
@@ -480,9 +480,7 @@ extends SimpleHtmlRenderFrame
 
         $expect['valid'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text"'
-                . ' class="nf-valid" list="field_1_list"/>' . "\n"
-                . '<datalist id="field_1_list">' . "\n"
+                '<datalist id="field_1_list">' . "\n"
                 . '<option value="textlist 1"/>' . "\n"
                 . '<option value="textlist 2"'
                 . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
@@ -490,15 +488,15 @@ extends SimpleHtmlRenderFrame
                 . ' data-nf-name="tl3"/>' . "\n"
                 . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '</datalist>' . "\n"
+                . '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-valid" list="field_1_list"/>' . "\n"
             )
             . '<br/>' . "\n"
         );
 
         $expect['invalid'] = Block::fromString(
             $this->formGroup(
-                '<input id="field_1" name="field_1" type="text"'
-                . ' class="nf-invalid" list="field_1_list"/>' . "\n"
-                . '<datalist id="field_1_list">' . "\n"
+                '<datalist id="field_1_list">' . "\n"
                 . '<option value="textlist 1"/>' . "\n"
                 . '<option value="textlist 2"'
                 . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
@@ -506,6 +504,8 @@ extends SimpleHtmlRenderFrame
                 . ' data-nf-name="tl3"/>' . "\n"
                 . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                 . '</datalist>' . "\n"
+                . '<input id="field_1" name="field_1" type="text"'
+                . ' class="nf-invalid" list="field_1_list"/>' . "\n"
             )
             . '<br/>' . "\n"
         );

@@ -63,6 +63,7 @@ class Select extends BaseSelect {
         }
 
         $select->merge($this->engine->inputGroupPost($labels));
+        $select->close();
 
         // Generate supporting messages
         $select->body .= $this->engine->writeInputSupport($labels, $attrs);

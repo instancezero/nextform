@@ -42,6 +42,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -56,8 +59,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
                     . 'textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -69,8 +74,11 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('', 'label', '')
                 . $this->column2h(
-                    '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
-                )
+                    '<input id="field_1" name="field_1" type="hidden" value=""/>'
+                    . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -93,8 +101,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
                     . 'textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -112,8 +122,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
                     . 'textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -124,8 +136,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden"'
                     . ' value="textlist 2"/>' . "\n"
-                    . '<span>textlist 2</span>' . "\n"
-                )
+                    . '<span>textlist 2</span>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -149,8 +163,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" selected'
                     . ' data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -164,8 +180,10 @@ extends Bootstrap4RenderFrame
                     . '<span>textlist 2</span><br/>' . "\n"
                     . '<input id="field_1_opt1" name="field_1[]"'
                     . ' type="hidden" value="textlist 4"/>' . "\n"
-                    . '<span>textlist 4</span><br/>' . "\n"
-                )
+                    . '<span>textlist 4</span><br/>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -192,8 +210,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" selected'
                     . ' data-nf-sidecar="[1,2,3,4]">textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -210,8 +230,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
                     . 'textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -228,8 +250,10 @@ extends Bootstrap4RenderFrame
                     . 'textlist 3</option>' . "\n"
                     . '<option value="textlist 4" data-nf-sidecar="[1,2,3,4]">'
                     . 'textlist 4</option>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -249,6 +273,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -265,8 +292,10 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -278,8 +307,11 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('', 'label', '')
                 . $this->column2h(
-                    '<input id="field_1" name="field_1" type="hidden" value=""/>' . "\n"
-                )
+                    '<input id="field_1" name="field_1" type="hidden" value=""/>'
+                    . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -303,8 +335,10 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -323,8 +357,10 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -334,8 +370,10 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', '')
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="hidden" value="S2I1"/>' . "\n"
-                    . '<span>Sub Two Item One</span>' . "\n"
-                )
+                    . '<span>Sub Two Item One</span>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -359,8 +397,10 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" selected data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -372,8 +412,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1_opt0" name="field_1[]" type="hidden" value="Sub One Item One"/>' . "\n"
                     . '<span>Sub One Item One</span><br/>' . "\n"
                     . '<input id="field_1_opt1" name="field_1[]" type="hidden" value="S2I1"/>' . "\n"
-                    . '<span>Sub Two Item One</span><br/>' . "\n"
-                )
+                    . '<span>Sub Two Item One</span><br/>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -399,8 +441,10 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
-                )
+                    . '</select>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -419,7 +463,8 @@ extends Bootstrap4RenderFrame
                     . '<option value="S2I1" data-nf-sidecar="&quot;s2i1 side&quot;">Sub Two Item One</option>' . "\n"
                     . '<option value="S2I2" data-nf-sidecar="&quot;s2i2 side&quot;">Sub Two Item Two</option>' . "\n"
                     . '</optgroup>' . "\n"
-                    . '</select>' . "\n"
+                    . '</select>' . "\n",
+                    $checkOptions
                 )
             )
         );

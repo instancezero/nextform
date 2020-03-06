@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         // No access specification assumes write access
@@ -51,7 +53,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text" class="form-control"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -65,7 +68,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text" class="form-control" readonly/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -81,7 +85,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-valid"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -92,7 +97,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-invalid"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -112,21 +118,24 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
             $this->formGroup(
             $this->column1h('', 'label')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -137,7 +146,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -149,34 +159,36 @@ extends Bootstrap4RenderFrame
         $expect['valid'] = Block::fromString(
             $this->formGroup(
             $this->column1h('', 'label')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-valid"'
                     . ' list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
         $expect['invalid'] = Block::fromString(
             $this->formGroup(
             $this->column1h('', 'label')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-invalid"'
                     . ' list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\" data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -196,6 +208,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         // no labels
@@ -205,7 +219,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -220,7 +235,8 @@ extends Bootstrap4RenderFrame
                     . '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . "\n",
                     'input-group'
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -235,7 +251,8 @@ extends Bootstrap4RenderFrame
                     . '<span class="input-group-text">suffix</span>' . "\n"
                     . '</div>' . "\n",
                     'input-group'
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -246,7 +263,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -258,10 +276,13 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"'
                     . ' aria-describedby="field_1_help"/>' . "\n"
-                    . '<span class="w-100"></span>' . "\n"
-                    . '<small id="field_1_help" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                )
+                    . '<span class="w-100"></span>' . "\n",
+                    [
+                        'help' => '<small id="field_1_help"'
+                        . ' class="form-text text-muted">Helpful</small>' . "\n"
+                    ]
+                ),
+                $groupOptions
             )
         );
 
@@ -273,7 +294,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"'
                     . ' placeholder="inner"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -291,11 +313,14 @@ extends Bootstrap4RenderFrame
                     . '<div class="input-group-append">' . "\n"
                     . '<span class="input-group-text">suffix</span>' . "\n"
                     . '</div>' . "\n"
-                    . '<span class="w-100"></span>' . "\n"
-                    . '<small id="field_1_help" class="form-text text-muted">Helpful</small>' . "\n"
-                    ,
-                    'input-group'
-                )
+                    . '<span class="w-100"></span>' . "\n",
+                    [
+                        'class' => 'input-group',
+                        'help' => '<small id="field_1_help"'
+                        . ' class="form-text text-muted">Helpful</small>' . "\n"
+                    ]
+                ),
+                $groupOptions
             )
         );
 
@@ -306,7 +331,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-valid"'
                     . ' value="the value"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -317,7 +343,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-invalid"'
                     . ' value="the value"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -337,6 +364,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['required'] = Block::fromString(
@@ -346,7 +375,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1"'
                     . ' type="text" class="form-control"'
                     . ' required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -357,7 +387,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -368,7 +399,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" minlength="3" required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -380,7 +412,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" maxlength="10" minlength="3"'
                     . ' pattern="[a-z][0-9][a-z] ?[0-9][a-z][0-9]" required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -463,16 +496,16 @@ extends Bootstrap4RenderFrame
         $expect['basic'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
         );
@@ -496,17 +529,17 @@ extends Bootstrap4RenderFrame
         $expect['valid'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-valid"'
                     . ' list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
         );
@@ -514,17 +547,17 @@ extends Bootstrap4RenderFrame
         $expect['invalid'] = Block::fromString(
             $this->formGroup(
                 $this->column1('')
+                . "<datalist id=\"field_1_list\">\n"
+                . "<option value=\"textlist 1\"/>\n"
+                . "<option value=\"textlist 2\""
+                . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
+                . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
+                . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
+                . "</datalist>\n"
                 . $this->column2(
                     '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control is-invalid"'
                     . ' list="field_1_list"/>' . "\n"
-                    . "<datalist id=\"field_1_list\">\n"
-                    . "<option value=\"textlist 1\"/>\n"
-                    . "<option value=\"textlist 2\""
-                    . " data-nf-group=\"[&quot;grpX&quot;]\"/>\n"
-                    . "<option value=\"textlist 3\" data-nf-name=\"tl3\"/>\n"
-                    . "<option value=\"textlist 4\" data-nf-sidecar=\"[1,2,3,4]\"/>\n"
-                    . "</datalist>\n"
                 )
             )
         );
@@ -544,6 +577,8 @@ extends Bootstrap4RenderFrame
         foreach ($cases as &$case) {
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
+
+        $groupOptions = ['invalid' => ''];
 
         $expect = [];
 
@@ -569,8 +604,11 @@ extends Bootstrap4RenderFrame
                     . '</div>' . "\n"
                     . '<input id="field_1" name="field_1" type="text"'
                     . ' class="form-control" value="the value"/>' . "\n"
+                    . '<div class="invalid-feedback">'
+                    . 'This error provided by default.</div>' . "\n"
                     . '</div>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -585,8 +623,11 @@ extends Bootstrap4RenderFrame
                     . '<div class="input-group-append">' . "\n"
                     . '<span class="input-group-text">suffix</span>' . "\n"
                     . '</div>' . "\n"
+                    . '<div class="invalid-feedback">'
+                    . 'This error provided by default.</div>' . "\n"
                     . '</div>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -610,9 +651,11 @@ extends Bootstrap4RenderFrame
                     . ' class="form-control" value="the value"'
                     . ' aria-describedby="field_1_help"/>' . "\n"
                     . '<span class="w-100"></span>' . "\n"
-                    . '<small id="field_1_help" class="form-text text-muted">Helpful</small>'
-                    . "\n"
-                )
+                ),
+                [
+                    'help' => '<small id="field_1_help" class="form-text text-muted">Helpful</small>'
+                        . "\n"
+                ]
             )
         );
 
@@ -644,9 +687,13 @@ extends Bootstrap4RenderFrame
                     . '<span class="input-group-text">suffix</span>' . "\n"
                     . '</div>' . "\n"
                     . '<span class="w-100"></span>' . "\n"
-                    . '<small id="field_1_help" class="form-text text-muted">Helpful</small>' . "\n"
+                    . '<div class="invalid-feedback">'
+                    . 'This error provided by default.</div>' . "\n"
+                    . '<small id="field_1_help" class="form-text text-muted">Helpful</small>'
+                    . "\n"
                     . '</div>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

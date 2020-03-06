@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -51,7 +53,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="email"'
                     . ' class="form-control"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -62,7 +65,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="email"'
                     . ' class="form-control" multiple/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -73,7 +77,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="email" class="form-control"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
             . $this->formGroup(
                 $this->column1h('Confirm yer email', 'label', 'field_1_confirm')
@@ -82,7 +87,7 @@ extends Bootstrap4RenderFrame
                     . ' type="email" class="form-control"/>'
                    . "\n"
                 ),
-                ['id' => 'field_1_confirm']
+                ['id' => 'field_1_confirm', 'invalid' => '']
             )
         );
 
@@ -94,7 +99,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="email" class="form-control"'
                     . ' value="snafu@fub.ar" readonly/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -110,7 +116,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="email"'
                     . ' class="form-control is-valid"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -121,7 +128,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="email"'
                     . ' class="form-control is-invalid"/>'
                     . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

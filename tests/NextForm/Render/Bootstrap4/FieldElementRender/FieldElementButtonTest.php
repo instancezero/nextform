@@ -50,7 +50,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="button"'
                     . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
+                ),
+                ['invalid' => '']
             )
         );
 
@@ -60,7 +61,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="reset"'
                     . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
+                ),
+                ['invalid' => '']
             )
         );
 
@@ -70,7 +72,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="submit"'
                     . ' class="btn btn-primary" value="Ok Bob"/>' . "\n"
-                )
+                ),
+                ['invalid' => '']
             )
         );
 
@@ -80,7 +83,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="button"'
                     . ' class="btn btn-primary is-valid" value="Ok Bob"/>' . "\n"
-                )
+                ),
+                ['invalid' => '']
             )
         );
 
@@ -90,7 +94,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="button"'
                     . ' class="btn btn-primary is-invalid" value="Ok Bob"/>' . "\n"
-                )
+                ),
+                ['invalid' => '']
             )
         );
 

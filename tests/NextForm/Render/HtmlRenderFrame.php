@@ -20,6 +20,7 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
     use HtmlTestLogger;
     use RenderCaseRunner;
 
+    static protected $defaultErrorMessage = '';
     static protected $defaultFormGroupClass = '';
     protected $testObj;
 
@@ -67,6 +68,14 @@ class HtmlRenderFrame extends \PHPUnit\Framework\TestCase
         $attr .= ' data-nf-for="' . $id . '"';
         $text = '<' . $element . $attr . '>' . "\n"
             . $body;
+        if (isset($options['invalid'])) {
+            $text .= $options['invalid'];
+        } else {
+            $text .= static::$defaultErrorMessage;
+        }
+        if (isset($options['help'])) {
+            $text .= $options['help'];
+        }
         if ($options['close'] ?? true) {
             $text .= '</' . $element . '>' . "\n";
         }

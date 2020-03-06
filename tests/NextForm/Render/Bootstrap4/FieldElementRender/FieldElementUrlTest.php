@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -50,7 +52,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -64,7 +67,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control" readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -79,7 +83,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control is-valid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -89,7 +94,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="url"'
                     . ' class="form-control is-invalid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

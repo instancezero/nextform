@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         // No access specification assumes write access
@@ -51,7 +53,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="file"'
                     . ' class="form-control-file"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -63,7 +66,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1[]" type="file"'
                     . ' class="form-control-file"'
                     . ' accept="*.png,*.jpg" multiple/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -74,7 +78,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file" readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -86,7 +91,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1[]" type="text"'
                     . ' class="form-control-file"'
                     . ' value="file1.png,file2.jpg" readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -103,7 +109,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="file"'
                     . ' class="form-control-file is-valid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -113,7 +120,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="file"'
                     . ' class="form-control-file is-invalid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

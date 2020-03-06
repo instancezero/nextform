@@ -65,9 +65,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
                     . ' class="btn btn-success" value="I am Button!"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -81,9 +82,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="reset"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -94,9 +96,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="submit"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -107,9 +110,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
                     . ' class="btn btn-primary" value="I am Button!"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -119,9 +123,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+                    . ' class="btn btn-primary"'
+                    . ' value="I am Button!" disabled/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -137,9 +143,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n"
+                    . ' class="btn btn-success btn-sm"'
+                    . ' value="I am Button!"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -149,9 +157,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="submit"'
-                    . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n"
+                    . ' class="btn btn-primary btn-lg"'
+                    . ' value="I am Button!"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -161,9 +171,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-outline-warning btn-lg" value="I am Button!"/>' . "\n"
+                    . ' class="btn btn-outline-warning btn-lg"'
+                    . ' value="I am Button!"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -173,9 +185,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n"
+                    . ' class="btn btn-primary" value="I am Button!" disabled/>'
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -185,9 +199,14 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
-                    . ' class="btn btn-primary" value="I am Button!"/>' . "\n"
+                    . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1', 'classPrepend' => 'nf-hidden']
+                [
+                    'classPrepend' => 'nf-hidden',
+                    'id' => 'button_1',
+                    'invalid' => ''
+                ]
             )
         );
 
@@ -216,9 +235,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
                     . ' class="btn btn-primary"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -228,9 +248,11 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<span class="mr-1">prefix</span>'
-                . '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n"
+                    . '<input id="button_1" name="button_1" type="button"'
+                    . ' class="btn btn-primary"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -240,9 +262,10 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label', 'button_1')
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>'
-                . '<span>suffix</span>' . "\n"
+                    . '<span>suffix</span>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -251,9 +274,11 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('Header', 'label', 'button_1')
                 . $this->column2h(
-                    '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n"
+                    '<input id="button_1" name="button_1"'
+                    . ' type="button" class="btn btn-primary"/>' . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -266,9 +291,10 @@ extends Bootstrap4RenderFrame
                     . ' class="btn btn-primary" aria-describedby="button_1_formhelp"/>'
                     . "\n"
                     . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -279,9 +305,10 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="button_1" name="button_1" type="button"'
                     . ' class="btn btn-primary" value="inner"/>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -295,9 +322,10 @@ extends Bootstrap4RenderFrame
                     . '<span>suffix</span>'
                     . "\n"
                     . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
-                    . "\n"
+                    . "\n",
+                    ['invalid' => '']
                 ),
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -324,7 +352,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-success" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -336,7 +364,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="reset"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -345,7 +373,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="submit"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -354,7 +382,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -363,7 +391,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -378,7 +406,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-success btn-sm" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -387,7 +415,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="submit"'
                 . ' class="btn btn-primary btn-lg" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -396,7 +424,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-outline-warning btn-lg" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -405,7 +433,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!" disabled/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -414,7 +442,11 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary" value="I am Button!"/>' . "\n",
-                ['id' => 'button_1', 'classPrepend' => 'nf-hidden']
+                [
+                    'classPrepend' => 'nf-hidden',
+                    'id' => 'button_1',
+                    'invalid' => ''
+                ]
             )
         );
 
@@ -442,7 +474,7 @@ extends Bootstrap4RenderFrame
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary"/>'
                 . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -451,7 +483,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<span class="mr-1">prefix</span>'
                 . '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -460,7 +492,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>'
                 . '<span>suffix</span>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -469,7 +501,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<label for="button_1">Header</label>' . "\n"
                 . '<input id="button_1" name="button_1" type="button" class="btn btn-primary"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -481,7 +513,7 @@ extends Bootstrap4RenderFrame
                 . "\n"
                 . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
                 . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -490,7 +522,7 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 '<input id="button_1" name="button_1" type="button"'
                 . ' class="btn btn-primary" value="inner"/>' . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 
@@ -504,7 +536,7 @@ extends Bootstrap4RenderFrame
                 . "\n"
                 . '<small id="button_1_formhelp" class="form-text text-muted">Helpful</small>'
                 . "\n",
-                ['id' => 'button_1']
+                ['id' => 'button_1', 'invalid' => '']
             )
         );
 

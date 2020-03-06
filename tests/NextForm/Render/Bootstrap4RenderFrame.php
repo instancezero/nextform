@@ -11,6 +11,9 @@ include_once __DIR__ . '/HtmlRenderFrame.php';
 class Bootstrap4RenderFrame extends HtmlRenderFrame
 {
 
+    static protected $defaultErrorMessage = '<div class="invalid-feedback">'
+                . 'This error provided by default.</div>' . "\n";
+
     protected function column1h($text, $tag = 'label', $for = 'field_1', $moreClass = '')
     {
         if ($for !== '') {
@@ -24,20 +27,41 @@ class Bootstrap4RenderFrame extends HtmlRenderFrame
         return $text;
     }
 
-    protected function column2h($text, $moreClass = '')
+    protected function column2h($text, $options= [])
     {
-        $divClass = $this->classBuild('col-sm-10', $moreClass);
+        if (!is_array($options)) {
+            $options = ['class' => $options];
+        }
+        $divClass = $this->classBuild('col-sm-10', $options['class'] ?? '');
         $text = '<div class="' . $divClass. '">' . "\n"
-            . $text . '</div>' . "\n";
+            . $text;
+        if (!isset($options['invalid'])) {
+            $text .= static::$defaultErrorMessage;
+        } else {
+            $text .= $options['invalid'];
+        }
+        if (isset($options['help'])) {
+            $text .= $options['help'];
+        }
+        $text .= '</div>' . "\n";
         return $text;
     }
 
-    protected function formCheck($body, $changeClass = '')
+    protected function formCheck($body, $options = [])
     {
-        $changeClass = $changeClass === '' ? 'form-check' : $changeClass;
-        $text = '<div class="' . $this->classBuild($changeClass) . '">' . "\n"
+        if (!is_array($options)) {
+            $options = ['changeclass' => $options];
+        }
+        $text = '<div class="'
+            . $this->classBuild($options['changeclass'] ?? 'form-check')
+            . '">' . "\n"
             . $body
             . '</div>' . "\n";
+        if (!isset($options['invalid'])) {
+            $text .= static::$defaultErrorMessage;
+        } else {
+            $text .= $options['invalid'];
+        }
         return $text;
     }
 

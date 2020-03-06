@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -50,7 +52,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -62,7 +65,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -74,7 +78,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45" required data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -86,7 +91,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200"'
                     . ' min="-1000" max="999.45" required step="1.23" data-nf-req="1"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -100,7 +106,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control" value="200" readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -110,7 +117,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control is-valid" value="200"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -120,7 +128,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="number"'
                     . ' class="form-control is-invalid" value="200"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 

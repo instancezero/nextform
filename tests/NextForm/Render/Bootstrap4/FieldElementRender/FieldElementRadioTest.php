@@ -42,6 +42,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -52,9 +55,11 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -70,9 +75,11 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -85,9 +92,11 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3" readonly/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -104,9 +113,11 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -118,9 +129,11 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -140,6 +153,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['labels-value'] = Block::fromString(
@@ -151,10 +167,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -168,10 +186,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3" readonly/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -189,10 +209,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid" value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -205,10 +227,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid" value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -228,6 +252,13 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [
+            'class' => 'form-group',
+            'element' => 'fieldset',
+            'invalid' => ''
+        ];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -239,32 +270,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3"'
                         . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4"'
                         . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -281,32 +316,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3" checked'
                         . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4"'
                         . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -320,32 +359,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 2"'
                         . ' readonly data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3"'
                         . ' checked readonly data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4" readonly'
                         . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -364,32 +407,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid" value="textlist 3"'
                         . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid" value="textlist 4"'
                         . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -402,32 +449,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid" value="textlist 3"'
                         . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid" value="textlist 4"'
                         . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                         . '<label for="field_1_opt3" class="form-check-label">'
-                        . 'textlist 4</label>' . "\n"
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -447,6 +498,13 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [
+            'class' => 'form-group',
+            'element' => 'fieldset',
+            'invalid' => ''
+        ];
+
         $expect = [];
 
         $expect['labels-value'] = Block::fromString(
@@ -459,31 +517,36 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3"'
                         . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -494,38 +557,44 @@ extends Bootstrap4RenderFrame
                 . $this->column1h('Very Important Choice', 'legend')
                 . $this->column2h(
                     '<div>No need to fear</div>'
-                        . $this->formCheck(
-                            '<input id="field_1_opt0" name="field_1" type="radio"'
-                            . ' class="form-check-input" value="textlist 1"'
-                            . ' readonly/>' . "\n"
-                            . '<label for="field_1_opt0" class="form-check-label">'
-                            . 'textlist 1</label>' . "\n"
-                        )
-                        . $this->formCheck(
-                            '<input id="field_1_opt1" name="field_1" type="radio"'
-                            . ' class="form-check-input" value="textlist 2"'
-                            . ' readonly'
-                            . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
-                            . '<label for="field_1_opt1" class="form-check-label">'
-                            . 'textlist 2</label>' . "\n"
-                        )
-                        . $this->formCheck(
-                            '<input id="field_1_opt2" name="field_1" type="radio"'
-                            . ' class="form-check-input" value="textlist 3"'
-                            . ' checked readonly data-nf-name="tl3"/>' . "\n"
-                            . '<label for="field_1_opt2" class="form-check-label">'
-                            . 'textlist 3</label>' . "\n"
-                        )
-                        . $this->formCheck(
-                            '<input id="field_1_opt3" name="field_1" type="radio"'
-                            . ' class="form-check-input" value="textlist 4" readonly'
-                            . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                            . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
-                        )
+                    . $this->formCheck(
+                        '<input id="field_1_opt0" name="field_1" type="radio"'
+                        . ' class="form-check-input" value="textlist 1"'
+                        . ' readonly/>' . "\n"
+                        . '<label for="field_1_opt0" class="form-check-label">'
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt1" name="field_1" type="radio"'
+                        . ' class="form-check-input" value="textlist 2"'
+                        . ' readonly'
+                        . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
+                        . '<label for="field_1_opt1" class="form-check-label">'
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt2" name="field_1" type="radio"'
+                        . ' class="form-check-input" value="textlist 3"'
+                        . ' checked readonly data-nf-name="tl3"/>' . "\n"
+                        . '<label for="field_1_opt2" class="form-check-label">'
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
+                    )
+                    . $this->formCheck(
+                        '<input id="field_1_opt3" name="field_1" type="radio"'
+                        . ' class="form-check-input" value="textlist 4" readonly'
+                        . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
+                        . '<label for="field_1_opt3"'
+                        . ' class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
+                    )
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>' . "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -546,7 +615,8 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-valid"'
                         . ' value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -554,7 +624,8 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -562,18 +633,22 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 3"'
                         . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid"'
                         . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3"'
+                        . ' class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -588,7 +663,8 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-invalid"'
                         . ' value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -596,7 +672,8 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -604,18 +681,21 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 3"'
                         . ' checked data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid"'
                         . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 )
                 . '</div>'. "\n",
-                ['class' => 'form-group', 'element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -635,6 +715,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -643,8 +726,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="radio"'
                     . ' class="form-check-input"/>' . "\n"
                     . '<label for="field_1" class="form-check-label">'
-                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
-                )
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -658,8 +743,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="radio"'
                     . ' class="form-check-input" value="3"/>' . "\n"
                     . '<label for="field_1" class="form-check-label">'
-                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
-                )
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -670,8 +757,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="radio"'
                     . ' class="form-check-input" value="3" readonly/>' . "\n"
                     . '<label for="field_1" class="form-check-label">'
-                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
-                )
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -686,8 +775,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="radio"'
                     . ' class="form-check-input is-valid"/>' . "\n"
                     . '<label for="field_1" class="form-check-label">'
-                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
-                )
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -697,8 +788,10 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="radio"'
                     . ' class="form-check-input is-invalid"/>' . "\n"
                     . '<label for="field_1" class="form-check-label">'
-                    . '&lt;Stand-alone&gt; radio</label>' . "\n"
-                )
+                    . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                    $checkOptions
+                ),
+                $groupOptions
             )
         );
 
@@ -718,6 +811,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = [];
+
         $expect = [];
 
         $expect['labels-value'] = Block::fromString(
@@ -729,10 +825,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -746,10 +844,12 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="3" readonly/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -768,10 +868,12 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-valid"'
                         . ' value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -785,10 +887,12 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-invalid"'
                         . ' value="3"/>' . "\n"
                         . '<label for="field_1" class="form-check-label">'
-                        . '&lt;Stand-alone&gt; radio</label>' . "\n"
+                        . '&lt;Stand-alone&gt; radio</label>' . "\n",
+                        $checkOptions
                     )
                     . '<span>See? No problem!</span>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -808,6 +912,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = ['element' => 'fieldset'];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -817,30 +924,34 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1_opt0" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 1"/>' . "\n"
                     . '<label for="field_1_opt0" class="form-check-label">'
-                    . 'textlist 1</label>' . "\n"
+                    . 'textlist 1</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt1" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 2"'
                     . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                     . '<label for="field_1_opt1" class="form-check-label">'
-                    . 'textlist 2</label>' . "\n"
+                    . 'textlist 2</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt2" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 3"'
                     . ' data-nf-name="tl3"/>' . "\n"
                     . '<label for="field_1_opt2" class="form-check-label">'
-                    . 'textlist 3</label>' . "\n"
+                    . 'textlist 3</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt3" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 4"'
                     . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field_1_opt3" class="form-check-label">'
-                    . 'textlist 4</label>' . "\n"
+                    . 'textlist 4</label>' . "\n",
+                    $checkOptions
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -855,30 +966,34 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1_opt0" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 1"/>' . "\n"
                     . '<label for="field_1_opt0" class="form-check-label">'
-                    . 'textlist 1</label>' . "\n"
+                    . 'textlist 1</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt1" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 2"'
                     . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                     . '<label for="field_1_opt1" class="form-check-label">'
-                    . 'textlist 2</label>' . "\n"
+                    . 'textlist 2</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt2" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 3" checked'
                     . ' data-nf-name="tl3"/>' . "\n"
                     . '<label for="field_1_opt2" class="form-check-label">'
-                    . 'textlist 3</label>' . "\n"
+                    . 'textlist 3</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt3" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 4"'
                     . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field_1_opt3" class="form-check-label">'
-                    . 'textlist 4</label>' . "\n"
+                    . 'textlist 4</label>' . "\n",
+                    $checkOptions
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -890,30 +1005,34 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1_opt0" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 1" readonly/>' . "\n"
                     . '<label for="field_1_opt0" class="form-check-label">'
-                    . 'textlist 1</label>' . "\n"
+                    . 'textlist 1</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt1" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 2"'
                     . ' readonly data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                     . '<label for="field_1_opt1" class="form-check-label">'
-                    . 'textlist 2</label>' . "\n"
+                    . 'textlist 2</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt2" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 3"'
                     . ' checked readonly data-nf-name="tl3"/>' . "\n"
                     . '<label for="field_1_opt2" class="form-check-label">'
-                    . 'textlist 3</label>' . "\n"
+                    . 'textlist 3</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt3" name="field_1" type="radio"'
                     . ' class="form-check-input" value="textlist 4" readonly'
                     . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field_1_opt3" class="form-check-label">'
-                    . 'textlist 4</label>' . "\n"
+                    . 'textlist 4</label>' . "\n",
+                    $checkOptions
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -931,7 +1050,8 @@ extends Bootstrap4RenderFrame
                     . ' class="form-check-input is-valid"'
                     . ' value="textlist 1"/>' . "\n"
                     . '<label for="field_1_opt0" class="form-check-label">'
-                    . 'textlist 1</label>' . "\n"
+                    . 'textlist 1</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -939,7 +1059,8 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 2"'
                     . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                     . '<label for="field_1_opt1" class="form-check-label">'
-                    . 'textlist 2</label>' . "\n"
+                    . 'textlist 2</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -947,7 +1068,8 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 3" checked'
                     . ' data-nf-name="tl3"/>' . "\n"
                     . '<label for="field_1_opt2" class="form-check-label">'
-                    . 'textlist 3</label>' . "\n"
+                    . 'textlist 3</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt3" name="field_1" type="radio"'
@@ -955,9 +1077,10 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 4"'
                     . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field_1_opt3" class="form-check-label">'
-                    . 'textlist 4</label>' . "\n"
+                    . 'textlist 4</label>' . "\n",
+                    $checkOptions
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -969,7 +1092,8 @@ extends Bootstrap4RenderFrame
                     . ' class="form-check-input is-invalid"'
                     . ' value="textlist 1"/>' . "\n"
                     . '<label for="field_1_opt0" class="form-check-label">'
-                    . 'textlist 1</label>' . "\n"
+                    . 'textlist 1</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -977,7 +1101,8 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 2"'
                     . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                     . '<label for="field_1_opt1" class="form-check-label">'
-                    . 'textlist 2</label>' . "\n"
+                    . 'textlist 2</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -985,7 +1110,8 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 3" checked'
                     . ' data-nf-name="tl3"/>' . "\n"
                     . '<label for="field_1_opt2" class="form-check-label">'
-                    . 'textlist 3</label>' . "\n"
+                    . 'textlist 3</label>' . "\n",
+                    $checkOptions
                 )
                 . $this->formCheck(
                     '<input id="field_1_opt3" name="field_1" type="radio"'
@@ -993,9 +1119,10 @@ extends Bootstrap4RenderFrame
                     . ' value="textlist 4"'
                     . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
                     . '<label for="field_1_opt3" class="form-check-label">'
-                    . 'textlist 4</label>' . "\n"
+                    . 'textlist 4</label>' . "\n",
+                    $checkOptions
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -1015,6 +1142,9 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $checkOptions = ['invalid' => ''];
+        $groupOptions = ['element' => 'fieldset'];
+
         $expect = [];
 
         $expect['labels-value'] = Block::fromString(
@@ -1026,30 +1156,35 @@ extends Bootstrap4RenderFrame
                         '<input id="field_1_opt0" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 3" checked'
                         . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input" value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -1064,7 +1199,8 @@ extends Bootstrap4RenderFrame
                             . ' class="form-check-input" value="textlist 1"'
                             . ' readonly/>' . "\n"
                             . '<label for="field_1_opt0" class="form-check-label">'
-                            . 'textlist 1</label>' . "\n"
+                            . 'textlist 1</label>' . "\n",
+                        $checkOptions
                         )
                         . $this->formCheck(
                             '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -1072,24 +1208,28 @@ extends Bootstrap4RenderFrame
                             . ' readonly data-nf-group="[&quot;grpX&quot;]"/>'
                             . "\n"
                             . '<label for="field_1_opt1" class="form-check-label">'
-                            . 'textlist 2</label>' . "\n"
+                            . 'textlist 2</label>' . "\n",
+                        $checkOptions
                         )
                         . $this->formCheck(
                             '<input id="field_1_opt2" name="field_1" type="radio"'
                             . ' class="form-check-input" value="textlist 3"'
                             . ' checked readonly data-nf-name="tl3"/>' . "\n"
                             . '<label for="field_1_opt2" class="form-check-label">'
-                            . 'textlist 3</label>' . "\n"
+                            . 'textlist 3</label>' . "\n",
+                        $checkOptions
                         )
                         . $this->formCheck(
                             '<input id="field_1_opt3" name="field_1" type="radio"'
                             . ' class="form-check-input" value="textlist 4" readonly'
                             . ' data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                            . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                            . '<label for="field_1_opt3" class="form-check-label">'
+                            . 'textlist 4</label>' . "\n",
+                        $checkOptions
                         )
                     . '<div>See? No problem!</div>' . "\n"
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -1109,7 +1249,8 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-valid"'
                         . ' value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -1117,7 +1258,8 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -1125,17 +1267,20 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 3" checked'
                         . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-valid"'
                         . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 
@@ -1149,7 +1294,8 @@ extends Bootstrap4RenderFrame
                         . ' class="form-check-input is-invalid"'
                         . ' value="textlist 1"/>' . "\n"
                         . '<label for="field_1_opt0" class="form-check-label">'
-                        . 'textlist 1</label>' . "\n"
+                        . 'textlist 1</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt1" name="field_1" type="radio"'
@@ -1157,7 +1303,8 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 2"'
                         . ' data-nf-group="[&quot;grpX&quot;]"/>' . "\n"
                         . '<label for="field_1_opt1" class="form-check-label">'
-                        . 'textlist 2</label>' . "\n"
+                        . 'textlist 2</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt2" name="field_1" type="radio"'
@@ -1165,17 +1312,20 @@ extends Bootstrap4RenderFrame
                         . ' value="textlist 3" checked'
                         . ' data-nf-name="tl3"/>' . "\n"
                         . '<label for="field_1_opt2" class="form-check-label">'
-                        . 'textlist 3</label>' . "\n"
+                        . 'textlist 3</label>' . "\n",
+                        $checkOptions
                     )
                     . $this->formCheck(
                         '<input id="field_1_opt3" name="field_1" type="radio"'
                         . ' class="form-check-input is-invalid"'
                         . ' value="textlist 4" data-nf-sidecar="[1,2,3,4]"/>' . "\n"
-                        . '<label for="field_1_opt3" class="form-check-label">textlist 4</label>' . "\n"
+                        . '<label for="field_1_opt3" class="form-check-label">'
+                        . 'textlist 4</label>' . "\n",
+                        $checkOptions
                     )
                     . '<div>See? No problem!</div>' . "\n"
                 ),
-                ['element' => 'fieldset']
+                $groupOptions
             )
         );
 

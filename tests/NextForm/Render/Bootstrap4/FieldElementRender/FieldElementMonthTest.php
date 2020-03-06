@@ -42,6 +42,8 @@ extends Bootstrap4RenderFrame
             $case[0] = new FieldElementRender($this->render, $case[0]);
         }
 
+        $groupOptions = ['invalid' => ''];
+
         $expect = [];
 
         $expect['basic'] = Block::fromString(
@@ -49,7 +51,8 @@ extends Bootstrap4RenderFrame
                 $this->column1h('', 'label')
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -59,7 +62,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -73,7 +77,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10" min="1957-10" max="2099-11"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -85,7 +90,8 @@ extends Bootstrap4RenderFrame
                     '<input id="field_1" name="field_1" type="month" class="form-control"'
                     . ' value="2010-10"'
                     . ' readonly/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -100,7 +106,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="month"'
                     . ' class="form-control is-valid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
@@ -110,7 +117,8 @@ extends Bootstrap4RenderFrame
                 . $this->column2h(
                     '<input id="field_1" name="field_1" type="month"'
                     . ' class="form-control is-invalid"/>' . "\n"
-                )
+                ),
+                $groupOptions
             )
         );
 
