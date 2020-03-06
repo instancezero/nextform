@@ -44,9 +44,9 @@
                 {
                     "type": "cell",
                     "elements": [
-                        "user2\/areaCode",
-                        "user2\/phoneNumber",
-                        "user2\/phoneExtension"
+                        "user2.areaCode",
+                        "user2.phoneNumber",
+                        "user2.phoneExtension"
                     ]
                 },
                 {

@@ -191,7 +191,7 @@ class NextFormTest extends TestCase
         $manager->addSchema($schema)->addForm($form);
         $manager->bind();
         $data = $manager->getData();
-        $this->assertEquals(['test/text' => null], $data);
+        $this->assertEquals(['test.text' => null], $data);
     }
 
     public function testBindingEmpty()

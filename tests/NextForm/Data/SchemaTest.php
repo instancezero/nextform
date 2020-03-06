@@ -47,9 +47,9 @@ class DataSchemaTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetProperty() {
         $obj = Schema::fromFile(__DIR__ . '/data-schema.json');
-        $this->assertNull($obj->getProperty('foo/bar'));
+        $this->assertNull($obj->getProperty('foo.bar'));
         $this->assertInstanceOf(
-            '\Abivia\NextForm\Data\Property', $obj->getProperty('ObjectOne/id')
+            '\Abivia\NextForm\Data\Property', $obj->getProperty('ObjectOne.id')
         );
         $this->assertInstanceOf(
             '\Abivia\NextForm\Data\Property', $obj->getProperty('ObjectOne', 'id2')

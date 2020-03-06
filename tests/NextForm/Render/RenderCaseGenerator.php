@@ -174,10 +174,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
         //
-        // Modify the schema to change test/text to a button
+        // Modify the schema to change test.text to a button
         //
-        $schema->getProperty('test/text')->getPresentation()->setType('button');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $schema->getProperty('test.text')->getPresentation()->setType('button');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $e1 = new FieldElement();
         $e1->configure($config);
         $b1 = Binding::fromElement($e1);
@@ -192,7 +192,7 @@ class RenderCaseGenerator {
         $b2 = Binding::fromElement($e2);
         $b2->bindSchema($s2);
         $b2->setValue('Ok Bob');
-        $s2->getProperty('test/text')->getPresentation()->setType('reset');
+        $s2->getProperty('test.text')->getPresentation()->setType('reset');
         $cases['reset'] = [$b2];
 
         $s3 = $schema->copy();
@@ -201,7 +201,7 @@ class RenderCaseGenerator {
         $b3 = Binding::fromElement($e3);
         $b3->bindSchema($s3);
         $b3->setValue('Ok Bob');
-        $s3->getProperty('test/text')->getPresentation()->setType('submit');
+        $s3->getProperty('test.text')->getPresentation()->setType('submit');
         $cases['submit'] = [$b3];
 
         $cases['valid'] = [$b1->copy()->setValid(true)];
@@ -217,11 +217,11 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
         //
-        // Modify the schema to change test/text to a checkbox
+        // Modify the schema to change test.text to a checkbox
         //
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('checkbox');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -283,11 +283,11 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
         //
-        // Modify the schema to change test/text to a checkbox
+        // Modify the schema to change test.text to a checkbox
         //
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('checkbox');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -316,9 +316,9 @@ class RenderCaseGenerator {
         );
 
         // Modify the schema to change textWithList to a checkbox, mix up item attributes
-        $schema->getProperty('test/textWithList')->getPresentation()->setType('checkbox');
+        $schema->getProperty('test.textWithList')->getPresentation()->setType('checkbox');
 
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -353,9 +353,9 @@ class RenderCaseGenerator {
         //
         // Modify the schema to change textWithList to a checkbox
         //
-        $schema->getProperty('test/textWithList')->getPresentation()->setType('checkbox');
+        $schema->getProperty('test.textWithList')->getPresentation()->setType('checkbox');
 
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -422,9 +422,9 @@ class RenderCaseGenerator {
         $schema = new SchemaCollection(
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('color');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
 
         $element = new FieldElement();
         $element->configure($config);
@@ -462,9 +462,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('date');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -510,9 +510,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('datetime-local');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -556,9 +556,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('email');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
 
         $element = new FieldElement();
         $element->configure($config);
@@ -580,7 +580,7 @@ class RenderCaseGenerator {
         $e2->configure($config);
         $b2 = Binding::fromElement($e2);
         $b2->bindSchema($s2);
-        $s2->getProperty('test/text')->getPresentation()->setConfirm(true);
+        $s2->getProperty('test.text')->getPresentation()->setConfirm(true);
         $b2->setLabel('heading', 'Yer email');
         $b2->setLabel('heading', 'Confirm yer email', true);
         $cases['confirm'] = $b2;
@@ -607,9 +607,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('file');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -651,9 +651,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('hidden');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -698,9 +698,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('hidden');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -723,9 +723,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('month');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -769,11 +769,11 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a number
+        // Modify the schema to change test.text to a number
         //
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('number');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -818,10 +818,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a password
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a password
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('password');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -858,10 +858,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a radio
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a radio
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('radio');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -901,10 +901,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a radio
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a radio
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('radio');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -939,8 +939,8 @@ class RenderCaseGenerator {
         );
 
         // Modify the schema to change textWithList to a radio
-        $schema->getProperty('test/textWithList')->getPresentation()->setType('radio');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $schema->getProperty('test.textWithList')->getPresentation()->setType('radio');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -977,10 +977,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a radio
-        $presentation = $schema->getProperty('test/textWithList')->getPresentation();
+        // Modify the schema to change test.text to a radio
+        $presentation = $schema->getProperty('test.textWithList')->getPresentation();
         $presentation->setType('radio');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1015,11 +1015,11 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a range
+        // Modify the schema to change test.text to a range
         //
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('range');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1064,10 +1064,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a search
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a search
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('search');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1099,10 +1099,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a select
-        $schema->getProperty('test/textWithList')
+        // Modify the schema to change test.text to a select
+        $schema->getProperty('test.textWithList')
             ->getPresentation()->setType('select');
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1156,9 +1156,9 @@ class RenderCaseGenerator {
 
         // Clone the schema and set the presentation to six rows
         $s2 = $schema->copy();
-        $s2->getProperty('test/textWithList')
+        $s2->getProperty('test.textWithList')
             ->getPresentation()->setRows(6);
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $b3 = Binding::fromElement($element);
@@ -1177,10 +1177,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a select
-        $presentation = $schema->getProperty('test/textWithNestedList')->getPresentation();
+        // Modify the schema to change test.text to a select
+        $presentation = $schema->getProperty('test.textWithNestedList')->getPresentation();
         $presentation->setType('select');
-        $config = json_decode('{"type": "field","object": "test/textWithNestedList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithNestedList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1239,10 +1239,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a tel
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a tel
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('tel');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1274,7 +1274,7 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1299,7 +1299,7 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $config = json_decode('{"type": "field","object": "test/textWithList"}');
+        $config = json_decode('{"type": "field","object": "test.textWithList"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1330,7 +1330,7 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1352,7 +1352,7 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1385,10 +1385,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a textarea
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a textarea
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('textarea');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1421,9 +1421,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('time');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1466,10 +1466,10 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        // Modify the schema to change test/text to a search
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        // Modify the schema to change test.text to a search
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('url');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);
@@ -1501,9 +1501,9 @@ class RenderCaseGenerator {
             Schema::fromFile(__DIR__ . '/../../test-data/test-schema.json')
         );
 
-        $presentation = $schema->getProperty('test/text')->getPresentation();
+        $presentation = $schema->getProperty('test.text')->getPresentation();
         $presentation->setType('week');
-        $config = json_decode('{"type": "field","object": "test/text"}');
+        $config = json_decode('{"type": "field","object": "test.text"}');
         $element = new FieldElement();
         $element->configure($config);
         $binding = Binding::fromElement($element);

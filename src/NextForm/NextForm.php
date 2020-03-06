@@ -23,7 +23,7 @@ class NextForm
     public const CONTAINER_LABEL = '_container';
     public const HELP_LABEL = '_formhelp';
     public const GROUP_DELIM = ':';
-    public const SEGMENT_DELIM = '/';
+    public const SEGMENT_DELIM = '.';
 
     /**
      * The access controller

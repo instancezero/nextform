@@ -627,7 +627,7 @@ Abivia\NextForm\Form\Form Object
                                                     [dataListTranslated:protected] =>
                                                     [dataProperty:protected] =>
                                                     [default:protected] =>
-                                                    [object:protected] => user2/areaCode
+                                                    [object:protected] => user2.areaCode
                                                     [triggers:protected] => Array
                                                         (
                                                         )
@@ -716,7 +716,7 @@ Abivia\NextForm\Form\Form Object
                                                     [dataListTranslated:protected] =>
                                                     [dataProperty:protected] =>
                                                     [default:protected] =>
-                                                    [object:protected] => user2/phoneNumber
+                                                    [object:protected] => user2.phoneNumber
                                                     [triggers:protected] => Array
                                                         (
                                                         )
@@ -805,7 +805,7 @@ Abivia\NextForm\Form\Form Object
                                                     [dataListTranslated:protected] =>
                                                     [dataProperty:protected] =>
                                                     [default:protected] =>
-                                                    [object:protected] => user2/phoneExtension
+                                                    [object:protected] => user2.phoneExtension
                                                     [triggers:protected] => Array
                                                         (
                                                         )

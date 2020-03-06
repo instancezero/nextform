@@ -201,7 +201,7 @@
         },
         {
             "type": "field",
-            "object": "scratch\/feeSelect",
+            "object": "scratch.feeSelect",
             "labels": {
                 "help": "."
             },

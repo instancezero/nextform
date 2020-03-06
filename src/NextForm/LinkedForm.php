@@ -8,6 +8,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
+use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
@@ -90,7 +91,7 @@ class LinkedForm
 
         foreach ($this->allBindings as $binding) {
             if ($binding instanceof FieldBinding) {
-                $parts = \explode('/', $binding->getObject());
+                $parts = \explode(NextForm::SEGMENT_DELIM, $binding->getObject());
                 if ($parts[0] === $this->segmentNameDrop) {
                     unset($parts[0]);
                 }

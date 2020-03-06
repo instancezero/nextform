@@ -4,6 +4,7 @@ use Abivia\NextForm\Contracts\SchemaInterface;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Data\Segment;
+use Abivia\NextForm\NextForm;
 
 class SchemaCollection_MockSchema implements SchemaInterface
 {
@@ -33,8 +34,12 @@ class SchemaCollection_MockSchema implements SchemaInterface
      */
     public function getProperty($segProp, $name = '') : ?Property
     {
-        $composite = is_array($segProp) ? implode('/', $segProp) : $segProp;
-        $composite = "{$this->tag}/$composite/$name";
+        $composite = is_array($segProp)
+            ? implode(NextForm::SEGMENT_DELIM, $segProp) : $segProp;
+        $composite = implode(
+            NextForm::SEGMENT_DELIM,
+            [$this->tag, $composite, $name]
+        );
         $result = new Property();
         $result->setName($composite);
         return $result;
@@ -80,6 +85,9 @@ class SchemaCollection_MockSchema implements SchemaInterface
  */
 class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
 {
+    protected function makeSeg(...$bits) {
+        return implode(NextForm::SEGMENT_DELIM, $bits);
+    }
 
 	public function testInstantiation() {
         $obj = new SchemaCollection();
@@ -88,18 +96,34 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testAddOneSchema() {
         $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_1'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_2'));
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment', $obj->getSegment('one_1')
+        );
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment', $obj->getSegment('one_2')
+        );
         $this->assertNull($obj->getSegment('foo'));
     }
 
     public function testAddTwoSchemas() {
         $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
         $obj->addSchema(new SchemaCollection_MockSchema('two'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_1'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('one_2'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('two_1'));
-        $this->assertInstanceOf('\Abivia\NextForm\Data\Segment', $obj->getSegment('two_2'));
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment',
+            $obj->getSegment('one_1')
+        );
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment',
+            $obj->getSegment('one_2')
+        );
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment',
+            $obj->getSegment('two_1')
+        );
+        $this->assertInstanceOf(
+            '\Abivia\NextForm\Data\Segment',
+            $obj->getSegment('two_2')
+        );
         $this->assertNull($obj->getSegment('foo'));
     }
 
@@ -121,20 +145,29 @@ class DataSchemaCollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testGetProperty() {
         $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
-        $prop = $obj->getProperty('one_1/p1');
+        $prop = $obj->getProperty($this->makeSeg('one_1', 'p1'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Property', $prop);
-        $this->assertEquals('one/one_1/p1', $prop->getName());
-        $this->assertNull($obj->getProperty('two_1/p1'));
+        $this->assertEquals(
+            $this->makeSeg('one', 'one_1', 'p1'),
+            $prop->getName()
+        );
+        $this->assertNull($obj->getProperty($this->makeSeg('two_1', 'p1')));
     }
 
     public function testGetPropertyTwoSchemas() {
         $obj = new SchemaCollection(new SchemaCollection_MockSchema('one'));
         $obj->addSchema(new SchemaCollection_MockSchema('two'));
-        $prop = $obj->getProperty('one_1/p1');
+        $prop = $obj->getProperty($this->makeSeg('one_1', 'p1'));
         $this->assertInstanceOf('\Abivia\NextForm\Data\Property', $prop);
-        $this->assertEquals('one/one_1/p1', $prop->getName());
-        $prop = $obj->getProperty('two_1/p9');
-        $this->assertEquals('two/two_1/p9', $prop->getName());
+        $this->assertEquals(
+            $this->makeSeg('one', 'one_1', 'p1'),
+            $prop->getName()
+        );
+        $prop = $obj->getProperty('two_1', 'p9');
+        $this->assertEquals(
+            $this->makeSeg('two', 'two_1', 'p9'),
+            $prop->getName()
+        );
     }
 
 }

@@ -47,7 +47,7 @@ class BasicAccess implements AccessInterface
         if ($user === null || !isset($this->users[$user])) {
             throw new \LogicException('No valid user has been selected.');
         }
-        $composite = $segment . NextForm::SEGMENT_DELIM . $objectName;
+        $composite = $segment . '/'. $objectName;
         $segAccess = null;
         $objAccess = null;
         // Check the roles for the current user
@@ -88,8 +88,16 @@ class BasicAccess implements AccessInterface
     protected function configureClassMap($property, $value)
     {
         static $classMap = [
-            'roles' => ['className' => '\Abivia\NextForm\Access\Role', 'key' => 'getName', 'keyIsMethod' => true],
-            'users' => ['className' => '\Abivia\NextForm\Access\User', 'key' => 'getId', 'keyIsMethod' => true],
+            'roles' => [
+                'className' => '\Abivia\NextForm\Access\Role',
+                'key' => 'getName',
+                'keyIsMethod' => true
+            ],
+            'users' => [
+                'className' => '\Abivia\NextForm\Access\User',
+                'key' => 'getId',
+                'keyIsMethod' => true
+            ],
         ];
         if (isset($classMap[$property])) {
             return (object) $classMap[$property];

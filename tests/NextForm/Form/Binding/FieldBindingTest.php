@@ -44,8 +44,8 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
         $simpleForm = '{'
             . '"name":"registrationForm",'
             . '"elements":['
-                . '"test/text",'
-                . '"test/not-defined",'
+                . '"test.text",'
+                . '"test.not-defined",'
                 . '{'
                     . '"name": "intro",'
                     . '"type": "static",'
@@ -59,16 +59,16 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
 
     public function testBinding() {
         $element = new FieldElement();
-        $element->configure('test/text');
+        $element->configure('test.text');
         $binding = Binding::fromElement($element);
         $binding->bindSchema($this->simpleSchema);
-        $prop = $this->simpleSchema->getProperty('test/text');
+        $prop = $this->simpleSchema->getProperty('test.text');
         $this->assertEquals($prop, $binding->getDataProperty());
     }
 
     public function testBindingNotDefined() {
         $element = new FieldElement();
-        $element->configure('test/undefinedProperty');
+        $element->configure('test.undefinedProperty');
         $binding = Binding::fromElement($element);
         $this->expectException('\RuntimeException');
         $binding->bindSchema($this->simpleSchema);
