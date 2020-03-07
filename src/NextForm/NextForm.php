@@ -521,7 +521,7 @@ class NextForm
      */
     public function populateErrors($errors, $segment = '')
     {
-        $this->errorData[$segment] = $errors;
+        $this->formErrors[$segment] = $errors;
         return $this;
     }
 

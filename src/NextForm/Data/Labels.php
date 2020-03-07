@@ -259,7 +259,7 @@ class Labels implements \JsonSerializable
                 }
             }
             if ($newLabels->confirm === null) {
-                $newLabels->confirm = null;
+                $newLabels->confirm = $merge->confirm;
             } else {
                 $newLabels->confirm = $newLabels->confirm->merge(
                     $merge->confirm

@@ -94,11 +94,13 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 
 	public function testConfigurationNoNestedConfirm() {
         $config = json_decode(
-            '{"accept": "accept", "after": "after"'
+            '{'
+            . '"accept": "accept"'
+            . ', "after": "after"'
             . ', "before": "before"'
             . ', "confirm": {"heading": "confirm heading"'
-            . ', "help": "confirm help"'
-            . ', "confirm": { "error": "this is wrong!" }'
+                . ', "help": "confirm help"'
+                . ', "confirm": { "error": "this is wrong!" }'
             . '}'
             . ', "error": "error"'
             . ', "heading": "heading", "help": "help"'
@@ -244,11 +246,31 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($mergeExpect, $merge);
 	}
 
+	public function testCombineInsertConfirm() {
+        $obj1 = new Labels();
+        $obj1->heading = 'stuff';
+        $obj1->before = 'before merged';
+        $obj1->set('before', 'before confirm merged', true);
+
+        $obj2 = new Labels();
+        $obj2->after = 'after';
+        $obj2->before = 'before';
+        $merge = $obj2->merge($obj1);
+
+        $mergeExpect = new Labels();
+        $mergeExpect->after = 'after';
+        $mergeExpect->before = 'before merged';
+        $mergeExpect->heading = 'stuff';
+        $mergeExpect->set('before', 'before confirm merged', true);
+        $this->assertEquals($mergeExpect, $merge);
+	}
+
 	public function testCombineOverwriteConfirm() {
         $obj1 = new Labels();
         $obj1->heading = 'stuff';
         $obj1->before = 'before merged';
         $obj1->set('before', 'before confirm merged', true);
+
         $obj2 = new Labels();
         $obj2->after = 'after';
         $obj2->before = 'before';
