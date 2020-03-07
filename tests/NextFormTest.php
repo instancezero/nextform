@@ -236,11 +236,84 @@ class NextFormTest extends TestCase
         );
 
         $this->assertEquals($page->head, $obj->getHead());
+
         $this->assertEquals($page->body, $obj->getBody());
-        $this->assertEquals(\implode("\n", $page->linkedFiles), $obj->getLinks());
+
+        $text = \implode("\n", $page->linkedFiles);
+        $this->assertEquals($text, $obj->getLinks());
+
         $this->assertEquals($page->script, $obj->getScript());
-        $this->assertEquals(\implode("\n", $page->scriptFiles), $obj->getScriptFiles());
+
+        $text = \implode("\n", $page->scriptFiles);
+        $this->assertEquals($text, $obj->getScriptFiles());
+
         $this->assertEquals($page->styles, $obj->getStyles());
+
+        return [$page, $obj];
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateBody($pair) {
+        list($page, $obj) = $pair;
+        $this->expectOutputString($page->body);
+        $obj->body();
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateHead($pair) {
+        list($page, $obj) = $pair;
+        $this->expectOutputString($page->head);
+        $obj->head();
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateLinkedFiles($pair) {
+        list($page, $obj) = $pair;
+        $text = \implode("\n", $page->linkedFiles);
+        $this->assertEquals($text, $obj->getLinks());
+        $this->expectOutputString($text);
+        $obj->links();
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateScript($pair) {
+        list($page, $obj) = $pair;
+        $this->expectOutputString($page->script);
+        $obj->script();
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateScriptFiles($pair) {
+        list($page, $obj) = $pair;
+        $text = \implode("\n", $page->scriptFiles);
+        $this->assertEquals($text, $obj->getScriptFiles());
+        $this->expectOutputString($text);
+        $obj->scriptFiles();
+    }
+
+    /**
+     * @depends testGenerate
+     * @param array $pair
+     */
+    public function testGenerateStyles($pair) {
+        list($page, $obj) = $pair;
+        $this->expectOutputString($page->styles);
+        $obj->styles();
     }
 
     public function testHtmlIdentifier()

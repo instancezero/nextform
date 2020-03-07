@@ -210,6 +210,15 @@ class NextForm
     }
 
     /**
+     * Output the rendered body of all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function body($formName = null) {
+        echo $this->getBody($formName) ?? '';
+    }
+
+    /**
      * Reset the static context
      */
     static public function boot()
@@ -457,6 +466,15 @@ class NextForm
     }
 
     /**
+     * Output the rendered head section of all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function head($formName = null) {
+        echo $this->getHead($formName) ?? '';
+    }
+
+    /**
      * Turn a string into a valid HTML identifier, or make one up
      * @param string $name
      * @return string
@@ -476,6 +494,15 @@ class NextForm
             $name = \preg_replace('/^[^a-z]/i', 'nf_\1', $name);
         }
         return $name;
+    }
+
+    /**
+     * Output the file links for all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function links($formName = null) {
+        echo $this->getLinks($formName) ?? '';
     }
 
     /**
@@ -584,6 +611,24 @@ class NextForm
     }
 
     /**
+     * Output the script for all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function script($formName = null) {
+        echo $this->getScript($formName) ?? '';
+    }
+
+    /**
+     * Output the script files for all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function scriptFiles($formName = null) {
+        echo $this->getScriptFiles($formName) ?? '';
+    }
+
+    /**
      * Set the access control object.
      *
      * @param AccessInterface $access
@@ -639,6 +684,15 @@ class NextForm
     public function setUser($user)
     {
         $this->access->setUser($user);
+    }
+
+    /**
+     * Output the inline styles for all forms or a single form.
+     *
+     * @param string $formName
+     */
+    public function styles($formName = null) {
+        echo $this->getStyles($formName) ?? '';
     }
 
     /**
