@@ -26,16 +26,6 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->testObj->setShow('layout:vertical:10');
     }
 
-	public function testWriteTag()
-    {
-        $this->assertEquals('<input/>', $this->testObj->writeTag('input'));
-        $this->assertEquals('<div>', $this->testObj->writeTag('div'));
-        $this->assertEquals(
-            '<div>foo</div>',
-            $this->testObj->writeTag('div', null, 'foo')
-        );
-    }
-
 	public function testElementHidden()
     {
         $cases = RenderCaseGenerator::html_FieldHidden();
@@ -316,6 +306,18 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->testObj->start(['attributes' => new Attributes()]);
     }
 
+    public function testStateData()
+    {
+        $block = Html::stateData(['var0' => 0, 'var1' => 1]);
+        $block->close();
+        $this->assertEquals(
+            '<input name="var0" type="hidden" value="0"/>' . "\n"
+            . '<input name="var1" type="hidden" value="1"/>' . "\n",
+            $block->body
+
+        );
+    }
+
     public function testWriteElement()
     {
         $block = $this->testObj->writeElement('div');
@@ -367,6 +369,71 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
         $this->testObj->setShow('layout:horizontal');
         $html = $this->testObj->writeLabel('headingAttributes', null, 'div');
         $this->assertEquals('<div>&nbsp;</div>', $html, 'null horizontal');
+    }
+
+	public function testWriteTag()
+    {
+        $this->assertEquals('<input/>', Html::writeTag('input'));
+        $this->assertEquals('<div>', Html::writeTag('div'));
+        $this->assertEquals(
+            '<div>foo</div>',
+            Html::writeTag('div', null, 'foo')
+        );
+        $this->assertEquals(
+            '<div>f&lt;oo</div>',
+            Html::writeTag('div', null, 'f<oo')
+        );
+        $this->assertEquals(
+            '<div>f<oo</div>',
+            Html::writeTag('div', null, 'f<oo', ['escape' => false])
+        );
+    }
+
+	public function testWriteList()
+    {
+        $list = ['Item0', 'Item1'];
+
+        // Stock list
+        $this->assertEquals(
+            "<ul>\n<li>Item0</li>\n<li>Item1</li>\n</ul>\n",
+            Html::writeList($list)
+        );
+
+        // List Attributes
+        $listClass = new Attributes('class', 'lc');
+        $this->assertEquals(
+            "<ul class=\"lc\">\n<li>Item0</li>\n<li>Item1</li>\n</ul>\n",
+            Html::writeList($list, ['ul' => $listClass])
+        );
+
+        // Item Attributes
+        $itemClass = new Attributes('class', 'ic');
+        $this->assertEquals(
+            "<ul>\n<li class=\"ic\">Item0</li>\n"
+            . "<li class=\"ic\">Item1</li>\n</ul>\n",
+            Html::writeList($list, ['li' => $itemClass])
+        );
+
+        // Item and list attributes
+        $this->assertEquals(
+            "<ul class=\"lc\">\n<li class=\"ic\">Item0</li>\n"
+            . "<li class=\"ic\">Item1</li>\n</ul>\n",
+            Html::writeList($list, ['li' => $itemClass, 'ul' => $listClass])
+        );
+
+        // Escaping special characters by default
+        $list[1] = 'Item<em>1</em>';
+        $this->assertEquals(
+            "<ul>\n<li>Item0</li>\n<li>Item&lt;em&gt;1&lt;/em&gt;</li>\n</ul>\n",
+            Html::writeList($list)
+        );
+
+        // Escaping disabled
+        $this->assertEquals(
+            "<ul>\n<li>Item0</li>\n<li>Item<em>1</em></li>\n</ul>\n",
+            Html::writeList($list, ['escape' => false])
+        );
+
     }
 
 }

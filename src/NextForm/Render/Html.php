@@ -181,13 +181,13 @@ class Html implements RenderInterface
                 ++$optId;
                 $attrs->set('name', $nameOnForm . '[' . \htmlspecialchars($key) . ']');
                 $attrs->set('value', $entry);
-                $block->body .= $this->writeTag('input', $attrs) . "\n";
+                $block->body .= static::writeTag('input', $attrs) . "\n";
             }
         } else {
             $attrs->set('id', $baseId);
             $attrs->set('name', $nameOnForm);
             $attrs->setIfNotNull('value', $value);
-            $block->body .= $this->writeTag('input', $attrs) . "\n";
+            $block->body .= static::writeTag('input', $attrs) . "\n";
         }
         return $block;
     }
@@ -222,7 +222,7 @@ class Html implements RenderInterface
                 $checked = $value === $select;
             }
             if ($checked) {
-                $block->body .= $this->writeTag('input', $optAttrs) . "\n";
+                $block->body .= static::writeTag('input', $optAttrs) . "\n";
                 $needEmpty = false;
             }
         }
@@ -719,7 +719,7 @@ class Html implements RenderInterface
 
         $pageData = new Block();
         $pageData->styles = '.nf-hidden {display:none}' . "\n";
-        $pageData->body = $this->writeTag('form', $attrs) . "\n";
+        $pageData->body = static::writeTag('form', $attrs) . "\n";
         $pageData->post = '</form>' . "\n";
         $nfToken = NextForm::getCsrfToken();
         if ($nfToken[0] !== '') {
@@ -731,10 +731,11 @@ class Html implements RenderInterface
     }
 
     /**
-     * Embed RESTful state data/context into the form.
+     * Generate RESTful state data/context for embedding into a form.
+     *
      * @param array $state
      */
-    public function stateData($state) : Block
+    static public function stateData($state) : Block
     {
         $block = new Block();
         foreach ($state as $name => $value) {
@@ -742,7 +743,7 @@ class Html implements RenderInterface
             $attrs->set('type', 'hidden');
             $attrs->set('name', $name);
             $attrs->set('value', $value);
-            $block->body .= $this->writeTag('input', $attrs) . "\n";
+            $block->body .= static::writeTag('input', $attrs) . "\n";
         }
 
         return $block;
@@ -751,7 +752,8 @@ class Html implements RenderInterface
     /**
      * Conditionally write an element into an open Block suitable for merging.
      * @param string $tag Name of the element to write (div, span, etc.)
-     * @param array $options Name(type,default): append(string,''), force(bool,false),
+     * @param array $options Name(type,default): append(string,''),
+     *                      force(bool,false),
      *                      show(string,''), attrs(Attributes,null)
      * @return \Abivia\NextForm\Render\Block
      */
@@ -767,10 +769,10 @@ class Html implements RenderInterface
         $block = new Block();
         if ($scope && isset($this->showState[$scope][$setting])) {
             $attrs = $attrs->merge($this->showState[$scope][$setting]);
-            $block->body = $this->writeTag($tag, $attrs) . "\n";
+            $block->body = static::writeTag($tag, $attrs) . "\n";
             $hasPost = true;
         } elseif (!$attrs->isEmpty()) {
-            $block->body = $this->writeTag($tag, $attrs) . "\n";
+            $block->body = static::writeTag($tag, $attrs) . "\n";
             $hasPost = true;
         } elseif ($options['force'] ?? false) {
             $block->body = '<' . $tag . ">\n";
@@ -792,8 +794,13 @@ class Html implements RenderInterface
      * @param type $options break(bool,''), div(string,classes)
      * @return string
      */
-    public function writeLabel($purpose, $text, $tag, $attrs = null, $options = [])
-    {
+    public function writeLabel(
+        $purpose,
+        $text,
+        $tag,
+        $attrs = null,
+        $options = []
+    ) {
         if ($text === null) {
             // In horizontal layouts we always generate an element
             if (
@@ -812,7 +819,7 @@ class Html implements RenderInterface
             $attrs = $attrs->merge($this->showState['form'][$purpose]);
         }
         $breakTag = $options['break'] ?? false;
-        $html = $this->writeTag($tag, $attrs)
+        $html = static::writeTag($tag, $attrs)
             . $text
             . '</' . $tag . '>' . ($breakTag ? "\n" : '')
         ;
@@ -825,17 +832,50 @@ class Html implements RenderInterface
     }
 
     /**
-     * Write an element and attributes into escaped HTML
+     * Turn a list into a suitable display string.
+     *
+     * @param string[] $list
+     * @param array $options Options include ul=>Attributes, li=>Attributes,
+     *                       escape=>bool[true]
+     * @return array
+     */
+    static public function writeList($list = [], $options = []) : string
+    {
+        if (empty($list)) {
+            return '';
+        }
+        $html = [static::writeTag('ul', $options['ul'] ?? null)];
+        foreach ($list as $entry) {
+            $html[] = static::writeTag(
+                'li',
+                $options['li'] ?? null,
+                $entry,
+                $options
+            );
+        }
+        $html[] = "</ul>\n";
+        return implode("\n", $html);
+    }
+
+    /**
+     * Write an element and attributes into escaped HTML. If text is provided,
+     * a closing tag is also generated.
+     *
      * @param \Abivia\NextForm\Render\Attributes $attrs
+     * @param string $text Text to be enclosed in the tag
+     * @param array $options Options escape=>bool[true]
      * @return string
      */
-    public function writeTag($tag, $attrs = null, $text = null)
+    static public function writeTag($tag, $attrs = null, $text = null, $options = [])
     {
+        $escape = $options['escape'] ?? true;
         $html = '<' . $tag . ($attrs ? $attrs->write($tag) : '');
         if (isset(self::$selfClose[$tag]) && $text === null) {
             $html .= '/>';
         } elseif ($text !== null) {
-            $html .= '>' . \htmlentities($text) . '</' . $tag . '>';
+            $html .= '>'
+                . ($escape ? \htmlspecialchars($text) : $text)
+                . '</' . $tag . '>';
         } else {
             $html .= '>';
         }

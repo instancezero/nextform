@@ -81,12 +81,16 @@ class LoggingRender implements RenderInterface {
     }
 
     /**
-     * Embed RESTful state data/context into the form.
-     * @param array $state
+     * @inheritdoc
      */
-    public function stateData($state) : Block
+    static public function stateData($state) : Block
     {
         return new Block();
+    }
+
+    static public function writeList($list = [], $options = []) : string
+    {
+        return '';
     }
 
 }

@@ -66,16 +66,20 @@ class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
     }
 
     /**
-     * Embed RESTful state data/context into the form.
-     * @param array $state
+     * @inheritdoc
      */
-    public function stateData($state) : Block
+    static public function stateData($state) : Block
     {
         $result = new Block();
         foreach ($state as $name => $value) {
             $result->body .= "state: $name = $value\n";
         }
         return $result;
+    }
+
+    static public function writeList($list = [], $options = []) : string
+    {
+        return '';
     }
 
 }

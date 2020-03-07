@@ -2,8 +2,8 @@
 
 namespace Abivia\NextForm\Contracts;
 
-use Abivia\NextForm\Render\Block;
 use Abivia\NextForm\Form\Binding\Binding;
+use Abivia\NextForm\Render\Block;
 
 
 /**
@@ -61,9 +61,19 @@ interface RenderInterface
     public function start($options = []) : Block;
 
     /**
-     * Embed RESTful state data/context into the form.
+     * Generate RESTful state data/context for embedding into a form.
+     *
      * @param array $state
      */
-    public function stateData($state) : Block;
+    static public function stateData($state) : Block;
+
+    /**
+     * Turn a list into a suitable output string.
+     *
+     * @param string[] $list
+     * @param array $options Implementation dependent options.
+     * @return array
+     */
+    static public function writeList($list = [], $options = []) : string;
 
 }

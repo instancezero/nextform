@@ -113,6 +113,12 @@ class NextForm
     protected $pageBlock;
 
     /**
+     * The rendering engine used for form generation
+     * @var RenderInterface
+     */
+    protected $renderer;
+
+    /**
      * Data schemas associated with the form.
      * @var SchemaCollection
      */
@@ -270,19 +276,20 @@ class NextForm
         }
         $this->bind($this);
 
+        $this->renderer = $this->diMake('Render', $options);
+
         $this->populateForms();
 
         if ($this->access === null) {
             $this->access = $this->diMake('Access');
         }
 
-        $renderer = $this->diMake('Render', $options);
-        $renderer->setShow($this->show);
+        $this->renderer->setShow($this->show);
 
         $this->pageBlock = new Block();
         foreach ($this->boundForms as $boundForm) {
             $formBlock = $boundForm->generate(
-                $renderer,
+                $this->renderer,
                 $this->access,
                 $this->translator
             );
@@ -597,6 +604,9 @@ class NextForm
         $label = $valid ? 'accept' : 'error';
         foreach ($list as $segment => $data) {
             foreach ($data as $field => $text) {
+                if (is_array($text)) {
+                    $text = $this->renderer->writeList($text);
+                }
                 $field = $this->normalizeField($segment, $field);
                 if (!isset($this->objectMap[$field])) {
                     continue;
