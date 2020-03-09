@@ -17,7 +17,6 @@ use Illuminate\Contracts\Translation\Translator as Translator;
 class NextForm
 {
 
-    public const CONFIRM_LABEL = '_confirm';
     public const CONTAINER_LABEL = '_container';
     public const HELP_LABEL = '_formhelp';
     public const GROUP_DELIM = ':';
@@ -28,6 +27,8 @@ class NextForm
      * @var AccessInterface
      */
     protected $access;
+
+    static public $confirmLabel = '_confirm';
 
     /**
      * External for custom token generation (to return [name, value]),

@@ -65,7 +65,7 @@ abstract class Common extends AbstractFieldElement
     {
         $this->access = $this->engine->getAccess($options);
         $confirm = $options['confirm'];
-        $this->confirmSuffix = $confirm ? NextForm::CONFIRM_LABEL : '';
+        $this->confirmSuffix = $confirm ? NextForm::$confirmLabel : '';
         $data = $this->binding->getDataProperty();
         $this->inputType = $data->getPresentation()->getType();
         if ($this->access === 'hide' || $this->inputType === 'hidden') {

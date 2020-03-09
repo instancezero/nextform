@@ -97,14 +97,14 @@ class LinkedForm
                 }
                 $baseName = \implode('_', $parts);
                 $name = $baseName;
-                $confirmName = $baseName . NextForm::CONFIRM_LABEL;
+                $confirmName = $baseName . NextForm::$confirmLabel;
                 $append = 0;
                 while (
                     isset($this->nameMap[$name])
                     || isset($this->nameMap[$confirmName])
                 ) {
                     $name = $baseName . '_' . ++$append;
-                    $confirmName = $name . '_' . $append . NextForm::CONFIRM_LABEL;
+                    $confirmName = $name . '_' . $append . NextForm::$confirmLabel;
                 }
                 $this->nameMap[$name] = $binding;
                 $binding->setNameOnForm($name);
