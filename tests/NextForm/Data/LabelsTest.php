@@ -1,5 +1,6 @@
 <?php
-include_once __DIR__ . '/../../test-tools/MockTranslate.php';
+require_once __DIR__ . '/../../test-tools/MockTranslate.php';
+require_once __DIR__ . '/../../test-tools/JsonComparison.php';
 
 use \Abivia\NextForm\Data\Labels;
 
@@ -7,6 +8,7 @@ use \Abivia\NextForm\Data\Labels;
  * @covers \Abivia\NextForm\Data\Labels
  */
 class DataLabelsTest extends \PHPUnit\Framework\TestCase {
+    use JsonComparison;
 
     protected $configConfirm;
     protected $configSimple;
@@ -19,7 +21,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
             . ', "confirm": {"heading": "confirm heading"'
             . ', "help": "confirm help"'
             . '}'
-            . ', "error": "error"'
+            . ', "error": ["error1", "error2"]'
             . ', "heading": "heading", "help": "help"'
             . ', "inner": "placeholder"}'
         );
@@ -60,7 +62,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('accept', $obj->accept);
 		$this->assertEquals('after', $obj->after);
 		$this->assertEquals('before', $obj->before);
-		$this->assertEquals('error', $obj->error);
+		$this->assertEquals(['error1', 'error2'], $obj->error);
 		$this->assertEquals('heading', $obj->heading);
 		$this->assertEquals('help', $obj->help);
 		$this->assertEquals('placeholder', $obj->inner);
@@ -125,7 +127,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('accept', $confirm->get('accept'));
 		$this->assertEquals('after', $confirm->get('after'));
 		$this->assertEquals('before', $confirm->get('before'));
-		$this->assertEquals('error', $confirm->get('error'));
+		$this->assertEquals(['error1', 'error2'], $confirm->get('error'));
 		$this->assertEquals('confirm heading', $confirm->get('heading'));
 		$this->assertEquals('confirm help', $confirm->get('help'));
 		$this->assertEquals('placeholder', $confirm->get('inner'));
@@ -160,7 +162,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('accept', $obj->get('accept'));
 		$this->assertEquals('after', $obj->get('after'));
 		$this->assertEquals('before', $obj->get('before'));
-		$this->assertEquals('error', $obj->get('error'));
+		$this->assertEquals(['error1', 'error2'], $obj->get('error'));
 		$this->assertEquals('heading', $obj->get('heading'));
 		$this->assertEquals('help', $obj->get('help'));
 		$this->assertEquals('placeholder', $obj->get('inner'));
@@ -168,11 +170,19 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('accept', $obj->get('accept', true));
 		$this->assertEquals('after', $obj->get('after', true));
 		$this->assertEquals('before', $obj->get('before', true));
-		$this->assertEquals('error', $obj->get('error', true));
+		$this->assertEquals(['error1', 'error2'], $obj->get('error', true));
 		$this->assertEquals('confirm heading', $obj->get('heading', true));
 		$this->assertEquals('confirm help', $obj->get('help', true));
 		$this->assertEquals('placeholder', $obj->get('inner', true));
 	}
+
+    public function testJsonEncode() {
+        $obj = new Labels();
+        $obj->configure($this->configConfirm);
+        $encoded = json_encode($obj);
+        $compare = json_decode($encoded);
+        $this->assertTrue($this->jsonCompare($this->configConfirm, $compare));
+    }
 
 	public function testHasSparse() {
         $config = json_decode(
@@ -317,7 +327,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $obj->accept = 'accept';
         $obj->after = 'after';
         $obj->before = 'before';
-        $obj->error = 'error';
+        $obj->error = ['error1', 'error2'];
         $obj->heading = 'heading';
         $obj->help = 'help';
         $obj->inner = 'placeholder';
@@ -326,7 +336,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('accept', $translated->accept);
         $this->assertEquals('after', $translated->after);
         $this->assertEquals('before', $translated->before);
-        $this->assertEquals('error', $translated->error);
+        $this->assertEquals(['error1', 'error2'], $translated->error);
         $this->assertEquals('heading', $translated->heading);
         $this->assertEquals('help', $translated->help);
         $this->assertEquals('placeholder', $translated->inner);
@@ -335,7 +345,10 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('accept (tslt)', $translated->accept);
         $this->assertEquals('after (tslt)', $translated->after);
         $this->assertEquals('before (tslt)', $translated->before);
-        $this->assertEquals('error (tslt)', $translated->error);
+        $this->assertEquals(
+            ['error1 (tslt)', 'error2 (tslt)'],
+            $translated->error
+        );
         $this->assertEquals('heading (tslt)', $translated->heading);
         $this->assertEquals('help (tslt)', $translated->help);
         $this->assertEquals('placeholder (tslt)', $translated->inner);
@@ -345,7 +358,10 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('accept (tslt)', $translated->accept);
         $this->assertEquals('after (tslt)', $translated->after);
         $this->assertEquals('before (tslt)', $translated->before);
-        $this->assertEquals('error (tslt)', $translated->error);
+        $this->assertEquals(
+            ['error1 (tslt)', 'error2 (tslt)'],
+            $translated->error
+        );
         $this->assertEquals('heading (tslt)', $translated->heading);
         $this->assertEquals('help (tslt)', $translated->help);
         $this->assertEquals('placeholder (tslt)', $translated->inner);

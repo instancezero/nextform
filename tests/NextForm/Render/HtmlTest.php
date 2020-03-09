@@ -362,6 +362,13 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
             'wrapped in div'
         );
 
+        $html = $this->testObj->writeLabel('test', ['item1', 'item2'], 'div');
+        $this->assertEquals(
+            "<div><ul>\n<li>item1</li>\n<li>item2</li>\n</ul>\n</div>",
+            $html,
+            'list'
+        );
+
         $html = $this->testObj->writeLabel('cellspacing', 'a label', 'div');
         $this->assertEquals('<div class="cellspace">a label</div>', $html, 'with purpose');
 

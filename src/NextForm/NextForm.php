@@ -7,8 +7,6 @@ use Abivia\NextForm\Contracts\RenderInterface as RenderInterface;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Data\SchemaCollection;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Form\Binding\ContainerBinding;
-use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Form;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
@@ -604,9 +602,6 @@ class NextForm
         $label = $valid ? 'accept' : 'error';
         foreach ($list as $segment => $data) {
             foreach ($data as $field => $text) {
-                if (is_array($text)) {
-                    $text = $this->renderer->writeList($text);
-                }
                 $field = $this->normalizeField($segment, $field);
                 if (!isset($this->objectMap[$field])) {
                     continue;

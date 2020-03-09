@@ -811,6 +811,8 @@ class Html implements RenderInterface
             } else {
                 return '';
             }
+        } elseif (\is_array($text)) {
+            $text = self::writeList($text);
         } else {
             $text = \htmlspecialchars($text);
         }

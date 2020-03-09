@@ -312,7 +312,11 @@ class Labels implements \JsonSerializable
         // Perform the translation
         if ($newLabels->translate && $translator !== null) {
             foreach (self::$textProperties as $prop) {
-                if ($newLabels->$prop !== null) {
+                if (is_array($newLabels->$prop)) {
+                    foreach($newLabels->$prop as &$entry) {
+                        $entry = $translator->get($entry);
+                    }
+                } elseif ($newLabels->$prop !== null) {
                     $newLabels->$prop = $translator->get($newLabels->$prop);
                 }
             }
