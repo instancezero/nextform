@@ -812,7 +812,12 @@ class Html implements RenderInterface
                 return '';
             }
         } elseif (\is_array($text)) {
-            $text = self::writeList($text);
+            // Don't make a single element array a list.
+            if (\count($text) === 1) {
+                $text = \htmlspecialchars(\array_shift($text));
+            } else {
+                $text = self::writeList($text);
+            }
         } else {
             $text = \htmlspecialchars($text);
         }
