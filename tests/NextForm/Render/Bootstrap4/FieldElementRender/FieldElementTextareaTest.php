@@ -50,7 +50,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('')
                 . $this->column2h(
-                    '<textarea id="field_1" name="field_1"></textarea>' . "\n"
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control"></textarea>' . "\n"
                 ),
                 $groupOptions
             )
@@ -64,7 +65,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('')
                 . $this->column2h(
-                    '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control" readonly></textarea>' . "\n"
                 ),
                 $groupOptions
             )
@@ -79,7 +81,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('')
                 . $this->column2h(
-                    '<textarea id="field_1" name="field_1" class="is-valid">'
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control is-valid">'
                     . '</textarea>' . "\n"
                 ),
                 $groupOptions
@@ -90,7 +93,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1h('')
                 . $this->column2h(
-                    '<textarea id="field_1" name="field_1" class="is-invalid">'
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control is-invalid">'
                     . '</textarea>' . "\n"
                 ),
                 $groupOptions
@@ -119,7 +123,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<textarea id="field_1" name="field_1"></textarea>' . "\n"
+                    '<textarea id="field_1" name="field_1" class="form-control">'
+                    . '</textarea>' . "\n"
                 )
             )
         );
@@ -132,7 +137,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<textarea id="field_1" name="field_1" readonly></textarea>' . "\n"
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control" readonly></textarea>' . "\n"
                 )
             )
         );
@@ -146,7 +152,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<textarea id="field_1" name="field_1" class="is-valid">'
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control is-valid">'
                     . '</textarea>' . "\n"
                 )
             )
@@ -156,7 +163,8 @@ extends Bootstrap4RenderFrame
             $this->formGroup(
                 $this->column1('')
                 . $this->column2(
-                    '<textarea id="field_1" name="field_1" class="is-invalid">'
+                    '<textarea id="field_1" name="field_1"'
+                    . ' class="form-control is-invalid">'
                     . '</textarea>' . "\n"
                 )
             )

@@ -21,6 +21,7 @@ class Textarea extends BaseTextarea {
     protected function inputAttributes(Labels $labels) : Attributes
     {
         $attrs = parent::inputAttributes($labels);
+        $attrs->itemAppend('class', 'form-control');
 
         return $attrs;
     }
