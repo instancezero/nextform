@@ -40,6 +40,7 @@ class Binding
      * @var type
      */
     static protected $elementMap = [
+        'CaptchaElement' => 'SimpleBinding',
         'CellElement' => 'ContainerBinding',
         'FieldElement' => 'FieldBinding',
         'HtmlElement' => 'SimpleBinding',

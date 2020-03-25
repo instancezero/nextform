@@ -100,9 +100,6 @@ Abivia\NextForm\Form\Form Object
 
             [2] => Abivia\NextForm\Form\Element\FieldElement Object
                 (
-                    [dataList:protected] =>
-                    [dataListTranslated:protected] =>
-                    [dataProperty:protected] =>
                     [default:protected] =>
                     [object:protected] => name
                     [triggers:protected] => Array
@@ -262,9 +259,6 @@ Abivia\NextForm\Form\Form Object
                         (
                             [0] => Abivia\NextForm\Form\Element\FieldElement Object
                                 (
-                                    [dataList:protected] =>
-                                    [dataListTranslated:protected] =>
-                                    [dataProperty:protected] =>
                                     [default:protected] =>
                                     [object:protected] => areaCode
                                     [triggers:protected] => Array
@@ -351,9 +345,6 @@ Abivia\NextForm\Form\Form Object
 
                             [1] => Abivia\NextForm\Form\Element\FieldElement Object
                                 (
-                                    [dataList:protected] =>
-                                    [dataListTranslated:protected] =>
-                                    [dataProperty:protected] =>
                                     [default:protected] =>
                                     [object:protected] => phoneNumber
                                     [triggers:protected] => Array
@@ -440,9 +431,6 @@ Abivia\NextForm\Form\Form Object
 
                             [2] => Abivia\NextForm\Form\Element\FieldElement Object
                                 (
-                                    [dataList:protected] =>
-                                    [dataListTranslated:protected] =>
-                                    [dataProperty:protected] =>
                                     [default:protected] =>
                                     [object:protected] => phoneExtension
                                     [triggers:protected] => Array
@@ -623,9 +611,6 @@ Abivia\NextForm\Form\Form Object
                                         (
                                             [0] => Abivia\NextForm\Form\Element\FieldElement Object
                                                 (
-                                                    [dataList:protected] =>
-                                                    [dataListTranslated:protected] =>
-                                                    [dataProperty:protected] =>
                                                     [default:protected] =>
                                                     [object:protected] => user2.areaCode
                                                     [triggers:protected] => Array
@@ -712,9 +697,6 @@ Abivia\NextForm\Form\Form Object
 
                                             [1] => Abivia\NextForm\Form\Element\FieldElement Object
                                                 (
-                                                    [dataList:protected] =>
-                                                    [dataListTranslated:protected] =>
-                                                    [dataProperty:protected] =>
                                                     [default:protected] =>
                                                     [object:protected] => user2.phoneNumber
                                                     [triggers:protected] => Array
@@ -801,9 +783,6 @@ Abivia\NextForm\Form\Form Object
 
                                             [2] => Abivia\NextForm\Form\Element\FieldElement Object
                                                 (
-                                                    [dataList:protected] =>
-                                                    [dataListTranslated:protected] =>
-                                                    [dataProperty:protected] =>
                                                     [default:protected] =>
                                                     [object:protected] => user2.phoneExtension
                                                     [triggers:protected] => Array
@@ -1092,6 +1071,103 @@ Abivia\NextForm\Form\Form Object
                         )
 
                     [configureOptions:Abivia\NextForm\Form\Element\ContainerElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\NamedElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\NamedElement:private] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\Element:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\Element:private] =>
+                )
+
+            [5] => Abivia\NextForm\Form\Element\CaptchaElement Object
+                (
+                    [enabled:protected] => 1
+                    [form:protected] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                    [groups:protected] => Array
+                        (
+                        )
+
+                    [id:protected] =>
+                    [labels:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [accept] =>
+                            [after] =>
+                            [before] =>
+                            [confirm:protected] =>
+                            [error] =>
+                            [heading] => Are you a human?
+                            [help] =>
+                            [inner] =>
+                            [schema:protected] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                    [strict] => 1
+                                    [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Form\Element\CaptchaElement Object
+ *RECURSION*
+                                )
+
+                        )
+
+                    [labelsMerged:protected] => Abivia\NextForm\Data\Labels Object
+                        (
+                            [accept] =>
+                            [after] =>
+                            [before] =>
+                            [confirm:protected] =>
+                            [error] =>
+                            [heading] => Are you a human?
+                            [help] =>
+                            [inner] =>
+                            [schema:protected] =>
+                            [translate] => 1
+                            [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                )
+
+                            [configureOptions:Abivia\NextForm\Data\Labels:private] => Array
+                                (
+                                    [strict] => 1
+                                    [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                                    [newlog] =>
+                                    [parent] => Abivia\NextForm\Form\Element\CaptchaElement Object
+ *RECURSION*
+                                )
+
+                        )
+
+                    [name:protected] =>
+                    [readonly:protected] =>
+                    [type:protected] => captcha
+                    [display:protected] => 1
+                    [show:protected] =>
+                    [configureErrors:Abivia\NextForm\Form\Element\CaptchaElement:private] => Array
+                        (
+                        )
+
+                    [configureOptions:Abivia\NextForm\Form\Element\CaptchaElement:private] => Array
+                        (
+                            [strict] => 1
+                            [_form] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                            [newlog] =>
+                            [parent] => Abivia\NextForm\Form\Form Object
+ *RECURSION*
+                        )
+
                     [configureErrors:Abivia\NextForm\Form\Element\NamedElement:private] => Array
                         (
                         )

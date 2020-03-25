@@ -105,6 +105,16 @@ class Validation implements \JsonSerializable
      */
     protected $translatePattern = false;
 
+    /**
+     * Validation factory.
+     *
+     * @return Validation
+     */
+    public static function build()
+    {
+        return new Validation();
+    }
+
     protected function configureComplete()
     {
         if ($this->maxValue < $this->minValue) {

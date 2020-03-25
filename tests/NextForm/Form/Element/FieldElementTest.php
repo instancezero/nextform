@@ -1,11 +1,17 @@
 <?php
 
 use Abivia\NextForm\Form\Element\FieldElement;
+use Abivia\NextForm\Trigger\Trigger;
 
 class FormElementFieldElementTest extends \PHPUnit\Framework\TestCase {
 
-	public function testFormFieldElementInstantiation() {
+	public function testInstantiation() {
         $obj = new FieldElement();
+		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\FieldElement', $obj);
+	}
+
+	public function testBuild() {
+        $obj = FieldElement::build();
 		$this->assertInstanceOf('\Abivia\NextForm\Form\Element\FieldElement', $obj);
 	}
 
@@ -54,13 +60,6 @@ class FormElementFieldElementTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('some.object.name:somegroup', $obj->jsonCollapse());
     }
 
-    public function testDataPropertyEmpty()
-    {
-        $obj = new FieldElement();
-        $this->expectException('\RuntimeException');
-        $obj->getDataProperty();
-    }
-
     public function testGetSetDefault()
     {
         $obj = new FieldElement();
@@ -69,9 +68,25 @@ class FormElementFieldElementTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('foo', $obj->getDefault());
     }
 
-    public function testGetTriggers()
+    public function testGetSetObject()
     {
         $obj = new FieldElement();
+		$this->assertEquals(null, $obj->getObject());
+        $obj->setObject('foo');
+		$this->assertEquals('foo', $obj->getObject());
+    }
+
+    public function testGetSetTriggers()
+    {
+        $obj = new FieldElement();
+		$this->assertEquals([], $obj->getTriggers());
+        $trigger1 = new Trigger();
+        $obj->addTrigger($trigger1);
+		$this->assertEquals([$trigger1], $obj->getTriggers());
+        $trigger2 = new Trigger();
+        $obj->addTrigger($trigger2);
+		$this->assertEquals([$trigger1, $trigger2], $obj->getTriggers());
+        $obj->setTriggers([]);
 		$this->assertEquals([], $obj->getTriggers());
     }
 

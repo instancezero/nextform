@@ -12,6 +12,12 @@ class DataValidationTest extends \PHPUnit\Framework\TestCase {
 		$this->assertInstanceOf('\Abivia\NextForm\Data\Validation', $obj);
 	}
 
+    public function testBuild()
+    {
+        $obj = Validation::build();
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Validation', $obj);
+    }
+
     public function testGetBadProperty() {
         $obj = new Validation();
         $this->expectException('RuntimeException');

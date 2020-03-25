@@ -59,6 +59,13 @@ class Presentation implements \JsonSerializable
      */
     protected $type;
 
+    public static function build($type) : Presentation
+    {
+        $pres = new Presentation();
+        $pres->setType($type);
+        return $pres;
+    }
+
     /**
      * Ensures that selected configuration values are valid (cols, confirm, rows, and type).
      * @param string $property

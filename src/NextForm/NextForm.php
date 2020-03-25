@@ -81,6 +81,7 @@ class NextForm
      */
     private static $diWiringStatic = [
         'Access' => Access\NullAccess::class,
+        'Captcha' => Captcha\SimpleCaptcha::class,
         'Form' => Form::class,
         'Render' => 'Abivia\\NextForm\\Render\\Bootstrap4',
         'Schema' => Schema::class,

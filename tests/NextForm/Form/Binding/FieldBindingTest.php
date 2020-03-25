@@ -74,4 +74,26 @@ class FieldBindingTest extends \PHPUnit\Framework\TestCase
         $binding->bindSchema($this->simpleSchema);
     }
 
+    public function testBuild()
+    {
+        $binding = FieldBinding::build('text');
+        $property = $binding->getDataProperty();
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Property', $property);
+    }
+
+    public function testGetDataProperty()
+    {
+        $binding = new FieldBinding();
+        $this->expectException('\RuntimeException');
+        $binding->getDataProperty();
+    }
+
+    public function testSetDataProperty()
+    {
+        $property = new \Abivia\NextForm\Data\Property();
+        $binding = new FieldBinding();
+        $binding->setDataProperty($property);
+        $this->assertEquals($property, $binding->getDataProperty());
+    }
+
 }

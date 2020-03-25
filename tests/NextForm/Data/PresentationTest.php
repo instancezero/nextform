@@ -7,12 +7,26 @@ use Abivia\NextForm\Data\Presentation;
  */
 class DataPresentationTest extends \PHPUnit\Framework\TestCase {
 
-	public function testDataPresentationInstantiation() {
+    /**
+     * This will fail if the W3C ever defines an input with type fringle-daffle.
+     */
+    const BAD_TYPE = 'fringle-daffle';
+
+	public function testInstantiation() {
         $obj = new Presentation();
 		$this->assertInstanceOf('\Abivia\NextForm\Data\Presentation', $obj);
 	}
 
-	public function testDataPresentationConfiguration() {
+    public function testBuild()
+    {
+        $obj = Presentation::build('text');
+		$this->assertInstanceOf('\Abivia\NextForm\Data\Presentation', $obj);
+        $this->assertEquals('text', $obj->getType());
+        $this->expectException('\RuntimeException');
+        $obj = Presentation::build(self::BAD_TYPE);
+    }
+
+	public function testConfiguration() {
         $config = json_decode('{"cols": "1","type": "text"}');
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Presentation();
@@ -22,7 +36,7 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals('text', $obj->getType());
     }
 
-    public function testDataPresentationTypeValidation() {
+    public function testTypeValidation() {
         $knownTypes = [
             'checkbox', 'file', 'hidden', 'radio', 'select', 'text', 'textarea', //'textauto',
         ];
@@ -37,7 +51,7 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($obj->configure($config, true));
     }
 
-    public function testDataPresentationSetType() {
+    public function testSetType() {
         $config = json_decode('{"cols": "1","type": "text"}');
         $this->assertTrue(false != $config, 'JSON error!');
         $obj = new Presentation();
@@ -46,7 +60,7 @@ class DataPresentationTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf('\Abivia\NextForm\Data\Presentation', $obj->setType('textarea'));
         $this->assertEquals('textarea', $obj->getType());
         $this->expectException('\RuntimeException');
-        $obj->setType('fringle-daffle');
+        $obj->setType(self::BAD_TYPE);
     }
 
 }

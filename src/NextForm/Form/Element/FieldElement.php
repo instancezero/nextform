@@ -19,24 +19,6 @@ class FieldElement extends NamedElement
     use JsonEncoderTrait;
 
     /**
-     * A list of possible values for radio/drop-down types.
-     * @var array
-     */
-    protected $dataList;
-
-    /**
-     * A translated list of possible values for radio/drop-down types.
-     * @var array
-     */
-    protected $dataListTranslated;
-
-    /**
-     * A data property in the form's schema.
-     * @var \Abivia\NextForm\Data\Property
-     */
-    protected $dataProperty;
-
-    /**
      * Default value to use
      * @var string
      */
@@ -88,6 +70,28 @@ class FieldElement extends NamedElement
             );
         }
         $this->type = 'field';
+    }
+
+    /**
+     * Add a trigger to the trigger list.
+     *
+     * @param Trigger $trigger
+     * @return $this
+     */
+    public function addTrigger(Trigger $trigger)
+    {
+        $this->triggers[] = $trigger;
+        return $this;
+    }
+
+    /**
+     * FieldElement factory.
+     *
+     * @return FieldElement
+     */
+    public static function build()
+    {
+        return new FieldElement();
     }
 
     protected function configureClassMap($property, $value)
@@ -149,20 +153,6 @@ class FieldElement extends NamedElement
             return true;
         }
         return parent::configureValidate($property, $value);
-    }
-
-    /**
-     * Get the connected schema object, if any
-     * @return Abivia\NextForm\Data\Property
-     */
-    public function getDataProperty() : Property
-    {
-        if ($this->dataProperty === null) {
-            throw new \RuntimeException(
-                'Attempt to get missing schema information, object ' . $this->getObject()
-            );
-        }
-        return $this->dataProperty;
     }
 
     /**
@@ -249,23 +239,23 @@ class FieldElement extends NamedElement
     }
 
     /**
-     * Translate the texts in this element.
-     * @param Translator $translator
-     * @return \Abivia\NextForm\Form\Element\Element
+     * Get the name of an associated schema object.
+     *
+     * @return string
      */
-    public function translate(Translator $translator = null) : Element
-    {
-        // Translate the data list, if any
-        if ($this->dataProperty) {
-            $this->dataListTranslated = $this->dataList;
-            if ($this->dataProperty->getPopulation()->getTranslate()) {
-                foreach ($this->dataListTranslated as $option) {
-                    $option->translate($translator);
-                }
-            }
-        }
-        // Translate the labels.
-        return parent::translate($translator);
+    public function setObject($objectName) {
+        $this->object = $objectName;
+        return $this;
+    }
+
+    /**
+     * Set the element triggers
+     *
+     * @return $this
+     */
+    public function setTriggers($triggers) {
+        $this->triggers = $triggers;
+        return $this;
     }
 
 }

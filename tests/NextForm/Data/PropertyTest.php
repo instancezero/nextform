@@ -19,8 +19,9 @@ class DataPropertyTest extends \PHPUnit\Framework\TestCase {
         $obj->setName('test');
         $this->assertEquals('test', $obj->getName());
 		$this->assertInstanceOf('\Abivia\NextForm\Data\Population', $obj->getPopulation());
-		$this->assertInstanceOf('\Abivia\NextForm\Data\Presentation', $obj->getPresentation());
         $this->assertEquals(null, $obj->getStore());
+		$this->expectException('\RuntimeException');
+        $obj->getPresentation();
     }
 
     public function testPropertyLoad() {

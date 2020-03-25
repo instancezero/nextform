@@ -8,6 +8,7 @@ use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Data\Property;
 use Abivia\NextForm\Data\Schema;
 use Abivia\NextForm\Data\SchemaCollection;
+use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Render\Block;
 use Illuminate\Contracts\Translation\Translator as Translator;
 
@@ -36,6 +37,14 @@ class FieldBinding extends Binding
 
     protected $objectRef;
 
+    /**
+     * Connect this binding to a property in a schema.
+     * @param Schema $schema The schema where we expect to find the property.
+     * @param string $segmentName The property's segment name.
+     * @param string $objectName The name of the property within the segment.
+     * @return bool False if the property is not found.
+     * @throws \RuntimeException If the property is poorly structured.
+     */
     protected function bindProperty(
         Schema $schema,
         $segmentName,
@@ -111,6 +120,21 @@ class FieldBinding extends Binding
     }
 
     /**
+     * Create a new field binding and give it a type.
+     * @param string $type
+     * @return FieldBinding
+     */
+    static public function build($type) : FieldBinding
+    {
+        $binding = new FieldBinding();
+        $element = FieldElement::build();
+        $binding->setElement($element);
+        $data = Property::build($type);
+        $binding->setDataProperty($data);
+        return $binding;
+    }
+
+    /**
      * Use a renderer to turn this element into part of the form.
      *
      * @param RenderInterface $renderer Any Render object.
@@ -138,7 +162,8 @@ class FieldBinding extends Binding
     {
         if ($this->dataProperty === null) {
             $objectName = $this->getObject() ?: '{null}';
-            $elementName = $this->getElement()->getName();
+            $element = $this->getElement();
+            $elementName = $element ? $element->getName() : '{null}';
             throw new \RuntimeException(
                 "Attempt to get missing schema information for schema object"
                 . " $objectName, form element $elementName."
@@ -219,6 +244,17 @@ class FieldBinding extends Binding
             return null;
         }
         return implode(NextForm::SEGMENT_DELIM, $this->objectRef);
+    }
+
+    /**
+     * Connect this binding to a data property.
+     *
+     * @return Abivia\NextForm\Data\Property
+     */
+    public function setDataProperty(Property $property)
+    {
+        $this->dataProperty = $property;
+        return $this;
     }
 
     /**

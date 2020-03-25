@@ -90,6 +90,15 @@ class Property implements \JsonSerializable
         $this->labels = new Labels();
     }
 
+    public static function build($type = '')
+    {
+        $property = new Property();
+        if ($type !== '') {
+            $property->setPresentation(Presentation::build($type));
+        }
+        return $property;
+    }
+
     /**
      * Map a property to a class.
      * @param string $property The current class property name.
@@ -170,6 +179,7 @@ class Property implements \JsonSerializable
     {
         if ($this->presentation === null) {
             $this->presentation = new Presentation();
+            throw new \RuntimeException('Property has no Presentation');
         }
         return $this->presentation;
     }
@@ -181,7 +191,7 @@ class Property implements \JsonSerializable
     public function getValidation() : Validation
     {
         if ($this->validation === null) {
-            $this->validation = new Validation;
+            $this->validation = Validation::build();
         }
         return $this->validation;
     }
