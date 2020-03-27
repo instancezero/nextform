@@ -71,7 +71,15 @@ class SchemaManager
         $this->schema = $schema;
     }
 
-    public function build($params, $tableFilters = []) : Schema
+    public function connect($params)
+    {
+        // This throws a DBALException on failure
+        $this-> dbc = DriverManager::getConnection($params);
+
+        return $this;
+    }
+
+    public function extract($params, $tableFilters = []) : Schema
     {
         $this-> dbc = DriverManager::getConnection($params);
 
@@ -90,14 +98,6 @@ class SchemaManager
         }
 
         return $this->schema;
-    }
-
-    public function connect($params)
-    {
-        // This throws a DBALException on failure
-        $this-> dbc = DriverManager::getConnection($params);
-
-        return $this;
     }
 
     public function setSchema(Schema $schema)

@@ -66,6 +66,10 @@
                     "value": "This text is part of a section."
                 }
             ]
+        },
+        {
+            "type": "captcha",
+            "labels": "Are you a human?"
         }
     ]
 }

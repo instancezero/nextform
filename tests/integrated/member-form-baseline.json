@@ -221,6 +221,10 @@
             "default": 30
         },
         {
+            "type": "captcha",
+            "labels": "Are you a human?"
+        },
+        {
             "type": "button",
             "function": "submit",
             "labels": {

@@ -45,6 +45,12 @@ class FlatRender implements Abivia\NextForm\Contracts\RenderInterface {
         return $result;
     }
 
+    public function setOption($key, $value)
+        : Abivia\NextForm\Contracts\RenderInterface
+    {
+        return $this;
+    }
+
     public function setOptions($options = []) {
 
     }

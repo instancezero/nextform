@@ -22,12 +22,6 @@ class NextForm
     public const GROUP_DELIM = ':';
     public const SEGMENT_DELIM = '.';
 
-    /**
-     * The access controller
-     * @var AccessInterface
-     */
-    protected $access;
-
     static public $confirmLabel = '_confirm';
 
     /**
@@ -85,6 +79,7 @@ class NextForm
         'Form' => Form::class,
         'Render' => 'Abivia\\NextForm\\Render\\Bootstrap4',
         'Schema' => Schema::class,
+        'Translate' => null,
     ];
 
     /**
@@ -113,12 +108,6 @@ class NextForm
     protected $pageBlock;
 
     /**
-     * The rendering engine used for form generation
-     * @var RenderInterface
-     */
-    protected $renderer;
-
-    /**
      * Data schemas associated with the form.
      * @var SchemaCollection
      */
@@ -140,10 +129,10 @@ class NextForm
     protected $segmentNameMode = 'auto';
 
     /**
-     * A translation service.
-     * @var Translator
+     * Service container. Services defined by self::$diWiringStatic.
+     * @var array
      */
-    protected $translator;
+    protected $services = [];
 
     /**
      * Create a new NextForm.
@@ -154,7 +143,6 @@ class NextForm
     {
         $this->diWiring = self::$diWiringStatic;
         $this->setOptions($options);
-        $this->access = $this->diMake('Access');
         $this->schemas = new SchemaCollection();
         $this->show = '';
     }
@@ -220,7 +208,8 @@ class NextForm
      *
      * @param string $formName
      */
-    public function body($formName = null) {
+    public function body($formName = null)
+    {
         echo $this->getBody($formName) ?? '';
     }
 
@@ -251,9 +240,17 @@ class NextForm
         return $this;
     }
 
-    protected function diMake($service, ...$args) {
+    /**
+     * Create an object for a service.
+     *
+     * @param string $service The name of the service.
+     * @param array $args Things to pass to the service factory.
+     * @return \Abivia\NextForm\handler
+     */
+    protected function diMake($service, ...$args)
+    {
         $handler = $this->diWiring[$service];
-        if ($handler === null) {
+        if ($handler === null || $handler === '') {
             $object = null;
         } elseif (is_callable($handler)) {
             $object = $handler(...$args);
@@ -276,23 +273,13 @@ class NextForm
         }
         $this->bind($this);
 
-        $this->renderer = $this->diMake('Render', $options);
-
         $this->populateForms();
 
-        if ($this->access === null) {
-            $this->access = $this->diMake('Access');
-        }
-
-        $this->renderer->setShow($this->show);
+        $this->service('Render', $options)->setShow($this->show);
 
         $this->pageBlock = new Block();
         foreach ($this->boundForms as $boundForm) {
-            $formBlock = $boundForm->generate(
-                $this->renderer,
-                $this->access,
-                $this->translator
-            );
+            $formBlock = $boundForm->generate();
             $this->pageBlock->merge($formBlock);
         }
         return $this->pageBlock;
@@ -303,7 +290,8 @@ class NextForm
      *
      * @return array [token name, token value]
      */
-    static public function generateCsrfToken() {
+    static public function generateCsrfToken()
+    {
         if (is_callable(self::$csrfGenerator)) {
             self::$csrfToken = call_user_func(self::$csrfGenerator);
         } else {
@@ -317,7 +305,8 @@ class NextForm
      *
      * @return array ['_nf_token', random token value]
      */
-    static protected function generateNfToken() {
+    static protected function generateNfToken()
+    {
         self::$csrfToken = ['_nf_token', \bin2hex(random_bytes(32))];
         return self::$csrfToken;
     }
@@ -327,7 +316,8 @@ class NextForm
      *
      * @return array [token name, token value]
      */
-    static public function getCsrfToken() {
+    static public function getCsrfToken()
+    {
         if (self::$csrfToken === null) {
             self::generateCsrfToken();
         }
@@ -357,7 +347,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getBody($formName = null) {
+    public function getBody($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? $block->body : null;
     }
@@ -382,7 +373,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getHead($formName = null) {
+    public function getHead($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? $block->head : null;
     }
@@ -404,7 +396,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getLinks($formName = null) {
+    public function getLinks($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? \implode("\n", $block->linkedFiles) : null;
     }
@@ -415,7 +408,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getScript($formName = null) {
+    public function getScript($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? $block->script : null;
     }
@@ -426,7 +420,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getScriptFiles($formName = null) {
+    public function getScriptFiles($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? implode("\n", $block->scriptFiles) : null;
     }
@@ -467,7 +462,8 @@ class NextForm
      * @param string $formName
      * @return ?string
      */
-    public function getStyles($formName = null) {
+    public function getStyles($formName = null)
+    {
         $block = $this->getBlock($formName);
         return $block ? $block->styles : null;
     }
@@ -477,7 +473,8 @@ class NextForm
      *
      * @param string $formName
      */
-    public function head($formName = null) {
+    public function head($formName = null)
+    {
         echo $this->getHead($formName) ?? '';
     }
 
@@ -508,7 +505,8 @@ class NextForm
      *
      * @param string $formName
      */
-    public function links($formName = null) {
+    public function links($formName = null)
+    {
         echo $this->getLinks($formName) ?? '';
     }
 
@@ -518,7 +516,8 @@ class NextForm
      * @param type $field
      * @return string
      */
-    protected function normalizeField($segment, $field) {
+    protected function normalizeField($segment, $field)
+    {
         if ($segment === '') {
             if (
                 !isset($this->objectMap[$field])
@@ -622,7 +621,8 @@ class NextForm
      *
      * @param string $formName
      */
-    public function script($formName = null) {
+    public function script($formName = null)
+    {
         echo $this->getScript($formName) ?? '';
     }
 
@@ -631,19 +631,48 @@ class NextForm
      *
      * @param string $formName
      */
-    public function scriptFiles($formName = null) {
+    public function scriptFiles($formName = null)
+    {
         echo $this->getScriptFiles($formName) ?? '';
     }
 
     /**
-     * Set the access control object.
+     * Return the named service, instantiating it if required.
+     *
+     * @param string $name
+     * @param array $options Things to pass to the service factory
+     * @return object
+     */
+    public function service($name, ...$args)
+    {
+        self::wireCheck($name);
+        if (!isset($this->services[$name])) {
+            $this->services[$name] = $this->diMake($name, ...$args);
+        }
+        return $this->services[$name];
+    }
+
+    /**
+     * Get the class of a named service provider.
+     *
+     * @param string $name
+     * @return string|null
+     */
+    public function serviceProvider($name)
+    {
+        self::wireCheck($name);
+        return $this->diWiring[$name];
+    }
+
+    /**
+     * Set an explicit access control object.
      *
      * @param AccessInterface $access
      * @return $this
      */
     public function setAccess(AccessInterface $access)
     {
-        $this->access = $access;
+        $this->services['Access'] = $access;
         return $this;
     }
 
@@ -652,12 +681,14 @@ class NextForm
      *
      * @param Callable $gen Must return an array of [token name, token value].
      */
-    static public function setCsrfGenerator(Callable $gen) {
+    static public function setCsrfGenerator(Callable $gen)
+    {
         self::$csrfGenerator = $gen;
         self::$csrfToken = null;
     }
 
-    public function setOptions($options = []) {
+    public function setOptions($options = [])
+    {
         if (
             isset($options['segmentNameMode'])
             && in_array($options['segmentNameMode'], ['auto', 'off', 'on'])
@@ -671,26 +702,26 @@ class NextForm
     }
 
     /**
-     * Set the translation object.
+     * Set a translation object.
      *
      * @param Translator $translator
      * @return $this
      */
     public function setTranslator(Translator $translator)
     {
-        $this->translator = $translator;
+        $this->services['Translate'] = $translator;
         return $this;
     }
 
     /**
-     * Define the current user.
+     * Define the current user for access control.
      *
      * @param mixed $user
      * @return $this
      */
     public function setUser($user)
     {
-        $this->access->setUser($user);
+        $this->services('Access')->setUser($user);
     }
 
     /**
@@ -698,7 +729,8 @@ class NextForm
      *
      * @param string $formName
      */
-    public function styles($formName = null) {
+    public function styles($formName = null)
+    {
         echo $this->getStyles($formName) ?? '';
     }
 

@@ -16,6 +16,18 @@ class Html implements RenderInterface
 {
     use ShowableTrait;
 
+    /**
+     * An instance of a class that can render a Captcha.
+     * @var Abivia\NextForm\Contracts\CaptchaInterface
+     */
+    protected $captchaInstance;
+
+    /**
+     * The name of a class that can render a Captcha.
+     * @var string
+     */
+    protected $captchaProvider = '';
+
     protected $context = [];
     protected $contextStack = [];
 
@@ -143,6 +155,19 @@ class Html implements RenderInterface
         $this->initialize();
     }
 
+    public function captcha(Binding $binding) : Block
+    {
+        if (!$this->captchaInstance) {
+            if ($this->captchaProvider === '') {
+                throw new RuntimeException(
+                    "Unable to generate Captcha; no provider defined."
+                );
+            }
+            $this->captchaInstance = new $this->captchaProvider();
+        }
+        return $this->captchaInstance->render($this, $binding);
+    }
+
     /**
      * Ensure we have a slot for the requested scope.
      *
@@ -246,8 +271,10 @@ class Html implements RenderInterface
     public function getAccess($options)
     {
         if ($this->context['containerAccess'] !== false) {
+            // The container overrides other settings
             $access = $this->context['containerAccess'];
         } elseif (isset($options['access'])) {
+            // Use the computed access
             $access = $options['access'];
         } else {
             $access = 'write';
@@ -399,8 +426,17 @@ class Html implements RenderInterface
         return $this;
     }
 
-    public function setOptions($options = []) {
+    public function setOption($key, $value) : RenderInterface {
+        if ($key === 'Captcha') {
+            $this->captchaProvider = $value;
+        }
+        return $this;
+    }
 
+    public function setOptions($options = []) {
+        foreach ($options as $key => $value) {
+            $this->setOption($key, $value);
+        }
     }
 
     /**

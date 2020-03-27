@@ -10,16 +10,22 @@ Namespace Abivia\NextForm\Render;
 class Block
 {
     /**
-     * Page header data associated with an Element.
-     * @var string
-     */
-    public $head = '';
-
-    /**
      * Markup associated with an Element.
      * @var string
      */
     public $body = '';
+
+    /**
+     * Arbitrary application data.
+     * @var array
+     */
+    public $data = [];
+
+    /**
+     * Page header data associated with an Element.
+     * @var string
+     */
+    public $head = '';
 
     /**
      * List of linked files
@@ -28,12 +34,14 @@ class Block
     public $linkedFiles = [];
 
     /**
-     * Instructions on how properties are handled in a merge, missing properties are ignored.
+     * Instructions on how properties are handled in a merge; missing
+     * properties are ignored.
      * @var array
      */
     static protected $mergeRules = [
-        'head' => 'append',
         'body' => 'append',
+        'data' => 'data',
+        'head' => 'append',
         'linkedFiles' => 'merge',
         'post' => 'prepend',
         'script' => 'append',
@@ -109,6 +117,14 @@ class Block
         foreach (self::$mergeRules as $prop => $operation)
         {
             switch ($operation) {
+                case 'data':
+                    // Recursive merge on application data.
+                    $this->$prop = array_merge_recursive(
+                        $this->$prop,
+                        $block->$prop
+                    );
+                    break;
+
                 case 'merge':
                     // Script and linked file lists are merged with no duplicates.
                     $this->$prop = array_unique(array_merge($this->$prop, $block->$prop));

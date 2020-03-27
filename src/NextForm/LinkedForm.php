@@ -3,15 +3,12 @@
 namespace Abivia\NextForm;
 
 use Abivia\NextForm\Contracts\FormInterface;
-use Abivia\NextForm\Contracts\AccessInterface;
-use Abivia\NextForm\Contracts\RenderInterface;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\Render\Block;
-use Illuminate\Contracts\Translation\Translator as Translator;
 
 /**
  * A Linked Form is a renderable connection between a schema definition,
@@ -48,6 +45,13 @@ class LinkedForm
      * @var string
      */
     protected $id;
+
+    /**
+     * The managing NextForm object.
+     *
+     * @var NextForm
+     */
+    protected $manager;
 
     /**
      * The form name in the generated output
@@ -123,10 +127,12 @@ class LinkedForm
 
     /**
      * Create bindings for all elements in the form
+     * @param NextForm $manager The form manager
      * @return $this
      */
     public function bind(NextForm $manager)
     {
+        $this->manager = $manager;
         $this->allBindings = [];
         $this->bindings = [];
         $this->segmentNameDrop = $manager->getSegmentNameDrop();
@@ -161,21 +167,23 @@ class LinkedForm
      *
      * @return Block
      */
-    public function generate(
-        RenderInterface $renderer,
-        ?AccessInterface $access = null,
-        ?Translator $translator = null
-    ) : Block {
+    public function generate() : Block {
 
         // Assign field names
         $this->assignNames();
 
         // Run the translations.
+        $translator = $this->manager->service('Translate');
         foreach ($this->allBindings as $binding) {
             $binding->translate($translator);
         }
 
         // Start the form
+        $renderer = $this->manager->service('Render');
+        $renderer->setOption(
+            'Captcha',
+            $this->manager->serviceProvider('Captcha')
+        );
         $this->formBlock = $renderer->start($this->options);
 
         // Inject any state data from the options
@@ -191,7 +199,7 @@ class LinkedForm
         // Write all the bindings
         foreach ($this->bindings as $binding) {
             $this->formBlock->merge(
-                $binding->generate($renderer, $access)
+                $binding->generate($renderer, $this->manager->service('Access'))
             );
         }
 

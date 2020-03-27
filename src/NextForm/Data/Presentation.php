@@ -59,7 +59,7 @@ class Presentation implements \JsonSerializable
      */
     protected $type;
 
-    public static function build($type) : Presentation
+    static public function build($type) : Presentation
     {
         $pres = new Presentation();
         $pres->setType($type);

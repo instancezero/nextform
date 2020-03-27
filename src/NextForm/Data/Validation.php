@@ -110,7 +110,7 @@ class Validation implements \JsonSerializable
      *
      * @return Validation
      */
-    public static function build()
+    static public function build()
     {
         return new Validation();
     }

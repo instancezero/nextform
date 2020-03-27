@@ -103,6 +103,16 @@ class Labels implements \JsonSerializable
     public $translate = true;
 
     /**
+     * Label factory.
+     *
+     * @return Labels
+     */
+    static public function build() : Labels
+    {
+        return new Labels();
+    }
+
+    /**
      * Map a property to a class.
      * @param string $property The current class property name.
      * @param mixed $value The value to be stored in the property, made available for inspection.

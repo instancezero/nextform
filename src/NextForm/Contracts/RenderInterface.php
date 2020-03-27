@@ -35,6 +35,13 @@ interface RenderInterface
     public function render(Binding $binding, $options = []) : Block;
 
     /**
+     * Set a global option.
+     * @param string $key Option name.
+     * @param mixed $value Arbitrary value.
+     */
+    public function setOption($key, $value) : RenderInterface;
+
+    /**
      * Set global options.
      * @param array $options Render-specific options.
      */

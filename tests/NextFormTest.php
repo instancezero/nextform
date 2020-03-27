@@ -141,11 +141,12 @@ class NextFormTest extends TestCase
 
     public function testWiringCallable() {
         $expect = FakeAccess::$instances + 1;
-        new NextForm(
+        $obj = new NextForm(
             ['wire' =>
                 ['Access' => function () { return new FakeAccess();}]
             ]
         );
+        $obj->service('Access');
         $this->assertEquals($expect, FakeAccess::$instances);
     }
 

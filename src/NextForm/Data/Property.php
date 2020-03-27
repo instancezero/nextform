@@ -90,7 +90,7 @@ class Property implements \JsonSerializable
         $this->labels = new Labels();
     }
 
-    public static function build($type = '')
+    static public function build($type = '')
     {
         $property = new Property();
         if ($type !== '') {

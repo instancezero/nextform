@@ -89,7 +89,7 @@ class FieldElement extends NamedElement
      *
      * @return FieldElement
      */
-    public static function build()
+    static public function build()
     {
         return new FieldElement();
     }

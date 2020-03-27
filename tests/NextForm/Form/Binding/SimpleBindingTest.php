@@ -1,16 +1,10 @@
 <?php
 
 use Abivia\NextForm\Access\NullAccess;
-use Abivia\NextForm\Contracts\AccessInterface;
 use Abivia\NextForm\Contracts\RenderInterface;
+use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
-use Abivia\NextForm\Form\Binding\SimpleBinding;
-use Abivia\NextForm\Form\Element\ButtonElement;
-use Abivia\NextForm\Form\Element\CellElement;
-use Abivia\NextForm\Form\Element\FieldElement;
 use Abivia\NextForm\Form\Element\HtmlElement;
-use Abivia\NextForm\Form\Element\SectionElement;
-use Abivia\NextForm\Form\Element\StaticElement;
 use Abivia\NextForm\Render\Block;
 
 class MockRender implements RenderInterface
@@ -118,6 +112,18 @@ class SimpleBindingTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('foo', $this->testObj->getValue());
 	}
+
+    public function testLabels()
+    {
+        $labels = $this->testObj->getLabels();
+        $this->assertInstanceOf('\Abivia\NextForm\Data\Labels', $labels);
+        $labels = Labels::build();
+        $labels->set('heading', 'Some heading');
+        $this->testObj->setLabels($labels);
+        $this->testObj->setLabel('error', 'This is an error');
+        $testLabels = $this->testObj->getLabels();
+        $this->assertEquals($labels, $testLabels);
+    }
 
 	public function testTranslate()
     {

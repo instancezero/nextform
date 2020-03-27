@@ -399,9 +399,11 @@ class Binding
 
     /**
      * Set the value for a label.
+     *
      * @param string $labelName Name of the text to be set.
      * @param string|null $text
      * @param bool $asConfirm When set, set the "confirm" version.
+     * @return $this
      */
     public function setLabel($labelName, $text, $asConfirm = false)
     {
@@ -410,6 +412,19 @@ class Binding
         }
         $this->labels->set($labelName, $text, $asConfirm);
         $this->labelsTranslated = $this->labels->translate($this->translator);
+        return $this;
+    }
+
+    /**
+     * Set new labels.
+     *
+     * @param Labels $labels The new labels.
+     * @return $this
+     */
+    public function setLabels($labels)
+    {
+        $this->labels = $labels;
+        return $this;
     }
 
     /**
