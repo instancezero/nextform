@@ -75,7 +75,7 @@ class Block
 
     /**
      * Inline styles
-     * @var array
+     * @var string
      */
     public $styles = '';
 

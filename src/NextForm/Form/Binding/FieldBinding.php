@@ -21,13 +21,13 @@ class FieldBinding extends Binding
      * The list of possible values for radio/drop-down types.
      * @var array
      */
-    protected $dataList;
+    protected $dataList = [];
 
     /**
      * A translated list of possible values for radio/drop-down types.
      * @var array
      */
-    protected $dataListTranslated;
+    protected $dataListTranslated = [];
 
     /**
      * A data property in the form's schemas.

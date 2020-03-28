@@ -52,10 +52,16 @@ class Checkbox extends BaseCheckbox {
                 $optAttrs->setFlag('checked', false);
             }
 
-            $block->body .= "<div>\n" . $this->engine->writeTag('input', $optAttrs) . "\n"
+            $tempLabels = Labels::build();
+            $tempLabels->set('inner', $radio->getLabel());
+            $block->body .= "<div>\n"
+                . $this->engine->writeTag('input', $optAttrs) . "\n"
                 . $this->engine->writeLabel(
-                    '', $radio->getLabel(), 'label',
-                    new Attributes('!for',  $id), ['break' => true]
+                    'label',
+                    $tempLabels,
+                    'inner',
+                    new Attributes('!for',  $id),
+                    ['break' => true]
                 )
                 . "</div>\n";
         }
@@ -102,12 +108,22 @@ class Checkbox extends BaseCheckbox {
             ]
         );
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'div', null, ['break' => true]
+            'div',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            null,
+            ['break' => true]
         );
-        $block->merge($this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']));
+        $block->merge($this->engine->writeElement(
+            'div', ['show' => 'inputWrapperAttributes'])
+        );
         $bracketTag = empty($list) ? 'span' : 'div';
         $block->body .= $this->engine->writeLabel(
-            'before', $labels->before, $bracketTag, null, ['break' => !empty($list)]
+            $bracketTag,
+            $labels,
+            'before',
+            null,
+            ['break' => !empty($list)]
         );
         if (empty($list)) {
             $attrs->set('id', $baseId);
@@ -120,8 +136,11 @@ class Checkbox extends BaseCheckbox {
             }
             $block->body .= $this->engine->writeTag('input', $attrs) . "\n";
             $block->body .= $this->engine->writeLabel(
-                'inner', $this->binding->getLabels(true)->inner,
-                'label', new Attributes('!for', $baseId), ['break' => true]
+                'label',
+                $this->binding->getLabels(true),
+                'inner',
+                new Attributes('!for', $baseId),
+                ['break' => true]
             );
         } else {
             $this->checkList(
@@ -132,7 +151,11 @@ class Checkbox extends BaseCheckbox {
             );
         }
         $block->body .= $this->engine->writeLabel(
-            'after', $labels->after, $bracketTag, null, ['break' => !empty($list)]
+            $bracketTag,
+            $labels,
+            'after',
+            null,
+            ['break' => !empty($list)]
         );
         $block->close();
         return $block;

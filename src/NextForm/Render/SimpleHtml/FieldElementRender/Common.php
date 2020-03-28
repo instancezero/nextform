@@ -21,11 +21,13 @@ class Common extends BaseCommon {
      */
     protected function inputGroup(Labels $labels, Attributes $attrs) : Block
     {
-        $input = $this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']);
-        $input->body .= $this->engine->writeLabel('before', $labels->before, 'span');
+        $input = $this->engine->writeElement(
+            'div', ['show' => 'inputWrapperAttributes']
+        );
+        $input->body .= $this->engine->writeLabel('span', $labels, 'before');
         // Generate the input element
         $input->body .= $this->engine->writeTag('input', $attrs)
-            . $this->engine->writeLabel('after', $labels->after, 'span') . "\n";
+            . $this->engine->writeLabel('span', $labels, 'after') . "\n";
         return $input;
     }
 

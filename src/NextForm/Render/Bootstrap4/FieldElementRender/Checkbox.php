@@ -161,9 +161,14 @@ class Checkbox extends BaseCheckbox {
         $block->body .= $this->engine->writeTag('input', $optAttrs) . "\n";
         if ($this->appearance !== 'no-label') {
             $this->labelAttrs->set('!for', $id);
+            $tempLabels = Labels::build();
+            $tempLabels->set('inner', $radio->getLabel());
             $block->body .= $this->engine->writeLabel(
-                '', $radio->getLabel(), 'label',
-                $this->labelAttrs, ['break' => true]
+                'label',
+                $tempLabels,
+                'inner',
+                $this->labelAttrs,
+                ['break' => true]
             )
             ;
         }
@@ -256,7 +261,7 @@ class Checkbox extends BaseCheckbox {
         }
         $attrs->itemAppend('class', 'form-check-input');
         if ($this->appearance === 'no-label') {
-            $attrs->setIfNotNull('aria-label', $labels->inner);
+            $attrs->setIfNotNull('aria-label', $labels->get('inner'));
             $block->merge($this->checkInput($binding, $attrs));
         } else {
             $block->merge($this->checkInput($binding, $attrs));
@@ -264,8 +269,8 @@ class Checkbox extends BaseCheckbox {
             $this->labelAttrs->set('!for', $baseId);
             $this->labelAttrs->itemAppend('class', 'form-check-label');
             $block->body .= $this->engine->writeLabel(
-                'inner', $labels->inner,
-                'label', $this->labelAttrs, ['break' => true]
+                'label', $labels, 'inner',
+                $this->labelAttrs, ['break' => true]
             );
         }
         $block->close();
@@ -307,7 +312,7 @@ class Checkbox extends BaseCheckbox {
             ['attributes' => $this->labelAttrs]
         ));
         $block->body .= $this->engine->writeTag('input', $attrs) . "\n";
-        $block->body .= $labels->inner;
+        $block->body .= $labels->get('inner');
         $block->close();
 
         return $block;
@@ -423,9 +428,9 @@ class Checkbox extends BaseCheckbox {
 
         // Write the heading. We added a pt-0 for horizontal layouts
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes',
-            $labels->heading,
             $headerElement,
+            $labels,
+            ['heading' =>'headingAttributes'],
             $headerAttrs,
             ['break' => true]
         );
@@ -440,7 +445,9 @@ class Checkbox extends BaseCheckbox {
         // Generate everything associated with the inputs, including before/after texts
         $input = new Block();
         $input->body .= $this->engine->writeLabel(
-            'before' . $labelElement, $labels->before, $labelElement
+            $labelElement,
+            $labels,
+            ['before' => 'before' . $labelElement]
         );
         if ($labels->has('help')) {
             $this->attrs->set(
@@ -458,7 +465,11 @@ class Checkbox extends BaseCheckbox {
 
         // Write any after-label
         $input->body .= $this->engine->writeLabel(
-            'after', $labels->after, $labelElement, [], ['break' => true]
+            $labelElement,
+            $labels,
+            'after',
+            null,
+            ['break' => true]
         );
 
         $block->merge($input);
@@ -520,7 +531,11 @@ class Checkbox extends BaseCheckbox {
 
         // Write the heading. We added a pt-0 for horizontal non-button layouts
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'div', $headerAttrs, ['break' => true]
+            'div',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            $headerAttrs,
+            ['break' => true]
         );
         if ($this->engine->showGet('form', 'layout') === 'horizontal') {
             // Create the second column for a horizontal layout
@@ -530,7 +545,7 @@ class Checkbox extends BaseCheckbox {
         // Generate everything associated with the inputs, including before/after texts
         $input = new Block();
         $input->body .= $this->engine->writeLabel(
-            'beforespan', $labels->before, 'span'
+            'span', $labels, ['before' => 'beforespan']
         );
         if ($asButtons) {
             $input->merge($this->checkSingleButton($this->binding, $this->attrs, $groupAttrs));
@@ -538,7 +553,7 @@ class Checkbox extends BaseCheckbox {
             $input->merge($this->checkSingle($this->binding, $this->attrs, $groupAttrs));
         }
         $input->body .= $this->engine->writeLabel(
-            'after', $labels->after, 'span', null, ['break' => true]
+            'span', $labels, 'after', null, ['break' => true]
         );
         $input->close();
         $block->merge($input);

@@ -50,7 +50,7 @@ abstract class Common extends AbstractFieldElement
         );
 
         // If there's an inner label, use it as a placeholder
-        $attrs->setIfNotNull('placeholder', $labels->inner);
+        $attrs->setIfNotNull('placeholder', $labels->get('inner'));
 
         return $attrs;
     }
@@ -112,8 +112,11 @@ abstract class Common extends AbstractFieldElement
 
         // Write the heading
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $attrs->get('id')), ['break' => true]
+            'label',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            new Attributes('!for', $attrs->get('id')),
+            ['break' => true]
         );
 
         // Render the data list if there is one

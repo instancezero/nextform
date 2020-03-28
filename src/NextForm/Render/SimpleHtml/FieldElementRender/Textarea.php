@@ -25,7 +25,7 @@ class Textarea extends BaseTextarea {
         // Generate the textarea element
         $input->body .= $this->engine->writeTag('textarea', $attrs, $text)
             . $this->engine->writeLabel(
-                'after', $labels->after, 'div', null, ['break' => true]
+                'div', $labels, 'after', null, ['break' => true]
             )
             . "\n";
 
@@ -34,7 +34,11 @@ class Textarea extends BaseTextarea {
             $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->itemAppend('class', 'form-text text-muted');
-            $input->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
+            $input->body .= $this->engine->writeTag(
+                'small',
+                $helpAttrs,
+                $labels->get('help')
+            ) . "\n";
         }
 
         return $input;

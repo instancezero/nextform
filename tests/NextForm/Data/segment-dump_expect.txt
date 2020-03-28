@@ -8,16 +8,20 @@ Abivia\NextForm\Data\Segment Object
                     [description:protected] => The first object
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
-                            [accept] =>
-                            [after] =>
-                            [before] =>
+                            [accept:protected] =>
+                            [after:protected] =>
+                            [before:protected] =>
                             [confirm:protected] =>
-                            [error] =>
-                            [heading] =>
-                            [help] =>
-                            [inner] =>
+                            [error:protected] =>
+                            [heading:protected] =>
+                            [help:protected] =>
+                            [inner:protected] =>
+                            [replacements:protected] => Array
+                                (
+                                )
+
                             [schema:protected] =>
-                            [translate] => 1
+                            [translate:protected] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
                                 )
@@ -89,16 +93,20 @@ Abivia\NextForm\Data\Segment Object
                     [description:protected] =>
                     [labels:protected] => Abivia\NextForm\Data\Labels Object
                         (
-                            [accept] =>
-                            [after] =>
-                            [before] =>
+                            [accept:protected] =>
+                            [after:protected] =>
+                            [before:protected] =>
                             [confirm:protected] =>
-                            [error] =>
-                            [heading] =>
-                            [help] =>
-                            [inner] =>
+                            [error:protected] =>
+                            [heading:protected] =>
+                            [help:protected] =>
+                            [inner:protected] =>
+                            [replacements:protected] => Array
+                                (
+                                )
+
                             [schema:protected] =>
-                            [translate] => 1
+                            [translate:protected] => 1
                             [configureErrors:Abivia\NextForm\Data\Labels:private] => Array
                                 (
                                 )

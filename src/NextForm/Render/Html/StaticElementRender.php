@@ -47,14 +47,20 @@ class StaticElementRender extends AbstractElementRender
         // Write a heading if there is one
         $labels = $this->binding->getLabels(true);
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes',
-            $labels ? $labels->heading : null,
-            'div', null, ['break' => true]
+            'div',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            null,
+            ['break' => true]
         );
-        $block->merge($this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']));
+        $block->merge($this->engine->writeElement(
+            'div', ['show' => 'inputWrapperAttributes'])
+        );
 
         $attrs = new Attributes('id', $this->binding->getId());
-        $block->merge($this->engine->writeElement('div', ['attributes' => $attrs]));
+        $block->merge($this->engine->writeElement(
+            'div', ['attributes' => $attrs])
+        );
         // Escape the value if it's not listed as HTML
         $value = $this->binding->getValue() . "\n";
         $block->body .= $element->getHtml() ? $value : htmlspecialchars($value);

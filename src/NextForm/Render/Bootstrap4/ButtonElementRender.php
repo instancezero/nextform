@@ -37,9 +37,11 @@ class ButtonElementRender extends ButtonElementRenderBase {
         $input = $this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']);
 
         // Add in the input element and before/after labels
-        $input->body .= $this->engine->writeLabel('beforespan', $labels->before, 'span')
+        $input->body .= $this->engine->writeLabel(
+                'span', $labels, ['before' => 'beforespan']
+            )
             . $this->engine->writeTag('input', $attrs)
-            . $this->engine->writeLabel('after', $labels->after, 'span', [])
+            . $this->engine->writeLabel('span', $labels, 'after')
             . "\n";
 
         // Generate supporting messages

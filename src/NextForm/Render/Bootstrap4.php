@@ -81,7 +81,9 @@ class Bootstrap4 extends Html implements RenderInterface
             );
             // Write the after label in the append group
             $group->body .= $this->writeLabel(
-                'inputAfter', $labels->after, 'span',
+                'span',
+                $labels,
+                ['after' => 'inputAfter'],
                 new Attributes('class', ['input-group-text'])
             ) . "\n";
             $group->close();
@@ -108,7 +110,9 @@ class Bootstrap4 extends Html implements RenderInterface
                 );
                 // Write the before label in the prepend group
                 $group->body .= $this->writeLabel(
-                    'inputBefore', $labels->before, 'span',
+                    'span',
+                    $labels,
+                    ['before' => 'inputBefore'],
                     new Attributes('class', ['input-group-text'])
                 ) . "\n";
                 $group->close();
@@ -518,8 +522,7 @@ class Bootstrap4 extends Html implements RenderInterface
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->itemAppend('class', 'form-text text-muted');
             $body = $this->writeLabel(
-                'help', $labels->help, 'small',
-                $helpAttrs, ['break' => true]
+                'small', $labels, 'help', $helpAttrs, ['break' => true]
             );
         } else {
             $body = '';
@@ -543,8 +546,7 @@ class Bootstrap4 extends Html implements RenderInterface
             if ($labels->has($property)) {
                 $labelAttrs = new Attributes('class', $class);
                 $body .= $this->writeLabel(
-                    $property, $labels->get($property), 'div',
-                    $labelAttrs, ['break' => true]
+                    'div', $labels, $property, $labelAttrs, ['break' => true]
                 );
             }
         }

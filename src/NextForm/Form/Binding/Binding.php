@@ -330,6 +330,10 @@ class Binding
         return null;
     }
 
+    public function getTranslator() {
+        return $this->translator;
+    }
+
     /**
      * Get the current validation state.
      * @return ?bool
@@ -456,8 +460,10 @@ class Binding
      */
     public function translate(?Translator $translator = null) : Binding
     {
-        $this->translator = $translator;
-        $this->labelsTranslated = $this->labels->translate($translator);
+        if ($translator !== null) {
+            $this->translator = $translator;
+        }
+        $this->labelsTranslated = $this->labels->translate($this->translator);
         return $this;
     }
 

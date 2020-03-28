@@ -117,8 +117,11 @@ abstract class Select extends AbstractFieldElement
 
         // Write the heading
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            $headAttrs, ['break' => true]
+            'label',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            $headAttrs,
+            ['break' => true]
         );
 
         $select = $this->inputGroup($labels, $attrs);

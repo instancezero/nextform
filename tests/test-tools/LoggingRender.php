@@ -47,6 +47,12 @@ class LoggingRender implements RenderInterface {
         return new Block();
     }
 
+    public function setOption($key, $value)
+        : Abivia\NextForm\Contracts\RenderInterface
+    {
+        return $this;
+    }
+
     /**
      * Set global options.
      * @param array $options Render-specific options.

@@ -30,7 +30,7 @@ abstract class ButtonElementRenderBase extends AbstractElementRender
         if ($this->access === 'view' || !$this->element->getEnabled()) {
             $attrs->setFlag('disabled');
         }
-        $attrs->setIfNotNull('value', $labels->inner);
+        $attrs->setIfNotNull('value', $labels->get('inner'));
         $attrs->set('type', $this->element->getFunction());
 
         return $attrs;
@@ -55,7 +55,7 @@ abstract class ButtonElementRenderBase extends AbstractElementRender
 
         // No write/view permissions, the field is hidden.
         if ($this->access === 'hide') {
-            $block = $this->engine->elementHidden($this->binding, $labels->inner);
+            $block = $this->engine->elementHidden($this->binding, $labels->get('inner'));
             return $block;
         }
 
@@ -76,9 +76,9 @@ abstract class ButtonElementRenderBase extends AbstractElementRender
 
         // Write the header.
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes',
-            $labels->heading,
             'label',
+            $labels,
+            ['heading' => 'headingAttributes'],
             new Attributes('!for', $this->binding->getId()),
             ['break' => true]
         );

@@ -22,19 +22,19 @@ class Labels implements \JsonSerializable
      * Text to display when validation passes.
      * @var string
      */
-    public $accept = null;
+    protected $accept = null;
 
     /**
      * Text to display after the body of an item.
      * @var string
      */
-    public $after = null;
+    protected $after = null;
 
     /**
      * Text to display before the body of an item.
      * @var string
      */
-    public $before = null;
+    protected $before = null;
 
     /**
      * Labels to use when asking for a confirmation.
@@ -46,25 +46,25 @@ class Labels implements \JsonSerializable
      * Text to display when there is an error.
      * @var string
      */
-    public $error = null;
+    protected $error = null;
 
     /**
      * Text to display before as the item header.
      * @var string
      */
-    public $heading = null;
+    protected $heading = null;
 
     /**
      * Text to display for item help.
      * @var string
      */
-    public $help = null;
+    protected $help = null;
 
     /**
      * Text to display "inside" an item: placeholder or label on a check/radio.
      * @var string
      */
-    public $inner = null;
+    protected $inner = null;
 
     /**
      * Rules for the JsonEncoder
@@ -81,6 +81,12 @@ class Labels implements \JsonSerializable
         'help' => ['drop:null'],
         'inner' => ['drop:null'],
     ];
+
+    /**
+     * Substitution parameters, indexed by match string.
+     * @var array
+     */
+    protected $replacements = [];
 
     /**
      * Reference to the schema this property is part of.
@@ -100,7 +106,7 @@ class Labels implements \JsonSerializable
      * Flag indicating if these labels should be translated or not.
      * @var bool
      */
-    public $translate = true;
+    protected $translate = true;
 
     /**
      * Label factory.
@@ -110,6 +116,15 @@ class Labels implements \JsonSerializable
     static public function build() : Labels
     {
         return new Labels();
+    }
+
+    protected function checkProperty($labelName)
+    {
+        if (!in_array($labelName, self::$textProperties)) {
+            throw new \RuntimeException(
+                "$labelName isn't a valid label property."
+            );
+        }
     }
 
     /**
@@ -185,13 +200,16 @@ class Labels implements \JsonSerializable
      */
     public function get($labelName, $asConfirm = false)
     {
-        if (!in_array($labelName, self::$textProperties)) {
-            throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
-        }
+        $this->checkProperty($labelName);
         if ($asConfirm && $this->confirm && $this->confirm->$labelName != null) {
             return $this->confirm->$labelName;
         }
         return $this->$labelName;
+    }
+
+    public function getTranslate() : bool
+    {
+        return $this->translate;
     }
 
     /**
@@ -203,9 +221,7 @@ class Labels implements \JsonSerializable
      */
     public function has($labelName, $asConfirm = false) : bool
     {
-        if (!in_array($labelName, self::$textProperties)) {
-            throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
-        }
+        $this->checkProperty($labelName);
         if ($asConfirm) {
             if (!$this->confirm) {
                 return false;
@@ -281,17 +297,20 @@ class Labels implements \JsonSerializable
     }
 
     /**
-     * Set a label by name
+     * Set a label by name.
+     *
      * @param string $labelName
      * @param string $text
+     * @param array $replacements
      * @return $this
      * @throws \RuntimeException
      */
-    public function set($labelName, $text, $asConfirm = false)
-    {
-        if (!in_array($labelName, self::$textProperties)) {
-            throw new \RuntimeException($labelName . ' isn\'t a valid label property.');
-        }
+    public function set(
+        $labelName,
+        $text, $asConfirm = false,
+        $replacements = []
+    ) : Labels {
+        $this->checkProperty($labelName);
         if ($asConfirm) {
             if ($this->confirm === null) {
                 $this->confirm = new Labels();
@@ -300,7 +319,14 @@ class Labels implements \JsonSerializable
         } else {
             $this->$labelName = $text;
         }
+        $this->replacements = array_merge($this->replacements, $replacements);
 
+        return $this;
+    }
+
+    public function setTranslate($translate) : Labels
+    {
+        $this->translate = $translate;
         return $this;
     }
 
@@ -309,8 +335,10 @@ class Labels implements \JsonSerializable
      * @param Translator $translator The translation facility.
      * @return \Abivia\NextForm\Data\Labels
      */
-    public function translate(?Translator $translator = null) : Labels
-    {
+    public function translate(
+        ?Translator $translator = null,
+        $replacements = []
+    ) : Labels {
         // Create a copy for the translated strings
         $newLabels = clone $this;
 
@@ -321,13 +349,17 @@ class Labels implements \JsonSerializable
 
         // Perform the translation
         if ($newLabels->translate && $translator !== null) {
+            $replacements = array_merge($this->replacements, $replacements);
             foreach (self::$textProperties as $prop) {
                 if (is_array($newLabels->$prop)) {
                     foreach($newLabels->$prop as &$entry) {
-                        $entry = $translator->get($entry);
+                        $entry = $translator->get($entry, $replacements);
                     }
                 } elseif ($newLabels->$prop !== null) {
-                    $newLabels->$prop = $translator->get($newLabels->$prop);
+                    $newLabels->$prop = $translator->get(
+                        $newLabels->$prop,
+                        $replacements
+                    );
                 }
             }
             if ($this->confirm) {

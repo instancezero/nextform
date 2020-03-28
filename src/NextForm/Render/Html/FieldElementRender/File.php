@@ -42,7 +42,7 @@ abstract class File extends AbstractFieldElement
         );
 
         // If there's an inner label, use it as a placeholder
-        $attrs->setIfNotNull('placeholder', $labels->inner);
+        $attrs->setIfNotNull('placeholder', $labels->get('inner'));
 
         return $attrs;
     }
@@ -108,8 +108,11 @@ abstract class File extends AbstractFieldElement
 
         // Write the heading
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $this->binding->getId()), ['break' => true]
+            'label',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            new Attributes('!for', $this->binding->getId()),
+            ['break' => true]
         );
 
         // Generate the actual input element, with labels if provided.

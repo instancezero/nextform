@@ -40,7 +40,7 @@ abstract class Textarea extends AbstractFieldElement
         );
 
         // If there's an inner label, use it as a placeholder
-        $attrs->setIfNotNull('placeholder', $labels->inner);
+        $attrs->setIfNotNull('placeholder', $labels->get('inner'));
 
         return $attrs;
     }
@@ -105,12 +105,15 @@ abstract class Textarea extends AbstractFieldElement
 
         // Write the heading
         $block->body .= $this->engine->writeLabel(
-            'headingAttributes', $labels->heading, 'label',
-            new Attributes('!for', $this->binding->getId()), ['break' => true]
+            'label',
+            $labels,
+            ['heading' => 'headingAttributes'],
+            new Attributes('!for', $this->binding->getId()),
+            ['break' => true]
         );
 
         // Placeholder label and any size specifiers
-        $attrs->setIfNotNull('placeholder', $labels->inner);
+        $attrs->setIfNotNull('placeholder', $labels->get('inner'));
         $attrs->setIfNotNull('cols', $presentation->getCols());
         $attrs->setIfNotNull('rows', $presentation->getRows());
 

@@ -2,10 +2,12 @@
 namespace Abivia\NextForm\Render;
 
 use Abivia\NextForm\Contracts\RenderInterface;
+use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\ContainerBinding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\Element;
+use Abivia\NextForm\Render\Attributes;
 use Abivia\NextForm\NextForm;
 use Abivia\NextForm\Traits\ShowableTrait;
 
@@ -823,21 +825,28 @@ class Html implements RenderInterface
 
     /**
      * Write a label if required.
-     * @param string $purpose A string indicating what this label is for.
-     * @param string $text The text for the label
      * @param string $tag The kind of HTML tag to wrap the label in.
-     * @param \Abivia\NextForm\Render\Attributes $attrs HTML attributes to associate with the element
-     * @param type $options break(bool,''), div(string,classes)
+     * @param Labels $labels The labels object to write.
+     * @param string|array $prop The property to write or [prop => purpose].
+     * @param Attributes $attrs HTML attributes to associate with the element.
+     * @param type $options break(bool,''), div(string,classes).
      * @return string
      */
     public function writeLabel(
-        $purpose,
-        $text,
         $tag,
-        $attrs = null,
+        Labels $labels,
+        $prop,
+        ?Attributes $attrs = null,
         $options = []
     ) {
-        if ($text === null) {
+        if (is_array($prop)) {
+            $labelName = array_key_first($prop);
+            $purpose = $prop[$labelName];
+        } else {
+            $labelName = $prop;
+            $purpose = $prop;
+        }
+        if (!$labels->has($labelName)) {
             // In horizontal layouts we always generate an element
             if (
                 $this->showState['form']['layout'] === 'horizontal'
@@ -847,15 +856,18 @@ class Html implements RenderInterface
             } else {
                 return '';
             }
-        } elseif (\is_array($text)) {
-            // Don't make a single element array a list.
-            if (\count($text) === 1) {
-                $text = \htmlspecialchars(\array_shift($text));
-            } else {
-                $text = self::writeList($text);
-            }
         } else {
-            $text = \htmlspecialchars($text);
+            $text = $labels->get($labelName);
+            if (\is_array($text)) {
+                // Don't make a single element array a list.
+                if (\count($text) === 1) {
+                    $text = \htmlspecialchars(\array_shift($text));
+                } else {
+                    $text = self::writeList($text);
+                }
+            } else {
+                $text = \htmlspecialchars($text);
+            }
         }
         if (isset($this->showState['form'][$purpose])) {
             $attrs = $attrs ?? new Attributes();

@@ -20,9 +20,11 @@ class Select extends BaseSelect {
         Attributes $attrs
     ) : Block
     {
-        $select = $this->engine->writeElement('div', ['show' => 'inputWrapperAttributes']);
+        $select = $this->engine->writeElement(
+            'div', ['show' => 'inputWrapperAttributes']
+        );
         $select->body .= $this->engine->writeLabel(
-            'before', $labels->before, 'div', null, ['break' => true]
+            'div', $labels, 'before', null, ['break' => true]
         );
 
         if ($this->access === 'view') {
@@ -44,7 +46,7 @@ class Select extends BaseSelect {
         }
 
         $select->body .= $this->engine->writeLabel(
-            'after', $labels->after, 'div', null, ['break' => true]
+            'div', $labels, 'after', null, ['break' => true]
         );
 
         // Generate help text, if any
@@ -52,7 +54,11 @@ class Select extends BaseSelect {
             $helpAttrs = new Attributes();
             $helpAttrs->set('id', $attrs->get('aria-describedby'));
             $helpAttrs->itemAppend('class', 'form-text text-muted');
-            $select->body .= $this->engine->writeTag('small', $helpAttrs, $labels->help) . "\n";
+            $select->body .= $this->engine->writeTag(
+                'small',
+                $helpAttrs,
+                $labels->get('help')
+            ) . "\n";
         }
 
         return $select;

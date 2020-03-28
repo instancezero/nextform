@@ -34,7 +34,7 @@ class SectionElementRender extends AbstractElementRender
         );
         if ($labels !== null) {
             $block->body .= $this->engine->writeLabel(
-                '', $labels->heading, 'legend', null, ['break' => true]
+                'legend', $labels, ['heading' => ''], null, ['break' => true]
             );
         }
 

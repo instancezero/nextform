@@ -1,6 +1,7 @@
 <?php
 
 use Abivia\NextForm\NextForm;
+use Abivia\NextForm\Data\Labels;
 use Abivia\NextForm\Form\Binding\Binding;
 use Abivia\NextForm\Form\Binding\FieldBinding;
 use Abivia\NextForm\Form\Element\StaticElement;
@@ -347,14 +348,16 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
 
     public function testWriteLabel()
     {
-        $html = $this->testObj->writeLabel('test', 'a label', 'div');
+        $labels = Labels::build();
+        $labels->set('inner', 'a label');
+        $html = $this->testObj->writeLabel('div', $labels, 'inner');
         $this->assertEquals('<div>a label</div>', $html, 'basic');
 
-        $html = $this->testObj->writeLabel('test', null, 'div');
+        $html = $this->testObj->writeLabel('div', $labels, 'heading');
         $this->assertEquals('', $html, 'null');
 
         $html = $this->testObj->writeLabel(
-            'test', 'a label', 'span', null, ['div' => 'foo']
+            'span', $labels, 'inner', null, ['div' => 'foo']
         );
         $this->assertEquals(
             "<div class=\"foo\">\n<span>a label</span>\n</div>\n",
@@ -362,19 +365,24 @@ class NextFormRenderHtmlTest extends \PHPUnit\Framework\TestCase
             'wrapped in div'
         );
 
-        $html = $this->testObj->writeLabel('test', ['item1', 'item2'], 'div');
+        $labels->set('error', ['item1', 'item2']);
+        $html = $this->testObj->writeLabel('div', $labels, 'error');
         $this->assertEquals(
             "<div><ul>\n<li>item1</li>\n<li>item2</li>\n</ul>\n</div>",
             $html,
             'list'
         );
 
-        $html = $this->testObj->writeLabel('cellspacing', 'a label', 'div');
+        $html = $this->testObj->writeLabel(
+            'div', $labels, ['inner' => 'cellspacing']
+        );
         $this->assertEquals('<div class="cellspace">a label</div>', $html, 'with purpose');
 
         // Keep this last, horizontal layout
         $this->testObj->setShow('layout:horizontal');
-        $html = $this->testObj->writeLabel('headingAttributes', null, 'div');
+        $html = $this->testObj->writeLabel(
+            'div', $labels, ['heading' => 'headingAttributes']
+        );
         $this->assertEquals('<div>&nbsp;</div>', $html, 'null horizontal');
     }
 

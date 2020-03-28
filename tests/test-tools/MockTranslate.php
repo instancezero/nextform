@@ -18,14 +18,22 @@ class MockTranslate implements Translator {
 
     public function get($key, array $replace = [], $locale = null)
     {
-        $replace = $replace;
+        $out = $key;
+        foreach ($replace as $search => $value) {
+            $out = preg_replace(
+                '/:' . $search . '([^a-z0-9]|$)/i',
+                $value . '$1',
+                $out
+            );
+        }
         $locale = $locale;
-        return self::$prepend . $key . self::$append;
+        return self::$prepend . $out . self::$append;
     }
 
     public function choice($key, $number, array $replace = [], $locale = null)
     {
-        return $key;
+        $number = $number;
+        return $this->get($key, $replace, $locale);
     }
 
     public function getLocale()
@@ -35,6 +43,7 @@ class MockTranslate implements Translator {
 
     public function setLocale($locale)
     {
+        $locale = $locale;
     }
 
 }
