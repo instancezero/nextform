@@ -29,7 +29,10 @@ class FormTest extends \PHPUnit\Framework\TestCase {
         $dump = print_r($obj, true);
         $dump = str_replace(" \n", "\n", $dump);
         file_put_contents(dirname(__FILE__) . '/form-dump-actual.txt', $dump);
-        $this->assertEquals(sha1_file(dirname(__FILE__) . '/form-dump-expect.txt'), sha1($dump));
+        $this->assertEquals(
+            sha1_file(dirname(__FILE__) . '/form-dump-expect.txt'),
+            sha1($dump)
+        );
         $this->assertTrue(true);
 	}
 

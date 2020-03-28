@@ -31,7 +31,7 @@ class SimpleCaptcha implements CaptchaInterface
             while (true) {
                 $rule = 'nf_ca';
                 for ($posn = 0; $posn < 5; ++$posn) {
-                    $rule .= chr(ord('a') + random_int(0, 26));
+                    $rule .= chr(ord('a') + random_int(0, 25));
                 }
                 if (!isset($tricks[$rule])) {
                     break;
@@ -53,17 +53,17 @@ class SimpleCaptcha implements CaptchaInterface
         foreach ($tricks as $rule => $offset) {
             if ($offset === 0) {
                 $this->trickStyles .= ".$rule{left:-"
-                    . random_int(15000, 25000) . "px;position:absolute}";
+                    . random_int(15000, 25000) . "px;position:absolute;}";
                 continue;
             }
             $slot = $ind && 1 ? 'after' : 'before';
             $style = ".$rule:$slot{content:\"";
             if ($offset > 0) {
-                $style .= '+&nbsp;' . $offset;
+                $style .= ' \a0+\a0 ' . $offset;
             } else {
-                $style .= '-&nbsp;' . abs($offset);
+                $style .= ' \a0-\a0 ' . abs($offset);
             }
-            $style .='"; width:0}';
+            $style .='";font-style:normal;width:0}';
             $this->trickStyles .= $style;
             $this->tricks[$slot][$rule] = $offset;
             ++$ind;
@@ -90,12 +90,13 @@ class SimpleCaptcha implements CaptchaInterface
             - $this->tricks['after'][$after];
         // The question is composed of the before class, the decoy
         // and the after class
-        $signs = ['+' => '+', '-' => '-'];
+        $signs = ['&nbsp;+&nbsp;' => '+', '&nbsp;-&nbsp;' => '-'];
         $question = $start . '<i class="' . $before . '"></i>'
-            . '<span class"' . $this->trickZero . '">'
-            . array_rand($signs) . '$nbsp;' . random_int(1, 9)
-            . array_rand($signs) . '&nbsp;' . random_int(1, 9)
-            . '<i class="' . $after . '"></i>&nbsp;=';
+            . '<span class="' . $this->trickZero . '">'
+            . array_rand($signs) . random_int(10, 19)
+            . array_rand($signs) . random_int(10, 19)
+            . '</span>'
+            . '<i class="' . $after . '"></i>&nbsp;=&nbsp;';
 
         // Generate an input element
         $display = FieldBinding::build('text');
@@ -108,7 +109,8 @@ class SimpleCaptcha implements CaptchaInterface
             'before',
             "Please solve :question",
             false,
-            ['question' => $question]
+            ['question' => $question],
+            true
         );
         $display->setLabels($displayLabels);
         $display->translate($binding->getTranslator());

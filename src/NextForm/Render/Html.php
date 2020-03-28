@@ -857,16 +857,14 @@ class Html implements RenderInterface
                 return '';
             }
         } else {
-            $text = $labels->get($labelName);
+            $text = $labels->getEscaped($labelName);
             if (\is_array($text)) {
                 // Don't make a single element array a list.
                 if (\count($text) === 1) {
-                    $text = \htmlspecialchars(\array_shift($text));
+                    $text = \array_shift($text);
                 } else {
-                    $text = self::writeList($text);
+                    $text = self::writeList($text, ['escape' => false]);
                 }
-            } else {
-                $text = \htmlspecialchars($text);
             }
         }
         if (isset($this->showState['form'][$purpose])) {

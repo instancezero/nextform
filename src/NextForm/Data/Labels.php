@@ -67,6 +67,12 @@ class Labels implements \JsonSerializable
     protected $inner = null;
 
     /**
+     * Flags indicating if label elements are escaped HTML or not.
+     * @var array
+     */
+    protected $isHtml = [];
+
+    /**
      * Rules for the JsonEncoder
      * @var array
      */
@@ -107,6 +113,11 @@ class Labels implements \JsonSerializable
      * @var bool
      */
     protected $translate = true;
+
+    public function __construct()
+    {
+        $this->isHtml = array_fill_keys(self::$textProperties, false);
+    }
 
     /**
      * Label factory.
@@ -207,6 +218,33 @@ class Labels implements \JsonSerializable
         return $this->$labelName;
     }
 
+    /**
+     * Get a HTML escaped label by name.
+     *
+     * @param string $labelName
+     * @param bool $asConfirm When set, get the "confirm" version (if any).
+     * @return ?string
+     * @throws \RuntimeException
+     */
+    public function getEscaped($labelName, $asConfirm = false)
+    {
+        $this->checkProperty($labelName);
+        if ($asConfirm && $this->confirm && $this->confirm->$labelName != null) {
+            return $this->confirm->$labelName;
+        }
+        $label = $this->$labelName;
+        if (!$this->isHtml[$labelName]) {
+            if (is_array($label)) {
+                foreach ($label as &$item) {
+                    $item = \htmlspecialchars($item);
+                }
+            } else {
+                $label = \htmlspecialchars($label);
+            }
+        }
+        return $label;
+    }
+
     public function getTranslate() : bool
     {
         return $this->translate;
@@ -301,23 +339,28 @@ class Labels implements \JsonSerializable
      *
      * @param string $labelName
      * @param string $text
+     * @param bool $asConfirm
      * @param array $replacements
+     * @parem bool $escaped
      * @return $this
      * @throws \RuntimeException
      */
     public function set(
         $labelName,
-        $text, $asConfirm = false,
-        $replacements = []
+        $text,
+        $asConfirm = false,
+        $replacements = [],
+        $escaped = false
     ) : Labels {
         $this->checkProperty($labelName);
         if ($asConfirm) {
             if ($this->confirm === null) {
                 $this->confirm = new Labels();
             }
-            $this->confirm->set($labelName, $text);
+            $this->confirm->set($labelName, $text, false, $replacements, $escaped);
         } else {
             $this->$labelName = $text;
+            $this->isHtml[$labelName] = $escaped;
         }
         $this->replacements = array_merge($this->replacements, $replacements);
 

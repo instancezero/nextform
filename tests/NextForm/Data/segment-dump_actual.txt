@@ -16,6 +16,17 @@ Abivia\NextForm\Data\Segment Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -101,6 +112,17 @@ Abivia\NextForm\Data\Segment Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )

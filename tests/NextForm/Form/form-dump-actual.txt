@@ -176,6 +176,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] => overidden!
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -208,6 +219,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] => overidden!
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -292,6 +314,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -315,6 +348,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -386,6 +430,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -409,6 +464,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -480,6 +546,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -503,6 +580,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -567,6 +655,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -590,6 +689,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -676,6 +786,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -699,6 +820,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -770,6 +902,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -793,6 +936,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -864,6 +1018,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -887,6 +1052,17 @@ Abivia\NextForm\Form\Form Object
                                                             [heading:protected] =>
                                                             [help:protected] =>
                                                             [inner:protected] =>
+                                                            [isHtml:protected] => Array
+                                                                (
+                                                                    [accept] =>
+                                                                    [after] =>
+                                                                    [before] =>
+                                                                    [error] =>
+                                                                    [heading] =>
+                                                                    [help] =>
+                                                                    [inner] =>
+                                                                )
+
                                                             [replacements:protected] => Array
                                                                 (
                                                                 )
@@ -951,6 +1127,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -974,6 +1161,17 @@ Abivia\NextForm\Form\Form Object
                                             [heading:protected] =>
                                             [help:protected] =>
                                             [inner:protected] =>
+                                            [isHtml:protected] => Array
+                                                (
+                                                    [accept] =>
+                                                    [after] =>
+                                                    [before] =>
+                                                    [error] =>
+                                                    [heading] =>
+                                                    [help] =>
+                                                    [inner] =>
+                                                )
+
                                             [replacements:protected] => Array
                                                 (
                                                 )
@@ -1091,6 +1289,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -1114,6 +1323,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] =>
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -1183,6 +1403,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] => Are you a human?
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
@@ -1215,6 +1446,17 @@ Abivia\NextForm\Form\Form Object
                             [heading:protected] => Are you a human?
                             [help:protected] =>
                             [inner:protected] =>
+                            [isHtml:protected] => Array
+                                (
+                                    [accept] =>
+                                    [after] =>
+                                    [before] =>
+                                    [error] =>
+                                    [heading] =>
+                                    [help] =>
+                                    [inner] =>
+                                )
+
                             [replacements:protected] => Array
                                 (
                                 )
