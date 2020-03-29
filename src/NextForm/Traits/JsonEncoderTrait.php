@@ -38,7 +38,8 @@ trait JsonEncoderTrait
         $ordered = self::jsonSerializeSort();
         $result = new \stdClass;
         foreach ($ordered as $prop => $encoding) {
-            $value = $this->$prop;
+            // If we have a pseudo-property, use the property name.
+            $value = property_exists($this, $prop) ? $this->$prop : $prop;
             $scalarize = false;
             $asArray = false;
             $keep = true;
@@ -114,7 +115,7 @@ trait JsonEncoderTrait
         } elseif ($cmd == 'map') {
             $prop = $arg;
         } elseif ($cmd == 'method') {
-            $value = $this->$arg($value);
+            $this->$arg($prop, $value);
         }
         return true;
     }

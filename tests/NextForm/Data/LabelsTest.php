@@ -18,6 +18,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->configConfirm = json_decode(
             '{"accept": "accept", "after": "after"'
             . ', "before": "before"'
+            . ', "before.html": true'
             . ', "confirm": {"heading": "confirm heading"'
             . ', "help": "confirm help"'
             . '}'
@@ -46,7 +47,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testInitialValues() {
-        $obj = new Labels();
+        $obj = Labels::build();
 		$this->assertTrue($obj->get('accept') === null);
 		$this->assertTrue($obj->get('after') === null);
 		$this->assertTrue($obj->get('before') === null);
@@ -57,7 +58,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testConfigurationConfirm() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configConfirm);
 		$this->assertEquals('accept', $obj->get('accept'));
 		$this->assertEquals('after', $obj->get('after'));
@@ -69,7 +70,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testConfigurationSimple() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configSimple);
 		$this->assertEquals('accept', $obj->get('accept'));
 		$this->assertEquals('after', $obj->get('after'));
@@ -83,7 +84,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	public function testConfigurationString() {
         $config = json_decode('"heading"');
         $this->assertTrue(false != $config, 'JSON error!');
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($config);
 		$this->assertTrue($obj->get('accept') === null);
 		$this->assertTrue($obj->get('after') === null);
@@ -109,19 +110,71 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
             . ', "inner": "placeholder"}'
         );
         $this->assertTrue(false != $config, 'JSON error!');
-        $obj = new Labels();
+        $obj = Labels::build();
         $this->assertFalse($obj->configure($config));
 	}
 
 	public function testEmpty() {
-        $obj = new Labels();
+        $obj = Labels::build();
 		$this->assertTrue($obj->isEmpty());
         $obj->set('heading', 'stuff');
 		$this->assertFalse($obj->isEmpty());
+
+        $confirm = Labels::build();
+        $confirm->configure($this->configSimple);
+        $obj = Labels::build();
+        $obj->setConfirm($confirm);
+		$this->assertFalse($obj->isEmpty());
 	}
 
+    public function testEscaped()
+    {
+        $obj = Labels::build();
+
+        // Something untouched defaults to not escaped
+        $this->assertFalse($obj->isEscaped('before'));
+
+        // No confirm labels defined? return false
+        $this->assertFalse($obj->isEscaped('before', true));
+
+        // Confirm labels but not escaped: false
+        $confirm = Labels::build();
+        $confirm->configure($this->configSimple);
+        $obj->setConfirm($confirm);
+        $this->assertFalse($obj->isEscaped('before', true));
+
+        // Unescaped with specials
+        $obj->set('heading', 'Plain <i>Heading</i>');
+        $this->assertFalse($obj->isEscaped('heading'));
+
+        // Raw fetch returns unescaped
+        $this->assertEquals('Plain <i>Heading</i>', $obj->get('heading'));
+
+        // Escaped fetch returns no specials
+        $this->assertEquals(
+            'Plain &lt;i&gt;Heading&lt;/i&gt;',
+            $obj->getEscaped('heading')
+        );
+
+        // Assign string as escaped
+        $obj->set('help', 'html <i>Help</i>', ['escaped' => true]);
+        $this->assertTrue($obj->isEscaped('help'));
+        $this->assertEquals('html <i>Help</i>', $obj->get('help'));
+        $this->assertEquals('html <i>Help</i>', $obj->getEscaped('help'));
+
+        $obj->set('error', ['a>b', 'b<c']);
+        $this->assertFalse($obj->isEscaped('error'));
+        $this->assertEquals(['a>b', 'b<c'], $obj->get('error'));
+        $this->assertEquals(['a&gt;b', 'b&lt;c'], $obj->getEscaped('error'));
+
+        $obj->set('error', ['a>b', 'b<c'], ['escaped' => true]);
+        $this->assertTrue($obj->isEscaped('help'));
+        $this->assertEquals(['a>b', 'b<c'], $obj->get('error'));
+        $this->assertEquals(['a>b', 'b<c'], $obj->getEscaped('error'));
+    }
+
     public function testForConfirm() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configConfirm);
         $confirm = $obj->forConfirm();
 		$this->assertEquals('accept', $confirm->get('accept'));
@@ -136,8 +189,15 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 		$this->assertFalse($confirm->has('heading', true));
     }
 
+    public function testGetBad()
+    {
+        $obj = Labels::build();
+        $this->expectException('\RuntimeException');
+        $obj->get('someBadLabel');
+    }
+
 	public function testGetSimple() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configSimple);
 		$this->assertEquals('accept', $obj->get('accept'));
 		$this->assertEquals('after', $obj->get('after'));
@@ -157,7 +217,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testGetConfirm() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configConfirm);
 		$this->assertEquals('accept', $obj->get('accept'));
 		$this->assertEquals('after', $obj->get('after'));
@@ -177,11 +237,19 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
     public function testJsonEncode() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configConfirm);
-        $encoded = json_encode($obj);
+        $encoded = json_encode($obj, JSON_PRETTY_PRINT);
+        file_put_contents(__DIR__ . '/label-confirm_actual.json', $encoded);
         $compare = json_decode($encoded);
         $this->assertTrue($this->jsonCompare($this->configConfirm, $compare));
+    }
+
+    public function testJsonEncodeCollapse() {
+        $obj = Labels::build();
+        $obj->set('heading', 'this heading');
+        $encoded = json_encode($obj);
+        $this->assertEquals('"this heading"', $encoded);
     }
 
 	public function testHasSparse() {
@@ -194,7 +262,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
             . ', "heading": "heading", "help": "help"'
             . ', "inner": "placeholder"}'
         );
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($config);
 		$this->assertTrue($obj->has('accept'));
 		$this->assertTrue($obj->has('after'));
@@ -208,7 +276,7 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testHasConfirm() {
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->configure($this->configConfirm);
 		$this->assertTrue($obj->has('accept'));
 		$this->assertTrue($obj->has('after'));
@@ -228,28 +296,28 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testCombineSimple() {
-        $obj1 = new Labels();
+        $obj1 = Labels::build();
         $obj1->set('heading', 'stuff');
-        $obj2 = new Labels();
+        $obj2 = Labels::build();
         $obj2->set('before', 'before');
         $merge = $obj2->merge($obj1);
 
-        $mergeExpect = new Labels();
+        $mergeExpect = Labels::build();
         $mergeExpect->set('heading', 'stuff');
         $mergeExpect->set('before', 'before');
         $this->assertEquals($mergeExpect, $merge);
 	}
 
 	public function testCombineOverwrite() {
-        $obj1 = new Labels();
+        $obj1 = Labels::build();
         $obj1->set('heading', 'stuff');
         $obj1->set('before', 'default');
-        $obj2 = new Labels();
+        $obj2 = Labels::build();
         $obj2->set('after', 'after');
         $obj2->set('before', 'before');
         $merge = $obj2->merge($obj1);
 
-        $mergeExpect = new Labels();
+        $mergeExpect = Labels::build();
         $mergeExpect->set('after', 'after');
         $mergeExpect->set('before', 'default');
         $mergeExpect->set('heading', 'stuff');
@@ -257,51 +325,51 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testCombineInsertConfirm() {
-        $obj1 = new Labels();
+        $obj1 = Labels::build();
         $obj1->set('heading', 'stuff');
         $obj1->set('before', 'before merged');
-        $obj1->set('before', 'before confirm merged', true);
+        $obj1->set('before', 'before confirm merged', ['asConfirm' => true]);
 
-        $obj2 = new Labels();
+        $obj2 = Labels::build();
         $obj2->set('after', 'after');
         $obj2->set('before', 'before');
         $merge = $obj2->merge($obj1);
 
-        $mergeExpect = new Labels();
+        $mergeExpect = Labels::build();
         $mergeExpect->set('after', 'after');
         $mergeExpect->set('before', 'before merged');
         $mergeExpect->set('heading', 'stuff');
-        $mergeExpect->set('before', 'before confirm merged', true);
+        $mergeExpect->set('before', 'before confirm merged', ['asConfirm' => true]);
         $this->assertEquals($mergeExpect, $merge);
 	}
 
 	public function testCombineOverwriteConfirm() {
-        $obj1 = new Labels();
+        $obj1 = Labels::build();
         $obj1->set('heading', 'stuff');
         $obj1->set('before', 'before merged');
-        $obj1->set('before', 'before confirm merged', true);
+        $obj1->set('before', 'before confirm merged', ['asConfirm' => true]);
 
-        $obj2 = new Labels();
+        $obj2 = Labels::build();
         $obj2->set('after', 'after');
         $obj2->set('before', 'before');
-        $obj2->set('help', 'help confirm', true);
-        $obj2->set('before', 'before confirm', true);
+        $obj2->set('help', 'help confirm', ['asConfirm' => true]);
+        $obj2->set('before', 'before confirm', ['asConfirm' => true]);
         $merge = $obj2->merge($obj1);
 
-        $mergeExpect = new Labels();
+        $mergeExpect = Labels::build();
         $mergeExpect->set('after', 'after');
         $mergeExpect->set('before', 'before merged');
         $mergeExpect->set('heading', 'stuff');
-        $mergeExpect->set('before', 'before confirm merged', true);
-        $mergeExpect->set('help', 'help confirm', true);
+        $mergeExpect->set('before', 'before confirm merged', ['asConfirm' => true]);
+        $mergeExpect->set('help', 'help confirm', ['asConfirm' => true]);
         $this->assertEquals($mergeExpect, $merge);
 	}
 
 	public function testCombineTranslate() {
         // false + false = false
-        $obj1 = new Labels();
+        $obj1 = Labels::build();
         $obj1->setTranslate(false);
-        $obj2 = new Labels();
+        $obj2 = Labels::build();
         $obj2->setTranslate(false);
         $merge = $obj2->merge($obj1);
         $this->assertFalse($merge->getTranslate());
@@ -320,10 +388,11 @@ class DataLabelsTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($merge->getTranslate());
 	}
 
-    public function testTranslateSimple() {
+    public function testTranslateSimple()
+    {
         $trans = new MockTranslate();
 
-        $obj = new Labels();
+        $obj = Labels::build();
         $obj->set('accept', 'accept');
         $obj->set('after', 'after');
         $obj->set('before', 'before');

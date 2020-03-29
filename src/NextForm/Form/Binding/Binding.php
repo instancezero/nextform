@@ -406,15 +406,15 @@ class Binding
      *
      * @param string $labelName Name of the text to be set.
      * @param string|null $text
-     * @param bool $asConfirm When set, set the "confirm" version.
+     * @param array $options {@see Labels::set()}
      * @return $this
      */
-    public function setLabel($labelName, $text, $asConfirm = false)
+    public function setLabel($labelName, $text, $options = [])
     {
         if ($this->labels === null) {
             $this->labels = new Labels();
         }
-        $this->labels->set($labelName, $text, $asConfirm);
+        $this->labels->set($labelName, $text, $options);
         $this->labelsTranslated = $this->labels->translate($this->translator);
         return $this;
     }

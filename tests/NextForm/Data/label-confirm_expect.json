@@ -1,0 +1,17 @@
+{
+    "accept": "accept",
+    "after": "after",
+    "before": "before",
+    "before.html": true,
+    "confirm": {
+        "heading": "confirm heading",
+        "help": "confirm help"
+    },
+    "error": [
+        "error1",
+        "error2"
+    ],
+    "heading": "heading",
+    "help": "help",
+    "inner": "placeholder"
+}

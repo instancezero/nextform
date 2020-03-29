@@ -3,7 +3,7 @@
     "description": "Abivia Next Form Generator",
     "type": "library",
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.3",
         "abivia/configurable": "^1.0",
         "doctrine/dbal": "^2.0",
         "illuminate/translation": "^6.0|^7.0",

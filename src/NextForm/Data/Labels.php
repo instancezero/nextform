@@ -79,13 +79,20 @@ class Labels implements \JsonSerializable
     static protected $jsonEncodeMethod = [
         'translate' => ['drop:true'],
         'accept' => ['drop:null'],
+        'accept.html' => ['method:jsonEscape', 'drop:false'],
         'after' => ['drop:null'],
+        'after.html' => ['method:jsonEscape', 'drop:false'],
         'before' => ['drop:null'],
+        'before.html' => ['method:jsonEscape', 'drop:false'],
         'confirm' => ['drop:null'],
         'error' => ['drop:null'],
+        'error.html' => ['method:jsonEscape', 'drop:false'],
         'heading' => ['drop:null'],
+        'heading.html' => ['method:jsonEscape', 'drop:false'],
         'help' => ['drop:null'],
+        'help.html' => ['method:jsonEscape', 'drop:false'],
         'inner' => ['drop:null'],
+        'inner.html' => ['method:jsonEscape', 'drop:false'],
     ];
 
     /**
@@ -116,7 +123,7 @@ class Labels implements \JsonSerializable
 
     public function __construct()
     {
-        $this->isHtml = array_fill_keys(self::$textProperties, false);
+        $this->init();
     }
 
     /**
@@ -158,11 +165,13 @@ class Labels implements \JsonSerializable
 
     protected function configureInitialize(&$config, ...$context)
     {
+        $this->init();
         if (isset($this->configureOptions['_schema'])) {
             $this->schema = $this->configureOptions['_schema'];
         }
+
+        // Convert a simple string to a class with heading
         if (\is_string($config)) {
-            // Convert to a class with heading
             $obj = new \stdClass;
             $obj->heading = $config;
             $config = $obj;
@@ -183,12 +192,22 @@ class Labels implements \JsonSerializable
         return true;
     }
 
+    protected function configurePropertyMap($property)
+    {
+        $parts = explode('.', $property);
+        if (count($parts) === 1) {
+            return $property;
+        }
+        return ['isHtml', $parts[0]];
+    }
+
     /**
      * Get the labels merged for a confirm context.
      *
-     * @return \Abivia\NextForm\Data\Labels
+     * @return Labels
      */
-    public function forConfirm() {
+    public function forConfirm() : Labels
+    {
         $newLabels = clone $this;
         if ($newLabels->confirm !== null) {
             foreach (self::$textProperties as $prop) {
@@ -219,6 +238,16 @@ class Labels implements \JsonSerializable
     }
 
     /**
+     * Get the confirm labels object, if any
+     *
+     * @return ?Labels
+     */
+    public function getConfirm() : ?Labels
+    {
+        return $this->confirm;
+    }
+
+    /**
      * Get a HTML escaped label by name.
      *
      * @param string $labelName
@@ -229,8 +258,8 @@ class Labels implements \JsonSerializable
     public function getEscaped($labelName, $asConfirm = false)
     {
         $this->checkProperty($labelName);
-        if ($asConfirm && $this->confirm && $this->confirm->$labelName != null) {
-            return $this->confirm->$labelName;
+        if ($asConfirm) {
+            return $this->confirm->getEscaped($labelName);
         }
         $label = $this->$labelName;
         if (!$this->isHtml[$labelName]) {
@@ -243,6 +272,10 @@ class Labels implements \JsonSerializable
             }
         }
         return $label;
+    }
+
+    public function getReplacements() {
+        return $this->replacements;
     }
 
     public function getTranslate() : bool
@@ -264,9 +297,21 @@ class Labels implements \JsonSerializable
             if (!$this->confirm) {
                 return false;
             }
-            return $this->confirm->$labelName !== null;
+            return $this->confirm->has($labelName);
         }
         return $this->$labelName !== null;
+    }
+
+    protected function init()
+    {
+        $this->confirm = null;
+        $this->isHtml = array_fill_keys(self::$textProperties, false);
+        $this->replacements = [];
+        $this->schema = null;
+        foreach (self::$textProperties as $prop) {
+            $this->$prop = null;
+        }
+        $this->translate = true;
     }
 
     /**
@@ -280,7 +325,31 @@ class Labels implements \JsonSerializable
                 return false;
             }
         }
+        if ($this->confirm !== null) {
+            return $this->confirm->isEmpty();
+        }
         return true;
+    }
+
+    /**
+     * Determine if a label type is escaped HTML.
+     * @param string $labelName
+     * @param bool $asConfirm When set, check the "confirm" version.
+     * @return bool
+     * @throws \RuntimeException
+     */
+    public function isEscaped($labelName, $asConfirm = false) : bool
+    {
+        if (!$this->has($labelName, $asConfirm)) {
+            return false;
+        }
+        if ($asConfirm) {
+            if (!$this->confirm) {
+                return false;
+            }
+            return $this->confirm->isEscaped($labelName);
+        }
+        return $this->isHtml[$labelName];
     }
 
     /**
@@ -308,6 +377,12 @@ class Labels implements \JsonSerializable
         return $this->heading;
     }
 
+    protected function jsonEscape(&$property, &$value)
+    {
+        $parts = explode('.', $value);
+        $value = $this->isHtml[$parts[0]];
+    }
+
     /**
      * Merge another label set into this one and return a new merged object.
      * @param \Abivia\NextForm\Data\Labels $merge
@@ -318,18 +393,25 @@ class Labels implements \JsonSerializable
         $newLabels = clone $this;
         if ($merge !== null) {
             foreach (self::$textProperties as $prop) {
-                if ($merge->$prop !== null) {
-                    $newLabels->$prop = $merge->$prop;
+                if ($merge->has($prop)) {
+                    $newLabels->set(
+                        $prop,
+                        $merge->get($prop),
+                        [
+                            'replacements' => $merge->getReplacements(),
+                            'escaped' => $merge->isEscaped($prop)
+                        ]
+                    );
                 }
             }
-            if ($newLabels->confirm === null) {
-                $newLabels->confirm = $merge->confirm;
-            } else {
-                $newLabels->confirm = $newLabels->confirm->merge(
-                    $merge->confirm
-                );
+            $confirmLabels = $merge->getConfirm();
+            if (($newConfirm = $newLabels->getConfirm()) !== null) {
+                $confirmLabels = $newConfirm->merge($confirmLabels);
             }
-            $newLabels->translate = $newLabels->translate || $merge->translate;
+            $newLabels->setConfirm($confirmLabels);
+            $newLabels->setTranslate(
+                $newLabels->getTranslate() || $merge->getTranslate()
+            );
         }
         return $newLabels;
     }
@@ -339,31 +421,42 @@ class Labels implements \JsonSerializable
      *
      * @param string $labelName
      * @param string $text
-     * @param bool $asConfirm
-     * @param array $replacements
-     * @parem bool $escaped
+     * @param array $options Options are asConfirm:bool, replacements:[],
+     *          escaped:bool
      * @return $this
      * @throws \RuntimeException
      */
     public function set(
         $labelName,
         $text,
-        $asConfirm = false,
-        $replacements = [],
-        $escaped = false
+        $options = []
     ) : Labels {
         $this->checkProperty($labelName);
+        $asConfirm = $options['asConfirm'] ?? false;
         if ($asConfirm) {
             if ($this->confirm === null) {
                 $this->confirm = new Labels();
             }
-            $this->confirm->set($labelName, $text, false, $replacements, $escaped);
+            $subOptions = $options;
+            $subOptions['asConfirm'] = false;
+            $this->confirm->set($labelName, $text, $subOptions);
         } else {
             $this->$labelName = $text;
-            $this->isHtml[$labelName] = $escaped;
+            $this->isHtml[$labelName] = $options['escaped'] ?? false;
         }
-        $this->replacements = array_merge($this->replacements, $replacements);
+        if (isset($options['replacements'])) {
+            $this->replacements = array_merge(
+                $this->replacements,
+                $options['replacements']
+            );
+        }
 
+        return $this;
+    }
+
+    public function setConfirm(Labels $labels = null) : Labels
+    {
+        $this->confirm = $labels;
         return $this;
     }
 

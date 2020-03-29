@@ -199,7 +199,8 @@ class FieldElement extends NamedElement
         if ($this->show !== '') {
             return $this;
         }
-        $collapsed = $this->removeScope($this->object);
+        $collapsed = $this->object;
+        $this->removeScope($dummy, $collapsed);
         if (!empty($this->groups)) {
             $collapsed .= NextForm::GROUP_DELIM
                 . implode(NextForm::GROUP_DELIM, $this->groups);
@@ -212,11 +213,11 @@ class FieldElement extends NamedElement
      * @param type $value
      * @return type
      */
-    protected function removeScope($value)
+    protected function removeScope(&$property, &$value)
     {
-        return $value;
+        return;
         if (!$this->form) {
-            return $value;
+            return;
         }
         $segment = $this->form->getSegment();
         if ($segment !== '') {
@@ -224,7 +225,6 @@ class FieldElement extends NamedElement
                 $value = substr($value, strlen($segment) +1);
             }
         }
-        return $value;
     }
 
     /**

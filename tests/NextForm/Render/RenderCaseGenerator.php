@@ -582,7 +582,7 @@ class RenderCaseGenerator {
         $b2->bindSchema($s2);
         $s2->getProperty('test.text')->getPresentation()->setConfirm(true);
         $b2->setLabel('heading', 'Yer email');
-        $b2->setLabel('heading', 'Confirm yer email', true);
+        $b2->setLabel('heading', 'Confirm yer email', ['asConfirm' => true]);
         $cases['confirm'] = $b2;
 
         // Test view access

@@ -109,8 +109,8 @@ class JsonEncoderCommandMethod implements \JsonSerializable {
 
     public $boring = 'dull';
 
-    private function changeIt($value) {
-        return strtoupper($value) . '!';
+    private function changeIt(&$property, &$value) {
+        $value = strtoupper($value) . '!';
     }
 }
 
