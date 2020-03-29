@@ -88,13 +88,23 @@ class SimpleCaptcha implements CaptchaInterface
         // Compute the question by subtracting from the answer
         $start = $this->answer - $this->tricks['before'][$before]
             - $this->tricks['after'][$after];
-        // The question is composed of the before class, the decoy
+
+        // Compute the answer a bot will see
+        $signs = ['&nbsp;+&nbsp;' => '1', '&nbsp;-&nbsp;' => '-1'];
+        $botAnswer = $start;
+        $fake1Sign = array_rand($signs);
+        $fake1 = random_int(10, 19);
+        $botAnswer += $signs[$fake1Sign] * $fake1;
+        $fake2Sign = array_rand($signs);
+        $fake2 = random_int(10, 19);
+        $botAnswer += $signs[$fake2Sign] * $fake2;
+
+        // The question is composed of the before class, the fake
         // and the after class
-        $signs = ['&nbsp;+&nbsp;' => '+', '&nbsp;-&nbsp;' => '-'];
         $question = $start . '<i class="' . $before . '"></i>'
             . '<span class="' . $this->trickZero . '">'
-            . array_rand($signs) . random_int(10, 19)
-            . array_rand($signs) . random_int(10, 19)
+            . $fake1Sign . $fake1
+            . $fake2Sign . $fake2
             . '</span>'
             . '<i class="' . $after . '"></i>&nbsp;=&nbsp;';
 
@@ -108,15 +118,15 @@ class SimpleCaptcha implements CaptchaInterface
         $displayLabels->set(
             'before',
             "Please solve :question",
-            false,
-            ['question' => $question],
-            true
+            ['escaped' => true, 'replacements' => ['question' => $question]]
         );
         $display->setLabels($displayLabels);
         $display->translate($binding->getTranslator());
         $block = $engine->render($display);
         $block->styles = $this->trickStyles;
-        $block->data[self::class] = ['answer' => $this->answer];
+        $block->data[self::class] = [
+            'answer' => $this->answer, 'botAnswer' => $botAnswer
+        ];
 
         return $block;
     }
