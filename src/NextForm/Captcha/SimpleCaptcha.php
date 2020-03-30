@@ -111,6 +111,9 @@ class SimpleCaptcha implements CaptchaInterface
         // Generate an input element
         $display = FieldBinding::build('text');
 
+        // Pass the name through
+        $display->setNameOnForm($binding->getElement()->getName());
+
         // Create a copy of the source labels
         $displayLabels = clone $binding->getLabels();
 

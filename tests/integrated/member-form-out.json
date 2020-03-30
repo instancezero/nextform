@@ -222,6 +222,7 @@
         },
         {
             "type": "captcha",
+            "name": "usertest",
             "labels": "Are you a human?"
         },
         {

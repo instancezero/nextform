@@ -226,7 +226,8 @@
         },
         {
             "type": "captcha",
-            "labels": "Are you a human?"
+            "labels": "Are you a human?",
+            "name": "usertest"
         },
         {
             "type": "button",
