@@ -354,6 +354,18 @@ class NextForm
     }
 
     /**
+     * Get context data for all forms or a single form.
+     *
+     * @param string $formName
+     * @return ?string
+     */
+    public function getContext($formName = null)
+    {
+        $block = $this->getBlock($formName);
+        return $block ? $block->context : null;
+    }
+
+    /**
      * Get all the data objects from the forms.
      * @return Binding[] Data bindings indexed by object name
      */

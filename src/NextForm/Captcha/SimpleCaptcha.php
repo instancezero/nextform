@@ -124,7 +124,7 @@ class SimpleCaptcha implements CaptchaInterface
         $display->translate($binding->getTranslator());
         $block = $engine->render($display);
         $block->styles = $this->trickStyles;
-        $block->data[self::class] = [
+        $block->context[self::class] = [
             'answer' => $this->answer, 'botAnswer' => $botAnswer
         ];
 

@@ -19,7 +19,7 @@ class Block
      * Arbitrary application data.
      * @var array
      */
-    public $data = [];
+    public $context = [];
 
     /**
      * Page header data associated with an Element.
@@ -40,7 +40,7 @@ class Block
      */
     static protected $mergeRules = [
         'body' => 'append',
-        'data' => 'data',
+        'context' => 'data',
         'head' => 'append',
         'linkedFiles' => 'merge',
         'post' => 'prepend',

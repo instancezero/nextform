@@ -13,7 +13,7 @@ class Page {
                 '<!--{{head}}-->',
                 '{{form}}',
                 '<!--{{scripts}}-->',
-                '{{data}}'
+                '{{context}}'
             ],
             [
                 $title,
@@ -22,7 +22,7 @@ class Page {
                 $html->body,
                 implode("\n", $html->scriptFiles)
                 . ($html->script ? "<script>\n" . $html->script . "</script>" : ''),
-                str_replace('--', '- -', print_r($html->data, true)),
+                str_replace('--', '- -', print_r($html->context, true)),
             ],
             $page
         );
